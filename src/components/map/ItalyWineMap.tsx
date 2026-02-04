@@ -239,7 +239,7 @@ export function ItalyWineMap({
     const region = wineRegionData[regionId];
     const isActive = region?.active || false;
 
-    if (!isActive) return "#f0ebe3"; // Very light for inactive southern regions
+    if (!isActive) return "#e8e0d5"; // Sand color for inactive southern regions (visible but muted)
 
     if (isHovered) {
       return "url(#wine-region-gradient)";
@@ -252,7 +252,7 @@ export function ItalyWineMap({
     const region = wineRegionData[regionId];
     const isActive = region?.active || false;
 
-    if (!isActive) return "#e0d8cc"; // Light border for inactive
+    if (!isActive) return "#d4cfc5"; // Visible border for inactive
 
     if (isHovered) {
       return "#c9a227"; // Gold on hover
@@ -304,7 +304,7 @@ export function ItalyWineMap({
               className={cn(
                 "transition-colors duration-200",
                 interactive && isActive && "cursor-pointer",
-                !isActive && "opacity-40"
+                !isActive && "opacity-70"
               )}
               filter={isHovered && isActive ? "url(#region-glow)" : undefined}
               initial={false}

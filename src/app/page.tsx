@@ -229,12 +229,12 @@ export default function Home() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <p className="text-label text-wine mb-2">Ontdek per Regio</p>
-            <h2 className="text-h2 mb-4">Van Piemonte tot Puglia</h2>
+            <h2 className="text-h2 mb-4">Van Piemonte tot Toscane</h2>
             <p className="text-body text-grey mb-6">
-              Italië is een land van ongeëvenaarde wijnvariëteit. Van de mistige
-              heuvels van Piemonte waar Barolo en Barbaresco hun thuis vinden,
-              tot het zonnige Puglia waar Primitivo de toon zet. Klik op een
-              regio om de bijzondere wijnen te ontdekken.
+              Onze selectie komt uit de mooiste wijnregio's van Noord-Italië en
+              Toscane. Van de mistige heuvels van Piemonte waar Barolo en
+              Barbaresco hun thuis vinden, tot het glooiende landschap van
+              Toscane met zijn iconische Chianti. Klik op een regio om te ontdekken.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -250,10 +250,10 @@ export default function Home() {
                 <span>🍷</span> Veneto
               </Link>
               <Link
-                href="/wijnen?region=puglia"
+                href="/wijnen?region=toscana"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-wine/10 text-wine rounded-full text-sm font-medium hover:bg-wine/20 transition-colors"
               >
-                <span>☀️</span> Puglia
+                <span>🏛️</span> Toscana
               </Link>
             </div>
           </div>
