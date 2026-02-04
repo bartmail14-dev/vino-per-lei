@@ -1,17 +1,30 @@
 import { type Product } from "@/types";
 
-// Real wine bottle images from public folder
+// Wine bottle images from public folder
 const WINES = {
+  // Original images
   sanMarzanoPrimitivo: "/wines/san-marzano-primitivo.png",
   montaribaldiBarbera: "/wines/montaribaldi-barbera-alba.png",
   rubinelliRipasso: "/wines/rubinelli-valpolicella-ripasso.png",
   montaribaldiChardonnay: "/wines/montaribaldi-chardonnay.png",
   montaribaldiBarolo: "/wines/montaribaldi-barolo.png",
   joPrimitivo: "/wines/jo-primitivo.png",
+  // New downloaded images
+  amarone: "/wines/amarone.png",
+  baroloRiserva: "/wines/barolo-riserva.png",
+  brunello: "/wines/brunello.png",
+  chiantiClassico: "/wines/chianti-classico.png",
+  franciacorta: "/wines/franciacorta.png",
+  gavi: "/wines/gavi.png",
+  lambrusco: "/wines/lambrusco.png",
+  pinotGrigio: "/wines/pinot-grigio.png",
+  prosecco: "/wines/prosecco.png",
+  roseWine: "/wines/rose-wine.png",
+  soave: "/wines/soave.png",
+  valpolicella: "/wines/valpolicella.png",
 };
 
-// Extended Italian wine collection - 24 products
-// Using existing bottle images as placeholders with varied product data
+// Extended Italian wine collection - 24 products with unique images
 
 export const mockProducts: Product[] = [
   // === PIEMONTE REDS ===
@@ -104,7 +117,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.montaribaldiBarolo,
+        url: WINES.baroloRiserva,
         altText: "Barbaresco Riserva 2018",
       },
     ],
@@ -139,7 +152,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.montaribaldiBarbera,
+        url: WINES.joPrimitivo,
         altText: "Dolcetto d'Alba 2022",
       },
     ],
@@ -175,7 +188,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.rubinelliRipasso,
+        url: WINES.amarone,
         altText: "Amarone della Valpolicella 2018",
       },
     ],
@@ -246,7 +259,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.joPrimitivo,
+        url: WINES.valpolicella,
         altText: "Valpolicella Classico 2022",
       },
     ],
@@ -281,7 +294,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.montaribaldiBarolo,
+        url: WINES.brunello,
         altText: "Brunello di Montalcino 2018",
       },
     ],
@@ -316,7 +329,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.sanMarzanoPrimitivo,
+        url: WINES.chiantiClassico,
         altText: "Chianti Classico Riserva 2019",
       },
     ],
@@ -349,7 +362,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.joPrimitivo,
+        url: WINES.sanMarzanoPrimitivo,
         altText: "Super Tuscan IGT 2020",
       },
     ],
@@ -448,7 +461,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.montaribaldiChardonnay,
+        url: WINES.pinotGrigio,
         altText: "Pinot Grigio Alto Adige 2023",
       },
     ],
@@ -480,7 +493,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.montaribaldiChardonnay,
+        url: WINES.gavi,
         altText: "Gewürztraminer Alto Adige 2023",
       },
     ],
@@ -512,7 +525,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.montaribaldiChardonnay,
+        url: WINES.soave,
         altText: "Soave Classico 2023",
       },
     ],
@@ -576,7 +589,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.montaribaldiChardonnay,
+        url: WINES.pinotGrigio,
         altText: "Vernaccia di San Gimignano 2022",
       },
     ],
@@ -610,7 +623,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.sanMarzanoPrimitivo,
+        url: WINES.roseWine,
         altText: "Bardolino Chiaretto Rosé 2023",
       },
     ],
@@ -642,7 +655,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.joPrimitivo,
+        url: WINES.roseWine,
         altText: "Cerasuolo d'Abruzzo Rosé 2023",
       },
     ],
@@ -676,7 +689,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.montaribaldiChardonnay,
+        url: WINES.prosecco,
         altText: "Prosecco Superiore Valdobbiadene Brut",
       },
     ],
@@ -708,7 +721,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.montaribaldiChardonnay,
+        url: WINES.franciacorta,
         altText: "Franciacorta Brut DOCG",
       },
     ],
@@ -742,7 +755,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.joPrimitivo,
+        url: WINES.lambrusco,
         altText: "Lambrusco di Sorbara Secco",
       },
     ],
@@ -778,7 +791,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.sanMarzanoPrimitivo,
+        url: WINES.joPrimitivo,
         altText: "Primitivo Salento 2022",
       },
     ],
@@ -811,7 +824,7 @@ export const mockProducts: Product[] = [
     },
     images: [
       {
-        url: WINES.joPrimitivo,
+        url: WINES.sanMarzanoPrimitivo,
         altText: "Montepulciano d'Abruzzo 2022",
       },
     ],
