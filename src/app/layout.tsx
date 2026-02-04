@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header, Footer } from "@/components/layout";
 import { AgeGate } from "@/components/ui";
 import { CartSlideOut } from "@/components/cart";
+import { LoginModal } from "@/components/auth";
 import { SmoothScrollProvider } from "@/components/providers";
 
 const inter = Inter({
@@ -46,6 +47,7 @@ export default function RootLayout({
           <main className="flex-1">{children}</main>
           <Footer />
           <CartSlideOut />
+          <LoginModal />
         </SmoothScrollProvider>
       </body>
     </html>

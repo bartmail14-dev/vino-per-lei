@@ -8,6 +8,7 @@ import { type Product } from "@/types";
 import { Badge, Rating, PriceDisplay } from "@/components/ui";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
+import { useAuthStore } from "@/stores/authStore";
 import { cn } from "@/lib/utils";
 
 export interface ProductCardProps {
@@ -30,6 +31,7 @@ export function ProductCard({
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const isInWishlist = useWishlistStore((state) => state.isInWishlist(product.id));
+  const { isAuthenticated, openLoginModal } = useAuthStore();
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -50,6 +52,16 @@ export function ProductCard({
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+
+    // Check if user is authenticated
+    if (!isAuthenticated) {
+      // Open login modal with callback to add to wishlist after login
+      openLoginModal(() => {
+        toggleWishlist(product);
+      });
+      return;
+    }
+
     toggleWishlist(product);
   };
 

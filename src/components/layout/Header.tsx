@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/stores/cartStore";
+import { useAuthStore } from "@/stores/authStore";
 
 // Icons
 function MenuIcon({ className }: { className?: string }) {
@@ -70,6 +71,44 @@ function ChevronRightIcon({ className }: { className?: string }) {
   );
 }
 
+function HeartIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+    </svg>
+  );
+}
+
+function PackageIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M16.5 9.4 7.5 4.21" />
+      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
+      <polyline points="3.29 7 12 12 20.71 7" />
+      <line x1="12" y1="22" x2="12" y2="12" />
+    </svg>
+  );
+}
+
+function SettingsIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <circle cx="12" cy="12" r="3" />
+      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+    </svg>
+  );
+}
+
+function LogOutIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  );
+}
+
 // Navigation data
 const wineCategories = {
   type: [
@@ -129,6 +168,8 @@ export function Header() {
 
   const itemCount = useCartStore((state) => state.itemCount);
   const toggleCart = useCartStore((state) => state.toggleCart);
+  const { isAuthenticated, user, openLoginModal, logout } = useAuthStore();
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
   // Handle scroll
   useEffect(() => {
@@ -281,12 +322,93 @@ export function Header() {
               >
                 <SearchIcon className="w-5 h-5" />
               </button>
-              <button
-                className="hidden lg:flex p-2 hover:bg-sand/50 rounded-md transition-colors"
-                aria-label="Account"
-              >
-                <UserIcon className="w-5 h-5" />
-              </button>
+              {/* User Account Button */}
+              <div className="relative hidden lg:block">
+                {isAuthenticated ? (
+                  <>
+                    <button
+                      onClick={() => setShowUserMenu(!showUserMenu)}
+                      className="flex items-center gap-2 p-2 hover:bg-sand/50 rounded-md transition-colors"
+                      aria-label="Account menu"
+                    >
+                      <div className="w-7 h-7 bg-wine/10 rounded-full flex items-center justify-center">
+                        <span className="text-wine text-sm font-medium">
+                          {user?.firstName?.[0]?.toUpperCase() || "U"}
+                        </span>
+                      </div>
+                    </button>
+                    <AnimatePresence>
+                      {showUserMenu && (
+                        <>
+                          <div
+                            className="fixed inset-0 z-40"
+                            onClick={() => setShowUserMenu(false)}
+                          />
+                          <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 10 }}
+                            className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-sand z-50 overflow-hidden"
+                          >
+                            <div className="p-3 border-b border-sand">
+                              <p className="text-sm font-medium text-charcoal">
+                                {user?.firstName} {user?.lastName}
+                              </p>
+                              <p className="text-xs text-grey truncate">{user?.email}</p>
+                            </div>
+                            <div className="py-1">
+                              <Link
+                                href="/account/verlanglijst"
+                                onClick={() => setShowUserMenu(false)}
+                                className="flex items-center gap-2 px-3 py-2 text-sm text-charcoal hover:bg-sand/50"
+                              >
+                                <HeartIcon className="w-4 h-4" />
+                                Verlanglijstje
+                              </Link>
+                              <Link
+                                href="/account/bestellingen"
+                                onClick={() => setShowUserMenu(false)}
+                                className="flex items-center gap-2 px-3 py-2 text-sm text-charcoal hover:bg-sand/50"
+                              >
+                                <PackageIcon className="w-4 h-4" />
+                                Bestellingen
+                              </Link>
+                              <Link
+                                href="/account/instellingen"
+                                onClick={() => setShowUserMenu(false)}
+                                className="flex items-center gap-2 px-3 py-2 text-sm text-charcoal hover:bg-sand/50"
+                              >
+                                <SettingsIcon className="w-4 h-4" />
+                                Instellingen
+                              </Link>
+                            </div>
+                            <div className="border-t border-sand py-1">
+                              <button
+                                onClick={() => {
+                                  logout();
+                                  setShowUserMenu(false);
+                                }}
+                                className="flex items-center gap-2 w-full px-3 py-2 text-sm text-charcoal hover:bg-sand/50"
+                              >
+                                <LogOutIcon className="w-4 h-4" />
+                                Uitloggen
+                              </button>
+                            </div>
+                          </motion.div>
+                        </>
+                      )}
+                    </AnimatePresence>
+                  </>
+                ) : (
+                  <button
+                    onClick={() => openLoginModal()}
+                    className="flex items-center gap-2 p-2 hover:bg-sand/50 rounded-md transition-colors"
+                    aria-label="Inloggen"
+                  >
+                    <UserIcon className="w-5 h-5" />
+                  </button>
+                )}
+              </div>
               <button
                 onClick={toggleCart}
                 className="relative p-2 hover:bg-sand/50 rounded-md transition-colors"
@@ -573,16 +695,62 @@ export function Header() {
                   </li>
                 </ul>
 
-                {/* Account Link */}
+                {/* Account Links */}
                 <div className="mt-6 pt-6 border-t border-sand">
-                  <Link
-                    href="/account"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                    className="flex items-center gap-3 py-3 text-charcoal hover:text-wine"
-                  >
-                    <UserIcon className="w-5 h-5" />
-                    Account
-                  </Link>
+                  {isAuthenticated ? (
+                    <>
+                      <div className="flex items-center gap-3 py-3 mb-2">
+                        <div className="w-8 h-8 bg-wine/10 rounded-full flex items-center justify-center">
+                          <span className="text-wine font-medium">
+                            {user?.firstName?.[0]?.toUpperCase() || "U"}
+                          </span>
+                        </div>
+                        <div>
+                          <p className="font-medium text-charcoal">
+                            {user?.firstName} {user?.lastName}
+                          </p>
+                          <p className="text-xs text-grey">{user?.email}</p>
+                        </div>
+                      </div>
+                      <Link
+                        href="/account/verlanglijst"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-3 py-3 text-charcoal hover:text-wine"
+                      >
+                        <HeartIcon className="w-5 h-5" />
+                        Verlanglijstje
+                      </Link>
+                      <Link
+                        href="/account/bestellingen"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center gap-3 py-3 text-charcoal hover:text-wine"
+                      >
+                        <PackageIcon className="w-5 h-5" />
+                        Bestellingen
+                      </Link>
+                      <button
+                        onClick={() => {
+                          logout();
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="flex items-center gap-3 py-3 text-charcoal hover:text-wine w-full"
+                      >
+                        <LogOutIcon className="w-5 h-5" />
+                        Uitloggen
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        openLoginModal();
+                      }}
+                      className="flex items-center gap-3 py-3 text-charcoal hover:text-wine w-full"
+                    >
+                      <UserIcon className="w-5 h-5" />
+                      Inloggen / Registreren
+                    </button>
+                  )}
                 </div>
 
                 {/* Contact Info */}
