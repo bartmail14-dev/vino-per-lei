@@ -314,8 +314,8 @@ export default function Home() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
-            src="/hero-banner.png"
-            alt="Italiaanse wijn met antipasti"
+            src="/hero-banner.jpg"
+            alt="Elegante Italiaanse wijnfles in wijnkelder"
             fill
             priority
             className="object-cover"
