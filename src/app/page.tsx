@@ -258,7 +258,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex justify-center">
-            <ItalyWineMap size="lg" showLegend />
+            <ItalyWineMap size="lg" />
           </div>
         </div>
       </Section>

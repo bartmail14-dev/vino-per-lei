@@ -24,7 +24,7 @@ export const mockProducts: Product[] = [
     wineType: "red",
     grapeVarieties: ["Primitivo"],
     country: "Italië",
-    region: "Puglia",
+    region: "Toscana",
     vintage: 2021,
     price: 12.99,
     originalPrice: 14.99,
@@ -194,7 +194,7 @@ export const mockProducts: Product[] = [
     wineType: "red",
     grapeVarieties: ["Primitivo"],
     country: "Italië",
-    region: "Puglia",
+    region: "Toscana",
     vintage: 2022,
     price: 14.99,
     tasteProfile: {

@@ -14,14 +14,27 @@ interface MapLocation {
 }
 
 // Wine region data mapped to official SVG region IDs
+// Only Northern Italy + Tuscany are active (client preference)
 interface WineRegionData {
   id: string; // SVG map ID
   displayName: string;
   slug: string;
   famousWines: string[];
-  wineCount: number;
-  highlighted: boolean;
+  active: boolean; // Whether this region is part of our selection
 }
+
+// Northern regions + Tuscany that we sell
+const ACTIVE_REGIONS = new Set([
+  "piedmont",
+  "lombardy",
+  "trentino-south-tyrol",
+  "veneto",
+  "friuli-venezia-giulia",
+  "emilia-romagna",
+  "liguria",
+  "aosta-valley",
+  "tuscany",
+]);
 
 const wineRegionData: Record<string, WineRegionData> = {
   piedmont: {
@@ -29,167 +42,147 @@ const wineRegionData: Record<string, WineRegionData> = {
     displayName: "Piemonte",
     slug: "piemonte",
     famousWines: ["Barolo", "Barbaresco", "Barbera d'Alba", "Nebbiolo"],
-    wineCount: 3,
-    highlighted: true,
+    active: true,
   },
   lombardy: {
     id: "lombardy",
     displayName: "Lombardia",
     slug: "lombardia",
     famousWines: ["Franciacorta", "Valtellina", "Oltrepò Pavese"],
-    wineCount: 0,
-    highlighted: false,
+    active: true,
   },
   "trentino-south-tyrol": {
     id: "trentino-south-tyrol",
     displayName: "Alto Adige",
     slug: "alto-adige",
     famousWines: ["Pinot Grigio", "Gewürztraminer", "Lagrein"],
-    wineCount: 1,
-    highlighted: true,
+    active: true,
   },
   veneto: {
     id: "veneto",
     displayName: "Veneto",
     slug: "veneto",
     famousWines: ["Amarone", "Valpolicella Ripasso", "Prosecco", "Soave"],
-    wineCount: 2,
-    highlighted: true,
+    active: true,
   },
   "friuli-venezia-giulia": {
     id: "friuli-venezia-giulia",
     displayName: "Friuli",
     slug: "friuli",
     famousWines: ["Pinot Grigio", "Friulano", "Ribolla Gialla"],
-    wineCount: 0,
-    highlighted: false,
+    active: true,
   },
   "emilia-romagna": {
     id: "emilia-romagna",
     displayName: "Emilia-Romagna",
     slug: "emilia-romagna",
     famousWines: ["Lambrusco", "Sangiovese di Romagna"],
-    wineCount: 0,
-    highlighted: false,
+    active: true,
   },
   tuscany: {
     id: "tuscany",
     displayName: "Toscana",
     slug: "toscana",
     famousWines: ["Chianti Classico", "Brunello di Montalcino", "Super Tuscans"],
-    wineCount: 0,
-    highlighted: true,
-  },
-  umbria: {
-    id: "umbria",
-    displayName: "Umbria",
-    slug: "umbria",
-    famousWines: ["Sagrantino di Montefalco", "Orvieto"],
-    wineCount: 0,
-    highlighted: false,
-  },
-  marche: {
-    id: "marche",
-    displayName: "Marche",
-    slug: "marche",
-    famousWines: ["Verdicchio", "Rosso Conero"],
-    wineCount: 0,
-    highlighted: false,
-  },
-  lazio: {
-    id: "lazio",
-    displayName: "Lazio",
-    slug: "lazio",
-    famousWines: ["Frascati", "Est! Est!! Est!!!"],
-    wineCount: 0,
-    highlighted: false,
-  },
-  abruzzo: {
-    id: "abruzzo",
-    displayName: "Abruzzo",
-    slug: "abruzzo",
-    famousWines: ["Montepulciano d'Abruzzo", "Trebbiano d'Abruzzo"],
-    wineCount: 0,
-    highlighted: false,
-  },
-  campania: {
-    id: "campania",
-    displayName: "Campania",
-    slug: "campania",
-    famousWines: ["Taurasi", "Fiano di Avellino", "Greco di Tufo"],
-    wineCount: 0,
-    highlighted: false,
-  },
-  apulia: {
-    id: "apulia",
-    displayName: "Puglia",
-    slug: "puglia",
-    famousWines: ["Primitivo", "Negroamaro", "Nero di Troia"],
-    wineCount: 2,
-    highlighted: true,
-  },
-  basilicata: {
-    id: "basilicata",
-    displayName: "Basilicata",
-    slug: "basilicata",
-    famousWines: ["Aglianico del Vulture"],
-    wineCount: 0,
-    highlighted: false,
-  },
-  calabria: {
-    id: "calabria",
-    displayName: "Calabria",
-    slug: "calabria",
-    famousWines: ["Cirò"],
-    wineCount: 0,
-    highlighted: false,
-  },
-  sicily: {
-    id: "sicily",
-    displayName: "Sicilia",
-    slug: "sicilia",
-    famousWines: ["Nero d'Avola", "Etna Rosso", "Marsala"],
-    wineCount: 0,
-    highlighted: true,
-  },
-  sardinia: {
-    id: "sardinia",
-    displayName: "Sardegna",
-    slug: "sardegna",
-    famousWines: ["Cannonau", "Vermentino di Sardegna"],
-    wineCount: 0,
-    highlighted: false,
+    active: true,
   },
   liguria: {
     id: "liguria",
     displayName: "Liguria",
     slug: "liguria",
     famousWines: ["Cinque Terre", "Pigato"],
-    wineCount: 0,
-    highlighted: false,
+    active: true,
   },
   "aosta-valley": {
     id: "aosta-valley",
     displayName: "Valle d'Aosta",
     slug: "valle-daosta",
     famousWines: ["Petit Rouge", "Fumin"],
-    wineCount: 0,
-    highlighted: false,
+    active: true,
+  },
+  // Southern regions - not active
+  umbria: {
+    id: "umbria",
+    displayName: "Umbria",
+    slug: "umbria",
+    famousWines: ["Sagrantino di Montefalco", "Orvieto"],
+    active: false,
+  },
+  marche: {
+    id: "marche",
+    displayName: "Marche",
+    slug: "marche",
+    famousWines: ["Verdicchio", "Rosso Conero"],
+    active: false,
+  },
+  lazio: {
+    id: "lazio",
+    displayName: "Lazio",
+    slug: "lazio",
+    famousWines: ["Frascati", "Est! Est!! Est!!!"],
+    active: false,
+  },
+  abruzzo: {
+    id: "abruzzo",
+    displayName: "Abruzzo",
+    slug: "abruzzo",
+    famousWines: ["Montepulciano d'Abruzzo", "Trebbiano d'Abruzzo"],
+    active: false,
+  },
+  campania: {
+    id: "campania",
+    displayName: "Campania",
+    slug: "campania",
+    famousWines: ["Taurasi", "Fiano di Avellino", "Greco di Tufo"],
+    active: false,
+  },
+  apulia: {
+    id: "apulia",
+    displayName: "Puglia",
+    slug: "puglia",
+    famousWines: ["Primitivo", "Negroamaro", "Nero di Troia"],
+    active: false,
+  },
+  basilicata: {
+    id: "basilicata",
+    displayName: "Basilicata",
+    slug: "basilicata",
+    famousWines: ["Aglianico del Vulture"],
+    active: false,
+  },
+  calabria: {
+    id: "calabria",
+    displayName: "Calabria",
+    slug: "calabria",
+    famousWines: ["Cirò"],
+    active: false,
+  },
+  sicily: {
+    id: "sicily",
+    displayName: "Sicilia",
+    slug: "sicilia",
+    famousWines: ["Nero d'Avola", "Etna Rosso", "Marsala"],
+    active: false,
+  },
+  sardinia: {
+    id: "sardinia",
+    displayName: "Sardegna",
+    slug: "sardegna",
+    famousWines: ["Cannonau", "Vermentino di Sardegna"],
+    active: false,
   },
   molise: {
     id: "molise",
     displayName: "Molise",
     slug: "molise",
     famousWines: ["Tintilia"],
-    wineCount: 0,
-    highlighted: false,
+    active: false,
   },
 };
 
 export interface ItalyWineMapProps {
   className?: string;
   onRegionClick?: (region: WineRegionData) => void;
-  showLegend?: boolean;
   interactive?: boolean;
   size?: "sm" | "md" | "lg" | "full";
 }
@@ -197,7 +190,6 @@ export interface ItalyWineMapProps {
 export function ItalyWineMap({
   className,
   onRegionClick,
-  showLegend = true,
   interactive = true,
   size = "md",
 }: ItalyWineMapProps) {
@@ -208,7 +200,7 @@ export function ItalyWineMap({
   const handleRegionClick = useCallback(
     (regionId: string) => {
       const region = wineRegionData[regionId];
-      if (!region || !region.wineCount) return;
+      if (!region || !region.active) return;
 
       if (onRegionClick) {
         onRegionClick(region);
@@ -245,32 +237,28 @@ export function ItalyWineMap({
 
   const getRegionFill = (regionId: string, isHovered: boolean) => {
     const region = wineRegionData[regionId];
-    if (!region) return "#e8e0d5"; // Unknown region
+    const isActive = region?.active || false;
 
-    if (isHovered && region.wineCount > 0) {
+    if (!isActive) return "#f0ebe3"; // Very light for inactive southern regions
+
+    if (isHovered) {
       return "url(#wine-region-gradient)";
     }
 
-    if (region.wineCount > 0) {
-      return "#f5e6c8"; // Champagne color for regions with wine
-    }
-
-    return "#e8e0d5"; // Sand color for regions without wine
+    return "#f5e6c8"; // Champagne color for active regions
   };
 
   const getRegionStroke = (regionId: string, isHovered: boolean) => {
     const region = wineRegionData[regionId];
-    if (!region) return "#d4cfc5";
+    const isActive = region?.active || false;
 
-    if (isHovered && region.wineCount > 0) {
-      return "#c9a227"; // Gold
+    if (!isActive) return "#e0d8cc"; // Light border for inactive
+
+    if (isHovered) {
+      return "#c9a227"; // Gold on hover
     }
 
-    if (region.wineCount > 0) {
-      return "#722f37"; // Wine color
-    }
-
-    return "#d4cfc5";
+    return "#722f37"; // Wine color for active regions
   };
 
   return (
@@ -304,7 +292,7 @@ export function ItalyWineMap({
         {(ItalyMap.locations as MapLocation[]).map((location) => {
           const regionData = wineRegionData[location.id];
           const isHovered = hoveredRegion?.id === location.id;
-          const hasStock = regionData?.wineCount > 0;
+          const isActive = regionData?.active || false;
 
           return (
             <motion.path
@@ -312,16 +300,16 @@ export function ItalyWineMap({
               d={location.path}
               fill={getRegionFill(location.id, isHovered)}
               stroke={getRegionStroke(location.id, isHovered)}
-              strokeWidth={isHovered && hasStock ? 2 : 1}
+              strokeWidth={isHovered && isActive ? 2 : 1}
               className={cn(
                 "transition-colors duration-200",
-                interactive && hasStock && "cursor-pointer",
-                !hasStock && "opacity-60"
+                interactive && isActive && "cursor-pointer",
+                !isActive && "opacity-40"
               )}
-              filter={isHovered && hasStock ? "url(#region-glow)" : undefined}
+              filter={isHovered && isActive ? "url(#region-glow)" : undefined}
               initial={false}
               animate={{
-                scale: isHovered && hasStock ? 1.01 : 1,
+                scale: isHovered && isActive ? 1.01 : 1,
               }}
               style={{
                 transformOrigin: "center",
@@ -329,7 +317,7 @@ export function ItalyWineMap({
               }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               onMouseEnter={() => {
-                if (interactive && regionData) {
+                if (interactive && regionData && isActive) {
                   setHoveredRegion(regionData);
                 }
               }}
@@ -338,13 +326,13 @@ export function ItalyWineMap({
                   setHoveredRegion(null);
                 }
               }}
-              onMouseMove={(e) => interactive && handleMouseMove(e, location.id)}
+              onMouseMove={(e) => interactive && isActive && handleMouseMove(e, location.id)}
               onClick={() => interactive && handleRegionClick(location.id)}
-              role={interactive && hasStock ? "button" : undefined}
-              aria-label={regionData ? `${regionData.displayName}: ${regionData.wineCount} wijnen` : location.name}
-              tabIndex={interactive && hasStock ? 0 : -1}
+              role={interactive && isActive ? "button" : undefined}
+              aria-label={regionData ? `${regionData.displayName} wijnregio` : location.name}
+              tabIndex={interactive && isActive ? 0 : -1}
               onKeyDown={(e) => {
-                if ((e.key === "Enter" || e.key === " ") && hasStock) {
+                if ((e.key === "Enter" || e.key === " ") && isActive) {
                   handleRegionClick(location.id);
                 }
               }}
@@ -355,7 +343,7 @@ export function ItalyWineMap({
 
       {/* Tooltip */}
       <AnimatePresence>
-        {hoveredRegion && interactive && (
+        {hoveredRegion && interactive && hoveredRegion.active && (
           <motion.div
             className="absolute pointer-events-none z-50"
             style={{
@@ -369,16 +357,10 @@ export function ItalyWineMap({
           >
             <div className="bg-white rounded-lg shadow-xl border border-sand p-3 min-w-[180px]">
               {/* Header */}
-              <div className="flex items-center justify-between mb-2">
+              <div className="mb-2">
                 <h4 className="font-serif font-semibold text-charcoal">
                   {hoveredRegion.displayName}
                 </h4>
-                {hoveredRegion.wineCount > 0 && (
-                  <span className="text-xs bg-wine/10 text-wine px-2 py-0.5 rounded-full font-medium">
-                    {hoveredRegion.wineCount} wijn
-                    {hoveredRegion.wineCount !== 1 && "en"}
-                  </span>
-                )}
               </div>
 
               {/* Famous wines */}
@@ -387,14 +369,10 @@ export function ItalyWineMap({
               </p>
 
               {/* CTA hint */}
-              {hoveredRegion.wineCount > 0 ? (
-                <p className="text-xs text-wine font-medium flex items-center gap-1">
-                  <span>Klik om te ontdekken</span>
-                  <ChevronRightIcon className="w-3 h-3" />
-                </p>
-              ) : (
-                <p className="text-xs text-grey italic">Binnenkort beschikbaar</p>
-              )}
+              <p className="text-xs text-wine font-medium flex items-center gap-1">
+                <span>Klik om te ontdekken</span>
+                <ChevronRightIcon className="w-3 h-3" />
+              </p>
             </div>
 
             {/* Arrow */}
@@ -402,20 +380,6 @@ export function ItalyWineMap({
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Legend */}
-      {showLegend && (
-        <div className="flex items-center justify-center gap-6 mt-4 text-sm">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-[#f5e6c8] border border-wine" />
-            <span className="text-grey">Op voorraad</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded bg-[#e8e0d5] border border-[#d4cfc5] opacity-60" />
-            <span className="text-grey">Binnenkort</span>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

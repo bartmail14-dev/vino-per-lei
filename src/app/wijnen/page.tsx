@@ -69,14 +69,14 @@ function getRegionCounts() {
   return counts;
 }
 
-// Filter configuration
+// Filter configuration - only show active regions (North Italy + Tuscany)
 const regionCounts = getRegionCounts();
 const regionFilterOptions = wineRegions
-  .filter((r) => r.wineCount > 0)
+  .filter((r) => r.active)
   .map((r) => ({
     value: r.slug,
     label: r.displayName,
-    count: regionCounts[r.name] || regionCounts[r.displayName] || r.wineCount,
+    count: regionCounts[r.name] || regionCounts[r.displayName] || 0,
   }));
 
 const filterGroups: FilterGroup[] = [
