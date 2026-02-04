@@ -311,18 +311,19 @@ export default function Home() {
     <>
       {/* Hero Section */}
       <section className="relative h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden">
-        {/* Background Image */}
+        {/* Background Video */}
         <div className="absolute inset-0">
-          <Image
-            src="/hero-banner.png"
-            alt="Italiaanse wijn met antipasti"
-            fill
-            priority
-            className="object-cover"
-            sizes="100vw"
-          />
-          {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
+          {/* Gradient overlay for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent" />
         </div>
 
         {/* Content */}

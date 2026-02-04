@@ -84,7 +84,7 @@ export function ProductCard({
         "shadow-sm hover:shadow-xl",
         "transition-all duration-300 ease-out",
         "hover:-translate-y-1",
-        "overflow-visible pt-6 mt-8",
+        "overflow-visible pt-4 sm:pt-6 mt-10 sm:mt-16",
         className
       )}
       initial={{ opacity: 0, y: 20 }}
@@ -95,14 +95,14 @@ export function ProductCard({
       <button
         onClick={handleToggleWishlist}
         className={cn(
-          "absolute top-2 right-2 z-20 p-2 rounded-full transition-all duration-200",
+          "absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-20 p-1.5 sm:p-2 rounded-full transition-all duration-200",
           "bg-white/80 backdrop-blur-sm shadow-sm",
           "hover:bg-white hover:shadow-md hover:scale-110",
           isInWishlist && "text-wine"
         )}
         aria-label={isInWishlist ? "Verwijder uit verlanglijst" : "Toevoegen aan verlanglijst"}
       >
-        <HeartIcon className="w-5 h-5" filled={isInWishlist} />
+        <HeartIcon className="w-4 h-4 sm:w-5 sm:h-5" filled={isInWishlist} />
       </button>
 
       {/* Quick View Button - appears on hover */}
@@ -130,9 +130,9 @@ export function ProductCard({
         aria-label={`Bekijk ${product.title}`}
       >
         {/* Image Container */}
-        <div className="relative h-52 bg-gradient-to-b from-warm-white to-sand/30 rounded-t-lg mx-2 -mt-10">
+        <div className="relative h-48 sm:h-56 bg-gradient-to-b from-warm-white to-sand/30 rounded-t-lg mx-2 -mt-8 sm:-mt-10">
           {/* Badges */}
-          <div className="absolute top-3 left-3 z-10 flex flex-col gap-2">
+          <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 sm:gap-2">
             {product.isNew && <Badge variant="new">Nieuw</Badge>}
             {isOnSale && <Badge variant="sale">-{discountPercentage}%</Badge>}
             {!product.inStock && <Badge variant="soldout">Uitverkocht</Badge>}
@@ -142,18 +142,18 @@ export function ProductCard({
           </div>
 
           {/* Product Image */}
-          <div className="absolute inset-x-4 -top-6 bottom-4 flex items-end justify-center">
+          <div className="absolute inset-0 -top-10 sm:-top-16 flex items-center justify-center">
             {product.images[0] ? (
-              <div className="relative h-full w-full">
+              <div className="relative w-20 sm:w-28 h-44 sm:h-56">
                 <Image
                   src={product.images[0].url}
                   alt={product.images[0].altText || product.title}
                   fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                  sizes="(max-width: 640px) 80px, 112px"
                   priority={priority}
                   className={cn(
-                    "object-contain object-bottom drop-shadow-xl transition-transform duration-300",
-                    "group-hover:scale-105 group-hover:-translate-y-2",
+                    "object-contain object-center drop-shadow-2xl transition-transform duration-300",
+                    "group-hover:scale-110 group-hover:-translate-y-3",
                     !product.inStock && "grayscale-[50%] opacity-70"
                   )}
                 />
@@ -167,26 +167,26 @@ export function ProductCard({
         </div>
 
         {/* Content */}
-        <div className="p-4">
+        <div className="p-2.5 sm:p-4">
           {product.collection && (
-            <p className="text-label text-grey mb-1">{product.collection}</p>
+            <p className="text-[10px] sm:text-label text-grey mb-0.5 sm:mb-1">{product.collection}</p>
           )}
 
-          <h3 className="font-serif text-base font-semibold text-charcoal mb-0.5 line-clamp-1">
+          <h3 className="font-serif text-sm sm:text-base font-semibold text-charcoal mb-0.5 line-clamp-1">
             {product.title}
           </h3>
           {product.vintage && (
-            <p className="text-sm text-charcoal mb-1">
+            <p className="text-xs sm:text-sm text-charcoal mb-0.5 sm:mb-1">
               {product.vintage === "NV" ? "Non-Vintage" : product.vintage}
             </p>
           )}
 
-          <p className="text-sm text-grey mb-2">
+          <p className="text-xs sm:text-sm text-grey mb-1.5 sm:mb-2 line-clamp-1">
             {product.region}, {product.country}
           </p>
 
           {product.rating && (
-            <div className="mb-3">
+            <div className="mb-2 sm:mb-3 hidden sm:block">
               <Rating
                 rating={product.rating}
                 reviewCount={product.reviewCount}
@@ -195,7 +195,7 @@ export function ProductCard({
             </div>
           )}
 
-          <div className="mb-4">
+          <div className="mb-2 sm:mb-4">
             <PriceDisplay
               currentPrice={product.price}
               originalPrice={product.originalPrice}
@@ -205,7 +205,7 @@ export function ProductCard({
       </Link>
 
       {/* Add to Cart Button */}
-      <div className="px-4 pb-4">
+      <div className="px-2.5 pb-2.5 sm:px-4 sm:pb-4">
         {product.inStock ? (
           <button
             onClick={handleAddToCart}
@@ -213,7 +213,7 @@ export function ProductCard({
             onMouseLeave={() => setIsHovering(false)}
             disabled={isAdding}
             className={cn(
-              "relative w-full h-12 rounded font-semibold text-sm uppercase tracking-wide",
+              "relative w-full h-10 sm:h-12 rounded font-semibold text-xs sm:text-sm uppercase tracking-wide",
               "overflow-hidden transition-all duration-300",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wine focus-visible:ring-offset-2",
               "disabled:pointer-events-none disabled:opacity-50",
@@ -263,7 +263,7 @@ export function ProductCard({
             </span>
           </button>
         ) : (
-          <button className="w-full h-12 rounded font-semibold text-sm uppercase tracking-wide border-2 border-wine text-wine bg-transparent hover:bg-wine hover:text-white transition-colors">
+          <button className="w-full h-10 sm:h-12 rounded font-semibold text-xs sm:text-sm uppercase tracking-wide border-2 border-wine text-wine bg-transparent hover:bg-wine hover:text-white transition-colors">
             Mail mij bij voorraad
           </button>
         )}
