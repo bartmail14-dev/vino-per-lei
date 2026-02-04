@@ -46,6 +46,221 @@ function ChevronRightIcon({ className }: { className?: string }) {
   );
 }
 
+function GrapeIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <circle cx="12" cy="10" r="2.5" />
+      <circle cx="8" cy="14" r="2.5" />
+      <circle cx="16" cy="14" r="2.5" />
+      <circle cx="10" cy="18" r="2.5" />
+      <circle cx="14" cy="18" r="2.5" />
+      <path d="M12 4V7.5" strokeLinecap="round" />
+      <path d="M12 4C12 4 14 3 15 4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function WineBottleIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M10 2h4v4l2 3v11a2 2 0 01-2 2h-4a2 2 0 01-2-2V9l2-3V2z" />
+      <path d="M10 13h4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function TuscanyIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+      {/* Cypress tree silhouette - iconic Tuscan symbol */}
+      <path d="M12 22V8" strokeLinecap="round" />
+      <path d="M12 3C12 3 8 6 8 10C8 14 10 16 12 18C14 16 16 14 16 10C16 6 12 3 12 3Z" fill="currentColor" opacity="0.3" />
+      <path d="M12 3C12 3 8 6 8 10C8 14 10 16 12 18C14 16 16 14 16 10C16 6 12 3 12 3Z" />
+    </svg>
+  );
+}
+
+// Elegant category icons
+function RedWineIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none">
+      {/* Wine glass with red wine */}
+      <path
+        d="M24 38V28"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M16 42H32"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14 8H34L32 20C31.5 24 28 28 24 28C20 28 16.5 24 16 20L14 8Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+      />
+      <path
+        d="M16 16C16.5 19 19.5 22 24 22C28.5 22 31.5 19 32 16L32.5 12H15.5L16 16Z"
+        fill="#722f37"
+        opacity="0.8"
+      />
+    </svg>
+  );
+}
+
+function WhiteWineIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none">
+      {/* Elegant wine glass */}
+      <path
+        d="M24 38V28"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M16 42H32"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14 8H34L32 20C31.5 24 28 28 24 28C20 28 16.5 24 16 20L14 8Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+      />
+      <path
+        d="M17 14C17.3 16 19.5 18 24 18C28.5 18 30.7 16 31 14L31.5 11H16.5L17 14Z"
+        fill="#c9a227"
+        opacity="0.5"
+      />
+    </svg>
+  );
+}
+
+function RoseWineIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none">
+      {/* Wine glass with rosé */}
+      <path
+        d="M24 38V28"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M16 42H32"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M14 8H34L32 20C31.5 24 28 28 24 28C20 28 16.5 24 16 20L14 8Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+      />
+      <path
+        d="M16.5 15C17 17.5 20 20 24 20C28 20 31 17.5 31.5 15L32 11H16L16.5 15Z"
+        fill="#ffa38b"
+        opacity="0.7"
+      />
+    </svg>
+  );
+}
+
+function BubblesIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none">
+      {/* Champagne flute with bubbles */}
+      <path
+        d="M24 40V30"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M18 44H30"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M20 4H28L27 18C26.8 22 25.5 30 24 30C22.5 30 21.2 22 21 18L20 4Z"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+      />
+      <path
+        d="M21.5 12C21.7 15 22.8 20 24 20C25.2 20 26.3 15 26.5 12L27 6H21L21.5 12Z"
+        fill="#c9a227"
+        opacity="0.4"
+      />
+      {/* Bubbles */}
+      <circle cx="23" cy="14" r="1" fill="currentColor" opacity="0.5" />
+      <circle cx="25" cy="10" r="0.8" fill="currentColor" opacity="0.4" />
+      <circle cx="24" cy="17" r="0.6" fill="currentColor" opacity="0.3" />
+      <circle cx="22.5" cy="11" r="0.5" fill="currentColor" opacity="0.3" />
+    </svg>
+  );
+}
+
+function GiftBoxIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 48 48" fill="none">
+      {/* Elegant gift box */}
+      <rect
+        x="8"
+        y="18"
+        width="32"
+        height="24"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+      />
+      <rect
+        x="6"
+        y="12"
+        width="36"
+        height="8"
+        rx="2"
+        stroke="currentColor"
+        strokeWidth="2"
+        fill="none"
+      />
+      {/* Ribbon vertical */}
+      <path
+        d="M24 12V42"
+        stroke="#722f37"
+        strokeWidth="3"
+        opacity="0.8"
+      />
+      {/* Ribbon horizontal */}
+      <path
+        d="M6 16H42"
+        stroke="#722f37"
+        strokeWidth="3"
+        opacity="0.8"
+      />
+      {/* Bow */}
+      <path
+        d="M18 12C18 8 20 6 24 6C28 6 30 8 30 12"
+        stroke="#722f37"
+        strokeWidth="2"
+        fill="none"
+        opacity="0.8"
+      />
+      <circle cx="24" cy="12" r="2" fill="#722f37" opacity="0.8" />
+    </svg>
+  );
+}
+
 const featuredProducts = mockProducts.filter((p) => p.isFeatured).slice(0, 4);
 
 const wineCategories = [
@@ -53,36 +268,41 @@ const wineCategories = [
     name: "Rode Wijn",
     description: "Vol & Rijk",
     href: "/wijnen/rood",
-    color: "bg-wine/10",
-    icon: "🍷",
+    color: "bg-wine/10 hover:bg-wine/15",
+    iconColor: "text-wine",
+    Icon: RedWineIcon,
   },
   {
     name: "Witte Wijn",
     description: "Fris & Fruitig",
     href: "/wijnen/wit",
-    color: "bg-gold/10",
-    icon: "🥂",
+    color: "bg-gold/10 hover:bg-gold/15",
+    iconColor: "text-gold",
+    Icon: WhiteWineIcon,
   },
   {
     name: "Rosé",
     description: "Licht & Zomers",
     href: "/wijnen/rose",
-    color: "bg-coral/10",
-    icon: "🌸",
+    color: "bg-coral/10 hover:bg-coral/15",
+    iconColor: "text-coral",
+    Icon: RoseWineIcon,
   },
   {
     name: "Bubbels",
     description: "Feestelijk",
     href: "/wijnen/mousserende",
-    color: "bg-champagne",
-    icon: "🍾",
+    color: "bg-champagne hover:bg-gold/20",
+    iconColor: "text-charcoal",
+    Icon: BubblesIcon,
   },
   {
     name: "Cadeaus",
     description: "Perfect Verpakt",
     href: "/cadeaus",
-    color: "bg-wine/5",
-    icon: "🎁",
+    color: "bg-wine/5 hover:bg-wine/10",
+    iconColor: "text-charcoal",
+    Icon: GiftBoxIcon,
   },
 ];
 
@@ -207,23 +427,6 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Category Quick Links */}
-      <Section background="default" spacing="lg">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-          {wineCategories.map((category) => (
-            <Link
-              key={category.name}
-              href={category.href}
-              className={`${category.color} rounded-lg p-4 text-center transition-all hover:shadow-md hover:-translate-y-0.5`}
-            >
-              <span className="text-3xl mb-2 block">{category.icon}</span>
-              <h3 className="font-semibold text-charcoal">{category.name}</h3>
-              <p className="text-sm text-grey">{category.description}</p>
-            </Link>
-          ))}
-        </div>
-      </Section>
-
       {/* Italy Wine Regions Map */}
       <Section background="warm" spacing="lg">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -241,19 +444,19 @@ export default function Home() {
                 href="/wijnen?region=piemonte"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-wine/10 text-wine rounded-full text-sm font-medium hover:bg-wine/20 transition-colors"
               >
-                <span>🍇</span> Piemonte
+                <GrapeIcon className="w-4 h-4" /> Piemonte
               </Link>
               <Link
                 href="/wijnen?region=veneto"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-wine/10 text-wine rounded-full text-sm font-medium hover:bg-wine/20 transition-colors"
               >
-                <span>🍷</span> Veneto
+                <WineBottleIcon className="w-4 h-4" /> Veneto
               </Link>
               <Link
                 href="/wijnen?region=toscana"
                 className="inline-flex items-center gap-2 px-4 py-2 bg-wine/10 text-wine rounded-full text-sm font-medium hover:bg-wine/20 transition-colors"
               >
-                <span>🏛️</span> Toscana
+                <TuscanyIcon className="w-4 h-4" /> Toscana
               </Link>
             </div>
           </div>
@@ -282,8 +485,31 @@ export default function Home() {
         </Grid>
       </Section>
 
-      {/* Gift Banner */}
+      {/* Category Quick Links */}
       <Section background="warm" spacing="lg">
+        <div className="text-center mb-10">
+          <p className="text-label text-wine mb-2">Shop per Categorie</p>
+          <h2 className="text-h2">Ontdek Onze Collectie</h2>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
+          {wineCategories.map((category) => (
+            <Link
+              key={category.name}
+              href={category.href}
+              className={`${category.color} rounded-xl p-6 text-center transition-all hover:shadow-lg hover:-translate-y-1 group`}
+            >
+              <div className={`${category.iconColor} mb-3 flex justify-center`}>
+                <category.Icon className="w-12 h-12 transition-transform group-hover:scale-110" />
+              </div>
+              <h3 className="font-semibold text-charcoal mb-1">{category.name}</h3>
+              <p className="text-sm text-grey">{category.description}</p>
+            </Link>
+          ))}
+        </div>
+      </Section>
+
+      {/* Gift Banner */}
+      <Section background="default" spacing="lg">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div>
             <p className="text-label text-wine mb-2">Cadeau Tip</p>
@@ -294,10 +520,12 @@ export default function Home() {
               Verras iemand met een prachtig verpakte fles wijn. Inclusief
               geschenkverpakking en persoonlijk kaartje.
             </p>
-            <Button variant="primary">Bekijk Cadeaus</Button>
+            <Link href="/cadeaus">
+              <Button variant="primary">Bekijk Cadeaus</Button>
+            </Link>
           </div>
-          <div className="bg-wine/5 rounded-lg aspect-video flex items-center justify-center">
-            <span className="text-6xl">🎁</span>
+          <div className="bg-gradient-to-br from-wine/5 to-wine/10 rounded-2xl aspect-video flex items-center justify-center">
+            <GiftBoxIcon className="w-32 h-32 text-wine/60" />
           </div>
         </div>
       </Section>
