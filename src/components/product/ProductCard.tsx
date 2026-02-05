@@ -84,7 +84,7 @@ export function ProductCard({
         "shadow-sm hover:shadow-xl",
         "transition-all duration-300 ease-out",
         "hover:-translate-y-1",
-        "overflow-visible pt-4 sm:pt-6 mt-14 sm:mt-28",
+        "overflow-visible pt-4 sm:pt-6 mt-20 sm:mt-36",
         className
       )}
       initial={{ opacity: 0, y: 20 }}
