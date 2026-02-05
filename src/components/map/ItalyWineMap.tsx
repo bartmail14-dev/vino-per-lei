@@ -295,9 +295,6 @@ export function ItalyWineMap({
             <stop offset="100%" stopColor="#722f37" />
           </linearGradient>
 
-          <filter id="region-glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#722f37" floodOpacity="0.3" />
-          </filter>
         </defs>
 
         {/* Render all regions from official SVG map */}
@@ -318,15 +315,8 @@ export function ItalyWineMap({
                 interactive && isActive && "cursor-pointer",
                 !isActive && "opacity-70"
               )}
-              filter={isHovered && isActive ? "url(#region-glow)" : undefined}
               initial={false}
-              animate={{
-                scale: isHovered && isActive ? 1.01 : 1,
-              }}
-              style={{
-                transformOrigin: "center",
-                transformBox: "fill-box",
-              }}
+              animate={{ opacity: 1 }}
               transition={{ duration: 0.2, ease: "easeOut" }}
               onMouseEnter={() => {
                 if (interactive && regionData && isActive) {
