@@ -272,19 +272,24 @@ export function Header() {
               <MenuIcon className="w-6 h-6" />
             </button>
 
-            {/* Logo */}
+            {/* Logo - Hanging banner style */}
             <Link
               href="/"
-              className="flex items-center"
+              className="absolute left-4 sm:left-6 lg:left-8 top-full -mt-2 z-50"
             >
-              <Image
-                src="/logo.png"
-                alt="Vino per Lei"
-                width={140}
-                height={56}
-                className="h-12 lg:h-14 w-auto"
-                priority
-              />
+              <div className="relative">
+                {/* Shadow effect */}
+                <div className="absolute inset-0 translate-y-1 blur-md bg-black/20 rounded-b-lg" />
+                {/* Logo image */}
+                <Image
+                  src="/logo.png"
+                  alt="Vino per Lei"
+                  width={280}
+                  height={280}
+                  className="relative h-32 sm:h-40 lg:h-48 w-auto rounded-b-lg shadow-xl"
+                  priority
+                />
+              </div>
             </Link>
 
             {/* Desktop Navigation */}
