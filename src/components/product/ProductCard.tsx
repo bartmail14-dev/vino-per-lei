@@ -84,7 +84,7 @@ export function ProductCard({
         "shadow-sm hover:shadow-xl",
         "transition-all duration-300 ease-out",
         "hover:-translate-y-1",
-        "overflow-visible pt-4 sm:pt-6 mt-20 sm:mt-36",
+        "overflow-visible pt-4 sm:pt-6 mt-24 sm:mt-44",
         className
       )}
       initial={{ opacity: 0, y: 20 }}
@@ -130,7 +130,7 @@ export function ProductCard({
         aria-label={`Bekijk ${product.title}`}
       >
         {/* Image Container */}
-        <div className="relative h-28 sm:h-40 bg-gradient-to-b from-warm-white to-sand/30 rounded-t-lg mx-2 -mt-12 sm:-mt-20">
+        <div className="relative h-28 sm:h-40 bg-gradient-to-b from-wine/15 via-champagne/60 to-cream rounded-t-lg mx-2 -mt-12 sm:-mt-20">
           {/* Badges */}
           <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 sm:gap-2">
             {product.isNew && <Badge variant="new">Nieuw</Badge>}
@@ -205,7 +205,7 @@ export function ProductCard({
       </Link>
 
       {/* Add to Cart Button */}
-      <div className="px-2.5 pb-2.5 sm:px-4 sm:pb-4">
+      <div className="px-2.5 pb-2.5 sm:px-4 sm:pb-4 relative z-30">
         {product.inStock ? (
           <button
             onClick={handleAddToCart}
@@ -213,30 +213,61 @@ export function ProductCard({
             onMouseLeave={() => setIsHovering(false)}
             disabled={isAdding}
             className={cn(
-              "relative w-full h-10 sm:h-12 rounded font-semibold text-xs sm:text-sm uppercase tracking-wide",
+              "relative w-full h-10 sm:h-12 rounded font-semibold text-xs sm:text-sm uppercase tracking-wide cursor-pointer",
               "overflow-hidden transition-all duration-300",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wine focus-visible:ring-offset-2",
               "disabled:pointer-events-none disabled:opacity-50",
               justAdded
                 ? "bg-success text-white"
-                : "bg-wine text-white hover:shadow-lg"
+                : "bg-wine/90 text-white hover:shadow-lg"
             )}
           >
-            {/* Animated gradient background */}
+            {/* Liquid fill animation - wine pouring effect */}
             {!justAdded && (
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-wine via-wine-dark to-wine"
-                style={{ backgroundSize: "200% 100%" }}
-                animate={{
-                  backgroundPosition: isHovering ? ["0% 0%", "100% 0%"] : "0% 0%",
-                }}
-                transition={{
-                  duration: 1.5,
-                  repeat: isHovering ? Infinity : 0,
-                  repeatType: "reverse",
-                  ease: "easeInOut",
-                }}
-              />
+              <>
+                {/* Base - empty state (lighter) */}
+                <div className="absolute inset-0 bg-[#3d4470]" />
+
+                {/* Liquid fill effect - dark wine rising from bottom */}
+                <motion.div
+                  className="absolute inset-x-0 bottom-0 overflow-hidden"
+                  initial={{ height: "0%" }}
+                  animate={{
+                    height: isHovering ? "100%" : "0%",
+                  }}
+                  transition={{
+                    duration: 0.5,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  {/* Rich dark wine liquid */}
+                  <div className="absolute inset-0 bg-[#0d0f1a]" />
+
+                  {/* Animated wave surface */}
+                  <motion.div
+                    className="absolute -top-2 inset-x-0 h-4"
+                    animate={{
+                      x: isHovering ? [0, -20, 0] : 0,
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut",
+                    }}
+                  >
+                    <svg
+                      viewBox="0 0 120 8"
+                      className="w-[300%] h-full"
+                      preserveAspectRatio="none"
+                    >
+                      <path
+                        d="M0 4 Q7.5 1 15 4 T30 4 T45 4 T60 4 T75 4 T90 4 T105 4 T120 4 L120 10 L0 10 Z"
+                        fill="#0d0f1a"
+                      />
+                    </svg>
+                  </motion.div>
+                </motion.div>
+              </>
             )}
 
             {/* Button content */}
