@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/stores/cartStore";
@@ -274,9 +275,16 @@ export function Header() {
             {/* Logo */}
             <Link
               href="/"
-              className="font-serif text-xl lg:text-2xl font-semibold text-wine tracking-wide"
+              className="flex items-center"
             >
-              Vino per Lei
+              <Image
+                src="/logo.png"
+                alt="Vino per Lei"
+                width={140}
+                height={56}
+                className="h-12 lg:h-14 w-auto"
+                priority
+              />
             </Link>
 
             {/* Desktop Navigation */}

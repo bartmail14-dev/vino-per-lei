@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button, Input } from "@/components/ui";
@@ -187,14 +188,14 @@ export function Footer() {
                 placeholder="je@email.nl"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-charcoal border-grey/30 text-white placeholder:text-grey focus:border-coral sm:w-64"
+                className="bg-charcoal border-grey/30 text-white placeholder:text-grey focus:border-gold sm:w-64"
                 required
               />
               <Button
                 type="submit"
                 variant="primary"
                 isLoading={isSubscribing}
-                className="bg-coral hover:bg-coral/90 text-charcoal whitespace-nowrap"
+                className="bg-gold hover:bg-gold-light text-charcoal whitespace-nowrap"
               >
                 {subscribeSuccess ? "Aangemeld!" : "Aanmelden"}
               </Button>
@@ -210,9 +211,15 @@ export function Footer() {
           <div className="lg:col-span-2 pb-8 lg:pb-0">
             <Link
               href="/"
-              className="inline-block font-serif text-2xl font-semibold text-white mb-4"
+              className="inline-block mb-4"
             >
-              Vino per Lei
+              <Image
+                src="/logo.png"
+                alt="Vino per Lei"
+                width={160}
+                height={64}
+                className="h-16 w-auto rounded-lg"
+              />
             </Link>
             <p className="text-grey text-sm leading-relaxed max-w-sm mb-6">
               Wijn met karakter, speciaal voor jou. Ontdek onze zorgvuldig

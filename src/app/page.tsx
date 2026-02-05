@@ -335,7 +335,7 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <motion.p
-              className="text-coral font-medium tracking-wider uppercase mb-4"
+              className="text-gold font-medium tracking-wider uppercase mb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.6 }}
@@ -350,7 +350,7 @@ export default function Home() {
             >
               La Dolce Vita
               <br />
-              <span className="text-coral">in Elk Glas</span>
+              <span className="text-gold">in Elk Glas</span>
             </motion.h1>
             <motion.p
               className="text-lg text-white/90 mb-8 leading-relaxed"
