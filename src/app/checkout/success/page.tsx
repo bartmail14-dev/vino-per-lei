@@ -41,13 +41,13 @@ function CheckoutSuccessContent() {
           ...defaults,
           particleCount,
           origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-          colors: ["#722f37", "#c9a227", "#ffa38b"],
+          colors: ["#1a1f3d", "#c9a227", "#ffa38b"],
         });
         confetti({
           ...defaults,
           particleCount,
           origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-          colors: ["#722f37", "#c9a227", "#ffa38b"],
+          colors: ["#1a1f3d", "#c9a227", "#ffa38b"],
         });
       }, 250);
 

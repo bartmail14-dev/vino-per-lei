@@ -105,7 +105,7 @@ function RedWineIcon({ className }: { className?: string }) {
       />
       <path
         d="M16 16C16.5 19 19.5 22 24 22C28.5 22 31.5 19 32 16L32.5 12H15.5L16 16Z"
-        fill="#722f37"
+        fill="#1a1f3d"
         opacity="0.8"
       />
     </svg>
@@ -237,26 +237,26 @@ function GiftBoxIcon({ className }: { className?: string }) {
       {/* Ribbon vertical */}
       <path
         d="M24 12V42"
-        stroke="#722f37"
+        stroke="#1a1f3d"
         strokeWidth="3"
         opacity="0.8"
       />
       {/* Ribbon horizontal */}
       <path
         d="M6 16H42"
-        stroke="#722f37"
+        stroke="#1a1f3d"
         strokeWidth="3"
         opacity="0.8"
       />
       {/* Bow */}
       <path
         d="M18 12C18 8 20 6 24 6C28 6 30 8 30 12"
-        stroke="#722f37"
+        stroke="#1a1f3d"
         strokeWidth="2"
         fill="none"
         opacity="0.8"
       />
-      <circle cx="24" cy="12" r="2" fill="#722f37" opacity="0.8" />
+      <circle cx="24" cy="12" r="2" fill="#1a1f3d" opacity="0.8" />
     </svg>
   );
 }

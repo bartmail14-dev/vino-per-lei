@@ -5,10 +5,10 @@
    ============================================ */
 
 :root {
-  /* Primary Colors */
-  --wine-burgundy: #722f37;
-  --wine-dark: #5a252c;
-  --wine-light: #9b4d55;
+  /* Primary Colors - Navy Blue (from logo) */
+  --wine-burgundy: #1a1f3d;
+  --wine-dark: #12152b;
+  --wine-light: #2d3454;
 
   /* Secondary Colors */
   --gold: #c9a227;
