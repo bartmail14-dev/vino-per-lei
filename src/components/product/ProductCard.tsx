@@ -219,55 +219,17 @@ export function ProductCard({
               "disabled:pointer-events-none disabled:opacity-50",
               justAdded
                 ? "bg-success text-white"
-                : "bg-wine/90 text-white hover:shadow-lg"
+                : "bg-wine text-white hover:bg-wine-dark hover:shadow-lg"
             )}
           >
-            {/* Liquid fill animation - wine pouring effect */}
+            {/* Simple hover effect */}
             {!justAdded && (
-              <>
-                {/* Base - empty state (lighter) */}
-                <div className="absolute inset-0 bg-[#3d4470]" />
-
-                {/* Liquid fill effect - dark wine rising from bottom */}
-                <motion.div
-                  className="absolute inset-x-0 bottom-0 overflow-hidden"
-                  initial={{ height: "0%" }}
-                  animate={{
-                    height: isHovering ? "100%" : "0%",
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                >
-                  {/* Rich dark wine liquid */}
-                  <div className="absolute inset-0 bg-[#0d0f1a]" />
-
-                  {/* Animated wave surface */}
-                  <motion.div
-                    className="absolute -top-2 inset-x-0 h-4"
-                    animate={{
-                      x: isHovering ? [0, -20, 0] : 0,
-                    }}
-                    transition={{
-                      duration: 1.5,
-                      repeat: Infinity,
-                      ease: "easeInOut",
-                    }}
-                  >
-                    <svg
-                      viewBox="0 0 120 8"
-                      className="w-[300%] h-full"
-                      preserveAspectRatio="none"
-                    >
-                      <path
-                        d="M0 4 Q7.5 1 15 4 T30 4 T45 4 T60 4 T75 4 T90 4 T105 4 T120 4 L120 10 L0 10 Z"
-                        fill="#0d0f1a"
-                      />
-                    </svg>
-                  </motion.div>
-                </motion.div>
-              </>
+              <motion.div
+                className="absolute inset-0 bg-wine-dark"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: isHovering ? 1 : 0 }}
+                transition={{ duration: 0.2 }}
+              />
             )}
 
             {/* Button content */}
