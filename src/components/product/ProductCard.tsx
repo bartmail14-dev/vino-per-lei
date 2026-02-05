@@ -84,7 +84,7 @@ export function ProductCard({
         "shadow-sm hover:shadow-xl",
         "transition-all duration-300 ease-out",
         "hover:-translate-y-1",
-        "overflow-visible pt-4 sm:pt-6 mt-10 sm:mt-16",
+        "overflow-visible pt-4 sm:pt-6 mt-14 sm:mt-28",
         className
       )}
       initial={{ opacity: 0, y: 20 }}
@@ -130,7 +130,7 @@ export function ProductCard({
         aria-label={`Bekijk ${product.title}`}
       >
         {/* Image Container */}
-        <div className="relative h-48 sm:h-56 bg-gradient-to-b from-warm-white to-sand/30 rounded-t-lg mx-2 -mt-8 sm:-mt-10">
+        <div className="relative h-56 sm:h-80 bg-gradient-to-b from-warm-white to-sand/30 rounded-t-lg mx-2 -mt-12 sm:-mt-20">
           {/* Badges */}
           <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 sm:gap-2">
             {product.isNew && <Badge variant="new">Nieuw</Badge>}
@@ -142,14 +142,14 @@ export function ProductCard({
           </div>
 
           {/* Product Image */}
-          <div className="absolute inset-0 -top-10 sm:-top-16 flex items-center justify-center">
+          <div className="absolute inset-0 -top-14 sm:-top-28 flex items-center justify-center">
             {product.images[0] ? (
-              <div className="relative w-20 sm:w-28 h-44 sm:h-56">
+              <div className="relative w-28 sm:w-48 h-52 sm:h-96">
                 <Image
                   src={product.images[0].url}
                   alt={product.images[0].altText || product.title}
                   fill
-                  sizes="(max-width: 640px) 80px, 112px"
+                  sizes="(max-width: 640px) 112px, 192px"
                   priority={priority}
                   className={cn(
                     "object-contain object-center drop-shadow-2xl transition-transform duration-300",

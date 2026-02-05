@@ -195,7 +195,7 @@ export default function ProductDetailPage() {
           {/* Left: Images */}
           <div className="space-y-4">
             {/* Main Image */}
-            <div className="relative aspect-square bg-gradient-to-b from-warm-white to-sand/30 rounded-lg overflow-hidden">
+            <div className="relative aspect-[3/4] bg-gradient-to-b from-warm-white to-sand/30 rounded-lg overflow-hidden">
               {/* Badges */}
               <div className="absolute top-4 left-4 z-10 flex flex-col gap-2">
                 {product.isNew && <Badge variant="new">Nieuw</Badge>}
