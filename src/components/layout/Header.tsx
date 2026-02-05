@@ -275,18 +275,18 @@ export function Header() {
             {/* Logo - Hanging banner style */}
             <Link
               href="/"
-              className="absolute left-4 sm:left-6 lg:left-8 top-full -mt-2 z-50"
+              className="absolute left-4 sm:left-8 md:left-8 lg:left-12 xl:left-16 2xl:left-24 top-full -mt-6 sm:-mt-8 z-50"
             >
               <div className="relative">
                 {/* Shadow effect */}
-                <div className="absolute inset-0 translate-y-1 blur-md bg-black/20 rounded-b-lg" />
+                <div className="absolute inset-0 translate-y-2 blur-lg bg-black/30 rounded-b-xl" />
                 {/* Logo image */}
                 <Image
                   src="/logo.png"
                   alt="Vino per Lei"
-                  width={280}
-                  height={280}
-                  className="relative h-32 sm:h-40 lg:h-48 w-auto rounded-b-lg shadow-xl"
+                  width={450}
+                  height={450}
+                  className="relative h-28 sm:h-40 md:h-48 lg:h-56 xl:h-64 2xl:h-72 w-auto rounded-b-xl shadow-2xl"
                   priority
                 />
               </div>
