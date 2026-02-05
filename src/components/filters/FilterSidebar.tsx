@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Checkbox, Button } from "@/components/ui";
+import { ItalyWineMap, type WineRegionData } from "@/components/map";
 
 // Icons
 function ChevronDownIcon({ className }: { className?: string }) {
@@ -141,6 +142,24 @@ export function FilterSidebar({
 }: FilterSidebarProps) {
   const totalActiveFilters = Object.values(activeFilters).flat().length;
 
+  // Get currently selected region for the map
+  const selectedRegion = activeFilters["region"]?.[0] || null;
+
+  // Handle map region click
+  const handleMapRegionClick = (region: WineRegionData) => {
+    const currentRegions = activeFilters["region"] || [];
+    const isCurrentlySelected = currentRegions.includes(region.slug);
+
+    // Toggle: if already selected, deselect; otherwise select
+    if (isCurrentlySelected) {
+      onFilterChange("region", region.slug, false);
+    } else {
+      // Clear other regions first, then select this one
+      currentRegions.forEach(r => onFilterChange("region", r, false));
+      onFilterChange("region", region.slug, true);
+    }
+  };
+
   // Mobile overlay version
   const mobileContent = (
     <AnimatePresence>
@@ -177,6 +196,25 @@ export function FilterSidebar({
 
             {/* Filters */}
             <div className="px-4 pb-24">
+              {/* Italy Map Filter - Mobile */}
+              <div className="py-4 border-b border-sand">
+                <p className="text-xs text-grey uppercase tracking-wider mb-3">Ontdek per Regio</p>
+                <ItalyWineMap
+                  size="full"
+                  onRegionClick={handleMapRegionClick}
+                  selectedRegion={selectedRegion}
+                  className="mx-auto max-w-[280px]"
+                />
+                {selectedRegion && (
+                  <button
+                    onClick={() => onFilterChange("region", selectedRegion, false)}
+                    className="mt-3 text-xs text-wine hover:underline w-full text-center"
+                  >
+                    Wis regio filter
+                  </button>
+                )}
+              </div>
+
               {filters.map((group) => (
                 <FilterAccordion
                   key={group.id}
@@ -222,6 +260,25 @@ export function FilterSidebar({
               className="text-sm text-wine hover:underline"
             >
               Wis alles ({totalActiveFilters})
+            </button>
+          )}
+        </div>
+
+        {/* Italy Map Filter */}
+        <div className="border-t border-sand py-4">
+          <p className="text-xs text-grey uppercase tracking-wider mb-3">Ontdek per Regio</p>
+          <ItalyWineMap
+            size="full"
+            onRegionClick={handleMapRegionClick}
+            selectedRegion={selectedRegion}
+            className="mx-auto"
+          />
+          {selectedRegion && (
+            <button
+              onClick={() => onFilterChange("region", selectedRegion, false)}
+              className="mt-3 text-xs text-wine hover:underline w-full text-center"
+            >
+              Wis regio filter
             </button>
           )}
         </div>

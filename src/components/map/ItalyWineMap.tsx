@@ -185,6 +185,7 @@ export interface ItalyWineMapProps {
   onRegionClick?: (region: WineRegionData) => void;
   interactive?: boolean;
   size?: "sm" | "md" | "lg" | "full";
+  selectedRegion?: string | null; // slug of selected region
 }
 
 export function ItalyWineMap({
@@ -192,6 +193,7 @@ export function ItalyWineMap({
   onRegionClick,
   interactive = true,
   size = "md",
+  selectedRegion = null,
 }: ItalyWineMapProps) {
   const router = useRouter();
   const [hoveredRegion, setHoveredRegion] = useState<WineRegionData | null>(null);
@@ -238,8 +240,13 @@ export function ItalyWineMap({
   const getRegionFill = (regionId: string, isHovered: boolean) => {
     const region = wineRegionData[regionId];
     const isActive = region?.active || false;
+    const isSelected = region?.slug === selectedRegion;
 
     if (!isActive) return "#e8e0d5"; // Sand color for inactive southern regions (visible but muted)
+
+    if (isSelected) {
+      return "url(#wine-region-gradient)"; // Wine gradient for selected
+    }
 
     if (isHovered) {
       return "url(#wine-region-gradient)";
@@ -251,8 +258,13 @@ export function ItalyWineMap({
   const getRegionStroke = (regionId: string, isHovered: boolean) => {
     const region = wineRegionData[regionId];
     const isActive = region?.active || false;
+    const isSelected = region?.slug === selectedRegion;
 
     if (!isActive) return "#d4cfc5"; // Visible border for inactive
+
+    if (isSelected) {
+      return "#c9a227"; // Gold for selected
+    }
 
     if (isHovered) {
       return "#c9a227"; // Gold on hover
