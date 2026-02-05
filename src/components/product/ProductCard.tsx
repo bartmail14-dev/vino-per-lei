@@ -130,7 +130,7 @@ export function ProductCard({
         aria-label={`Bekijk ${product.title}`}
       >
         {/* Image Container */}
-        <div className="relative h-44 sm:h-60 bg-gradient-to-b from-warm-white to-sand/30 rounded-t-lg mx-2 -mt-12 sm:-mt-20">
+        <div className="relative h-28 sm:h-40 bg-gradient-to-b from-warm-white to-sand/30 rounded-t-lg mx-2 -mt-12 sm:-mt-20">
           {/* Badges */}
           <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 sm:gap-2">
             {product.isNew && <Badge variant="new">Nieuw</Badge>}
