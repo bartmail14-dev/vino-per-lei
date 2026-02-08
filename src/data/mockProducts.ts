@@ -32,7 +32,7 @@ export const mockProducts: Product[] = [
     handle: "montaribaldi-barolo-2019",
     title: "Montaribaldi Barolo DOCG",
     description:
-      "De koning der Italiaanse wijnen. Krachtig en complex met betoverende aroma's van rozen, teer, truffel en rijp rood fruit. Stevige maar geïntegreerde tannines met een eindeloze afdronk.",
+      "Il Re dei Vini — de koning onder de Italiaanse wijnen. Deze Barolo van Montaribaldi komt van oude Nebbiolo-wijnstokken in de Langhe-heuvels, waar mist en zon samen de perfecte druif vormen. Betoverende aroma's van verwelkte rozen, teer, witte truffel en rijp rood fruit. Krachtige maar fluwelen tannines leiden naar een eindeloze, verfijnde afdronk. Subliem bij ossobuco, truffelrisotto of belegen Parmigiano Reggiano.",
     collection: "Piemonte Icons",
     wineType: "red",
     grapeVarieties: ["Nebbiolo"],
@@ -67,7 +67,7 @@ export const mockProducts: Product[] = [
     handle: "montaribaldi-barbera-dalba-2021",
     title: "Montaribaldi Barbera d'Alba",
     description:
-      "Een elegante Barbera uit de heuvels van Alba met levendige zuren en smaken van kersen, frambozen en een subtiele kruidigheid. Perfect bij pasta en gegrild vlees.",
+      "De Barbera is het kloppend hart van Piemonte — een eerlijke, genereuze druif die hier op de heuvels rond Alba zijn mooiste gezicht laat zien. Levendige zuren dragen smaken van sappige kersen en frambozen, omlijst door een subtiele kruidigheid en een vleugje cacao. Ideaal bij tagliatelle al rag\u00F9, gegrild lamsvlees of een dampende polenta met paddenstoelen.",
     collection: "Piemonte Classics",
     wineType: "red",
     grapeVarieties: ["Barbera"],
@@ -100,7 +100,7 @@ export const mockProducts: Product[] = [
     handle: "barolo-classico-2018",
     title: "Barolo Classico DOCG",
     description:
-      "Een tijdloze Barolo met alle klassieke kenmerken. Betoverende aroma's van rozen, teer, kersen en kruiden. Krachtige maar elegante tannines die jaren kunnen rijpen.",
+      "Een tijdloze Barolo die de essentie van Piemonte vastlegt. Na jaren rijping op eikenhout ontvouwen zich laag na laag: verwelkte rozen, zoete teer, gedroogde kersen en warme kruiden als kaneel en kruidnagel. De tannines zijn krachtig maar fijngeweven — een wijn die nu al prachtig is, maar nog jaren mooier wordt. Serveer bij wild zwijn, gebraden eend of een klassieke brasato al Barolo.",
     collection: "Piemonte Icons",
     wineType: "red",
     grapeVarieties: ["Nebbiolo"],
@@ -135,7 +135,7 @@ export const mockProducts: Product[] = [
     handle: "nebbiolo-langhe-2021",
     title: "Nebbiolo Langhe DOC",
     description:
-      "Een toegankelijke Nebbiolo met de elegantie van de Langhe. Aroma's van kersen, rozen en kruiden met zijdezachte tannines. Perfect om jong te drinken.",
+      "De perfecte kennismaking met Nebbiolo — de nobele druif achter Barolo en Barbaresco, hier in een toegankelijkere, jongere stijl. Verleidelijke aroma's van rode kersen, wilde rozen en een toets van witte peper. Zijdezachte tannines maken deze wijn nu al heerlijk drinkbaar. Een veelzijdige tafelwijn bij pasta met truffelsaus, vitello tonnato of een rijke paddenstoelenrisotto.",
     collection: "Piemonte Classics",
     wineType: "red",
     grapeVarieties: ["Nebbiolo"],
@@ -170,7 +170,7 @@ export const mockProducts: Product[] = [
     handle: "amarone-della-valpolicella-2018",
     title: "Amarone della Valpolicella DOCG",
     description:
-      "De legendarische Amarone - gedroogde druiven resulteren in een intense, volle wijn met smaken van gedroogde pruimen, chocolade, koffie en specerijen. Onvergetelijk.",
+      "Legendarisch en onweerstaanbaar. Deze Amarone wordt gemaakt volgens eeuwenoude traditie: de druiven drogen maandenlang op rekken (appassimento), waardoor de smaken zich concentreren tot iets buitengewoons. Denk aan gedroogde pruimen, donkere chocolade, espresso, en warme specerijen als kruidnagel en kaneel. Een wijn van grote diepte met een fluwelen, eindeloze afdronk. Majestueus bij gebraad, risotto all'Amarone of belegen kazen als Gorgonzola.",
     collection: "Veneto Icons",
     wineType: "red",
     grapeVarieties: ["Corvina", "Rondinella", "Molinara"],
@@ -206,7 +206,7 @@ export const mockProducts: Product[] = [
     handle: "rubinelli-vajol-valpolicella-ripasso-2020",
     title: "Rubinelli Vajol Valpolicella Ripasso",
     description:
-      "Een rijke Ripasso met de typische Valpolicella elegantie. Complexe aroma's van gedroogde kersen, rozijnen, en een hint van amandel. Fluwelen textuur met een lange afdronk.",
+      "Uit de prestigieuze Vajol-wijngaard van familie Rubinelli komt deze bijzondere Ripasso. De wijn wordt een tweede keer vergist op de schillen van Amarone-druiven — een ambachtelijke techniek die extra diepte en rijkdom geeft. Complexe aroma's van gedroogde kersen, rozijnen, amandel en een vleugje vanille. Fluwelen textuur met een verrassend lange afdronk. Prachtig bij pasta alla Norma, lamskoteletjes of een kaasplank met Taleggio.",
     collection: "Veneto Selection",
     wineType: "red",
     grapeVarieties: ["Corvina", "Rondinella", "Molinara"],
@@ -242,7 +242,7 @@ export const mockProducts: Product[] = [
     handle: "valpolicella-ripasso-superiore-2020",
     title: "Valpolicella Ripasso Superiore DOC",
     description:
-      "Een rijke Ripasso gemaakt volgens de traditionele methode. Intense aroma's van gedroogde kersen, rozijnen, chocolade en kruiden. Volle body met zijdezachte tannines.",
+      "De Ripasso-methode is een van de best bewaarde geheimen van de Veneto: jonge Valpolicella wordt opnieuw vergist op Amarone-druivenschillen, wat resulteert in verbluffende diepte en complexiteit. Deze Superiore toont intense aroma's van gedroogde kersen, rozijnen, bittere chocolade en mediterrane kruiden. Vol van body, zijdezacht van tannine. Schitterend bij een stoofschotel, ragu of een avond met vrienden en goede kazen.",
     collection: "Veneto Selection",
     wineType: "red",
     grapeVarieties: ["Corvina", "Rondinella", "Molinara"],
@@ -277,7 +277,7 @@ export const mockProducts: Product[] = [
     handle: "tenuta-val-dombra-ombra-alta-2019",
     title: "Tenuta Val d'Ombra 'Ombra Alta'",
     description:
-      "Een elegante Super Tuscan blend van Cabernet Sauvignon en Sangiovese. Complexe aroma's van cassis, kersen, cederhout en tabak. Fluweelzachte tannines met een lange, verfijnde afdronk.",
+      "Uit het hart van Toscane komt deze elegante Super Tuscan — een ambitieuze blend van Cabernet Sauvignon en Sangiovese die het beste van twee werelden verenigt. De Cabernet brengt structuur en diepte; de Sangiovese levendigheid en charme. Complexe aroma's van cassis, rijpe kersen, cederhout en een vleugje tabak. Fluweelzachte tannines leiden naar een lange, verfijnde afdronk. Droom bij bistecca alla Fiorentina, geroosterd lamsvlees of belegen pecorino.",
     collection: "Toscana Icons",
     wineType: "red",
     grapeVarieties: ["Cabernet Sauvignon", "Sangiovese"],
@@ -312,7 +312,7 @@ export const mockProducts: Product[] = [
     handle: "teroldego-rotaliano-2020",
     title: "Teroldego Rotaliano DOC",
     description:
-      "Een krachtige rode wijn uit Trentino met intense aroma's van zwarte kersen, bramen en een hint van kruiden. Stevige tannines en een lange, aardse afdronk. Uitstekend bij wild en rijpe kazen.",
+      "Een verborgen juweel uit het noorden: de Teroldego-druif groeit vrijwel nergens anders dan op de Campo Rotaliano-vlakte in Trentino, beschut door de Dolomieten. Deze inheemse druif levert een diepdonkere, krachtige wijn met intense aroma's van zwarte kersen, bramen, violetten en een aardse kruidigheid. Stevige, rijpe tannines en een lange afdronk met hints van donkere chocolade. Uitstekend bij wildgerechten, polenta met hert of rijpe bergkazen.",
     collection: "Trentino Selection",
     wineType: "red",
     grapeVarieties: ["Teroldego"],
@@ -345,7 +345,7 @@ export const mockProducts: Product[] = [
     handle: "refosco-dal-peduncolo-rosso-2021",
     title: "Refosco dal Peduncolo Rosso DOC",
     description:
-      "Een karaktervolle rode wijn uit Friuli met diepe kleur en intense aroma's van donkere bessen, pruimen en violetten. Robuuste tannines met een frisse zuurgraad. Perfect bij gegrild vlees.",
+      "Uit het groene, heuvelachtige Friuli-Venezia Giulia komt deze onbekende maar fascinerende druif met een naam die je niet snel vergeet. Refosco levert een diep robijnrode wijn met intense aroma's van donkere bosbessen, rijpe pruimen en violetten, gedragen door een frisse zuurgraad die de wijn levendig en elegant houdt. Robuuste tannines geven structuur zonder te overheersen. Verrassend veelzijdig bij gegrild vlees, pappardelle met wildragout of een stevige minestrone.",
     collection: "Friuli Selection",
     wineType: "red",
     grapeVarieties: ["Refosco dal Peduncolo Rosso"],
@@ -380,7 +380,7 @@ export const mockProducts: Product[] = [
     handle: "jo-primitivo-salento-2021",
     title: "Jo Primitivo Salento IGT",
     description:
-      "Een moderne, elegante Primitivo met een strakke zwarte fles. Intense aroma's van rijpe kersen, pruimen en een vleugje specerijen. Soepele tannines en een warme, lange afdronk.",
+      "Jo is jong, modern en vol karakter — net als het Salento zelf. Uit het zonovergoten zuiden van Puglia, waar de rode aarde en warme zeewind druiven van uitzonderlijke rijpheid opleveren. Deze Primitivo verleidt met intense aroma's van sappige kersen, donkere pruimen en een vleugje kaneel en zwarte peper. Soepele tannines en een warme, aanhoudende afdronk. Heerlijk bij pizza margherita, aubergine alla parmigiana of gewoon op een gezellige avond.",
     collection: "Puglia Selection",
     wineType: "red",
     grapeVarieties: ["Primitivo"],
@@ -413,7 +413,7 @@ export const mockProducts: Product[] = [
     handle: "san-marzano-primitivo-2022",
     title: "San Marzano Il Pumo Primitivo",
     description:
-      "Een volle, ronde Primitivo van het gerenommeerde San Marzano wijnhuis. Intense aroma's van rijpe kersen, pruimen en een vleugje vanille. Soepele tannines en een warme afdronk.",
+      "Van het gevierde San Marzano wijnhuis, dat al generaties lang de Primitivo-druif koestert in het hart van Puglia. Il Pumo — vernoemd naar de traditionele Pugliese geluksbrenger — is een volle, genereuze wijn met aroma's van rijpe morellen, pruimenjam en een subtiele vanilletoets van korte houtrijping. Ronde tannines en een warme, omhullende afdronk. De ideale alledaagse wijn bij pasta al forno, verse bruschetta of een gezellige borrel.",
     collection: "Puglia Selection",
     wineType: "red",
     grapeVarieties: ["Primitivo"],

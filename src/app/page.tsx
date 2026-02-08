@@ -266,7 +266,7 @@ const featuredProducts = mockProducts.filter((p) => p.isFeatured).slice(0, 4);
 const wineCategories = [
   {
     name: "Rode Wijn",
-    description: "Vol & Rijk",
+    description: "Vol, Warm & Karaktervol",
     href: "/wijnen/rood",
     color: "bg-wine/10 hover:bg-wine/15",
     iconColor: "text-wine",
@@ -274,7 +274,7 @@ const wineCategories = [
   },
   {
     name: "Witte Wijn",
-    description: "Fris & Fruitig",
+    description: "Fris, Elegant & Mineraal",
     href: "/wijnen/wit",
     color: "bg-gold/10 hover:bg-gold/15",
     iconColor: "text-gold",
@@ -282,7 +282,7 @@ const wineCategories = [
   },
   {
     name: "Rosé",
-    description: "Licht & Zomers",
+    description: "Licht, Fruitig & Verleidelijk",
     href: "/wijnen/rose",
     color: "bg-coral/10 hover:bg-coral/15",
     iconColor: "text-coral",
@@ -290,7 +290,7 @@ const wineCategories = [
   },
   {
     name: "Bubbels",
-    description: "Feestelijk",
+    description: "Sprankelend & Feestelijk",
     href: "/wijnen/mousserende",
     color: "bg-champagne hover:bg-gold/20",
     iconColor: "text-charcoal",
@@ -298,7 +298,7 @@ const wineCategories = [
   },
   {
     name: "Cadeaus",
-    description: "Perfect Verpakt",
+    description: "Met Liefde Verpakt",
     href: "/cadeaus",
     color: "bg-wine/5 hover:bg-wine/10",
     iconColor: "text-charcoal",
@@ -340,7 +340,7 @@ export default function Home() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.6 }}
             >
-              Authentieke Italiaanse Wijnen
+              Met passie geselecteerd in Itali&euml;
             </motion.p>
             <motion.h1
               className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-tight"
@@ -348,7 +348,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
-              La Dolce Vita
+              De Ziel van Itali&euml;
               <br />
               <span className="text-gold">in Elk Glas</span>
             </motion.h1>
@@ -358,9 +358,10 @@ export default function Home() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.6 }}
             >
-              Ontdek onze zorgvuldig geselecteerde collectie Italiaanse wijnen.
-              Van krachtige Barolo tot frisse Pinot Grigio — wij brengen het beste
-              van Italië naar jouw tafel.
+              Proef de warmte van de Italiaanse zon, de rijkdom van eeuwenoude
+              wijngaarden en het vakmanschap van gepassioneerde wijnmakers.
+              Van een krachtige Barolo tot een verfrissende Prosecco — ontdek
+              jouw nieuwe favoriete wijn.
             </motion.p>
             <motion.div
               className="flex gap-4 flex-wrap"
@@ -372,13 +373,13 @@ export default function Home() {
                 href="/wijnen"
                 className="inline-flex items-center justify-center h-14 px-8 bg-wine text-white font-semibold uppercase tracking-wide rounded hover:bg-wine-dark transition-colors"
               >
-                Bekijk Collectie
+                Ontdek de Collectie
               </Link>
               <Link
                 href="/over-ons"
                 className="inline-flex items-center justify-center h-14 px-8 border-2 border-white text-white font-semibold uppercase tracking-wide rounded hover:bg-white hover:text-charcoal transition-colors"
               >
-                Ons Verhaal
+                Leer Ons Kennen
               </Link>
             </motion.div>
           </motion.div>
@@ -408,21 +409,21 @@ export default function Home() {
             <TruckIcon className="w-6 h-6 text-wine flex-shrink-0" />
             <div>
               <p className="font-semibold text-charcoal">Gratis verzending</p>
-              <p className="text-sm text-grey">vanaf €35</p>
+              <p className="text-sm text-grey">Vanaf €35 bezorgen wij gratis</p>
             </div>
           </div>
           <div className="flex items-center justify-center gap-3 text-center">
             <RefreshIcon className="w-6 h-6 text-wine flex-shrink-0" />
             <div>
-              <p className="font-semibold text-charcoal">Gratis retour</p>
-              <p className="text-sm text-grey">binnen 14 dagen</p>
+              <p className="font-semibold text-charcoal">Zorgeloos bestellen</p>
+              <p className="text-sm text-grey">14 dagen bedenktijd</p>
             </div>
           </div>
           <div className="flex items-center justify-center gap-3 text-center">
             <StarIcon className="w-6 h-6 text-gold flex-shrink-0" />
             <div>
-              <p className="font-semibold text-charcoal">100% Proefgarantie</p>
-              <p className="text-sm text-grey">Niet lekker? Geld terug</p>
+              <p className="font-semibold text-charcoal">Proefgarantie</p>
+              <p className="text-sm text-grey">Niet tevreden? Geld terug!</p>
             </div>
           </div>
         </div>
@@ -432,13 +433,14 @@ export default function Home() {
       <Section background="warm" spacing="lg">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-label text-wine mb-2">Ontdek per Regio</p>
-            <h2 className="text-h2 mb-4">Van Piemonte tot Toscane</h2>
+            <p className="text-label text-wine mb-2">Wijnregio&apos;s van Itali&euml;</p>
+            <h2 className="text-h2 mb-4">Elke Regio Vertelt een Verhaal</h2>
             <p className="text-body text-grey mb-6">
-              Onze selectie komt uit de mooiste wijnregio's van Noord-Italië en
-              Toscane. Van de mistige heuvels van Piemonte waar Barolo en
-              Barbaresco hun thuis vinden, tot het glooiende landschap van
-              Toscane met zijn iconische Chianti. Klik op een regio om te ontdekken.
+              Achter elke fles schuilt een landschap, een traditie, een familie.
+              Van de mistige heuvels van Piemonte — waar Nebbiolo rijpt tot
+              legendarische Barolo — tot het zonovergoten Toscane met zijn
+              glooiende wijngaarden vol Sangiovese. Ontdek de regio die bij
+              jouw smaak past.
             </p>
             <div className="flex flex-wrap gap-3">
               <Link
@@ -470,12 +472,12 @@ export default function Home() {
       {/* Featured Products */}
       <Section background="default" spacing="lg">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="text-h2">Onze Favorieten</h2>
+          <h2 className="text-h2">Door Ons Met Zorg Uitgekozen</h2>
           <Link
             href="/wijnen"
             className="flex items-center gap-1 text-wine font-medium hover:underline"
           >
-            Bekijk alles
+            Bekijk alle wijnen
             <ChevronRightIcon className="w-4 h-4" />
           </Link>
         </div>
@@ -489,8 +491,8 @@ export default function Home() {
       {/* Category Quick Links */}
       <Section background="warm" spacing="lg">
         <div className="text-center mb-10">
-          <p className="text-label text-wine mb-2">Shop per Categorie</p>
-          <h2 className="text-h2">Ontdek Onze Collectie</h2>
+          <p className="text-label text-wine mb-2">Vind Jouw Wijn</p>
+          <h2 className="text-h2">Wat Mag Het Zijn?</h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
           {wineCategories.map((category) => (
@@ -513,16 +515,18 @@ export default function Home() {
       <Section background="default" spacing="lg">
         <div className="grid md:grid-cols-2 gap-8 items-center">
           <div>
-            <p className="text-label text-wine mb-2">Cadeau Tip</p>
+            <p className="text-label text-wine mb-2">Geef Itali&euml; Cadeau</p>
             <h2 className="text-h2 mb-4">
-              Het perfecte cadeau voor wijnliefhebbers
+              Verras met een bijzonder wijngeschenk
             </h2>
             <p className="text-body text-grey mb-6">
-              Verras iemand met een prachtig verpakte fles wijn. Inclusief
-              geschenkverpakking en persoonlijk kaartje.
+              Maak van elk moment iets speciaals. Onze wijncadeaus worden met
+              zorg verpakt in een elegante geschenkdoos, inclusief een
+              persoonlijk kaartje met jouw boodschap. Het perfecte cadeau
+              voor iedereen die van goede wijn houdt.
             </p>
             <Link href="/cadeaus">
-              <Button variant="primary">Bekijk Cadeaus</Button>
+              <Button variant="primary">Bekijk Cadeaupakketten</Button>
             </Link>
           </div>
           <div className="bg-gradient-to-br from-wine/5 to-wine/10 rounded-2xl aspect-video flex items-center justify-center">
@@ -533,24 +537,24 @@ export default function Home() {
 
       {/* Wine Types */}
       <Section background="default" spacing="lg">
-        <h2 className="text-h2 mb-8 text-center">Ontdek op Smaak</h2>
+        <h2 className="text-h2 mb-8 text-center">Wat Past Bij Jouw Smaak?</h2>
         <div className="grid md:grid-cols-3 gap-6">
           {[
             {
               type: "Rode Wijn",
-              description: "Vol, rijk & karaktervol",
+              description: "Krachtig, warm & vol karakter. Van fluweelzachte Primitivo tot majestueuze Barolo.",
               href: "/wijnen/rood",
               bgClass: "bg-wine/10",
             },
             {
               type: "Witte Wijn",
-              description: "Fris, fruitig & elegant",
+              description: "Verfrissend, elegant & aromatisch. Van minerale Vermentino tot stralende Pinot Grigio.",
               href: "/wijnen/wit",
               bgClass: "bg-gold/10",
             },
             {
               type: "Rosé",
-              description: "Licht, zomers & verfrissend",
+              description: "Licht, verleidelijk & zonnig. Perfecte begeleider van een lange zomeravond.",
               href: "/wijnen/rose",
               bgClass: "bg-coral/10",
             },
@@ -566,7 +570,7 @@ export default function Home() {
               </h3>
               <p className="text-grey mb-4">{wine.description}</p>
               <span className="inline-flex items-center gap-1 text-wine font-medium group-hover:underline">
-                Ontdek
+                Bekijk selectie
                 <ChevronRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </span>
             </Link>
@@ -577,18 +581,20 @@ export default function Home() {
       {/* Newsletter */}
       <Section background="warm" spacing="lg">
         <div className="max-w-xl mx-auto text-center">
-          <h2 className="text-h2 mb-4">Blijf op de hoogte</h2>
+          <h2 className="text-h2 mb-4">Word Deel van Onze Wijnfamilie</h2>
           <p className="text-grey mb-6">
-            Ontvang als eerste nieuwe wijnen en exclusieve aanbiedingen.
+            Ontvang als eerste onze nieuwe ontdekkingen, seizoenstips van onze
+            sommelier en exclusieve aanbiedingen. Geen spam, alleen passie voor
+            Italiaanse wijn.
           </p>
           <form className="flex flex-col sm:flex-row gap-3 justify-center">
             <input
               type="email"
-              placeholder="je@email.nl"
+              placeholder="jouw@email.nl"
               className="px-4 py-3 rounded border border-sand focus:border-wine focus:outline-none flex-1 max-w-sm"
             />
             <Button type="submit" variant="primary">
-              Aanmelden
+              Ja, Ik Doe Mee
             </Button>
           </form>
         </div>

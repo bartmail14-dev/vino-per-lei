@@ -5,10 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/stores/cartStore";
+import { useRecentlyViewedStore } from "@/stores/recentlyViewedStore";
 import { Button, QuantitySelector } from "@/components/ui";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { FREE_SHIPPING_THRESHOLD } from "@/types";
+import { type Product } from "@/types";
 
 // Icons
 function CloseIcon({ className }: { className?: string }) {
@@ -49,6 +51,80 @@ function CheckIcon({ className }: { className?: string }) {
   );
 }
 
+function PlusIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <line x1="12" y1="5" x2="12" y2="19" />
+      <line x1="5" y1="12" x2="19" y2="12" />
+    </svg>
+  );
+}
+
+function ArrowLeftIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <line x1="19" y1="12" x2="5" y2="12" />
+      <polyline points="12 19 5 12 12 5" />
+    </svg>
+  );
+}
+
+function TruckIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <rect x="1" y="3" width="15" height="13" rx="1" />
+      <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+      <circle cx="5.5" cy="18.5" r="2.5" />
+      <circle cx="18.5" cy="18.5" r="2.5" />
+    </svg>
+  );
+}
+
+/** Compact suggestion card for cross-sell in the cart slide-out */
+function SuggestionCard({
+  product,
+  onAdd,
+}: {
+  product: Product;
+  onAdd: (product: Product) => void;
+}) {
+  return (
+    <div className="flex items-center gap-3 p-2 bg-white rounded-lg border border-sand/50">
+      <div className="relative w-12 h-16 bg-warm-white rounded overflow-hidden flex-shrink-0">
+        {product.images[0] ? (
+          <Image
+            src={product.images[0].url}
+            alt={product.title}
+            fill
+            sizes="48px"
+            className="object-contain p-1"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-grey">
+            <ShoppingBagIcon className="w-5 h-5 opacity-30" />
+          </div>
+        )}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-xs font-medium text-charcoal line-clamp-1">
+          {product.title}
+        </p>
+        <p className="text-xs text-grey">{product.region}</p>
+        <p className="text-sm font-semibold text-charcoal mt-0.5">
+          {formatPrice(product.price)}
+        </p>
+      </div>
+      <button
+        onClick={() => onAdd(product)}
+        className="flex-shrink-0 p-1.5 bg-wine/10 text-wine rounded-full hover:bg-wine hover:text-white transition-colors"
+        aria-label={`Voeg ${product.title} toe`}
+      >
+        <PlusIcon className="w-4 h-4" />
+      </button>
+    </div>
+  );
+}
+
 export function CartSlideOut() {
   const isOpen = useCartStore((state) => state.isOpen);
   const closeCart = useCartStore((state) => state.closeCart);
@@ -59,6 +135,14 @@ export function CartSlideOut() {
   const total = useCartStore((state) => state.total);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
+  const addItem = useCartStore((state) => state.addItem);
+
+  const getSuggestedProducts = useRecentlyViewedStore(
+    (state) => state.getSuggestedProducts
+  );
+  const getEmptyCartSuggestions = useRecentlyViewedStore(
+    (state) => state.getEmptyCartSuggestions
+  );
 
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -97,6 +181,18 @@ export function CartSlideOut() {
     100
   );
   const hasFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+
+  // Get cross-sell suggestions
+  const cartProductIds = items.map((item) => item.product.id);
+  const suggestedProducts =
+    items.length > 0
+      ? getSuggestedProducts(cartProductIds, 3)
+      : [];
+  const emptyCartSuggestions = items.length === 0 ? getEmptyCartSuggestions(4) : [];
+
+  const handleAddSuggestion = (product: Product) => {
+    addItem(product);
+  };
 
   return (
     <AnimatePresence>
@@ -142,20 +238,77 @@ export function CartSlideOut() {
               </button>
             </div>
 
+            {/* Free Shipping Progress Bar - always visible when cart has items */}
+            {items.length > 0 && (
+              <div className="px-6 py-3 bg-warm-white/80 border-b border-sand/50">
+                {hasFreeShipping ? (
+                  <div className="flex items-center gap-2 text-sm text-success">
+                    <TruckIcon className="w-4 h-4 flex-shrink-0" />
+                    <span className="font-medium">
+                      Je komt in aanmerking voor gratis verzending!
+                    </span>
+                  </div>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <TruckIcon className="w-4 h-4 text-wine flex-shrink-0" />
+                      <p className="text-sm text-charcoal">
+                        Nog{" "}
+                        <span className="font-semibold text-wine">
+                          {formatPrice(amountUntilFreeShipping)}
+                        </span>{" "}
+                        voor{" "}
+                        <span className="font-semibold">gratis verzending</span>
+                      </p>
+                    </div>
+                    <div className="h-2 bg-sand rounded-full overflow-hidden">
+                      <motion.div
+                        className="h-full bg-gradient-to-r from-wine to-wine-dark rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${freeShippingProgress}%` }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                      />
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+
             {/* Content */}
             {items.length === 0 ? (
-              /* Empty State */
-              <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-                <ShoppingBagIcon className="w-16 h-16 text-sand mb-4" />
-                <h3 className="font-serif text-lg mb-2">
-                  Je winkelmand is leeg
-                </h3>
-                <p className="text-sm text-grey mb-6">
-                  Ontdek onze wijnen en voeg je favorieten toe.
-                </p>
-                <Button onClick={closeCart} variant="primary">
-                  Bekijk onze wijnen
-                </Button>
+              /* Empty State - improved with suggestions */
+              <div className="flex-1 overflow-y-auto">
+                <div className="flex flex-col items-center justify-center px-6 pt-12 pb-6 text-center">
+                  <ShoppingBagIcon className="w-16 h-16 text-sand mb-4" />
+                  <h3 className="font-serif text-lg mb-2">
+                    Je winkelmand is leeg
+                  </h3>
+                  <p className="text-sm text-grey mb-6">
+                    Ontdek onze zorgvuldig geselecteerde Italiaanse wijnen en vind jouw perfecte fles.
+                  </p>
+                  <Button onClick={closeCart} variant="primary" size="lg">
+                    <ArrowLeftIcon className="w-4 h-4 mr-2" />
+                    Ontdek onze wijnen
+                  </Button>
+                </div>
+
+                {/* Suggestions in empty cart */}
+                {emptyCartSuggestions.length > 0 && (
+                  <div className="px-6 pb-6">
+                    <h4 className="text-sm font-semibold text-charcoal mb-3">
+                      Populaire keuzes voor jou
+                    </h4>
+                    <div className="space-y-2">
+                      {emptyCartSuggestions.map((product) => (
+                        <SuggestionCard
+                          key={product.id}
+                          product={product}
+                          onAdd={handleAddSuggestion}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <>
@@ -232,47 +385,37 @@ export function CartSlideOut() {
                       </li>
                     ))}
                   </ul>
+
+                  {/* Cross-sell / Upsell Suggestions */}
+                  {suggestedProducts.length > 0 && (
+                    <div className="mt-6 pt-4 border-t border-sand">
+                      <h4 className="text-sm font-semibold text-charcoal mb-3">
+                        Past hier goed bij
+                      </h4>
+                      <div className="space-y-2">
+                        {suggestedProducts.map((product) => (
+                          <SuggestionCard
+                            key={product.id}
+                            product={product}
+                            onAdd={handleAddSuggestion}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-sand px-6 py-4 space-y-4 bg-warm-white/50">
-                  {/* Free Shipping Progress */}
-                  <div className="bg-white rounded-lg p-3">
-                    {hasFreeShipping ? (
-                      <div className="flex items-center gap-2 text-sm text-success">
-                        <CheckIcon className="w-4 h-4" />
-                        <span>Gefeliciteerd! Je komt in aanmerking voor gratis verzending</span>
-                      </div>
-                    ) : (
-                      <>
-                        <p className="text-sm text-charcoal mb-2">
-                          Nog{" "}
-                          <span className="font-semibold">
-                            {formatPrice(amountUntilFreeShipping)}
-                          </span>{" "}
-                          voor gratis verzending
-                        </p>
-                        <div className="h-1.5 bg-sand rounded-full overflow-hidden">
-                          <motion.div
-                            className="h-full bg-wine rounded-full"
-                            initial={{ width: 0 }}
-                            animate={{ width: `${freeShippingProgress}%` }}
-                            transition={{ duration: 0.3 }}
-                          />
-                        </div>
-                      </>
-                    )}
-                  </div>
-
+                <div className="border-t border-sand px-6 py-4 space-y-3 bg-warm-white/50">
                   {/* Totals */}
-                  <div className="space-y-2 text-sm">
+                  <div className="space-y-1.5 text-sm">
                     <div className="flex justify-between">
                       <span className="text-grey">Subtotaal</span>
                       <span>{formatPrice(subtotal)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-grey">Verzending</span>
-                      <span className={cn(hasFreeShipping && "text-success")}>
+                      <span className={cn(hasFreeShipping && "text-success font-medium")}>
                         {hasFreeShipping ? "Gratis" : formatPrice(shipping)}
                       </span>
                     </div>
@@ -289,20 +432,21 @@ export function CartSlideOut() {
                       fullWidth
                       size="lg"
                     >
-                      Afrekenen
+                      Veilig afrekenen
                     </Button>
                   </Link>
 
-                  {/* Continue Shopping */}
+                  {/* Continue Shopping - more prominent */}
                   <button
                     onClick={closeCart}
-                    className="w-full text-center text-sm text-wine hover:underline"
+                    className="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-wine border border-wine/30 rounded hover:bg-wine/5 transition-colors"
                   >
+                    <ArrowLeftIcon className="w-4 h-4" />
                     Verder winkelen
                   </button>
 
                   {/* Trust Signals */}
-                  <div className="flex items-center justify-center gap-4 pt-2 text-xs text-grey">
+                  <div className="flex items-center justify-center gap-4 pt-1 text-xs text-grey">
                     <span className="flex items-center gap-1">
                       <CheckIcon className="w-3 h-3" />
                       100% Proefgarantie
@@ -310,6 +454,10 @@ export function CartSlideOut() {
                     <span className="flex items-center gap-1">
                       <CheckIcon className="w-3 h-3" />
                       Veilig betalen
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <CheckIcon className="w-3 h-3" />
+                      1-2 werkdagen
                     </span>
                   </div>
                 </div>
