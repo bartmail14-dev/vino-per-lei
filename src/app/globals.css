@@ -65,11 +65,13 @@
   --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
   --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
   --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.15);
+  --shadow-premium: 0 8px 30px rgba(26, 31, 61, 0.12);
+  --shadow-card-hover: 0 12px 28px rgba(26, 31, 61, 0.15), 0 4px 10px rgba(0, 0, 0, 0.06);
 
   /* Transitions */
   --transition-fast: 150ms ease;
-  --transition-base: 200ms ease;
-  --transition-slow: 300ms ease;
+  --transition-base: 200ms ease-out;
+  --transition-slow: 300ms ease-out;
 }
 
 /* Tailwind v4 Theme Configuration */
@@ -339,4 +341,120 @@ body {
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
+}
+
+/* ============================================
+   Premium Gold Shimmer (for progress bars)
+   ============================================ */
+
+@keyframes goldShimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.gold-shimmer {
+  background: linear-gradient(
+    110deg,
+    var(--gold) 0%,
+    var(--gold) 35%,
+    var(--gold-light) 50%,
+    var(--gold) 65%,
+    var(--gold) 100%
+  );
+  background-size: 200% 100%;
+  animation: goldShimmer 3s ease-in-out infinite;
+}
+
+/* ============================================
+   Hover Lift Effect (premium cards & buttons)
+   ============================================ */
+
+.hover-lift {
+  transition: transform 250ms ease-out, box-shadow 250ms ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* ============================================
+   Subtle Pulse (for low-stock indicator)
+   ============================================ */
+
+@keyframes subtlePulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-subtle-pulse {
+  animation: subtlePulse 2.5s ease-in-out infinite;
+}
+
+/* ============================================
+   Decorative Divider
+   ============================================ */
+
+.divider-dot::after {
+  content: "";
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  margin: 16px auto 0;
+}
+
+/* ============================================
+   Premium Section Header
+   ============================================ */
+
+.section-header-line {
+  position: relative;
+  display: inline-block;
+}
+
+.section-header-line::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 48px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 1px;
+}
+
+/* ============================================
+   Skip Link Enhancement
+   ============================================ */
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 9999;
+  padding: 12px 24px;
+  background: var(--wine-burgundy);
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  box-shadow: var(--shadow-lg);
+  transition: top 200ms ease-out;
+}
+
+.skip-link:focus {
+  top: 16px;
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
 }

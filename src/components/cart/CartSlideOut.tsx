@@ -89,8 +89,8 @@ function SuggestionCard({
   onAdd: (product: Product) => void;
 }) {
   return (
-    <div className="flex items-center gap-3 p-2 bg-white rounded-lg border border-sand/50">
-      <div className="relative w-12 h-16 bg-warm-white rounded overflow-hidden flex-shrink-0">
+    <div className="flex items-center gap-3 p-2.5 bg-white rounded-lg border border-sand/40 hover:border-sand/70 transition-colors duration-200">
+      <div className="relative w-12 h-16 bg-gradient-to-b from-champagne/40 to-warm-white rounded-md overflow-hidden flex-shrink-0">
         {product.images[0] ? (
           <Image
             src={product.images[0].url}
@@ -109,14 +109,14 @@ function SuggestionCard({
         <p className="text-xs font-medium text-charcoal line-clamp-1">
           {product.title}
         </p>
-        <p className="text-xs text-grey">{product.region}</p>
+        <p className="text-[11px] text-grey">{product.region}</p>
         <p className="text-sm font-semibold text-charcoal mt-0.5">
           {formatPrice(product.price)}
         </p>
       </div>
       <button
         onClick={() => onAdd(product)}
-        className="flex-shrink-0 p-1.5 bg-wine/10 text-wine rounded-full hover:bg-wine hover:text-white transition-colors"
+        className="flex-shrink-0 w-8 h-8 flex items-center justify-center bg-wine/8 text-wine rounded-full hover:bg-wine hover:text-white transition-all duration-200 hover:scale-105"
         aria-label={`Voeg ${product.title} toe`}
       >
         <PlusIcon className="w-4 h-4" />
@@ -203,8 +203,8 @@ export function CartSlideOut() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/50 z-[100]"
+            transition={{ duration: 0.25 }}
+            className="fixed inset-0 bg-black/40 backdrop-blur-[2px] z-[100]"
             onClick={closeCart}
             aria-hidden="true"
           />
@@ -215,58 +215,60 @@ export function CartSlideOut() {
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ type: "tween", duration: 0.3 }}
-            className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white z-[101] flex flex-col shadow-2xl"
+            transition={{ type: "tween", duration: 0.3, ease: "easeOut" }}
+            className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white z-[101] flex flex-col shadow-[-8px_0_30px_rgba(0,0,0,0.12)]"
             role="dialog"
             aria-modal="true"
             aria-label="Winkelmand"
           >
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-sand">
-              <h2 className="font-serif text-xl font-semibold">
+            <div className="flex items-center justify-between px-6 py-5 border-b border-sand/70">
+              <h2 className="font-serif text-xl font-semibold text-charcoal">
                 Winkelmand
                 {itemCount > 0 && (
-                  <span className="text-grey font-normal"> ({itemCount})</span>
+                  <span className="text-grey font-normal text-base ml-1">({itemCount})</span>
                 )}
               </h2>
               <button
                 onClick={closeCart}
-                className="p-2 -mr-2 hover:bg-sand/50 rounded-md transition-colors"
+                className="p-2 -mr-2 hover:bg-sand/40 rounded-full transition-colors duration-200"
                 aria-label="Sluit winkelmand"
               >
-                <CloseIcon className="w-5 h-5" />
+                <CloseIcon className="w-5 h-5 text-grey" />
               </button>
             </div>
 
             {/* Free Shipping Progress Bar - always visible when cart has items */}
             {items.length > 0 && (
-              <div className="px-6 py-3 bg-warm-white/80 border-b border-sand/50">
+              <div className="px-6 py-3.5 bg-warm-white/60 border-b border-sand/40">
                 {hasFreeShipping ? (
-                  <div className="flex items-center gap-2 text-sm text-success">
-                    <TruckIcon className="w-4 h-4 flex-shrink-0" />
-                    <span className="font-medium">
+                  <div className="flex items-center gap-2.5 text-sm">
+                    <div className="w-7 h-7 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                      <CheckIcon className="w-4 h-4 text-emerald-600" />
+                    </div>
+                    <span className="font-medium text-emerald-700">
                       Je komt in aanmerking voor gratis verzending!
                     </span>
                   </div>
                 ) : (
                   <>
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <TruckIcon className="w-4 h-4 text-wine flex-shrink-0" />
+                    <div className="flex items-center gap-2 mb-2">
+                      <TruckIcon className="w-4 h-4 text-gold flex-shrink-0" />
                       <p className="text-sm text-charcoal">
                         Nog{" "}
-                        <span className="font-semibold text-wine">
+                        <span className="font-semibold text-charcoal">
                           {formatPrice(amountUntilFreeShipping)}
                         </span>{" "}
                         voor{" "}
                         <span className="font-semibold">gratis verzending</span>
                       </p>
                     </div>
-                    <div className="h-2 bg-sand rounded-full overflow-hidden">
+                    <div className="h-1.5 bg-sand/70 rounded-full overflow-hidden">
                       <motion.div
-                        className="h-full bg-gradient-to-r from-wine to-wine-dark rounded-full"
+                        className="h-full gold-shimmer rounded-full"
                         initial={{ width: 0 }}
                         animate={{ width: `${freeShippingProgress}%` }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
                       />
                     </div>
                   </>
@@ -276,17 +278,19 @@ export function CartSlideOut() {
 
             {/* Content */}
             {items.length === 0 ? (
-              /* Empty State - improved with suggestions */
+              /* Empty State - warm and inviting */
               <div className="flex-1 overflow-y-auto">
-                <div className="flex flex-col items-center justify-center px-6 pt-12 pb-6 text-center">
-                  <ShoppingBagIcon className="w-16 h-16 text-sand mb-4" />
-                  <h3 className="font-serif text-lg mb-2">
+                <div className="flex flex-col items-center justify-center px-8 pt-16 pb-8 text-center">
+                  <div className="w-20 h-20 rounded-full bg-warm-white flex items-center justify-center mb-6">
+                    <ShoppingBagIcon className="w-10 h-10 text-sand" />
+                  </div>
+                  <h3 className="font-serif text-xl mb-2 text-charcoal">
                     Je winkelmand is leeg
                   </h3>
-                  <p className="text-sm text-grey mb-6">
+                  <p className="text-sm text-grey mb-8 leading-relaxed max-w-xs">
                     Ontdek onze zorgvuldig geselecteerde Italiaanse wijnen en vind jouw perfecte fles.
                   </p>
-                  <Button onClick={closeCart} variant="primary" size="lg">
+                  <Button onClick={closeCart} variant="primary" size="md">
                     <ArrowLeftIcon className="w-4 h-4 mr-2" />
                     Ontdek onze wijnen
                   </Button>
@@ -295,9 +299,13 @@ export function CartSlideOut() {
                 {/* Suggestions in empty cart */}
                 {emptyCartSuggestions.length > 0 && (
                   <div className="px-6 pb-6">
-                    <h4 className="text-sm font-semibold text-charcoal mb-3">
-                      Populaire keuzes voor jou
-                    </h4>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="h-px flex-1 bg-sand/60" />
+                      <h4 className="text-xs font-semibold text-grey uppercase tracking-wide flex-shrink-0">
+                        Populaire keuzes
+                      </h4>
+                      <div className="h-px flex-1 bg-sand/60" />
+                    </div>
                     <div className="space-y-2">
                       {emptyCartSuggestions.map((product) => (
                         <SuggestionCard
@@ -388,10 +396,14 @@ export function CartSlideOut() {
 
                   {/* Cross-sell / Upsell Suggestions */}
                   {suggestedProducts.length > 0 && (
-                    <div className="mt-6 pt-4 border-t border-sand">
-                      <h4 className="text-sm font-semibold text-charcoal mb-3">
-                        Past hier goed bij
-                      </h4>
+                    <div className="mt-6 pt-5 border-t border-sand/60">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="h-px flex-1 bg-sand/40" />
+                        <h4 className="text-xs font-semibold text-grey uppercase tracking-wide flex-shrink-0">
+                          Past hier goed bij
+                        </h4>
+                        <div className="h-px flex-1 bg-sand/40" />
+                      </div>
                       <div className="space-y-2">
                         {suggestedProducts.map((product) => (
                           <SuggestionCard
@@ -406,22 +418,25 @@ export function CartSlideOut() {
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-sand px-6 py-4 space-y-3 bg-warm-white/50">
+                <div className="border-t border-sand/70 px-6 py-5 space-y-4 bg-gradient-to-b from-warm-white/30 to-warm-white/60">
                   {/* Totals */}
-                  <div className="space-y-1.5 text-sm">
+                  <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
                       <span className="text-grey">Subtotaal</span>
-                      <span>{formatPrice(subtotal)}</span>
+                      <span className="tabular-nums">{formatPrice(subtotal)}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-grey">Verzending</span>
-                      <span className={cn(hasFreeShipping && "text-success font-medium")}>
+                      <span className={cn(
+                        "tabular-nums",
+                        hasFreeShipping && "text-emerald-600 font-medium"
+                      )}>
                         {hasFreeShipping ? "Gratis" : formatPrice(shipping)}
                       </span>
                     </div>
-                    <div className="flex justify-between pt-2 border-t border-sand text-base font-semibold">
+                    <div className="flex justify-between pt-3 border-t border-sand/60 text-base font-semibold text-charcoal">
                       <span>Totaal</span>
-                      <span>{formatPrice(total)}</span>
+                      <span className="tabular-nums">{formatPrice(total)}</span>
                     </div>
                   </div>
 
@@ -436,27 +451,27 @@ export function CartSlideOut() {
                     </Button>
                   </Link>
 
-                  {/* Continue Shopping - more prominent */}
+                  {/* Continue Shopping */}
                   <button
                     onClick={closeCart}
-                    className="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-wine border border-wine/30 rounded hover:bg-wine/5 transition-colors"
+                    className="w-full flex items-center justify-center gap-2 py-2.5 text-sm font-medium text-wine rounded-md hover:bg-wine/5 transition-colors duration-200"
                   >
                     <ArrowLeftIcon className="w-4 h-4" />
                     Verder winkelen
                   </button>
 
                   {/* Trust Signals */}
-                  <div className="flex items-center justify-center gap-4 pt-1 text-xs text-grey">
+                  <div className="flex items-center justify-center gap-4 pt-1 text-[11px] text-grey/70">
                     <span className="flex items-center gap-1">
-                      <CheckIcon className="w-3 h-3" />
-                      100% Proefgarantie
+                      <CheckIcon className="w-3 h-3 text-gold" />
+                      Proefgarantie
                     </span>
                     <span className="flex items-center gap-1">
-                      <CheckIcon className="w-3 h-3" />
+                      <CheckIcon className="w-3 h-3 text-gold" />
                       Veilig betalen
                     </span>
                     <span className="flex items-center gap-1">
-                      <CheckIcon className="w-3 h-3" />
+                      <CheckIcon className="w-3 h-3 text-gold" />
                       1-2 werkdagen
                     </span>
                   </div>

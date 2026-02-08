@@ -11,17 +11,17 @@ export interface BadgeProps {
 
 export function Badge({ variant = "default", children, className }: BadgeProps) {
   const variants = {
-    new: "bg-wine text-white",
-    sale: "bg-error text-white",
-    soldout: "bg-grey text-white",
-    award: "bg-gold text-charcoal",
-    default: "bg-sand text-charcoal",
+    new: "bg-wine/90 text-white",
+    sale: "bg-amber-50 text-amber-800 border border-amber-200/60",
+    soldout: "bg-grey/80 text-white",
+    award: "bg-gold/15 text-amber-800 border border-gold/30",
+    default: "bg-sand/80 text-charcoal",
   };
 
   return (
     <span
       className={cn(
-        "inline-flex items-center px-2 py-1 text-[10px] font-bold uppercase tracking-wide rounded-sm",
+        "inline-flex items-center px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide rounded",
         variants[variant],
         className
       )}
@@ -43,11 +43,11 @@ export function SavingsBadge({ amount, percentage, className }: SavingsBadgeProp
     <span
       className={cn(
         "inline-flex items-center px-3 py-1 text-xs font-medium rounded",
-        "bg-red-50 text-red-700",
+        "bg-amber-50/80 text-amber-800",
         className
       )}
     >
-      Je bespaart €{amount.toFixed(2)} ({percentage}%)
+      Je bespaart &euro;{amount.toFixed(2)} ({percentage}%)
     </span>
   );
 }

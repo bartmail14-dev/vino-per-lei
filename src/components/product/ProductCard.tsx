@@ -97,10 +97,11 @@ export function ProductCard({
     <motion.article
       className={cn(
         "group relative bg-white rounded-lg",
-        "border border-sand/50",
-        "shadow-sm hover:shadow-xl",
+        "border border-sand/40",
+        "shadow-sm",
         "transition-all duration-300 ease-out",
-        "hover:-translate-y-1",
+        "hover:-translate-y-1.5 hover:shadow-[0_12px_28px_rgba(26,31,61,0.12)]",
+        "hover:border-sand/70",
         "overflow-visible pt-4 sm:pt-6 mt-24 sm:mt-44",
         className
       )}
@@ -112,10 +113,11 @@ export function ProductCard({
       <button
         onClick={handleToggleWishlist}
         className={cn(
-          "absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-20 p-1.5 sm:p-2 rounded-full transition-all duration-200",
-          "bg-white/80 backdrop-blur-sm shadow-sm",
-          "hover:bg-white hover:shadow-md hover:scale-110",
-          isInWishlist && "text-wine"
+          "absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-20 p-1.5 sm:p-2 rounded-full",
+          "transition-all duration-250 ease-out",
+          "bg-white/90 backdrop-blur-sm shadow-sm",
+          "hover:bg-white hover:shadow-md hover:scale-105",
+          isInWishlist ? "text-wine shadow-md" : "text-grey/50 hover:text-wine"
         )}
         aria-label={isInWishlist ? "Verwijder uit verlanglijst" : "Toevoegen aan verlanglijst"}
       >
@@ -128,13 +130,13 @@ export function ProductCard({
           onClick={handleQuickView}
           className={cn(
             "absolute top-2 left-2 z-20 px-3 py-1.5 rounded-full text-xs font-medium",
-            "bg-white/90 backdrop-blur-sm shadow-sm",
-            "opacity-0 group-hover:opacity-100 transition-all duration-200",
+            "bg-white/90 backdrop-blur-sm shadow-sm text-charcoal",
+            "opacity-0 group-hover:opacity-100 transition-all duration-250 ease-out",
             "hover:bg-white hover:shadow-md",
-            "translate-y-2 group-hover:translate-y-0"
+            "translate-y-1 group-hover:translate-y-0"
           )}
         >
-          <span className="flex items-center gap-1">
+          <span className="flex items-center gap-1.5">
             <EyeIcon className="w-3.5 h-3.5" />
             Snel bekijken
           </span>
@@ -221,19 +223,18 @@ export function ProductCard({
           </div>
 
           {/* Social proof & urgency indicators */}
-          <div className="space-y-1">
-            {/* Low stock urgency */}
+          <div className="space-y-1 mt-1">
+            {/* Low stock urgency - subtle amber tone, not aggressive */}
             {isLowStock && (
-              <p className="text-xs font-medium text-amber-700 flex items-center gap-1">
-                <FlameIcon className="w-3 h-3" />
+              <p className="text-[10px] sm:text-xs font-medium text-amber-700/80 bg-amber-50/60 rounded-full px-2 py-0.5 inline-flex items-center gap-1.5 animate-subtle-pulse">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 flex-shrink-0" />
                 Nog {product.stockQuantity} op voorraad
               </p>
             )}
 
-            {/* Views today - social proof */}
-            {product.inStock && (
-              <p className="text-[10px] sm:text-xs text-grey flex items-center gap-1">
-                <EyeIcon className="w-3 h-3" />
+            {/* Views today - understated social proof */}
+            {product.inStock && !isLowStock && (
+              <p className="text-[10px] sm:text-xs text-grey/60 flex items-center gap-1">
                 {viewsToday}x bekeken vandaag
               </p>
             )}
@@ -250,13 +251,13 @@ export function ProductCard({
             onMouseLeave={() => setIsHovering(false)}
             disabled={isAdding}
             className={cn(
-              "relative w-full h-10 sm:h-12 rounded font-semibold text-xs sm:text-sm uppercase tracking-wide cursor-pointer",
-              "overflow-hidden transition-all duration-300",
+              "relative w-full h-10 sm:h-12 rounded-md font-semibold text-xs sm:text-sm uppercase tracking-wide cursor-pointer",
+              "overflow-hidden transition-all duration-250 ease-out",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wine focus-visible:ring-offset-2",
               "disabled:pointer-events-none disabled:opacity-50",
               justAdded
-                ? "bg-success text-white"
-                : "bg-wine text-white hover:bg-wine-dark hover:shadow-lg"
+                ? "bg-emerald-600 text-white"
+                : "bg-wine text-white hover:bg-wine-dark hover:shadow-md hover:-translate-y-px"
             )}
           >
             {/* Simple hover effect */}
@@ -270,24 +271,24 @@ export function ProductCard({
             )}
 
             {/* Button content */}
-            <span className="relative z-10 flex items-center justify-center">
+            <span className="relative z-10 flex items-center justify-center gap-2">
               {isAdding ? (
                 <LoadingSpinner />
               ) : justAdded ? (
                 <>
-                  <CheckIcon className="w-4 h-4 mr-2" />
+                  <CheckIcon className="w-4 h-4" />
                   Toegevoegd!
                 </>
               ) : (
                 <>
-                  <CartIcon className="w-4 h-4 mr-1.5" />
+                  <CartIcon className="w-4 h-4" />
                   {isOnSale ? "Profiteer nu" : "In winkelmand"}
                 </>
               )}
             </span>
           </button>
         ) : (
-          <button className="w-full h-10 sm:h-12 rounded font-semibold text-xs sm:text-sm uppercase tracking-wide border-2 border-wine text-wine bg-transparent hover:bg-wine hover:text-white transition-colors">
+          <button className="w-full h-10 sm:h-12 rounded-md font-semibold text-xs sm:text-sm uppercase tracking-wide border border-wine/30 text-wine bg-transparent hover:bg-wine/5 hover:border-wine/50 transition-all duration-250 ease-out">
             Mail mij bij voorraad
           </button>
         )}
@@ -349,10 +350,3 @@ function CartIcon({ className }: { className?: string }) {
   );
 }
 
-function FlameIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 23c-3.866 0-7-3.134-7-7 0-3.037 2.309-5.912 4-7.822V7c0-.553.447-1 1-1s1 .447 1 1v.602c.469-.52.959-1.065 1.439-1.64C14.39 3.603 15 2 15 2s1.5 2.1 2.5 4.5c.667 1.6 1.5 3.766 1.5 5.5 0 5.523-3.134 7-7 7v4z" />
-    </svg>
-  );
-}

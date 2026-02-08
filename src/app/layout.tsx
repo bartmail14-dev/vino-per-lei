@@ -124,7 +124,7 @@ export default function RootLayout({
           {/* Skip to content link for accessibility */}
           <a
             href="#main-content"
-            className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-wine focus:text-white focus:px-4 focus:py-2 focus:rounded focus:text-sm focus:font-medium"
+            className="skip-link"
           >
             Ga naar hoofdinhoud
           </a>

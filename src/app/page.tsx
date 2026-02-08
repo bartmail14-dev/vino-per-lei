@@ -310,7 +310,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-[70vh] min-h-[500px] max-h-[800px] overflow-hidden">
+      <section className="relative h-[75vh] min-h-[560px] max-h-[860px] overflow-hidden">
         {/* Background Video */}
         <div className="absolute inset-0">
           <video
@@ -322,8 +322,9 @@ export default function Home() {
           >
             <source src="/hero-video.mp4" type="video/mp4" />
           </video>
-          {/* Gradient overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-transparent" />
+          {/* Layered gradient overlay for cinematic depth */}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/35 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
         </div>
 
         {/* Content */}
@@ -335,7 +336,7 @@ export default function Home() {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <motion.p
-              className="text-gold font-medium tracking-wider uppercase mb-4"
+              className="text-gold font-medium tracking-[0.2em] uppercase text-sm mb-5"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.6 }}
@@ -343,17 +344,17 @@ export default function Home() {
               Met passie geselecteerd in Itali&euml;
             </motion.p>
             <motion.h1
-              className="font-serif text-4xl md:text-5xl lg:text-6xl text-white mb-6 leading-tight"
+              className="font-serif text-4xl md:text-5xl lg:text-6xl xl:text-7xl text-white mb-6 leading-[1.08]"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
             >
               De Ziel van Itali&euml;
               <br />
-              <span className="text-gold">in Elk Glas</span>
+              <span className="text-gold italic">in Elk Glas</span>
             </motion.h1>
             <motion.p
-              className="text-lg text-white/90 mb-8 leading-relaxed"
+              className="text-lg text-white/85 mb-10 leading-relaxed max-w-lg"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.6 }}
@@ -371,13 +372,13 @@ export default function Home() {
             >
               <Link
                 href="/wijnen"
-                className="inline-flex items-center justify-center h-14 px-8 bg-wine text-white font-semibold uppercase tracking-wide rounded hover:bg-wine-dark transition-colors"
+                className="inline-flex items-center justify-center h-14 px-10 bg-wine text-white font-semibold uppercase tracking-wide rounded-md hover:bg-wine-dark hover:-translate-y-0.5 hover:shadow-lg transition-all duration-250"
               >
                 Ontdek de Collectie
               </Link>
               <Link
                 href="/over-ons"
-                className="inline-flex items-center justify-center h-14 px-8 border-2 border-white text-white font-semibold uppercase tracking-wide rounded hover:bg-white hover:text-charcoal transition-colors"
+                className="inline-flex items-center justify-center h-14 px-10 border-2 border-white/80 text-white font-semibold uppercase tracking-wide rounded-md hover:bg-white hover:text-charcoal hover:-translate-y-0.5 hover:shadow-lg transition-all duration-250"
               >
                 Leer Ons Kennen
               </Link>
@@ -387,43 +388,49 @@ export default function Home() {
 
         {/* Scroll indicator */}
         <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:block"
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.6 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
         >
           <motion.div
-            className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2"
+            className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center pt-2"
             animate={{ y: [0, 5, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
           >
-            <div className="w-1 h-2 bg-white/70 rounded-full" />
+            <div className="w-1 h-2 bg-white/60 rounded-full" />
           </motion.div>
         </motion.div>
       </section>
 
       {/* USP Bar */}
       <Section background="warm" spacing="sm">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-2">
-          <div className="flex items-center justify-center gap-3 text-center">
-            <TruckIcon className="w-6 h-6 text-wine flex-shrink-0" />
-            <div>
-              <p className="font-semibold text-charcoal">Gratis verzending</p>
-              <p className="text-sm text-grey">Vanaf €35 bezorgen wij gratis</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 py-3">
+          <div className="flex items-center justify-center gap-3 text-center md:border-r md:border-sand">
+            <div className="w-10 h-10 rounded-full bg-wine/8 flex items-center justify-center flex-shrink-0">
+              <TruckIcon className="w-5 h-5 text-wine" />
+            </div>
+            <div className="text-left">
+              <p className="font-semibold text-charcoal text-sm">Gratis verzending</p>
+              <p className="text-xs text-grey">Vanaf &euro;35 bezorgen wij gratis</p>
+            </div>
+          </div>
+          <div className="flex items-center justify-center gap-3 text-center md:border-r md:border-sand">
+            <div className="w-10 h-10 rounded-full bg-wine/8 flex items-center justify-center flex-shrink-0">
+              <RefreshIcon className="w-5 h-5 text-wine" />
+            </div>
+            <div className="text-left">
+              <p className="font-semibold text-charcoal text-sm">Zorgeloos bestellen</p>
+              <p className="text-xs text-grey">14 dagen bedenktijd</p>
             </div>
           </div>
           <div className="flex items-center justify-center gap-3 text-center">
-            <RefreshIcon className="w-6 h-6 text-wine flex-shrink-0" />
-            <div>
-              <p className="font-semibold text-charcoal">Zorgeloos bestellen</p>
-              <p className="text-sm text-grey">14 dagen bedenktijd</p>
+            <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center flex-shrink-0">
+              <StarIcon className="w-5 h-5 text-gold" />
             </div>
-          </div>
-          <div className="flex items-center justify-center gap-3 text-center">
-            <StarIcon className="w-6 h-6 text-gold flex-shrink-0" />
-            <div>
-              <p className="font-semibold text-charcoal">Proefgarantie</p>
-              <p className="text-sm text-grey">Niet tevreden? Geld terug!</p>
+            <div className="text-left">
+              <p className="font-semibold text-charcoal text-sm">Proefgarantie</p>
+              <p className="text-xs text-grey">Niet tevreden? Geld terug!</p>
             </div>
           </div>
         </div>
@@ -433,8 +440,8 @@ export default function Home() {
       <Section background="warm" spacing="lg">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <p className="text-label text-wine mb-2">Wijnregio&apos;s van Itali&euml;</p>
-            <h2 className="text-h2 mb-4">Elke Regio Vertelt een Verhaal</h2>
+            <p className="text-label text-gold mb-3">Wijnregio&apos;s van Itali&euml;</p>
+            <h2 className="text-h2 mb-5 section-header-line">Elke Regio Vertelt een Verhaal</h2>
             <p className="text-body text-grey mb-6">
               Achter elke fles schuilt een landschap, een traditie, een familie.
               Van de mistige heuvels van Piemonte — waar Nebbiolo rijpt tot
@@ -471,11 +478,14 @@ export default function Home() {
 
       {/* Featured Products */}
       <Section background="default" spacing="lg">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-h2">Door Ons Met Zorg Uitgekozen</h2>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+          <div>
+            <p className="text-label text-gold mb-2">Onze Selectie</p>
+            <h2 className="text-h2 section-header-line">Door Ons Met Zorg Uitgekozen</h2>
+          </div>
           <Link
             href="/wijnen"
-            className="flex items-center gap-1 text-wine font-medium hover:underline"
+            className="flex items-center gap-1.5 text-wine font-medium hover:gap-2.5 transition-all duration-200 text-sm uppercase tracking-wide"
           >
             Bekijk alle wijnen
             <ChevronRightIcon className="w-4 h-4" />
@@ -490,22 +500,23 @@ export default function Home() {
 
       {/* Category Quick Links */}
       <Section background="warm" spacing="lg">
-        <div className="text-center mb-10">
-          <p className="text-label text-wine mb-2">Vind Jouw Wijn</p>
+        <div className="text-center mb-12">
+          <p className="text-label text-gold mb-2">Vind Jouw Wijn</p>
           <h2 className="text-h2">Wat Mag Het Zijn?</h2>
+          <div className="w-12 h-0.5 bg-gold mx-auto mt-4 rounded-full" />
         </div>
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 md:gap-6">
           {wineCategories.map((category) => (
             <Link
               key={category.name}
               href={category.href}
-              className={`${category.color} rounded-xl p-6 text-center transition-all hover:shadow-lg hover:-translate-y-1 group`}
+              className={`${category.color} rounded-xl p-6 md:p-8 text-center transition-all duration-300 ease-out hover:shadow-lg hover:-translate-y-1.5 group`}
             >
-              <div className={`${category.iconColor} mb-3 flex justify-center`}>
-                <category.Icon className="w-12 h-12 transition-transform group-hover:scale-110" />
+              <div className={`${category.iconColor} mb-4 flex justify-center`}>
+                <category.Icon className="w-12 h-12 transition-transform duration-300 group-hover:scale-110" />
               </div>
-              <h3 className="font-semibold text-charcoal mb-1">{category.name}</h3>
-              <p className="text-sm text-grey">{category.description}</p>
+              <h3 className="font-semibold text-charcoal mb-1 text-sm md:text-base">{category.name}</h3>
+              <p className="text-xs md:text-sm text-grey leading-relaxed">{category.description}</p>
             </Link>
           ))}
         </div>
@@ -513,13 +524,13 @@ export default function Home() {
 
       {/* Gift Banner */}
       <Section background="default" spacing="lg">
-        <div className="grid md:grid-cols-2 gap-8 items-center">
+        <div className="grid md:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div>
-            <p className="text-label text-wine mb-2">Geef Itali&euml; Cadeau</p>
-            <h2 className="text-h2 mb-4">
+            <p className="text-label text-gold mb-3">Geef Itali&euml; Cadeau</p>
+            <h2 className="text-h2 mb-5">
               Verras met een bijzonder wijngeschenk
             </h2>
-            <p className="text-body text-grey mb-6">
+            <p className="text-body text-grey mb-8 leading-relaxed">
               Maak van elk moment iets speciaals. Onze wijncadeaus worden met
               zorg verpakt in een elegante geschenkdoos, inclusief een
               persoonlijk kaartje met jouw boodschap. Het perfecte cadeau
@@ -529,49 +540,58 @@ export default function Home() {
               <Button variant="primary">Bekijk Cadeaupakketten</Button>
             </Link>
           </div>
-          <div className="bg-gradient-to-br from-wine/5 to-wine/10 rounded-2xl aspect-video flex items-center justify-center">
-            <GiftBoxIcon className="w-32 h-32 text-wine/60" />
+          <div className="relative bg-gradient-to-br from-champagne/60 via-warm-white to-gold/10 rounded-2xl aspect-[4/3] md:aspect-video flex items-center justify-center overflow-hidden">
+            {/* Decorative background circles */}
+            <div className="absolute top-6 right-6 w-24 h-24 rounded-full bg-gold/8" />
+            <div className="absolute bottom-8 left-8 w-16 h-16 rounded-full bg-wine/6" />
+            <GiftBoxIcon className="relative w-28 h-28 md:w-36 md:h-36 text-wine/50" />
           </div>
         </div>
       </Section>
 
       {/* Wine Types */}
       <Section background="default" spacing="lg">
-        <h2 className="text-h2 mb-8 text-center">Wat Past Bij Jouw Smaak?</h2>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="text-center mb-10">
+          <h2 className="text-h2">Wat Past Bij Jouw Smaak?</h2>
+          <div className="w-12 h-0.5 bg-gold mx-auto mt-4 rounded-full" />
+        </div>
+        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
           {[
             {
               type: "Rode Wijn",
               description: "Krachtig, warm & vol karakter. Van fluweelzachte Primitivo tot majestueuze Barolo.",
               href: "/wijnen/rood",
-              bgClass: "bg-wine/10",
+              bgClass: "bg-wine/5",
+              accentClass: "bg-wine/15",
             },
             {
               type: "Witte Wijn",
               description: "Verfrissend, elegant & aromatisch. Van minerale Vermentino tot stralende Pinot Grigio.",
               href: "/wijnen/wit",
-              bgClass: "bg-gold/10",
+              bgClass: "bg-gold/5",
+              accentClass: "bg-gold/15",
             },
             {
               type: "Rosé",
               description: "Licht, verleidelijk & zonnig. Perfecte begeleider van een lange zomeravond.",
               href: "/wijnen/rose",
-              bgClass: "bg-coral/10",
+              bgClass: "bg-coral/5",
+              accentClass: "bg-coral/15",
             },
           ].map((wine) => (
             <Link
               key={wine.type}
               href={wine.href}
-              className={`${wine.bgClass} rounded-lg p-8 text-center transition-all hover:shadow-lg group`}
+              className={`${wine.bgClass} rounded-xl p-8 lg:p-10 text-center transition-all duration-300 ease-out hover:shadow-lg hover:-translate-y-1 group border border-transparent hover:border-sand/60`}
             >
-              <div className="w-16 h-24 bg-wine/20 rounded mx-auto mb-4" />
-              <h3 className="font-serif text-xl font-semibold mb-2">
+              <div className={`w-14 h-20 ${wine.accentClass} rounded-lg mx-auto mb-5`} />
+              <h3 className="font-serif text-xl font-semibold mb-3 text-charcoal">
                 {wine.type}
               </h3>
-              <p className="text-grey mb-4">{wine.description}</p>
-              <span className="inline-flex items-center gap-1 text-wine font-medium group-hover:underline">
+              <p className="text-grey mb-5 leading-relaxed text-sm">{wine.description}</p>
+              <span className="inline-flex items-center gap-1.5 text-wine font-medium text-sm uppercase tracking-wide group-hover:gap-2.5 transition-all duration-200">
                 Bekijk selectie
-                <ChevronRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                <ChevronRightIcon className="w-4 h-4" />
               </span>
             </Link>
           ))}
@@ -580,23 +600,27 @@ export default function Home() {
 
       {/* Newsletter */}
       <Section background="warm" spacing="lg">
-        <div className="max-w-xl mx-auto text-center">
+        <div className="max-w-2xl mx-auto text-center">
+          <div className="w-12 h-0.5 bg-gold mx-auto mb-6 rounded-full" />
           <h2 className="text-h2 mb-4">Word Deel van Onze Wijnfamilie</h2>
-          <p className="text-grey mb-6">
+          <p className="text-grey mb-8 leading-relaxed max-w-lg mx-auto">
             Ontvang als eerste onze nieuwe ontdekkingen, seizoenstips van onze
             sommelier en exclusieve aanbiedingen. Geen spam, alleen passie voor
             Italiaanse wijn.
           </p>
-          <form className="flex flex-col sm:flex-row gap-3 justify-center">
+          <form className="flex flex-col sm:flex-row gap-3 justify-center max-w-md mx-auto">
             <input
               type="email"
               placeholder="jouw@email.nl"
-              className="px-4 py-3 rounded border border-sand focus:border-wine focus:outline-none flex-1 max-w-sm"
+              className="px-5 py-3.5 rounded-md border border-sand bg-white focus:border-wine focus:ring-1 focus:ring-wine/20 focus:outline-none flex-1 text-sm transition-colors duration-200"
             />
             <Button type="submit" variant="primary">
               Ja, Ik Doe Mee
             </Button>
           </form>
+          <p className="text-xs text-grey/70 mt-4">
+            Wij respecteren je privacy. Uitschrijven kan op elk moment.
+          </p>
         </div>
       </Section>
     </>

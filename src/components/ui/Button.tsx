@@ -26,23 +26,23 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-semibold uppercase tracking-wide transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wine focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+      "inline-flex items-center justify-center font-semibold uppercase tracking-wide transition-all duration-250 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wine focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
 
     const variants = {
       primary:
-        "bg-wine text-white hover:bg-wine-dark active:scale-[0.98]",
+        "bg-wine text-white hover:bg-wine-dark hover:-translate-y-px hover:shadow-md active:translate-y-0 active:shadow-sm",
       secondary:
-        "border-2 border-wine text-wine bg-transparent hover:bg-wine hover:text-white active:scale-[0.98]",
+        "border-2 border-wine text-wine bg-transparent hover:bg-wine hover:text-white hover:-translate-y-px hover:shadow-md active:translate-y-0",
       ghost:
         "text-wine bg-transparent hover:underline underline-offset-4 uppercase tracking-normal font-medium",
       danger:
-        "bg-error text-white hover:bg-red-700 active:scale-[0.98]",
+        "bg-error text-white hover:bg-red-700 hover:-translate-y-px hover:shadow-md active:translate-y-0",
     };
 
     const sizes = {
-      sm: "h-9 px-4 text-xs rounded",
-      md: "h-12 px-8 text-sm rounded",
-      lg: "h-14 px-10 text-base rounded",
+      sm: "h-9 px-4 text-xs rounded-md",
+      md: "h-12 px-8 text-sm rounded-md",
+      lg: "h-14 px-10 text-base rounded-md",
     };
 
     return (
