@@ -4,7 +4,8 @@ import { Button } from "@/components/ui";
 import { ProductCard } from "@/components/product";
 import { mockProducts } from "@/data/mockProducts";
 import dynamic from "next/dynamic";
-import { TruckIcon, RefreshIcon, StarIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon } from "@/components/icons";
+import { TruckIcon, RefreshIcon, StarIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ClockIcon, ArrowRightIcon, MapPinIcon } from "@/components/icons";
+import { featuredBlogPosts } from "@/data/blogPosts";
 
 // Lazy load the map component (below-fold)
 const ItalyWineMap = dynamic(() => import("@/components/map").then(mod => mod.ItalyWineMap), {
@@ -252,7 +253,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section - Optimized for mobile */}
-      <section className="relative h-[70vh] sm:h-[70vh] min-h-[500px] sm:min-h-[500px] max-h-[800px] overflow-hidden">
+      <section className="relative h-[60vh] sm:h-[70vh] min-h-[420px] sm:min-h-[500px] max-h-[800px] overflow-hidden">
         {/* Background Video */}
         <div className="absolute inset-0">
           <video
@@ -370,7 +371,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex justify-center order-1 lg:order-2">
-            <div className="scale-75 sm:scale-100 origin-center">
+            <div className="scale-[0.6] sm:scale-75 lg:scale-100 origin-center -my-6 sm:-my-4 lg:my-0">
               <ItalyWineMap size="lg" />
             </div>
           </div>
@@ -419,68 +420,173 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Gift Banner - Compact on mobile */}
+      {/* Blog Section - Wines & Regions */}
       <Section background="default" spacing="md" className="sm:py-12">
-        <div className="grid md:grid-cols-2 gap-4 sm:gap-8 items-center">
-          <div className="order-2 md:order-1">
-            <p className="text-label text-wine mb-1 sm:mb-2 text-xs sm:text-sm">Cadeau Tip</p>
-            <h2 className="font-serif text-lg sm:text-2xl lg:text-3xl font-semibold mb-2 sm:mb-4">
-              Het perfecte cadeau voor wijnliefhebbers
-            </h2>
-            <p className="text-sm sm:text-base text-grey mb-4 sm:mb-6">
-              Verras iemand met een prachtig verpakte fles wijn.
-            </p>
-            <Link href="/cadeaus">
-              <Button variant="primary" className="w-full sm:w-auto">Bekijk Cadeaus</Button>
-            </Link>
+        <div className="flex items-center justify-between mb-4 sm:mb-8">
+          <div>
+            <p className="text-label text-wine mb-1 text-xs sm:text-sm">Uit Ons Magazine</p>
+            <h2 className="font-serif text-lg sm:text-2xl lg:text-3xl font-semibold">Wijn Verhalen</h2>
           </div>
-          <div className="bg-gradient-to-br from-wine/5 to-wine/10 rounded-xl sm:rounded-2xl aspect-[16/10] sm:aspect-video flex items-center justify-center order-1 md:order-2">
-            <GiftBoxIcon className="w-20 h-20 sm:w-32 sm:h-32 text-wine/60" />
-          </div>
+          <Link
+            href="/blog"
+            className="hidden sm:flex items-center gap-1 text-wine font-medium text-sm hover:underline"
+          >
+            Alle artikelen
+            <ArrowRightIcon className="w-4 h-4" />
+          </Link>
         </div>
-      </Section>
 
-      {/* Wine Types - Horizontal scroll on mobile */}
-      <Section background="default" spacing="md" className="sm:py-12">
-        <h2 className="font-serif text-lg sm:text-2xl lg:text-3xl font-semibold mb-4 sm:mb-8 text-center">Ontdek op Smaak</h2>
-        <div className="flex overflow-x-auto scrollbar-hide gap-3 sm:gap-6 pb-2 sm:grid sm:grid-cols-3 sm:overflow-visible">
-          {[
-            {
-              type: "Rode Wijn",
-              description: "Vol, rijk & karaktervol",
-              href: "/wijnen/rood",
-              bgClass: "bg-wine/10",
-            },
-            {
-              type: "Witte Wijn",
-              description: "Fris, fruitig & elegant",
-              href: "/wijnen/wit",
-              bgClass: "bg-gold/10",
-            },
-            {
-              type: "Rosé",
-              description: "Licht, zomers & verfrissend",
-              href: "/wijnen/rose",
-              bgClass: "bg-coral/10",
-            },
-          ].map((wine) => (
-            <Link
-              key={wine.type}
-              href={wine.href}
-              className={`${wine.bgClass} rounded-lg p-4 sm:p-8 text-center transition-all hover:shadow-lg active:scale-95 group flex-shrink-0 w-[140px] sm:w-auto sm:flex-shrink`}
-            >
-              <div className="w-10 h-16 sm:w-16 sm:h-24 bg-wine/20 rounded mx-auto mb-2 sm:mb-4" />
-              <h3 className="font-serif text-sm sm:text-xl font-semibold mb-1 sm:mb-2">
-                {wine.type}
+        {/* Featured article - large card */}
+        <div className="grid lg:grid-cols-2 gap-3 sm:gap-6 mb-3 sm:mb-6">
+          <Link
+            href={`/blog/${featuredBlogPosts[0].slug}`}
+            className="group relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[4/3] lg:aspect-auto lg:min-h-[360px]"
+          >
+            {/* Rich gradient background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-wine via-wine-dark to-wine-light" />
+            {/* Decorative wine bottle & crown illustration */}
+            <svg className="absolute right-4 sm:right-8 top-4 sm:top-8 w-24 h-32 sm:w-40 sm:h-52 lg:w-48 lg:h-64 text-white/[0.07]" viewBox="0 0 120 160" fill="currentColor">
+              <path d="M52 10h16v16l8 12v72c0 8-7 14-16 14H60c-9 0-16-6-16-14V38l8-12V10z" />
+              <rect x="48" y="2" width="24" height="10" rx="2" />
+              <path d="M44 72h32v2H44z" opacity="0.5" />
+              <circle cx="60" cy="90" r="8" opacity="0.3" />
+              {/* Crown above bottle */}
+              <path d="M45 -8l5 10 10-6 10 6 5-10v12H45z" opacity="0.5" />
+            </svg>
+            {/* Text readability overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8">
+              <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                <span className="text-[10px] sm:text-xs font-medium uppercase tracking-wider text-gold bg-white/10 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-sm border border-white/10">
+                  {featuredBlogPosts[0].categoryLabel}
+                </span>
+                {featuredBlogPosts[0].region && (
+                  <span className="flex items-center gap-1 text-[10px] sm:text-xs text-white/80">
+                    <MapPinIcon className="w-3 h-3" />
+                    {featuredBlogPosts[0].region}
+                  </span>
+                )}
+              </div>
+              <h3 className="font-serif text-lg sm:text-2xl lg:text-3xl font-semibold text-white mb-1 sm:mb-2 group-hover:text-gold transition-colors leading-tight">
+                {featuredBlogPosts[0].title}
               </h3>
-              <p className="text-grey text-xs sm:text-base mb-2 sm:mb-4 line-clamp-1 sm:line-clamp-none">{wine.description}</p>
-              <span className="inline-flex items-center gap-1 text-wine font-medium text-xs sm:text-base group-hover:underline">
-                Ontdek
-                <ChevronRightIcon className="w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" />
-              </span>
+              <p className="text-white/80 text-xs sm:text-base mb-2 sm:mb-3 line-clamp-2">
+                {featuredBlogPosts[0].excerpt}
+              </p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1 text-white/60 text-xs sm:text-sm">
+                  <ClockIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                  {featuredBlogPosts[0].readTime} min leestijd
+                </div>
+                <span className="text-gold text-xs sm:text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                  Lees meer <ArrowRightIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                </span>
+              </div>
+            </div>
+          </Link>
+
+          {/* Two smaller cards stacked */}
+          <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-6">
+            {/* Toscana card */}
+            <Link
+              href={`/blog/${featuredBlogPosts[1].slug}`}
+              className="group relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[2.5/1] sm:aspect-[4/3] lg:aspect-auto lg:min-h-[168px]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-gold/80 via-gold/60 to-wine/70" />
+              {/* Decorative Tuscan cypress trees */}
+              <svg className="absolute right-2 sm:right-4 top-2 sm:top-4 w-16 h-20 sm:w-28 sm:h-36 text-white/[0.08]" viewBox="0 0 80 100" fill="currentColor">
+                <path d="M20 95V45" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.1" />
+                <path d="M20 20c0 0-6 8-6 18s4 16 6 22c2-6 6-12 6-22s-6-18-6-18z" />
+                <path d="M50 95V55" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.1" />
+                <path d="M50 35c0 0-5 6-5 14s3 12 5 17c2-5 5-9 5-17s-5-14-5-14z" />
+                <path d="M70 95V65" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.1" />
+                <path d="M70 50c0 0-4 5-4 11s2 10 4 14c2-4 4-8 4-14s-4-11-4-11z" />
+                {/* Rolling hills */}
+                <path d="M0 85 Q20 75 40 82 Q60 88 80 80 V100 H0z" opacity="0.15" />
+              </svg>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6">
+                <div className="flex items-center gap-2 mb-1 sm:mb-2">
+                  <span className="text-[9px] sm:text-xs font-medium uppercase tracking-wider text-gold bg-white/10 px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-sm border border-white/10">
+                    {featuredBlogPosts[1].categoryLabel}
+                  </span>
+                  {featuredBlogPosts[1].region && (
+                    <span className="hidden sm:flex items-center gap-1 text-xs text-white/80">
+                      <MapPinIcon className="w-3 h-3" />
+                      {featuredBlogPosts[1].region}
+                    </span>
+                  )}
+                </div>
+                <h3 className="font-serif text-sm sm:text-lg lg:text-xl font-semibold text-white group-hover:text-gold transition-colors leading-snug line-clamp-2">
+                  {featuredBlogPosts[1].title}
+                </h3>
+                <p className="hidden sm:block text-white/80 text-sm mt-1 line-clamp-2">
+                  {featuredBlogPosts[1].excerpt}
+                </p>
+                <div className="flex items-center gap-1 text-white/60 text-[10px] sm:text-sm mt-1 sm:mt-2">
+                  <ClockIcon className="w-3 h-3" />
+                  {featuredBlogPosts[1].readTime} min
+                </div>
+              </div>
             </Link>
-          ))}
+
+            {/* Amarone card */}
+            <Link
+              href={`/blog/${featuredBlogPosts[2].slug}`}
+              className="group relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[2.5/1] sm:aspect-[4/3] lg:aspect-auto lg:min-h-[168px]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-wine-light via-wine/70 to-charcoal/80" />
+              {/* Decorative grape cluster */}
+              <svg className="absolute right-2 sm:right-4 top-2 sm:top-4 w-16 h-20 sm:w-24 sm:h-32 text-white/[0.08]" viewBox="0 0 60 80" fill="currentColor">
+                <circle cx="20" cy="28" r="7" />
+                <circle cx="34" cy="28" r="7" />
+                <circle cx="27" cy="20" r="7" />
+                <circle cx="14" cy="40" r="7" />
+                <circle cx="27" cy="38" r="7" />
+                <circle cx="40" cy="40" r="7" />
+                <circle cx="20" cy="50" r="7" />
+                <circle cx="34" cy="50" r="7" />
+                <circle cx="27" cy="58" r="7" />
+                {/* Stem */}
+                <path d="M27 12V4" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.5" />
+                <path d="M27 4c0 0 6-2 10 0" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.3" />
+              </svg>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6">
+                <div className="flex items-center gap-2 mb-1 sm:mb-2">
+                  <span className="text-[9px] sm:text-xs font-medium uppercase tracking-wider text-gold bg-white/10 px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-sm border border-white/10">
+                    {featuredBlogPosts[2].categoryLabel}
+                  </span>
+                  {featuredBlogPosts[2].region && (
+                    <span className="hidden sm:flex items-center gap-1 text-xs text-white/80">
+                      <MapPinIcon className="w-3 h-3" />
+                      {featuredBlogPosts[2].region}
+                    </span>
+                  )}
+                </div>
+                <h3 className="font-serif text-sm sm:text-lg lg:text-xl font-semibold text-white group-hover:text-gold transition-colors leading-snug line-clamp-2">
+                  {featuredBlogPosts[2].title}
+                </h3>
+                <p className="hidden sm:block text-white/80 text-sm mt-1 line-clamp-2">
+                  {featuredBlogPosts[2].excerpt}
+                </p>
+                <div className="flex items-center gap-1 text-white/60 text-[10px] sm:text-sm mt-1 sm:mt-2">
+                  <ClockIcon className="w-3 h-3" />
+                  {featuredBlogPosts[2].readTime} min
+                </div>
+              </div>
+            </Link>
+          </div>
         </div>
+
+        {/* Mobile: link to all articles */}
+        <Link
+          href="/blog"
+          className="sm:hidden flex items-center justify-center gap-1.5 text-wine font-medium text-sm py-2"
+        >
+          Alle artikelen
+          <ArrowRightIcon className="w-4 h-4" />
+        </Link>
       </Section>
 
     </>

@@ -203,22 +203,36 @@ export function Header() {
               <MenuIcon className="w-6 h-6" />
             </button>
 
-            {/* Logo - Hanging banner style starting from top */}
+            {/* Logo - Mobile: inline centered / Desktop: hanging banner from top */}
+            {/* Mobile logo (inline in flex flow) */}
             <Link
               href="/"
-              className="absolute left-4 sm:left-8 md:left-8 lg:left-12 xl:left-16 2xl:left-24 -top-[var(--announcement-height,0px)] z-50"
+              className="flex-1 flex justify-center lg:hidden"
+            >
+              <Image
+                src="/logo.png"
+                alt="Vino per Lei"
+                width={450}
+                height={450}
+                className="h-11 sm:h-14 w-auto"
+                priority
+              />
+            </Link>
+
+            {/* Desktop logo (hanging banner) */}
+            <Link
+              href="/"
+              className="hidden lg:block absolute left-12 xl:left-16 2xl:left-24 z-50"
               style={{ top: showAnnouncement ? '-40px' : '0' }}
             >
               <div className="relative">
-                {/* Shadow effect */}
                 <div className="absolute inset-0 translate-y-2 blur-lg bg-black/30 rounded-b-xl" />
-                {/* Logo image */}
                 <Image
                   src="/logo.png"
                   alt="Vino per Lei"
                   width={450}
                   height={450}
-                  className="relative h-32 sm:h-44 md:h-52 lg:h-60 xl:h-[17rem] 2xl:h-[19rem] w-auto rounded-b-xl shadow-2xl"
+                  className="relative h-60 xl:h-[17rem] 2xl:h-[19rem] w-auto rounded-b-xl shadow-2xl"
                   priority
                 />
               </div>
