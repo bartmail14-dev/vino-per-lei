@@ -7,78 +7,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
-
-// Icons
-function MenuIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <line x1="3" y1="12" x2="21" y2="12" />
-      <line x1="3" y1="18" x2="21" y2="18" />
-    </svg>
-  );
-}
-
-function CloseIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  );
-}
-
-function SearchIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </svg>
-  );
-}
-
-function UserIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-      <circle cx="12" cy="7" r="4" />
-    </svg>
-  );
-}
-
-function CartIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <path d="M16 10a4 4 0 01-8 0" />
-    </svg>
-  );
-}
-
-function ChevronDownIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <polyline points="6 9 12 15 18 9" />
-    </svg>
-  );
-}
-
-function ChevronRightIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <polyline points="9 18 15 12 9 6" />
-    </svg>
-  );
-}
-
-function HeartIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
-    </svg>
-  );
-}
+import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { MenuIcon, CloseIcon, SearchIcon, UserIcon, CartIcon, ChevronDownIcon, ChevronRightIcon, HeartIcon } from "@/components/icons";
 
 function PackageIcon({ className }: { className?: string }) {
   return (
@@ -118,13 +48,13 @@ const wineCategories = {
     { label: "Rosé", href: "/wijnen/rose" },
     { label: "Mousserende", href: "/wijnen/mousserende" },
   ],
-  country: [
-    { label: "Frankrijk", href: "/wijnen?land=frankrijk" },
-    { label: "Italië", href: "/wijnen?land=italie" },
-    { label: "Spanje", href: "/wijnen?land=spanje" },
-    { label: "Portugal", href: "/wijnen?land=portugal" },
-    { label: "Chili", href: "/wijnen?land=chili" },
-    { label: "Argentinië", href: "/wijnen?land=argentinie" },
+  region: [
+    { label: "Piemonte", href: "/wijnen?region=piemonte" },
+    { label: "Veneto", href: "/wijnen?region=veneto" },
+    { label: "Toscana", href: "/wijnen?region=toscana" },
+    { label: "Puglia", href: "/wijnen?region=puglia" },
+    { label: "Trentino-Alto Adige", href: "/wijnen?region=alto-adige" },
+    { label: "Friuli", href: "/wijnen?region=friuli" },
   ],
   popular: [
     { label: "Bestsellers", href: "/wijnen?sort=bestsellers" },
@@ -163,6 +93,7 @@ export function Header() {
 
   const showAnnouncement = announcementState === true;
 
+  const mobileMenuRef = useFocusTrap<HTMLDivElement>({ active: isMobileMenuOpen, onEscape: () => setIsMobileMenuOpen(false) });
   const megaMenuRef = useRef<HTMLDivElement>(null);
   const megaMenuTriggerRef = useRef<HTMLButtonElement>(null);
   const megaMenuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -272,10 +203,11 @@ export function Header() {
               <MenuIcon className="w-6 h-6" />
             </button>
 
-            {/* Logo - Hanging banner style */}
+            {/* Logo - Hanging banner style starting from top */}
             <Link
               href="/"
-              className="absolute left-4 sm:left-8 md:left-8 lg:left-12 xl:left-16 2xl:left-24 top-full -mt-6 sm:-mt-8 z-50"
+              className="absolute left-4 sm:left-8 md:left-8 lg:left-12 xl:left-16 2xl:left-24 -top-[var(--announcement-height,0px)] z-50"
+              style={{ top: showAnnouncement ? '-40px' : '0' }}
             >
               <div className="relative">
                 {/* Shadow effect */}
@@ -286,7 +218,7 @@ export function Header() {
                   alt="Vino per Lei"
                   width={450}
                   height={450}
-                  className="relative h-28 sm:h-40 md:h-48 lg:h-56 xl:h-64 2xl:h-72 w-auto rounded-b-xl shadow-2xl"
+                  className="relative h-32 sm:h-44 md:h-52 lg:h-60 xl:h-[17rem] 2xl:h-[19rem] w-auto rounded-b-xl shadow-2xl"
                   priority
                 />
               </div>
@@ -481,11 +413,11 @@ export function Header() {
                     </ul>
                   </div>
 
-                  {/* Country */}
+                  {/* Region */}
                   <div>
-                    <h3 className="text-label text-grey mb-4">Land</h3>
+                    <h3 className="text-label text-grey mb-4">Regio</h3>
                     <ul className="space-y-2">
-                      {wineCategories.country.map((item) => (
+                      {wineCategories.region.map((item) => (
                         <li key={item.label}>
                           <Link
                             href={item.href}
@@ -574,11 +506,15 @@ export function Header() {
 
             {/* Menu Panel */}
             <motion.div
+              ref={mobileMenuRef}
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.3 }}
               className="fixed top-0 left-0 bottom-0 w-full max-w-sm bg-white z-50 overflow-y-auto lg:hidden"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Navigatie menu"
             >
               {/* Menu Header */}
               <div className="flex items-center justify-between p-4 border-b border-sand">
@@ -649,13 +585,13 @@ export function Header() {
                                       ))}
                                     </ul>
                                   </div>
-                                  {/* Country */}
+                                  {/* Region */}
                                   <div>
                                     <h4 className="text-label text-grey mb-2">
-                                      Land
+                                      Regio
                                     </h4>
                                     <ul className="space-y-1">
-                                      {wineCategories.country
+                                      {wineCategories.region
                                         .slice(0, 4)
                                         .map((subItem) => (
                                           <li key={subItem.label}>

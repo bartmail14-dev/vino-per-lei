@@ -11,6 +11,7 @@ import { GIFT_WRAPPING_COST } from "@/types/checkout";
 import { FREE_SHIPPING_THRESHOLD } from "@/types/cart";
 import { DiscountCode } from "./DiscountCode";
 import { TrustSignals } from "./TrustSignals";
+import { ChevronDownIcon, TruckIcon } from "@/components/icons";
 
 interface OrderSummaryProps {
   className?: string;
@@ -30,11 +31,11 @@ export function OrderSummary({ className }: OrderSummaryProps) {
 
   const discountAmount = discountApplied
     ? discountApplied.type === "percentage"
-      ? (subtotal * discountApplied.amount) / 100
+      ? Math.round((subtotal * discountApplied.amount) / 100 * 100) / 100
       : discountApplied.amount
     : 0;
 
-  const total = subtotal + shippingCost + giftCost - discountAmount;
+  const total = Math.max(0, subtotal + shippingCost + giftCost - discountAmount);
 
   const freeShippingProgress = Math.min(
     (subtotal / FREE_SHIPPING_THRESHOLD) * 100,
@@ -57,7 +58,7 @@ export function OrderSummary({ className }: OrderSummaryProps) {
         <h2 className="font-serif text-xl font-semibold">Bestelling</h2>
         <div className="flex items-center gap-2">
           <span className="text-sm text-grey">{items.length} artikelen</span>
-          <ChevronIcon
+          <ChevronDownIcon
             className={cn(
               "w-5 h-5 text-grey lg:hidden transition-transform",
               isExpanded && "rotate-180"
@@ -184,33 +185,3 @@ export function OrderSummary({ className }: OrderSummaryProps) {
   );
 }
 
-function ChevronIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
-      <polyline points="6 9 12 15 18 9" />
-    </svg>
-  );
-}
-
-function TruckIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
-      <rect x="1" y="3" width="15" height="13" rx="1" />
-      <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-      <circle cx="5.5" cy="18.5" r="2.5" />
-      <circle cx="18.5" cy="18.5" r="2.5" />
-    </svg>
-  );
-}

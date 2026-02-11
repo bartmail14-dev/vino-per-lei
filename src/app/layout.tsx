@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { Header, Footer } from "@/components/layout";
@@ -30,7 +30,19 @@ export const metadata: Metadata = {
     description: "La Dolce Vita in elk glas. Authentieke Italiaanse wijnen, zorgvuldig geselecteerd.",
     type: "website",
     locale: "nl_NL",
+    siteName: "Vino per Lei",
+    url: "https://vinoperlei.nl",
   },
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#1a1f3d",
 };
 
 export default function RootLayout({

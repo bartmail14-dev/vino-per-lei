@@ -22,6 +22,7 @@ import {
   paymentSchema,
   validateSection,
 } from "@/lib/validation";
+import { useCartStore } from "@/stores/cartStore";
 
 const initialContact: CheckoutContact = {
   email: "",
@@ -194,16 +195,34 @@ export const useCheckoutStore = create<CheckoutState>()(
         const discount = validCodes[code.toUpperCase()];
 
         if (discount) {
-          set({
-            discountCode: code.toUpperCase(),
-            discountApplied: discount,
+          // Enforce minimum order value
+          if (discount.minOrderValue) {
+            const { subtotal } = useCartStore.getState();
+            if (subtotal < discount.minOrderValue) {
+              set((state) => ({
+                errors: {
+                  ...state.errors,
+                  discountCode: `Minimum bestelbedrag voor deze code is €${discount.minOrderValue}`,
+                },
+              }));
+              return false;
+            }
+          }
+
+          set((state) => {
+            const { discountCode: _, ...restErrors } = state.errors;
+            return {
+              discountCode: code.toUpperCase(),
+              discountApplied: discount,
+              errors: restErrors,
+            };
           });
           return true;
         }
 
-        set({
-          errors: { discountCode: "Ongeldige kortingscode" },
-        });
+        set((state) => ({
+          errors: { ...state.errors, discountCode: "Ongeldige kortingscode" },
+        }));
         return false;
       },
 
@@ -215,6 +234,12 @@ export const useCheckoutStore = create<CheckoutState>()(
 
       // Submit order
       submitOrder: async (): Promise<OrderResult> => {
+        // Check cart has items before proceeding
+        const cartItems = useCartStore.getState().items;
+        if (cartItems.length === 0) {
+          return { success: false, error: "Je winkelmand is leeg" };
+        }
+
         set({ isSubmitting: true, errors: {} });
 
         const state = get();

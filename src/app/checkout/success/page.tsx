@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { useCheckoutStore } from "@/stores/checkoutStore";
 import { Button } from "@/components/ui";
 import { TrustSignals } from "@/components/checkout";
+import { CheckIcon } from "@/components/icons";
 import confetti from "canvas-confetti";
 
 function CheckoutSuccessContent() {
@@ -174,20 +175,6 @@ function CheckoutSuccessContent() {
         <p className="text-sm text-grey mt-2">Proost op je nieuwe wijnen!</p>
       </motion.div>
     </div>
-  );
-}
-
-function CheckIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="3"
-    >
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
   );
 }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,46 +8,9 @@ import { useCartStore } from "@/stores/cartStore";
 import { Button, QuantitySelector } from "@/components/ui";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { CloseIcon, TrashIcon, ShoppingBagIcon, CheckIcon } from "@/components/icons";
 import { FREE_SHIPPING_THRESHOLD } from "@/types";
-
-// Icons
-function CloseIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  );
-}
-
-function TrashIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <polyline points="3 6 5 6 21 6" />
-      <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" />
-      <line x1="10" y1="11" x2="10" y2="17" />
-      <line x1="14" y1="11" x2="14" y2="17" />
-    </svg>
-  );
-}
-
-function ShoppingBagIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <path d="M16 10a4 4 0 01-8 0" />
-    </svg>
-  );
-}
-
-function CheckIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <polyline points="20 6 9 17 4 12" />
-    </svg>
-  );
-}
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 export function CartSlideOut() {
   const isOpen = useCartStore((state) => state.isOpen);
@@ -60,35 +23,17 @@ export function CartSlideOut() {
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
 
-  const panelRef = useRef<HTMLDivElement>(null);
+  const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: closeCart });
 
-  // Close on escape key
+  // Lock body scroll when open
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        closeCart();
-      }
-    };
-
     if (isOpen) {
-      window.addEventListener("keydown", handleEscape);
       document.body.style.overflow = "hidden";
     }
 
     return () => {
-      window.removeEventListener("keydown", handleEscape);
       document.body.style.overflow = "";
     };
-  }, [isOpen, closeCart]);
-
-  // Focus trap
-  useEffect(() => {
-    if (isOpen && panelRef.current) {
-      const firstFocusable = panelRef.current.querySelector(
-        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
-      ) as HTMLElement;
-      firstFocusable?.focus();
-    }
   }, [isOpen]);
 
   const amountUntilFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal;
@@ -115,7 +60,7 @@ export function CartSlideOut() {
 
           {/* Panel */}
           <motion.div
-            ref={panelRef}
+            ref={focusTrapRef}
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}

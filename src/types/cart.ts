@@ -17,8 +17,10 @@ export interface Cart {
 export interface CartState extends Cart {
   isOpen: boolean;
   isLoading: boolean;
+  isHydrated: boolean;
 
   // Actions
+  setHydrated: () => void;
   addItem: (product: Product, quantity?: number) => void;
   removeItem: (itemId: string) => void;
   updateQuantity: (itemId: string, quantity: number) => void;

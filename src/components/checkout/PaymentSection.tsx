@@ -67,10 +67,9 @@ export function PaymentSection() {
     const result = await submitOrder();
 
     if (result.success && result.orderId) {
-      // Clear cart on successful order
-      clearCart();
-      // Redirect to success page
+      // Redirect first, then clear cart to prevent data loss on navigation failure
       router.push(`/checkout/success?order=${result.orderId}`);
+      setTimeout(() => clearCart(), 200);
     } else {
       setLocalError(result.error || "Er is een fout opgetreden. Probeer het opnieuw.");
     }

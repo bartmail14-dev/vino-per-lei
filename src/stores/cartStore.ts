@@ -30,6 +30,9 @@ export const useCartStore = create<CartState>()(
       total: 0,
       isOpen: false,
       isLoading: false,
+      isHydrated: false,
+
+      setHydrated: () => set({ isHydrated: true }),
 
       addItem: (product: Product, quantity: number = 1) => {
         set((state) => {
@@ -112,6 +115,9 @@ export const useCartStore = create<CartState>()(
         shipping: state.shipping,
         total: state.total,
       }),
+      onRehydrateStorage: () => (state) => {
+        state?.setHydrated();
+      },
     }
   )
 );
