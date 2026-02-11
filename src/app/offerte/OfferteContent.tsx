@@ -491,7 +491,7 @@ export function OfferteContent() {
                   Optie A: Abonnement
                 </h3>
                 <div className="mt-4">
-                  <span className="text-price-lg text-wine">&euro;99</span>
+                  <span className="text-price-lg text-wine">&euro;150</span>
                   <span className="text-grey ml-1">/maand</span>
                 </div>
                 <p className="text-sm text-grey mt-1">
@@ -537,21 +537,21 @@ export function OfferteContent() {
                 </div>
                 <div className="flex justify-between">
                   <span>Ontwikkeling (gespreid)</span>
-                  <span>&euro;32/mnd</span>
+                  <span>&euro;68/mnd</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Support & onderhoud</span>
-                  <span>&euro;15/mnd</span>
+                  <span>&euro;30/mnd</span>
                 </div>
                 <div className="h-px bg-sand my-2" />
                 <div className="flex justify-between font-semibold text-charcoal">
                   <span>Totaal</span>
-                  <span>&euro;99/mnd</span>
+                  <span>&euro;150/mnd</span>
                 </div>
               </div>
 
               <p className="text-xs text-grey mt-4">
-                Na 24 maanden: &euro;45/mnd (hosting + support).
+                Na 24 maanden: &euro;50/mnd (hosting + support).
                 Eigendom na afloop looptijd. U betaalt nergens extra voor.
               </p>
 
