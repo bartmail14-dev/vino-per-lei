@@ -216,21 +216,30 @@ export function OfferteContent() {
 
           {/* Intro text */}
           <div className="space-y-4 text-charcoal leading-relaxed">
-            <p>Geachte ondernemer,</p>
+            <p>Beste ondernemer,</p>
             <p>
-              Hartelijk dank voor uw interesse in een samenwerking met Blue Wire Media.
-              Met groot enthousiasme presenteren wij deze offerte voor de ontwikkeling van
-              uw webshop <strong>Vino per Lei</strong>.
+              Wat leuk dat je interesse hebt in een samenwerking! Mijn naam
+              is <strong>Bart Visser</strong> en ik ben de oprichter van Blue Wire
+              Media. Met veel plezier presenteer ik deze offerte voor de
+              ontwikkeling van jouw webshop <strong>Vino per Lei</strong>.
             </p>
             <p>
-              Als liefhebber van Italiaanse wijnen en de Italiaanse cultuur spreekt dit
-              project ons bijzonder aan. Wij zien dit niet alleen als een opdracht, maar
-              als een kans om samen iets moois neer te zetten en mee te groeien als uw
-              vaste webpartner.
+              Even een eerlijke bekentenis: ik ben zelf een enorme Italië-gek
+              en wijnliefhebber. Van de heuvels van Piemonte tot de kusten van
+              Puglia — ik ken ze en ik hou ervan. Toen ik jouw plannen voor
+              Vino per Lei hoorde, wist ik meteen: dit project wil ik doen.
+              Niet puur als opdracht, maar omdat ik oprecht geloof in wat je
+              aan het opbouwen bent.
             </p>
             <p>
-              Hieronder vindt u onze aanpak, de werkzaamheden en twee transparante
-              prijsopties — speciaal samengesteld voor een ambitieuze starter.
+              Daarom heb ik deze offerte bewust scherp geprijsd. Ik wil graag
+              samen met je groeien als vaste webpartner — van de eerste
+              productpagina tot jullie duizendste bestelling.
+            </p>
+            <p>
+              Hieronder vind je mijn aanpak, de werkzaamheden en twee
+              transparante prijsopties — speciaal samengesteld voor een
+              ambitieuze starter.
             </p>
           </div>
         </div>
@@ -472,7 +481,7 @@ export function OfferteContent() {
               Twee opties, transparant geprijsd
             </h2>
             <p className="text-champagne/80 mt-2 max-w-xl mx-auto">
-              Kies de optie die het beste bij uw situatie past. Beide opties
+              Kies de optie die het beste bij jouw situatie past. Beide opties
               leveren exact dezelfde webshop op.
             </p>
           </div>
@@ -552,7 +561,7 @@ export function OfferteContent() {
 
               <p className="text-xs text-grey mt-4">
                 Na 24 maanden: &euro;50/mnd (hosting + support).
-                Eigendom na afloop looptijd. U betaalt nergens extra voor.
+                Eigendom na afloop looptijd. Je betaalt nergens extra voor.
               </p>
 
               <Button variant="primary" fullWidth className="mt-6">
@@ -617,7 +626,7 @@ export function OfferteContent() {
 
               <p className="text-xs text-grey mt-4">
                 * Shopify-kosten worden rechtstreeks aan Shopify betaald.
-                Het Shopify-account is altijd uw eigendom.
+                Het Shopify-account is altijd jouw eigendom.
               </p>
 
               <Button variant="secondary" fullWidth className="mt-6">
@@ -709,7 +718,7 @@ export function OfferteContent() {
               Service Level Agreement
             </h2>
             <p className="text-grey mt-2">
-              Na oplevering zorgen wij voor het onderhoud en de continuering van uw webshop.
+              Na oplevering zorg ik voor het onderhoud en de continu&iuml;teit van jouw webshop.
             </p>
           </div>
 
@@ -834,7 +843,7 @@ export function OfferteContent() {
                   <p className="text-sm mt-1">
                     Eigendom gaat over na afloop van de looptijd (24 maanden).
                     Tussentijds afkopen is mogelijk tegen betaling van het resterende
-                    ontwikkelingsbedrag. Tijdens de looptijd heeft u te allen tijde
+                    ontwikkelingsbedrag. Tijdens de looptijd heb je te allen tijde
                     toegang tot de broncode.
                   </p>
                 </div>
@@ -862,11 +871,11 @@ export function OfferteContent() {
             <ul className="space-y-1">
               <li className="flex items-start gap-2">
                 <CheckIcon className="w-4 h-4 text-success mt-0.5 shrink-0" />
-                <span>Het Shopify-account is altijd uw eigendom</span>
+                <span>Het Shopify-account is altijd jouw eigendom</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckIcon className="w-4 h-4 text-success mt-0.5 shrink-0" />
-                <span>De domeinnaam is altijd uw eigendom</span>
+                <span>De domeinnaam is altijd jouw eigendom</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckIcon className="w-4 h-4 text-success mt-0.5 shrink-0" />
@@ -874,7 +883,7 @@ export function OfferteContent() {
               </li>
               <li className="flex items-start gap-2">
                 <CheckIcon className="w-4 h-4 text-success mt-0.5 shrink-0" />
-                <span>Geen vendor lock-in — u kunt altijd overstappen</span>
+                <span>Geen vendor lock-in — je kunt altijd overstappen</span>
               </li>
             </ul>
           </div>
@@ -889,23 +898,29 @@ export function OfferteContent() {
               Tot slot
             </h2>
             <p>
-              Wij geloven oprecht in dit project. Als liefhebbers van de Italiaanse
-              cultuur, keuken en wijnen is Vino per Lei precies het soort project waar
-              wij onze tanden in willen zetten.
+              Ik geloof oprecht in dit project. Italië loopt als een rode draad
+              door mijn leven — de cultuur, de keuken, en ja, vooral de wijnen.
+              Vino per Lei is precies het soort project waar ik mijn tanden in
+              wil zetten.
             </p>
             <p>
-              De prijsstelling in deze offerte is dan ook bewust scherp — niet omdat
-              wij aan kwaliteit inleveren, maar omdat wij graag samen met u willen
-              groeien. Wij zien dit als het begin van een langdurig partnerschap
-              waarin wij als uw vaste webpartner meedenken, mee-ontwikkelen en
-              mee-ondernemen.
+              De prijsstelling in deze offerte is dan ook bewust scherp — niet
+              omdat ik aan kwaliteit inlever, maar omdat ik graag samen met je
+              wil groeien. Ik zie dit als het begin van een langdurig
+              partnerschap waarin ik als jouw vaste webpartner meedenk,
+              mee-ontwikkel en mee-onderneem.
             </p>
             <p>
-              Wij maken graag tijd vrij voor een persoonlijk gesprek om deze offerte
-              samen door te nemen. Uiteraard onder het genot van een goed glas wijn.
+              Ik maak graag tijd vrij voor een persoonlijk gesprek om deze
+              offerte samen door te nemen. Uiteraard onder het genot van een
+              goed glas wijn.
             </p>
             <p className="font-medium">
-              <em>Salute!</em>
+              Met hartelijke groet,<br />
+              <strong>Bart Visser</strong> — Blue Wire Media
+            </p>
+            <p className="font-medium italic">
+              Salute!
             </p>
           </div>
 
