@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { ChevronDownIcon } from "@/components/icons";
+import { Wind, Wine, Sparkles, ChevronDown } from "lucide-react";
 import type { Product } from "@/types";
 
 interface TastingExperienceProps {
@@ -107,7 +107,7 @@ export function TastingExperience({ product, className }: TastingExperienceProps
                 </h3>
                 <p className="text-xs text-grey truncate">{phase.subtitle}</p>
               </div>
-              <ChevronDownIcon className={cn(
+              <ChevronDown className={cn(
                 "w-5 h-5 text-grey transition-transform flex-shrink-0",
                 activePhase === phase.id && "rotate-180"
               )} />
@@ -150,7 +150,7 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
         id: "nose",
         title: "Geur",
         subtitle: "De neus vertelt het verhaal",
-        icon: NoseIcon,
+        icon: Wind,
         content: [
           "Intense aroma's van rijp donker fruit",
           "Zwarte kers en cassis",
@@ -163,7 +163,7 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
         id: "palate",
         title: "Smaak",
         subtitle: "De reis door de mond",
-        icon: TongueIcon,
+        icon: Wine,
         content: [
           "Vol en rond in de mond",
           "Fluweelzachte tannines",
@@ -176,7 +176,7 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
         id: "finish",
         title: "Afdronk",
         subtitle: "Het laatste woord",
-        icon: SparkleIcon,
+        icon: Sparkles,
         content: [
           "Lang en elegant",
           "Persistente fruitige naklank",
@@ -190,7 +190,7 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
         id: "nose",
         title: "Geur",
         subtitle: "De neus vertelt het verhaal",
-        icon: NoseIcon,
+        icon: Wind,
         content: [
           "Fris en elegant bouquet",
           "Citrus en groene appel",
@@ -203,7 +203,7 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
         id: "palate",
         title: "Smaak",
         subtitle: "De reis door de mond",
-        icon: TongueIcon,
+        icon: Wine,
         content: [
           "Verfrissend en levendig",
           "Mooie zuurgraad",
@@ -216,7 +216,7 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
         id: "finish",
         title: "Afdronk",
         subtitle: "Het laatste woord",
-        icon: SparkleIcon,
+        icon: Sparkles,
         content: [
           "Helder en verfrissend",
           "Minerale nasmaak",
@@ -230,7 +230,7 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
         id: "nose",
         title: "Geur",
         subtitle: "De neus vertelt het verhaal",
-        icon: NoseIcon,
+        icon: Wind,
         content: [
           "Delicate fruitige geuren",
           "Aardbeien en frambozen",
@@ -243,7 +243,7 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
         id: "palate",
         title: "Smaak",
         subtitle: "De reis door de mond",
-        icon: TongueIcon,
+        icon: Wine,
         content: [
           "Licht en verfrissend",
           "Zachte textuur",
@@ -256,7 +256,7 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
         id: "finish",
         title: "Afdronk",
         subtitle: "Het laatste woord",
-        icon: SparkleIcon,
+        icon: Sparkles,
         content: [
           "Fris en clean",
           "Fruitige naklank",
@@ -270,7 +270,7 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
         id: "nose",
         title: "Geur",
         subtitle: "De neus vertelt het verhaal",
-        icon: NoseIcon,
+        icon: Wind,
         content: [
           "Fijne bubbelgeur",
           "Groene appel en peer",
@@ -283,20 +283,20 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
         id: "palate",
         title: "Smaak",
         subtitle: "De reis door de mond",
-        icon: TongueIcon,
+        icon: Wine,
         content: [
           "Fijne persistente bubbels",
           "Verfrissende zuurgraad",
           "Elegant en levendig",
           "Hints van amandel",
-          "Crémige textuur",
+          "Cremige textuur",
         ],
       },
       {
         id: "finish",
         title: "Afdronk",
         subtitle: "Het laatste woord",
-        icon: SparkleIcon,
+        icon: Sparkles,
         content: [
           "Feestelijk en opwekkend",
           "Lange mousse",
@@ -310,58 +310,7 @@ function getTastingPhasesForWineType(wineType: string): TastingPhase[] {
   return basePhases[wineType] || basePhases.red;
 }
 
-// Icons — Wine tasting themed
-function NoseIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      {/* Nose profile */}
-      <path d="M12 4C12 4 8 7 8 12C8 15 9 17 11 18.5C11.5 19 12 19 12 19" strokeLinecap="round" />
-      <path d="M12 4C14 6 15 8 15 11C15 13 14.5 14.5 14 15.5" strokeLinecap="round" />
-      {/* Nostril */}
-      <path d="M10 16.5C10.5 17 11 17 11.5 16.5" strokeLinecap="round" />
-      {/* Aroma waves */}
-      <path d="M5 10C5.5 9 6.5 9 7 10" strokeLinecap="round" opacity="0.6" />
-      <path d="M4 7.5C4.7 6.5 5.8 6.5 6.5 7.5" strokeLinecap="round" opacity="0.4" />
-      <path d="M3.5 5C4.4 4 5.8 4 6.5 5" strokeLinecap="round" opacity="0.25" />
-    </svg>
-  );
-}
-
-function TongueIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      {/* Wine glass tilting towards mouth */}
-      <path d="M7 3H17L15.5 10C15 12.5 13 14.5 12 14.5C11 14.5 9 12.5 8.5 10L7 3Z" strokeLinecap="round" strokeLinejoin="round" />
-      {/* Wine surface */}
-      <path d="M9 8C9.5 9 10.5 9.5 12 9.5C13.5 9.5 14.5 9 15 8" strokeLinecap="round" opacity="0.5" />
-      {/* Stem and base */}
-      <path d="M12 14.5V18.5" strokeLinecap="round" />
-      <path d="M8.5 19H15.5" strokeLinecap="round" />
-      {/* Taste dots */}
-      <circle cx="10.5" cy="6" r="0.5" fill="currentColor" opacity="0.3" />
-      <circle cx="13" cy="5.5" r="0.5" fill="currentColor" opacity="0.3" />
-      <circle cx="11.5" cy="7.5" r="0.5" fill="currentColor" opacity="0.3" />
-    </svg>
-  );
-}
-
-function SparkleIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      {/* Central lingering drop */}
-      <path d="M12 6C12 6 8 10 8 14C8 17 10 19 12 19C14 19 16 17 16 14C16 10 12 6 12 6Z" strokeLinejoin="round" />
-      {/* Radiating flavor lines */}
-      <path d="M12 3V5" strokeLinecap="round" opacity="0.7" />
-      <path d="M18 6L16.5 7.5" strokeLinecap="round" opacity="0.5" />
-      <path d="M20 12H18" strokeLinecap="round" opacity="0.4" />
-      <path d="M6 6L7.5 7.5" strokeLinecap="round" opacity="0.5" />
-      <path d="M4 12H6" strokeLinecap="round" opacity="0.4" />
-      {/* Inner highlight */}
-      <path d="M10.5 12C11 11 12 10.5 12 10.5" strokeLinecap="round" opacity="0.3" />
-    </svg>
-  );
-}
-
+// Simple dot bullet — too trivial for a library import
 function DotIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 8 8" fill="currentColor">
