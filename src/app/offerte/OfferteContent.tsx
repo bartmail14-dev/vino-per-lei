@@ -33,11 +33,11 @@ function AccordionItem({
     <div className="border border-sand rounded-lg overflow-hidden">
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between p-5 text-left hover:bg-warm-white/50 transition-colors"
+        className="w-full flex items-center justify-between p-4 sm:p-5 text-left hover:bg-warm-white/50 transition-colors"
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <span className="text-wine">{icon}</span>
-          <span className="font-semibold text-charcoal">{title}</span>
+          <span className="font-semibold text-charcoal text-sm sm:text-base">{title}</span>
         </div>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
@@ -55,7 +55,7 @@ function AccordionItem({
             transition={{ duration: 0.3, ease: "easeInOut" }}
             className="overflow-hidden"
           >
-            <div className="px-5 pb-5 text-grey leading-relaxed">
+            <div className="px-4 pb-4 sm:px-5 sm:pb-5 text-grey leading-relaxed text-sm">
               {children}
             </div>
           </motion.div>
@@ -187,7 +187,7 @@ export function OfferteContent() {
   });
 
   return (
-    <div className="print:bg-white print:text-black">
+    <div className="print:bg-white print:text-black text-sm sm:text-base">
       {/* ===== 1. BRIEFHOOFD & INTRO ===== */}
       <Section background="warm" spacing="lg" containerSize="narrow">
         <div className="space-y-8">
@@ -211,12 +211,12 @@ export function OfferteContent() {
           {/* Address block */}
           <div className="text-sm text-charcoal">
             <p className="font-semibold">Vino per Lei</p>
-            <p className="text-grey mt-1">T.a.v. de directie</p>
+            <p className="text-grey mt-1">T.a.v. Carla</p>
           </div>
 
           {/* Intro text */}
           <div className="space-y-4 text-charcoal leading-relaxed">
-            <p>Beste ondernemer,</p>
+            <p>Beste Carla,</p>
             <p>
               Wat leuk dat je interesse hebt in een samenwerking! Mijn naam
               is <strong>Bart Visser</strong> en ik ben de oprichter van Blue Wire
@@ -226,20 +226,25 @@ export function OfferteContent() {
             <p>
               Even een eerlijke bekentenis: ik ben zelf een enorme Italië-gek
               en wijnliefhebber. Van de heuvels van Piemonte tot de kusten van
-              Puglia — ik ken ze en ik hou ervan. Toen ik jouw plannen voor
+              Puglia, ik ken ze en ik hou ervan. Toen ik jouw plannen voor
               Vino per Lei hoorde, wist ik meteen: dit project wil ik doen.
               Niet puur als opdracht, maar omdat ik oprecht geloof in wat je
               aan het opbouwen bent.
             </p>
             <p>
               Daarom heb ik deze offerte bewust scherp geprijsd. Ik wil graag
-              samen met je groeien als vaste webpartner — van de eerste
-              productpagina tot jullie duizendste bestelling.
+              samen met je groeien als vaste webpartner, van de eerste
+              productpagina tot je duizendste bestelling.
             </p>
             <p>
               Hieronder vind je mijn aanpak, de werkzaamheden en twee
-              transparante prijsopties — speciaal samengesteld voor een
+              transparante prijsopties, speciaal samengesteld voor een
               ambitieuze starter.
+            </p>
+            <p>
+              <strong>Tip:</strong> klik op het Vino per Lei logo linksboven om
+              alvast een indruk te krijgen van de webshop die ik voor je in
+              gedachten heb!
             </p>
           </div>
         </div>
@@ -251,7 +256,7 @@ export function OfferteContent() {
           <div>
             <p className="text-label text-wine mb-2">Het project</p>
             <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-charcoal">
-              Vino per Lei — Italiaanse Wijnwebshop
+              Vino per Lei: Italiaanse Wijnwebshop
             </h2>
           </div>
 
@@ -261,7 +266,7 @@ export function OfferteContent() {
               <p className="text-grey leading-relaxed">
                 Een op maat gemaakte webshop voor authentieke Italiaanse wijnen.
                 De shop combineert een premium uitstraling met een soepele
-                winkelervaring — van browsen tot bezorging.
+                winkelervaring, van browsen tot bezorging.
               </p>
             </div>
             <div className="space-y-4">
@@ -277,7 +282,7 @@ export function OfferteContent() {
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckIcon className="w-4 h-4 text-success mt-1 shrink-0" />
-                  <span>Tailwind CSS — custom wine-thema</span>
+                  <span>Tailwind CSS met custom wine-thema</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckIcon className="w-4 h-4 text-success mt-1 shrink-0" />
@@ -293,7 +298,7 @@ export function OfferteContent() {
         </div>
       </Section>
 
-      {/* ===== 3. WERKZAAMHEDEN — ACCORDIONS ===== */}
+      {/* ===== 3. WERKZAAMHEDEN ===== */}
       <Section background="cream" spacing="lg" containerSize="narrow">
         <div className="space-y-6">
           <div>
@@ -314,7 +319,7 @@ export function OfferteContent() {
               onToggle={() => toggleItem("design")}
             >
               <ul className="space-y-2">
-                <li>Custom ontwerp in lijn met het Vino per Lei merkgevoel — warm, Italiaans, premium</li>
+                <li>Custom ontwerp in lijn met het Vino per Lei merkgevoel: warm, Italiaans, premium</li>
                 <li>Mobile-first responsive design (telefoon, tablet, desktop)</li>
                 <li>Wine-thema met zorgvuldig gekozen kleuren, typografie en sfeerbeelden</li>
                 <li>Productfotografie-integratie met zoom en galerij</li>
@@ -348,7 +353,7 @@ export function OfferteContent() {
               onToggle={() => toggleItem("shopify")}
             >
               <ul className="space-y-2">
-                <li>Shopify Headless via Storefront API — volledige controle over de frontend</li>
+                <li>Shopify Headless via Storefront API voor volledige controle over de frontend</li>
                 <li>Productbeheer via het vertrouwde Shopify-dashboard</li>
                 <li>Voorraadbeheer en automatische &quot;uitverkocht&quot; meldingen</li>
                 <li>Bestelbeheer met orderoverzicht en statusupdates</li>
@@ -488,8 +493,8 @@ export function OfferteContent() {
 
           <div className="grid sm:grid-cols-2 gap-6">
             {/* Option A: Subscription */}
-            <div className="bg-white rounded-lg p-6 sm:p-8 text-charcoal relative">
-              <div className="absolute -top-3 left-6">
+            <div className="bg-white rounded-lg p-5 sm:p-8 text-charcoal relative">
+              <div className="absolute -top-3 left-5 sm:left-6">
                 <span className="inline-flex items-center px-3 py-1 text-[10px] font-bold uppercase tracking-wide rounded-sm bg-gold text-charcoal">
                   Aanbevolen voor starters
                 </span>
@@ -504,7 +509,7 @@ export function OfferteContent() {
                   <span className="text-grey ml-1">/maand</span>
                 </div>
                 <p className="text-sm text-grey mt-1">
-                  All-inclusive — looptijd 24 maanden
+                  All-inclusive, looptijd 24 maanden
                 </p>
               </div>
 
@@ -570,7 +575,7 @@ export function OfferteContent() {
             </div>
 
             {/* Option B: One-time */}
-            <div className="bg-white rounded-lg p-6 sm:p-8 text-charcoal">
+            <div className="bg-white rounded-lg p-5 sm:p-8 text-charcoal">
               <h3 className="font-serif text-xl font-semibold mt-2">
                 Optie B: Eenmalig
               </h3>
@@ -722,33 +727,33 @@ export function OfferteContent() {
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-6">
-            <div className="bg-white rounded-lg p-5 border border-sand">
-              <div className="w-10 h-10 rounded-full bg-wine/10 flex items-center justify-center mb-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            <div className="bg-white rounded-lg p-4 sm:p-5 border border-sand flex sm:flex-col items-center sm:items-start gap-3 sm:gap-0">
+              <div className="w-10 h-10 rounded-full bg-wine/10 flex items-center justify-center shrink-0 sm:mb-3">
                 <ClockIcon className="w-5 h-5 text-wine" />
               </div>
-              <h3 className="font-semibold text-charcoal text-sm">Response tijd</h3>
-              <p className="text-grey text-sm mt-1">
-                Binnen 24 uur op werkdagen
-              </p>
+              <div>
+                <h3 className="font-semibold text-charcoal text-sm">Response tijd</h3>
+                <p className="text-grey text-sm mt-0.5 sm:mt-1">Binnen 24 uur op werkdagen</p>
+              </div>
             </div>
-            <div className="bg-white rounded-lg p-5 border border-sand">
-              <div className="w-10 h-10 rounded-full bg-wine/10 flex items-center justify-center mb-3">
+            <div className="bg-white rounded-lg p-4 sm:p-5 border border-sand flex sm:flex-col items-center sm:items-start gap-3 sm:gap-0">
+              <div className="w-10 h-10 rounded-full bg-wine/10 flex items-center justify-center shrink-0 sm:mb-3">
                 <ShieldIcon className="w-5 h-5 text-wine" />
               </div>
-              <h3 className="font-semibold text-charcoal text-sm">Uptime</h3>
-              <p className="text-grey text-sm mt-1">
-                99.99% via Vercel Pro
-              </p>
+              <div>
+                <h3 className="font-semibold text-charcoal text-sm">Uptime</h3>
+                <p className="text-grey text-sm mt-0.5 sm:mt-1">99.99% via Vercel Pro</p>
+              </div>
             </div>
-            <div className="bg-white rounded-lg p-5 border border-sand">
-              <div className="w-10 h-10 rounded-full bg-wine/10 flex items-center justify-center mb-3">
+            <div className="bg-white rounded-lg p-4 sm:p-5 border border-sand flex sm:flex-col items-center sm:items-start gap-3 sm:gap-0">
+              <div className="w-10 h-10 rounded-full bg-wine/10 flex items-center justify-center shrink-0 sm:mb-3">
                 <CalendarIcon className="w-5 h-5 text-wine" />
               </div>
-              <h3 className="font-semibold text-charcoal text-sm">Aanpassingen</h3>
-              <p className="text-grey text-sm mt-1">
-                2 uur per maand inclusief
-              </p>
+              <div>
+                <h3 className="font-semibold text-charcoal text-sm">Aanpassingen</h3>
+                <p className="text-grey text-sm mt-0.5 sm:mt-1">2 uur per maand inclusief</p>
+              </div>
             </div>
           </div>
 
@@ -808,7 +813,7 @@ export function OfferteContent() {
                     <div>
                       <h4 className="font-semibold text-charcoal mb-2">Hosting specificaties</h4>
                       <ul className="space-y-1 ml-4 list-disc">
-                        <li>Vercel Pro — edge network, global CDN</li>
+                        <li>Vercel Pro met edge network en global CDN</li>
                         <li>Automatische SSL/TLS certificaten</li>
                         <li>DDoS-bescherming</li>
                         <li>Automatische schaling bij verkeerspieken</li>
@@ -833,13 +838,13 @@ export function OfferteContent() {
           </div>
 
           <div className="space-y-4 text-grey leading-relaxed">
-            <div className="bg-cream rounded-lg p-5 space-y-3">
+            <div className="bg-cream rounded-lg p-4 sm:p-5 space-y-3">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-full bg-wine/10 flex items-center justify-center shrink-0 mt-0.5">
                   <span className="text-wine font-bold text-sm">A</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-charcoal">Bij abonnement</h3>
+                  <h3 className="font-semibold text-charcoal text-sm sm:text-base">Bij abonnement</h3>
                   <p className="text-sm mt-1">
                     Eigendom gaat over na afloop van de looptijd (24 maanden).
                     Tussentijds afkopen is mogelijk tegen betaling van het resterende
@@ -850,13 +855,13 @@ export function OfferteContent() {
               </div>
             </div>
 
-            <div className="bg-cream rounded-lg p-5 space-y-3">
+            <div className="bg-cream rounded-lg p-4 sm:p-5 space-y-3">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-full bg-wine/10 flex items-center justify-center shrink-0 mt-0.5">
                   <span className="text-wine font-bold text-sm">B</span>
                 </div>
                 <div>
-                  <h3 className="font-semibold text-charcoal">Bij eenmalige betaling</h3>
+                  <h3 className="font-semibold text-charcoal text-sm sm:text-base">Bij eenmalige betaling</h3>
                   <p className="text-sm mt-1">
                     Direct en volledig eigendom na oplevering en betaling.
                     Alle broncode wordt overgedragen via een Git-repository.
@@ -866,7 +871,7 @@ export function OfferteContent() {
             </div>
           </div>
 
-          <div className="bg-warm-white rounded-lg p-5 text-sm text-grey space-y-2">
+          <div className="bg-warm-white rounded-lg p-4 sm:p-5 text-sm text-grey space-y-2">
             <h4 className="font-semibold text-charcoal">Altijd van toepassing:</h4>
             <ul className="space-y-1">
               <li className="flex items-start gap-2">
@@ -883,7 +888,7 @@ export function OfferteContent() {
               </li>
               <li className="flex items-start gap-2">
                 <CheckIcon className="w-4 h-4 text-success mt-0.5 shrink-0" />
-                <span>Geen vendor lock-in — je kunt altijd overstappen</span>
+                <span>Geen vendor lock-in, je kunt altijd overstappen</span>
               </li>
             </ul>
           </div>
@@ -899,12 +904,12 @@ export function OfferteContent() {
             </h2>
             <p>
               Ik geloof oprecht in dit project. Italië loopt als een rode draad
-              door mijn leven — de cultuur, de keuken, en ja, vooral de wijnen.
+              door mijn leven: de cultuur, de keuken, en ja, vooral de wijnen.
               Vino per Lei is precies het soort project waar ik mijn tanden in
               wil zetten.
             </p>
             <p>
-              De prijsstelling in deze offerte is dan ook bewust scherp — niet
+              De prijsstelling in deze offerte is dan ook bewust scherp. Niet
               omdat ik aan kwaliteit inlever, maar omdat ik graag samen met je
               wil groeien. Ik zie dit als het begin van een langdurig
               partnerschap waarin ik als jouw vaste webpartner meedenk,
@@ -917,7 +922,7 @@ export function OfferteContent() {
             </p>
             <p className="font-medium">
               Met hartelijke groet,<br />
-              <strong>Bart Visser</strong> — Blue Wire Media
+              <strong>Bart Visser</strong>, Blue Wire Media
             </p>
             <p className="font-medium italic">
               Salute!
@@ -964,7 +969,7 @@ export function OfferteContent() {
               Laten we kennismaken
             </Button>
             <p className="text-sm text-grey mt-3">
-              Of bel direct — wij maken graag tijd voor u.
+              Of bel direct, ik maak graag tijd voor je.
             </p>
           </div>
         </div>
