@@ -491,7 +491,7 @@ export function OfferteContent() {
                   Optie A: Abonnement
                 </h3>
                 <div className="mt-4">
-                  <span className="text-price-lg text-wine">&euro;125</span>
+                  <span className="text-price-lg text-wine">&euro;99</span>
                   <span className="text-grey ml-1">/maand</span>
                 </div>
                 <p className="text-sm text-grey mt-1">
@@ -504,15 +504,15 @@ export function OfferteContent() {
               <ul className="space-y-3 text-sm">
                 <li className="flex items-start gap-2">
                   <CheckIcon className="w-4 h-4 text-success mt-0.5 shrink-0" />
-                  <span>Geen grote investering vooraf</span>
+                  <span>Geen investering vooraf</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckIcon className="w-4 h-4 text-success mt-0.5 shrink-0" />
-                  <span>Shopify Basic inbegrepen (~&euro;32/mnd)</span>
+                  <span><strong>Shopify Basic inbegrepen</strong> (~&euro;32/mnd)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckIcon className="w-4 h-4 text-success mt-0.5 shrink-0" />
-                  <span>Hosting (Vercel Pro) inbegrepen (&euro;20/mnd)</span>
+                  <span><strong>Hosting inbegrepen</strong> (Vercel Pro, &euro;20/mnd)</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <CheckIcon className="w-4 h-4 text-success mt-0.5 shrink-0" />
@@ -528,31 +528,31 @@ export function OfferteContent() {
 
               <div className="space-y-2 text-sm text-grey">
                 <div className="flex justify-between">
-                  <span>Shopify Basic</span>
+                  <span>Shopify Basic (incl.)</span>
                   <span>&euro;32/mnd</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Hosting (Vercel Pro)</span>
+                  <span>Hosting Vercel Pro (incl.)</span>
                   <span>&euro;20/mnd</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Ontwikkeling (gespreid)</span>
-                  <span>&euro;48/mnd</span>
+                  <span>&euro;32/mnd</span>
                 </div>
                 <div className="flex justify-between">
                   <span>Support & onderhoud</span>
-                  <span>&euro;25/mnd</span>
+                  <span>&euro;15/mnd</span>
                 </div>
                 <div className="h-px bg-sand my-2" />
                 <div className="flex justify-between font-semibold text-charcoal">
                   <span>Totaal</span>
-                  <span>&euro;125/mnd</span>
+                  <span>&euro;99/mnd</span>
                 </div>
               </div>
 
               <p className="text-xs text-grey mt-4">
                 Na 24 maanden: &euro;45/mnd (hosting + support).
-                Eigendom na afloop looptijd.
+                Eigendom na afloop looptijd. U betaalt nergens extra voor.
               </p>
 
               <Button variant="primary" fullWidth className="mt-6">
@@ -566,7 +566,7 @@ export function OfferteContent() {
                 Optie B: Eenmalig
               </h3>
               <div className="mt-4">
-                <span className="text-price-lg text-wine">&euro;1.950</span>
+                <span className="text-price-lg text-wine">&euro;1.450</span>
                 <span className="text-grey ml-1">eenmalig</span>
               </div>
               <p className="text-sm text-grey mt-1">
@@ -603,7 +603,7 @@ export function OfferteContent() {
               <div className="space-y-2 text-sm text-grey">
                 <div className="flex justify-between">
                   <span>Ontwikkeling</span>
-                  <span>&euro;1.950</span>
+                  <span>&euro;1.450</span>
                 </div>
                 <div className="flex justify-between">
                   <span>SLA (maandelijks)</span>
