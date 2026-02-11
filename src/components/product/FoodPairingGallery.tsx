@@ -155,12 +155,15 @@ function getDecantTime(wineType: string): string | null {
   }
 }
 
+// Food pairing icons — clear, recognizable illustrations
+
 function DecantIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M8 2L8 6L4 12V20C4 21 5 22 6 22H18C19 22 20 21 20 20V12L16 6V2" />
-      <path d="M8 2H16" strokeLinecap="round" />
-      <path d="M6 14H18" strokeLinecap="round" opacity="0.5" />
+      {/* Wine decanter/karaf */}
+      <path d="M10 2H14V6L18 12V19C18 20.5 16.5 22 15 22H9C7.5 22 6 20.5 6 19V12L10 6V2Z" strokeLinejoin="round" />
+      <path d="M10 2H14" strokeLinecap="round" />
+      <path d="M7 14H17" strokeLinecap="round" opacity="0.4" />
     </svg>
   );
 }
@@ -168,8 +171,13 @@ function DecantIcon({ className }: { className?: string }) {
 function SteakIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <ellipse cx="12" cy="12" rx="10" ry="6" />
-      <path d="M6 12C6 12 8 10 12 10C16 10 18 12 18 12" strokeLinecap="round" />
+      {/* T-bone steak shape */}
+      <path d="M4 8C4 8 5 4 10 4C13 4 14 6 16 6C19 6 21 8 21 11C21 14 19 18 15 19C11 20 8 19 6 17C4 15 3 12 4 8Z" strokeLinejoin="round" />
+      {/* Bone */}
+      <path d="M10 8V16" strokeLinecap="round" strokeWidth="2" opacity="0.4" />
+      {/* Grill marks */}
+      <path d="M13 9L17 13" strokeLinecap="round" opacity="0.3" />
+      <path d="M13 12L16 15" strokeLinecap="round" opacity="0.3" />
     </svg>
   );
 }
@@ -177,9 +185,15 @@ function SteakIcon({ className }: { className?: string }) {
 function LambIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M4 18L8 8L16 8L20 18" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M12 8V4" strokeLinecap="round" />
-      <circle cx="12" cy="14" r="2" />
+      {/* Lamb chop / rack of lamb */}
+      <path d="M6 6C6 6 4 10 4 14C4 18 7 20 10 20C13 20 15 18 15 15C15 12 13 10 13 8C13 6 14 4 14 4" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Bone sticking out */}
+      <path d="M14 4L19 2" strokeLinecap="round" strokeWidth="2" />
+      <circle cx="20" cy="2" r="1.5" fill="none" />
+      {/* Rosemary sprig */}
+      <path d="M17 14L20 11" strokeLinecap="round" opacity="0.5" />
+      <path d="M18 13L19.5 12" strokeLinecap="round" opacity="0.5" />
+      <path d="M18.5 14.5L20 13.5" strokeLinecap="round" opacity="0.5" />
     </svg>
   );
 }
@@ -187,7 +201,16 @@ function LambIcon({ className }: { className?: string }) {
 function GameIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M12 4L8 8H4L8 14L4 20H20L16 14L20 8H16L12 4Z" strokeLinejoin="round" />
+      {/* Deer/stag head silhouette */}
+      <path d="M12 22V14" strokeLinecap="round" />
+      <path d="M8 14C8 14 6 12 6 10C6 8 8 6 10 6C11 6 12 7 12 8C12 7 13 6 14 6C16 6 18 8 18 10C18 12 16 14 16 14" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Antlers */}
+      <path d="M8 7L5 3" strokeLinecap="round" />
+      <path d="M5 3L3 4" strokeLinecap="round" />
+      <path d="M5 3L4 1" strokeLinecap="round" />
+      <path d="M16 7L19 3" strokeLinecap="round" />
+      <path d="M19 3L21 4" strokeLinecap="round" />
+      <path d="M19 3L20 1" strokeLinecap="round" />
     </svg>
   );
 }
@@ -195,10 +218,14 @@ function GameIcon({ className }: { className?: string }) {
 function CheeseIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M2 12L12 2L22 12V20C22 21 21 22 20 22H4C3 22 2 21 2 20V12Z" />
+      {/* Cheese wedge */}
+      <path d="M2 20L2 10L22 6V20H2Z" strokeLinejoin="round" />
+      <path d="M2 10L22 6" strokeLinecap="round" />
+      {/* Cheese holes */}
       <circle cx="8" cy="16" r="1.5" />
       <circle cx="14" cy="14" r="1" />
-      <circle cx="10" cy="11" r="1" />
+      <circle cx="18" cy="16" r="1.2" />
+      <circle cx="6" cy="12" r="0.8" />
     </svg>
   );
 }
@@ -206,10 +233,16 @@ function CheeseIcon({ className }: { className?: string }) {
 function PastaIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M4 16C4 16 8 20 12 20C16 20 20 16 20 16" strokeLinecap="round" />
-      <path d="M4 12C4 12 8 16 12 16C16 16 20 12 20 12" strokeLinecap="round" />
-      <path d="M4 8C4 8 8 12 12 12C16 12 20 8 20 8" strokeLinecap="round" />
-      <path d="M4 4H20" strokeLinecap="round" />
+      {/* Bowl */}
+      <path d="M3 12C3 16.5 7 20 12 20C17 20 21 16.5 21 12H3Z" strokeLinejoin="round" />
+      {/* Spaghetti/noodles curling above */}
+      <path d="M7 12C7 9 9 7 11 8C13 9 11 11 13 10C15 9 16 7 14 6" strokeLinecap="round" fill="none" />
+      <path d="M11 12C11 10 13 8.5 15 9.5C17 10.5 15 12 17 11" strokeLinecap="round" fill="none" />
+      {/* Fork */}
+      <path d="M18 4V8" strokeLinecap="round" opacity="0.4" />
+      <path d="M19 4V7" strokeLinecap="round" opacity="0.4" />
+      <path d="M20 4V8" strokeLinecap="round" opacity="0.4" />
+      <path d="M19 8V12" strokeLinecap="round" opacity="0.4" />
     </svg>
   );
 }
@@ -217,10 +250,15 @@ function PastaIcon({ className }: { className?: string }) {
 function ChocolateIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <rect x="3" y="6" width="18" height="12" rx="2" />
-      <path d="M9 6V18" />
-      <path d="M15 6V18" />
-      <path d="M3 12H21" />
+      {/* Chocolate bar with wrapper peeled */}
+      <rect x="4" y="6" width="16" height="14" rx="1" />
+      {/* Grid pattern (chocolate squares) */}
+      <path d="M9.3 6V20" opacity="0.5" />
+      <path d="M14.6 6V20" opacity="0.5" />
+      <path d="M4 10.7H20" opacity="0.5" />
+      <path d="M4 15.3H20" opacity="0.5" />
+      {/* Wrapper fold at top */}
+      <path d="M4 6L6 2H18L20 6" strokeLinejoin="round" opacity="0.6" />
     </svg>
   );
 }
@@ -228,9 +266,17 @@ function ChocolateIcon({ className }: { className?: string }) {
 function FishIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M2 12C2 12 5 6 12 6C19 6 22 12 22 12C22 12 19 18 12 18C5 18 2 12 2 12Z" />
-      <circle cx="16" cy="12" r="1" fill="currentColor" />
-      <path d="M2 12L5 9V15L2 12Z" />
+      {/* Fish body */}
+      <path d="M3 12C3 12 6 6 13 6C18 6 21 9 21 12C21 15 18 18 13 18C6 18 3 12 3 12Z" strokeLinejoin="round" />
+      {/* Tail */}
+      <path d="M3 12L1 8" strokeLinecap="round" />
+      <path d="M3 12L1 16" strokeLinecap="round" />
+      {/* Eye */}
+      <circle cx="17" cy="11" r="1" fill="currentColor" />
+      {/* Fin */}
+      <path d="M10 9C11 7 13 7 13 7" strokeLinecap="round" opacity="0.4" />
+      {/* Scale lines */}
+      <path d="M8 12C9 11 10 11 11 12" strokeLinecap="round" opacity="0.3" />
     </svg>
   );
 }
@@ -238,9 +284,22 @@ function FishIcon({ className }: { className?: string }) {
 function ShrimpIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M18 4C14 4 12 8 12 12C12 16 14 20 18 20" strokeLinecap="round" />
-      <path d="M12 12C8 12 4 10 4 10" strokeLinecap="round" />
-      <path d="M12 14C9 14 5 16 5 16" strokeLinecap="round" />
+      {/* Shrimp curved body */}
+      <path d="M19 4C19 4 21 6 21 8C21 10 19 12 17 13C15 14 13 15 12 17C11 19 10 20 8 20" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Segments */}
+      <path d="M17 8L15 10" strokeLinecap="round" opacity="0.4" />
+      <path d="M15 10L13 12" strokeLinecap="round" opacity="0.4" />
+      <path d="M13 13L11 15" strokeLinecap="round" opacity="0.4" />
+      {/* Legs */}
+      <path d="M16 11L14 14" strokeLinecap="round" opacity="0.5" />
+      <path d="M14 12L12 15" strokeLinecap="round" opacity="0.5" />
+      <path d="M12 14L10 17" strokeLinecap="round" opacity="0.5" />
+      {/* Tail */}
+      <path d="M8 20L6 19" strokeLinecap="round" />
+      <path d="M8 20L6 21" strokeLinecap="round" />
+      {/* Antenna */}
+      <path d="M19 4L17 2" strokeLinecap="round" opacity="0.6" />
+      <path d="M19 4L21 2" strokeLinecap="round" opacity="0.6" />
     </svg>
   );
 }
@@ -248,9 +307,13 @@ function ShrimpIcon({ className }: { className?: string }) {
 function ChickenIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M8 16L4 20" strokeLinecap="round" />
-      <ellipse cx="14" cy="12" rx="6" ry="8" />
-      <circle cx="16" cy="8" r="1" fill="currentColor" />
+      {/* Chicken drumstick */}
+      <path d="M8 4C5 4 3 6.5 3 9C3 11.5 5 14 8 14C9 14 10 13.5 10.5 13L16 19" strokeLinecap="round" strokeLinejoin="round" />
+      {/* Bone end */}
+      <path d="M16 19L18 21" strokeLinecap="round" strokeWidth="2.5" />
+      <circle cx="19" cy="21.5" r="1" fill="none" />
+      {/* Meat texture */}
+      <path d="M5 8C6 7.5 7 8 7 9" strokeLinecap="round" opacity="0.3" />
     </svg>
   );
 }
@@ -258,9 +321,14 @@ function ChickenIcon({ className }: { className?: string }) {
 function SaladIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M4 12C4 16 8 20 12 20C16 20 20 16 20 12H4Z" />
-      <path d="M8 8C8 8 10 10 12 10C14 10 16 8 16 8" strokeLinecap="round" />
-      <path d="M6 10C7 9 9 8 12 8C15 8 17 9 18 10" strokeLinecap="round" />
+      {/* Bowl */}
+      <path d="M3 11C3 16 7 20 12 20C17 20 21 16 21 11H3Z" strokeLinejoin="round" />
+      {/* Salad leaves sticking up */}
+      <path d="M8 11C8 8 6 6 8 5C10 4 10 7 10 7" strokeLinecap="round" fill="none" />
+      <path d="M13 11C13 9 12 7 14 6C16 5 15 8 15 8" strokeLinecap="round" fill="none" />
+      <path d="M17 11C17 9.5 18 8 17 7" strokeLinecap="round" fill="none" />
+      {/* Tomato slice */}
+      <circle cx="10" cy="14" r="1.5" opacity="0.4" />
     </svg>
   );
 }
@@ -268,11 +336,18 @@ function SaladIcon({ className }: { className?: string }) {
 function TapasIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <circle cx="7" cy="8" r="3" />
-      <circle cx="17" cy="8" r="3" />
-      <circle cx="12" cy="16" r="3" />
-      <path d="M7 11V20" strokeLinecap="round" />
-      <path d="M17 11V20" strokeLinecap="round" />
+      {/* Small serving board */}
+      <rect x="2" y="14" width="20" height="3" rx="1.5" opacity="0.3" />
+      {/* Olive on stick */}
+      <path d="M6 14V8" strokeLinecap="round" />
+      <circle cx="6" cy="7" r="2" />
+      {/* Cheese cube on stick */}
+      <path d="M12 14V9" strokeLinecap="round" />
+      <rect x="10" y="5" width="4" height="4" rx="0.5" />
+      {/* Shrimp/bite on stick */}
+      <path d="M18 14V9" strokeLinecap="round" />
+      <circle cx="18" cy="7" r="2" />
+      <circle cx="18" cy="7" r="0.7" fill="currentColor" opacity="0.3" />
     </svg>
   );
 }
@@ -280,9 +355,17 @@ function TapasIcon({ className }: { className?: string }) {
 function FruitIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <circle cx="12" cy="14" r="8" />
-      <path d="M12 6V2" strokeLinecap="round" />
-      <path d="M12 6C14 6 16 4 16 4" strokeLinecap="round" />
+      {/* Strawberry */}
+      <path d="M12 6C8 6 5 10 5 14C5 18 8 21 12 21C16 21 19 18 19 14C19 10 16 6 12 6Z" strokeLinejoin="round" />
+      {/* Stem and leaf */}
+      <path d="M12 6V3" strokeLinecap="round" />
+      <path d="M9 5C10 3 12 3 12 3C12 3 14 3 15 5" strokeLinecap="round" />
+      {/* Seeds */}
+      <circle cx="10" cy="12" r="0.5" fill="currentColor" opacity="0.3" />
+      <circle cx="14" cy="11" r="0.5" fill="currentColor" opacity="0.3" />
+      <circle cx="12" cy="15" r="0.5" fill="currentColor" opacity="0.3" />
+      <circle cx="10" cy="17" r="0.5" fill="currentColor" opacity="0.3" />
+      <circle cx="14" cy="16" r="0.5" fill="currentColor" opacity="0.3" />
     </svg>
   );
 }
@@ -290,13 +373,21 @@ function FruitIcon({ className }: { className?: string }) {
 function BBQIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <circle cx="12" cy="14" r="8" />
+      {/* Grill top */}
+      <path d="M4 12H20" strokeLinecap="round" />
+      <path d="M4 12C4 16 7 18 12 18C17 18 20 16 20 12" strokeLinejoin="round" />
+      {/* Grill legs */}
       <path d="M8 18L6 22" strokeLinecap="round" />
       <path d="M16 18L18 22" strokeLinecap="round" />
-      <path d="M6 12H18" strokeLinecap="round" />
-      <path d="M8 8V10" strokeLinecap="round" />
-      <path d="M12 8V10" strokeLinecap="round" />
-      <path d="M16 8V10" strokeLinecap="round" />
+      {/* Grill lines */}
+      <path d="M7 12V14" strokeLinecap="round" opacity="0.4" />
+      <path d="M10 12V15" strokeLinecap="round" opacity="0.4" />
+      <path d="M14 12V15" strokeLinecap="round" opacity="0.4" />
+      <path d="M17 12V14" strokeLinecap="round" opacity="0.4" />
+      {/* Smoke wisps */}
+      <path d="M8 10C8.5 9 8 8 8.5 7" strokeLinecap="round" opacity="0.3" />
+      <path d="M12 9C12.5 8 12 7 12.5 6" strokeLinecap="round" opacity="0.3" />
+      <path d="M16 10C16.5 9 16 8 16.5 7" strokeLinecap="round" opacity="0.3" />
     </svg>
   );
 }
@@ -304,8 +395,16 @@ function BBQIcon({ className }: { className?: string }) {
 function OysterIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M4 12C4 8 8 4 12 4C16 4 20 8 20 12C20 16 16 18 12 18C8 18 4 16 4 12Z" />
-      <ellipse cx="12" cy="12" rx="4" ry="2" />
+      {/* Open oyster shell - bottom */}
+      <path d="M3 14C3 14 6 18 12 18C18 18 21 14 21 14" strokeLinecap="round" />
+      {/* Top shell - wavy edge */}
+      <path d="M3 14C3 14 5 10 8 9C11 8 14 8 16 9C19 10 21 14 21 14" strokeLinecap="round" />
+      {/* Pearl */}
+      <circle cx="12" cy="13" r="2" />
+      <circle cx="11.5" cy="12.5" r="0.5" fill="currentColor" opacity="0.3" />
+      {/* Shell ridges */}
+      <path d="M5 13C7 11 9 10 12 10" strokeLinecap="round" opacity="0.3" />
+      <path d="M19 13C17 11 15 10 12 10" strokeLinecap="round" opacity="0.3" />
     </svg>
   );
 }
@@ -313,10 +412,17 @@ function OysterIcon({ className }: { className?: string }) {
 function SushiIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <ellipse cx="12" cy="16" rx="8" ry="4" />
-      <ellipse cx="12" cy="12" rx="8" ry="4" />
-      <path d="M4 12V16" />
-      <path d="M20 12V16" />
+      {/* Maki roll - cylinder */}
+      <ellipse cx="12" cy="8" rx="7" ry="3" />
+      <path d="M5 8V16" strokeLinecap="round" />
+      <path d="M19 8V16" strokeLinecap="round" />
+      <ellipse cx="12" cy="16" rx="7" ry="3" />
+      {/* Rice and filling visible from top */}
+      <circle cx="12" cy="8" r="2.5" opacity="0.3" />
+      <circle cx="12" cy="8" r="1" fill="currentColor" opacity="0.3" />
+      {/* Chopsticks */}
+      <path d="M1 4L8 12" strokeLinecap="round" opacity="0.3" />
+      <path d="M3 3L9 11" strokeLinecap="round" opacity="0.3" />
     </svg>
   );
 }
@@ -324,9 +430,15 @@ function SushiIcon({ className }: { className?: string }) {
 function DessertIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M4 16L8 8L12 12L16 8L20 16" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M4 16C4 18 8 20 12 20C16 20 20 18 20 16" />
-      <circle cx="12" cy="6" r="2" />
+      {/* Cake/tart base */}
+      <path d="M4 16H20V19C20 20 19 21 18 21H6C5 21 4 20 4 19V16Z" strokeLinejoin="round" />
+      {/* Cake layer */}
+      <path d="M4 16C4 13 7 11 12 11C17 11 20 13 20 16" />
+      {/* Whipped cream / frosting on top */}
+      <path d="M8 11C8 9 9 8 10 8C11 8 11 9 12 9C13 9 13 8 14 8C15 8 16 9 16 11" strokeLinecap="round" />
+      {/* Cherry on top */}
+      <circle cx="12" cy="7" r="1.5" />
+      <path d="M12 5.5V4" strokeLinecap="round" />
     </svg>
   );
 }
