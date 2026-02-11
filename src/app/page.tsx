@@ -4,7 +4,7 @@ import { Button } from "@/components/ui";
 import { ProductCard } from "@/components/product";
 import { mockProducts } from "@/data/mockProducts";
 import dynamic from "next/dynamic";
-import { TruckIcon, RefreshIcon, StarIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ClockIcon, ArrowRightIcon, MapPinIcon } from "@/components/icons";
+import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ClockIcon, ArrowRightIcon, MapPinIcon } from "@/components/icons";
 import { featuredBlogPosts } from "@/data/blogPosts";
 
 // Lazy load the map component (below-fold)
@@ -312,28 +312,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* USP Bar - Horizontal scroll on mobile */}
+      {/* USP Bar */}
       <Section background="warm" spacing="sm">
-        <div className="flex overflow-x-auto scrollbar-hide gap-4 sm:gap-6 py-2 sm:grid sm:grid-cols-3 sm:overflow-visible">
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 sm:flex-shrink sm:justify-center text-center min-w-[140px] sm:min-w-0">
+        <div className="grid grid-cols-2 gap-4 sm:gap-6 py-2">
+          <div className="flex items-center gap-2 sm:gap-3 justify-center text-center">
             <TruckIcon className="w-5 h-5 sm:w-6 sm:h-6 text-wine flex-shrink-0" />
             <div className="text-left sm:text-center">
-              <p className="font-semibold text-charcoal text-sm sm:text-base whitespace-nowrap">Gratis verzending</p>
+              <p className="font-semibold text-charcoal text-sm sm:text-base">Gratis verzending</p>
               <p className="text-xs sm:text-sm text-grey">vanaf €35</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 sm:flex-shrink sm:justify-center text-center min-w-[140px] sm:min-w-0">
+          <div className="flex items-center gap-2 sm:gap-3 justify-center text-center">
             <RefreshIcon className="w-5 h-5 sm:w-6 sm:h-6 text-wine flex-shrink-0" />
             <div className="text-left sm:text-center">
-              <p className="font-semibold text-charcoal text-sm sm:text-base whitespace-nowrap">Gratis retour</p>
+              <p className="font-semibold text-charcoal text-sm sm:text-base">Gratis retour</p>
               <p className="text-xs sm:text-sm text-grey">14 dagen</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0 sm:flex-shrink sm:justify-center text-center min-w-[140px] sm:min-w-0">
-            <StarIcon className="w-5 h-5 sm:w-6 sm:h-6 text-gold flex-shrink-0" />
-            <div className="text-left sm:text-center">
-              <p className="font-semibold text-charcoal text-sm sm:text-base whitespace-nowrap">Proefgarantie</p>
-              <p className="text-xs sm:text-sm text-grey">Geld terug</p>
             </div>
           </div>
         </div>

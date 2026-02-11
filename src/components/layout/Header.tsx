@@ -203,36 +203,20 @@ export function Header() {
               <MenuIcon className="w-6 h-6" />
             </button>
 
-            {/* Logo - Mobile: inline centered / Desktop: hanging banner from top */}
-            {/* Mobile logo (inline in flex flow) */}
+            {/* Logo - Hanging banner style on all screen sizes */}
             <Link
               href="/"
-              className="flex-1 flex justify-center lg:hidden"
-            >
-              <Image
-                src="/logo.png"
-                alt="Vino per Lei"
-                width={450}
-                height={450}
-                className="h-11 sm:h-14 w-auto"
-                priority
-              />
-            </Link>
-
-            {/* Desktop logo (hanging banner) */}
-            <Link
-              href="/"
-              className="hidden lg:block absolute left-12 xl:left-16 2xl:left-24 z-50"
+              className="absolute left-1/2 -translate-x-1/2 sm:left-1/2 sm:-translate-x-1/2 lg:left-12 lg:translate-x-0 xl:left-16 2xl:left-24 z-50"
               style={{ top: showAnnouncement ? '-40px' : '0' }}
             >
               <div className="relative">
-                <div className="absolute inset-0 translate-y-2 blur-lg bg-black/30 rounded-b-xl" />
+                <div className="absolute inset-0 translate-y-2 blur-lg bg-black/30 rounded-b-xl hidden sm:block" />
                 <Image
                   src="/logo.png"
                   alt="Vino per Lei"
                   width={450}
                   height={450}
-                  className="relative h-60 xl:h-[17rem] 2xl:h-[19rem] w-auto rounded-b-xl shadow-2xl"
+                  className="relative h-24 sm:h-36 md:h-44 lg:h-60 xl:h-[17rem] 2xl:h-[19rem] w-auto rounded-b-lg sm:rounded-b-xl shadow-lg sm:shadow-2xl"
                   priority
                 />
               </div>

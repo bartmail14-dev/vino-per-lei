@@ -52,7 +52,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl" className={`${inter.variable} ${playfair.variable}`}>
-      <body className="antialiased min-h-screen flex flex-col bg-background text-foreground">
+      <body className="antialiased min-h-screen flex flex-col bg-background text-foreground overflow-x-hidden">
         <SmoothScrollProvider>
           <AgeGate />
           <Header />
