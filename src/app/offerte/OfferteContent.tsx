@@ -944,11 +944,11 @@ export function OfferteContent() {
                   info@bluewiremedia.nl
                 </a>
                 <a
-                  href="tel:+31612345678"
+                  href="tel:+31644030194"
                   className="flex items-center gap-2 hover:text-wine transition-colors"
                 >
                   <PhoneIcon className="w-4 h-4" />
-                  +31 6 12 34 56 78
+                  +31 6 44 03 01 94
                 </a>
               </div>
             </div>
