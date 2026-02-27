@@ -13,7 +13,6 @@ import {
   type FilterGroup,
   type ActiveFilters,
 } from "@/components/filters";
-import { mockProducts } from "@/data/mockProducts";
 import { cn } from "@/lib/utils";
 import { wineRegions, getRegionBySlug } from "@/data/wineRegions";
 import { FilterIcon, ChevronRightIcon } from "@/components/icons";
@@ -42,79 +41,75 @@ function ListIcon({ className }: { className?: string }) {
   );
 }
 
-// Get unique regions from products and count them
-function getRegionCounts() {
-  const counts: Record<string, number> = {};
-  mockProducts.forEach((p) => {
-    if (p.region) {
-      counts[p.region] = (counts[p.region] || 0) + 1;
-    }
+// Build filter groups dynamically from actual products
+function buildFilterGroups(products: Product[]): FilterGroup[] {
+  // Region counts
+  const regionCounts: Record<string, number> = {};
+  const typeCounts: Record<string, number> = {};
+  const grapeCounts: Record<string, number> = {};
+  const priceBuckets = { "0-10": 0, "10-15": 0, "15-20": 0, "20-30": 0, "30+": 0 };
+
+  products.forEach((p) => {
+    if (p.region) regionCounts[p.region] = (regionCounts[p.region] || 0) + 1;
+    typeCounts[p.wineType] = (typeCounts[p.wineType] || 0) + 1;
+    p.grapeVarieties.forEach((g) => {
+      grapeCounts[g] = (grapeCounts[g] || 0) + 1;
+    });
+    if (p.price < 10) priceBuckets["0-10"]++;
+    else if (p.price < 15) priceBuckets["10-15"]++;
+    else if (p.price < 20) priceBuckets["15-20"]++;
+    else if (p.price < 30) priceBuckets["20-30"]++;
+    else priceBuckets["30+"]++;
   });
-  return counts;
+
+  const regionFilterOptions = wineRegions
+    .filter((r) => r.active)
+    .map((r) => ({
+      value: r.slug,
+      label: r.displayName,
+      count: regionCounts[r.name] || regionCounts[r.displayName] || 0,
+    }));
+
+  const typeLabels: Record<string, string> = {
+    red: "Rode Wijn",
+    white: "Witte Wijn",
+    rose: "Rosé",
+    sparkling: "Mousserende",
+  };
+
+  const grapeOptions = Object.entries(grapeCounts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([grape, count]) => ({
+      value: grape.toLowerCase().replace(/\s+/g, "-"),
+      label: grape,
+      count,
+    }));
+
+  return [
+    { id: "region", label: "Regio", options: regionFilterOptions },
+    {
+      id: "wineType",
+      label: "Wijntype",
+      options: (["red", "white", "rose", "sparkling"] as const).map((t) => ({
+        value: t,
+        label: typeLabels[t],
+        count: typeCounts[t] || 0,
+      })),
+    },
+    { id: "grape", label: "Druivenras", options: grapeOptions },
+    {
+      id: "price",
+      label: "Prijs",
+      options: [
+        { value: "0-10", label: "Tot €10", count: priceBuckets["0-10"] },
+        { value: "10-15", label: "€10 - €15", count: priceBuckets["10-15"] },
+        { value: "15-20", label: "€15 - €20", count: priceBuckets["15-20"] },
+        { value: "20-30", label: "€20 - €30", count: priceBuckets["20-30"] },
+        { value: "30+", label: "€30+", count: priceBuckets["30+"] },
+      ],
+    },
+  ];
 }
-
-// Filter configuration - only show active regions (North Italy + Tuscany)
-const regionCounts = getRegionCounts();
-const regionFilterOptions = wineRegions
-  .filter((r) => r.active)
-  .map((r) => ({
-    value: r.slug,
-    label: r.displayName,
-    count: regionCounts[r.name] || regionCounts[r.displayName] || 0,
-  }));
-
-const filterGroups: FilterGroup[] = [
-  {
-    id: "region",
-    label: "Regio",
-    options: regionFilterOptions,
-  },
-  {
-    id: "wineType",
-    label: "Wijntype",
-    options: [
-      { value: "red", label: "Rode Wijn", count: 45 },
-      { value: "white", label: "Witte Wijn", count: 32 },
-      { value: "rose", label: "Rosé", count: 18 },
-      { value: "sparkling", label: "Mousserende", count: 12 },
-    ],
-  },
-  {
-    id: "grape",
-    label: "Druivenras",
-    options: [
-      { value: "cabernet-sauvignon", label: "Cabernet Sauvignon", count: 22 },
-      { value: "merlot", label: "Merlot", count: 18 },
-      { value: "pinot-noir", label: "Pinot Noir", count: 14 },
-      { value: "chardonnay", label: "Chardonnay", count: 16 },
-      { value: "sauvignon-blanc", label: "Sauvignon Blanc", count: 12 },
-      { value: "tempranillo", label: "Tempranillo", count: 8 },
-      { value: "syrah", label: "Syrah / Shiraz", count: 10 },
-      { value: "malbec", label: "Malbec", count: 6 },
-    ],
-  },
-  {
-    id: "price",
-    label: "Prijs",
-    options: [
-      { value: "0-10", label: "Tot €10", count: 15 },
-      { value: "10-15", label: "€10 - €15", count: 28 },
-      { value: "15-20", label: "€15 - €20", count: 32 },
-      { value: "20-30", label: "€20 - €30", count: 18 },
-      { value: "30+", label: "€30+", count: 8 },
-    ],
-  },
-  {
-    id: "taste",
-    label: "Smaakprofiel",
-    options: [
-      { value: "licht", label: "Licht & Fris", count: 24 },
-      { value: "fruitig", label: "Fruitig", count: 36 },
-      { value: "vol", label: "Vol & Rijk", count: 28 },
-      { value: "kruidig", label: "Kruidig", count: 18 },
-    ],
-  },
-];
 
 const sortOptions = [
   { value: "popular", label: "Populair" },
@@ -140,10 +135,12 @@ const regionSlugToName: Record<string, string> = {
   calabria: "Calabria",
 };
 
-export function WijnenContent() {
+export function WijnenContent({ products }: { products: Product[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const regionParam = searchParams.get("region");
+
+  const filterGroups = useMemo(() => buildFilterGroups(products), [products]);
 
   // Initialize filters from URL params
   const initialFilters: ActiveFilters = useMemo(() => {
@@ -182,7 +179,7 @@ export function WijnenContent() {
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
-    let result = [...mockProducts];
+    let result = [...products];
 
     // Apply region filter
     if (activeFilters.region?.length) {
@@ -222,7 +219,7 @@ export function WijnenContent() {
     }
 
     return result;
-  }, [activeFilters, sortBy]);
+  }, [activeFilters, sortBy, products]);
 
   const handleFilterChange = (
     groupId: string,
@@ -438,7 +435,7 @@ export function WijnenContent() {
             {filteredProducts.length > 0 && (
               <div className="flex justify-center mt-12">
                 <p className="text-sm text-grey">
-                  Toont {filteredProducts.length} van {mockProducts.length} wijnen
+                  Toont {filteredProducts.length} van {products.length} wijnen
                 </p>
               </div>
             )}

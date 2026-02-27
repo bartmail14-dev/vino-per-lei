@@ -1,8 +1,7 @@
 import Link from "next/link";
 import { Section, Grid } from "@/components/layout";
-import { Button } from "@/components/ui";
 import { ProductCard } from "@/components/product";
-import { mockProducts } from "@/data/mockProducts";
+import { getProducts } from "@/lib/shopify";
 import dynamic from "next/dynamic";
 import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ClockIcon, ArrowRightIcon, MapPinIcon } from "@/components/icons";
 import { featuredBlogPosts } from "@/data/blogPosts";
@@ -204,8 +203,6 @@ function GiftBoxIcon({ className }: { className?: string }) {
   );
 }
 
-const featuredProducts = mockProducts.filter((p) => p.isFeatured).slice(0, 4);
-
 const wineCategories = [
   {
     name: "Rode Wijn",
@@ -249,7 +246,10 @@ const wineCategories = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const allProducts = await getProducts();
+  const featuredProducts = allProducts.filter((p) => p.isFeatured).slice(0, 4);
+
   return (
     <>
       {/* Hero Section - Optimized for mobile */}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { getProducts } from "@/lib/shopify";
 import { WijnenContent, WijnenLoading } from "./WijnenClient";
 
 export const metadata: Metadata = {
@@ -16,10 +17,12 @@ export const metadata: Metadata = {
   },
 };
 
-export default function WijnenPage() {
+export default async function WijnenPage() {
+  const products = await getProducts();
+
   return (
     <Suspense fallback={<WijnenLoading />}>
-      <WijnenContent />
+      <WijnenContent products={products} />
     </Suspense>
   );
 }

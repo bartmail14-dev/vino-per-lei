@@ -1,32 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Section } from "@/components/layout";
-import { mockProducts } from "@/data/mockProducts";
+import { getProductByHandle, getProducts } from "@/lib/shopify";
 import { ProductDetailClient } from "./ProductDetailClient";
 
 interface PageProps {
   params: Promise<{ handle: string }>;
 }
 
-function findProduct(handle: string) {
-  return mockProducts.find((p) => p.handle === handle) || null;
-}
-
-function getRelatedProducts(handle: string) {
-  const product = findProduct(handle);
-  if (!product) return [];
-  return mockProducts
-    .filter(
-      (p) =>
-        p.id !== product.id &&
-        (p.wineType === product.wineType || p.region === product.region)
-    )
-    .slice(0, 8);
+export async function generateStaticParams() {
+  const products = await getProducts();
+  return products.map((p) => ({ handle: p.handle }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { handle } = await params;
-  const product = findProduct(handle);
+  const product = await getProductByHandle(handle);
 
   if (!product) {
     return {
@@ -71,7 +60,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const { handle } = await params;
-  const product = findProduct(handle);
+  const product = await getProductByHandle(handle);
 
   if (!product) {
     return (
@@ -94,7 +83,14 @@ export default async function ProductDetailPage({ params }: PageProps) {
     );
   }
 
-  const relatedProducts = getRelatedProducts(handle);
+  const allProducts = await getProducts();
+  const relatedProducts = allProducts
+    .filter(
+      (p) =>
+        p.id !== product.id &&
+        (p.wineType === product.wineType || p.region === product.region)
+    )
+    .slice(0, 8);
 
   // JSON-LD structured data
   const jsonLd = {
