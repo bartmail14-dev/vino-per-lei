@@ -5,8 +5,7 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/stores/cartStore";
 import { useCheckoutStore } from "@/stores/checkoutStore";
-import { formatPrice } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { formatPrice, cn, wineImagePresets } from "@/lib/utils";
 import { GIFT_WRAPPING_COST } from "@/types/checkout";
 import { FREE_SHIPPING_THRESHOLD } from "@/types/cart";
 import { DiscountCode } from "./DiscountCode";
@@ -82,7 +81,7 @@ export function OrderSummary({ className }: OrderSummaryProps) {
                   <div className="relative w-14 h-20 bg-warm-white rounded flex-shrink-0">
                     {item.product.images[0] && (
                       <Image
-                        src={item.product.images[0].url}
+                        src={wineImagePresets.cart(item.product.images[0].url)}
                         alt={item.product.title}
                         fill
                         className="object-contain p-1"

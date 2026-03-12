@@ -1,3 +1,6 @@
+// PLACEHOLDER: This auth store is non-functional. There is no real auth backend.
+// Login/register are disabled in the UI. The wishlist works via localStorage without auth.
+// When a real auth backend is added, replace the mock login/register with actual API calls.
 "use client";
 
 import { create } from "zustand";

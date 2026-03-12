@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/stores/cartStore";
+import { createCheckout } from "@/lib/shopify";
 import { Button, QuantitySelector } from "@/components/ui";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, wineImagePresets } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { CloseIcon, TrashIcon, ShoppingBagIcon, CheckIcon } from "@/components/icons";
 import { FREE_SHIPPING_THRESHOLD } from "@/types";
@@ -22,6 +23,9 @@ export function CartSlideOut() {
   const total = useCartStore((state) => state.total);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
+
+  const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: closeCart });
 
@@ -116,7 +120,7 @@ export function CartSlideOut() {
                         <div className="relative w-20 h-24 bg-warm-white rounded overflow-hidden flex-shrink-0">
                           {item.product.images[0] ? (
                             <Image
-                              src={item.product.images[0].url}
+                              src={wineImagePresets.cart(item.product.images[0].url)}
                               alt={item.product.title}
                               fill
                               sizes="80px"
@@ -227,16 +231,41 @@ export function CartSlideOut() {
                     </div>
                   </div>
 
-                  {/* Checkout Button */}
-                  <Link href="/checkout" onClick={closeCart}>
-                    <Button
-                      variant="primary"
-                      fullWidth
-                      size="lg"
-                    >
-                      Afrekenen
-                    </Button>
-                  </Link>
+                  {/* Checkout Button — redirects to Shopify hosted checkout */}
+                  {checkoutError && (
+                    <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
+                      {checkoutError}
+                    </div>
+                  )}
+                  <Button
+                    variant="primary"
+                    fullWidth
+                    size="lg"
+                    disabled={isCheckingOut}
+                    onClick={async () => {
+                      setIsCheckingOut(true);
+                      setCheckoutError(null);
+                      try {
+                        const lineItems = items.map((item) => ({
+                          variantId: item.product.variantId,
+                          quantity: item.quantity,
+                        }));
+                        const checkout = await createCheckout(lineItems);
+                        if (checkout?.webUrl) {
+                          window.location.href = checkout.webUrl;
+                        } else {
+                          setCheckoutError("Kan checkout niet starten. Probeer het opnieuw.");
+                          setIsCheckingOut(false);
+                        }
+                      } catch (error) {
+                        console.error("Checkout failed:", error);
+                        setCheckoutError("Er ging iets mis. Probeer het later opnieuw.");
+                        setIsCheckingOut(false);
+                      }
+                    }}
+                  >
+                    {isCheckingOut ? "Doorsturen naar betaling..." : "Afrekenen"}
+                  </Button>
 
                   {/* Continue Shopping */}
                   <button
