@@ -8,7 +8,6 @@ import {
   CheckIcon,
   CloseIcon,
   ChevronDownIcon,
-  TruckIcon,
   ShieldIcon,
 } from "@/components/icons";
 

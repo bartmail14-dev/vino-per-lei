@@ -1,3 +1,5 @@
+// NOTE: Primary checkout flow redirects to Shopify hosted checkout from CartSlideOut.
+// This page serves as a fallback if direct redirect fails.
 "use client";
 
 import { useEffect } from "react";
@@ -17,12 +19,11 @@ import {
   PaymentSection,
   TrustSignals,
 } from "@/components/checkout";
-import { cn } from "@/lib/utils";
 import type { CheckoutSection } from "@/types/checkout";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { items, itemCount } = useCartStore();
+  const { itemCount } = useCartStore();
   const {
     contact,
     address,

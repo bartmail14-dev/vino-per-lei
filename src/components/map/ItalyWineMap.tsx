@@ -23,19 +23,6 @@ interface WineRegionData {
   active: boolean; // Whether this region is part of our selection
 }
 
-// Northern regions + Tuscany that we sell
-const ACTIVE_REGIONS = new Set([
-  "piedmont",
-  "lombardy",
-  "trentino-south-tyrol",
-  "veneto",
-  "friuli-venezia-giulia",
-  "emilia-romagna",
-  "liguria",
-  "aosta-valley",
-  "tuscany",
-]);
-
 const wineRegionData: Record<string, WineRegionData> = {
   piedmont: {
     id: "piedmont",

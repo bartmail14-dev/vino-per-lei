@@ -49,7 +49,8 @@ const mockAddresses: Record<string, PostcodeResult> = {
 };
 
 // Generate more mock addresses for testing
-function generateMockAddress(postcode: string, houseNumber: string): PostcodeResult | null {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function generateMockAddress(postcode: string, _houseNumber: string): PostcodeResult | null {
   // Extract numeric part of postcode to generate deterministic data
   const numericPart = parseInt(postcode.replace(/\D/g, ""), 10);
 

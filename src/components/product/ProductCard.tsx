@@ -8,8 +8,7 @@ import { type Product } from "@/types";
 import { Badge, Rating, PriceDisplay } from "@/components/ui";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
-import { useAuthStore } from "@/stores/authStore";
-import { cn } from "@/lib/utils";
+import { cn, wineImagePresets } from "@/lib/utils";
 import { WineBottleIcon, CheckIcon, HeartIcon, LoadingSpinner, EyeIcon } from "@/components/icons";
 
 export interface ProductCardProps {
@@ -32,7 +31,6 @@ export function ProductCard({
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const isInWishlist = useWishlistStore((state) => state.isInWishlist(product.id));
-  const { isAuthenticated, openLoginModal } = useAuthStore();
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -53,16 +51,6 @@ export function ProductCard({
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
-    // Check if user is authenticated
-    if (!isAuthenticated) {
-      // Open login modal with callback to add to wishlist after login
-      openLoginModal(() => {
-        toggleWishlist(product);
-      });
-      return;
-    }
-
     toggleWishlist(product);
   };
 
@@ -81,11 +69,11 @@ export function ProductCard({
     <motion.article
       className={cn(
         "group relative bg-white rounded-lg",
-        "border border-sand/50",
-        "shadow-sm hover:shadow-xl",
+        "border border-sand/50 hover:border-wine/20",
+        "shadow-sm hover:shadow-2xl",
         "transition-all duration-300 ease-out",
-        "hover:-translate-y-1",
-        "overflow-visible pt-4 sm:pt-6 mt-24 sm:mt-44",
+        "hover:-translate-y-2",
+        "overflow-visible pt-4 sm:pt-6 mt-14 sm:mt-24",
         className
       )}
       initial={{ opacity: 0, y: 20 }}
@@ -131,7 +119,7 @@ export function ProductCard({
         aria-label={`Bekijk ${product.title}`}
       >
         {/* Image Container */}
-        <div className="relative h-28 sm:h-40 bg-gradient-to-b from-wine/15 via-champagne/60 to-cream rounded-t-lg mx-2 -mt-12 sm:-mt-20">
+        <div className="relative h-28 sm:h-40 bg-gradient-to-b from-wine/15 via-champagne/60 to-cream rounded-t-lg mx-2 -mt-8 sm:-mt-14">
           {/* Badges */}
           <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 sm:gap-2">
             {product.isNew && <Badge variant="new">Nieuw</Badge>}
@@ -143,18 +131,18 @@ export function ProductCard({
           </div>
 
           {/* Product Image */}
-          <div className="absolute inset-0 -top-14 sm:-top-28 flex items-center justify-center">
+          <div className="absolute inset-0 -top-10 sm:-top-18 flex items-center justify-center">
             {product.images[0] ? (
-              <div className="relative w-28 sm:w-48 h-52 sm:h-96">
+              <div className="relative w-24 sm:w-40 h-44 sm:h-72">
                 <Image
-                  src={product.images[0].url}
+                  src={wineImagePresets.card(product.images[0].url)}
                   alt={product.images[0].altText || product.title}
                   fill
                   sizes="(max-width: 640px) 112px, 192px"
                   priority={priority}
                   className={cn(
                     "object-contain object-center drop-shadow-2xl transition-transform duration-300",
-                    "group-hover:scale-110 group-hover:-translate-y-3",
+                    "group-hover:scale-[1.15] group-hover:-translate-y-4",
                     !product.inStock && "grayscale-[50%] opacity-70"
                   )}
                 />

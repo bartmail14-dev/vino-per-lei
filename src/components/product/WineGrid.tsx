@@ -6,7 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { type Product } from "@/types";
 import { useCartStore } from "@/stores/cartStore";
-import { cn } from "@/lib/utils";
+import { cn, wineImagePresets } from "@/lib/utils";
 
 interface WineGridProps {
   products: Product[];
@@ -197,7 +197,7 @@ function WineCard({ product, size, index, onQuickView }: WineCardProps) {
           >
             {product.images[0] ? (
               <Image
-                src={product.images[0].url}
+                src={wineImagePresets.card(product.images[0].url)}
                 alt={product.images[0].altText || product.title}
                 fill
                 sizes={

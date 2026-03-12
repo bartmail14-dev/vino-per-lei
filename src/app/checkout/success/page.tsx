@@ -12,7 +12,8 @@ import confetti from "canvas-confetti";
 
 function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
-  const orderId = searchParams.get("order");
+  const rawOrderId = searchParams.get("order");
+  const orderId = rawOrderId && /^[a-zA-Z0-9-]{1,50}$/.test(rawOrderId) ? rawOrderId : null;
   const { contact, address, shipping, resetCheckout } = useCheckoutStore();
   const [hasTriggeredConfetti, setHasTriggeredConfetti] = useState(false);
 

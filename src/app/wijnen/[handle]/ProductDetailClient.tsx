@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useRef } from "react";
-import Link from "next/link";
 import { Section } from "@/components/layout";
 import { Button, PriceDisplay, SavingsBadge, QuantitySelector } from "@/components/ui";
 import {
@@ -17,7 +16,6 @@ import {
 } from "@/components/product";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
-import { useAuthStore } from "@/stores/authStore";
 import { type Product } from "@/types";
 import { cn } from "@/lib/utils";
 import { CheckIcon, HeartIcon, TruckIcon, ShieldIcon, ClockIcon } from "@/components/icons";
@@ -37,7 +35,6 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const isInWishlist = useWishlistStore((state) => state.isInWishlist(product.id));
-  const { isAuthenticated, openLoginModal } = useAuthStore();
 
   const handleAddToCart = async () => {
     if (isAdding || !product.inStock) return;
@@ -51,10 +48,6 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
   };
 
   const handleToggleWishlist = () => {
-    if (!isAuthenticated) {
-      openLoginModal(() => toggleWishlist(product));
-      return;
-    }
     toggleWishlist(product);
   };
 

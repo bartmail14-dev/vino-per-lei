@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
-import { MenuIcon, CloseIcon, SearchIcon, UserIcon, CartIcon, ChevronDownIcon, ChevronRightIcon, HeartIcon } from "@/components/icons";
+import { MenuIcon, CloseIcon, UserIcon, CartIcon, ChevronDownIcon, ChevronRightIcon, HeartIcon } from "@/components/icons";
 
 function PackageIcon({ className }: { className?: string }) {
   return (
@@ -41,12 +41,13 @@ function LogOutIcon({ className }: { className?: string }) {
 }
 
 // Navigation data
+// TODO: Footer links also need updating to use /wijnen?type=X pattern
 const wineCategories = {
   type: [
-    { label: "Rode Wijn", href: "/wijnen/rood" },
-    { label: "Witte Wijn", href: "/wijnen/wit" },
-    { label: "Rosé", href: "/wijnen/rose" },
-    { label: "Mousserende", href: "/wijnen/mousserende" },
+    { label: "Rode Wijn", href: "/wijnen?type=red" },
+    { label: "Witte Wijn", href: "/wijnen?type=white" },
+    { label: "Rosé", href: "/wijnen?type=rose" },
+    { label: "Mousserende", href: "/wijnen?type=sparkling" },
   ],
   region: [
     { label: "Piemonte", href: "/wijnen?region=piemonte" },
@@ -149,6 +150,31 @@ export function Header() {
     }, 100);
   };
 
+  const handleMegaMenuToggle = () => {
+    setIsMegaMenuOpen((prev) => !prev);
+  };
+
+  const handleMegaMenuFocus = () => {
+    if (megaMenuTimeoutRef.current) {
+      clearTimeout(megaMenuTimeoutRef.current);
+    }
+    setIsMegaMenuOpen(true);
+  };
+
+  const handleMegaMenuBlur = () => {
+    // Delay to allow focus to move into submenu
+    megaMenuTimeoutRef.current = setTimeout(() => {
+      setIsMegaMenuOpen(false);
+    }, 150);
+  };
+
+  const handleMegaMenuKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Escape") {
+      setIsMegaMenuOpen(false);
+      megaMenuTriggerRef.current?.focus();
+    }
+  };
+
   const dismissAnnouncement = () => {
     setAnnouncementState(false);
     localStorage.setItem("vpl_announcement_dismissed", "true");
@@ -170,12 +196,12 @@ export function Header() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="bg-wine text-white overflow-hidden"
+            className="bg-gradient-to-r from-wine via-wine-dark to-wine text-white overflow-hidden"
           >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-center relative">
-              <p className="text-sm text-center pr-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center relative">
+              <p className="text-xs sm:text-sm text-center pr-8 tracking-wide">
                 Welkom! Gebruik code{" "}
-                <span className="font-semibold">WELKOM10</span> voor 10%
+                <span className="font-semibold text-gold">WELKOM10</span> voor 10%
                 korting op je eerste bestelling
               </p>
               <button
@@ -193,7 +219,7 @@ export function Header() {
       {/* Main Header */}
       <div className="border-b border-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20">
+          <div className="flex items-center justify-between h-16 lg:h-20 relative">
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
@@ -203,36 +229,38 @@ export function Header() {
               <MenuIcon className="w-6 h-6" />
             </button>
 
-            {/* Logo - Hanging banner style on all screen sizes */}
+            {/* Logo - Clean inline */}
             <Link
               href="/"
-              className="absolute left-1/2 -translate-x-1/2 sm:left-1/2 sm:-translate-x-1/2 lg:left-12 lg:translate-x-0 xl:left-16 2xl:left-24 z-50"
-              style={{ top: showAnnouncement ? '-40px' : '0' }}
+              className="flex-shrink-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2"
             >
-              <div className="relative">
-                <div className="absolute inset-0 translate-y-2 blur-lg bg-black/30 rounded-b-xl hidden sm:block" />
-                <Image
-                  src="/logo.png"
-                  alt="Vino per Lei"
-                  width={450}
-                  height={450}
-                  className="relative h-24 sm:h-36 md:h-44 lg:h-60 xl:h-[17rem] 2xl:h-[19rem] w-auto rounded-b-lg sm:rounded-b-xl shadow-lg sm:shadow-2xl"
-                  priority
-                />
-              </div>
+              <Image
+                src="/logo.png"
+                alt="Vino per Lei"
+                width={450}
+                height={450}
+                className="h-12 sm:h-16 lg:h-20 w-auto"
+                priority
+              />
             </Link>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - Left aligned */}
             <nav className="hidden lg:flex items-center gap-8">
               {mainNavItems.map((item) => (
                 <div key={item.label} className="relative">
                   {item.hasMegaMenu ? (
                     <button
                       ref={megaMenuTriggerRef}
+                      onClick={handleMegaMenuToggle}
                       onMouseEnter={handleMegaMenuEnter}
                       onMouseLeave={handleMegaMenuLeave}
+                      onFocus={handleMegaMenuFocus}
+                      onBlur={handleMegaMenuBlur}
+                      onKeyDown={handleMegaMenuKeyDown}
+                      aria-expanded={isMegaMenuOpen}
+                      aria-haspopup="true"
                       className={cn(
-                        "flex items-center gap-1 py-2 text-[15px] font-medium",
+                        "flex items-center gap-1 py-2 text-sm font-medium tracking-wide uppercase",
                         "text-charcoal hover:text-wine transition-colors",
                         isMegaMenuOpen && "text-wine"
                       )}
@@ -240,7 +268,7 @@ export function Header() {
                       {item.label}
                       <ChevronDownIcon
                         className={cn(
-                          "w-4 h-4 transition-transform duration-200",
+                          "w-3.5 h-3.5 transition-transform duration-200",
                           isMegaMenuOpen && "rotate-180"
                         )}
                       />
@@ -248,7 +276,7 @@ export function Header() {
                   ) : (
                     <Link
                       href={item.href}
-                      className="py-2 text-[15px] font-medium text-charcoal hover:text-wine transition-colors"
+                      className="py-2 text-sm font-medium tracking-wide uppercase text-charcoal hover:text-wine transition-colors"
                     >
                       {item.label}
                     </Link>
@@ -259,12 +287,7 @@ export function Header() {
 
             {/* Right Icons */}
             <div className="flex items-center gap-1">
-              <button
-                className="hidden sm:flex p-2 hover:bg-sand/50 rounded-md transition-colors"
-                aria-label="Zoeken"
-              >
-                <SearchIcon className="w-5 h-5" />
-              </button>
+              {/* TODO: Search implementeren */}
               {/* User Account Button */}
               <div className="relative hidden lg:block">
                 {isAuthenticated ? (
@@ -379,6 +402,10 @@ export function Header() {
               transition={{ duration: 0.2 }}
               onMouseEnter={handleMegaMenuEnter}
               onMouseLeave={handleMegaMenuLeave}
+              onFocus={handleMegaMenuFocus}
+              onBlur={handleMegaMenuBlur}
+              onKeyDown={handleMegaMenuKeyDown}
+              role="menu"
               className="absolute left-0 right-0 bg-white border-t border-sand shadow-xl"
             >
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -472,7 +499,7 @@ export function Header() {
                         Verfrissend voor de zomermaanden
                       </p>
                       <Link
-                        href="/wijnen/rose"
+                        href="/wijnen?type=rose"
                         onClick={() => setIsMegaMenuOpen(false)}
                         className="inline-flex items-center gap-1 text-sm font-medium text-wine hover:underline"
                       >
@@ -703,7 +730,8 @@ export function Header() {
                 {/* Contact Info */}
                 <div className="mt-6 pt-6 border-t border-sand text-sm text-grey">
                   <p className="mb-2">Vragen? Neem contact op:</p>
-                  <p className="font-medium text-charcoal">020-123 4567</p>
+                  {/* TODO: Carla moet telefoonnummer aanleveren */}
+                  <p className="font-medium text-charcoal">040-XXX XXXX</p>
                   <p className="text-charcoal">info@vinoperlei.nl</p>
                 </div>
               </nav>

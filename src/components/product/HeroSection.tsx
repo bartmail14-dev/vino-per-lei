@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Badge, Rating } from "@/components/ui";
-import { cn } from "@/lib/utils";
+import { cn, wineImagePresets } from "@/lib/utils";
 import { ChevronRightIcon, AwardIcon, GrapeIcon } from "@/components/icons";
 import type { Product } from "@/types";
 
@@ -90,7 +90,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
                 >
                   <div className="relative w-full h-full group cursor-zoom-in">
                     <Image
-                      src={product.images[selectedImageIndex].url}
+                      src={wineImagePresets.hero(product.images[selectedImageIndex].url)}
                       alt={product.images[selectedImageIndex].altText || product.title}
                       fill
                       priority
@@ -117,7 +117,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
                     )}
                   >
                     <Image
-                      src={image.url}
+                      src={wineImagePresets.thumbnail(image.url)}
                       alt={image.altText || `${product.title} ${index + 1}`}
                       fill
                       className="object-contain p-2"

@@ -3,13 +3,23 @@ import { Section, Grid } from "@/components/layout";
 import { ProductCard } from "@/components/product";
 import { getProducts } from "@/lib/shopify";
 import dynamic from "next/dynamic";
-import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ClockIcon, ArrowRightIcon, MapPinIcon } from "@/components/icons";
+import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ClockIcon, ArrowRightIcon, MapPinIcon, StarIcon, ShieldIcon } from "@/components/icons";
 import { featuredBlogPosts } from "@/data/blogPosts";
 
 // Lazy load the map component (below-fold)
 const ItalyWineMap = dynamic(() => import("@/components/map").then(mod => mod.ItalyWineMap), {
   loading: () => <div className="h-[400px] bg-sand/30 rounded-lg animate-pulse" />,
 });
+
+function SectionDivider() {
+  return (
+    <div className="flex items-center justify-center py-1">
+      <div className="h-px w-16 bg-gradient-to-r from-transparent to-sand" />
+      <div className="mx-3 w-1.5 h-1.5 rounded-full bg-gold/40" />
+      <div className="h-px w-16 bg-gradient-to-l from-transparent to-sand" />
+    </div>
+  );
+}
 
 function TuscanyIcon({ className }: { className?: string }) {
   return (
@@ -207,7 +217,7 @@ const wineCategories = [
   {
     name: "Rode Wijn",
     description: "Vol & Rijk",
-    href: "/wijnen/rood",
+    href: "/wijnen?type=red",
     color: "bg-wine/10 hover:bg-wine/15",
     iconColor: "text-wine",
     Icon: RedWineIcon,
@@ -215,7 +225,7 @@ const wineCategories = [
   {
     name: "Witte Wijn",
     description: "Fris & Fruitig",
-    href: "/wijnen/wit",
+    href: "/wijnen?type=white",
     color: "bg-gold/10 hover:bg-gold/15",
     iconColor: "text-gold",
     Icon: WhiteWineIcon,
@@ -223,7 +233,7 @@ const wineCategories = [
   {
     name: "Rosé",
     description: "Licht & Zomers",
-    href: "/wijnen/rose",
+    href: "/wijnen?type=rose",
     color: "bg-coral/10 hover:bg-coral/15",
     iconColor: "text-coral",
     Icon: RoseWineIcon,
@@ -231,7 +241,7 @@ const wineCategories = [
   {
     name: "Bubbels",
     description: "Feestelijk",
-    href: "/wijnen/mousserende",
+    href: "/wijnen?type=sparkling",
     color: "bg-champagne hover:bg-gold/20",
     iconColor: "text-charcoal",
     Icon: BubblesIcon,
@@ -252,8 +262,8 @@ export default async function Home() {
 
   return (
     <>
-      {/* Hero Section - Optimized for mobile */}
-      <section className="relative h-[60vh] sm:h-[70vh] min-h-[420px] sm:min-h-[500px] max-h-[800px] overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative h-[70vh] sm:h-[80vh] min-h-[500px] sm:min-h-[600px] max-h-[900px] overflow-hidden">
         {/* Background Video */}
         <div className="absolute inset-0">
           <video
@@ -268,35 +278,35 @@ export default async function Home() {
           >
             <source src="/hero-video.mp4" type="video/mp4" />
           </video>
-          {/* Gradient overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/55 to-black/30 sm:from-black/65 sm:via-black/45 sm:to-black/20" />
+          {/* Centered gradient overlay */}
+          <div className="absolute inset-0 bg-black/50" />
         </div>
 
-        {/* Content - CSS animations instead of framer-motion */}
-        <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-          <div className="max-w-xl animate-fade-in-up">
-            <p className="text-gold font-medium tracking-wider uppercase text-xs sm:text-sm mb-2 sm:mb-4 animate-fade-in animation-delay-300">
+        {/* Content - Centered */}
+        <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center">
+          <div className="max-w-3xl text-center animate-fade-in-up">
+            <p className="text-gold font-medium tracking-[0.2em] uppercase text-xs sm:text-sm mb-3 sm:mb-5 animate-fade-in animation-delay-300">
               Authentieke Italiaanse Wijnen
             </p>
-            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-3 sm:mb-6 leading-tight animate-fade-in-up animation-delay-400 text-shadow-hero">
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-4 sm:mb-6 leading-[1.1] animate-fade-in-up animation-delay-400 text-shadow-hero">
               La Dolce Vita
               <br />
               <span className="text-gold">in Elk Glas</span>
             </h1>
-            <p className="text-sm sm:text-lg text-white/90 mb-5 sm:mb-8 leading-relaxed animate-fade-in animation-delay-500 line-clamp-3 sm:line-clamp-none text-shadow-sm">
+            <p className="text-sm sm:text-lg lg:text-xl text-white/85 mb-6 sm:mb-10 leading-relaxed animate-fade-in animation-delay-500 max-w-2xl mx-auto text-shadow-sm">
               Ontdek onze zorgvuldig geselecteerde collectie Italiaanse wijnen.
               Van krachtige Barolo tot frisse Pinot Grigio.
             </p>
-            <div className="flex gap-3 sm:gap-4 flex-wrap animate-fade-in-up animation-delay-600">
+            <div className="flex gap-4 justify-center animate-fade-in-up animation-delay-600">
               <Link
                 href="/wijnen"
-                className="inline-flex items-center justify-center h-11 sm:h-14 px-5 sm:px-8 bg-wine text-white font-semibold uppercase tracking-wide text-xs sm:text-sm rounded hover:bg-wine-dark transition-colors"
+                className="inline-flex items-center justify-center h-12 sm:h-14 px-8 sm:px-10 bg-wine text-white font-semibold uppercase tracking-wider text-xs sm:text-sm rounded hover:bg-wine-dark transition-colors"
               >
                 Bekijk Collectie
               </Link>
               <Link
                 href="/over-ons"
-                className="hidden sm:inline-flex items-center justify-center h-14 px-8 border-2 border-white text-white font-semibold uppercase tracking-wide rounded hover:bg-white hover:text-charcoal transition-colors"
+                className="inline-flex items-center justify-center h-12 sm:h-14 px-6 sm:px-8 border-2 border-white/80 text-white font-semibold uppercase tracking-wider text-xs sm:text-sm rounded hover:bg-white hover:text-charcoal transition-colors"
               >
                 Ons Verhaal
               </Link>
@@ -304,7 +314,7 @@ export default async function Home() {
           </div>
         </div>
 
-        {/* Scroll indicator - Hidden on mobile */}
+        {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-fade-in animation-delay-1000 hidden sm:block">
           <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center pt-2 animate-bounce-slow">
             <div className="w-1 h-2 bg-white/70 rounded-full" />
@@ -314,70 +324,89 @@ export default async function Home() {
 
       {/* USP Bar */}
       <Section background="warm" spacing="sm">
-        <div className="grid grid-cols-2 gap-4 sm:gap-6 py-2">
-          <div className="flex items-center gap-2 sm:gap-3 justify-center text-center">
-            <TruckIcon className="w-5 h-5 sm:w-6 sm:h-6 text-wine flex-shrink-0" />
-            <div className="text-left sm:text-center">
-              <p className="font-semibold text-charcoal text-sm sm:text-base">Gratis verzending</p>
-              <p className="text-xs sm:text-sm text-grey">vanaf €35</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0 py-2">
+          <div className="flex items-center gap-2.5 justify-center sm:border-r sm:border-sand">
+            <TruckIcon className="w-5 h-5 text-wine flex-shrink-0" />
+            <div>
+              <p className="font-semibold text-charcoal text-sm">Gratis verzending</p>
+              <p className="text-xs text-grey">vanaf €35</p>
             </div>
           </div>
-          <div className="flex items-center gap-2 sm:gap-3 justify-center text-center">
-            <RefreshIcon className="w-5 h-5 sm:w-6 sm:h-6 text-wine flex-shrink-0" />
-            <div className="text-left sm:text-center">
-              <p className="font-semibold text-charcoal text-sm sm:text-base">Gratis retour</p>
-              <p className="text-xs sm:text-sm text-grey">14 dagen</p>
+          <div className="flex items-center gap-2.5 justify-center sm:border-r sm:border-sand">
+            <RefreshIcon className="w-5 h-5 text-wine flex-shrink-0" />
+            <div>
+              <p className="font-semibold text-charcoal text-sm">Gratis retour</p>
+              <p className="text-xs text-grey">14 dagen</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5 justify-center sm:border-r sm:border-sand">
+            <StarIcon className="w-5 h-5 text-wine flex-shrink-0" />
+            <div>
+              <p className="font-semibold text-charcoal text-sm">Expert selectie</p>
+              <p className="text-xs text-grey">Handgeplukt in Italië</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5 justify-center">
+            <ShieldIcon className="w-5 h-5 text-wine flex-shrink-0" />
+            <div>
+              <p className="font-semibold text-charcoal text-sm">Veilig betalen</p>
+              <p className="text-xs text-grey">iDEAL & creditcard</p>
             </div>
           </div>
         </div>
       </Section>
 
-      {/* Italy Wine Regions Map - Compact on mobile */}
-      <Section background="warm" spacing="md" className="sm:py-12">
-        <div className="grid lg:grid-cols-2 gap-6 sm:gap-12 items-center">
+      {/* Italy Wine Regions Map */}
+      <Section background="dark" spacing="lg">
+        <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
           <div className="order-2 lg:order-1">
-            <p className="text-label text-wine mb-1 sm:mb-2 text-xs sm:text-sm">Ontdek per Regio</p>
-            <h2 className="font-serif text-xl sm:text-2xl lg:text-3xl font-semibold mb-2 sm:mb-4">Van Piemonte tot Toscane</h2>
-            <p className="text-sm sm:text-base text-grey mb-4 sm:mb-6 line-clamp-3 sm:line-clamp-none">
-              Onze selectie komt uit de mooiste wijnregio's van Italië.
+            <p className="text-gold/80 text-xs font-medium tracking-[0.2em] uppercase mb-3">Ontdek per Regio</p>
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold text-white mb-3 sm:mb-5">Van Piemonte tot Toscane</h2>
+            <p className="text-sm sm:text-base text-white/60 mb-6 sm:mb-8 line-clamp-3 sm:line-clamp-none leading-relaxed">
+              Onze selectie komt uit de mooiste wijnregio&apos;s van Italië.
               Van Piemonte tot Toscane — klik op een regio om te ontdekken.
             </p>
             <div className="flex flex-wrap gap-2 sm:gap-3">
               <Link
                 href="/wijnen?region=piemonte"
-                className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-wine/10 text-wine rounded-full text-xs sm:text-sm font-medium hover:bg-wine/20 active:bg-wine/25 transition-colors"
+                className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 text-white border border-white/10 rounded-full text-xs sm:text-sm font-medium hover:bg-gold/20 hover:border-gold/30 hover:text-gold transition-all"
               >
                 <GrapeIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Piemonte
               </Link>
               <Link
                 href="/wijnen?region=veneto"
-                className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-wine/10 text-wine rounded-full text-xs sm:text-sm font-medium hover:bg-wine/20 active:bg-wine/25 transition-colors"
+                className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 text-white border border-white/10 rounded-full text-xs sm:text-sm font-medium hover:bg-gold/20 hover:border-gold/30 hover:text-gold transition-all"
               >
                 <WineBottleIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Veneto
               </Link>
               <Link
                 href="/wijnen?region=toscana"
-                className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-wine/10 text-wine rounded-full text-xs sm:text-sm font-medium hover:bg-wine/20 active:bg-wine/25 transition-colors"
+                className="inline-flex items-center gap-1.5 sm:gap-2 px-4 sm:px-5 py-2 sm:py-2.5 bg-white/10 text-white border border-white/10 rounded-full text-xs sm:text-sm font-medium hover:bg-gold/20 hover:border-gold/30 hover:text-gold transition-all"
               >
                 <TuscanyIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" /> Toscana
               </Link>
             </div>
           </div>
           <div className="flex justify-center order-1 lg:order-2">
-            <div className="scale-[0.6] sm:scale-75 lg:scale-100 origin-center -my-6 sm:-my-4 lg:my-0">
+            <div className="scale-[0.6] sm:scale-75 lg:scale-100 origin-center -my-6 sm:-my-4 lg:my-0 opacity-80">
               <ItalyWineMap size="lg" />
             </div>
           </div>
         </div>
       </Section>
 
-      {/* Featured Products - 2 cols on mobile */}
-      <Section background="default" spacing="md" className="sm:py-12">
-        <div className="flex items-center justify-between mb-4 sm:mb-8">
-          <h2 className="font-serif text-lg sm:text-2xl lg:text-3xl font-semibold">Onze Favorieten</h2>
+      <SectionDivider />
+
+      {/* Featured Products */}
+      <Section background="default" spacing="lg">
+        <div className="flex items-start sm:items-center justify-between mb-6 sm:mb-10">
+          <div>
+            <p className="text-label text-wine mb-2 tracking-[0.15em]">Handgeselecteerd</p>
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Onze Favorieten</h2>
+          </div>
           <Link
             href="/wijnen"
-            className="flex items-center gap-1 text-wine font-medium text-sm sm:text-base hover:underline"
+            className="flex items-center gap-1.5 text-wine font-medium text-sm hover:gap-2.5 transition-all"
           >
             Bekijk alles
             <ChevronRightIcon className="w-4 h-4" />
@@ -390,135 +419,148 @@ export default async function Home() {
         </Grid>
       </Section>
 
-      {/* Category Quick Links - Compact on mobile */}
-      <Section background="warm" spacing="md" className="sm:py-12">
-        <div className="text-center mb-4 sm:mb-10">
-          <p className="text-label text-wine mb-1 text-xs sm:text-sm">Shop per Categorie</p>
-          <h2 className="font-serif text-lg sm:text-2xl lg:text-3xl font-semibold">Ontdek Onze Collectie</h2>
+      {/* Category Quick Links */}
+      <Section background="warm" spacing="lg">
+        <div className="text-center mb-6 sm:mb-12">
+          <p className="text-label text-wine mb-2 tracking-[0.15em]">Shop per Categorie</p>
+          <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Ontdek Onze Collectie</h2>
         </div>
-        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-4 md:gap-6">
+        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-5 md:gap-6">
           {wineCategories.map((category) => (
             <Link
               key={category.name}
               href={category.href}
-              className={`${category.color} rounded-lg sm:rounded-xl p-3 sm:p-6 text-center transition-all hover:shadow-lg active:scale-95 sm:hover:-translate-y-1 group`}
+              className={`${category.color} rounded-xl sm:rounded-2xl p-4 sm:p-8 text-center transition-all duration-300 hover:shadow-xl active:scale-95 sm:hover:-translate-y-1.5 group border border-transparent hover:border-wine/10`}
             >
-              <div className={`${category.iconColor} mb-1.5 sm:mb-3 flex justify-center`}>
-                <category.Icon className="w-8 h-8 sm:w-12 sm:h-12 transition-transform group-hover:scale-110" />
+              <div className={`${category.iconColor} mb-2 sm:mb-4 flex justify-center`}>
+                <category.Icon className="w-10 h-10 sm:w-16 sm:h-16 transition-transform duration-300 group-hover:scale-110" />
               </div>
-              <h3 className="font-semibold text-charcoal text-xs sm:text-base mb-0.5 sm:mb-1">{category.name}</h3>
-              <p className="text-[10px] sm:text-sm text-grey hidden sm:block">{category.description}</p>
+              <h3 className="font-serif font-semibold text-charcoal text-sm sm:text-lg mb-0.5 sm:mb-1">{category.name}</h3>
+              <p className="text-xs sm:text-sm text-grey hidden sm:block">{category.description}</p>
             </Link>
           ))}
         </div>
       </Section>
 
-      {/* Blog Section - Wines & Regions */}
-      <Section background="default" spacing="md" className="sm:py-12">
-        <div className="flex items-center justify-between mb-4 sm:mb-8">
+      <SectionDivider />
+
+      {/* Blog Section - Magazine Style */}
+      <Section background="default" spacing="lg">
+        <div className="flex items-end justify-between mb-8 sm:mb-12">
           <div>
-            <p className="text-label text-wine mb-1 text-xs sm:text-sm">Uit Ons Magazine</p>
-            <h2 className="font-serif text-lg sm:text-2xl lg:text-3xl font-semibold">Wijn Verhalen</h2>
+            <p className="text-label text-wine mb-2 tracking-[0.15em]">Uit Ons Magazine</p>
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Wijn Verhalen</h2>
+            <p className="text-grey text-sm sm:text-base mt-2 max-w-lg">Verdiep je in de wereld van Italiaanse wijn — van regio&apos;s tot druivenrassen.</p>
           </div>
           <Link
             href="/blog"
-            className="hidden sm:flex items-center gap-1 text-wine font-medium text-sm hover:underline"
+            className="hidden sm:flex items-center gap-1.5 text-wine font-medium text-sm hover:gap-2.5 transition-all shrink-0"
           >
             Alle artikelen
             <ArrowRightIcon className="w-4 h-4" />
           </Link>
         </div>
 
-        {/* Featured article - large card */}
-        <div className="grid lg:grid-cols-2 gap-3 sm:gap-6 mb-3 sm:mb-6">
+        {/* Magazine grid */}
+        <div className="grid lg:grid-cols-12 gap-4 sm:gap-6">
+          {/* Featured article - large hero card */}
           <Link
             href={`/blog/${featuredBlogPosts[0].slug}`}
-            className="group relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[16/10] sm:aspect-[4/3] lg:aspect-auto lg:min-h-[360px]"
+            className="group relative lg:col-span-7 rounded-2xl sm:rounded-3xl overflow-hidden aspect-[16/10] sm:aspect-[4/3] lg:aspect-auto lg:min-h-[440px]"
           >
-            {/* Rich gradient background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-wine via-wine-dark to-wine-light" />
-            {/* Decorative wine bottle & crown illustration */}
-            <svg className="absolute right-4 sm:right-8 top-4 sm:top-8 w-24 h-32 sm:w-40 sm:h-52 lg:w-48 lg:h-64 text-white/[0.07]" viewBox="0 0 120 160" fill="currentColor">
-              <path d="M52 10h16v16l8 12v72c0 8-7 14-16 14H60c-9 0-16-6-16-14V38l8-12V10z" />
-              <rect x="48" y="2" width="24" height="10" rx="2" />
-              <path d="M44 72h32v2H44z" opacity="0.5" />
-              <circle cx="60" cy="90" r="8" opacity="0.3" />
-              {/* Crown above bottle */}
-              <path d="M45 -8l5 10 10-6 10 6 5-10v12H45z" opacity="0.5" />
+            <div className="absolute inset-0 bg-gradient-to-br from-wine via-wine-dark to-[#0a0d1a]" />
+            {/* Animated radial glow on hover */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(201,162,39,0.15),transparent_60%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            {/* Large decorative wine bottle silhouette */}
+            <svg className="absolute right-6 sm:right-10 top-1/2 -translate-y-1/2 w-20 h-44 sm:w-32 sm:h-72 lg:w-40 lg:h-[340px] text-white/[0.04] group-hover:text-white/[0.07] transition-colors duration-700" viewBox="0 0 120 260" fill="currentColor">
+              <rect x="48" y="0" width="24" height="14" rx="3" />
+              <path d="M52 14h16v20l10 16v120c0 12-8 20-18 20H60c-10 0-18-8-18-20V50l10-16V14z" />
+              <path d="M44 100h32v2H44z" opacity="0.3" />
+              <ellipse cx="60" cy="130" rx="10" ry="10" opacity="0.15" />
+              <path d="M50 200h20v2H50z" opacity="0.2" />
             </svg>
-            {/* Text readability overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-8">
-              <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-                <span className="text-[10px] sm:text-xs font-medium uppercase tracking-wider text-gold bg-white/10 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-sm border border-white/10">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+            {/* Number indicator */}
+            <div className="absolute top-5 left-5 sm:top-8 sm:left-8 w-8 h-8 sm:w-10 sm:h-10 rounded-full border border-gold/30 flex items-center justify-center">
+              <span className="text-gold/70 text-xs sm:text-sm font-serif font-semibold">01</span>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-8 lg:p-10">
+              <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+                <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-gold bg-gold/10 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full backdrop-blur-md border border-gold/20">
                   {featuredBlogPosts[0].categoryLabel}
                 </span>
                 {featuredBlogPosts[0].region && (
-                  <span className="flex items-center gap-1 text-[10px] sm:text-xs text-white/80">
+                  <span className="flex items-center gap-1.5 text-[10px] sm:text-xs text-white/70 font-medium">
                     <MapPinIcon className="w-3 h-3" />
                     {featuredBlogPosts[0].region}
                   </span>
                 )}
               </div>
-              <h3 className="font-serif text-lg sm:text-2xl lg:text-3xl font-semibold text-white mb-1 sm:mb-2 group-hover:text-gold transition-colors leading-tight">
+              <h3 className="font-serif text-xl sm:text-3xl lg:text-4xl font-semibold text-white mb-2 sm:mb-3 group-hover:text-gold transition-colors duration-500 leading-[1.15]">
                 {featuredBlogPosts[0].title}
               </h3>
-              <p className="text-white/80 text-xs sm:text-base mb-2 sm:mb-3 line-clamp-2">
+              <p className="text-white/70 text-sm sm:text-base mb-4 sm:mb-5 line-clamp-2 max-w-xl leading-relaxed">
                 {featuredBlogPosts[0].excerpt}
               </p>
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1 text-white/60 text-xs sm:text-sm">
-                  <ClockIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-                  {featuredBlogPosts[0].readTime} min leestijd
+                <div className="flex items-center gap-4 text-white/50 text-xs sm:text-sm">
+                  <span className="flex items-center gap-1.5">
+                    <ClockIcon className="w-3.5 h-3.5" />
+                    {featuredBlogPosts[0].readTime} min leestijd
+                  </span>
+                  <span className="hidden sm:inline">{featuredBlogPosts[0].date}</span>
                 </div>
-                <span className="text-gold text-xs sm:text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                  Lees meer <ArrowRightIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span className="flex items-center gap-1.5 text-gold text-xs sm:text-sm font-medium translate-x-0 group-hover:-translate-x-1 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                  Lees artikel <ArrowRightIcon className="w-4 h-4" />
                 </span>
               </div>
             </div>
           </Link>
 
-          {/* Two smaller cards stacked */}
-          <div className="flex flex-col sm:grid sm:grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-6">
+          {/* Two stacked cards */}
+          <div className="lg:col-span-5 flex flex-col gap-4 sm:gap-6">
             {/* Toscana card */}
             <Link
               href={`/blog/${featuredBlogPosts[1].slug}`}
-              className="group relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[2.5/1] sm:aspect-[4/3] lg:aspect-auto lg:min-h-[168px]"
+              className="group relative flex-1 rounded-2xl sm:rounded-3xl overflow-hidden aspect-[2.5/1] sm:aspect-[3/2] lg:aspect-auto lg:min-h-0"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-gold/80 via-gold/60 to-wine/70" />
-              {/* Decorative Tuscan cypress trees */}
-              <svg className="absolute right-2 sm:right-4 top-2 sm:top-4 w-16 h-20 sm:w-28 sm:h-36 text-white/[0.08]" viewBox="0 0 80 100" fill="currentColor">
-                <path d="M20 95V45" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.1" />
-                <path d="M20 20c0 0-6 8-6 18s4 16 6 22c2-6 6-12 6-22s-6-18-6-18z" />
-                <path d="M50 95V55" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.1" />
-                <path d="M50 35c0 0-5 6-5 14s3 12 5 17c2-5 5-9 5-17s-5-14-5-14z" />
-                <path d="M70 95V65" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.1" />
-                <path d="M70 50c0 0-4 5-4 11s2 10 4 14c2-4 4-8 4-14s-4-11-4-11z" />
-                {/* Rolling hills */}
-                <path d="M0 85 Q20 75 40 82 Q60 88 80 80 V100 H0z" opacity="0.15" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#8B6914] via-gold/70 to-wine/60" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(255,255,255,0.1),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              {/* Tuscan hills silhouette */}
+              <svg className="absolute bottom-0 left-0 right-0 h-16 sm:h-24 text-black/10" viewBox="0 0 400 80" preserveAspectRatio="none" fill="currentColor">
+                <path d="M0 80 Q50 30 100 50 Q150 70 200 40 Q250 10 300 35 Q350 55 400 25 V80z" />
               </svg>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6">
-                <div className="flex items-center gap-2 mb-1 sm:mb-2">
-                  <span className="text-[9px] sm:text-xs font-medium uppercase tracking-wider text-gold bg-white/10 px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-sm border border-white/10">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              {/* Number */}
+              <div className="absolute top-3 left-3 sm:top-5 sm:left-5 w-7 h-7 sm:w-9 sm:h-9 rounded-full border border-white/20 flex items-center justify-center">
+                <span className="text-white/60 text-[10px] sm:text-xs font-serif font-semibold">02</span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-3.5 sm:p-6">
+                <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+                  <span className="text-[9px] sm:text-xs font-semibold uppercase tracking-widest text-gold bg-gold/10 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-md border border-gold/20">
                     {featuredBlogPosts[1].categoryLabel}
                   </span>
                   {featuredBlogPosts[1].region && (
-                    <span className="hidden sm:flex items-center gap-1 text-xs text-white/80">
+                    <span className="hidden sm:flex items-center gap-1 text-xs text-white/70">
                       <MapPinIcon className="w-3 h-3" />
                       {featuredBlogPosts[1].region}
                     </span>
                   )}
                 </div>
-                <h3 className="font-serif text-sm sm:text-lg lg:text-xl font-semibold text-white group-hover:text-gold transition-colors leading-snug line-clamp-2">
+                <h3 className="font-serif text-base sm:text-xl lg:text-2xl font-semibold text-white group-hover:text-gold transition-colors duration-500 leading-snug line-clamp-2">
                   {featuredBlogPosts[1].title}
                 </h3>
-                <p className="hidden sm:block text-white/80 text-sm mt-1 line-clamp-2">
+                <p className="hidden sm:block text-white/60 text-sm mt-1.5 line-clamp-2 leading-relaxed">
                   {featuredBlogPosts[1].excerpt}
                 </p>
-                <div className="flex items-center gap-1 text-white/60 text-[10px] sm:text-sm mt-1 sm:mt-2">
-                  <ClockIcon className="w-3 h-3" />
-                  {featuredBlogPosts[1].readTime} min
+                <div className="flex items-center justify-between mt-2 sm:mt-3">
+                  <span className="flex items-center gap-1 text-white/40 text-[10px] sm:text-xs">
+                    <ClockIcon className="w-3 h-3" />
+                    {featuredBlogPosts[1].readTime} min
+                  </span>
+                  <span className="flex items-center gap-1 text-gold text-[10px] sm:text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Lees meer <ArrowRightIcon className="w-3 h-3" />
+                  </span>
                 </div>
               </div>
             </Link>
@@ -526,11 +568,12 @@ export default async function Home() {
             {/* Amarone card */}
             <Link
               href={`/blog/${featuredBlogPosts[2].slug}`}
-              className="group relative rounded-xl sm:rounded-2xl overflow-hidden aspect-[2.5/1] sm:aspect-[4/3] lg:aspect-auto lg:min-h-[168px]"
+              className="group relative flex-1 rounded-2xl sm:rounded-3xl overflow-hidden aspect-[2.5/1] sm:aspect-[3/2] lg:aspect-auto lg:min-h-0"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-wine-light via-wine/70 to-charcoal/80" />
-              {/* Decorative grape cluster */}
-              <svg className="absolute right-2 sm:right-4 top-2 sm:top-4 w-16 h-20 sm:w-24 sm:h-32 text-white/[0.08]" viewBox="0 0 60 80" fill="currentColor">
+              <div className="absolute inset-0 bg-gradient-to-br from-wine-light via-[#1a1f3d] to-[#0a0d1a]" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,rgba(201,162,39,0.08),transparent_50%)] opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+              {/* Grape cluster pattern */}
+              <svg className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 w-14 h-18 sm:w-20 sm:h-28 text-white/[0.05] group-hover:text-white/[0.08] transition-colors duration-700" viewBox="0 0 60 80" fill="currentColor">
                 <circle cx="20" cy="28" r="7" />
                 <circle cx="34" cy="28" r="7" />
                 <circle cx="27" cy="20" r="7" />
@@ -540,32 +583,39 @@ export default async function Home() {
                 <circle cx="20" cy="50" r="7" />
                 <circle cx="34" cy="50" r="7" />
                 <circle cx="27" cy="58" r="7" />
-                {/* Stem */}
-                <path d="M27 12V4" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.5" />
-                <path d="M27 4c0 0 6-2 10 0" stroke="currentColor" strokeWidth="1.5" fill="none" opacity="0.3" />
+                <path d="M27 12V4" stroke="currentColor" strokeWidth="2" fill="none" opacity="0.3" />
               </svg>
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-3 sm:p-6">
-                <div className="flex items-center gap-2 mb-1 sm:mb-2">
-                  <span className="text-[9px] sm:text-xs font-medium uppercase tracking-wider text-gold bg-white/10 px-1.5 py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-sm border border-white/10">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+              {/* Number */}
+              <div className="absolute top-3 left-3 sm:top-5 sm:left-5 w-7 h-7 sm:w-9 sm:h-9 rounded-full border border-white/20 flex items-center justify-center">
+                <span className="text-white/60 text-[10px] sm:text-xs font-serif font-semibold">03</span>
+              </div>
+              <div className="absolute bottom-0 left-0 right-0 p-3.5 sm:p-6">
+                <div className="flex items-center gap-2 mb-1.5 sm:mb-2">
+                  <span className="text-[9px] sm:text-xs font-semibold uppercase tracking-widest text-gold bg-gold/10 px-2 py-0.5 sm:px-3 sm:py-1 rounded-full backdrop-blur-md border border-gold/20">
                     {featuredBlogPosts[2].categoryLabel}
                   </span>
                   {featuredBlogPosts[2].region && (
-                    <span className="hidden sm:flex items-center gap-1 text-xs text-white/80">
+                    <span className="hidden sm:flex items-center gap-1 text-xs text-white/70">
                       <MapPinIcon className="w-3 h-3" />
                       {featuredBlogPosts[2].region}
                     </span>
                   )}
                 </div>
-                <h3 className="font-serif text-sm sm:text-lg lg:text-xl font-semibold text-white group-hover:text-gold transition-colors leading-snug line-clamp-2">
+                <h3 className="font-serif text-base sm:text-xl lg:text-2xl font-semibold text-white group-hover:text-gold transition-colors duration-500 leading-snug line-clamp-2">
                   {featuredBlogPosts[2].title}
                 </h3>
-                <p className="hidden sm:block text-white/80 text-sm mt-1 line-clamp-2">
+                <p className="hidden sm:block text-white/60 text-sm mt-1.5 line-clamp-2 leading-relaxed">
                   {featuredBlogPosts[2].excerpt}
                 </p>
-                <div className="flex items-center gap-1 text-white/60 text-[10px] sm:text-sm mt-1 sm:mt-2">
-                  <ClockIcon className="w-3 h-3" />
-                  {featuredBlogPosts[2].readTime} min
+                <div className="flex items-center justify-between mt-2 sm:mt-3">
+                  <span className="flex items-center gap-1 text-white/40 text-[10px] sm:text-xs">
+                    <ClockIcon className="w-3 h-3" />
+                    {featuredBlogPosts[2].readTime} min
+                  </span>
+                  <span className="flex items-center gap-1 text-gold text-[10px] sm:text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Lees meer <ArrowRightIcon className="w-3 h-3" />
+                  </span>
                 </div>
               </div>
             </Link>
@@ -575,7 +625,7 @@ export default async function Home() {
         {/* Mobile: link to all articles */}
         <Link
           href="/blog"
-          className="sm:hidden flex items-center justify-center gap-1.5 text-wine font-medium text-sm py-2"
+          className="sm:hidden flex items-center justify-center gap-1.5 text-wine font-medium text-sm py-4 mt-2"
         >
           Alle artikelen
           <ArrowRightIcon className="w-4 h-4" />

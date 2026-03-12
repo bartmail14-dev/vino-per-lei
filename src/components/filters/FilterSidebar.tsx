@@ -135,6 +135,7 @@ export function FilterSidebar({
   activeFilters,
   onFilterChange,
   onClearAll,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onClearGroup,
   isOpen = true,
   onClose,

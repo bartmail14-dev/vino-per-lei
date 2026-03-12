@@ -139,6 +139,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const regionParam = searchParams.get("region");
+  const typeParam = searchParams.get("type");
 
   const filterGroups = useMemo(() => buildFilterGroups(products), [products]);
 
@@ -148,8 +149,11 @@ export function WijnenContent({ products }: { products: Product[] }) {
     if (regionParam) {
       filters.region = [regionParam];
     }
+    if (typeParam) {
+      filters.wineType = [typeParam];
+    }
     return filters;
-  }, [regionParam]);
+  }, [regionParam, typeParam]);
 
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>(initialFilters);
   const [sortBy, setSortBy] = useState("popular");
@@ -159,13 +163,17 @@ export function WijnenContent({ products }: { products: Product[] }) {
 
   // Sync filters with URL params on mount/change
   useEffect(() => {
+    const updates: ActiveFilters = {};
     if (regionParam && !activeFilters.region?.includes(regionParam)) {
-      setActiveFilters((prev) => ({
-        ...prev,
-        region: [regionParam],
-      }));
+      updates.region = [regionParam];
     }
-  }, [regionParam]);
+    if (typeParam && !activeFilters.wineType?.includes(typeParam)) {
+      updates.wineType = [typeParam];
+    }
+    if (Object.keys(updates).length > 0) {
+      setActiveFilters((prev) => ({ ...prev, ...updates }));
+    }
+  }, [regionParam, typeParam, activeFilters.region, activeFilters.wineType]);
 
   // Get active region name for header
   const activeRegionName = useMemo(() => {
@@ -199,6 +207,30 @@ export function WijnenContent({ products }: { products: Product[] }) {
       );
     }
 
+    // Apply grape filter
+    if (activeFilters.grape?.length) {
+      result = result.filter((p) =>
+        p.grapeVarieties?.some((g) =>
+          activeFilters.grape!.includes(g.toLowerCase().replace(/\s+/g, "-"))
+        )
+      );
+    }
+
+    // Apply price filter
+    if (activeFilters.price?.length) {
+      result = result.filter((p) => {
+        const price = p.price;
+        return activeFilters.price!.some((range) => {
+          if (range === "0-10") return price < 10;
+          if (range === "10-15") return price >= 10 && price < 15;
+          if (range === "15-20") return price >= 15 && price < 20;
+          if (range === "20-30") return price >= 20 && price < 30;
+          if (range === "30+") return price >= 30;
+          return true;
+        });
+      });
+    }
+
     // Sort
     switch (sortBy) {
       case "price-asc":
@@ -208,7 +240,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
         result.sort((a, b) => b.price - a.price);
         break;
       case "newest":
-        result.sort((a, b) => (a.isNew ? -1 : 1));
+        result.sort((a) => (a.isNew ? -1 : 1));
         break;
       case "rating":
         result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
@@ -253,6 +285,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
 
   const handleClearGroup = (groupId: string) => {
     setActiveFilters((prev) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { [groupId]: _, ...rest } = prev;
       return rest;
     });
@@ -307,7 +340,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
             ) : (
               <>
                 Ontdek onze zorgvuldig geselecteerde collectie van {filteredProducts.length} authentieke
-                Italiaanse wijnen uit de mooiste regio's van Italië.
+                Italiaanse wijnen uit de mooiste regio&apos;s van Italië.
               </>
             )}
           </p>
