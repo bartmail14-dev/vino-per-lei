@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import Cookies from "js-cookie";
 import { cn } from "@/lib/utils";
@@ -45,7 +46,7 @@ export function AgeGate({ onVerified }: AgeGateProps) {
 
   const handleConfirm = () => {
     setIsExiting(true);
-    Cookies.set(COOKIE_NAME, "true", { expires: COOKIE_EXPIRY });
+    Cookies.set(COOKIE_NAME, "true", { expires: COOKIE_EXPIRY, secure: true, sameSite: "Lax" });
 
     // Wait for exit animation
     setTimeout(() => {
@@ -66,72 +67,126 @@ export function AgeGate({ onVerified }: AgeGateProps) {
     <AnimatePresence>
       {!isExiting && (
         <motion.div
-          className="fixed inset-0 z-[9999] bg-dark-bg flex items-center justify-center"
+          className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
         >
-          {/* Content */}
+          {/* Background video with overlay */}
+          <div className="absolute inset-0">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              poster="/hero-banner.png"
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover"
+            >
+              <source src="/hero-video.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black/85" />
+          </div>
+
+          {/* Content Card */}
           <motion.div
-            className="relative flex flex-col items-center justify-center px-6 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
+            className="relative z-10 flex flex-col items-center px-8 py-12 sm:px-14 sm:py-16 text-center max-w-md mx-4 rounded-2xl bg-white/[0.07] backdrop-blur-xl border border-white/10 shadow-2xl"
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
           >
+            {/* Decorative top accent */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-transparent via-gold to-transparent rounded-full" />
+
             {/* Logo */}
-            <div className="mb-12">
-              <h1 className="font-serif text-3xl md:text-4xl text-white tracking-wide">
-                Vino per Lei
-              </h1>
-            </div>
+            <motion.div
+              className="mb-8"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
+              <Image
+                src="/logo.png"
+                alt="Vino per Lei"
+                width={450}
+                height={450}
+                className="h-20 sm:h-24 w-auto mx-auto brightness-0 invert opacity-90"
+                priority
+              />
+            </motion.div>
+
+            {/* Divider */}
+            <div className="w-12 h-px bg-gold/40 mb-8" />
 
             {/* Question */}
-            <h2 className="font-serif text-2xl md:text-3xl text-white mb-10">
+            <motion.h2
+              className="font-serif text-xl sm:text-2xl text-white mb-3 leading-snug"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
               Ben je 18 jaar of ouder?
-            </h2>
-
-            {/* Primary Button */}
-            <button
-              onClick={handleConfirm}
-              className={cn(
-                "w-full max-w-[280px] h-14 rounded",
-                "border-2 border-coral text-coral",
-                "font-semibold text-sm uppercase tracking-wide",
-                "transition-all duration-200",
-                "hover:bg-coral hover:text-dark-bg",
-                "focus:outline-none focus:ring-2 focus:ring-coral focus:ring-offset-2 focus:ring-offset-dark-bg"
-              )}
+            </motion.h2>
+            <motion.p
+              className="text-sm text-white/50 mb-10 max-w-xs"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.55, duration: 0.5 }}
             >
-              Ja, ik ben 18+
-            </button>
+              Je moet 18+ zijn om deze website te bezoeken
+            </motion.p>
 
-            {/* Secondary Link */}
-            <button
-              onClick={handleDeny}
-              className={cn(
-                "mt-4 text-sm text-light-grey",
-                "transition-colors duration-200",
-                "hover:text-white",
-                "focus:outline-none focus:underline"
-              )}
+            {/* Buttons */}
+            <motion.div
+              className="flex flex-col gap-3 w-full max-w-[260px]"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.5 }}
             >
-              Nee, ik ben jonger
-            </button>
+              <button
+                onClick={handleConfirm}
+                className={cn(
+                  "w-full h-13 rounded-lg",
+                  "bg-gold text-wine-dark",
+                  "font-semibold text-sm uppercase tracking-widest",
+                  "transition-all duration-300",
+                  "hover:bg-gold-light hover:shadow-lg hover:shadow-gold/20",
+                  "focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-transparent"
+                )}
+              >
+                Ja, ik ben 18+
+              </button>
+
+              <button
+                onClick={handleDeny}
+                className={cn(
+                  "w-full h-13 rounded-lg",
+                  "border border-white/20 text-white/60",
+                  "font-medium text-sm tracking-wide",
+                  "transition-all duration-300",
+                  "hover:border-white/40 hover:text-white/80",
+                  "focus:outline-none focus:ring-2 focus:ring-white/30"
+                )}
+              >
+                Nee, ik ben jonger
+              </button>
+            </motion.div>
           </motion.div>
 
           {/* Legal Text */}
           <motion.p
-            className="absolute bottom-8 left-0 right-0 px-6 text-center text-xs text-grey max-w-md mx-auto"
+            className="absolute bottom-6 sm:bottom-8 left-0 right-0 px-6 text-center text-xs text-white/30 max-w-md mx-auto"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.5, duration: 0.5 }}
+            transition={{ delay: 0.8, duration: 0.5 }}
           >
             Door verder te gaan bevestig je dat je 18 jaar of ouder bent en
             accepteer je onze{" "}
             <a
               href="/voorwaarden"
-              className="underline hover:text-light-grey"
+              className="underline hover:text-white/50 transition-colors"
               onClick={(e) => e.stopPropagation()}
             >
               gebruiksvoorwaarden

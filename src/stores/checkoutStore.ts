@@ -181,48 +181,10 @@ export const useCheckoutStore = create<CheckoutState>()(
       clearAllErrors: () => set({ errors: {} }),
 
       // Discount code
-      applyDiscountCode: async (code) => {
-        // Simulate API call to validate discount code
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
-        // Mock discount codes
-        const validCodes: Record<string, DiscountCode> = {
-          WELKOM10: { code: "WELKOM10", amount: 10, type: "percentage" },
-          ZOMER15: { code: "ZOMER15", amount: 15, type: "percentage", minOrderValue: 50 },
-          GRATIS5: { code: "GRATIS5", amount: 5, type: "fixed" },
-        };
-
-        const discount = validCodes[code.toUpperCase()];
-
-        if (discount) {
-          // Enforce minimum order value
-          if (discount.minOrderValue) {
-            const { subtotal } = useCartStore.getState();
-            if (subtotal < discount.minOrderValue) {
-              set((state) => ({
-                errors: {
-                  ...state.errors,
-                  discountCode: `Minimum bestelbedrag voor deze code is €${discount.minOrderValue}`,
-                },
-              }));
-              return false;
-            }
-          }
-
-          set((state) => {
-            const { discountCode: _, ...restErrors } = state.errors;
-            return {
-              discountCode: code.toUpperCase(),
-              discountApplied: discount,
-              errors: restErrors,
-            };
-          });
-          return true;
-        }
-
-        set((state) => ({
-          errors: { ...state.errors, discountCode: "Ongeldige kortingscode" },
-        }));
+      applyDiscountCode: async (_code) => {
+        // TODO: Validate discount code via Shopify API (checkoutDiscountCodeApplyV2 mutation)
+        // Never validate discount codes client-side — always server-side via Shopify
+        set({ errors: { discountCode: "Kortingscodes worden binnenkort ondersteund." } });
         return false;
       },
 
@@ -233,6 +195,19 @@ export const useCheckoutStore = create<CheckoutState>()(
         }),
 
       // Submit order
+      /**
+       * TODO: LIVEGANG — Vervang deze mock door echte Shopify Checkout
+       *
+       * Optie 1: Redirect naar Shopify Hosted Checkout
+       *   - Gebruik createCheckout() uit lib/shopify.ts
+       *   - Loop door cart items, bouw lineItems[] met variantId + quantity
+       *   - Redirect naar checkout.webUrl
+       *
+       * Optie 2: Shopify Storefront Checkout API + eigen betaalpagina
+       *   - Complexer maar meer controle over UX
+       *
+       * Huidige implementatie is een DEMO — er wordt geen bestelling geplaatst.
+       */
       submitOrder: async (): Promise<OrderResult> => {
         // Check cart has items before proceeding
         const cartItems = useCartStore.getState().items;
@@ -336,8 +311,6 @@ export const useCheckoutStore = create<CheckoutState>()(
     {
       name: "vino-per-lei-checkout",
       partialize: (state) => ({
-        contact: state.contact,
-        address: state.address,
         gift: state.gift,
         shipping: state.shipping,
         discountCode: state.discountCode,

@@ -35,6 +35,7 @@ export const useCartStore = create<CartState>()(
       setHydrated: () => set({ isHydrated: true }),
 
       addItem: (product: Product, quantity: number = 1) => {
+        quantity = Math.max(1, Math.min(99, quantity));
         set((state) => {
           const existingItem = state.items.find(
             (item) => item.product.id === product.id
