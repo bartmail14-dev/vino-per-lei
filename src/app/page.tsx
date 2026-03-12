@@ -272,7 +272,7 @@ export default async function Home() {
             loop
             playsInline
             preload="metadata"
-            poster="/hero-banner.png"
+            poster="/hero-banner.webp"
             aria-hidden="true"
             className="absolute inset-0 w-full h-full object-cover"
           >
