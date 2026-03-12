@@ -2,9 +2,22 @@ import Link from "next/link";
 import { Section } from "@/components/layout";
 import { GiftBoxIcon } from "./GiftBoxIcon";
 
-export const metadata = {
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
   title: "Cadeaus | Vino per Lei",
-  description: "Wijn cadeaus voor elke gelegenheid — binnenkort beschikbaar.",
+  description: "Verras met een uniek wijncadeau — geschenksets en cadeaubonnen van Vino per Lei.",
+  openGraph: {
+    title: "Cadeaus | Vino per Lei",
+    description: "Verras met een uniek wijncadeau — geschenksets en cadeaubonnen van Vino per Lei.",
+    locale: "nl_NL",
+    siteName: "Vino per Lei",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cadeaus | Vino per Lei",
+    description: "Verras met een uniek wijncadeau — geschenksets en cadeaubonnen van Vino per Lei.",
+  },
 };
 
 export default function CadeausPage() {

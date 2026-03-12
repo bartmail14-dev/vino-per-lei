@@ -1,9 +1,22 @@
 import Link from "next/link";
 import { Section } from "@/components/layout";
 
-export const metadata = {
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
   title: "Over Ons | Vino per Lei",
-  description: "Ons verhaal — binnenkort beschikbaar.",
+  description: "Ontdek het verhaal achter Vino per Lei — onze passie voor authentieke Italiaanse wijnen.",
+  openGraph: {
+    title: "Over Ons | Vino per Lei",
+    description: "Ontdek het verhaal achter Vino per Lei — onze passie voor authentieke Italiaanse wijnen.",
+    locale: "nl_NL",
+    siteName: "Vino per Lei",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Over Ons | Vino per Lei",
+    description: "Ontdek het verhaal achter Vino per Lei — onze passie voor authentieke Italiaanse wijnen.",
+  },
 };
 
 export default function OverOnsPage() {

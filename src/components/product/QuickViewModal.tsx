@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -8,7 +8,7 @@ import { type Product } from "@/types";
 import { Badge, Rating, PriceDisplay, QuantitySelector, TasteProfile, redWineTasteProfile, whiteWineTasteProfile, roseTasteProfile } from "@/components/ui";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
-import { cn } from "@/lib/utils";
+import { cn, wineImagePresets } from "@/lib/utils";
 import type { TasteProfileItem } from "@/components/ui";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { CloseIcon, HeartIcon, EyeIcon, CartIcon, CheckIcon, TruckIcon, ShieldIcon, LoadingSpinner } from "@/components/icons";
@@ -23,6 +23,13 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [viewerCount, setViewerCount] = useState(12);
+
+  // Set random viewer count client-side only to avoid hydration mismatch
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setViewerCount(Math.floor(Math.random() * 20) + 5);
+  }, []);
 
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: onClose });
 
@@ -141,7 +148,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
 
                 <div className="relative w-full h-64 md:h-96">
                   <Image
-                    src={product.images[0]?.url || ""}
+                    src={wineImagePresets.cardLarge(product.images[0]?.url || "")}
                     alt={product.title}
                     fill
                     className="object-contain drop-shadow-xl"
@@ -177,7 +184,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                 {/* Social Proof */}
                 <div className="flex items-center gap-2 text-sm text-grey mb-4">
                   <EyeIcon className="w-4 h-4" />
-                  <span>{Math.floor(Math.random() * 20) + 5} mensen bekijken dit nu</span>
+                  <span>{viewerCount} mensen bekijken dit nu</span>
                 </div>
 
                 {/* Price */}

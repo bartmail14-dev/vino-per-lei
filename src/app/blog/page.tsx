@@ -1,9 +1,22 @@
 import Link from "next/link";
 import { Section } from "@/components/layout";
 
-export const metadata = {
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
   title: "Blog | Vino per Lei",
-  description: "Wijn verhalen, regiogidsen en tips — binnenkort beschikbaar.",
+  description: "Lees onze verhalen over Italiaanse wijnen, regio's en druivenrassen.",
+  openGraph: {
+    title: "Blog | Vino per Lei",
+    description: "Lees onze verhalen over Italiaanse wijnen, regio's en druivenrassen.",
+    locale: "nl_NL",
+    siteName: "Vino per Lei",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog | Vino per Lei",
+    description: "Lees onze verhalen over Italiaanse wijnen, regio's en druivenrassen.",
+  },
 };
 
 export default function BlogPage() {
