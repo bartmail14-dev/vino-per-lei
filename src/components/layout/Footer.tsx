@@ -24,6 +24,14 @@ function FacebookIcon({ className }: { className?: string }) {
   );
 }
 
+function PinterestIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" />
+    </svg>
+  );
+}
+
 function ChevronDownIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -32,39 +40,81 @@ function ChevronDownIcon({ className }: { className?: string }) {
   );
 }
 
-// Payment icons
-function IdealIcon({ className }: { className?: string }) {
+// Proper SVG Payment Icons
+function IdealIcon() {
   return (
-    <div className={cn("w-10 h-6 bg-white rounded flex items-center justify-center text-[10px] font-bold text-pink-600", className)}>
-      iDEAL
+    <div className="h-8 px-3 bg-white rounded-md flex items-center justify-center shadow-sm border border-sand/50">
+      <svg viewBox="0 0 40 16" className="h-3.5">
+        <text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="13" fill="#CC0066">iDEAL</text>
+      </svg>
     </div>
   );
 }
 
-function MastercardIcon({ className }: { className?: string }) {
+function MastercardIcon() {
   return (
-    <div className={cn("w-10 h-6 bg-white rounded flex items-center justify-center", className)}>
-      <div className="flex -space-x-2">
-        <div className="w-3 h-3 rounded-full bg-red-500" />
-        <div className="w-3 h-3 rounded-full bg-yellow-500" />
-      </div>
+    <div className="h-8 px-2.5 bg-white rounded-md flex items-center justify-center shadow-sm border border-sand/50">
+      <svg viewBox="0 0 32 20" className="h-5">
+        <circle cx="11" cy="10" r="8" fill="#EB001B" />
+        <circle cx="21" cy="10" r="8" fill="#F79E1B" />
+        <path d="M16 4.5a8 8 0 010 11 8 8 0 000-11z" fill="#FF5F00" />
+      </svg>
     </div>
   );
 }
 
-function VisaIcon({ className }: { className?: string }) {
+function VisaIcon() {
   return (
-    <div className={cn("w-10 h-6 bg-white rounded flex items-center justify-center text-[10px] font-bold text-blue-700 italic", className)}>
-      VISA
+    <div className="h-8 px-3 bg-white rounded-md flex items-center justify-center shadow-sm border border-sand/50">
+      <svg viewBox="0 0 40 16" className="h-3">
+        <text x="0" y="14" fontFamily="Arial" fontWeight="bold" fontSize="15" fill="#1A1F71" fontStyle="italic">VISA</text>
+      </svg>
     </div>
   );
 }
 
-function PaypalIcon({ className }: { className?: string }) {
+function PaypalIcon() {
   return (
-    <div className={cn("w-10 h-6 bg-white rounded flex items-center justify-center text-[8px] font-bold text-blue-800", className)}>
-      PayPal
+    <div className="h-8 px-2.5 bg-white rounded-md flex items-center justify-center shadow-sm border border-sand/50">
+      <svg viewBox="0 0 44 16" className="h-3.5">
+        <text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="12">
+          <tspan fill="#003087">Pay</tspan>
+          <tspan fill="#009CDE">Pal</tspan>
+        </text>
+      </svg>
     </div>
+  );
+}
+
+function BancontactIcon() {
+  return (
+    <div className="h-8 px-2.5 bg-white rounded-md flex items-center justify-center shadow-sm border border-sand/50">
+      <svg viewBox="0 0 20 20" className="h-4">
+        <circle cx="10" cy="10" r="9" fill="#005498" />
+        <circle cx="7" cy="10" r="4" fill="#FFD800" opacity="0.9" />
+        <circle cx="13" cy="10" r="4" fill="#005498" stroke="#FFD800" strokeWidth="0.5" />
+      </svg>
+    </div>
+  );
+}
+
+// Trust badge icons
+function AgeVerifyIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+      <text x="7" y="16" fontSize="9" fontWeight="bold" fill="currentColor" stroke="none">18</text>
+    </svg>
+  );
+}
+
+function SecureIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <rect x="3" y="11" width="18" height="11" rx="2" />
+      <path d="M7 11V7a5 5 0 0110 0v4" />
+      <circle cx="12" cy="16" r="1" fill="currentColor" />
+    </svg>
   );
 }
 
@@ -83,9 +133,9 @@ const footerLinks = {
   service: {
     title: "Klantenservice",
     links: [
-      { label: "Verzending", href: "/klantenservice/verzending" },
+      { label: "Verzending & Levering", href: "/klantenservice/verzending" },
       { label: "Retourneren", href: "/klantenservice/retourneren" },
-      { label: "FAQ", href: "/klantenservice/faq" },
+      { label: "Veelgestelde Vragen", href: "/klantenservice/faq" },
       { label: "Contact", href: "/contact" },
     ],
   },
@@ -94,6 +144,7 @@ const footerLinks = {
     links: [
       { label: "Ons Verhaal", href: "/over-ons" },
       { label: "Onze Selectie", href: "/over-ons/selectie" },
+      { label: "Blog", href: "/blog" },
     ],
   },
 };
@@ -107,18 +158,18 @@ function AccordionSection({ title, children }: AccordionSectionProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-charcoal/20 lg:border-0">
+    <div className="border-b border-white/10 lg:border-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center justify-between w-full py-4 lg:cursor-default lg:pointer-events-none"
         aria-expanded={isOpen}
       >
-        <h3 className="text-sm font-semibold text-white uppercase tracking-wide">
+        <h3 className="text-xs font-semibold text-gold/80 uppercase tracking-[0.15em]">
           {title}
         </h3>
         <ChevronDownIcon
           className={cn(
-            "w-5 h-5 text-grey transition-transform duration-200 lg:hidden",
+            "w-5 h-5 text-white/30 transition-transform duration-200 lg:hidden",
             isOpen && "rotate-180"
           )}
         />
@@ -140,7 +191,7 @@ function AccordionSection({ title, children }: AccordionSectionProps) {
         </AnimatePresence>
       </div>
       {/* Desktop: always visible */}
-      <div className="hidden lg:block pt-4">{children}</div>
+      <div className="hidden lg:block pt-2">{children}</div>
     </div>
   );
 }
@@ -150,165 +201,229 @@ export function Footer() {
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
 
+  // TODO: Koppel aan Klaviyo/Mailchimp + double opt-in
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
 
     setIsSubscribing(true);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
     setIsSubscribing(false);
     setSubscribeSuccess(true);
     setEmail("");
 
-    // Reset success message after 3 seconds
     setTimeout(() => setSubscribeSuccess(false), 3000);
   };
 
   return (
-    <footer className="bg-charcoal text-white">
-      {/* Newsletter Section */}
-      <div className="border-b border-charcoal/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="max-w-xl mx-auto text-center lg:max-w-none lg:text-left lg:flex lg:items-center lg:justify-between">
-            <div className="mb-6 lg:mb-0">
-              <h2 className="font-serif text-2xl text-white mb-2">
-                Blijf op de hoogte
-              </h2>
-              <p className="text-grey">
-                Ontvang als eerste nieuwe wijnen en exclusieve aanbiedingen
-              </p>
+    <footer>
+      {/* Newsletter Section — Full bleed wine gradient */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-wine via-wine-dark to-[#0a0d1a]">
+        {/* Decorative glows */}
+        <div className="absolute -right-32 -top-32 w-96 h-96 rounded-full bg-gold/8 blur-[100px]" />
+        <div className="absolute -left-24 -bottom-24 w-72 h-72 rounded-full bg-gold/5 blur-[80px]" />
+        {/* Subtle grape pattern */}
+        <svg className="absolute right-8 top-1/2 -translate-y-1/2 w-48 h-64 text-white/[0.02] hidden lg:block" viewBox="0 0 120 160" fill="currentColor">
+          <circle cx="40" cy="56" r="14" />
+          <circle cx="68" cy="56" r="14" />
+          <circle cx="54" cy="40" r="14" />
+          <circle cx="28" cy="80" r="14" />
+          <circle cx="54" cy="76" r="14" />
+          <circle cx="80" cy="80" r="14" />
+          <circle cx="40" cy="100" r="14" />
+          <circle cx="68" cy="100" r="14" />
+          <circle cx="54" cy="116" r="14" />
+        </svg>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gold/10 rounded-full border border-gold/20 mb-5">
+              <div className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+              <span className="text-gold/90 text-[11px] font-semibold tracking-[0.2em] uppercase">Nieuwsbrief</span>
             </div>
+            <h2 className="font-serif text-3xl sm:text-4xl text-white mb-3 leading-tight">
+              Blijf op de hoogte
+            </h2>
+            <p className="text-white/50 mb-8 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
+              Ontvang als eerste nieuwe wijnen, wijnverhalen en exclusieve aanbiedingen direct in je inbox.
+            </p>
             <form
               onSubmit={handleSubscribe}
-              className="flex flex-col sm:flex-row gap-3 lg:ml-8"
+              className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
             >
               <Input
                 type="email"
                 placeholder="je@email.nl"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-charcoal border-grey/30 text-white placeholder:text-grey focus:border-gold sm:w-64"
+                className="bg-white/[0.07] border-white/15 text-white placeholder:text-white/30 focus:border-gold/50 focus:bg-white/10 sm:flex-1 h-12 rounded-lg"
                 required
               />
               <Button
                 type="submit"
                 variant="primary"
                 isLoading={isSubscribing}
-                className="bg-gold hover:bg-gold-light text-charcoal whitespace-nowrap"
+                className="bg-gold hover:bg-gold-light text-wine-dark font-semibold whitespace-nowrap px-8 h-12 rounded-lg shadow-lg shadow-gold/20 hover:shadow-gold/30 transition-all"
               >
                 {subscribeSuccess ? "Aangemeld!" : "Aanmelden"}
               </Button>
             </form>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-0 lg:gap-8">
-          {/* Brand Column */}
-          <div className="lg:col-span-2 pb-8 lg:pb-0">
-            <Link
-              href="/"
-              className="inline-block mb-4"
-            >
-              <Image
-                src="/logo.png"
-                alt="Vino per Lei"
-                width={160}
-                height={64}
-                className="h-16 w-auto rounded-lg"
-              />
-            </Link>
-            <p className="text-grey text-sm leading-relaxed max-w-sm mb-6">
-              Wijn met karakter, speciaal voor jou. Ontdek onze zorgvuldig
-              geselecteerde collectie wijnen van topproducenten.
+            <p className="text-white/25 text-xs mt-4">
+              Geen spam. Maximaal 2x per maand. Altijd uitschrijven mogelijk.
             </p>
-            {/* Social Links */}
-            <div className="flex gap-4">
-              <a
-                href="https://instagram.com/vinoperlei"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 text-grey hover:text-white transition-colors"
-                aria-label="Volg ons op Instagram"
-              >
-                <InstagramIcon className="w-5 h-5" />
-              </a>
-              <a
-                href="https://facebook.com/vinoperlei"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2 text-grey hover:text-white transition-colors"
-                aria-label="Volg ons op Facebook"
-              >
-                <FacebookIcon className="w-5 h-5" />
-              </a>
-            </div>
           </div>
-
-          {/* Link Columns */}
-          {Object.entries(footerLinks).map(([key, section]) => (
-            <AccordionSection key={key} title={section.title}>
-              <ul className="space-y-3">
-                {section.links.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-sm text-grey hover:text-white transition-colors"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </AccordionSection>
-          ))}
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div className="border-t border-charcoal/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+      {/* Main Footer — Dark charcoal */}
+      <div className="bg-[#111111]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-12">
+            {/* Brand Column */}
+            <div className="lg:col-span-4 pb-8 lg:pb-0">
+              <Link href="/" className="inline-block mb-5">
+                <Image
+                  src="/logo.png"
+                  alt="Vino per Lei"
+                  width={180}
+                  height={72}
+                  className="h-16 w-auto brightness-0 invert opacity-90"
+                />
+              </Link>
+              <p className="text-white/40 text-sm leading-relaxed max-w-xs mb-6">
+                Wijn met karakter, speciaal voor jou. Zorgvuldig geselecteerde
+                Italiaanse wijnen van familiebedrijven met passie.
+              </p>
+              {/* Social Links */}
+              <div className="flex gap-1">
+                {[
+                  { href: "https://instagram.com/vinoperlei", Icon: InstagramIcon, label: "Instagram" },
+                  { href: "https://facebook.com/vinoperlei", Icon: FacebookIcon, label: "Facebook" },
+                  { href: "https://pinterest.com/vinoperlei", Icon: PinterestIcon, label: "Pinterest" },
+                ].map(({ href, Icon, label }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 text-white/30 hover:text-gold hover:bg-white/5 rounded-lg transition-all duration-200"
+                    aria-label={`Volg ons op ${label}`}
+                  >
+                    <Icon className="w-5 h-5" />
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Link Columns */}
+            <div className="lg:col-span-8 grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-8">
+              {Object.entries(footerLinks).map(([key, section]) => (
+                <AccordionSection key={key} title={section.title}>
+                  <ul className="space-y-2.5">
+                    {section.links.map((link) => (
+                      <li key={link.href}>
+                        <Link
+                          href={link.href}
+                          className="text-sm text-white/40 hover:text-white transition-colors duration-200"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionSection>
+              ))}
+            </div>
+          </div>
+
+          {/* Divider with grape dot */}
+          <div className="flex items-center my-10 lg:my-12">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            <div className="mx-4 w-1.5 h-1.5 rounded-full bg-gold/30" />
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          </div>
+
+          {/* Trust & Payment Row */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
             {/* Payment Methods */}
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-xs text-grey mr-2">Betaalmethodes:</span>
-              <IdealIcon />
-              <MastercardIcon />
-              <VisaIcon />
-              <PaypalIcon />
-            </div>
-
-            {/* Trust Badges */}
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="flex items-center gap-2 text-xs text-grey">
-                <span className="w-6 h-6 bg-white/10 rounded flex items-center justify-center text-[8px] font-bold">
-                  TW
-                </span>
-                Thuiswinkel Waarborg
-              </div>
-              <div className="flex items-center gap-2 text-xs text-grey">
-                <span className="w-6 h-6 bg-white/10 rounded flex items-center justify-center text-[8px] font-bold">
-                  18
-                </span>
-                NIX18
+            <div>
+              <p className="text-[10px] font-semibold text-white/25 uppercase tracking-[0.15em] mb-3">Betaalmethodes</p>
+              <div className="flex flex-wrap items-center gap-2">
+                <IdealIcon />
+                <MastercardIcon />
+                <VisaIcon />
+                <PaypalIcon />
+                <BancontactIcon />
               </div>
             </div>
 
-            {/* Legal Links */}
-            <div className="flex flex-wrap items-center gap-4 text-xs text-grey">
-              <span>&copy; {new Date().getFullYear()} Vino per Lei</span>
-              <Link href="/voorwaarden" className="hover:text-white transition-colors">
-                Voorwaarden
-              </Link>
-              <Link href="/privacy" className="hover:text-white transition-colors">
-                Privacy
-              </Link>
-              <Link href="/cookies" className="hover:text-white transition-colors">
-                Cookies
-              </Link>
+            {/* Trust Badges — Thuiswinkel Waarborg VERWIJDERD (geen lidmaatschap) */}
+            <div>
+              <p className="text-[10px] font-semibold text-white/25 uppercase tracking-[0.15em] mb-3">Vertrouwd</p>
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="flex items-center gap-2 text-white/40">
+                  <AgeVerifyIcon />
+                  <span className="text-xs">NIX18</span>
+                </div>
+                <div className="flex items-center gap-2 text-white/40">
+                  <SecureIcon />
+                  <span className="text-xs">SSL Beveiligd</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Contact info */}
+            <div>
+              <p className="text-[10px] font-semibold text-white/25 uppercase tracking-[0.15em] mb-3">Contact</p>
+              <div className="space-y-1.5 text-sm text-white/40">
+                {/* TODO: Carla moet telefoonnummer aanleveren */}
+                <p>040-XXX XXXX</p>
+                {/* TODO: Verifieer of dit e-mailadres klopt */}
+                <p>info@vinoperlei.nl</p>
+                <p className="text-white/25 text-xs">Ma-Vr 9:00 - 17:00</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Company Details & Legal Notices */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
+            <div className="text-xs text-white/30 leading-relaxed">
+              <p>Vino per Lei</p>
+              <p>Pastorielaan 56</p>
+              <p>5504 CR Veldhoven</p>
+              <p>KvK: 98874977</p>
+              <p>BTW: NL005360033B10</p>
+            </div>
+
+            <div className="text-xs text-white/30 leading-relaxed sm:text-right space-y-2">
+              <p>Alle prijzen zijn inclusief BTW</p>
+              <p className="text-gold/60 font-medium">
+                Het is verboden alcoholhoudende dranken te verkopen aan personen onder de 18 jaar
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-white/[0.06]">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+              <p className="text-xs text-white/20">
+                &copy; {new Date().getFullYear()} Vino per Lei. Alle rechten voorbehouden.
+              </p>
+              <div className="flex flex-wrap items-center gap-4 text-xs text-white/20">
+                <Link href="/voorwaarden" className="hover:text-white/50 transition-colors">
+                  Algemene Voorwaarden
+                </Link>
+                <Link href="/privacy" className="hover:text-white/50 transition-colors">
+                  Privacybeleid
+                </Link>
+                <Link href="/cookies" className="hover:text-white/50 transition-colors">
+                  Cookiebeleid
+                </Link>
+              </div>
             </div>
           </div>
         </div>

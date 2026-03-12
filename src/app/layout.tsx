@@ -6,6 +6,7 @@ import { AgeGate } from "@/components/ui";
 import { CartSlideOut } from "@/components/cart";
 import { LoginModal } from "@/components/auth";
 import { SmoothScrollProvider } from "@/components/providers";
+import { CookieConsent } from "@/components/ui/CookieConsent";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -20,6 +21,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://vinoperlei.nl"),
   title: "Vino per Lei | Authentieke Italiaanse Wijnen",
   description:
     "Ontdek onze zorgvuldig geselecteerde collectie authentieke Italiaanse wijnen. Van Barolo tot Primitivo — La Dolce Vita in elk glas.",
@@ -33,9 +35,16 @@ export const metadata: Metadata = {
     siteName: "Vino per Lei",
     url: "https://vinoperlei.nl",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vino per Lei | Authentieke Italiaanse Wijnen",
+    description:
+      "Ontdek onze zorgvuldig geselecteerde collectie authentieke Italiaanse wijnen. Van Barolo tot Primitivo — La Dolce Vita in elk glas.",
+  },
   robots: {
     index: true,
     follow: true,
+    noarchive: true,
   },
 };
 
@@ -53,11 +62,18 @@ export default function RootLayout({
   return (
     <html lang="nl" className={`${inter.variable} ${playfair.variable}`}>
       <body className="antialiased min-h-screen flex flex-col bg-background text-foreground overflow-x-hidden">
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[10000] focus:bg-white focus:text-[#1a1f3d] focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:font-medium"
+        >
+          Ga naar inhoud
+        </a>
         <SmoothScrollProvider>
           <AgeGate />
           <Header />
-          <main className="flex-1">{children}</main>
+          <main id="main-content" className="flex-1">{children}</main>
           <Footer />
+          <CookieConsent />
           <CartSlideOut />
           <LoginModal />
         </SmoothScrollProvider>
