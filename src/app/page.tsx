@@ -4,7 +4,10 @@ import { ProductCard } from "@/components/product";
 import { getProducts } from "@/lib/shopify";
 import dynamic from "next/dynamic";
 import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ClockIcon, ArrowRightIcon, MapPinIcon, StarIcon, ShieldIcon } from "@/components/icons";
-import { featuredBlogPosts } from "@/data/blogPosts";
+import { getHeroContent, getUSPItems, getCategoryBlocks, getBlogArticles, DEFAULT_HERO } from "@/lib/shopify-cms";
+import type { USPItem, CategoryBlock, BlogArticle } from "@/lib/shopify-cms";
+
+export const revalidate = 60;
 
 // Lazy load the map component (below-fold)
 const ItalyWineMap = dynamic(() => import("@/components/map").then(mod => mod.ItalyWineMap), {
@@ -213,52 +216,57 @@ function GiftBoxIcon({ className }: { className?: string }) {
   );
 }
 
-const wineCategories = [
-  {
-    name: "Rode Wijn",
-    description: "Vol & Rijk",
-    href: "/wijnen?type=red",
-    color: "bg-wine/10 hover:bg-wine/15",
-    iconColor: "text-wine",
-    Icon: RedWineIcon,
-  },
-  {
-    name: "Witte Wijn",
-    description: "Fris & Fruitig",
-    href: "/wijnen?type=white",
-    color: "bg-gold/10 hover:bg-gold/15",
-    iconColor: "text-gold",
-    Icon: WhiteWineIcon,
-  },
-  {
-    name: "Rosé",
-    description: "Licht & Zomers",
-    href: "/wijnen?type=rose",
-    color: "bg-coral/10 hover:bg-coral/15",
-    iconColor: "text-coral",
-    Icon: RoseWineIcon,
-  },
-  {
-    name: "Bubbels",
-    description: "Feestelijk",
-    href: "/wijnen?type=sparkling",
-    color: "bg-champagne hover:bg-gold/20",
-    iconColor: "text-charcoal",
-    Icon: BubblesIcon,
-  },
-  {
-    name: "Cadeaus",
-    description: "Perfect Verpakt",
-    href: "/cadeaus",
-    color: "bg-wine/5 hover:bg-wine/10",
-    iconColor: "text-charcoal",
-    Icon: GiftBoxIcon,
-  },
-];
+// Map CMS iconName to icon components
+const uspIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  truck: TruckIcon,
+  refresh: RefreshIcon,
+  star: StarIcon,
+  shield: ShieldIcon,
+};
+
+// Map CMS iconType to category icon components + styling
+const categoryIconMap: Record<string, { Icon: React.ComponentType<{ className?: string }>; color: string; iconColor: string }> = {
+  red: { Icon: RedWineIcon, color: "bg-wine/10 hover:bg-wine/15", iconColor: "text-wine" },
+  white: { Icon: WhiteWineIcon, color: "bg-gold/10 hover:bg-gold/15", iconColor: "text-gold" },
+  rose: { Icon: RoseWineIcon, color: "bg-coral/10 hover:bg-coral/15", iconColor: "text-coral" },
+  sparkling: { Icon: BubblesIcon, color: "bg-champagne hover:bg-gold/20", iconColor: "text-charcoal" },
+  gift: { Icon: GiftBoxIcon, color: "bg-wine/5 hover:bg-wine/10", iconColor: "text-charcoal" },
+};
+
+// Map BlogArticle to the shape used in the template
+function mapBlogPost(article: BlogArticle) {
+  const categoryLabel = article.tags[0]
+    ? article.tags[0].charAt(0).toUpperCase() + article.tags[0].slice(1)
+    : "Wijn";
+  const region = article.tags[1] || undefined;
+  const readTime = article.contentHtml
+    ? Math.ceil(article.contentHtml.length / 1000)
+    : 5;
+  const date = article.publishedAt
+    ? article.publishedAt.slice(0, 10)
+    : "";
+  return {
+    slug: article.handle,
+    title: article.title,
+    excerpt: article.excerpt || "",
+    categoryLabel,
+    region,
+    readTime,
+    date,
+  };
+}
 
 export default async function Home() {
-  const allProducts = await getProducts();
+  const [allProducts, heroRaw, uspItems, categoryBlocks, blogArticles] = await Promise.all([
+    getProducts(),
+    getHeroContent(),
+    getUSPItems(),
+    getCategoryBlocks(),
+    getBlogArticles(3),
+  ]);
   const featuredProducts = allProducts.filter((p) => p.isFeatured).slice(0, 4);
+  const hero = heroRaw ?? DEFAULT_HERO;
+  const featuredBlogPosts = blogArticles.map(mapBlogPost);
 
   return (
     <>
@@ -286,29 +294,28 @@ export default async function Home() {
         <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center">
           <div className="max-w-3xl text-center animate-fade-in-up">
             <p className="text-gold font-medium tracking-[0.2em] uppercase text-xs sm:text-sm mb-3 sm:mb-5 animate-fade-in animation-delay-300">
-              Authentieke Italiaanse Wijnen
+              {hero.subtitle}
             </p>
             <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-4 sm:mb-6 leading-[1.1] animate-fade-in-up animation-delay-400 text-shadow-hero">
-              La Dolce Vita
+              {hero.titleLine1}
               <br />
-              <span className="text-gold">in Elk Glas</span>
+              <span className="text-gold">{hero.titleLine2}</span>
             </h1>
             <p className="text-sm sm:text-lg lg:text-xl text-white/85 mb-6 sm:mb-10 leading-relaxed animate-fade-in animation-delay-500 max-w-2xl mx-auto text-shadow-sm">
-              Ontdek onze zorgvuldig geselecteerde collectie Italiaanse wijnen.
-              Van krachtige Barolo tot frisse Pinot Grigio.
+              {hero.description}
             </p>
             <div className="flex gap-4 justify-center animate-fade-in-up animation-delay-600">
               <Link
-                href="/wijnen"
+                href={hero.ctaPrimaryLink}
                 className="inline-flex items-center justify-center h-12 sm:h-14 px-8 sm:px-10 bg-wine text-white font-semibold uppercase tracking-wider text-xs sm:text-sm rounded hover:bg-wine-dark transition-colors"
               >
-                Bekijk Collectie
+                {hero.ctaPrimaryText}
               </Link>
               <Link
-                href="/over-ons"
+                href={hero.ctaSecondaryLink}
                 className="inline-flex items-center justify-center h-12 sm:h-14 px-6 sm:px-8 border-2 border-white/80 text-white font-semibold uppercase tracking-wider text-xs sm:text-sm rounded hover:bg-white hover:text-charcoal transition-colors"
               >
-                Ons Verhaal
+                {hero.ctaSecondaryText}
               </Link>
             </div>
           </div>
@@ -325,34 +332,19 @@ export default async function Home() {
       {/* USP Bar */}
       <Section background="warm" spacing="sm">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0 py-2">
-          <div className="flex items-center gap-2.5 justify-center sm:border-r sm:border-sand">
-            <TruckIcon className="w-5 h-5 text-wine flex-shrink-0" />
-            <div>
-              <p className="font-semibold text-charcoal text-sm">Gratis verzending</p>
-              <p className="text-xs text-grey">vanaf €35</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2.5 justify-center sm:border-r sm:border-sand">
-            <RefreshIcon className="w-5 h-5 text-wine flex-shrink-0" />
-            <div>
-              <p className="font-semibold text-charcoal text-sm">Gratis retour</p>
-              <p className="text-xs text-grey">14 dagen</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2.5 justify-center sm:border-r sm:border-sand">
-            <StarIcon className="w-5 h-5 text-wine flex-shrink-0" />
-            <div>
-              <p className="font-semibold text-charcoal text-sm">Expert selectie</p>
-              <p className="text-xs text-grey">Handgeplukt in Italië</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2.5 justify-center">
-            <ShieldIcon className="w-5 h-5 text-wine flex-shrink-0" />
-            <div>
-              <p className="font-semibold text-charcoal text-sm">Veilig betalen</p>
-              <p className="text-xs text-grey">iDEAL & creditcard</p>
-            </div>
-          </div>
+          {uspItems.map((usp, i) => {
+            const IconComp = uspIconMap[usp.iconName] || TruckIcon;
+            const isLast = i === uspItems.length - 1;
+            return (
+              <div key={usp.title} className={`flex items-center gap-2.5 justify-center ${!isLast ? "sm:border-r sm:border-sand" : ""}`}>
+                <IconComp className="w-5 h-5 text-wine flex-shrink-0" />
+                <div>
+                  <p className="font-semibold text-charcoal text-sm">{usp.title}</p>
+                  <p className="text-xs text-grey">{usp.subtitle}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </Section>
 
@@ -426,26 +418,30 @@ export default async function Home() {
           <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Ontdek Onze Collectie</h2>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-5 md:gap-6">
-          {wineCategories.map((category) => (
-            <Link
-              key={category.name}
-              href={category.href}
-              className={`${category.color} rounded-xl sm:rounded-2xl p-4 sm:p-8 text-center transition-all duration-300 hover:shadow-xl active:scale-95 sm:hover:-translate-y-1.5 group border border-transparent hover:border-wine/10`}
-            >
-              <div className={`${category.iconColor} mb-2 sm:mb-4 flex justify-center`}>
-                <category.Icon className="w-10 h-10 sm:w-16 sm:h-16 transition-transform duration-300 group-hover:scale-110" />
-              </div>
-              <h3 className="font-serif font-semibold text-charcoal text-sm sm:text-lg mb-0.5 sm:mb-1">{category.name}</h3>
-              <p className="text-xs sm:text-sm text-grey hidden sm:block">{category.description}</p>
-            </Link>
-          ))}
+          {categoryBlocks.map((category) => {
+            const mapping = categoryIconMap[category.iconType] || categoryIconMap.red;
+            const CategoryIcon = mapping.Icon;
+            return (
+              <Link
+                key={category.name}
+                href={category.href}
+                className={`${mapping.color} rounded-xl sm:rounded-2xl p-4 sm:p-8 text-center transition-all duration-300 hover:shadow-xl active:scale-95 sm:hover:-translate-y-1.5 group border border-transparent hover:border-wine/10`}
+              >
+                <div className={`${mapping.iconColor} mb-2 sm:mb-4 flex justify-center`}>
+                  <CategoryIcon className="w-10 h-10 sm:w-16 sm:h-16 transition-transform duration-300 group-hover:scale-110" />
+                </div>
+                <h3 className="font-serif font-semibold text-charcoal text-sm sm:text-lg mb-0.5 sm:mb-1">{category.name}</h3>
+                <p className="text-xs sm:text-sm text-grey hidden sm:block">{category.description}</p>
+              </Link>
+            );
+          })}
         </div>
       </Section>
 
       <SectionDivider />
 
       {/* Blog Section - Magazine Style */}
-      <Section background="default" spacing="lg">
+      {featuredBlogPosts.length >= 3 && <Section background="default" spacing="lg">
         <div className="flex items-end justify-between mb-8 sm:mb-12">
           <div>
             <p className="text-label text-wine mb-2 tracking-[0.15em]">Uit Ons Magazine</p>
@@ -630,7 +626,7 @@ export default async function Home() {
           Alle artikelen
           <ArrowRightIcon className="w-4 h-4" />
         </Link>
-      </Section>
+      </Section>}
 
     </>
   );

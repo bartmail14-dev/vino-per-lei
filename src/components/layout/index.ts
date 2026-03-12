@@ -8,4 +8,6 @@ export { Grid, ProductGrid } from "./Grid";
 export type { GridProps, ProductGridProps } from "./Grid";
 
 export { Header } from "./Header";
+export { HeaderWrapper } from "./HeaderWrapper";
 export { Footer } from "./Footer";
+export { FooterWrapper } from "./FooterWrapper";

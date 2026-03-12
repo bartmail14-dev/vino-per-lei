@@ -9,6 +9,13 @@ import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { MenuIcon, CloseIcon, UserIcon, CartIcon, ChevronDownIcon, ChevronRightIcon, HeartIcon } from "@/components/icons";
+import type { AnnouncementBar } from "@/lib/shopify-cms";
+
+interface HeaderProps {
+  announcement?: AnnouncementBar;
+  contactPhone?: string;
+  contactEmail?: string;
+}
 
 function PackageIcon({ className }: { className?: string }) {
   return (
@@ -76,7 +83,7 @@ const mainNavItems = [
   { label: "Over Ons", href: "/over-ons" },
 ];
 
-export function Header() {
+export function Header({ announcement, contactPhone, contactEmail }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
@@ -92,7 +99,9 @@ export function Header() {
     setAnnouncementState(!dismissed);
   }, []);
 
-  const showAnnouncement = announcementState === true;
+  // Only show if not dismissed AND announcement is enabled (default true for backwards compat)
+  const announcementEnabled = announcement?.enabled !== false;
+  const showAnnouncement = announcementState === true && announcementEnabled;
 
   const mobileMenuRef = useFocusTrap<HTMLDivElement>({ active: isMobileMenuOpen, onEscape: () => setIsMobileMenuOpen(false) });
   const megaMenuRef = useRef<HTMLDivElement>(null);
@@ -200,9 +209,13 @@ export function Header() {
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center relative">
               <p className="text-xs sm:text-sm text-center pr-8 tracking-wide">
-                Welkom! Gebruik code{" "}
-                <span className="font-semibold text-gold">WELKOM10</span> voor 10%
-                korting op je eerste bestelling
+                {announcement?.message || (
+                  <>
+                    Welkom! Gebruik code{" "}
+                    <span className="font-semibold text-gold">WELKOM10</span> voor 10%
+                    korting op je eerste bestelling
+                  </>
+                )}
               </p>
               <button
                 onClick={dismissAnnouncement}
@@ -730,9 +743,8 @@ export function Header() {
                 {/* Contact Info */}
                 <div className="mt-6 pt-6 border-t border-sand text-sm text-grey">
                   <p className="mb-2">Vragen? Neem contact op:</p>
-                  {/* TODO: Carla moet telefoonnummer aanleveren */}
-                  <p className="font-medium text-charcoal">040-XXX XXXX</p>
-                  <p className="text-charcoal">info@vinoperlei.nl</p>
+                  <p className="font-medium text-charcoal">{contactPhone || "040-XXX XXXX"}</p>
+                  <p className="text-charcoal">{contactEmail || "info@vinoperlei.nl"}</p>
                 </div>
               </nav>
             </motion.div>

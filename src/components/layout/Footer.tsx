@@ -6,6 +6,21 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button, Input } from "@/components/ui";
+import type { SiteSettings } from "@/lib/shopify-cms";
+
+// --- Props ---
+
+interface FooterLinkItem {
+  title: string;
+  url: string;
+}
+
+interface FooterProps {
+  settings?: SiteSettings;
+  shopLinks?: FooterLinkItem[];
+  serviceLinks?: FooterLinkItem[];
+  aboutLinks?: FooterLinkItem[];
+}
 
 // Icons
 function InstagramIcon({ className }: { className?: string }) {
@@ -118,8 +133,8 @@ function SecureIcon() {
   );
 }
 
-// Footer link sections
-const footerLinks = {
+// Hardcoded fallback footer links (used when CMS menu props are empty)
+const defaultFooterLinks = {
   shop: {
     title: "Shop",
     links: [
@@ -196,7 +211,7 @@ function AccordionSection({ title, children }: AccordionSectionProps) {
   );
 }
 
-export function Footer() {
+export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: FooterProps) {
   const [email, setEmail] = useState("");
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [subscribeSuccess, setSubscribeSuccess] = useState(false);
@@ -297,9 +312,9 @@ export function Footer() {
               {/* Social Links */}
               <div className="flex gap-1">
                 {[
-                  { href: "https://instagram.com/vinoperlei", Icon: InstagramIcon, label: "Instagram" },
-                  { href: "https://facebook.com/vinoperlei", Icon: FacebookIcon, label: "Facebook" },
-                  { href: "https://pinterest.com/vinoperlei", Icon: PinterestIcon, label: "Pinterest" },
+                  { href: settings?.instagramUrl || "https://instagram.com/vinoperlei", Icon: InstagramIcon, label: "Instagram" },
+                  { href: settings?.facebookUrl || "https://facebook.com/vinoperlei", Icon: FacebookIcon, label: "Facebook" },
+                  { href: settings?.pinterestUrl || "https://pinterest.com/vinoperlei", Icon: PinterestIcon, label: "Pinterest" },
                 ].map(({ href, Icon, label }) => (
                   <a
                     key={label}
@@ -317,22 +332,48 @@ export function Footer() {
 
             {/* Link Columns */}
             <div className="lg:col-span-8 grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-8">
-              {Object.entries(footerLinks).map(([key, section]) => (
-                <AccordionSection key={key} title={section.title}>
-                  <ul className="space-y-2.5">
-                    {section.links.map((link) => (
-                      <li key={link.href}>
-                        <Link
-                          href={link.href}
-                          className="text-sm text-white/40 hover:text-white transition-colors duration-200"
-                        >
-                          {link.label}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </AccordionSection>
-              ))}
+              {(() => {
+                // Build sections from CMS props with fallback to hardcoded defaults
+                const sections = [
+                  {
+                    key: "shop",
+                    title: defaultFooterLinks.shop.title,
+                    links: shopLinks && shopLinks.length > 0
+                      ? shopLinks.map((l) => ({ label: l.title, href: l.url }))
+                      : defaultFooterLinks.shop.links,
+                  },
+                  {
+                    key: "service",
+                    title: defaultFooterLinks.service.title,
+                    links: serviceLinks && serviceLinks.length > 0
+                      ? serviceLinks.map((l) => ({ label: l.title, href: l.url }))
+                      : defaultFooterLinks.service.links,
+                  },
+                  {
+                    key: "about",
+                    title: defaultFooterLinks.about.title,
+                    links: aboutLinks && aboutLinks.length > 0
+                      ? aboutLinks.map((l) => ({ label: l.title, href: l.url }))
+                      : defaultFooterLinks.about.links,
+                  },
+                ];
+                return sections.map((section) => (
+                  <AccordionSection key={section.key} title={section.title}>
+                    <ul className="space-y-2.5">
+                      {section.links.map((link) => (
+                        <li key={link.href}>
+                          <Link
+                            href={link.href}
+                            className="text-sm text-white/40 hover:text-white transition-colors duration-200"
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionSection>
+                ));
+              })()}
             </div>
           </div>
 
@@ -376,11 +417,9 @@ export function Footer() {
             <div>
               <p className="text-[10px] font-semibold text-white/25 uppercase tracking-[0.15em] mb-3">Contact</p>
               <div className="space-y-1.5 text-sm text-white/40">
-                {/* TODO: Carla moet telefoonnummer aanleveren */}
-                <p>040-XXX XXXX</p>
-                {/* TODO: Verifieer of dit e-mailadres klopt */}
-                <p>info@vinoperlei.nl</p>
-                <p className="text-white/25 text-xs">Ma-Vr 9:00 - 17:00</p>
+                <p>{settings?.phone || "040-XXX XXXX"}</p>
+                <p>{settings?.email || "info@vinoperlei.nl"}</p>
+                <p className="text-white/25 text-xs">Ma-Vr {settings?.hoursWeekday || "09:00 - 17:00"}</p>
               </div>
             </div>
           </div>
@@ -390,11 +429,11 @@ export function Footer() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
             <div className="text-xs text-white/30 leading-relaxed">
-              <p>Vino per Lei</p>
-              <p>Pastorielaan 56</p>
-              <p>5504 CR Veldhoven</p>
-              <p>KvK: 98874977</p>
-              <p>BTW: NL005360033B10</p>
+              <p>{settings?.companyName || "Vino per Lei"}</p>
+              <p>{settings?.addressStreet || "Pastorielaan 56"}</p>
+              <p>{settings?.addressPostal || "5504 CR"} {settings?.addressCity || "Veldhoven"}</p>
+              <p>KvK: {settings?.kvk || "98874977"}</p>
+              <p>BTW: {settings?.btw || "NL005360033B10"}</p>
             </div>
 
             <div className="text-xs text-white/30 leading-relaxed sm:text-right space-y-2">
@@ -411,7 +450,7 @@ export function Footer() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
               <p className="text-xs text-white/20">
-                &copy; {new Date().getFullYear()} Vino per Lei. Alle rechten voorbehouden.
+                &copy; {new Date().getFullYear()} {settings?.companyName || "Vino per Lei"}. Alle rechten voorbehouden.
               </p>
               <div className="flex flex-wrap items-center gap-4 text-xs text-white/20">
                 <Link href="/voorwaarden" className="hover:text-white/50 transition-colors">

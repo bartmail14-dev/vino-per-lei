@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ContactForm } from "./ContactForm";
+import { getSiteSettings, DEFAULT_SITE_SETTINGS } from "@/lib/shopify-cms";
+
+export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Contact | Vino per Lei",
@@ -8,7 +11,9 @@ export const metadata: Metadata = {
     "Neem contact op met Vino per Lei. Wij helpen je graag met vragen over onze wijnen, bestellingen of wijnadvies.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = (await getSiteSettings()) ?? DEFAULT_SITE_SETTINGS;
+
   return (
     <div className="bg-background">
       <div className="max-w-4xl mx-auto px-4 py-16 sm:py-24">
@@ -40,20 +45,22 @@ export default function ContactPage() {
                 <div>
                   <p className="font-semibold text-charcoal mb-1">E-mail</p>
                   <a
-                    href="mailto:info@vinoperlei.nl"
+                    href={`mailto:${settings.email}`}
                     className="text-wine hover:text-wine-dark transition-colors"
                   >
-                    info@vinoperlei.nl
+                    {settings.email}
                   </a>
                 </div>
                 <div>
                   <p className="font-semibold text-charcoal mb-1">Telefoon</p>
-                  {/* TODO: Carla moet telefoonnummer aanleveren */}
-                  <p>040-XXX XXXX</p>
+                  <p>{settings.phone}</p>
                 </div>
                 <div>
                   <p className="font-semibold text-charcoal mb-1">Adres</p>
-                  <p>Pastorielaan 56, 5504 CR Veldhoven</p>
+                  <p>
+                    {settings.addressStreet}, {settings.addressPostal}{" "}
+                    {settings.addressCity}
+                  </p>
                 </div>
               </div>
             </div>
@@ -66,18 +73,18 @@ export default function ContactPage() {
                 <div className="flex justify-between">
                   <span>Maandag - Vrijdag</span>
                   <span className="font-semibold text-charcoal">
-                    09:00 - 17:00
+                    {settings.hoursWeekday}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Zaterdag</span>
                   <span className="font-semibold text-charcoal">
-                    10:00 - 14:00
+                    {settings.hoursSaturday}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span>Zondag</span>
-                  <span className="text-grey">Gesloten</span>
+                  <span className="text-grey">{settings.hoursSunday}</span>
                 </div>
               </div>
               <p className="text-xs text-grey/70 mt-4">

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import { Header, Footer } from "@/components/layout";
+import { HeaderWrapper, FooterWrapper } from "@/components/layout";
 import { AgeGate } from "@/components/ui";
 import { CartSlideOut } from "@/components/cart";
 import { LoginModal } from "@/components/auth";
@@ -70,9 +70,9 @@ export default function RootLayout({
         </a>
         <SmoothScrollProvider>
           <AgeGate />
-          <Header />
+          <HeaderWrapper />
           <main id="main-content" className="flex-1">{children}</main>
-          <Footer />
+          <FooterWrapper />
           <CookieConsent />
           <CartSlideOut />
           <LoginModal />
