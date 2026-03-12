@@ -124,9 +124,9 @@ const footerLinks = {
     title: "Shop",
     links: [
       { label: "Alle Wijnen", href: "/wijnen" },
-      { label: "Rode Wijn", href: "/wijnen/rood" },
-      { label: "Witte Wijn", href: "/wijnen/wit" },
-      { label: "Rosé", href: "/wijnen/rose" },
+      { label: "Rode Wijn", href: "/wijnen?type=rood" },
+      { label: "Witte Wijn", href: "/wijnen?type=wit" },
+      { label: "Rosé", href: "/wijnen?type=rose" },
       { label: "Cadeaus", href: "/cadeaus" },
     ],
   },
