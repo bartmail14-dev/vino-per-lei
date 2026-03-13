@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import { Logo } from "@/components/ui/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import Cookies from "js-cookie";
 import { cn } from "@/lib/utils";
@@ -107,14 +107,7 @@ export function AgeGate({ onVerified }: AgeGateProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-              <Image
-                src="/logo.png"
-                alt="Vino per Lei"
-                width={450}
-                height={450}
-                className="h-20 sm:h-24 w-auto mx-auto brightness-0 invert opacity-90"
-                priority
-              />
+              <Logo variant="full" color="#ffffff" className="h-20 sm:h-24 w-auto mx-auto opacity-90" />
             </motion.div>
 
             {/* Divider */}

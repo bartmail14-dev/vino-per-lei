@@ -2,8 +2,8 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
+import { Logo } from "@/components/ui/Logo";
 import { cn } from "@/lib/utils";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
@@ -233,7 +233,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
       {/* Main Header */}
       <div className="border-b border-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16 lg:h-20 relative">
+          <div className="flex items-center justify-between h-24 lg:h-32 relative">
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
@@ -243,19 +243,12 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
               <MenuIcon className="w-6 h-6" />
             </button>
 
-            {/* Logo - Clean inline */}
+            {/* Logo - Prominent center */}
             <Link
               href="/"
-              className="flex-shrink-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2"
+              className="flex-shrink-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 group"
             >
-              <Image
-                src="/logo.png"
-                alt="Vino per Lei"
-                width={450}
-                height={450}
-                className="h-12 sm:h-16 lg:h-20 w-auto"
-                priority
-              />
+              <Logo variant="full" color="#1a1f3d" className="h-20 sm:h-24 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
             </Link>
 
             {/* Desktop Navigation - Left aligned */}

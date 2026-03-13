@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { Logo } from "@/components/ui/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button, Input } from "@/components/ui";
@@ -173,18 +173,18 @@ function AccordionSection({ title, children }: AccordionSectionProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-white/10 lg:border-0">
+    <div className="border-b border-wine/8 lg:border-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center justify-between w-full py-4 lg:cursor-default lg:pointer-events-none"
         aria-expanded={isOpen}
       >
-        <h3 className="text-xs font-semibold text-gold/80 uppercase tracking-[0.15em]">
+        <h3 className="text-[11px] font-semibold text-wine/40 uppercase tracking-[0.2em]">
           {title}
         </h3>
         <ChevronDownIcon
           className={cn(
-            "w-5 h-5 text-white/30 transition-transform duration-200 lg:hidden",
+            "w-5 h-5 text-wine/20 transition-transform duration-200 lg:hidden",
             isOpen && "rotate-180"
           )}
         />
@@ -290,27 +290,37 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
         </div>
       </div>
 
-      {/* Main Footer — Dark charcoal */}
-      <div className="bg-[#111111]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-12">
-            {/* Brand Column */}
-            <div className="lg:col-span-4 pb-8 lg:pb-0">
-              <Link href="/" className="inline-block mb-5">
-                <Image
-                  src="/logo.png"
-                  alt="Vino per Lei"
-                  width={180}
-                  height={72}
-                  className="h-16 w-auto brightness-0 invert opacity-90"
-                />
+      {/* Main Footer — Warm beige paper texture */}
+      <div className="relative bg-[#f0e8da] overflow-hidden">
+        {/* Paper texture overlay */}
+        <div
+          className="absolute inset-0 opacity-[0.35] mix-blend-multiply pointer-events-none"
+          style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`,
+            backgroundSize: "200px 200px",
+          }}
+        />
+        {/* Subtle warm gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#ede4d4]/60 via-transparent to-[#e5dbc8]/40 pointer-events-none" />
+        {/* Decorative wine stain ring — top right */}
+        <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full border-[3px] border-wine/[0.04] pointer-events-none" />
+        <div className="absolute -right-12 -top-12 w-56 h-56 rounded-full border border-wine/[0.03] pointer-events-none" />
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+          {/* Top section: Large logo + tagline */}
+          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12 lg:gap-16 mb-16">
+            <div className="lg:max-w-md">
+              <Link href="/" className="inline-block mb-6 group">
+                <Logo variant="full" color="#1a1f3d" className="h-24 sm:h-28 lg:h-32 w-auto transition-transform duration-500 group-hover:scale-[1.02]" />
               </Link>
-              <p className="text-white/40 text-sm leading-relaxed max-w-xs mb-6">
-                Wijn met karakter, speciaal voor jou. Zorgvuldig geselecteerde
-                Italiaanse wijnen van familiebedrijven met passie.
+              <p className="font-serif text-lg sm:text-xl text-wine/60 leading-relaxed italic">
+                &ldquo;Wijn met karakter, speciaal voor jou&rdquo;
+              </p>
+              <p className="text-wine/35 text-sm leading-relaxed mt-3 max-w-sm">
+                Zorgvuldig geselecteerde Italiaanse wijnen van familiebedrijven met passie voor hun vak.
               </p>
               {/* Social Links */}
-              <div className="flex gap-1">
+              <div className="flex gap-1 mt-6">
                 {[
                   { href: settings?.instagramUrl || "https://instagram.com/vinoperlei", Icon: InstagramIcon, label: "Instagram" },
                   { href: settings?.facebookUrl || "https://facebook.com/vinoperlei", Icon: FacebookIcon, label: "Facebook" },
@@ -321,7 +331,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 text-white/30 hover:text-gold hover:bg-white/5 rounded-lg transition-all duration-200"
+                    className="p-2.5 text-wine/25 hover:text-wine/60 hover:bg-wine/5 rounded-lg transition-all duration-200"
                     aria-label={`Volg ons op ${label}`}
                   >
                     <Icon className="w-5 h-5" />
@@ -331,9 +341,8 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
             </div>
 
             {/* Link Columns */}
-            <div className="lg:col-span-8 grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-12 flex-1 lg:max-w-xl">
               {(() => {
-                // Build sections from CMS props with fallback to hardcoded defaults
                 const sections = [
                   {
                     key: "shop",
@@ -364,7 +373,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
                         <li key={link.href}>
                           <Link
                             href={link.href}
-                            className="text-sm text-white/40 hover:text-white transition-colors duration-200"
+                            className="text-sm text-wine/40 hover:text-wine/80 transition-colors duration-200"
                           >
                             {link.label}
                           </Link>
@@ -377,18 +386,20 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
             </div>
           </div>
 
-          {/* Divider with grape dot */}
-          <div className="flex items-center my-10 lg:my-12">
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
-            <div className="mx-4 w-1.5 h-1.5 rounded-full bg-gold/30" />
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+          {/* Divider — hand-drawn style */}
+          <div className="flex items-center mb-12">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-wine/10 to-transparent" />
+            <svg className="mx-6 w-6 h-6 text-wine/15" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C8 2 5 5 5 9c0 5 7 13 7 13s7-8 7-13c0-4-3-7-7-7zm0 10.5c-1.93 0-3.5-1.57-3.5-3.5S10.07 5.5 12 5.5s3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z" />
+            </svg>
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-wine/10 to-transparent" />
           </div>
 
           {/* Trust & Payment Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {/* Payment Methods */}
             <div>
-              <p className="text-[10px] font-semibold text-white/25 uppercase tracking-[0.15em] mb-3">Betaalmethodes</p>
+              <p className="text-[10px] font-semibold text-wine/25 uppercase tracking-[0.2em] mb-3">Betaalmethodes</p>
               <div className="flex flex-wrap items-center gap-2">
                 <IdealIcon />
                 <MastercardIcon />
@@ -398,15 +409,15 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
               </div>
             </div>
 
-            {/* Trust Badges — Thuiswinkel Waarborg VERWIJDERD (geen lidmaatschap) */}
+            {/* Trust Badges */}
             <div>
-              <p className="text-[10px] font-semibold text-white/25 uppercase tracking-[0.15em] mb-3">Vertrouwd</p>
+              <p className="text-[10px] font-semibold text-wine/25 uppercase tracking-[0.2em] mb-3">Vertrouwd</p>
               <div className="flex flex-wrap items-center gap-4">
-                <div className="flex items-center gap-2 text-white/40">
+                <div className="flex items-center gap-2 text-wine/35">
                   <AgeVerifyIcon />
                   <span className="text-xs">NIX18</span>
                 </div>
-                <div className="flex items-center gap-2 text-white/40">
+                <div className="flex items-center gap-2 text-wine/35">
                   <SecureIcon />
                   <span className="text-xs">SSL Beveiligd</span>
                 </div>
@@ -415,20 +426,20 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
 
             {/* Contact info */}
             <div>
-              <p className="text-[10px] font-semibold text-white/25 uppercase tracking-[0.15em] mb-3">Contact</p>
-              <div className="space-y-1.5 text-sm text-white/40">
+              <p className="text-[10px] font-semibold text-wine/25 uppercase tracking-[0.2em] mb-3">Contact</p>
+              <div className="space-y-1.5 text-sm text-wine/40">
                 <p>{settings?.phone || "040-XXX XXXX"}</p>
                 <p>{settings?.email || "info@vinoperlei.nl"}</p>
-                <p className="text-white/25 text-xs">Ma-Vr {settings?.hoursWeekday || "09:00 - 17:00"}</p>
+                <p className="text-wine/25 text-xs">Ma-Vr {settings?.hoursWeekday || "09:00 - 17:00"}</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Company Details & Legal Notices */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        {/* Company Details & Legal */}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-            <div className="text-xs text-white/30 leading-relaxed">
+            <div className="text-xs text-wine/25 leading-relaxed">
               <p>{settings?.companyName || "Vino per Lei"}</p>
               <p>{settings?.addressStreet || "Pastorielaan 56"}</p>
               <p>{settings?.addressPostal || "5504 CR"} {settings?.addressCity || "Veldhoven"}</p>
@@ -436,9 +447,9 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
               <p>BTW: {settings?.btw || "NL005360033B10"}</p>
             </div>
 
-            <div className="text-xs text-white/30 leading-relaxed sm:text-right space-y-2">
+            <div className="text-xs text-wine/25 leading-relaxed sm:text-right space-y-2">
               <p>Alle prijzen zijn inclusief BTW</p>
-              <p className="text-gold/60 font-medium">
+              <p className="text-wine/40 font-medium">
                 Het is verboden alcoholhoudende dranken te verkopen aan personen onder de 18 jaar
               </p>
             </div>
@@ -446,20 +457,20 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/[0.06]">
+        <div className="relative border-t border-wine/[0.06]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <p className="text-xs text-white/20">
+              <p className="text-xs text-wine/20">
                 &copy; {new Date().getFullYear()} {settings?.companyName || "Vino per Lei"}. Alle rechten voorbehouden.
               </p>
-              <div className="flex flex-wrap items-center gap-4 text-xs text-white/20">
-                <Link href="/voorwaarden" className="hover:text-white/50 transition-colors">
+              <div className="flex flex-wrap items-center gap-4 text-xs text-wine/20">
+                <Link href="/voorwaarden" className="hover:text-wine/50 transition-colors">
                   Algemene Voorwaarden
                 </Link>
-                <Link href="/privacy" className="hover:text-white/50 transition-colors">
+                <Link href="/privacy" className="hover:text-wine/50 transition-colors">
                   Privacybeleid
                 </Link>
-                <Link href="/cookies" className="hover:text-white/50 transition-colors">
+                <Link href="/cookies" className="hover:text-wine/50 transition-colors">
                   Cookiebeleid
                 </Link>
               </div>
