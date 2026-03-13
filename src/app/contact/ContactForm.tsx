@@ -20,6 +20,7 @@ export function ContactForm() {
   const [honeypot, setHoneypot] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -41,16 +42,39 @@ export function ContactForm() {
     }
 
     setValidationErrors({});
+    setErrorMessage("");
     setIsSubmitting(true);
 
-    // TODO: Implementeer formulier verzending (bijv. Web3Forms, API route, etc.)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
+          subject: `Vino per Lei — ${formData.onderwerp}`,
+          from_name: formData.naam,
+          name: formData.naam,
+          email: formData.email,
+          onderwerp: formData.onderwerp,
+          message: formData.bericht,
+          botcheck: honeypot,
+        }),
+      });
 
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    setFormData({ naam: "", email: "", onderwerp: "", bericht: "" });
+      const data = await response.json();
 
-    setTimeout(() => setIsSuccess(false), 5000);
+      if (data.success) {
+        setIsSuccess(true);
+        setFormData({ naam: "", email: "", onderwerp: "", bericht: "" });
+        setTimeout(() => setIsSuccess(false), 5000);
+      } else {
+        setErrorMessage("Er ging iets mis. Probeer het later opnieuw.");
+      }
+    } catch {
+      setErrorMessage("Er ging iets mis. Controleer je internetverbinding.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -61,6 +85,12 @@ export function ContactForm() {
             Bedankt voor je bericht! Wij nemen zo snel mogelijk contact met je
             op.
           </p>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4">
+          <p className="text-red-600 font-semibold text-sm">{errorMessage}</p>
         </div>
       )}
 
