@@ -81,6 +81,7 @@ const mainNavItems = [
   { label: "Wijnen", href: "/wijnen", hasMegaMenu: true },
   { label: "Cadeaus", href: "/cadeaus" },
   { label: "Over Ons", href: "/over-ons" },
+  { label: "Blog", href: "/blog" },
 ];
 
 export function Header({ announcement, contactPhone, contactEmail }: HeaderProps) {

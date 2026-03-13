@@ -411,8 +411,58 @@ export default async function Home() {
         </Grid>
       </Section>
 
-      {/* Category Quick Links */}
+      {/* Social Proof / Testimonials */}
       <Section background="warm" spacing="lg">
+        <div className="text-center mb-8 sm:mb-12">
+          <p className="text-label text-wine mb-2 tracking-[0.15em]">Wat Klanten Zeggen</p>
+          <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Beoordelingen</h2>
+        </div>
+        <div className="grid sm:grid-cols-3 gap-6">
+          {[
+            {
+              name: "Marloes V.",
+              text: "Prachtige selectie! De Barolo was een absolute hit op ons feestje. Wordt nu vaste klant.",
+              rating: 5,
+              wine: "Montaribaldi Barolo",
+            },
+            {
+              name: "Peter de G.",
+              text: "Snelle levering en mooi verpakt. De Amarone overtrof mijn verwachtingen — geweldige prijs-kwaliteit.",
+              rating: 5,
+              wine: "Amarone della Valpolicella",
+            },
+            {
+              name: "Sandra K.",
+              text: "Al drie keer besteld en altijd tevreden. De wijnbeschrijvingen kloppen precies. Aanrader!",
+              rating: 5,
+              wine: "Valpolicella Ripasso",
+            },
+          ].map((review) => (
+            <div
+              key={review.name}
+              className="bg-white rounded-xl p-6 shadow-sm border border-sand/50 hover:shadow-md transition-shadow"
+            >
+              <div className="flex gap-0.5 mb-3">
+                {Array.from({ length: review.rating }).map((_, i) => (
+                  <StarIcon key={i} className="w-4 h-4 text-gold" />
+                ))}
+              </div>
+              <p className="text-charcoal text-sm leading-relaxed mb-4">
+                &ldquo;{review.text}&rdquo;
+              </p>
+              <div className="border-t border-sand pt-3">
+                <p className="font-semibold text-charcoal text-sm">{review.name}</p>
+                <p className="text-xs text-grey">{review.wine}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </Section>
+
+      <SectionDivider />
+
+      {/* Category Quick Links */}
+      <Section background="default" spacing="lg">
         <div className="text-center mb-6 sm:mb-12">
           <p className="text-label text-wine mb-2 tracking-[0.15em]">Shop per Categorie</p>
           <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Ontdek Onze Collectie</h2>
