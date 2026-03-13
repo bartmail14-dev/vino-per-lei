@@ -1,7 +1,7 @@
 # Vino per Lei — Overdracht & Instructies Volgende Sessie
 
 **Datum:** 13 maart 2026
-**Laatste sessie:** Handle mismatch fix, blog artikelen + footer-shop menu aangemaakt
+**Laatste sessie:** Menu's aangemaakt, blog tags gefixt, handle mismatch gefixt
 
 ---
 
@@ -11,26 +11,16 @@
 - **GitHub:** `bartmail14-dev/vino-per-lei` (PRIVATE repo, master branch)
 - **Tech:** Next.js 16.1.6 + React 19 + TypeScript + Tailwind v4 + Framer Motion + Shopify Storefront API
 - **Vercel:** vino-per-lei.vercel.app
-- **Shopify:** `vino-per-lei-2.myshopify.com`
+- **Shopify:** `vino-per-lei-2.myshopify.com` (alleen CMS backend, NIET de frontend)
 - **Klant:** Carla Daniels, Vino per Lei (eenmanszaak), Pastorielaan 56, 5504 CR Veldhoven
 - **KvK:** 98874977 | **BTW:** NL005360033B10
 
 ---
 
-## Status
+## Status — ALLES KLAAR in Shopify Admin
 
-Laatste commit: zie `git log --oneline -1` na commit hieronder.
-
-### Handle mismatch GEFIXT
-De 5 `getPage()` calls in de code zijn aangepast naar de Shopify handles:
-
-| Bestand | Was | Nu |
-|---------|-----|-----|
-| `src/app/privacy/page.tsx` | `getPage('privacy')` | `getPage('privacybeleid')` |
-| `src/app/voorwaarden/page.tsx` | `getPage('voorwaarden')` | `getPage('algemene-voorwaarden')` |
-| `src/app/cookies/page.tsx` | `getPage('cookies')` | `getPage('cookiebeleid')` |
-| `src/app/klantenservice/verzending/page.tsx` | `getPage('verzending')` | `getPage('verzending-levering')` |
-| `src/app/klantenservice/retourneren/page.tsx` | `getPage('retourneren')` | `getPage('retourbeleid')` |
+### Handle mismatch GEFIXT (commit `29a6694`)
+De 5 `getPage()` calls in de code zijn aangepast naar de Shopify handles.
 
 ### Shopify Pages (6/6 KLAAR)
 
@@ -43,7 +33,7 @@ De 5 `getPage()` calls in de code zijn aangepast naar de Shopify handles:
 | 5 | Retourbeleid | `retourbeleid` | Visible |
 | 6 | Over Ons | `over-ons` | Visible |
 
-### Blog "Wijn Verhalen" — Artikelen (6/6 KLAAR)
+### Blog "Wijn Verhalen" — Artikelen (6/6 KLAAR + TAGS GEFIXT)
 
 | # | Artikel | Handle | Tags | Status |
 |---|---------|--------|------|--------|
@@ -54,46 +44,36 @@ De 5 `getPage()` calls in de code zijn aangepast naar de Shopify handles:
 | 5 | Piemonte: Meer dan Alleen Barolo | `piemonte-meer-dan-alleen-barolo` | regiogids, piemonte | Visible |
 | 6 | Wijn & Spijs: De Perfecte Italiaanse Match | `wijn-spijs-de-perfecte-italiaanse-match` | tips-en-tricks | Visible |
 
-**Let op:** Tags zijn via combobox ingevuld maar mogelijk niet opgeslagen door Shopify UI. Controleer in Admin of tags zichtbaar zijn.
-
-### Navigatie Menu's (1/3 KLAAR)
+### Navigatie Menu's (3/3 KLAAR)
 
 | Menu | Handle | Items | Status |
 |------|--------|-------|--------|
 | footer-shop | `footer-shop` | Alle Wijnen, Rode Wijn, Witte Wijn, Rosé, Cadeaus | KLAAR |
-| footer-service | — | — | **NOG AANMAKEN** |
-| footer-about | — | — | **NOG AANMAKEN** |
+| footer-service | `footer-service` | Verzending, Retourneren, FAQ, Contact | KLAAR |
+| footer-about | `footer-about` | Ons Verhaal, Blog | KLAAR |
 
 ---
 
 ## TODO's volgende sessie (prioriteit)
 
-### 1. Navigatie menu's aanmaken (2 stuks)
-In Shopify Admin → Content → Menus → Create menu.
-Links moeten als volledige URL (`https://vino-per-lei.vercel.app/...`) worden ingevoerd.
+### 1. Blog detail pagina's bouwen (`/blog/[slug]`)
+- Route: `src/app/blog/[slug]/page.tsx`
+- Gebruik `getArticle(slug)` uit `shopify-cms.ts` (functie bestaat al)
+- Blog listing pagina (`/blog`) met `getArticles()` — check of die al bestaat
+- Styled met dezelfde prose classes als de juridische pagina's
 
-**footer-service:**
-- Verzending → `https://vino-per-lei.vercel.app/klantenservice/verzending`
-- Retourneren → `https://vino-per-lei.vercel.app/klantenservice/retourneren`
-- FAQ → `https://vino-per-lei.vercel.app/klantenservice/faq`
-- Contact → `https://vino-per-lei.vercel.app/contact`
+### 2. Contact form backend koppelen
+- Huidige contact pagina: `src/app/contact/page.tsx`
+- Koppel aan Web3Forms (gratis, geen backend nodig)
+- API key aanmaken op web3forms.com, email instellen naar Carla
 
-**footer-about:**
-- Ons Verhaal → `https://vino-per-lei.vercel.app/over-ons`
-- Blog → `https://vino-per-lei.vercel.app/blog`
-
-### 2. Blog tags controleren
-Check in Shopify Admin of tags daadwerkelijk zijn opgeslagen bij de 5 nieuwe artikelen. Zo niet, handmatig toevoegen.
-
-### 3. Overige TODO's
+### 3. Overige TODO's (Carla/extern)
 - **Telefoonnummer Carla** updaten in Shopify Admin → Content → Metaobjects → Site Instellingen
 - **Shopify Payments activeren** — iDEAL, creditcard etc.
 - **E2E checkout test** op Vercel
 - **DNS vinoperlei.nl** koppelen aan Vercel
-- **Contact form backend** koppelen (Web3Forms of Shopify)
 - **Newsletter** koppelen aan Klaviyo/Mailchimp
-- **Blog detail pagina's** bouwen (`/blog/[slug]`)
-- **Admin API token upgraden** met `write_content` scope (dan kan het setup script alles automatisch)
+- **Admin API token upgraden** met `write_content` scope
 
 ---
 
@@ -131,7 +111,7 @@ Fallback keten: CMS data → DEFAULT_* constants → hardcoded in JSX
 ## Lees dit EERST volgende sessie
 ```
 Lees HANDOFF-VPL.md in C:\Users\BartVisser\Desktop\vino-per-lei
-TODO: 2 menu's aanmaken (footer-service, footer-about) via Playwright MCP
-TODO: Blog tags controleren
-Links invoeren als volledige URL (https://vino-per-lei.vercel.app/...)
+TODO: Blog detail pagina's bouwen (/blog en /blog/[slug])
+TODO: Contact form koppelen (Web3Forms)
+Shopify = alleen CMS backend, frontend draait op Vercel (Next.js)
 ```
