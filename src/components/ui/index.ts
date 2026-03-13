@@ -33,3 +33,5 @@ export type { TasteProfileProps, TasteProfileItem } from "./TasteProfile";
 
 export { AgeGate } from "./AgeGate";
 export type { AgeGateProps } from "./AgeGate";
+
+export { AnimateOnScroll, StaggerChildren, StaggerItem } from "./AnimateOnScroll";

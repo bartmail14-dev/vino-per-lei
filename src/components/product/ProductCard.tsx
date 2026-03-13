@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -27,6 +27,8 @@ export function ProductCard({
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const handleImageLoad = useCallback(() => setImageLoaded(true), []);
 
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
@@ -134,16 +136,23 @@ export function ProductCard({
           <div className="absolute inset-0 -top-10 sm:-top-18 flex items-center justify-center">
             {product.images[0] ? (
               <div className="relative w-24 sm:w-40 h-44 sm:h-72">
+                {!imageLoaded && (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-12 h-32 sm:w-16 sm:h-48 rounded-lg bg-gradient-to-b from-sand/40 to-sand/20 animate-pulse" />
+                  </div>
+                )}
                 <Image
                   src={wineImagePresets.card(product.images[0].url)}
                   alt={product.images[0].altText || product.title}
                   fill
                   sizes="(max-width: 640px) 112px, 192px"
                   priority={priority}
+                  onLoad={handleImageLoad}
                   className={cn(
-                    "object-contain object-center drop-shadow-2xl transition-transform duration-300",
+                    "object-contain object-center drop-shadow-2xl transition-all duration-500",
                     "group-hover:scale-[1.15] group-hover:-translate-y-4",
-                    !product.inStock && "grayscale-[50%] opacity-70"
+                    !product.inStock && "grayscale-[50%] opacity-70",
+                    !imageLoaded && "opacity-0"
                   )}
                 />
               </div>
