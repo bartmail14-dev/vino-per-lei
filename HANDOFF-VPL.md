@@ -1,7 +1,7 @@
 # Vino per Lei — Overdracht & Instructies Volgende Sessie
 
-**Datum:** 12 maart 2026
-**Laatste sessie:** Shopify CMS integratie (alle content beheerbaar vanuit Shopify)
+**Datum:** 13 maart 2026
+**Laatste sessie:** Handle mismatch fix, blog artikelen + footer-shop menu aangemaakt
 
 ---
 
@@ -17,122 +17,96 @@
 
 ---
 
-## Status: GECOMMIT & GEPUSHT
+## Status
 
-Laatste commit: `f0962cd` — Shopify CMS integratie.
-Vercel auto-deploy zou nu moeten draaien.
+Laatste commit: zie `git log --oneline -1` na commit hieronder.
 
----
+### Handle mismatch GEFIXT
+De 5 `getPage()` calls in de code zijn aangepast naar de Shopify handles:
 
-## Wat er is gedaan deze sessie
+| Bestand | Was | Nu |
+|---------|-----|-----|
+| `src/app/privacy/page.tsx` | `getPage('privacy')` | `getPage('privacybeleid')` |
+| `src/app/voorwaarden/page.tsx` | `getPage('voorwaarden')` | `getPage('algemene-voorwaarden')` |
+| `src/app/cookies/page.tsx` | `getPage('cookies')` | `getPage('cookiebeleid')` |
+| `src/app/klantenservice/verzending/page.tsx` | `getPage('verzending')` | `getPage('verzending-levering')` |
+| `src/app/klantenservice/retourneren/page.tsx` | `getPage('retourneren')` | `getPage('retourbeleid')` |
 
-### Wave 1: Audit-fixes committen (9+1 commits)
-Alle 143 uncommitted files uit de vorige sessie netjes opgesplitst gecommit:
-1. Legal pages + cookie consent
-2. Error pages + SEO (404, sitemap, robots, loading)
-3. Footer compliance (bedrijfsgegevens, alcohol disclaimer)
-4. Security hardening (CSP, cookie flags, cart guards, PII)
-5. Shopify hosted checkout + fake reviews/auth verwijderd
-6. Code quality + SEO meta
-7. A11y + routes (keyboard mega menu, reduced motion, filters)
-8. Image optimization (PNGs→WebP, hero video gecomprimeerd)
-9. Dev artifacts opgeruimd (screenshots, scripts)
-10. Docs + Shopify utility scripts
+### Shopify Pages (6/6 KLAAR)
 
-### Wave 2: Technische fixes
-- Footer categorie-links → `/wijnen?type=X`
-- npm audit fix → 0 vulnerabilities
-- hero-banner.png → WebP (1.5MB → 91KB)
-- hero-video-original.mp4 verwijderd (14MB)
+| # | Pagina | Handle | Status |
+|---|--------|--------|--------|
+| 1 | Privacybeleid | `privacybeleid` | Visible |
+| 2 | Algemene Voorwaarden | `algemene-voorwaarden` | Visible |
+| 3 | Cookiebeleid | `cookiebeleid` | Visible |
+| 4 | Verzending & Levering | `verzending-levering` | Visible |
+| 5 | Retourbeleid | `retourbeleid` | Visible |
+| 6 | Over Ons | `over-ons` | Visible |
 
-### Wave 3: Shopify CMS integratie (GROTE REFACTOR)
+### Blog "Wijn Verhalen" — Artikelen (6/6 KLAAR)
 
-**Nieuwe bestanden:**
-| Bestand | Wat het is |
-|---------|-----------|
-| `src/lib/shopify-cms.ts` | Storefront API queries voor metaobjects, pages, blog, menus |
-| `src/components/layout/FooterWrapper.tsx` | Server Component die CMS data fetcht voor Footer |
-| `src/components/layout/HeaderWrapper.tsx` | Server Component die CMS data fetcht voor Header |
-| `scripts/setup-shopify-cms.ts` | Admin API script: metaobject-definities + seed data |
+| # | Artikel | Handle | Tags | Status |
+|---|---------|--------|------|--------|
+| 1 | Barolo: De Koning der Italiaanse Wijnen | `barolo-de-koning-der-italiaanse-wijnen` | wijnkennis, piemonte | Visible |
+| 2 | Toscana: De Ultieme Wijngids | `toscana-de-ultieme-wijngids` | regiogids, toscana | Visible |
+| 3 | Het Geheim van Amarone | `het-geheim-van-amarone` | wijnkennis, veneto | Visible |
+| 4 | Prosecco vs. Champagne: De Verschillen | `prosecco-vs-champagne-de-verschillen` | wist-je-dat | Visible |
+| 5 | Piemonte: Meer dan Alleen Barolo | `piemonte-meer-dan-alleen-barolo` | regiogids, piemonte | Visible |
+| 6 | Wijn & Spijs: De Perfecte Italiaanse Match | `wijn-spijs-de-perfecte-italiaanse-match` | tips-en-tricks | Visible |
 
-**7 metaobject-types aangemaakt in Shopify:**
-1. `site_settings` — bedrijfsgegevens, contact, social URLs, openingstijden
-2. `homepage_hero` — hero tekst, CTAs
-3. `announcement_bar` — bericht, aan/uit toggle, link
-4. `usp_item` — 4 trust signals (gratis verzending, retour, expert, betalen)
-5. `faq_item` — 17 FAQ items in 6 categorieën
-6. `wine_region` — 9 Italiaanse wijnregio's
-7. `category_block` — 5 categorie-blokken (rood, wit, rosé, bubbels, cadeaus)
+**Let op:** Tags zijn via combobox ingevuld maar mogelijk niet opgeslagen door Shopify UI. Controleer in Admin of tags zichtbaar zijn.
 
-**Pagina's geüpdatet (14 bestanden):**
-- Homepage: hero, USPs, categorieën, blog nu uit CMS
-- FAQ: items uit metaobjects, gegroepeerd per categorie
-- Contact: telefoon/email/adres/openingstijden uit CMS
-- Privacy, Voorwaarden, Cookies, Verzending, Retourneren, Over Ons: uit Shopify Pages
-- Footer: bedrijfsgegevens, social links, navigatie uit CMS
-- Header: announcement bar en contactinfo uit CMS
-- layout.tsx: Wrapper components voor server-side data fetching
+### Navigatie Menu's (1/3 KLAAR)
 
-**ISR:** Alle CMS-pagina's hebben `revalidate = 60` (wijzigingen live binnen 1 minuut)
-
-**Fallbacks:** Alle hardcoded content blijft als fallback wanneer CMS nog niet gevuld is.
-
----
-
-## Shopify Admin API Token Scope Issue
-
-De huidige Admin API token mist de `write_content` / `write_online_store_pages` scope.
-Hierdoor konden Pages, Blog en Navigatie NIET automatisch worden aangemaakt via het script.
-
-**Oplossing A (snel):** Maak Pages, Blog en Menu's handmatig aan in Shopify Admin (zie taken hieronder)
-**Oplossing B (structureel):** Maak een nieuwe custom app aan in Shopify Admin → Settings → Apps → Develop apps met de scopes: `write_content`, `write_online_store_pages`, `read_metaobjects`, `write_metaobjects`. Gebruik het nieuwe token en draai het script opnieuw: `npx tsx scripts/setup-shopify-cms.ts`
-
----
-
-## Waar Carla content beheert
-
-| Content | Waar in Shopify Admin |
-|---------|----------------------|
-| Bedrijfsgegevens, telefoon, email, openingstijden | Content → Metaobjects → Site Instellingen |
-| Homepage hero tekst & knoppen | Content → Metaobjects → Homepage Hero |
-| Announcement bar (boven navigatie) | Content → Metaobjects → Announcement Bar |
-| USP balk (gratis verzending etc.) | Content → Metaobjects → USP Items |
-| FAQ vragen & antwoorden | Content → Metaobjects → FAQ Items |
-| Wijnregio's | Content → Metaobjects → Wijnregio's |
-| Categorie-blokken homepage | Content → Metaobjects → Categorie Blokken |
-| Privacy, Voorwaarden, Cookies, etc. | Online Store → Pages |
-| Blog artikelen | Online Store → Blog Posts |
-| Navigatie (footer links) | Online Store → Navigation |
-| Producten & prijzen | Products |
+| Menu | Handle | Items | Status |
+|------|--------|-------|--------|
+| footer-shop | `footer-shop` | Alle Wijnen, Rode Wijn, Witte Wijn, Rosé, Cadeaus | KLAAR |
+| footer-service | — | — | **NOG AANMAKEN** |
+| footer-about | — | — | **NOG AANMAKEN** |
 
 ---
 
 ## TODO's volgende sessie (prioriteit)
 
-### BLOKKERS voor livegang
-1. **Shopify Pages aanmaken** — privacy, voorwaarden, cookies, verzending, retourneren, over-ons (content staat in `scripts/setup-shopify-cms.ts`)
-2. **Blog "Wijn Verhalen" aanmaken** + 6 artikelen (content in setup script)
-3. **Navigatie menu's aanmaken** — footer-shop, footer-service, footer-about (handles + links in setup script)
-4. **Telefoonnummer Carla** updaten in Shopify Admin → Content → Site Instellingen
-5. **Shopify Payments activeren** — iDEAL, creditcard etc. in Admin → Settings → Payments
-6. **E2E checkout test** op Vercel (Shopify test mode)
-7. **DNS vinoperlei.nl** koppelen aan Vercel (Carla moet domein registreren)
+### 1. Navigatie menu's aanmaken (2 stuks)
+In Shopify Admin → Content → Menus → Create menu.
+Links moeten als volledige URL (`https://vino-per-lei.vercel.app/...`) worden ingevoerd.
 
-### HOOG
-8. **Admin API token upgraden** met `write_content` scope zodat het setup script alles kan
-9. **Contact form backend** koppelen (Web3Forms of Shopify) + rate limiting
-10. **Newsletter** koppelen aan Klaviyo/Mailchimp (nu een stub in Footer)
-11. **Blog detail pagina's** bouwen (`/blog/[slug]` route met `getBlogArticleByHandle()`)
+**footer-service:**
+- Verzending → `https://vino-per-lei.vercel.app/klantenservice/verzending`
+- Retourneren → `https://vino-per-lei.vercel.app/klantenservice/retourneren`
+- FAQ → `https://vino-per-lei.vercel.app/klantenservice/faq`
+- Contact → `https://vino-per-lei.vercel.app/contact`
 
-### MEDIUM
-12. **Kortingscodes** via Shopify API (`checkoutDiscountCodeApplyV2`)
-13. **Nonce-based CSP** voor script-src
-14. **Cadeaus pagina** vullen met content of Shopify collection koppelen
+**footer-about:**
+- Ons Verhaal → `https://vino-per-lei.vercel.app/over-ons`
+- Blog → `https://vino-per-lei.vercel.app/blog`
 
-### LAAG
-15. LoginModal a11y (focus trap, role="dialog")
-16. Color contrast fixes (footer white/40 op dark)
-17. `use client` verwijderen van pure display components
+### 2. Blog tags controleren
+Check in Shopify Admin of tags daadwerkelijk zijn opgeslagen bij de 5 nieuwe artikelen. Zo niet, handmatig toevoegen.
+
+### 3. Overige TODO's
+- **Telefoonnummer Carla** updaten in Shopify Admin → Content → Metaobjects → Site Instellingen
+- **Shopify Payments activeren** — iDEAL, creditcard etc.
+- **E2E checkout test** op Vercel
+- **DNS vinoperlei.nl** koppelen aan Vercel
+- **Contact form backend** koppelen (Web3Forms of Shopify)
+- **Newsletter** koppelen aan Klaviyo/Mailchimp
+- **Blog detail pagina's** bouwen (`/blog/[slug]`)
+- **Admin API token upgraden** met `write_content` scope (dan kan het setup script alles automatisch)
+
+---
+
+## Belangrijke bestanden
+
+| Bestand | Wat het is |
+|---------|-----------|
+| `src/lib/shopify-cms.ts` | **KERN** — Alle CMS queries + types + defaults |
+| `src/lib/shopify.ts` | Product queries + checkout |
+| `scripts/setup-shopify-cms.ts` | Setup script + ALLE content voor artikelen/pages |
+| `src/components/layout/FooterWrapper.tsx` | Server wrapper die Footer voedt |
+| `src/components/layout/HeaderWrapper.tsx` | Server wrapper die Header voedt |
+| `.env.local` | Shopify tokens (NIET committen) |
 
 ---
 
@@ -154,25 +128,10 @@ Fallback keten: CMS data → DEFAULT_* constants → hardcoded in JSX
 
 ---
 
-## Belangrijke bestanden
-
-| Bestand | Wat het is |
-|---------|-----------|
-| `src/lib/shopify-cms.ts` | **KERN** — Alle CMS queries + types + defaults |
-| `src/lib/shopify.ts` | Product queries + checkout |
-| `scripts/setup-shopify-cms.ts` | Setup script (Admin API) — eenmalig draaien |
-| `src/components/layout/FooterWrapper.tsx` | Server wrapper die Footer voedt |
-| `src/components/layout/HeaderWrapper.tsx` | Server wrapper die Header voedt |
-| `.env.local` | Shopify tokens (NIET committen) |
-| `.env.example` | Template voor env vars |
-| `src/middleware.ts` | Security headers (CSP) |
-| `AUDIT-LIVEGANG.md` | Volledige audit rapport |
-
----
-
 ## Lees dit EERST volgende sessie
 ```
 Lees HANDOFF-VPL.md in C:\Users\BartVisser\Desktop\vino-per-lei
-Shopify CMS integratie KLAAR — check of Vercel deploy geslaagd is
-TODO: Pages + Blog + Menu's aanmaken in Shopify Admin (of token upgraden + script opnieuw)
+TODO: 2 menu's aanmaken (footer-service, footer-about) via Playwright MCP
+TODO: Blog tags controleren
+Links invoeren als volledige URL (https://vino-per-lei.vercel.app/...)
 ```

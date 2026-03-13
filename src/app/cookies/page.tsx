@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CookiesPage() {
-  const page = await getPage("cookies");
+  const page = await getPage("cookiebeleid");
 
   return (
     <div className="bg-background">

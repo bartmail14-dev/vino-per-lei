@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function VerzendingPage() {
-  const page = await getPage("verzending");
+  const page = await getPage("verzending-levering");
 
   return (
     <div className="bg-background">

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function PrivacyPage() {
-  const page = await getPage("privacy");
+  const page = await getPage("privacybeleid");
 
   return (
     <div className="bg-background">
