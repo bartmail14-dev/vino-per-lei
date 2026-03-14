@@ -76,6 +76,11 @@ export interface CategoryBlock {
   sortOrder: number;
 }
 
+export interface BlogAuthor {
+  name: string;
+  bio: string;
+}
+
 export interface BlogArticle {
   title: string;
   handle: string;
@@ -84,6 +89,9 @@ export interface BlogArticle {
   publishedAt: string;
   image: { url: string; altText: string | null } | null;
   tags: string[];
+  authorV2: BlogAuthor | null;
+  seo: { title: string | null; description: string | null };
+  readingTimeMinutes: number;
 }
 
 export interface ShopifyPage {
@@ -272,28 +280,76 @@ export async function getPage(handle: string): Promise<ShopifyPage | null> {
 
 // --- Blog ---
 
+const BLOG_HANDLE = 'wijn-verhalen';
+
+const ARTICLE_FIELDS = `
+  title
+  handle
+  contentHtml
+  excerpt
+  publishedAt
+  image { url altText }
+  tags
+  authorV2 { name bio }
+  seo { title description }
+`;
+
+function estimateReadingTime(html: string): number {
+  const text = html.replace(/<[^>]*>/g, '');
+  const words = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
+}
+
+function mapArticle(node: Record<string, unknown>): BlogArticle {
+  const contentHtml = (node.contentHtml as string) || '';
+  const authorV2Raw = node.authorV2 as { name?: string; bio?: string } | null;
+  const seoRaw = node.seo as { title?: string; description?: string } | null;
+  return {
+    title: (node.title as string) || '',
+    handle: (node.handle as string) || '',
+    contentHtml,
+    excerpt: (node.excerpt as string) || '',
+    publishedAt: (node.publishedAt as string) || '',
+    image: node.image as BlogArticle['image'],
+    tags: (node.tags as string[]) || [],
+    authorV2: authorV2Raw?.name ? { name: authorV2Raw.name, bio: authorV2Raw.bio || '' } : null,
+    seo: { title: seoRaw?.title || null, description: seoRaw?.description || null },
+    readingTimeMinutes: estimateReadingTime(contentHtml),
+  };
+}
+
 export async function getBlogArticles(first: number = 20): Promise<BlogArticle[]> {
   try {
     const { data } = await client.request(`
       query getBlogArticles($first: Int!) {
-        blog(handle: "wijn-verhalen") {
+        blog(handle: "${BLOG_HANDLE}") {
           articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
-            nodes {
-              title
-              handle
-              contentHtml
-              excerpt
-              publishedAt
-              image { url altText }
-              tags
-            }
+            nodes { ${ARTICLE_FIELDS} }
           }
         }
       }
     `, { variables: { first } });
-    return data?.blog?.articles?.nodes ?? [];
+    return (data?.blog?.articles?.nodes ?? []).map(mapArticle);
   } catch (error) {
     console.error('Failed to fetch blog articles:', error);
+    return [];
+  }
+}
+
+export async function getBlogArticlesByTag(tag: string, first: number = 20): Promise<BlogArticle[]> {
+  try {
+    const { data } = await client.request(`
+      query getBlogArticlesByTag($first: Int!, $query: String!) {
+        blog(handle: "${BLOG_HANDLE}") {
+          articles(first: $first, sortKey: PUBLISHED_AT, reverse: true, query: $query) {
+            nodes { ${ARTICLE_FIELDS} }
+          }
+        }
+      }
+    `, { variables: { first, query: `tag:${tag}` } });
+    return (data?.blog?.articles?.nodes ?? []).map(mapArticle);
+  } catch (error) {
+    console.error(`Failed to fetch articles by tag "${tag}":`, error);
     return [];
   }
 }
@@ -303,23 +359,26 @@ export async function getBlogArticleByHandle(handle: string): Promise<BlogArticl
     const { data } = await client.request(`
       query getBlogArticle($blogHandle: String!, $articleHandle: String!) {
         blog(handle: $blogHandle) {
-          articleByHandle(handle: $articleHandle) {
-            title
-            handle
-            contentHtml
-            excerpt
-            publishedAt
-            image { url altText }
-            tags
-          }
+          articleByHandle(handle: $articleHandle) { ${ARTICLE_FIELDS} }
         }
       }
-    `, { variables: { blogHandle: 'wijn-verhalen', articleHandle: handle } });
-    return data?.blog?.articleByHandle ?? null;
+    `, { variables: { blogHandle: BLOG_HANDLE, articleHandle: handle } });
+    const node = data?.blog?.articleByHandle;
+    return node ? mapArticle(node) : null;
   } catch (error) {
     console.error(`Failed to fetch article "${handle}":`, error);
     return null;
   }
+}
+
+/** Get unique tags from all articles for category filtering */
+export async function getBlogTags(): Promise<string[]> {
+  const articles = await getBlogArticles(50);
+  const tagSet = new Set<string>();
+  for (const a of articles) {
+    for (const t of a.tags) tagSet.add(t);
+  }
+  return Array.from(tagSet).sort();
 }
 
 // --- Menus ---
