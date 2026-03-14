@@ -24,13 +24,13 @@ export function BlogCategoryFilter({ tags }: BlogCategoryFilterProps) {
   );
 
   return (
-    <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:gap-2">
+    <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:gap-2.5">
       <button
         onClick={() => handleClick(null)}
-        className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
+        className={`relative px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap border ${
           !activeTag
-            ? "bg-wine text-white shadow-md shadow-wine/20"
-            : "bg-transparent text-grey hover:text-charcoal hover:bg-sand/40"
+            ? "bg-wine text-white shadow-md shadow-wine/20 border-wine"
+            : "bg-white text-grey border-sand/80 hover:text-charcoal hover:border-charcoal/20 hover:shadow-sm"
         }`}
       >
         Alles
@@ -39,10 +39,10 @@ export function BlogCategoryFilter({ tags }: BlogCategoryFilterProps) {
         <button
           key={tag}
           onClick={() => handleClick(tag)}
-          className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 capitalize whitespace-nowrap ${
+          className={`relative px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 capitalize whitespace-nowrap border ${
             activeTag === tag
-              ? "bg-wine text-white shadow-md shadow-wine/20"
-              : "bg-transparent text-grey hover:text-charcoal hover:bg-sand/40"
+              ? "bg-wine text-white shadow-md shadow-wine/20 border-wine"
+              : "bg-white text-grey border-sand/80 hover:text-charcoal hover:border-charcoal/20 hover:shadow-sm"
           }`}
         >
           {tag}

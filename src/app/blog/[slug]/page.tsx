@@ -62,6 +62,31 @@ function ArrowIcon({ className }: { className?: string }) {
   );
 }
 
+function WineGlassIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M8 2h8l-1 9a5 5 0 0 1-10 0L8 2z" />
+      <path d="M12 11v8" />
+      <path d="M8 19h8" />
+    </svg>
+  );
+}
+
+function GrapeIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" opacity="0.06">
+      <circle cx="12" cy="8" r="2.5" />
+      <circle cx="9" cy="12" r="2.5" />
+      <circle cx="15" cy="12" r="2.5" />
+      <circle cx="7.5" cy="16" r="2.5" />
+      <circle cx="12" cy="16" r="2.5" />
+      <circle cx="16.5" cy="16" r="2.5" />
+      <circle cx="10" cy="20" r="2.5" />
+      <circle cx="14" cy="20" r="2.5" />
+    </svg>
+  );
+}
+
 function formatDate(date: string) {
   return new Date(date).toLocaleDateString("nl-NL", {
     day: "numeric",
@@ -77,14 +102,14 @@ function RelatedCard({ article }: { article: BlogArticle }) {
 
   return (
     <Link href={`/blog/${article.handle}`} className="group block h-full">
-      <article className="bg-white rounded-xl border border-sand/60 overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 h-full flex flex-col">
+      <article className="bg-white rounded-xl border border-sand/60 overflow-hidden hover:shadow-lg hover:shadow-wine/5 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col">
         {hasImage ? (
           <div className="relative aspect-[16/10] overflow-hidden">
             <Image
               src={article.image!.url}
               alt={article.image!.altText || article.title}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
+              className="object-cover group-hover:scale-105 transition-transform duration-700"
               sizes="(max-width: 640px) 100vw, 33vw"
             />
             <div className="absolute top-3 left-3">
@@ -94,14 +119,20 @@ function RelatedCard({ article }: { article: BlogArticle }) {
             </div>
           </div>
         ) : (
-          <div className="bg-wine px-5 py-4">
-            <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-gold/90">
-              {category}
-            </span>
+          <div className="bg-wine px-5 py-4 relative overflow-hidden">
+            <div className="absolute inset-0">
+              <GrapeIcon className="absolute -bottom-2 -right-2 w-20 h-20 text-white" />
+            </div>
+            <div className="relative z-10 flex items-center gap-2">
+              <WineGlassIcon className="w-3 h-3 text-gold/50" />
+              <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-gold/90">
+                {category}
+              </span>
+            </div>
           </div>
         )}
         <div className="p-5 flex flex-col flex-1">
-          <h3 className="font-serif text-base sm:text-lg font-semibold text-charcoal group-hover:text-wine transition-colors line-clamp-2 leading-snug mb-3">
+          <h3 className="font-serif text-base sm:text-lg font-semibold text-charcoal group-hover:text-wine transition-colors duration-300 line-clamp-2 leading-snug mb-3">
             {article.title}
           </h3>
           <div className="flex items-center gap-2 text-xs text-grey mt-auto">
@@ -109,6 +140,9 @@ function RelatedCard({ article }: { article: BlogArticle }) {
             <span>{article.readingTimeMinutes} min</span>
             <span className="w-0.5 h-0.5 rounded-full bg-grey/40" />
             <span>{formatDate(article.publishedAt)}</span>
+            <span className="flex items-center gap-1 ml-auto text-wine font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <ArrowIcon className="w-3 h-3" />
+            </span>
           </div>
         </div>
       </article>
@@ -144,12 +178,18 @@ export default async function BlogArticlePage({ params }: Props) {
   return (
     <div className="bg-background min-h-screen">
       {/* ─── Hero ─── */}
-      <div className="bg-dark-bg">
-        <div className="max-w-3xl mx-auto px-5 sm:px-8 pt-10 pb-14 sm:pt-14 sm:pb-20">
+      <div className="bg-dark-bg relative overflow-hidden">
+        {/* Decorative background */}
+        <div className="absolute top-0 right-0 w-48 h-48 opacity-[0.04]">
+          <GrapeIcon className="w-full h-full text-gold" />
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
+
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 pt-10 pb-14 sm:pt-14 sm:pb-20 relative">
           {/* Back */}
           <Link
             href="/blog"
-            className="inline-flex items-center text-sm text-white/40 hover:text-white/70 transition-colors mb-10 sm:mb-12"
+            className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white/70 hover:gap-2.5 transition-all mb-10 sm:mb-12"
           >
             &larr; Alle verhalen
           </Link>
@@ -175,10 +215,12 @@ export default async function BlogArticlePage({ params }: Props) {
           {/* Meta */}
           <div className="flex flex-wrap items-center gap-6 text-sm text-white/40">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center text-gold text-sm font-bold border border-gold/15">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold/15 to-wine-light/30 flex items-center justify-center text-gold text-sm font-bold border border-gold/15">
                 {authorInitials}
               </div>
-              <span className="text-white/60 font-medium">{authorName}</span>
+              <div>
+                <span className="text-white/60 font-medium block">{authorName}</span>
+              </div>
             </div>
             <span className="hidden sm:inline text-white/20">|</span>
             <span>{formatDate(article.publishedAt)}</span>
@@ -243,23 +285,29 @@ export default async function BlogArticlePage({ params }: Props) {
 
         {/* ─── Author Card ─── */}
         {article.authorV2 && (
-          <div className="mt-10 bg-warm-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-sand/50 flex items-start gap-4 sm:gap-5">
-            <div className="w-14 h-14 rounded-full bg-gradient-to-br from-wine to-wine-dark flex items-center justify-center text-white text-lg font-bold flex-shrink-0">
-              {authorInitials}
-            </div>
-            <div>
-              <p className="font-semibold text-charcoal text-base mb-1">
-                {article.authorV2.name}
-              </p>
-              {article.authorV2.bio ? (
-                <p className="text-grey text-sm leading-relaxed">
-                  {article.authorV2.bio}
+          <div className="mt-10 bg-warm-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-sand/50 relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-wine via-gold/40 to-transparent" />
+            <div className="flex items-start gap-4 sm:gap-5">
+              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-wine to-wine-dark flex items-center justify-center text-white text-lg font-bold flex-shrink-0 ring-2 ring-wine/10 ring-offset-2 ring-offset-warm-white">
+                {authorInitials}
+              </div>
+              <div>
+                <p className="text-xs font-medium text-wine/50 uppercase tracking-wider mb-1">
+                  Geschreven door
                 </p>
-              ) : (
-                <p className="text-grey text-sm leading-relaxed">
-                  Schrijft over Italiaanse wijnen, wijnboeren en de verhalen achter elke fles.
+                <p className="font-serif font-semibold text-charcoal text-lg mb-1.5">
+                  {article.authorV2.name}
                 </p>
-              )}
+                {article.authorV2.bio ? (
+                  <p className="text-grey text-sm leading-relaxed">
+                    {article.authorV2.bio}
+                  </p>
+                ) : (
+                  <p className="text-grey text-sm leading-relaxed">
+                    Schrijft over Italiaanse wijnen, wijnboeren en de verhalen achter elke fles.
+                  </p>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -271,9 +319,13 @@ export default async function BlogArticlePage({ params }: Props) {
           <div className="max-w-6xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
             <div className="flex items-end justify-between mb-8 sm:mb-10">
               <div>
-                <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-wine mb-2">
-                  Meer Lezen
-                </p>
+                <div className="flex items-center gap-2.5 mb-3">
+                  <WineGlassIcon className="w-3.5 h-3.5 text-wine/40" />
+                  <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-wine/60">
+                    Meer Lezen
+                  </p>
+                  <div className="h-px w-6 bg-wine/15" />
+                </div>
                 <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-charcoal">
                   Gerelateerde Verhalen
                 </h2>

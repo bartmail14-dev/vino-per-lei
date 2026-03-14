@@ -1,7 +1,7 @@
 # Vino per Lei — Overdracht Volgende Sessie
 
 **Datum:** 14 maart 2026
-**Laatste sessie:** Blog redesign, scroll-animaties, testimonials upgrade, contact redesign
+**Laatste sessie:** Blog contrast/spacing fix, detail page upgrade
 
 ---
 
@@ -25,67 +25,59 @@
 
 Laatste commits:
 ```
+4d5a8d1 fix: blog redesign — proper contrast, no-image fallbacks, better spacing
+1289279 docs: handoff update — blog redesign + design verbeteringen samengevat
 8d13a51 feat: blog redesign — magazine listing, rich detail page, category filter
 c562a87 feat: scroll-animaties, testimonials upgrade, contact redesign + product shimmer
-495df64 feat: SVG logo component + favicon + integratie Header/Footer/AgeGate
-141a082 feat: frontend upgrades — Over Ons redesign, Cadeaus met producten, testimonials, Blog nav
 ```
 
 ---
 
 ## Wat is KLAAR
 
-### Blog Systeem (nieuw deze sessie)
-- **Blog listing** (`/blog`) — magazine-style met featured hero, categorie filter (tags), rijke cards
-- **Blog detail** (`/blog/[slug]`) — fullscreen hero, auteur info, leestijd, share buttons, gerelateerde artikelen
-- **Backend** — `shopify-cms.ts` uitgebreid: authorV2, seo, readingTimeMinutes, getBlogArticlesByTag, getBlogTags
-- **Categorie filter** — client component `BlogCategoryFilter.tsx` met URL params (`/blog?tag=piemonte`)
-- **Share buttons** — WhatsApp, Facebook, X, kopieer link
-- **6 artikelen** in Shopify (wijn-verhalen blog), auteur: Bart Visser
-- **Carla kan verhalen schrijven** via Shopify Admin → Online Store → Blog posts → "Wijn Verhalen"
+### Blog Redesign (deze sessie — `4d5a8d1`)
+- **Listing `/blog`**: Featured article = donkere navy card met goud accenten (geen lege image placeholder). Grid cards met navy accent bar + categorie als er geen foto is, image card als er wel een foto is.
+- **Detail `/blog/[slug]`**: Meer ademruimte hero (grotere paddings), pipe-scheiders in meta (auteur | datum | leestijd), grotere artikeltekst (17px, 1.85 line-height), fallback auteur bio.
+- **Related cards**: Consistent navy accent bar design.
+- **Category filter**: Horizontaal scrollbaar op mobile, subtielere hover states.
+- **Kernprincipe**: Geen image placeholders — als er geen foto is, wordt het een text-only card met donkere accent. Goed contrast overal.
 
-### Scroll-animaties (nieuw deze sessie)
-- `AnimateOnScroll` + `StaggerChildren` + `StaggerItem` componenten (`src/components/ui/AnimateOnScroll.tsx`)
-- Homepage secties animeren bij scrollen (fadeUp, fadeLeft, fadeRight, scaleIn, stagger)
-
-### Testimonials upgrade
-- Grote quote marks, initialen avatars met wine gradient, italic tekst, decoratief hoekje
-
-### Contact redesign
-- Donkere hero, overlappende info cards met icons, formulier in card, wine-gradient FAQ blok
-
-### ProductCard shimmer
-- Image loading skeleton placeholder
+### Blog Systeem (vorige sessie)
+- Blog listing + detail + categorie filter + share buttons
+- Backend: `shopify-cms.ts` met authorV2, seo, readingTimeMinutes, getBlogArticlesByTag, getBlogTags
+- 6 artikelen in Shopify, auteur: Bart Visser
+- Carla kan zelf schrijven via Shopify Admin → Blog posts → "Wijn Verhalen"
 
 ### Eerdere features (al klaar)
-- Logo SVG, Footer redesign, Over Ons, Cadeaus, AgeGate, Cookie consent
+- Scroll-animaties (AnimateOnScroll, StaggerChildren, StaggerItem)
+- Testimonials upgrade, Contact redesign, ProductCard shimmer
+- Logo SVG, Footer, Over Ons, Cadeaus, AgeGate, Cookie consent
 - 40 pagina's, 19 Shopify producten, checkout gekoppeld
 
 ---
 
 ## TODO's Volgende Sessie (prioriteit)
 
-### 1. Web3Forms API Key
-- Ga naar web3forms.com → maak API key → stel email in naar Carla
-- Invullen in `.env.local` als `NEXT_PUBLIC_WEB3FORMS_KEY=...`
-- Ook in Vercel environment variables zetten
+### 1. Blog foto's uploaden (HOGE PRIORITEIT)
+- De artikelen hebben geen featured images → alles toont de navy fallback
+- Carla (of jij) moet per artikel een foto uploaden in Shopify Admin
+- Zodra er foto's zijn zien de cards er veel rijker uit (image card variant is al gebouwd)
 
-### 2. Frontend Design Verbeteringen
-- **Klantenservice pagina's**: Verzending/Retourneren kunnen visueel rijker (timeline, icons)
-- **Scroll animaties**: Over Ons, Cadeaus, wijnen listing — dezelfde AnimateOnScroll toepassen
+### 2. Web3Forms API Key
+- web3forms.com → API key maken → email naar Carla
+- `.env.local`: `NEXT_PUBLIC_WEB3FORMS_KEY=...`
+- Ook in Vercel environment variables
+
+### 3. Frontend Design Verbeteringen
+- **Klantenservice pagina's**: Verzending/Retourneren visueel rijker (timeline, icons)
+- **Scroll animaties**: Over Ons, Cadeaus, wijnen listing — AnimateOnScroll toepassen
 - **Mobile fine-tuning**: 390px viewport check op alle pagina's
 
-### 3. Blog Content voor Carla
-- Carla kan nu zelf artikelen schrijven in Shopify Admin
-- Tags gebruiken voor categorisatie (piemonte, regiogids, tips-en-tricks, etc.)
-- Afbeeldingen uploaden per artikel (featured image)
-- SEO titel/beschrijving invullen per artikel
-
 ### 4. Shopify / Carla TODO's (extern)
-- **Telefoonnummer Carla** — staat als `040-XXX XXXX` overal (grep: `040-XXX`)
-- **Shopify Payments activeren** — iDEAL, creditcard etc.
-- **DNS vinoperlei.nl** koppelen aan Vercel
-- **Newsletter** koppelen aan Klaviyo/Mailchimp
+- **Telefoonnummer** — `040-XXX XXXX` placeholder overal (grep: `040-XXX`)
+- **Shopify Payments** — iDEAL, creditcard activeren
+- **DNS vinoperlei.nl** → Vercel
+- **Newsletter** → Klaviyo/Mailchimp koppelen
 
 ---
 
@@ -108,10 +100,11 @@ Vercel CDN → Gebruiker
 |---------|-----|
 | `src/lib/shopify-cms.ts` | CMS queries + blog + types + defaults |
 | `src/lib/shopify.ts` | Product queries + checkout |
-| `src/components/ui/AnimateOnScroll.tsx` | Scroll-animatie componenten |
-| `src/components/home/HomeAnimations.tsx` | Homepage client wrappers |
-| `src/app/blog/BlogCategoryFilter.tsx` | Blog categorie filter (client) |
+| `src/app/blog/page.tsx` | Blog listing (featured + grid cards) |
+| `src/app/blog/[slug]/page.tsx` | Blog detail (hero + article + related) |
+| `src/app/blog/BlogCategoryFilter.tsx` | Categorie filter (client) |
 | `src/app/blog/[slug]/ShareButtons.tsx` | Social share buttons (client) |
+| `src/components/ui/AnimateOnScroll.tsx` | Scroll-animatie componenten |
 | `src/components/ui/Logo.tsx` | SVG logo (traced, grain filter) |
 | `src/stores/cartStore.ts` | Zustand winkelwagen |
 | `.env.local` | Shopify tokens + Web3Forms key |
@@ -122,13 +115,15 @@ Vercel CDN → Gebruiker
 
 - **Web3Forms key ontbreekt** — contact form stuurt nog niks
 - **Telefoon placeholder** — `040-XXX XXXX` op meerdere plekken
-- **Newsletter** — frontend staat klaar, backend (Klaviyo) niet gekoppeld
-- **Hydration warning** — bestaand issue, niet blokkerend
+- **Newsletter** — frontend klaar, backend (Klaviyo) niet gekoppeld
+- **Hydration warning** — bestaand, niet blokkerend
+- **Blog foto's** — alle 6 artikelen missen featured images
 
 ---
 
 ## Claude Code Notities
 
-- **NOOIT `next dev` in foreground draaien** — crasht Claude Code door output overload
-- **Shopify tokens** staan in `.env.local` — NIET committen
-- **Playwright MCP** gebruikt voor visuele verificatie
+- **NOOIT `next dev` in foreground draaien** — crasht Claude Code
+- **Shopify tokens** in `.env.local` — NIET committen
+- **Playwright MCP** voor visuele verificatie
+- **Blog design les**: Geen image placeholders met onzichtbare decoraties op lichte achtergronden. Als er geen foto is → donkere accent bar met categorie tekst, rest text-only. Altijd goed contrast.
