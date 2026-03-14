@@ -24,13 +24,13 @@ export function BlogCategoryFilter({ tags }: BlogCategoryFilterProps) {
   );
 
   return (
-    <div className="flex flex-wrap gap-2">
+    <div className="flex items-center gap-1.5 overflow-x-auto scrollbar-hide pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:gap-2">
       <button
         onClick={() => handleClick(null)}
-        className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+        className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap ${
           !activeTag
-            ? "bg-wine text-white shadow-sm"
-            : "bg-sand/30 text-grey hover:bg-sand/50 hover:text-charcoal"
+            ? "bg-wine text-white shadow-md shadow-wine/20"
+            : "bg-transparent text-grey hover:text-charcoal hover:bg-sand/40"
         }`}
       >
         Alles
@@ -39,10 +39,10 @@ export function BlogCategoryFilter({ tags }: BlogCategoryFilterProps) {
         <button
           key={tag}
           onClick={() => handleClick(tag)}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 capitalize ${
+          className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 capitalize whitespace-nowrap ${
             activeTag === tag
-              ? "bg-wine text-white shadow-sm"
-              : "bg-sand/30 text-grey hover:bg-sand/50 hover:text-charcoal"
+              ? "bg-wine text-white shadow-md shadow-wine/20"
+              : "bg-transparent text-grey hover:text-charcoal hover:bg-sand/40"
           }`}
         >
           {tag}
