@@ -92,7 +92,7 @@ export function AgeGate({ onVerified }: AgeGateProps) {
 
           {/* Content Card */}
           <motion.div
-            className="relative z-10 flex flex-col items-center px-8 py-12 sm:px-14 sm:py-16 text-center max-w-md mx-4 rounded-2xl bg-white/[0.07] backdrop-blur-xl border border-white/10 shadow-2xl"
+            className="relative z-10 flex flex-col items-center px-10 py-14 sm:px-16 sm:py-20 text-center max-w-lg mx-4 rounded-2xl bg-white/[0.07] backdrop-blur-xl border border-white/10 shadow-2xl max-h-[90vh] overflow-y-auto"
             initial={{ opacity: 0, y: 30, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
@@ -102,12 +102,12 @@ export function AgeGate({ onVerified }: AgeGateProps) {
 
             {/* Logo */}
             <motion.div
-              className="mb-8"
+              className="mb-10"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-              <Logo variant="full" color="#ffffff" className="h-20 sm:h-24 w-auto mx-auto opacity-90" />
+              <Logo variant="full" color="#ffffff" className="h-36 sm:h-44 w-auto mx-auto opacity-90" />
             </motion.div>
 
             {/* Divider */}

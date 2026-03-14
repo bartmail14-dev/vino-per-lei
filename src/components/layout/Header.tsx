@@ -233,7 +233,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
       {/* Main Header */}
       <div className="border-b border-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-24 lg:h-32 relative">
+          <div className="flex items-center justify-between h-32 lg:h-40 relative">
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
@@ -248,7 +248,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
               href="/"
               className="flex-shrink-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 group"
             >
-              <Logo variant="full" color="#1a1f3d" className="h-20 sm:h-24 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
+              <Logo variant="full" color="#1a1f3d" className="h-28 sm:h-32 lg:h-40 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
             </Link>
 
             {/* Desktop Navigation - Left aligned */}
