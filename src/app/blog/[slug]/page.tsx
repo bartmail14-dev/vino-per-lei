@@ -8,6 +8,13 @@ import {
 } from "@/lib/shopify-cms";
 import type { BlogArticle } from "@/lib/shopify-cms";
 import { ShareButtons } from "./ShareButtons";
+import { ReadingProgress } from "../ReadingProgress";
+import {
+  BlogFadeIn,
+  BlogStagger,
+  BlogStaggerItem,
+  AnimatedDivider,
+} from "../BlogAnimations";
 
 export const revalidate = 60;
 
@@ -177,6 +184,9 @@ export default async function BlogArticlePage({ params }: Props) {
 
   return (
     <div className="bg-background min-h-screen">
+      {/* Reading progress bar */}
+      <ReadingProgress />
+
       {/* ─── Hero ─── */}
       <div className="bg-dark-bg relative overflow-hidden">
         {/* Decorative background */}
@@ -184,59 +194,68 @@ export default async function BlogArticlePage({ params }: Props) {
           <GrapeIcon className="w-full h-full text-gold" />
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
+        <div className="absolute -bottom-10 left-1/3 w-80 h-20 bg-gold/[0.03] rounded-full blur-3xl" />
 
-        <div className="max-w-3xl mx-auto px-5 sm:px-8 pt-10 pb-14 sm:pt-14 sm:pb-20 relative">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 pt-10 pb-16 sm:pt-14 sm:pb-22 relative">
           {/* Back */}
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white/70 hover:gap-2.5 transition-all mb-10 sm:mb-12"
-          >
-            &larr; Alle verhalen
-          </Link>
+          <BlogFadeIn delay={0}>
+            <Link
+              href="/blog"
+              className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white/70 hover:gap-2.5 transition-all mb-10 sm:mb-12"
+            >
+              &larr; Alle verhalen
+            </Link>
+          </BlogFadeIn>
 
           {/* Tags */}
-          <div className="flex flex-wrap items-center gap-2.5 mb-6">
-            {article.tags.map((tag) => (
-              <Link
-                key={tag}
-                href={`/blog?tag=${encodeURIComponent(tag)}`}
-                className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] text-gold/80 bg-gold/10 px-3.5 py-1.5 rounded-full border border-gold/15 hover:bg-gold/20 transition-colors"
-              >
-                {tag}
-              </Link>
-            ))}
-          </div>
+          <BlogFadeIn delay={0.1}>
+            <div className="flex flex-wrap items-center gap-2.5 mb-6">
+              {article.tags.map((tag) => (
+                <Link
+                  key={tag}
+                  href={`/blog?tag=${encodeURIComponent(tag)}`}
+                  className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] text-gold/80 bg-gold/10 px-3.5 py-1.5 rounded-full border border-gold/15 hover:bg-gold/20 transition-colors"
+                >
+                  {tag}
+                </Link>
+              ))}
+            </div>
+          </BlogFadeIn>
 
           {/* Title */}
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-[2.75rem] font-semibold text-white mb-10 leading-[1.12]">
-            {article.title}
-          </h1>
+          <BlogFadeIn delay={0.2}>
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-[3rem] font-semibold text-white mb-10 leading-[1.1]">
+              {article.title}
+            </h1>
+          </BlogFadeIn>
 
           {/* Meta */}
-          <div className="flex flex-wrap items-center gap-6 text-sm text-white/40">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold/15 to-wine-light/30 flex items-center justify-center text-gold text-sm font-bold border border-gold/15">
-                {authorInitials}
+          <BlogFadeIn delay={0.35}>
+            <div className="flex flex-wrap items-center gap-6 text-sm text-white/40">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold/15 to-wine-light/30 flex items-center justify-center text-gold text-sm font-bold border border-gold/15">
+                  {authorInitials}
+                </div>
+                <div>
+                  <span className="text-white/60 font-medium block">{authorName}</span>
+                </div>
               </div>
-              <div>
-                <span className="text-white/60 font-medium block">{authorName}</span>
-              </div>
+              <span className="hidden sm:inline text-white/20">|</span>
+              <span>{formatDate(article.publishedAt)}</span>
+              <span className="hidden sm:inline text-white/20">|</span>
+              <span className="flex items-center gap-1.5">
+                <ClockIcon className="w-3.5 h-3.5" />
+                {article.readingTimeMinutes} min leestijd
+              </span>
             </div>
-            <span className="hidden sm:inline text-white/20">|</span>
-            <span>{formatDate(article.publishedAt)}</span>
-            <span className="hidden sm:inline text-white/20">|</span>
-            <span className="flex items-center gap-1.5">
-              <ClockIcon className="w-3.5 h-3.5" />
-              {article.readingTimeMinutes} min leestijd
-            </span>
-          </div>
+          </BlogFadeIn>
         </div>
       </div>
 
       {/* ─── Featured Image ─── */}
       {article.image && (
-        <div className="max-w-4xl mx-auto px-5 sm:px-8 -mt-4 sm:-mt-6 relative z-10 mb-10 sm:mb-14">
-          <div className="aspect-[16/9] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-xl">
+        <BlogFadeIn delay={0.15} className="max-w-4xl mx-auto px-5 sm:px-8 -mt-6 sm:-mt-8 relative z-10 mb-10 sm:mb-14">
+          <div className="aspect-[16/9] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl ring-1 ring-black/5">
             <Image
               src={article.image.url}
               alt={article.image.altText || article.title}
@@ -246,27 +265,34 @@ export default async function BlogArticlePage({ params }: Props) {
               priority
             />
           </div>
-        </div>
+        </BlogFadeIn>
       )}
 
       {/* ─── Article Content ─── */}
       <div className="max-w-3xl mx-auto px-5 sm:px-8 pt-10 sm:pt-14 pb-16 sm:pb-24">
-        <article
-          className="prose prose-lg max-w-none text-charcoal/80
-            prose-headings:font-serif prose-headings:text-charcoal prose-headings:font-semibold
-            prose-h2:text-2xl sm:prose-h2:text-3xl prose-h2:mb-5 prose-h2:mt-14 prose-h2:pt-8 prose-h2:border-t prose-h2:border-sand/50
-            prose-h3:text-xl prose-h3:mb-4 prose-h3:mt-10
-            prose-p:leading-[1.85] prose-p:text-[16px] sm:prose-p:text-[17px] prose-p:text-charcoal/70 prose-p:mb-6
-            prose-a:text-wine prose-a:underline prose-a:decoration-wine/30 hover:prose-a:decoration-wine prose-a:underline-offset-2
-            prose-strong:text-charcoal prose-strong:font-semibold
-            prose-li:text-charcoal/70 prose-ul:space-y-2 prose-ol:space-y-2
-            prose-img:rounded-xl prose-img:shadow-md
-            prose-blockquote:border-l-wine prose-blockquote:border-l-2 prose-blockquote:bg-warm-white prose-blockquote:rounded-r-lg prose-blockquote:py-5 prose-blockquote:px-6 prose-blockquote:not-italic prose-blockquote:text-charcoal prose-blockquote:font-serif prose-blockquote:text-lg"
-          dangerouslySetInnerHTML={{ __html: article.contentHtml }}
-        />
+        {/* Drop cap + editorial feel */}
+        <BlogFadeIn>
+          <article
+            className="prose prose-lg max-w-none text-charcoal/80
+              prose-headings:font-serif prose-headings:text-charcoal prose-headings:font-semibold
+              prose-h2:text-2xl sm:prose-h2:text-3xl prose-h2:mb-5 prose-h2:mt-14 prose-h2:pt-8 prose-h2:border-t prose-h2:border-sand/50
+              prose-h3:text-xl prose-h3:mb-4 prose-h3:mt-10
+              prose-p:leading-[1.85] prose-p:text-[16px] sm:prose-p:text-[17px] prose-p:text-charcoal/70 prose-p:mb-6
+              prose-a:text-wine prose-a:underline prose-a:decoration-wine/30 hover:prose-a:decoration-wine prose-a:underline-offset-2
+              prose-strong:text-charcoal prose-strong:font-semibold
+              prose-li:text-charcoal/70 prose-ul:space-y-2 prose-ol:space-y-2
+              prose-img:rounded-xl prose-img:shadow-md
+              prose-blockquote:border-l-wine prose-blockquote:border-l-2 prose-blockquote:bg-warm-white prose-blockquote:rounded-r-lg prose-blockquote:py-5 prose-blockquote:px-6 prose-blockquote:not-italic prose-blockquote:text-charcoal prose-blockquote:font-serif prose-blockquote:text-lg
+              first-letter:text-5xl first-letter:font-serif first-letter:font-bold first-letter:text-wine first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:leading-[0.8]"
+            dangerouslySetInnerHTML={{ __html: article.contentHtml }}
+          />
+        </BlogFadeIn>
+
+        {/* ─── Animated Divider ─── */}
+        <AnimatedDivider className="mt-14 mb-8" />
 
         {/* ─── Share + Tags ─── */}
-        <div className="mt-14 pt-8 border-t border-sand/50">
+        <BlogFadeIn>
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex flex-wrap gap-2">
               {article.tags.map((tag) => (
@@ -281,35 +307,37 @@ export default async function BlogArticlePage({ params }: Props) {
             </div>
             <ShareButtons title={article.title} />
           </div>
-        </div>
+        </BlogFadeIn>
 
         {/* ─── Author Card ─── */}
         {article.authorV2 && (
-          <div className="mt-10 bg-warm-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-sand/50 relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-wine via-gold/40 to-transparent" />
-            <div className="flex items-start gap-4 sm:gap-5">
-              <div className="w-14 h-14 rounded-full bg-gradient-to-br from-wine to-wine-dark flex items-center justify-center text-white text-lg font-bold flex-shrink-0 ring-2 ring-wine/10 ring-offset-2 ring-offset-warm-white">
-                {authorInitials}
-              </div>
-              <div>
-                <p className="text-xs font-medium text-wine/50 uppercase tracking-wider mb-1">
-                  Geschreven door
-                </p>
-                <p className="font-serif font-semibold text-charcoal text-lg mb-1.5">
-                  {article.authorV2.name}
-                </p>
-                {article.authorV2.bio ? (
-                  <p className="text-grey text-sm leading-relaxed">
-                    {article.authorV2.bio}
+          <BlogFadeIn>
+            <div className="mt-10 bg-warm-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-sand/50 relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-wine via-gold/40 to-transparent" />
+              <div className="flex items-start gap-4 sm:gap-5">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-wine to-wine-dark flex items-center justify-center text-white text-lg font-bold flex-shrink-0 ring-2 ring-wine/10 ring-offset-2 ring-offset-warm-white">
+                  {authorInitials}
+                </div>
+                <div>
+                  <p className="text-xs font-medium text-wine/50 uppercase tracking-wider mb-1">
+                    Geschreven door
                   </p>
-                ) : (
-                  <p className="text-grey text-sm leading-relaxed">
-                    Schrijft over Italiaanse wijnen, wijnboeren en de verhalen achter elke fles.
+                  <p className="font-serif font-semibold text-charcoal text-lg mb-1.5">
+                    {article.authorV2.name}
                   </p>
-                )}
+                  {article.authorV2.bio ? (
+                    <p className="text-grey text-sm leading-relaxed">
+                      {article.authorV2.bio}
+                    </p>
+                  ) : (
+                    <p className="text-grey text-sm leading-relaxed">
+                      Schrijft over Italiaanse wijnen, wijnboeren en de verhalen achter elke fles.
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
-          </div>
+          </BlogFadeIn>
         )}
       </div>
 
@@ -317,31 +345,35 @@ export default async function BlogArticlePage({ params }: Props) {
       {relatedFinal.length > 0 && (
         <div className="bg-warm-white border-t border-sand/50">
           <div className="max-w-6xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
-            <div className="flex items-end justify-between mb-8 sm:mb-10">
-              <div>
-                <div className="flex items-center gap-2.5 mb-3">
-                  <WineGlassIcon className="w-3.5 h-3.5 text-wine/40" />
-                  <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-wine/60">
-                    Meer Lezen
-                  </p>
-                  <div className="h-px w-6 bg-wine/15" />
+            <BlogFadeIn>
+              <div className="flex items-end justify-between mb-8 sm:mb-10">
+                <div>
+                  <div className="flex items-center gap-2.5 mb-3">
+                    <WineGlassIcon className="w-3.5 h-3.5 text-wine/40" />
+                    <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-wine/60">
+                      Meer Lezen
+                    </p>
+                    <div className="h-px w-6 bg-wine/15" />
+                  </div>
+                  <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-charcoal">
+                    Gerelateerde Verhalen
+                  </h2>
                 </div>
-                <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-charcoal">
-                  Gerelateerde Verhalen
-                </h2>
+                <Link
+                  href="/blog"
+                  className="hidden sm:flex items-center gap-1.5 text-wine font-medium text-sm hover:gap-2.5 transition-all"
+                >
+                  Alle verhalen <ArrowIcon className="w-4 h-4" />
+                </Link>
               </div>
-              <Link
-                href="/blog"
-                className="hidden sm:flex items-center gap-1.5 text-wine font-medium text-sm hover:gap-2.5 transition-all"
-              >
-                Alle verhalen <ArrowIcon className="w-4 h-4" />
-              </Link>
-            </div>
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            </BlogFadeIn>
+            <BlogStagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {relatedFinal.map((a) => (
-                <RelatedCard key={a.handle} article={a} />
+                <BlogStaggerItem key={a.handle}>
+                  <RelatedCard article={a} />
+                </BlogStaggerItem>
               ))}
-            </div>
+            </BlogStagger>
           </div>
         </div>
       )}

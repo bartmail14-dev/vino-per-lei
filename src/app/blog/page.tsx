@@ -4,6 +4,13 @@ import type { Metadata } from "next";
 import { getBlogArticles, getBlogTags } from "@/lib/shopify-cms";
 import type { BlogArticle } from "@/lib/shopify-cms";
 import { BlogCategoryFilter } from "./BlogCategoryFilter";
+import {
+  BlogFadeIn,
+  BlogStagger,
+  BlogStaggerItem,
+  AnimatedDivider,
+  RevealText,
+} from "./BlogAnimations";
 
 export const revalidate = 60;
 
@@ -300,30 +307,42 @@ export default async function BlogPage({ searchParams }: PageProps) {
         <div className="absolute top-0 right-0 w-64 h-64 opacity-[0.03]">
           <GrapeIcon className="w-full h-full text-gold" />
         </div>
-        <div className="absolute bottom-0 left-1/2 w-full h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
+        {/* Radial glow */}
+        <div className="absolute -bottom-20 left-1/4 w-96 h-40 bg-gold/[0.03] rounded-full blur-3xl" />
 
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-14 sm:py-18 lg:py-24 relative">
-          <div className="flex items-center gap-3 mb-5">
-            <WineGlassIcon className="w-4 h-4 text-gold/40" />
-            <div className="h-px w-8 bg-gold/20" />
-            <p className="text-gold/50 text-[11px] font-medium tracking-[0.3em] uppercase">
-              Journal
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-16 sm:py-20 lg:py-28 relative">
+          <BlogFadeIn delay={0}>
+            <div className="flex items-center gap-3 mb-6">
+              <WineGlassIcon className="w-4 h-4 text-gold/40" />
+              <div className="h-px w-8 bg-gold/20" />
+              <p className="text-gold/50 text-[11px] font-medium tracking-[0.3em] uppercase">
+                Journal
+              </p>
+            </div>
+          </BlogFadeIn>
+
+          <RevealText
+            text="Wijn Verhalen"
+            className="font-serif text-4xl sm:text-5xl lg:text-[4rem] font-semibold text-white mb-6 leading-[1.05]"
+            delay={0.2}
+          />
+
+          <BlogFadeIn delay={0.6}>
+            <p className="text-white/40 max-w-lg text-base sm:text-lg leading-relaxed">
+              Verhalen over Italiaanse wijnen, wijnboeren en de mooiste regio&apos;s.
             </p>
-          </div>
-          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold text-white mb-5 leading-[1.08]">
-            Wijn Verhalen
-          </h1>
-          <p className="text-white/40 max-w-lg text-[15px] leading-relaxed">
-            Verhalen over Italiaanse wijnen, wijnboeren en de mooiste regio&apos;s.
-          </p>
+          </BlogFadeIn>
 
           {/* Article count */}
-          <div className="mt-8 flex items-center gap-4">
-            <span className="text-white/20 text-xs font-medium tracking-wider uppercase">
-              {articles.length} {articles.length === 1 ? "verhaal" : "verhalen"}
-            </span>
-            <div className="h-px flex-1 max-w-[80px] bg-white/10" />
-          </div>
+          <BlogFadeIn delay={0.8}>
+            <div className="mt-10 flex items-center gap-4">
+              <span className="text-white/20 text-xs font-medium tracking-wider uppercase">
+                {articles.length} {articles.length === 1 ? "verhaal" : "verhalen"}
+              </span>
+              <div className="h-px flex-1 max-w-[80px] bg-white/10" />
+            </div>
+          </BlogFadeIn>
         </div>
       </div>
 
@@ -333,33 +352,37 @@ export default async function BlogPage({ searchParams }: PageProps) {
           <>
             {/* Featured */}
             {featured && (
-              <div className="-mt-6 sm:-mt-8 relative z-10 mb-12 sm:mb-16">
+              <BlogFadeIn delay={0.1} className="-mt-6 sm:-mt-10 relative z-10 mb-14 sm:mb-20">
                 <FeaturedArticle article={featured} />
-              </div>
+              </BlogFadeIn>
             )}
+
+            {/* Animated divider */}
+            <AnimatedDivider className="mb-10 sm:mb-14" />
 
             {/* Category filter with label */}
             {allTags.length > 1 && (
-              <div className="mb-10 sm:mb-14">
+              <BlogFadeIn className="mb-10 sm:mb-14">
                 <div className="flex items-center gap-3 mb-4">
                   <p className="text-xs font-medium text-grey uppercase tracking-wider">Categorieën</p>
                   <div className="h-px flex-1 bg-sand/60" />
                 </div>
                 <BlogCategoryFilter tags={allTags} />
-              </div>
+              </BlogFadeIn>
             )}
 
             {/* Grid — first card spans 2 columns for visual variety */}
             {rest.length > 0 && (
-              <div className="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              <BlogStagger className="grid gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {rest.map((article, i) => (
-                  <ArticleCard
-                    key={article.handle}
-                    article={article}
-                    featured={i === 0 && rest.length >= 3}
-                  />
+                  <BlogStaggerItem key={article.handle}>
+                    <ArticleCard
+                      article={article}
+                      featured={i === 0 && rest.length >= 3}
+                    />
+                  </BlogStaggerItem>
                 ))}
-              </div>
+              </BlogStagger>
             )}
 
             {rest.length === 0 && featured && (
@@ -371,7 +394,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
             )}
 
             {filtered.length === 0 && (
-              <div className="text-center py-20">
+              <BlogFadeIn className="text-center py-20">
                 <WineGlassIcon className="w-10 h-10 text-sand mx-auto mb-5" />
                 <p className="text-charcoal font-serif text-lg mb-2">
                   Geen artikelen gevonden
@@ -382,11 +405,11 @@ export default async function BlogPage({ searchParams }: PageProps) {
                 <Link href="/blog" className="inline-flex items-center gap-2 text-wine text-sm font-medium hover:gap-3 transition-all">
                   Bekijk alle verhalen <ArrowIcon className="w-3.5 h-3.5" />
                 </Link>
-              </div>
+              </BlogFadeIn>
             )}
           </>
         ) : (
-          <div className="text-center py-20 sm:py-28">
+          <BlogFadeIn className="text-center py-20 sm:py-28">
             <WineGlassIcon className="w-12 h-12 text-sand mx-auto mb-6" />
             <h2 className="font-serif text-2xl font-semibold text-charcoal mb-3">
               Binnenkort meer verhalen
@@ -394,11 +417,60 @@ export default async function BlogPage({ searchParams }: PageProps) {
             <p className="text-grey text-sm max-w-md mx-auto leading-relaxed">
               We werken aan mooie verhalen over Italiaanse wijnen en regio&apos;s. Kom snel terug!
             </p>
-          </div>
+          </BlogFadeIn>
         )}
+      </div>
 
-        {/* Back link */}
-        <div className="mt-16 pt-8 border-t border-sand/50 flex items-center justify-between">
+      {/* ─── Newsletter CTA ─── */}
+      <BlogFadeIn>
+        <div className="bg-dark-bg relative overflow-hidden">
+          {/* Decorative background */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(201,162,39,0.06),transparent_60%)]" />
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
+          <div className="absolute bottom-0 right-0 w-40 h-40 opacity-[0.03]">
+            <GrapeIcon className="w-full h-full text-gold" />
+          </div>
+          {/* Wine bottle silhouette */}
+          <svg className="absolute left-8 sm:left-16 top-1/2 -translate-y-1/2 w-12 h-32 sm:w-16 sm:h-44 text-white/[0.03] hidden lg:block" viewBox="0 0 120 260" fill="currentColor">
+            <rect x="48" y="0" width="24" height="14" rx="3" />
+            <path d="M52 14h16v20l10 16v120c0 12-8 20-18 20H60c-10 0-18-8-18-20V50l10-16V14z" />
+          </svg>
+
+          <div className="max-w-2xl mx-auto px-5 sm:px-8 py-16 sm:py-20 text-center relative">
+            <div className="flex items-center justify-center gap-3 mb-6">
+              <div className="h-px w-8 bg-gold/20" />
+              <WineGlassIcon className="w-5 h-5 text-gold/30" />
+              <div className="h-px w-8 bg-gold/20" />
+            </div>
+
+            <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-white mb-3 leading-[1.15]">
+              Mis geen enkel verhaal
+            </h2>
+            <p className="text-white/40 text-sm sm:text-base mb-8 max-w-md mx-auto leading-relaxed">
+              Ontvang onze nieuwste wijnverhalen, tips en exclusieve aanbiedingen rechtstreeks in je inbox.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <input
+                type="email"
+                placeholder="je@email.nl"
+                className="flex-1 px-5 py-3 rounded-full bg-white/5 border border-white/10 text-white placeholder:text-white/25 text-sm focus:outline-none focus:border-gold/40 focus:ring-1 focus:ring-gold/20 transition-all"
+              />
+              <button className="px-7 py-3 rounded-full bg-gradient-to-r from-gold to-gold-light text-wine-dark font-semibold text-sm hover:shadow-lg hover:shadow-gold/20 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap">
+                Schrijf me in
+              </button>
+            </div>
+
+            <p className="text-white/15 text-[11px] mt-4">
+              Geen spam. Maximaal 2 mails per maand. Altijd opzegbaar.
+            </p>
+          </div>
+        </div>
+      </BlogFadeIn>
+
+      {/* ─── Footer nav ─── */}
+      <div className="max-w-6xl mx-auto px-5 sm:px-8">
+        <div className="py-8 border-t border-sand/50 flex items-center justify-between">
           <Link href="/" className="text-sm text-wine hover:text-wine-dark transition-colors flex items-center gap-1.5">
             &larr; Homepage
           </Link>
