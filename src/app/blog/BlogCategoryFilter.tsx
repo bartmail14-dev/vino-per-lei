@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
+import { motion } from "framer-motion";
 
 interface BlogCategoryFilterProps {
   tags: string[];
@@ -23,31 +24,42 @@ export function BlogCategoryFilter({ tags }: BlogCategoryFilterProps) {
     [router]
   );
 
+  const allTags = [null, ...tags];
+
   return (
-    <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap sm:gap-2.5">
-      <button
-        onClick={() => handleClick(null)}
-        className={`relative px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap border ${
-          !activeTag
-            ? "bg-wine text-white shadow-md shadow-wine/20 border-wine"
-            : "bg-white text-grey border-sand/80 hover:text-charcoal hover:border-charcoal/20 hover:shadow-sm"
-        }`}
-      >
-        Alles
-      </button>
-      {tags.map((tag) => (
-        <button
-          key={tag}
-          onClick={() => handleClick(tag)}
-          className={`relative px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 capitalize whitespace-nowrap border ${
-            activeTag === tag
-              ? "bg-wine text-white shadow-md shadow-wine/20 border-wine"
-              : "bg-white text-grey border-sand/80 hover:text-charcoal hover:border-charcoal/20 hover:shadow-sm"
-          }`}
-        >
-          {tag}
-        </button>
-      ))}
+    <div className="flex items-center gap-2.5 overflow-x-auto scrollbar-hide pb-1 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
+      {allTags.map((tag) => {
+        const isActive = tag === null ? !activeTag : activeTag === tag;
+        const label = tag === null ? "Alles" : tag;
+
+        return (
+          <button
+            key={label}
+            onClick={() => handleClick(tag)}
+            className="relative px-5 py-2.5 rounded-full text-sm font-medium whitespace-nowrap capitalize"
+          >
+            {/* Active pill background */}
+            {isActive && (
+              <motion.div
+                layoutId="activeCategory"
+                className="absolute inset-0 bg-wine rounded-full shadow-md shadow-wine/20"
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              />
+            )}
+
+            {/* Inactive border */}
+            {!isActive && (
+              <div className="absolute inset-0 rounded-full bg-white border border-sand/80 hover:border-charcoal/20 hover:shadow-sm transition-all duration-300" />
+            )}
+
+            <span className={`relative z-10 transition-colors duration-200 ${
+              isActive ? "text-white" : "text-grey hover:text-charcoal"
+            }`}>
+              {label}
+            </span>
+          </button>
+        );
+      })}
     </div>
   );
 }
