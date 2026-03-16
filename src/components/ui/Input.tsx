@@ -28,30 +28,34 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           id={inputId}
           type={type}
           className={cn(
-            "flex h-12 w-full rounded border bg-white px-4 py-3 text-base",
+            "flex h-12 w-full rounded-lg border bg-white px-4 py-3 text-base",
             "placeholder:text-light-grey",
-            "transition-colors duration-150",
-            "focus:outline-none focus:ring-2 focus:ring-wine focus:border-transparent",
+            "transition-all duration-200 ease-out",
+            "focus:outline-none focus:ring-2 focus:border-transparent",
             "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-sand",
             error
-              ? "border-error focus:ring-error"
-              : "border-sand hover:border-grey",
+              ? "border-error focus:ring-error/50 ring-1 ring-error/20"
+              : "border-sand hover:border-grey focus:ring-gold/50",
             className
           )}
           aria-invalid={error ? "true" : "false"}
-          aria-describedby={error ? `${inputId}-error` : undefined}
+          aria-describedby={
+            error ? `${inputId}-error` : hint ? `${inputId}-hint` : undefined
+          }
           {...props}
         />
         {error && (
           <p
             id={`${inputId}-error`}
-            className="mt-1.5 text-sm text-error flex items-center gap-1"
+            className="mt-1.5 text-sm text-error flex items-center gap-1.5"
+            role="alert"
           >
             <svg
-              className="w-4 h-4"
+              className="w-4 h-4 flex-shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -64,7 +68,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           </p>
         )}
         {hint && !error && (
-          <p className="mt-1.5 text-sm text-grey">{hint}</p>
+          <p id={`${inputId}-hint`} className="mt-1.5 text-sm text-grey">
+            {hint}
+          </p>
         )}
       </div>
     );

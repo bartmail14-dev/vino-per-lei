@@ -133,9 +133,10 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1, "liga" 1;
 }
 
 /* ============================================
@@ -150,92 +151,216 @@ body {
   font-family: var(--font-sans);
 }
 
-/* Display */
+/* ─── Display (hero titels) ─── */
 .text-display {
   font-family: var(--font-serif);
-  font-size: 3.5rem;
+  font-size: 2.25rem;          /* 36px mobile */
   line-height: 1.1;
   font-weight: 600;
   letter-spacing: -0.02em;
 }
 
-/* Headings */
+@media (min-width: 640px) {
+  .text-display {
+    font-size: 3.75rem;        /* 60px */
+  }
+}
+
+@media (min-width: 1024px) {
+  .text-display {
+    font-size: 4.5rem;         /* 72px */
+  }
+}
+
+/* ─── H1 (pagina titels) ─── */
 .text-h1 {
   font-family: var(--font-serif);
-  font-size: 2.5rem;
+  font-size: 1.875rem;         /* 30px mobile */
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+@media (min-width: 640px) {
+  .text-h1 {
+    font-size: 2.25rem;        /* 36px */
+  }
+}
+
+@media (min-width: 1024px) {
+  .text-h1 {
+    font-size: 3rem;           /* 48px */
+  }
+}
+
+/* ─── H2 (sectie titels) ─── */
+.text-h2 {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;           /* 24px mobile */
   line-height: 1.2;
   font-weight: 600;
 }
 
-.text-h2 {
-  font-family: var(--font-serif);
-  font-size: 2rem;
-  line-height: 1.25;
-  font-weight: 600;
+@media (min-width: 640px) {
+  .text-h2 {
+    font-size: 1.875rem;       /* 30px */
+  }
 }
 
+@media (min-width: 1024px) {
+  .text-h2 {
+    font-size: 2.25rem;        /* 36px */
+  }
+}
+
+/* ─── H3 (subsecties) ─── */
 .text-h3 {
   font-family: var(--font-serif);
-  font-size: 1.5rem;
-  line-height: 1.33;
+  font-size: 1.25rem;          /* 20px mobile */
+  line-height: 1.3;
   font-weight: 600;
 }
 
+@media (min-width: 640px) {
+  .text-h3 {
+    font-size: 1.5rem;         /* 24px */
+  }
+}
+
+/* ─── H4 (card titels) ─── */
 .text-h4 {
   font-family: var(--font-sans);
-  font-size: 1.25rem;
+  font-size: 1.125rem;         /* 18px mobile */
   line-height: 1.4;
   font-weight: 600;
 }
 
-/* Body */
+@media (min-width: 640px) {
+  .text-h4 {
+    font-size: 1.25rem;        /* 20px */
+  }
+}
+
+/* ─── Body ─── */
 .text-body-lg {
-  font-size: 1.125rem;
+  font-size: 1rem;             /* 16px mobile */
   line-height: 1.75;
+  color: #2a2a2a;
+}
+
+@media (min-width: 640px) {
+  .text-body-lg {
+    font-size: 1.125rem;       /* 18px desktop */
+  }
 }
 
 .text-body {
   font-size: 1rem;
-  line-height: 1.5;
+  line-height: 1.6;
+  color: var(--charcoal);
 }
 
 .text-body-sm {
   font-size: 0.875rem;
-  line-height: 1.43;
+  line-height: 1.5;
+  color: var(--grey);
 }
 
 .text-body-xs {
   font-size: 0.75rem;
-  line-height: 1.33;
+  line-height: 1.4;
+  color: var(--grey);
 }
 
-/* Special */
+/* ─── Label / Overline ─── */
 .text-label {
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.15em;
+  line-height: 1;
 }
 
+/* ─── Tagline / Quote (italic serif) ─── */
+.text-tagline {
+  font-family: var(--font-serif);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ─── Price ─── */
 .text-price-lg {
-  font-size: 1.75rem;
+  font-family: var(--font-sans);
+  font-size: 1.25rem;
   font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
+  color: var(--wine-burgundy);
+}
+
+@media (min-width: 640px) {
+  .text-price-lg {
+    font-size: 1.75rem;
+  }
 }
 
 .text-price {
+  font-family: var(--font-sans);
   font-size: 1.125rem;
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
+  color: var(--wine-burgundy);
+}
+
+@media (min-width: 640px) {
+  .text-price {
+    font-size: 1.25rem;
+  }
 }
 
 .text-price-strike {
+  font-family: var(--font-sans);
   font-size: 0.875rem;
   font-weight: 400;
   color: var(--grey);
   text-decoration: line-through;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Nav ─── */
+.text-nav {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.05em;
+}
+
+/* ─── Button text ─── */
+.text-button {
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.08em;
+}
+
+/* ─── Tabular numbers for statistics and prices ─── */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Gold Accent for heading words ─── */
+.text-gold-accent {
+  color: var(--gold);
+}
+
+/* ─── Elegant Ampersand in serif ─── */
+.ampersand {
+  font-family: var(--font-serif);
+  font-style: italic;
 }
 
 /* ============================================
@@ -243,7 +368,19 @@ body {
    ============================================ */
 
 :focus-visible {
-  outline: 2px solid var(--wine-burgundy);
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Interactive elements get a gold ring */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--gold);
   outline-offset: 2px;
 }
 
@@ -343,11 +480,15 @@ body {
 
 /* Text shadow for hero readability */
 .text-shadow-hero {
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5), 0 1px 3px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);
 }
 
 .text-shadow-sm {
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.text-shadow-gold {
+  text-shadow: 0 0 40px rgba(201, 162, 39, 0.3), 0 2px 8px rgba(0, 0, 0, 0.5);
 }
 
 /* Hero animations - CSS only for better performance */
@@ -430,5 +571,551 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================
+   Gold Accent Underline (for links/CTAs)
+   ============================================ */
+
+.gold-underline {
+  background-image: linear-gradient(var(--gold), var(--gold));
+  background-size: 0% 2px;
+  background-position: left bottom;
+  background-repeat: no-repeat;
+  transition: background-size 0.3s ease;
+}
+
+.gold-underline:hover {
+  background-size: 100% 2px;
+}
+
+/* ============================================
+   Skeleton Loading
+   ============================================ */
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--sand) 25%,
+    var(--warm-white) 37%,
+    var(--sand) 63%
+  );
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+  border-radius: var(--radius-md);
+}
+
+/* ============================================
+   Glassmorphism Utility
+   ============================================ */
+
+.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Safe area for mobile bottom bars (notch devices) */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* ============================================
+   Premium Wine Editorial Typography — .prose-wine
+   Inspired by Decanter, The Wine Advocate, Monocle
+   ============================================ */
+
+.prose-wine {
+  /* ─── Base Body Text ─── */
+  font-family: var(--font-sans);
+  font-size: 1.125rem;               /* 18px mobile */
+  line-height: 1.85;
+  letter-spacing: -0.006em;
+  color: var(--charcoal);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  text-rendering: optimizeLegibility;
+}
+
+@media (min-width: 640px) {
+  .prose-wine {
+    font-size: 1.25rem;              /* 20px desktop */
+    line-height: 1.85;
+  }
+}
+
+/* ─── Paragraphs ─── */
+.prose-wine p {
+  margin-bottom: 1.6em;
+  color: var(--charcoal);
+  hanging-punctuation: first last;
+}
+
+.prose-wine > p + p {
+  margin-top: 0;
+}
+
+/* ─── Drop Cap — First letter of the article ─── */
+.prose-wine > p:first-of-type::first-letter {
+  font-family: var(--font-serif);
+  font-weight: 700;
+  font-size: 3.5em;
+  float: left;
+  line-height: 0.82;
+  margin-right: 0.06em;
+  margin-top: 0.07em;
+  padding-right: 0.04em;
+  color: var(--wine-burgundy);
+}
+
+/* ─── Headings — More space above, less below ─── */
+.prose-wine h2 {
+  font-family: var(--font-serif);
+  font-size: 1.875rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--wine-burgundy);
+  margin-top: 3em;
+  margin-bottom: 0.6em;
+  padding-top: 2em;
+  border-top: 1px solid var(--sand);
+}
+
+@media (min-width: 640px) {
+  .prose-wine h2 {
+    font-size: 2.25rem;
+  }
+}
+
+/* First h2 should not have border-top or excessive margin */
+.prose-wine > h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.prose-wine h3 {
+  font-family: var(--font-serif);
+  font-size: 1.375rem;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--wine-burgundy);
+  margin-top: 2.5em;
+  margin-bottom: 0.5em;
+}
+
+@media (min-width: 640px) {
+  .prose-wine h3 {
+    font-size: 1.5rem;
+  }
+}
+
+.prose-wine h4 {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--charcoal);
+  margin-top: 2.25em;
+  margin-bottom: 0.4em;
+}
+
+@media (min-width: 640px) {
+  .prose-wine h4 {
+    font-size: 1.05rem;
+  }
+}
+
+/* ─── Links — Gold underline, wine on hover ─── */
+.prose-wine a {
+  color: var(--charcoal);
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1.5px;
+  transition: color 0.25s ease, text-decoration-color 0.25s ease;
+}
+
+.prose-wine a:hover {
+  color: var(--wine-burgundy);
+  text-decoration-color: var(--wine-burgundy);
+}
+
+/* ─── Strong / Bold ─── */
+.prose-wine strong {
+  font-weight: 650;
+  color: var(--charcoal);
+}
+
+/* ─── Emphasis ─── */
+.prose-wine em {
+  font-style: italic;
+  color: inherit;
+}
+
+/* ─── Lists — Wine-colored markers ─── */
+.prose-wine ul {
+  list-style: none;
+  padding-left: 1.75em;
+  margin: 1.75em 0;
+}
+
+.prose-wine ul li {
+  position: relative;
+  padding-left: 0.25em;
+  margin-bottom: 0.55em;
+  line-height: 1.75;
+  color: var(--charcoal);
+}
+
+.prose-wine ul li::before {
+  content: "";
+  position: absolute;
+  left: -1.4em;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--wine-burgundy);
+  opacity: 0.55;
+}
+
+.prose-wine ol {
+  padding-left: 1.75em;
+  margin: 1.75em 0;
+  counter-reset: wine-counter;
+  list-style: none;
+}
+
+.prose-wine ol li {
+  position: relative;
+  padding-left: 0.5em;
+  margin-bottom: 0.55em;
+  line-height: 1.75;
+  color: var(--charcoal);
+  counter-increment: wine-counter;
+}
+
+.prose-wine ol li::before {
+  content: counter(wine-counter) ".";
+  position: absolute;
+  left: -1.75em;
+  top: 0;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 0.9em;
+  color: var(--wine-burgundy);
+  opacity: 0.55;
+}
+
+/* Nested list spacing */
+.prose-wine li > ul,
+.prose-wine li > ol {
+  margin-top: 0.4em;
+  margin-bottom: 0.4em;
+}
+
+/* ─── Blockquotes — Refined cream panel ─── */
+.prose-wine blockquote {
+  border-left: 3px solid var(--gold);
+  background: rgba(250, 248, 242, 0.6);
+  border-radius: 0 8px 8px 0;
+  padding: 1.5em 1.75em;
+  margin: 2.5em 0;
+  position: relative;
+}
+
+.prose-wine blockquote::before {
+  content: none;
+}
+
+.prose-wine blockquote p {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05em;
+  line-height: 1.7;
+  color: var(--charcoal);
+  margin-bottom: 0.75em;
+}
+
+.prose-wine blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* ─── Pull Quotes — Luxurious serif with thin gold border ─── */
+.prose-wine .pull-quote,
+.prose-wine aside {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.35em;
+  line-height: 1.5;
+  color: var(--charcoal);
+  letter-spacing: -0.01em;
+  border-left: 2px solid var(--gold);
+  padding: 1.25em 0 1.25em 1.5em;
+  margin: 3em 0;
+}
+
+@media (min-width: 640px) {
+  .prose-wine .pull-quote,
+  .prose-wine aside {
+    font-size: 1.5em;
+    padding: 1.5em 0 1.5em 1.75em;
+    margin: 3.5em 0;
+  }
+}
+
+/* ─── Images — Full-bleed with refined shadows ─── */
+.prose-wine img {
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+  margin: 2.5em auto;
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Full-bleed breakout on desktop */
+@media (min-width: 768px) {
+  .prose-wine img {
+    margin-left: -3rem;
+    margin-right: -3rem;
+    max-width: calc(100% + 6rem);
+    border-radius: 12px;
+  }
+}
+
+.prose-wine figure {
+  margin: 2.5em 0;
+}
+
+@media (min-width: 768px) {
+  .prose-wine figure {
+    margin-left: -3rem;
+    margin-right: -3rem;
+  }
+
+  .prose-wine figure img {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+  }
+}
+
+.prose-wine figcaption {
+  text-align: center;
+  font-family: var(--font-sans);
+  font-size: 0.75em;
+  font-weight: 400;
+  color: var(--grey);
+  margin-top: 0.85em;
+  letter-spacing: 0.02em;
+}
+
+@media (min-width: 768px) {
+  .prose-wine figcaption {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+/* ─── Horizontal Rule — Gold center diamond ─── */
+.prose-wine hr {
+  border: none;
+  margin: 3em auto;
+  height: auto;
+  text-align: center;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25em;
+}
+
+.prose-wine hr::before,
+.prose-wine hr::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--sand));
+}
+
+.prose-wine hr::after {
+  background: linear-gradient(to left, transparent, var(--sand));
+}
+
+/* Position relative for potential future ornament */
+.prose-wine hr {
+  position: relative;
+}
+
+/* ─── Inline Code ─── */
+.prose-wine code {
+  font-family: var(--font-mono);
+  font-size: 0.84em;
+  background: var(--champagne);
+  color: var(--charcoal);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-weight: 500;
+}
+
+/* Don't style code inside pre blocks */
+.prose-wine pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  font-size: 0.9em;
+}
+
+.prose-wine pre {
+  background: var(--charcoal);
+  color: var(--cream);
+  padding: 1.5em 1.75em;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 2.25em 0;
+  font-size: 0.85em;
+  line-height: 1.7;
+}
+
+/* ─── Tables — Gold header accent ─── */
+.prose-wine table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2.5em 0;
+  font-size: 0.9em;
+}
+
+.prose-wine thead {
+  border-bottom: 2px solid var(--gold);
+}
+
+.prose-wine th {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--wine-burgundy);
+  padding: 0.85em 1em;
+  text-align: left;
+}
+
+.prose-wine td {
+  border-bottom: 1px solid var(--sand);
+  padding: 0.85em 1em;
+  color: var(--charcoal);
+}
+
+.prose-wine tr:last-child td {
+  border-bottom: none;
+}
+
+.prose-wine tbody tr:nth-child(even) {
+  background: rgba(250, 248, 242, 0.4);
+}
+
+/* ─── Selection ─── */
+.prose-wine ::selection {
+  background: var(--wine-light);
+  color: white;
+}
+
+/* ─── Responsive fine-tuning ─── */
+@media (max-width: 639px) {
+  .prose-wine blockquote {
+    padding: 1.25em 1.25em;
+    margin: 2em 0;
+  }
+
+  .prose-wine h2 {
+    font-size: 1.5rem;
+    margin-top: 2.5em;
+    padding-top: 1.5em;
+  }
+
+  .prose-wine h3 {
+    font-size: 1.25rem;
+    margin-top: 2em;
+  }
+
+  .prose-wine .pull-quote,
+  .prose-wine aside {
+    font-size: 1.2em;
+    margin: 2em 0;
+    padding-left: 1.25em;
+  }
+}
+
+/* ============================================
+   Print Styles
+   ============================================ */
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+
+  header,
+  footer,
+  nav,
+  .cookie-consent,
+  .cart-slide-out,
+  button,
+  [role="dialog"] {
+    display: none !important;
+  }
+
+  /* Hide interactive elements when printing articles */
+  .print\:hidden {
+    display: none !important;
+  }
+
+  a {
+    color: black !important;
+    text-decoration: underline;
+  }
+
+  a[href]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    color: #555;
+  }
+
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+
+  /* Article-specific print styles */
+  article {
+    max-width: 100% !important;
+    font-size: 11pt;
+    line-height: 1.6;
+  }
+
+  article blockquote {
+    border-left: 2px solid #c9a227 !important;
+    padding-left: 1em !important;
+    margin: 1em 0 !important;
+    font-style: italic;
+  }
+
+  article img {
+    max-width: 80% !important;
+    margin: 1em auto !important;
+    display: block;
   }
 }

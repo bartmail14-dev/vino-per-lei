@@ -18,11 +18,12 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
         htmlFor={checkboxId}
         className={cn(
           "flex items-center gap-3 cursor-pointer group py-1.5",
+          "transition-colors duration-150",
           props.disabled && "cursor-not-allowed opacity-50",
           className
         )}
       >
-        <div className="relative">
+        <div className="relative flex-shrink-0">
           <input
             ref={ref}
             id={checkboxId}
@@ -32,11 +33,11 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           />
           <div
             className={cn(
-              "w-5 h-5 border-2 rounded transition-all duration-150",
-              "border-grey",
+              "w-5 h-5 border-2 rounded transition-all duration-200",
+              "border-grey/50",
               "peer-checked:bg-wine peer-checked:border-wine",
-              "peer-focus-visible:ring-2 peer-focus-visible:ring-wine peer-focus-visible:ring-offset-2",
-              "group-hover:border-wine-light"
+              "peer-focus-visible:ring-2 peer-focus-visible:ring-gold/50 peer-focus-visible:ring-offset-2",
+              "group-hover:border-wine/60"
             )}
           />
           <svg
@@ -44,6 +45,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
+            aria-hidden="true"
           >
             <path
               strokeLinecap="round"
@@ -54,10 +56,10 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           </svg>
         </div>
         {label && (
-          <span className="text-sm text-charcoal group-hover:text-wine-dark transition-colors">
+          <span className="text-sm text-charcoal group-hover:text-wine-dark transition-colors duration-150">
             {label}
             {count !== undefined && (
-              <span className="text-grey ml-1">({count})</span>
+              <span className="text-grey ml-1.5 tabular-nums">({count})</span>
             )}
           </span>
         )}

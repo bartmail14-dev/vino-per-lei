@@ -29,7 +29,7 @@ export function QuantitySelector({
     },
     md: {
       button: "w-11 h-11",
-      input: "w-12 h-11 text-base",
+      input: "w-14 h-11 text-base",
       icon: "w-4 h-4",
     },
   };
@@ -57,8 +57,10 @@ export function QuantitySelector({
   return (
     <div
       className={cn(
-        "inline-flex items-center border border-sand rounded overflow-hidden",
-        disabled && "opacity-50",
+        "inline-flex items-center border border-sand rounded-lg overflow-hidden",
+        "transition-all duration-200",
+        "focus-within:ring-2 focus-within:ring-gold/50 focus-within:border-gold/30",
+        disabled && "opacity-50 pointer-events-none",
         className
       )}
     >
@@ -69,12 +71,15 @@ export function QuantitySelector({
         className={cn(
           classes.button,
           "flex items-center justify-center",
-          "text-charcoal hover:bg-sand transition-colors",
-          "disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+          "text-charcoal bg-transparent",
+          "hover:bg-wine/5 active:bg-wine/10",
+          "transition-colors duration-150",
+          "disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent",
+          "focus-visible:outline-none focus-visible:bg-wine/5"
         )}
         aria-label="Verminder aantal"
       >
-        <svg className={classes.icon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={classes.icon} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
         </svg>
       </button>
@@ -88,9 +93,10 @@ export function QuantitySelector({
         max={max}
         className={cn(
           classes.input,
-          "text-center font-semibold",
+          "text-center font-semibold tabular-nums",
           "border-x border-sand bg-white",
           "focus:outline-none focus:bg-warm-white",
+          "transition-colors duration-150",
           "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
         )}
         aria-label="Aantal"
@@ -103,12 +109,15 @@ export function QuantitySelector({
         className={cn(
           classes.button,
           "flex items-center justify-center",
-          "text-charcoal hover:bg-sand transition-colors",
-          "disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent"
+          "text-charcoal bg-transparent",
+          "hover:bg-wine/5 active:bg-wine/10",
+          "transition-colors duration-150",
+          "disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent",
+          "focus-visible:outline-none focus-visible:bg-wine/5"
         )}
         aria-label="Verhoog aantal"
       >
-        <svg className={classes.icon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={classes.icon} fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
         </svg>
       </button>

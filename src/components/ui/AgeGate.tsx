@@ -107,7 +107,7 @@ export function AgeGate({ onVerified }: AgeGateProps) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.5 }}
             >
-              <Logo variant="full" color="#ffffff" className="h-36 sm:h-44 w-auto mx-auto opacity-90" />
+              <Logo variant="full" color="#ffffff" className="h-32 sm:h-40 w-auto mx-auto opacity-90" />
             </motion.div>
 
             {/* Divider */}

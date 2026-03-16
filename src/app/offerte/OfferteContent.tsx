@@ -10,6 +10,7 @@ import {
   ChevronDownIcon,
   ShieldIcon,
 } from "@/components/icons";
+import { Palette, Code, ShoppingBag, CreditCard, Search, Rocket, Calendar, Clock, Mail, Phone } from "lucide-react";
 
 /* ============================================
    Accordion Component
@@ -61,107 +62,6 @@ function AccordionItem({
         )}
       </AnimatePresence>
     </div>
-  );
-}
-
-/* ============================================
-   Icons for sections
-   ============================================ */
-
-function PaletteIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="13.5" cy="6.5" r="0.5" fill="currentColor" />
-      <circle cx="17.5" cy="10.5" r="0.5" fill="currentColor" />
-      <circle cx="8.5" cy="7.5" r="0.5" fill="currentColor" />
-      <circle cx="6.5" cy="12" r="0.5" fill="currentColor" />
-      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 011.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z" />
-    </svg>
-  );
-}
-
-function CodeIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <polyline points="16 18 22 12 16 6" />
-      <polyline points="8 6 2 12 8 18" />
-    </svg>
-  );
-}
-
-function ShoppingBagIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-      <line x1="3" y1="6" x2="21" y2="6" />
-      <path d="M16 10a4 4 0 01-8 0" />
-    </svg>
-  );
-}
-
-function CreditCardIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-      <line x1="1" y1="10" x2="23" y2="10" />
-    </svg>
-  );
-}
-
-function SearchIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="11" cy="11" r="8" />
-      <line x1="21" y1="21" x2="16.65" y2="16.65" />
-    </svg>
-  );
-}
-
-function RocketIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z" />
-      <path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z" />
-      <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
-      <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
-    </svg>
-  );
-}
-
-function CalendarIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-      <line x1="16" y1="2" x2="16" y2="6" />
-      <line x1="8" y1="2" x2="8" y2="6" />
-      <line x1="3" y1="10" x2="21" y2="10" />
-    </svg>
-  );
-}
-
-function ClockIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="12" cy="12" r="10" />
-      <polyline points="12 6 12 12 16 14" />
-    </svg>
-  );
-}
-
-function MailIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-      <polyline points="22,6 12,13 2,6" />
-    </svg>
-  );
-}
-
-function PhoneIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
-    </svg>
   );
 }
 
@@ -313,7 +213,7 @@ export function OfferteContent() {
           <div className="space-y-3">
             <AccordionItem
               title="Design & UX"
-              icon={<PaletteIcon className="w-5 h-5" />}
+              icon={<Palette className="w-5 h-5" strokeWidth={1.5} />}
               isOpen={openItems.includes("design")}
               onToggle={() => toggleItem("design")}
             >
@@ -329,7 +229,7 @@ export function OfferteContent() {
 
             <AccordionItem
               title="Frontend Ontwikkeling"
-              icon={<CodeIcon className="w-5 h-5" />}
+              icon={<Code className="w-5 h-5" strokeWidth={1.5} />}
               isOpen={openItems.includes("frontend")}
               onToggle={() => toggleItem("frontend")}
             >
@@ -347,7 +247,7 @@ export function OfferteContent() {
 
             <AccordionItem
               title="Shopify Integratie"
-              icon={<ShoppingBagIcon className="w-5 h-5" />}
+              icon={<ShoppingBag className="w-5 h-5" strokeWidth={1.5} />}
               isOpen={openItems.includes("shopify")}
               onToggle={() => toggleItem("shopify")}
             >
@@ -363,7 +263,7 @@ export function OfferteContent() {
 
             <AccordionItem
               title="Checkout & Betaling"
-              icon={<CreditCardIcon className="w-5 h-5" />}
+              icon={<CreditCard className="w-5 h-5" strokeWidth={1.5} />}
               isOpen={openItems.includes("checkout")}
               onToggle={() => toggleItem("checkout")}
             >
@@ -380,7 +280,7 @@ export function OfferteContent() {
 
             <AccordionItem
               title="SEO & Performance"
-              icon={<SearchIcon className="w-5 h-5" />}
+              icon={<Search className="w-5 h-5" strokeWidth={1.5} />}
               isOpen={openItems.includes("seo")}
               onToggle={() => toggleItem("seo")}
             >
@@ -396,7 +296,7 @@ export function OfferteContent() {
 
             <AccordionItem
               title="Content & Lancering"
-              icon={<RocketIcon className="w-5 h-5" />}
+              icon={<Rocket className="w-5 h-5" strokeWidth={1.5} />}
               isOpen={openItems.includes("launch")}
               onToggle={() => toggleItem("launch")}
             >
@@ -431,25 +331,25 @@ export function OfferteContent() {
                 week: "Week 1–2",
                 title: "Design & Prototype",
                 desc: "Wireframes, visueel ontwerp en prototype ter goedkeuring.",
-                icon: <PaletteIcon className="w-5 h-5" />,
+                icon: <Palette className="w-5 h-5" strokeWidth={1.5} />,
               },
               {
                 week: "Week 3–4",
                 title: "Frontend Development",
                 desc: "Bouw van alle pagina's, componenten en interacties.",
-                icon: <CodeIcon className="w-5 h-5" />,
+                icon: <Code className="w-5 h-5" strokeWidth={1.5} />,
               },
               {
                 week: "Week 5",
                 title: "Shopify & Content",
                 desc: "Koppeling met Shopify, producten invoeren, testen.",
-                icon: <ShoppingBagIcon className="w-5 h-5" />,
+                icon: <ShoppingBag className="w-5 h-5" strokeWidth={1.5} />,
               },
               {
                 week: "Week 6",
                 title: "Testing & Lancering",
                 desc: "Uitgebreid testen, optimalisatie en go-live.",
-                icon: <RocketIcon className="w-5 h-5" />,
+                icon: <Rocket className="w-5 h-5" strokeWidth={1.5} />,
               },
             ].map((step, index) => (
               <div key={step.week} className="flex gap-4 sm:gap-6">
@@ -729,7 +629,7 @@ export function OfferteContent() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
             <div className="bg-white rounded-lg p-4 sm:p-5 border border-sand flex sm:flex-col items-center sm:items-start gap-3 sm:gap-0">
               <div className="w-10 h-10 rounded-full bg-wine/10 flex items-center justify-center shrink-0 sm:mb-3">
-                <ClockIcon className="w-5 h-5 text-wine" />
+                <Clock className="w-5 h-5 text-wine" strokeWidth={1.5} />
               </div>
               <div>
                 <h3 className="font-semibold text-charcoal text-sm">Response tijd</h3>
@@ -747,7 +647,7 @@ export function OfferteContent() {
             </div>
             <div className="bg-white rounded-lg p-4 sm:p-5 border border-sand flex sm:flex-col items-center sm:items-start gap-3 sm:gap-0">
               <div className="w-10 h-10 rounded-full bg-wine/10 flex items-center justify-center shrink-0 sm:mb-3">
-                <CalendarIcon className="w-5 h-5 text-wine" />
+                <Calendar className="w-5 h-5 text-wine" strokeWidth={1.5} />
               </div>
               <div>
                 <h3 className="font-semibold text-charcoal text-sm">Aanpassingen</h3>
@@ -939,14 +839,14 @@ export function OfferteContent() {
                   href="mailto:info@bluewiremedia.nl"
                   className="flex items-center gap-2 hover:text-wine transition-colors"
                 >
-                  <MailIcon className="w-4 h-4" />
+                  <Mail className="w-4 h-4" strokeWidth={1.5} />
                   info@bluewiremedia.nl
                 </a>
                 <a
                   href="tel:+31644030194"
                   className="flex items-center gap-2 hover:text-wine transition-colors"
                 >
-                  <PhoneIcon className="w-4 h-4" />
+                  <Phone className="w-4 h-4" strokeWidth={1.5} />
                   +31 6 44 03 01 94
                 </a>
               </div>

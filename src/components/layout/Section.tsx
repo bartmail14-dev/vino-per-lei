@@ -8,7 +8,7 @@ export interface SectionProps {
   children: ReactNode;
   className?: string;
   containerClassName?: string;
-  background?: "default" | "cream" | "warm" | "dark" | "wine";
+  background?: "default" | "cream" | "warm" | "champagne" | "dark" | "wine";
   spacing?: "none" | "sm" | "md" | "lg" | "xl";
   container?: boolean;
   containerSize?: "default" | "narrow" | "wide" | "full";
@@ -29,6 +29,7 @@ export function Section({
     default: "bg-background",
     cream: "bg-cream",
     warm: "bg-warm-white",
+    champagne: "bg-champagne/30",
     dark: "bg-dark-bg text-white",
     wine: "bg-wine text-white",
   };

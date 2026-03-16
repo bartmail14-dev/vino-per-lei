@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { AlertCircle } from "lucide-react";
 
 export default function Error({
   error,
@@ -19,17 +20,7 @@ export default function Error({
         {/* Error icon */}
         <div className="flex justify-center mb-8">
           <div className="w-20 h-20 rounded-full bg-error/10 flex items-center justify-center">
-            <svg
-              className="w-10 h-10 text-error"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="12" strokeLinecap="round" />
-              <line x1="12" y1="16" x2="12.01" y2="16" strokeLinecap="round" />
-            </svg>
+            <AlertCircle className="w-10 h-10 text-error" strokeWidth={1.5} />
           </div>
         </div>
 
@@ -46,13 +37,13 @@ export default function Error({
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
           <button
             onClick={reset}
-            className="inline-flex items-center justify-center h-12 px-8 bg-wine text-white font-semibold uppercase tracking-wide text-sm rounded hover:bg-wine-dark transition-colors"
+            className="inline-flex items-center justify-center h-12 px-8 bg-wine text-white text-button uppercase rounded hover:bg-wine-dark transition-colors"
           >
             Probeer Opnieuw
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center h-12 px-8 border-2 border-wine text-wine font-semibold uppercase tracking-wide text-sm rounded hover:bg-wine hover:text-white transition-colors"
+            className="inline-flex items-center justify-center h-12 px-8 border-2 border-wine text-wine text-button uppercase rounded hover:bg-wine hover:text-white transition-colors"
           >
             Naar Homepage
           </a>

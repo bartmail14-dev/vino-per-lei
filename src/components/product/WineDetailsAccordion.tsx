@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ChevronDownIcon, CheckIcon, AwardIcon } from "@/components/icons";
+import { ClipboardList, Calendar, Leaf, Warehouse } from "lucide-react";
 import type { Product } from "@/types";
 
 interface WineDetailsAccordionProps {
@@ -31,7 +32,7 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
     {
       id: "technical",
       title: "Technische Details",
-      icon: ClipboardIcon,
+      icon: ClipboardList,
       content: (
         <div className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
           {[
@@ -88,7 +89,7 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
           <div className="grid sm:grid-cols-2 gap-6">
             <div className="bg-champagne/30 rounded-lg p-4">
               <h4 className="font-semibold text-wine mb-2 flex items-center gap-2">
-                <StorageIcon className="w-5 h-5" />
+                <Warehouse className="w-5 h-5" strokeWidth={1.5} />
                 Bewaren
               </h4>
               <ul className="space-y-2 text-sm">
@@ -112,7 +113,7 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
             </div>
             <div className="bg-champagne/30 rounded-lg p-4">
               <h4 className="font-semibold text-wine mb-2 flex items-center gap-2">
-                <CalendarIcon className="w-5 h-5" />
+                <Calendar className="w-5 h-5" strokeWidth={1.5} />
                 Optimaal Drinken
               </h4>
               <p className="text-sm mb-2">
@@ -150,7 +151,7 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
             </p>
             <div className="flex flex-wrap gap-2">
               <span className="inline-flex items-center gap-1 bg-success/10 text-success px-3 py-1 rounded-full text-sm">
-                <LeafIcon className="w-4 h-4" />
+                <Leaf className="w-4 h-4" strokeWidth={1.5} />
                 Duurzame teelt
               </span>
               <span className="inline-flex items-center gap-1 bg-wine/10 text-wine px-3 py-1 rounded-full text-sm">
@@ -216,16 +217,7 @@ function getWineStyleLabel(wineType: string): string {
   }
 }
 
-// Icons
-function ClipboardIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M16 4H18C19.1 4 20 4.9 20 6V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V6C4 4.9 4.9 4 6 4H8" />
-      <rect x="8" y="2" width="8" height="4" rx="1" />
-    </svg>
-  );
-}
-
+// Wine-specific custom icons (no Lucide equivalent)
 function BarrelIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -259,33 +251,4 @@ function WineryIcon({ className }: { className?: string }) {
   );
 }
 
-function StorageIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-      <path d="M3 9H21" />
-      <path d="M3 15H21" />
-    </svg>
-  );
-}
-
-function CalendarIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <rect x="3" y="4" width="18" height="18" rx="2" />
-      <path d="M16 2V6" />
-      <path d="M8 2V6" />
-      <path d="M3 10H21" />
-    </svg>
-  );
-}
-
-function LeafIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M6 21C6 21 8 17 12 13C16 9 20 7 20 3C14 3 8 6 6 12C4 18 6 21 6 21Z" />
-      <path d="M6 21C6 21 6 15 12 13" />
-    </svg>
-  );
-}
 

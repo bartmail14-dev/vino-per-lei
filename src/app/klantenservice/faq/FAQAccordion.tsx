@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown } from "lucide-react";
 
 interface FAQAccordionProps {
   question: string;
@@ -21,17 +22,12 @@ export function FAQAccordion({ question, answer }: FAQAccordionProps) {
         <span className="font-semibold text-charcoal group-hover:text-wine transition-colors pr-4">
           {question}
         </span>
-        <svg
+        <ChevronDown
           className={`w-5 h-5 text-grey flex-shrink-0 mt-0.5 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
           }`}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <polyline points="6 9 12 15 18 9" />
-        </svg>
+          strokeWidth={1.5}
+        />
       </button>
       <AnimatePresence initial={false}>
         {isOpen && (

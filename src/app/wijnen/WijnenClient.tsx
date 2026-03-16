@@ -16,30 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import { wineRegions, getRegionBySlug } from "@/data/wineRegions";
 import { FilterIcon, ChevronRightIcon } from "@/components/icons";
-
-function GridIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <rect x="3" y="3" width="7" height="7" />
-      <rect x="14" y="3" width="7" height="7" />
-      <rect x="3" y="14" width="7" height="7" />
-      <rect x="14" y="14" width="7" height="7" />
-    </svg>
-  );
-}
-
-function ListIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <line x1="8" y1="6" x2="21" y2="6" />
-      <line x1="8" y1="12" x2="21" y2="12" />
-      <line x1="8" y1="18" x2="21" y2="18" />
-      <line x1="3" y1="6" x2="3.01" y2="6" />
-      <line x1="3" y1="12" x2="3.01" y2="12" />
-      <line x1="3" y1="18" x2="3.01" y2="18" />
-    </svg>
-  );
-}
+import { LayoutGrid, List } from "lucide-react";
 
 // Build filter groups dynamically from actual products
 function buildFilterGroups(products: Product[]): FilterGroup[] {
@@ -397,7 +374,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                     )}
                     aria-label="Grid weergave"
                   >
-                    <GridIcon className="w-4 h-4" />
+                    <LayoutGrid className="w-4 h-4" strokeWidth={1.5} />
                   </button>
                   <button
                     onClick={() => setViewMode("list")}
@@ -407,7 +384,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                     )}
                     aria-label="Lijst weergave"
                   >
-                    <ListIcon className="w-4 h-4" />
+                    <List className="w-4 h-4" strokeWidth={1.5} />
                   </button>
                 </div>
 

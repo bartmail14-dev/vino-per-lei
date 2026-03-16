@@ -8,43 +8,13 @@ import { cn } from "@/lib/utils";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
-import { MenuIcon, CloseIcon, UserIcon, CartIcon, ChevronDownIcon, ChevronRightIcon, HeartIcon } from "@/components/icons";
+import { MenuIcon, CloseIcon, UserIcon, CartIcon, ChevronDownIcon, ChevronRightIcon, HeartIcon, PackageIcon, SettingsIcon, LogOutIcon } from "@/components/icons";
 import type { AnnouncementBar } from "@/lib/shopify-cms";
 
 interface HeaderProps {
   announcement?: AnnouncementBar;
   contactPhone?: string;
   contactEmail?: string;
-}
-
-function PackageIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M16.5 9.4 7.5 4.21" />
-      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-      <polyline points="3.29 7 12 12 20.71 7" />
-      <line x1="12" y1="22" x2="12" y2="12" />
-    </svg>
-  );
-}
-
-function SettingsIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-    </svg>
-  );
-}
-
-function LogOutIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-      <polyline points="16 17 21 12 16 7" />
-      <line x1="21" y1="12" x2="9" y2="12" />
-    </svg>
-  );
 }
 
 // Navigation data
@@ -233,7 +203,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
       {/* Main Header */}
       <div className="border-b border-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-32 lg:h-40 relative">
+          <div className="flex items-center justify-between h-24 lg:h-32 relative">
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
@@ -248,7 +218,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
               href="/"
               className="flex-shrink-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 group"
             >
-              <Logo variant="full" color="#1a1f3d" className="h-28 sm:h-32 lg:h-40 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
+              <Logo variant="full" color="#1a1f3d" className="h-20 sm:h-24 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
             </Link>
 
             {/* Desktop Navigation - Left aligned */}
@@ -267,7 +237,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                       aria-expanded={isMegaMenuOpen}
                       aria-haspopup="true"
                       className={cn(
-                        "flex items-center gap-1 py-2 text-sm font-medium tracking-wide uppercase",
+                        "flex items-center gap-1 py-2 text-nav uppercase",
                         "text-charcoal hover:text-wine transition-colors",
                         isMegaMenuOpen && "text-wine"
                       )}
@@ -283,7 +253,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                   ) : (
                     <Link
                       href={item.href}
-                      className="py-2 text-sm font-medium tracking-wide uppercase text-charcoal hover:text-wine transition-colors"
+                      className="py-2 text-nav uppercase text-charcoal hover:text-wine transition-colors"
                     >
                       {item.label}
                     </Link>

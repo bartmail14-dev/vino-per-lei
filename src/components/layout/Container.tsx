@@ -6,7 +6,7 @@ import { type ReactNode } from "react";
 export interface ContainerProps {
   children: ReactNode;
   className?: string;
-  size?: "default" | "narrow" | "wide" | "full";
+  size?: "xs" | "default" | "narrow" | "wide" | "full";
   as?: "div" | "section" | "article" | "main";
 }
 
@@ -17,8 +17,9 @@ export function Container({
   as: Component = "div",
 }: ContainerProps) {
   const sizes = {
-    default: "max-w-7xl", // 1280px
-    narrow: "max-w-4xl", // 896px
+    xs: "max-w-2xl",       // 672px — for centered text content
+    narrow: "max-w-4xl",   // 896px
+    default: "max-w-7xl",  // 1280px
     wide: "max-w-[1440px]",
     full: "max-w-full",
   };

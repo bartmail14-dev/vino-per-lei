@@ -123,7 +123,7 @@ export function ContactForm() {
               onChange={(e) =>
                 setFormData({ ...formData, naam: e.target.value })
               }
-              className="w-full h-12 px-4 rounded-lg border border-sand bg-white text-charcoal placeholder:text-light-grey focus:border-wine focus:ring-1 focus:ring-wine outline-none transition-colors"
+              className="w-full h-12 px-4 rounded-lg border border-sand bg-white text-charcoal placeholder:text-light-grey focus:border-gold/30 focus:ring-1 focus:ring-gold/50 outline-none transition-colors"
               placeholder="Je naam"
             />
             {validationErrors.naam && (
@@ -145,7 +145,7 @@ export function ContactForm() {
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
               }
-              className="w-full h-12 px-4 rounded-lg border border-sand bg-white text-charcoal placeholder:text-light-grey focus:border-wine focus:ring-1 focus:ring-wine outline-none transition-colors"
+              className="w-full h-12 px-4 rounded-lg border border-sand bg-white text-charcoal placeholder:text-light-grey focus:border-gold/30 focus:ring-1 focus:ring-gold/50 outline-none transition-colors"
               placeholder="je@email.nl"
             />
             {validationErrors.email && (
@@ -168,7 +168,7 @@ export function ContactForm() {
             onChange={(e) =>
               setFormData({ ...formData, onderwerp: e.target.value })
             }
-            className="w-full h-12 px-4 rounded-lg border border-sand bg-white text-charcoal focus:border-wine focus:ring-1 focus:ring-wine outline-none transition-colors"
+            className="w-full h-12 px-4 rounded-lg border border-sand bg-white text-charcoal focus:border-gold/30 focus:ring-1 focus:ring-gold/50 outline-none transition-colors"
           >
             <option value="">Kies een onderwerp</option>
             <option value="bestelling">Vraag over mijn bestelling</option>
@@ -199,7 +199,7 @@ export function ContactForm() {
             onChange={(e) =>
               setFormData({ ...formData, bericht: e.target.value })
             }
-            className="w-full px-4 py-3 rounded-lg border border-sand bg-white text-charcoal placeholder:text-light-grey focus:border-wine focus:ring-1 focus:ring-wine outline-none transition-colors resize-y"
+            className="w-full px-4 py-3 rounded-lg border border-sand bg-white text-charcoal placeholder:text-light-grey focus:border-gold/30 focus:ring-1 focus:ring-gold/50 outline-none transition-colors resize-y"
             placeholder="Hoe kunnen wij je helpen?"
           />
           {validationErrors.bericht && (
@@ -210,7 +210,7 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="inline-flex items-center justify-center h-12 px-8 bg-wine text-white font-semibold uppercase tracking-wide text-sm rounded hover:bg-wine-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex items-center justify-center h-12 px-8 bg-wine text-white text-button uppercase rounded hover:bg-wine-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting ? "Verzenden..." : "Verstuur Bericht"}
         </button>

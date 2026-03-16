@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button, PriceDisplay, QuantitySelector } from "@/components/ui";
-import { cn } from "@/lib/utils";
+import { cn, wineImagePresets } from "@/lib/utils";
 import { CheckIcon, CheckCircleIcon } from "@/components/icons";
 import type { Product } from "@/types";
 
@@ -27,12 +28,18 @@ export function StickyPurchaseBar({
   heroRef,
 }: StickyPurchaseBarProps) {
   const [isVisible, setIsVisible] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
       if (heroRef.current) {
         const heroBottom = heroRef.current.getBoundingClientRect().bottom;
-        setIsVisible(heroBottom < 100);
+        setIsVisible(heroBottom < 80);
+
+        // Progress bar based on page scroll
+        const scrolled = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        setScrollProgress(docHeight > 0 ? (scrolled / docHeight) * 100 : 0);
       }
     };
 
@@ -54,22 +61,49 @@ export function StickyPurchaseBar({
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            transition={{ duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] }}
             className="fixed top-0 left-0 right-0 z-40 hidden lg:block"
           >
-            <div className="bg-white/95 backdrop-blur-md shadow-lg border-b border-sand">
+            {/* Scroll progress indicator */}
+            <div className="h-0.5 bg-sand/30">
+              <motion.div
+                className="h-full bg-wine"
+                style={{ width: `${scrollProgress}%` }}
+              />
+            </div>
+
+            <div className="bg-white/95 backdrop-blur-lg shadow-lg border-b border-sand/50">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                 <div className="flex items-center justify-between gap-6">
-                  {/* Product Info */}
-                  <div className="flex items-center gap-4 min-w-0">
-                    <h2 className="font-serif text-lg font-semibold truncate">
-                      {product.title}
-                    </h2>
-                    {product.vintage && (
-                      <span className="text-grey flex-shrink-0">
-                        {product.vintage === "NV" ? "NV" : product.vintage}
-                      </span>
+                  {/* Product Info with thumbnail */}
+                  <div className="flex items-center gap-3 min-w-0">
+                    {product.images[0] && (
+                      <div className="relative w-10 h-12 flex-shrink-0 rounded overflow-hidden bg-champagne/20">
+                        <Image
+                          src={wineImagePresets.thumbnail(product.images[0].url)}
+                          alt={product.title}
+                          fill
+                          className="object-contain p-0.5"
+                          sizes="40px"
+                        />
+                      </div>
                     )}
+                    <div className="min-w-0">
+                      <h2 className="font-serif text-base font-semibold truncate">
+                        {product.title}
+                      </h2>
+                      <div className="flex items-center gap-2 text-xs text-grey">
+                        {product.vintage && (
+                          <span>{product.vintage === "NV" ? "NV" : product.vintage}</span>
+                        )}
+                        {product.region && (
+                          <>
+                            <span className="w-0.5 h-0.5 rounded-full bg-grey" />
+                            <span>{product.region}</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   {/* Price */}
@@ -81,8 +115,8 @@ export function StickyPurchaseBar({
                         size="md"
                       />
                       {isOnSale && (
-                        <p className="text-sm text-success">
-                          Je bespaart €{savings.toFixed(2)}
+                        <p className="text-xs text-success font-medium">
+                          Bespaar €{savings.toFixed(2).replace(".", ",")}
                         </p>
                       )}
                     </div>
@@ -97,7 +131,7 @@ export function StickyPurchaseBar({
                         Op voorraad
                       </span>
                     ) : (
-                      <span className="text-sm text-error">Uitverkocht</span>
+                      <span className="text-sm text-error font-medium">Uitverkocht</span>
                     )}
 
                     {/* Quantity */}
@@ -117,22 +151,37 @@ export function StickyPurchaseBar({
                         isLoading={isAdding}
                         disabled={isAdding}
                         className={cn(
-                          "min-w-[180px]",
+                          "min-w-[180px] relative overflow-hidden",
                           justAdded && "bg-success hover:bg-success"
                         )}
                       >
-                        {justAdded ? (
-                          <>
-                            <CheckIcon className="w-4 h-4 mr-2" />
-                            Toegevoegd!
-                          </>
-                        ) : (
-                          "In Winkelmand"
-                        )}
+                        <AnimatePresence mode="wait">
+                          {justAdded ? (
+                            <motion.span
+                              key="added"
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                              className="flex items-center"
+                            >
+                              <CheckIcon className="w-4 h-4 mr-2" />
+                              Toegevoegd!
+                            </motion.span>
+                          ) : (
+                            <motion.span
+                              key="default"
+                              initial={{ opacity: 0, y: 10 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={{ opacity: 0, y: -10 }}
+                            >
+                              In Winkelmand
+                            </motion.span>
+                          )}
+                        </AnimatePresence>
                       </Button>
                     ) : (
                       <Button variant="secondary" className="min-w-[180px]">
-                        Notify me
+                        Mail bij voorraad
                       </Button>
                     )}
                   </div>
@@ -143,32 +192,39 @@ export function StickyPurchaseBar({
         )}
       </AnimatePresence>
 
-      {/* Mobile Fixed Bottom Bar - Enhanced */}
+      {/* Mobile Fixed Bottom Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
-        <div className="bg-white border-t border-sand shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
+        <div className="bg-white/95 backdrop-blur-lg border-t border-sand shadow-[0_-4px_24px_rgba(0,0,0,0.08)]">
           <div className="px-4 py-3">
             {/* Row 1: Price and Stock */}
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-2.5">
               <div>
                 <PriceDisplay
                   currentPrice={product.price}
                   originalPrice={product.originalPrice}
                   size="md"
                 />
+                {isOnSale && (
+                  <p className="text-xs text-success font-medium mt-0.5">
+                    Bespaar €{savings.toFixed(2).replace(".", ",")}
+                  </p>
+                )}
               </div>
               {product.inStock ? (
-                <span className="flex items-center gap-1 text-xs text-success font-medium">
-                  <CheckCircleIcon className="w-3.5 h-3.5" />
+                <span className="flex items-center gap-1 text-xs text-success font-medium bg-success/10 px-2 py-0.5 rounded-full">
+                  <CheckCircleIcon className="w-3 h-3" />
                   Op voorraad
                 </span>
               ) : (
-                <span className="text-xs text-error font-medium">Uitverkocht</span>
+                <span className="text-xs text-error font-medium bg-error/10 px-2 py-0.5 rounded-full">
+                  Uitverkocht
+                </span>
               )}
             </div>
 
             {/* Row 2: Quantity and Add to Cart */}
             <div className="flex items-center gap-3">
-              {/* Quantity Selector - Compact for mobile */}
+              {/* Quantity Selector */}
               {product.inStock && (
                 <div className="flex-shrink-0">
                   <QuantitySelector
@@ -190,22 +246,37 @@ export function StickyPurchaseBar({
                   isLoading={isAdding}
                   disabled={isAdding}
                   className={cn(
-                    "flex-1 min-h-[48px]",
+                    "flex-1 min-h-[48px] relative overflow-hidden",
                     justAdded && "bg-success hover:bg-success"
                   )}
                 >
-                  {justAdded ? (
-                    <>
-                      <CheckIcon className="w-5 h-5 mr-2" />
-                      Toegevoegd!
-                    </>
-                  ) : (
-                    "In Winkelmand"
-                  )}
+                  <AnimatePresence mode="wait">
+                    {justAdded ? (
+                      <motion.span
+                        key="added"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="flex items-center"
+                      >
+                        <CheckIcon className="w-5 h-5 mr-2" />
+                        Toegevoegd!
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        key="default"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                      >
+                        In Winkelmand
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
                 </Button>
               ) : (
                 <Button variant="secondary" size="lg" className="flex-1 min-h-[48px]">
-                  Notify Me
+                  Mail bij voorraad
                 </Button>
               )}
             </div>
@@ -217,4 +288,3 @@ export function StickyPurchaseBar({
     </>
   );
 }
-

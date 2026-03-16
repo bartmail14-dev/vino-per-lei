@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { cn } from "@/lib/utils";
 import { MapPinIcon, SunIcon, GrapeIcon, ArrowRightIcon } from "@/components/icons";
+import { Mountain } from "lucide-react";
 import type { Product } from "@/types";
 
 // Lazy load the map component
@@ -81,7 +82,7 @@ export function RegionSpotlight({ product, className }: RegionSpotlightProps) {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <MountainIcon className="w-5 h-5 text-wine mt-0.5 flex-shrink-0" />
+                  <Mountain className="w-5 h-5 text-wine mt-0.5 flex-shrink-0" strokeWidth={1.5} />
                   <div>
                     <h4 className="font-medium text-charcoal">Terroir</h4>
                     <p className="text-sm text-grey">{regionInfo.soil}</p>
@@ -185,13 +186,4 @@ function getRegionInfo(region: string): RegionInfo | null {
   return regions[region] || null;
 }
 
-function MountainIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M8 21L12 11L16 21" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M2 21H22" strokeLinecap="round" />
-      <path d="M15 21L19 13L22 21" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 

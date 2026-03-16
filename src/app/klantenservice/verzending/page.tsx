@@ -1,60 +1,17 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { getPage } from "@/lib/shopify-cms";
+import { VerzendingContent } from "./VerzendingContent";
 
 export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Verzending & Levering | Vino per Lei",
   description:
-    "Informatie over verzending en levering bij Vino per Lei. Gratis verzending vanaf €35. Zorgvuldig verpakt en temperatuurgecontroleerd.",
+    "Informatie over verzending en levering bij Vino per Lei. Gratis verzending vanaf \u20AC35. Zorgvuldig verpakt en temperatuurgecontroleerd.",
 };
 
 export default async function VerzendingPage() {
   const page = await getPage("verzending-levering");
 
-  return (
-    <div className="bg-background">
-      <div className="max-w-4xl mx-auto px-4 py-16 sm:py-24">
-        {/* Header */}
-        <div className="mb-12">
-          <p className="text-label text-gold mb-3">Klantenservice</p>
-          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-charcoal mb-4">
-            {page?.title ?? "Verzending & Levering"}
-          </h1>
-          <p className="text-grey">
-            Jouw wijn, veilig en snel bezorgd.
-          </p>
-        </div>
-
-        {/* Content */}
-        {page?.body ? (
-          <div
-            className="prose prose-lg max-w-none text-grey prose-headings:font-serif prose-headings:text-charcoal prose-headings:font-semibold prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-10 prose-h3:text-xl prose-h3:mb-3 prose-a:text-wine prose-a:underline hover:prose-a:text-wine-dark prose-strong:text-charcoal prose-li:text-grey prose-ul:space-y-1 prose-ol:space-y-2"
-            dangerouslySetInnerHTML={{ __html: page.body }}
-          />
-        ) : (
-          <div className="bg-warm-white rounded-lg p-8 text-center border border-sand">
-            <p className="text-grey">Inhoud wordt binnenkort toegevoegd.</p>
-          </div>
-        )}
-
-        {/* Navigation */}
-        <div className="mt-16 pt-8 border-t border-sand flex flex-wrap gap-4 justify-between">
-          <Link
-            href="/klantenservice"
-            className="text-sm text-wine hover:text-wine-dark transition-colors"
-          >
-            &larr; Terug naar Klantenservice
-          </Link>
-          <Link
-            href="/klantenservice/retourneren"
-            className="text-sm text-wine hover:text-wine-dark transition-colors"
-          >
-            Retourbeleid &rarr;
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+  return <VerzendingContent pageBody={page?.body ?? null} pageTitle={page?.title ?? null} />;
 }

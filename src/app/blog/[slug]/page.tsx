@@ -7,14 +7,19 @@ import {
   getBlogArticles,
 } from "@/lib/shopify-cms";
 import type { BlogArticle } from "@/lib/shopify-cms";
-import { ShareButtons } from "./ShareButtons";
-import { ReadingProgress } from "../ReadingProgress";
 import {
   BlogFadeIn,
   BlogStagger,
   BlogStaggerItem,
   AnimatedDivider,
+  ReadingProgressEnhanced,
+  ArticleContentEnhancer,
+  ScrollToTop,
 } from "../BlogAnimations";
+import { ArticleHero } from "./ArticleHero";
+import { FloatingShareBar } from "./FloatingShareBar";
+import { TableOfContents } from "./TableOfContents";
+import { NewsletterCTA } from "./NewsletterCTA";
 
 export const revalidate = 60;
 
@@ -51,9 +56,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+/* Icons */
+
 function ClockIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <circle cx="12" cy="12" r="10" />
       <polyline points="12 6 12 12 16 14" />
     </svg>
@@ -62,34 +69,9 @@ function ClockIcon({ className }: { className?: string }) {
 
 function ArrowIcon({ className }: { className?: string }) {
   return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <line x1="5" y1="12" x2="19" y2="12" />
       <polyline points="12 5 19 12 12 19" />
-    </svg>
-  );
-}
-
-function WineGlassIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M8 2h8l-1 9a5 5 0 0 1-10 0L8 2z" />
-      <path d="M12 11v8" />
-      <path d="M8 19h8" />
-    </svg>
-  );
-}
-
-function GrapeIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor" opacity="0.06">
-      <circle cx="12" cy="8" r="2.5" />
-      <circle cx="9" cy="12" r="2.5" />
-      <circle cx="15" cy="12" r="2.5" />
-      <circle cx="7.5" cy="16" r="2.5" />
-      <circle cx="12" cy="16" r="2.5" />
-      <circle cx="16.5" cy="16" r="2.5" />
-      <circle cx="10" cy="20" r="2.5" />
-      <circle cx="14" cy="20" r="2.5" />
     </svg>
   );
 }
@@ -102,54 +84,45 @@ function formatDate(date: string) {
   });
 }
 
-/* ─── Related Article Card ─── */
+/* Related Article Card — 3:2 aspect ratio, category as text, subtle hover */
 function RelatedCard({ article }: { article: BlogArticle }) {
   const category = article.tags[0] || "Wijn";
   const hasImage = !!article.image;
 
   return (
-    <Link href={`/blog/${article.handle}`} className="group block h-full">
-      <article className="bg-white rounded-xl border border-sand/60 overflow-hidden hover:shadow-lg hover:shadow-wine/5 hover:-translate-y-1 transition-all duration-500 h-full flex flex-col">
+    <Link href={`/blog/${article.handle}`} className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-xl">
+      <article className="bg-white rounded-xl overflow-hidden hover:shadow-md hover:shadow-black/[0.04] transition-all duration-500 h-full flex flex-col border border-sand/30">
         {hasImage ? (
-          <div className="relative aspect-[16/10] overflow-hidden">
+          <div className="relative aspect-[3/2] overflow-hidden">
             <Image
               src={article.image!.url}
               alt={article.image!.altText || article.title}
               fill
-              className="object-cover group-hover:scale-105 transition-transform duration-700"
+              className="object-cover group-hover:scale-[1.02] transition-transform duration-700"
               sizes="(max-width: 640px) 100vw, 33vw"
             />
-            <div className="absolute top-3 left-3">
-              <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/10">
-                {category}
-              </span>
-            </div>
           </div>
         ) : (
-          <div className="bg-wine px-5 py-4 relative overflow-hidden">
-            <div className="absolute inset-0">
-              <GrapeIcon className="absolute -bottom-2 -right-2 w-20 h-20 text-white" />
-            </div>
-            <div className="relative z-10 flex items-center gap-2">
-              <WineGlassIcon className="w-3 h-3 text-gold/50" />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.15em] text-gold/90">
-                {category}
-              </span>
-            </div>
+          <div className="relative aspect-[3/2] overflow-hidden bg-gradient-to-br from-wine via-wine-dark to-[#0d0f1f]">
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_30%,rgba(201,162,39,0.08),transparent_60%)]" />
           </div>
         )}
-        <div className="p-5 flex flex-col flex-1">
+        <div className="p-5 sm:p-6 flex flex-col flex-1">
+          {/* Category as plain text — no badge */}
+          <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-grey/50 mb-2.5">{category}</p>
           <h3 className="font-serif text-base sm:text-lg font-semibold text-charcoal group-hover:text-wine transition-colors duration-300 line-clamp-2 leading-snug mb-3">
             {article.title}
           </h3>
-          <div className="flex items-center gap-2 text-xs text-grey mt-auto">
+          {article.excerpt && (
+            <p className="text-sm text-grey/55 leading-relaxed line-clamp-2 mb-4">
+              {article.excerpt}
+            </p>
+          )}
+          <div className="flex items-center gap-2.5 text-[12px] text-grey/45 mt-auto pt-4 border-t border-sand/25">
             <ClockIcon className="w-3 h-3" />
             <span>{article.readingTimeMinutes} min</span>
-            <span className="w-0.5 h-0.5 rounded-full bg-grey/40" />
-            <span>{formatDate(article.publishedAt)}</span>
-            <span className="flex items-center gap-1 ml-auto text-wine font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <ArrowIcon className="w-3 h-3" />
-            </span>
+            <span className="w-0.5 h-0.5 rounded-full bg-grey/25" aria-hidden="true" />
+            <time dateTime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
           </div>
         </div>
       </article>
@@ -157,7 +130,7 @@ function RelatedCard({ article }: { article: BlogArticle }) {
   );
 }
 
-/* ─── Article Page ─── */
+/* Article Page */
 export default async function BlogArticlePage({ params }: Props) {
   const { slug } = await params;
   const [article, allArticles] = await Promise.all([
@@ -180,215 +153,181 @@ export default async function BlogArticlePage({ params }: Props) {
       : allArticles.filter((a) => a.handle !== article.handle).slice(0, 3);
 
   const authorName = article.authorV2?.name || "Vino per Lei";
-  const authorInitials = authorName.split(" ").map((w) => w[0]).join("").slice(0, 2);
+  const authorInitials = authorName
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .slice(0, 2);
 
   return (
     <div className="bg-background min-h-screen">
-      {/* Reading progress bar */}
-      <ReadingProgress />
+      <ReadingProgressEnhanced readingTimeMinutes={article.readingTimeMinutes} />
+      <ArticleContentEnhancer />
+      <ScrollToTop />
+      <FloatingShareBar title={article.title} />
+      <TableOfContents />
 
-      {/* ─── Hero ─── */}
-      <div className="bg-dark-bg relative overflow-hidden">
-        {/* Decorative background */}
-        <div className="absolute top-0 right-0 w-48 h-48 opacity-[0.04]">
-          <GrapeIcon className="w-full h-full text-gold" />
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
-        <div className="absolute -bottom-10 left-1/3 w-80 h-20 bg-gold/[0.03] rounded-full blur-3xl" />
+      <ArticleHero
+        title={article.title}
+        tags={article.tags}
+        authorName={authorName}
+        authorInitials={authorInitials}
+        publishedAt={article.publishedAt}
+        readingTimeMinutes={article.readingTimeMinutes}
+        image={article.image}
+        excerpt={article.excerpt}
+      />
 
-        <div className="max-w-3xl mx-auto px-5 sm:px-8 pt-10 pb-16 sm:pt-14 sm:pb-22 relative">
-          {/* Back */}
-          <BlogFadeIn delay={0}>
-            <Link
-              href="/blog"
-              className="inline-flex items-center gap-1.5 text-sm text-white/40 hover:text-white/70 hover:gap-2.5 transition-all mb-10 sm:mb-12"
-            >
-              &larr; Alle verhalen
-            </Link>
-          </BlogFadeIn>
+      <div className="relative">
+        <div className="absolute -top-5 inset-x-0 h-6 bg-background rounded-t-[2rem] sm:rounded-t-[3rem]" />
 
-          {/* Tags */}
-          <BlogFadeIn delay={0.1}>
-            <div className="flex flex-wrap items-center gap-2.5 mb-6">
-              {article.tags.map((tag) => (
-                <Link
-                  key={tag}
-                  href={`/blog?tag=${encodeURIComponent(tag)}`}
-                  className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] text-gold/80 bg-gold/10 px-3.5 py-1.5 rounded-full border border-gold/15 hover:bg-gold/20 transition-colors"
-                >
-                  {tag}
-                </Link>
-              ))}
-            </div>
-          </BlogFadeIn>
-
-          {/* Title */}
-          <BlogFadeIn delay={0.2}>
-            <h1 className="font-serif text-3xl sm:text-4xl lg:text-[3rem] font-semibold text-white mb-10 leading-[1.1]">
-              {article.title}
-            </h1>
-          </BlogFadeIn>
-
-          {/* Meta */}
-          <BlogFadeIn delay={0.35}>
-            <div className="flex flex-wrap items-center gap-6 text-sm text-white/40">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-gold/15 to-wine-light/30 flex items-center justify-center text-gold text-sm font-bold border border-gold/15">
-                  {authorInitials}
-                </div>
-                <div>
-                  <span className="text-white/60 font-medium block">{authorName}</span>
-                </div>
-              </div>
-              <span className="hidden sm:inline text-white/20">|</span>
-              <span>{formatDate(article.publishedAt)}</span>
-              <span className="hidden sm:inline text-white/20">|</span>
-              <span className="flex items-center gap-1.5">
-                <ClockIcon className="w-3.5 h-3.5" />
-                {article.readingTimeMinutes} min leestijd
-              </span>
-            </div>
-          </BlogFadeIn>
-        </div>
-      </div>
-
-      {/* ─── Featured Image ─── */}
-      {article.image && (
-        <BlogFadeIn delay={0.15} className="max-w-4xl mx-auto px-5 sm:px-8 -mt-6 sm:-mt-8 relative z-10 mb-10 sm:mb-14">
-          <div className="aspect-[16/9] relative rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl ring-1 ring-black/5">
-            <Image
-              src={article.image.url}
-              alt={article.image.altText || article.title}
-              fill
-              className="object-cover"
-              sizes="(max-width: 1024px) 100vw, 900px"
-              priority
-            />
-          </div>
-        </BlogFadeIn>
-      )}
-
-      {/* ─── Article Content ─── */}
-      <div className="max-w-3xl mx-auto px-5 sm:px-8 pt-10 sm:pt-14 pb-16 sm:pb-24">
-        {/* Drop cap + editorial feel */}
-        <BlogFadeIn>
-          <article
-            className="prose prose-lg max-w-none text-charcoal/80
-              prose-headings:font-serif prose-headings:text-charcoal prose-headings:font-semibold
-              prose-h2:text-2xl sm:prose-h2:text-3xl prose-h2:mb-5 prose-h2:mt-14 prose-h2:pt-8 prose-h2:border-t prose-h2:border-sand/50
-              prose-h3:text-xl prose-h3:mb-4 prose-h3:mt-10
-              prose-p:leading-[1.85] prose-p:text-[16px] sm:prose-p:text-[17px] prose-p:text-charcoal/70 prose-p:mb-6
-              prose-a:text-wine prose-a:underline prose-a:decoration-wine/30 hover:prose-a:decoration-wine prose-a:underline-offset-2
-              prose-strong:text-charcoal prose-strong:font-semibold
-              prose-li:text-charcoal/70 prose-ul:space-y-2 prose-ol:space-y-2
-              prose-img:rounded-xl prose-img:shadow-md
-              prose-blockquote:border-l-wine prose-blockquote:border-l-2 prose-blockquote:bg-warm-white prose-blockquote:rounded-r-lg prose-blockquote:py-5 prose-blockquote:px-6 prose-blockquote:not-italic prose-blockquote:text-charcoal prose-blockquote:font-serif prose-blockquote:text-lg
-              first-letter:text-5xl first-letter:font-serif first-letter:font-bold first-letter:text-wine first-letter:float-left first-letter:mr-3 first-letter:mt-1 first-letter:leading-[0.8]"
-            dangerouslySetInnerHTML={{ __html: article.contentHtml }}
-          />
-        </BlogFadeIn>
-
-        {/* ─── Animated Divider ─── */}
-        <AnimatedDivider className="mt-14 mb-8" />
-
-        {/* ─── Share + Tags ─── */}
-        <BlogFadeIn>
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="flex flex-wrap gap-2">
-              {article.tags.map((tag) => (
-                <Link
-                  key={tag}
-                  href={`/blog?tag=${encodeURIComponent(tag)}`}
-                  className="text-xs font-medium text-wine bg-wine/5 hover:bg-wine/10 px-3.5 py-1.5 rounded-full transition-colors capitalize"
-                >
-                  {tag}
-                </Link>
-              ))}
-            </div>
-            <ShareButtons title={article.title} />
-          </div>
-        </BlogFadeIn>
-
-        {/* ─── Author Card ─── */}
-        {article.authorV2 && (
+        <div className="max-w-[680px] mx-auto px-5 sm:px-8 pt-14 sm:pt-20 lg:pt-24 pb-8 sm:pb-12 relative z-10">
           <BlogFadeIn>
-            <div className="mt-10 bg-warm-white rounded-xl sm:rounded-2xl p-6 sm:p-8 border border-sand/50 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-wine via-gold/40 to-transparent" />
-              <div className="flex items-start gap-4 sm:gap-5">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-wine to-wine-dark flex items-center justify-center text-white text-lg font-bold flex-shrink-0 ring-2 ring-wine/10 ring-offset-2 ring-offset-warm-white">
-                  {authorInitials}
-                </div>
-                <div>
-                  <p className="text-xs font-medium text-wine/50 uppercase tracking-wider mb-1">
-                    Geschreven door
-                  </p>
-                  <p className="font-serif font-semibold text-charcoal text-lg mb-1.5">
-                    {article.authorV2.name}
-                  </p>
-                  {article.authorV2.bio ? (
-                    <p className="text-grey text-sm leading-relaxed">
-                      {article.authorV2.bio}
+            <article
+              className="prose-wine max-w-none"
+              dangerouslySetInnerHTML={{ __html: article.contentHtml }}
+            />
+          </BlogFadeIn>
+
+          <AnimatedDivider className="mt-16 sm:mt-20 mb-10" />
+
+          {/* Tags — neutral sand color, not wine-tinted */}
+          {article.tags.length > 0 && (
+            <BlogFadeIn>
+              <div className="flex flex-wrap gap-2 mb-12">
+                {article.tags.map((tag) => (
+                  <Link
+                    key={tag}
+                    href={`/blog?tag=${encodeURIComponent(tag)}`}
+                    className="text-[12px] font-medium text-grey/60 bg-sand/25 hover:bg-sand/50 px-4 py-2 rounded-full transition-colors duration-200 capitalize border border-sand/30 hover:border-sand/60 min-h-[44px] inline-flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+                  >
+                    {tag}
+                  </Link>
+                ))}
+              </div>
+            </BlogFadeIn>
+          )}
+
+          {/* Author card — simplified: clean border-top section */}
+          {article.authorV2 && (
+            <BlogFadeIn>
+              <div className="py-6 border-t border-sand/30 mb-6">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-sand/40 flex items-center justify-center text-charcoal/60 text-xs font-semibold flex-shrink-0">
+                    {authorInitials}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[11px] text-grey/40 mb-0.5">
+                      Geschreven door
                     </p>
-                  ) : (
-                    <p className="text-grey text-sm leading-relaxed">
-                      Schrijft over Italiaanse wijnen, wijnboeren en de verhalen achter elke fles.
+                    <p className="font-medium text-charcoal text-sm leading-tight">
+                      {article.authorV2.name}
                     </p>
-                  )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </BlogFadeIn>
-        )}
+            </BlogFadeIn>
+          )}
+
+          <NewsletterCTA />
+        </div>
       </div>
 
-      {/* ─── Related Articles ─── */}
+      {/* Related articles */}
       {relatedFinal.length > 0 && (
-        <div className="bg-warm-white border-t border-sand/50">
-          <div className="max-w-6xl mx-auto px-5 sm:px-8 py-14 sm:py-20">
+        <aside
+          aria-label="Gerelateerde artikelen"
+          className="bg-warm-white border-t border-sand/25"
+        >
+          <div className="max-w-5xl mx-auto px-5 sm:px-8 py-16 sm:py-20">
             <BlogFadeIn>
-              <div className="flex items-end justify-between mb-8 sm:mb-10">
+              <div className="flex items-end justify-between mb-10 sm:mb-12">
                 <div>
-                  <div className="flex items-center gap-2.5 mb-3">
-                    <WineGlassIcon className="w-3.5 h-3.5 text-wine/40" />
-                    <p className="text-[11px] font-medium tracking-[0.15em] uppercase text-wine/60">
-                      Meer Lezen
-                    </p>
-                    <div className="h-px w-6 bg-wine/15" />
-                  </div>
                   <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-charcoal">
-                    Gerelateerde Verhalen
+                    Lees ook
                   </h2>
                 </div>
                 <Link
                   href="/blog"
-                  className="hidden sm:flex items-center gap-1.5 text-wine font-medium text-sm hover:gap-2.5 transition-all"
+                  className="hidden sm:flex items-center gap-2 text-grey/60 hover:text-wine font-medium text-sm transition-colors group min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-lg"
                 >
-                  Alle verhalen <ArrowIcon className="w-4 h-4" />
+                  Alle verhalen
+                  <ArrowIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
             </BlogFadeIn>
-            <BlogStagger className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+
+            {/* Mobile: horizontal scroll */}
+            <div className="sm:hidden -mx-5 px-5">
+              <BlogStagger className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 snap-x snap-mandatory">
+                {relatedFinal.map((a) => (
+                  <BlogStaggerItem
+                    key={a.handle}
+                    className="min-w-[280px] max-w-[320px] flex-shrink-0 snap-start"
+                  >
+                    <RelatedCard article={a} />
+                  </BlogStaggerItem>
+                ))}
+              </BlogStagger>
+            </div>
+
+            {/* Desktop: grid */}
+            <BlogStagger className="hidden sm:grid gap-6 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {relatedFinal.map((a) => (
                 <BlogStaggerItem key={a.handle}>
                   <RelatedCard article={a} />
                 </BlogStaggerItem>
               ))}
             </BlogStagger>
+
+            <div className="mt-8 text-center sm:hidden">
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 text-grey/60 font-medium text-sm min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-lg"
+              >
+                Alle verhalen <ArrowIcon className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
-        </div>
+        </aside>
       )}
 
-      {/* ─── Navigation ─── */}
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8 border-t border-sand/50">
+      {/* Bottom navigation */}
+      <nav
+        aria-label="Artikelnavigatie"
+        className="max-w-5xl mx-auto px-5 sm:px-8 py-8 sm:py-10 border-t border-sand/25"
+      >
         <div className="flex items-center justify-between">
-          <Link href="/blog" className="text-sm text-wine hover:text-wine-dark transition-colors">
-            &larr; Alle verhalen
+          <Link
+            href="/blog"
+            className="text-sm text-grey/50 hover:text-wine transition-colors group inline-flex items-center gap-2 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-lg px-2 -mx-2"
+          >
+            <svg
+              className="w-4 h-4 group-hover:-translate-x-0.5 transition-transform"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            Alle verhalen
           </Link>
-          <Link href="/wijnen" className="text-sm text-wine hover:text-wine-dark transition-colors">
-            Bekijk onze wijnen &rarr;
+          <Link
+            href="/wijnen"
+            className="text-sm text-grey/50 hover:text-wine transition-colors group inline-flex items-center gap-2 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-lg px-2 -mx-2"
+          >
+            Bekijk onze wijnen
+            <ArrowIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>
-      </div>
+      </nav>
+
+      <div className="h-14 lg:hidden" aria-hidden="true" />
     </div>
   );
 }

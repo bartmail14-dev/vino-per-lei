@@ -74,7 +74,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
           </p>
           <Link
             href="/wijnen"
-            className="inline-flex items-center justify-center font-semibold uppercase tracking-wide h-12 px-8 text-sm rounded bg-wine text-white hover:bg-wine-dark transition-colors"
+            className="inline-flex items-center justify-center text-button uppercase h-12 px-8 text-sm rounded bg-wine text-white hover:bg-wine-dark transition-colors"
           >
             Bekijk alle wijnen
           </Link>

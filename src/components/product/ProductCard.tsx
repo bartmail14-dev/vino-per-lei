@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { type Product } from "@/types";
 import { Badge, Rating, PriceDisplay } from "@/components/ui";
 import { useCartStore } from "@/stores/cartStore";
@@ -67,52 +67,79 @@ export function ProductCard({
     ? Math.round(((product.originalPrice! - product.price) / product.originalPrice!) * 100)
     : 0;
 
+  const wineTypeLabel =
+    product.wineType === "red"
+      ? "Rood"
+      : product.wineType === "white"
+        ? "Wit"
+        : product.wineType === "rose"
+          ? "Rose"
+          : "Bubbels";
+
   return (
     <motion.article
       className={cn(
-        "group relative bg-white rounded-lg",
-        "border border-sand/50 hover:border-wine/20",
-        "shadow-sm hover:shadow-2xl",
-        "transition-all duration-300 ease-out",
-        "hover:-translate-y-2",
+        "group relative bg-white rounded-xl",
+        "border border-sand/40",
+        "shadow-sm",
+        "transition-all duration-500 ease-out",
+        "hover:shadow-[0_20px_50px_-12px_rgba(26,31,61,0.15)]",
+        "hover:-translate-y-1.5",
         "overflow-visible pt-4 sm:pt-6 mt-14 sm:mt-24",
         className
       )}
-      initial={{ opacity: 0, y: 20 }}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
+      {/* Subtle border glow on hover */}
+      <motion.div
+        className="absolute -inset-px rounded-xl border-2 border-wine/0 pointer-events-none"
+        animate={{ borderColor: isHovering ? "rgba(26,31,61,0.12)" : "rgba(26,31,61,0)" }}
+        transition={{ duration: 0.3 }}
+      />
+
       {/* Wishlist Button */}
-      <button
+      <motion.button
         onClick={handleToggleWishlist}
         className={cn(
           "absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-20 p-1.5 sm:p-2 rounded-full transition-all duration-200",
-          "bg-white/80 backdrop-blur-sm shadow-sm",
-          "hover:bg-white hover:shadow-md hover:scale-110",
+          "bg-white/90 backdrop-blur-sm shadow-sm",
+          "hover:bg-white hover:shadow-md",
           isInWishlist && "text-wine"
         )}
+        whileHover={{ scale: 1.15 }}
+        whileTap={{ scale: 0.9 }}
         aria-label={isInWishlist ? "Verwijder uit verlanglijst" : "Toevoegen aan verlanglijst"}
       >
         <HeartIcon className="w-4 h-4 sm:w-5 sm:h-5" filled={isInWishlist} />
-      </button>
+      </motion.button>
 
       {/* Quick View Button - appears on hover */}
       {onQuickView && (
-        <button
-          onClick={handleQuickView}
-          className={cn(
-            "absolute top-2 left-2 z-20 px-3 py-1.5 rounded-full text-xs font-medium",
-            "bg-white/90 backdrop-blur-sm shadow-sm",
-            "opacity-0 group-hover:opacity-100 transition-all duration-200",
-            "hover:bg-white hover:shadow-md",
-            "translate-y-2 group-hover:translate-y-0"
+        <AnimatePresence>
+          {isHovering && (
+            <motion.button
+              onClick={handleQuickView}
+              initial={{ opacity: 0, y: 8, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 4, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className={cn(
+                "absolute top-2 left-2 z-20 px-3 py-1.5 rounded-full text-xs font-medium",
+                "bg-white/95 backdrop-blur-sm shadow-md",
+                "hover:bg-white hover:shadow-lg"
+              )}
+            >
+              <span className="flex items-center gap-1.5">
+                <EyeIcon className="w-3.5 h-3.5" />
+                Quick View
+              </span>
+            </motion.button>
           )}
-        >
-          <span className="flex items-center gap-1">
-            <EyeIcon className="w-3.5 h-3.5" />
-            Quick View
-          </span>
-        </button>
+        </AnimatePresence>
       )}
 
       <Link
@@ -120,19 +147,51 @@ export function ProductCard({
         className="block"
         aria-label={`Bekijk ${product.title}`}
       >
-        {/* Image Container */}
-        <div className="relative h-28 sm:h-40 bg-gradient-to-b from-wine/15 via-champagne/60 to-cream rounded-t-lg mx-2 -mt-8 sm:-mt-14">
+        {/* Image Container — outer has NO overflow clip so bottles extend freely */}
+        <div className="relative h-28 sm:h-40 mx-2 -mt-8 sm:-mt-14">
+          {/* Clipped background + shine (respects rounded corners) */}
+          <div className="absolute inset-0 bg-gradient-to-b from-wine/8 via-champagne/40 to-cream rounded-t-xl overflow-hidden">
+            {/* Shine sweep on hover */}
+            <motion.div
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 pointer-events-none z-[5]"
+              initial={{ x: "-200%" }}
+              animate={{ x: isHovering ? "200%" : "-200%" }}
+              transition={{ duration: 0.7, ease: "easeInOut" }}
+            />
+          </div>
+
           {/* Badges */}
-          <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 sm:gap-2">
-            {product.isNew && <Badge variant="new">Nieuw</Badge>}
-            {isOnSale && <Badge variant="sale">-{discountPercentage}%</Badge>}
+          <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 sm:gap-1.5">
+            {product.isNew && (
+              <Badge variant="new">Nieuw</Badge>
+            )}
+            {isOnSale && (
+              <Badge variant="sale">-{discountPercentage}%</Badge>
+            )}
             {!product.inStock && <Badge variant="soldout">Uitverkocht</Badge>}
             {product.hasAward && (
               <Badge variant="award">{product.awardText || "Award"}</Badge>
             )}
           </div>
 
-          {/* Product Image */}
+          {/* Wine Type Dot */}
+          <div className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 z-10">
+            <div className={cn(
+              "flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/80 backdrop-blur-sm",
+              "text-[10px] sm:text-[11px] font-semibold text-charcoal"
+            )}>
+              <div className={cn(
+                "w-2 h-2 rounded-full",
+                product.wineType === "red" && "bg-wine",
+                product.wineType === "white" && "bg-gold",
+                product.wineType === "rose" && "bg-coral",
+                product.wineType === "sparkling" && "bg-champagne border border-gold"
+              )} />
+              <span className="hidden sm:inline">{wineTypeLabel}</span>
+            </div>
+          </div>
+
+          {/* Product Image — extends above the card, NOT clipped */}
           <div className="absolute inset-0 -top-10 sm:-top-18 flex items-center justify-center">
             {product.images[0] ? (
               <div className="relative w-24 sm:w-40 h-44 sm:h-72">
@@ -141,20 +200,29 @@ export function ProductCard({
                     <div className="w-12 h-32 sm:w-16 sm:h-48 rounded-lg bg-gradient-to-b from-sand/40 to-sand/20 animate-pulse" />
                   </div>
                 )}
-                <Image
-                  src={wineImagePresets.card(product.images[0].url)}
-                  alt={product.images[0].altText || product.title}
-                  fill
-                  sizes="(max-width: 640px) 112px, 192px"
-                  priority={priority}
-                  onLoad={handleImageLoad}
-                  className={cn(
-                    "object-contain object-center drop-shadow-2xl transition-all duration-500",
-                    "group-hover:scale-[1.15] group-hover:-translate-y-4",
-                    !product.inStock && "grayscale-[50%] opacity-70",
-                    !imageLoaded && "opacity-0"
-                  )}
-                />
+                <motion.div
+                  className="relative w-full h-full"
+                  animate={{
+                    y: isHovering ? -8 : 0,
+                    scale: isHovering ? 1.08 : 1,
+                    rotate: isHovering ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                >
+                  <Image
+                    src={wineImagePresets.card(product.images[0].url)}
+                    alt={product.images[0].altText || product.title}
+                    fill
+                    sizes="(max-width: 640px) 112px, 192px"
+                    priority={priority}
+                    onLoad={handleImageLoad}
+                    className={cn(
+                      "object-contain object-center drop-shadow-2xl transition-opacity duration-500",
+                      !product.inStock && "grayscale-[50%] opacity-70",
+                      !imageLoaded && "opacity-0"
+                    )}
+                  />
+                </motion.div>
               </div>
             ) : (
               <div className="flex items-center justify-center text-grey h-full">
@@ -166,25 +234,32 @@ export function ProductCard({
 
         {/* Content */}
         <div className="p-2.5 sm:p-4">
-          {product.collection && (
-            <p className="text-[10px] sm:text-label text-grey mb-0.5 sm:mb-1">{product.collection}</p>
-          )}
+          {/* Collection / Region line */}
+          <div className="flex items-center gap-1.5 mb-0.5 sm:mb-1">
+            {product.collection && (
+              <p className="text-[10px] sm:text-label text-wine/70">{product.collection}</p>
+            )}
+            {product.collection && product.region && (
+              <span className="text-sand text-[10px]">|</span>
+            )}
+            <p className="text-[10px] sm:text-label text-grey/70 truncate">
+              {product.region}
+            </p>
+          </div>
 
-          <h3 className="font-serif text-sm sm:text-base font-semibold text-charcoal mb-0.5 line-clamp-1">
+          <h3 className="font-serif text-sm sm:text-base font-semibold text-charcoal mb-0.5 line-clamp-1 group-hover:text-wine transition-colors duration-300">
             {product.title}
           </h3>
+
           {product.vintage && (
-            <p className="text-xs sm:text-sm text-charcoal mb-0.5 sm:mb-1">
+            <p className="text-xs sm:text-sm text-charcoal/60 mb-1 sm:mb-1.5">
               {product.vintage === "NV" ? "Non-Vintage" : product.vintage}
             </p>
           )}
 
-          <p className="text-xs sm:text-sm text-grey mb-1.5 sm:mb-2 line-clamp-1">
-            {product.region}, {product.country}
-          </p>
-
+          {/* Rating */}
           {product.rating && (
-            <div className="mb-2 sm:mb-3 hidden sm:block">
+            <div className="mb-1.5 sm:mb-2.5">
               <Rating
                 rating={product.rating}
                 reviewCount={product.reviewCount}
@@ -193,7 +268,8 @@ export function ProductCard({
             </div>
           )}
 
-          <div className="mb-2 sm:mb-4">
+          {/* Price with sale highlight */}
+          <div className="mb-2 sm:mb-3">
             <PriceDisplay
               currentPrice={product.price}
               originalPrice={product.originalPrice}
@@ -205,56 +281,76 @@ export function ProductCard({
       {/* Add to Cart Button */}
       <div className="px-2.5 pb-2.5 sm:px-4 sm:pb-4 relative z-30">
         {product.inStock ? (
-          <button
+          <motion.button
             onClick={handleAddToCart}
-            onMouseEnter={() => setIsHovering(true)}
-            onMouseLeave={() => setIsHovering(false)}
             disabled={isAdding}
             className={cn(
-              "relative w-full h-10 sm:h-12 rounded font-semibold text-xs sm:text-sm uppercase tracking-wide cursor-pointer",
-              "overflow-hidden transition-all duration-300",
-              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wine focus-visible:ring-offset-2",
+              "relative w-full h-10 sm:h-12 rounded-lg text-button uppercase cursor-pointer",
+              "overflow-hidden transition-colors duration-300",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2",
               "disabled:pointer-events-none disabled:opacity-50",
               justAdded
                 ? "bg-success text-white"
-                : "bg-wine text-white hover:bg-wine-dark hover:shadow-lg"
+                : "bg-wine text-white hover:bg-wine-dark"
             )}
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
           >
-            {/* Simple hover effect */}
+            {/* Animated background shine */}
             {!justAdded && (
               <motion.div
-                className="absolute inset-0 bg-wine-dark"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: isHovering ? 1 : 0 }}
-                transition={{ duration: 0.2 }}
+                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
+                initial={{ x: "-100%" }}
+                animate={{ x: isHovering ? "100%" : "-100%" }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
               />
             )}
 
             {/* Button content */}
-            <span className="relative z-10 flex items-center justify-center">
+            <AnimatePresence mode="wait">
               {isAdding ? (
-                <LoadingSpinner />
+                <motion.span
+                  key="loading"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  className="relative z-10 flex items-center justify-center"
+                >
+                  <LoadingSpinner />
+                </motion.span>
               ) : justAdded ? (
-                <>
+                <motion.span
+                  key="added"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  className="relative z-10 flex items-center justify-center"
+                >
                   <CheckIcon className="w-4 h-4 mr-2" />
                   Toegevoegd!
-                </>
+                </motion.span>
               ) : (
-                <>
+                <motion.span
+                  key="default"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="relative z-10 flex items-center justify-center"
+                >
                   <motion.span
-                    className="inline-block mr-1"
+                    className="inline-block mr-1.5 text-base"
                     animate={{ rotate: isHovering ? 90 : 0 }}
                     transition={{ duration: 0.3, ease: "easeOut" }}
                   >
                     +
                   </motion.span>
                   Winkelmand
-                </>
+                </motion.span>
               )}
-            </span>
-          </button>
+            </AnimatePresence>
+          </motion.button>
         ) : (
-          <button className="w-full h-10 sm:h-12 rounded font-semibold text-xs sm:text-sm uppercase tracking-wide border-2 border-wine text-wine bg-transparent hover:bg-wine hover:text-white transition-colors">
+          <button className="w-full h-10 sm:h-12 rounded-lg text-button uppercase border-2 border-wine/30 text-wine bg-transparent hover:bg-wine hover:text-white hover:border-wine transition-all duration-300">
             Mail mij bij voorraad
           </button>
         )}
@@ -262,4 +358,3 @@ export function ProductCard({
     </motion.article>
   );
 }
-

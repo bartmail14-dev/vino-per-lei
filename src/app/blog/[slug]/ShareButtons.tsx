@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { Link as LinkIcon, Check } from "lucide-react";
 
 interface ShareButtonsProps {
   title: string;
@@ -52,7 +53,7 @@ export function ShareButtons({ title }: ShareButtonsProps) {
       <div className="flex items-center gap-1.5">
         <button
           onClick={() => handleShare("whatsapp")}
-          className="w-9 h-9 rounded-full bg-transparent border border-sand/80 hover:border-[#25D366]/40 hover:bg-[#25D366]/10 hover:text-[#25D366] hover:scale-110 flex items-center justify-center text-grey transition-all duration-300"
+          className="w-11 h-11 rounded-full bg-transparent border border-sand/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 hover:border-[#25D366]/40 hover:bg-[#25D366]/10 hover:text-[#25D366] hover:scale-110 flex items-center justify-center text-grey transition-all duration-300"
           aria-label="Deel via WhatsApp"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -61,7 +62,7 @@ export function ShareButtons({ title }: ShareButtonsProps) {
         </button>
         <button
           onClick={() => handleShare("facebook")}
-          className="w-9 h-9 rounded-full bg-transparent border border-sand/80 hover:border-[#1877F2]/40 hover:bg-[#1877F2]/10 hover:text-[#1877F2] hover:scale-110 flex items-center justify-center text-grey transition-all duration-300"
+          className="w-11 h-11 rounded-full bg-transparent border border-sand/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 hover:border-[#1877F2]/40 hover:bg-[#1877F2]/10 hover:text-[#1877F2] hover:scale-110 flex items-center justify-center text-grey transition-all duration-300"
           aria-label="Deel op Facebook"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
@@ -70,7 +71,7 @@ export function ShareButtons({ title }: ShareButtonsProps) {
         </button>
         <button
           onClick={() => handleShare("twitter")}
-          className="w-9 h-9 rounded-full bg-transparent border border-sand/80 hover:border-black/20 hover:bg-black/5 hover:text-black hover:scale-110 flex items-center justify-center text-grey transition-all duration-300"
+          className="w-11 h-11 rounded-full bg-transparent border border-sand/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 hover:border-black/20 hover:bg-black/5 hover:text-black hover:scale-110 flex items-center justify-center text-grey transition-all duration-300"
           aria-label="Deel op X"
         >
           <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
@@ -80,7 +81,7 @@ export function ShareButtons({ title }: ShareButtonsProps) {
         <div className="relative">
           <button
             onClick={() => handleShare("copy")}
-            className={`w-9 h-9 rounded-full bg-transparent border flex items-center justify-center transition-all duration-300 ${
+            className={`w-11 h-11 rounded-full bg-transparent border flex items-center justify-center transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 ${
               copied
                 ? "border-green-500/40 bg-green-500/10 text-green-600 scale-110"
                 : "border-sand/80 hover:border-wine/40 hover:bg-wine/10 hover:text-wine hover:scale-110 text-grey"
@@ -88,14 +89,9 @@ export function ShareButtons({ title }: ShareButtonsProps) {
             aria-label="Kopieer link"
           >
             {copied ? (
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
+              <Check className="w-4 h-4" strokeWidth={2.5} />
             ) : (
-              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71" />
-                <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71" />
-              </svg>
+              <LinkIcon className="w-4 h-4" strokeWidth={1.5} />
             )}
           </button>
           {/* Tooltip */}

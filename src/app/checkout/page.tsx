@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import { ArrowLeft } from "lucide-react";
 import { useCartStore } from "@/stores/cartStore";
 import { useCheckoutStore, calculateEstimatedDelivery } from "@/stores/checkoutStore";
 import {
@@ -98,7 +99,7 @@ export default function CheckoutPage() {
           href="/wijnen"
           className="inline-flex items-center gap-2 text-sm text-grey hover:text-wine mb-6 transition-colors"
         >
-          <ArrowLeftIcon className="w-4 h-4" />
+          <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
           Terug naar winkel
         </Link>
 
@@ -236,17 +237,3 @@ export default function CheckoutPage() {
   );
 }
 
-function ArrowLeftIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
-      <line x1="19" y1="12" x2="5" y2="12" />
-      <polyline points="12 19 5 12 12 5" />
-    </svg>
-  );
-}

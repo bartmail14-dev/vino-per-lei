@@ -5,24 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Checkbox, Button } from "@/components/ui";
 import { ItalyWineMap, type WineRegionData } from "@/components/map";
-
-// Icons
-function ChevronDownIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <polyline points="6 9 12 15 18 9" />
-    </svg>
-  );
-}
-
-function CloseIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  );
-}
+import { ChevronDown as ChevronDownIcon, X as CloseIcon, RotateCcw as FilterResetIcon } from "lucide-react";
 
 export interface FilterOption {
   value: string;
@@ -73,26 +56,30 @@ function FilterAccordion({
   const activeCount = activeValues.length;
 
   return (
-    <div className="border-b border-sand py-4">
+    <div className="border-b border-sand/60 py-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center justify-between w-full text-left"
+        className="flex items-center justify-between w-full text-left group/accordion"
         aria-expanded={isOpen}
       >
-        <span className="font-semibold text-charcoal flex items-center gap-2">
+        <span className="font-semibold text-charcoal text-sm flex items-center gap-2 group-hover/accordion:text-wine transition-colors">
           {group.label}
           {activeCount > 0 && (
-            <span className="text-xs bg-wine text-white px-1.5 py-0.5 rounded-full">
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              className="inline-flex items-center justify-center text-[10px] bg-wine text-white min-w-[18px] h-[18px] px-1 rounded-full font-bold"
+            >
               {activeCount}
-            </span>
+            </motion.span>
           )}
         </span>
-        <ChevronDownIcon
-          className={cn(
-            "w-5 h-5 text-grey transition-transform duration-200",
-            isOpen && "rotate-180"
-          )}
-        />
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <ChevronDownIcon className="w-4 h-4 text-grey" strokeWidth={1.5} />
+        </motion.div>
       </button>
 
       <AnimatePresence initial={false}>
@@ -101,25 +88,42 @@ function FilterAccordion({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
             className="overflow-hidden"
           >
-            <div className="pt-4 space-y-1">
-              {visibleOptions.map((option) => (
-                <Checkbox
-                  key={option.value}
-                  label={option.label}
-                  count={option.count}
-                  checked={activeValues.includes(option.value)}
-                  onChange={(e) => onFilterChange(option.value, e.target.checked)}
-                />
-              ))}
+            <div className="pt-3 space-y-0.5">
+              {visibleOptions.map((option) => {
+                const isActive = activeValues.includes(option.value);
+                return (
+                  <motion.div
+                    key={option.value}
+                    layout
+                    className={cn(
+                      "rounded-md px-1 -mx-1 transition-colors duration-200",
+                      isActive && "bg-wine/5"
+                    )}
+                  >
+                    <Checkbox
+                      label={option.label}
+                      count={option.count}
+                      checked={isActive}
+                      onChange={(e) => onFilterChange(option.value, e.target.checked)}
+                    />
+                  </motion.div>
+                );
+              })}
               {hasMore && (
                 <button
                   onClick={() => setShowAll(!showAll)}
-                  className="text-sm text-wine hover:underline mt-2"
+                  className="text-sm text-wine hover:text-wine-dark font-medium mt-2 flex items-center gap-1 transition-colors"
                 >
-                  {showAll ? "Toon minder" : `+ ${group.options.length - 6} meer`}
+                  {showAll ? (
+                    <>Toon minder</>
+                  ) : (
+                    <>
+                      <span>+</span> {group.options.length - 6} meer
+                    </>
+                  )}
                 </button>
               )}
             </div>
@@ -151,11 +155,9 @@ export function FilterSidebar({
     const currentRegions = activeFilters["region"] || [];
     const isCurrentlySelected = currentRegions.includes(region.slug);
 
-    // Toggle: if already selected, deselect; otherwise select
     if (isCurrentlySelected) {
       onFilterChange("region", region.slug, false);
     } else {
-      // Clear other regions first, then select this one
       currentRegions.forEach(r => onFilterChange("region", r, false));
       onFilterChange("region", region.slug, true);
     }
@@ -171,7 +173,7 @@ export function FilterSidebar({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            className="fixed inset-0 bg-charcoal/40 backdrop-blur-sm z-40 lg:hidden"
             onClick={onClose}
           />
 
@@ -180,26 +182,33 @@ export function FilterSidebar({
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
-            transition={{ type: "tween", duration: 0.3 }}
-            className="fixed top-0 left-0 bottom-0 w-full max-w-sm bg-white z-50 overflow-y-auto lg:hidden"
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="fixed top-0 left-0 bottom-0 w-full max-w-sm bg-white z-50 overflow-y-auto lg:hidden shadow-2xl"
           >
             {/* Header */}
-            <div className="sticky top-0 bg-white border-b border-sand px-4 py-4 flex items-center justify-between">
-              <h2 className="font-serif text-xl font-semibold">Filters</h2>
+            <div className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-sand/60 px-4 py-4 flex items-center justify-between z-10">
+              <div className="flex items-center gap-2">
+                <h2 className="font-serif text-xl font-semibold">Filters</h2>
+                {totalActiveFilters > 0 && (
+                  <span className="inline-flex items-center justify-center text-xs bg-wine text-white min-w-[22px] h-[22px] px-1.5 rounded-full font-bold">
+                    {totalActiveFilters}
+                  </span>
+                )}
+              </div>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-sand/50 rounded-md"
+                className="p-2 hover:bg-sand/40 rounded-lg transition-colors"
                 aria-label="Sluit filters"
               >
-                <CloseIcon className="w-5 h-5" />
+                <CloseIcon className="w-5 h-5" strokeWidth={1.5} />
               </button>
             </div>
 
             {/* Filters */}
-            <div className="px-4 pb-24">
+            <div className="px-4 pb-28">
               {/* Italy Map Filter - Mobile */}
-              <div className="py-4 border-b border-sand">
-                <p className="text-xs text-grey uppercase tracking-wider mb-3">Ontdek per Regio</p>
+              <div className="py-4 border-b border-sand/60">
+                <p className="text-xs text-grey uppercase tracking-wider mb-3 font-medium">Ontdek per Regio</p>
                 <ItalyWineMap
                   size="full"
                   onRegionClick={handleMapRegionClick}
@@ -209,8 +218,9 @@ export function FilterSidebar({
                 {selectedRegion && (
                   <button
                     onClick={() => onFilterChange("region", selectedRegion, false)}
-                    className="mt-3 text-xs text-wine hover:underline w-full text-center"
+                    className="mt-3 text-xs text-wine hover:text-wine-dark font-medium w-full text-center flex items-center justify-center gap-1"
                   >
+                    <FilterResetIcon className="w-3 h-3" strokeWidth={1.5} />
                     Wis regio filter
                   </button>
                 )}
@@ -229,7 +239,7 @@ export function FilterSidebar({
             </div>
 
             {/* Footer */}
-            <div className="fixed bottom-0 left-0 right-0 max-w-sm bg-white border-t border-sand p-4 flex gap-3">
+            <div className="fixed bottom-0 left-0 right-0 max-w-sm bg-white/95 backdrop-blur-sm border-t border-sand/60 p-4 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
               <Button
                 variant="secondary"
                 onClick={onClearAll}
@@ -254,20 +264,37 @@ export function FilterSidebar({
       <div className="sticky top-24">
         {/* Header with clear all */}
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-semibold text-charcoal">Filters</h2>
-          {totalActiveFilters > 0 && (
-            <button
-              onClick={onClearAll}
-              className="text-sm text-wine hover:underline"
-            >
-              Wis alles ({totalActiveFilters})
-            </button>
-          )}
+          <h2 className="font-semibold text-charcoal flex items-center gap-2">
+            Filters
+            {totalActiveFilters > 0 && (
+              <motion.span
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                className="inline-flex items-center justify-center text-[10px] bg-wine text-white min-w-[18px] h-[18px] px-1 rounded-full font-bold"
+              >
+                {totalActiveFilters}
+              </motion.span>
+            )}
+          </h2>
+          <AnimatePresence>
+            {totalActiveFilters > 0 && (
+              <motion.button
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 10 }}
+                onClick={onClearAll}
+                className="text-sm text-wine hover:text-wine-dark font-medium flex items-center gap-1 transition-colors"
+              >
+                <FilterResetIcon className="w-3.5 h-3.5" strokeWidth={1.5} />
+                Wis alles
+              </motion.button>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Italy Map Filter */}
-        <div className="border-t border-sand py-4">
-          <p className="text-xs text-grey uppercase tracking-wider mb-3">Ontdek per Regio</p>
+        <div className="border-t border-sand/60 py-4">
+          <p className="text-xs text-grey uppercase tracking-wider mb-3 font-medium">Ontdek per Regio</p>
           <ItalyWineMap
             size="full"
             onRegionClick={handleMapRegionClick}
@@ -277,15 +304,16 @@ export function FilterSidebar({
           {selectedRegion && (
             <button
               onClick={() => onFilterChange("region", selectedRegion, false)}
-              className="mt-3 text-xs text-wine hover:underline w-full text-center"
+              className="mt-3 text-xs text-wine hover:text-wine-dark font-medium w-full text-center flex items-center justify-center gap-1 transition-colors"
             >
+              <FilterResetIcon className="w-3 h-3" strokeWidth={1.5} />
               Wis regio filter
             </button>
           )}
         </div>
 
         {/* Filter groups */}
-        <div className="border-t border-sand">
+        <div className="border-t border-sand/60">
           {filters.map((group) => (
             <FilterAccordion
               key={group.id}
@@ -339,24 +367,36 @@ export function ActiveFilterTags({
   if (allActive.length === 0) return null;
 
   return (
-    <div className="flex flex-wrap items-center gap-2 mb-6">
-      <span className="text-sm text-grey">Actieve filters:</span>
-      {allActive.map((filter) => (
+    <motion.div
+      initial={{ opacity: 0, y: -10 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="flex flex-wrap items-center gap-2 mb-6"
+    >
+      <span className="text-sm text-grey font-medium">Actief:</span>
+      <AnimatePresence>
+        {allActive.map((filter) => (
+          <motion.button
+            key={`${filter.groupId}-${filter.value}`}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            layout
+            onClick={() => onRemove(filter.groupId, filter.value)}
+            className="inline-flex items-center gap-1.5 px-3 py-1 bg-wine/8 text-wine text-sm rounded-full hover:bg-wine/15 transition-colors border border-wine/10 hover:border-wine/20 group/tag"
+          >
+            <span className="font-medium">{filter.label}</span>
+            <CloseIcon className="w-3 h-3 opacity-60 group-hover/tag:opacity-100 transition-opacity" strokeWidth={1.5} />
+          </motion.button>
+        ))}
+      </AnimatePresence>
+      {allActive.length > 1 && (
         <button
-          key={`${filter.groupId}-${filter.value}`}
-          onClick={() => onRemove(filter.groupId, filter.value)}
-          className="inline-flex items-center gap-1 px-3 py-1 bg-wine/10 text-wine text-sm rounded-full hover:bg-wine/20 transition-colors"
+          onClick={onClearAll}
+          className="text-sm text-grey hover:text-wine font-medium underline underline-offset-2 transition-colors"
         >
-          <span>{filter.label}</span>
-          <CloseIcon className="w-3 h-3" />
+          Wis alles
         </button>
-      ))}
-      <button
-        onClick={onClearAll}
-        className="text-sm text-grey hover:text-charcoal underline"
-      >
-        Wis alles
-      </button>
-    </div>
+      )}
+    </motion.div>
   );
 }

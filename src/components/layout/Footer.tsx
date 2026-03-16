@@ -6,6 +6,7 @@ import { Logo } from "@/components/ui/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button, Input } from "@/components/ui";
+import { ChevronDownIcon } from "@/components/icons";
 import type { SiteSettings } from "@/lib/shopify-cms";
 
 // --- Props ---
@@ -22,7 +23,7 @@ interface FooterProps {
   aboutLinks?: FooterLinkItem[];
 }
 
-// Icons
+// Brand Icons (custom — Lucide doesn't include brand logos)
 function InstagramIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
@@ -43,14 +44,6 @@ function PinterestIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor">
       <path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z" />
-    </svg>
-  );
-}
-
-function ChevronDownIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-      <polyline points="6 9 12 15 18 9" />
     </svg>
   );
 }
@@ -179,7 +172,7 @@ function AccordionSection({ title, children }: AccordionSectionProps) {
         className="flex items-center justify-between w-full py-4 lg:cursor-default lg:pointer-events-none"
         aria-expanded={isOpen}
       >
-        <h3 className="text-[11px] font-semibold text-wine/40 uppercase tracking-[0.2em]">
+        <h3 className="text-label text-wine/40">
           {title}
         </h3>
         <ChevronDownIcon
@@ -254,7 +247,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
           <div className="max-w-2xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-gold/10 rounded-full border border-gold/20 mb-5">
               <div className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-              <span className="text-gold/90 text-[11px] font-semibold tracking-[0.2em] uppercase">Nieuwsbrief</span>
+              <span className="text-label text-gold/90">Nieuwsbrief</span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl text-white mb-3 leading-tight">
               Blijf op de hoogte
@@ -311,9 +304,9 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12 lg:gap-16 mb-16">
             <div className="lg:max-w-md">
               <Link href="/" className="inline-block mb-6 group">
-                <Logo variant="full" color="#1a1f3d" className="h-32 sm:h-36 lg:h-44 w-auto transition-transform duration-500 group-hover:scale-[1.02]" />
+                <Logo variant="full" color="#1a1f3d" className="h-24 sm:h-28 lg:h-32 w-auto transition-transform duration-500 group-hover:scale-[1.02]" />
               </Link>
-              <p className="font-serif text-lg sm:text-xl text-wine/60 leading-relaxed italic">
+              <p className="text-tagline text-lg sm:text-xl text-wine/60 leading-relaxed">
                 &ldquo;Wijn met karakter, speciaal voor jou&rdquo;
               </p>
               <p className="text-wine/35 text-sm leading-relaxed mt-3 max-w-sm">
@@ -399,7 +392,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {/* Payment Methods */}
             <div>
-              <p className="text-[10px] font-semibold text-wine/25 uppercase tracking-[0.2em] mb-3">Betaalmethodes</p>
+              <p className="text-label text-wine/25 mb-3">Betaalmethodes</p>
               <div className="flex flex-wrap items-center gap-2">
                 <IdealIcon />
                 <MastercardIcon />
@@ -411,7 +404,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
 
             {/* Trust Badges */}
             <div>
-              <p className="text-[10px] font-semibold text-wine/25 uppercase tracking-[0.2em] mb-3">Vertrouwd</p>
+              <p className="text-label text-wine/25 mb-3">Vertrouwd</p>
               <div className="flex flex-wrap items-center gap-4">
                 <div className="flex items-center gap-2 text-wine/35">
                   <AgeVerifyIcon />
@@ -426,7 +419,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
 
             {/* Contact info */}
             <div>
-              <p className="text-[10px] font-semibold text-wine/25 uppercase tracking-[0.2em] mb-3">Contact</p>
+              <p className="text-label text-wine/25 mb-3">Contact</p>
               <div className="space-y-1.5 text-sm text-wine/40">
                 <p>{settings?.phone || "040-XXX XXXX"}</p>
                 <p>{settings?.email || "info@vinoperlei.nl"}</p>

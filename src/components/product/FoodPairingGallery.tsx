@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import {
@@ -35,76 +36,138 @@ export function FoodPairingGallery({ product, className }: FoodPairingGalleryPro
   const pairings = getFoodPairingsForWineType(product.wineType);
   const servingTemp = getServingTemperature(product.wineType);
   const decantTime = getDecantTime(product.wineType);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
     <div className={cn("", className)}>
-      <div className="text-center mb-4 sm:mb-8">
-        <h2 className="font-serif text-xl sm:text-2xl lg:text-3xl font-semibold text-charcoal mb-1 sm:mb-2">
+      <div className="text-center mb-6 sm:mb-10">
+        <motion.h2
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="font-serif text-xl sm:text-2xl lg:text-3xl font-semibold text-charcoal mb-1 sm:mb-2"
+        >
           Lekker bij
-        </h2>
-        <p className="text-grey text-sm sm:text-base">
-          Perfecte combinaties
-        </p>
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          className="text-grey text-sm sm:text-base"
+        >
+          Ontdek de perfecte combinaties voor deze wijn
+        </motion.p>
       </div>
 
-      {/* Food Cards Grid - 3 columns on mobile for compact display */}
-      <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-4 mb-6 sm:mb-10">
+      {/* Food Cards Grid - Larger, more visual */}
+      <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-4 mb-8 sm:mb-12">
         {pairings.map((pairing, index) => (
           <motion.div
             key={pairing.name}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ delay: index * 0.08 }}
             className="group"
+            onMouseEnter={() => setHoveredIndex(index)}
+            onMouseLeave={() => setHoveredIndex(null)}
           >
-            <div className="bg-white rounded-lg sm:rounded-xl p-2.5 sm:p-4 text-center shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-default border border-sand/30">
-              <div className="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 sm:mb-3 rounded-full bg-champagne/50 flex items-center justify-center group-hover:bg-wine/10 transition-colors">
-                <pairing.icon className="w-5 h-5 sm:w-6 sm:h-6 text-wine" />
+            <motion.div
+              animate={{
+                y: hoveredIndex === index ? -6 : 0,
+                scale: hoveredIndex === index ? 1.03 : 1,
+              }}
+              transition={{ duration: 0.3 }}
+              className={cn(
+                "bg-white rounded-xl sm:rounded-2xl p-3 sm:p-5 text-center",
+                "shadow-sm border border-sand/30",
+                "transition-shadow duration-300",
+                hoveredIndex === index && "shadow-xl shadow-wine/8 border-wine/15"
+              )}
+            >
+              {/* Icon with background */}
+              <div className={cn(
+                "w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-2.5 sm:mb-3 rounded-full flex items-center justify-center transition-all duration-300",
+                hoveredIndex === index
+                  ? "bg-wine text-white scale-110"
+                  : "bg-champagne/40 text-wine"
+              )}>
+                <pairing.icon className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
-              <h3 className="font-medium text-charcoal text-xs sm:text-sm">
+
+              <h3 className="font-medium text-charcoal text-xs sm:text-sm mb-0.5">
                 {pairing.name}
               </h3>
-              {/* Description hidden on mobile */}
-              <p className="hidden sm:block text-xs text-grey opacity-0 group-hover:opacity-100 transition-opacity mt-1">
+
+              {/* Description - visible on hover/always on desktop */}
+              <motion.p
+                initial={false}
+                animate={{
+                  height: hoveredIndex === index ? "auto" : 0,
+                  opacity: hoveredIndex === index ? 1 : 0,
+                }}
+                className="text-xs text-grey overflow-hidden"
+              >
                 {pairing.description}
-              </p>
-            </div>
+              </motion.p>
+            </motion.div>
           </motion.div>
         ))}
       </div>
 
-      {/* Serving Info - Compact on mobile */}
-      <div className="grid grid-cols-2 gap-2 sm:gap-4">
+      {/* Serving Info - Premium cards */}
+      <div className="grid grid-cols-2 gap-3 sm:gap-5">
         {/* Temperature */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4 }}
-          className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-6 border border-sand/30 flex items-center gap-2 sm:gap-4"
+          transition={{ delay: 0.5 }}
+          className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-sand/30 shadow-sm group hover:shadow-md hover:border-wine/10 transition-all duration-300"
         >
-          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-wine/10 flex items-center justify-center flex-shrink-0">
-            <Thermometer className="w-5 h-5 sm:w-6 sm:h-6 text-wine" />
-          </div>
-          <div className="min-w-0">
-            <h4 className="font-medium text-charcoal text-xs sm:text-base truncate">Temperatuur</h4>
-            <p className="text-lg sm:text-2xl font-semibold text-wine">{servingTemp}</p>
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-wine/10 to-wine/5 flex items-center justify-center flex-shrink-0 group-hover:from-wine/15 group-hover:to-wine/8 transition-colors">
+              <Thermometer className="w-5 h-5 sm:w-6 sm:h-6 text-wine" />
+            </div>
+            <div className="min-w-0">
+              <h4 className="font-medium text-grey text-xs sm:text-sm mb-0.5">Serveertemperatuur</h4>
+              <p className="text-xl sm:text-2xl font-bold text-wine leading-tight">{servingTemp}</p>
+            </div>
           </div>
         </motion.div>
 
         {/* Decant Time */}
-        {decantTime && (
+        {decantTime ? (
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.5 }}
-            className="bg-white rounded-lg sm:rounded-xl p-3 sm:p-6 border border-sand/30 flex items-center gap-2 sm:gap-4"
+            transition={{ delay: 0.6 }}
+            className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-sand/30 shadow-sm group hover:shadow-md hover:border-wine/10 transition-all duration-300"
           >
-            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-wine/10 flex items-center justify-center flex-shrink-0">
-              <Wine className="w-5 h-5 sm:w-6 sm:h-6 text-wine" />
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-wine/10 to-wine/5 flex items-center justify-center flex-shrink-0 group-hover:from-wine/15 group-hover:to-wine/8 transition-colors">
+                <Wine className="w-5 h-5 sm:w-6 sm:h-6 text-wine" strokeWidth={1.5} />
+              </div>
+              <div className="min-w-0">
+                <h4 className="font-medium text-grey text-xs sm:text-sm mb-0.5">Decanteren</h4>
+                <p className="text-base sm:text-lg font-semibold text-charcoal leading-tight">30-60 min</p>
+                <p className="text-xs text-grey mt-0.5 hidden sm:block">Voor het beste resultaat</p>
+              </div>
             </div>
-            <div className="min-w-0">
-              <h4 className="font-medium text-charcoal text-xs sm:text-base truncate">Decanteren</h4>
-              <p className="text-sm sm:text-lg text-charcoal">30-60 min</p>
+          </motion.div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.6 }}
+            className="bg-white rounded-xl sm:rounded-2xl p-4 sm:p-6 border border-sand/30 shadow-sm group hover:shadow-md hover:border-wine/10 transition-all duration-300"
+          >
+            <div className="flex items-center gap-3 sm:gap-4">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-wine/10 to-wine/5 flex items-center justify-center flex-shrink-0 group-hover:from-wine/15 group-hover:to-wine/8 transition-colors">
+                <Wine className="w-5 h-5 sm:w-6 sm:h-6 text-wine" strokeWidth={1.5} />
+              </div>
+              <div className="min-w-0">
+                <h4 className="font-medium text-grey text-xs sm:text-sm mb-0.5">Serveren</h4>
+                <p className="text-base sm:text-lg font-semibold text-charcoal leading-tight">Direct drinkbaar</p>
+                <p className="text-xs text-grey mt-0.5 hidden sm:block">Geen decanteren nodig</p>
+              </div>
             </div>
           </motion.div>
         )}

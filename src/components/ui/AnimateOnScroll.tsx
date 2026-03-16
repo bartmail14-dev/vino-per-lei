@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion, useInView, type Transition, type Variants } from "framer-motion";
 
-type AnimationVariant = "fadeUp" | "fadeIn" | "fadeLeft" | "fadeRight" | "scaleIn";
+type AnimationVariant = "fadeUp" | "fadeIn" | "fadeLeft" | "fadeRight" | "scaleIn" | "zoomIn";
 
 interface AnimateOnScrollProps {
   children: ReactNode;
@@ -15,9 +15,12 @@ interface AnimateOnScrollProps {
   amount?: number;
 }
 
+// Framer Motion expects BezierDefinition = [number, number, number, number]
+const EASE_OUT_QUART: [number, number, number, number] = [0.25, 1, 0.5, 1];
+
 const variants: Record<AnimationVariant, { hidden: Record<string, number>; visible: Record<string, number> }> = {
   fadeUp: {
-    hidden: { opacity: 0, y: 40 },
+    hidden: { opacity: 0, y: 24 },
     visible: { opacity: 1, y: 0 },
   },
   fadeIn: {
@@ -25,15 +28,19 @@ const variants: Record<AnimationVariant, { hidden: Record<string, number>; visib
     visible: { opacity: 1 },
   },
   fadeLeft: {
-    hidden: { opacity: 0, x: -40 },
+    hidden: { opacity: 0, x: -30 },
     visible: { opacity: 1, x: 0 },
   },
   fadeRight: {
-    hidden: { opacity: 0, x: 40 },
+    hidden: { opacity: 0, x: 30 },
     visible: { opacity: 1, x: 0 },
   },
   scaleIn: {
-    hidden: { opacity: 0, scale: 0.92 },
+    hidden: { opacity: 0, scale: 0.95 },
+    visible: { opacity: 1, scale: 1 },
+  },
+  zoomIn: {
+    hidden: { opacity: 0, scale: 0.88 },
     visible: { opacity: 1, scale: 1 },
   },
 };
@@ -57,7 +64,7 @@ export function AnimateOnScroll({
       ref={ref}
       initial={v.hidden}
       animate={isInView ? v.visible : v.hidden}
-      transition={{ duration, delay, ease: [0.25, 0.1, 0.25, 1] }}
+      transition={{ duration, delay, ease: EASE_OUT_QUART }}
       className={className}
     >
       {children}
@@ -68,7 +75,7 @@ export function AnimateOnScroll({
 export function StaggerChildren({
   children,
   className,
-  staggerDelay = 0.1,
+  staggerDelay = 0.08,
   once = true,
   amount = 0.15,
 }: {
@@ -88,7 +95,7 @@ export function StaggerChildren({
       animate={isInView ? "visible" : "hidden"}
       variants={{
         hidden: {},
-        visible: { transition: { staggerChildren: staggerDelay } },
+        visible: { transition: { staggerChildren: staggerDelay, delayChildren: 0.1 } },
       }}
       className={className}
     >
@@ -100,16 +107,30 @@ export function StaggerChildren({
 export function StaggerItem({
   children,
   className,
+  variant = "fadeUp",
 }: {
   children: ReactNode;
   className?: string;
+  variant?: "fadeUp" | "scaleIn" | "fadeIn";
 }) {
+  const itemVariants: Record<string, Variants> = {
+    fadeUp: {
+      hidden: { opacity: 0, y: 20 },
+      visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE_OUT_QUART } },
+    },
+    scaleIn: {
+      hidden: { opacity: 0, scale: 0.95 },
+      visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: EASE_OUT_QUART } },
+    },
+    fadeIn: {
+      hidden: { opacity: 0 },
+      visible: { opacity: 1, transition: { duration: 0.4, ease: EASE_OUT_QUART } },
+    },
+  };
+
   return (
     <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.1, 0.25, 1] } },
-      }}
+      variants={itemVariants[variant]}
       className={className}
     >
       {children}

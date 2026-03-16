@@ -127,7 +127,7 @@ export function DiscountCode({ className }: DiscountCodeProps) {
                     placeholder="Voer code in"
                     className={cn(
                       "w-full h-10 px-3 border rounded text-sm uppercase",
-                      "focus:outline-none focus:ring-2 focus:ring-wine focus:border-transparent",
+                      "focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-transparent",
                       "transition-colors",
                       localError
                         ? "border-error focus:ring-error"

@@ -44,7 +44,8 @@ export function PriceDisplay({
         <span
           className={cn(
             sizes[size].current,
-            "text-charcoal tabular-nums"
+            "tabular-nums",
+            hasSale ? "text-error" : "text-charcoal"
           )}
         >
           {formatPrice(currentPrice)}
@@ -58,6 +59,12 @@ export function PriceDisplay({
             )}
           >
             {formatPrice(originalPrice)}
+          </span>
+        )}
+
+        {hasSale && !showSavings && (
+          <span className="text-xs font-semibold text-error bg-error/10 px-1.5 py-0.5 rounded">
+            -{discount}%
           </span>
         )}
       </div>

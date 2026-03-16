@@ -37,16 +37,17 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
             ref={ref}
             id={selectId}
             className={cn(
-              "flex h-12 w-full appearance-none rounded border bg-white px-4 py-3 pr-10 text-base",
-              "transition-colors duration-150",
-              "focus:outline-none focus:ring-2 focus:ring-wine focus:border-transparent",
+              "flex h-12 w-full appearance-none rounded-lg border bg-white px-4 py-3 pr-10 text-base",
+              "transition-all duration-200 ease-out",
+              "focus:outline-none focus:ring-2 focus:border-transparent",
               "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-sand",
               error
-                ? "border-error focus:ring-error"
-                : "border-sand hover:border-grey",
+                ? "border-error focus:ring-error/50 ring-1 ring-error/20"
+                : "border-sand hover:border-grey focus:ring-gold/50",
               className
             )}
             aria-invalid={error ? "true" : "false"}
+            aria-describedby={error ? `${selectId}-error` : undefined}
             {...props}
           >
             {placeholder && (
@@ -66,6 +67,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"
@@ -77,12 +79,17 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
           </div>
         </div>
         {error && (
-          <p className="mt-1.5 text-sm text-error flex items-center gap-1">
+          <p
+            id={`${selectId}-error`}
+            className="mt-1.5 text-sm text-error flex items-center gap-1.5"
+            role="alert"
+          >
             <svg
-              className="w-4 h-4"
+              className="w-4 h-4 flex-shrink-0"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              aria-hidden="true"
             >
               <path
                 strokeLinecap="round"

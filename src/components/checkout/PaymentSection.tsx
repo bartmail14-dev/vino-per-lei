@@ -6,6 +6,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { createCheckout } from "@/lib/shopify";
 import { paymentSchema, validateSection } from "@/lib/validation";
 import { Checkbox, Button } from "@/components/ui";
+import { Wine } from "lucide-react";
 
 // Payment method selection is handled by Shopify hosted checkout.
 // We only need age verification before redirecting.
@@ -57,7 +58,7 @@ export function PaymentSection() {
       {/* Age verification - REQUIRED */}
       <div className="p-4 bg-wine/5 border border-wine/20 rounded-lg">
         <div className="flex items-start gap-3">
-          <WineIcon className="w-6 h-6 text-wine flex-shrink-0 mt-0.5" />
+          <Wine className="w-6 h-6 text-wine flex-shrink-0 mt-0.5" strokeWidth={1.5} />
           <div className="flex-1">
             <p className="font-medium text-charcoal mb-2">
               Leeftijdsverificatie
@@ -118,18 +119,3 @@ export function PaymentSection() {
   );
 }
 
-// Icons
-
-function WineIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-    >
-      <path d="M8 22h8M12 11v11M12 11a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z" />
-    </svg>
-  );
-}
