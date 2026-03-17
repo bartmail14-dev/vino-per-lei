@@ -3,9 +3,11 @@
 import { useState, useRef, useEffect, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
-import { Clock, ArrowRight, Wine, Mail, BookOpen, Sparkles } from "lucide-react";
+import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
+import { Clock, ArrowRight, Wine, Mail, BookOpen } from "lucide-react";
 import type { BlogArticle } from "@/lib/shopify-cms";
+import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
+import { getTagLabel } from "@/lib/tag-utils";
 
 /* ════════════════════════════════════════════
    Icons — Lucide re-exports with original names
@@ -74,7 +76,7 @@ export function FeaturedHero({ article }: { article: BlogArticle }) {
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, [imageY, overlayOpacity]);
-  const category = article.tags[0] || "Wijn";
+  const category = getTagLabel(article.tags[0] || "Wijn");
   const hasImage = !!article.image;
 
   if (hasImage) {
@@ -271,7 +273,7 @@ export function ArticleCard({
   article: BlogArticle;
   size?: "large" | "default" | "horizontal";
 }) {
-  const category = article.tags[0] || "Wijn";
+  const category = getTagLabel(article.tags[0] || "Wijn");
   const hasImage = !!article.image;
 
   const isLarge = size === "large";
@@ -472,20 +474,8 @@ export function ArticleCard({
    ════════════════════════════════════════════ */
 
 export function InlineNewsletterCTA() {
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.includes("@")) {
-      setStatus("error");
-      return;
-    }
-    // TODO: integrate with actual newsletter service
-    setStatus("success");
-  };
 
   return (
     <motion.div
@@ -537,51 +527,7 @@ export function InlineNewsletterCTA() {
 
           {/* Right: form */}
           <div className="w-full lg:w-auto lg:min-w-[400px]">
-            <AnimatePresence mode="wait">
-              {status === "success" ? (
-                <motion.div
-                  key="success"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-center lg:text-left py-4"
-                >
-                  <div className="flex items-center justify-center lg:justify-start gap-2.5 mb-2">
-                    <Sparkles className="w-4 h-4 text-gold" />
-                    <p className="text-gold font-serif text-lg font-semibold tracking-[-0.01em]">Welkom!</p>
-                  </div>
-                  <p className="text-white/40 text-sm font-light tracking-wide">Je ontvangt binnenkort je eerste wijnverhaal.</p>
-                </motion.div>
-              ) : (
-                <motion.form
-                  key="form"
-                  onSubmit={handleSubmit}
-                  aria-label="Nieuwsbrief aanmelding"
-                  className="flex flex-col sm:flex-row gap-3"
-                >
-                  <label htmlFor="newsletter-email-inline" className="sr-only">E-mailadres</label>
-                  <input
-                    id="newsletter-email-inline"
-                    type="email"
-                    value={email}
-                    onChange={(e) => { setEmail(e.target.value); setStatus("idle"); }}
-                    placeholder="je@email.nl"
-                    autoComplete="email"
-                    className={`flex-1 px-6 py-3.5 rounded-full bg-white/[0.05] border text-white placeholder:text-white/15 text-[16px] sm:text-sm focus:outline-none focus:border-gold/40 focus:ring-2 focus:ring-gold/15 focus:bg-white/[0.07] transition-all duration-300 tracking-wide ${
-                      status === "error" ? "border-red-400/50" : "border-white/[0.06]"
-                    }`}
-                  />
-                  <button
-                    type="submit"
-                    className="px-8 py-3.5 rounded-full bg-gradient-to-r from-gold to-gold-light text-wine-dark font-semibold text-[13px] uppercase tracking-[0.1em] hover:shadow-lg hover:shadow-gold/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
-                  >
-                    Aanmelden
-                  </button>
-                </motion.form>
-              )}
-            </AnimatePresence>
-            {status === "error" && (
-              <p className="text-red-400/70 text-[11px] mt-2.5 pl-6 tracking-wide">Vul een geldig e-mailadres in.</p>
-            )}
+            <NewsletterForm variant="dark" layout="inline" socialProof />
           </div>
         </div>
       </div>

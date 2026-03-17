@@ -16,6 +16,7 @@ import {
   GrapeIcon,
   ArrowIcon,
 } from "./BlogClientComponents";
+import { BlogBottomNewsletter } from "./BlogBottomNewsletter";
 
 export const revalidate = 60;
 
@@ -54,6 +55,14 @@ export default async function BlogPage({ searchParams }: PageProps) {
 
   const featured = filtered[0];
   const rest = filtered.slice(1);
+
+  // Compute tag counts for filter badges
+  const tagCounts: Record<string, number> = {};
+  for (const a of articles) {
+    for (const t of a.tags) {
+      tagCounts[t] = (tagCounts[t] || 0) + 1;
+    }
+  }
 
   return (
     <div className="bg-background min-h-screen">
@@ -129,7 +138,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
                   </p>
                   <div className="h-[1px] flex-1 bg-sand/30" />
                 </div>
-                <BlogCategoryFilter tags={allTags} />
+                <BlogCategoryFilter tags={allTags} tagCounts={tagCounts} totalCount={articles.length} />
               </BlogFadeIn>
             )}
 
@@ -157,48 +166,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
 
       {/* ─── Bottom Newsletter (only if we have articles but no inline one was shown) ─── */}
       {articles.length > 0 && rest.length <= 2 && (
-        <BlogFadeIn>
-          <div className="bg-dark-bg relative overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(201,162,39,0.06),transparent_60%)]" aria-hidden="true" />
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/15 to-transparent" aria-hidden="true" />
-            <div className="absolute bottom-0 right-0 w-40 h-40 opacity-[0.03]" aria-hidden="true">
-              <GrapeIcon className="w-full h-full text-gold" />
-            </div>
-
-            <div className="max-w-2xl mx-auto px-5 sm:px-8 py-16 sm:py-22 text-center relative">
-              <div className="flex items-center justify-center gap-4 mb-7">
-                <div className="h-px w-12 bg-gradient-to-r from-transparent to-gold/20" />
-                <WineGlassIcon className="w-4 h-4 text-gold/25" />
-                <div className="h-px w-12 bg-gradient-to-l from-transparent to-gold/20" />
-              </div>
-
-              <h2 className="font-serif text-2xl sm:text-[1.875rem] font-semibold text-white mb-3.5 leading-[1.1] tracking-[-0.015em]">
-                Mis geen enkel verhaal
-              </h2>
-              <p className="text-white/30 text-[13px] sm:text-sm mb-9 max-w-md mx-auto leading-relaxed font-light tracking-wide">
-                Ontvang onze nieuwste wijnverhalen, tips en exclusieve aanbiedingen rechtstreeks in je inbox.
-              </p>
-
-              <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto" aria-label="Nieuwsbrief aanmelding">
-                <label htmlFor="newsletter-email-bottom" className="sr-only">E-mailadres</label>
-                <input
-                  id="newsletter-email-bottom"
-                  type="email"
-                  placeholder="je@email.nl"
-                  autoComplete="email"
-                  className="flex-1 px-6 py-3.5 rounded-full bg-white/[0.05] border border-white/[0.06] text-white placeholder:text-white/15 text-[16px] sm:text-sm focus:outline-none focus:border-gold/40 focus:ring-2 focus:ring-gold/15 focus:bg-white/[0.07] transition-all duration-300 tracking-wide"
-                />
-                <button type="submit" className="px-8 py-3.5 rounded-full bg-gradient-to-r from-gold to-gold-light text-wine-dark font-semibold text-[13px] uppercase tracking-[0.1em] hover:shadow-lg hover:shadow-gold/25 transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] whitespace-nowrap min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2">
-                  Aanmelden
-                </button>
-              </form>
-
-              <p className="text-white/12 text-[10px] mt-5 tracking-wide">
-                Geen spam. Maximaal 2 mails per maand. Altijd opzegbaar.
-              </p>
-            </div>
-          </div>
-        </BlogFadeIn>
+        <BlogBottomNewsletter />
       )}
 
       {/* ─── Footer nav ─── */}

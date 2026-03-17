@@ -4,12 +4,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { LayoutGrid } from "lucide-react";
+import { getTagLabel } from "@/lib/tag-utils";
 
 interface BlogCategoryFilterProps {
   tags: string[];
+  /** Map of tag → article count for badge display */
+  tagCounts?: Record<string, number>;
+  totalCount?: number;
 }
 
-export function BlogCategoryFilter({ tags }: BlogCategoryFilterProps) {
+export function BlogCategoryFilter({ tags, tagCounts, totalCount }: BlogCategoryFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const activeTag = searchParams.get("tag");
@@ -65,16 +69,17 @@ export function BlogCategoryFilter({ tags }: BlogCategoryFilterProps) {
       >
         {allTags.map((tag) => {
           const isActive = tag === null ? !activeTag : activeTag === tag;
-          const label = tag === null ? "Alle artikelen" : tag;
+          const label = tag === null ? "Alle artikelen" : getTagLabel(tag);
+          const count = tag === null ? totalCount : tagCounts?.[tag];
 
           return (
             <button
-              key={label}
+              key={tag ?? "__all"}
               role="tab"
               aria-selected={isActive}
               aria-label={`Filter: ${label}`}
               onClick={() => handleClick(tag)}
-              className="relative min-h-[44px] px-4 sm:px-5 py-2.5 sm:py-2.5 rounded-full text-sm font-medium whitespace-nowrap capitalize flex-shrink-0 snap-start focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+              className="relative min-h-[44px] px-4 sm:px-5 py-2.5 sm:py-2.5 rounded-full text-sm font-medium whitespace-nowrap flex-shrink-0 snap-start focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
             >
               {/* Active pill background */}
               {isActive && (
@@ -99,6 +104,13 @@ export function BlogCategoryFilter({ tags }: BlogCategoryFilterProps) {
                   <LayoutGrid className="w-3.5 h-3.5" strokeWidth={1.5} aria-hidden="true" />
                 )}
                 {label}
+                {count !== undefined && (
+                  <span className={`text-[10px] font-normal tabular-nums ${
+                    isActive ? "text-white/50" : "text-grey/40"
+                  }`}>
+                    {count}
+                  </span>
+                )}
               </span>
             </button>
           );

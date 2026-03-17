@@ -5,8 +5,8 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { Button, Input } from "@/components/ui";
 import { ChevronDownIcon } from "@/components/icons";
+import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
 import type { SiteSettings } from "@/lib/shopify-cms";
 
 // --- Props ---
@@ -205,24 +205,6 @@ function AccordionSection({ title, children }: AccordionSectionProps) {
 }
 
 export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: FooterProps) {
-  const [email, setEmail] = useState("");
-  const [isSubscribing, setIsSubscribing] = useState(false);
-  const [subscribeSuccess, setSubscribeSuccess] = useState(false);
-
-  // TODO: Koppel aan Klaviyo/Mailchimp + double opt-in
-  const handleSubscribe = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
-
-    setIsSubscribing(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsSubscribing(false);
-    setSubscribeSuccess(true);
-    setEmail("");
-
-    setTimeout(() => setSubscribeSuccess(false), 3000);
-  };
-
   return (
     <footer>
       {/* Newsletter Section — Full bleed wine gradient */}
@@ -255,30 +237,12 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
             <p className="text-white/50 mb-8 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
               Ontvang als eerste nieuwe wijnen, wijnverhalen en exclusieve aanbiedingen direct in je inbox.
             </p>
-            <form
-              onSubmit={handleSubscribe}
-              className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto"
-            >
-              <Input
-                type="email"
-                placeholder="je@email.nl"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-white/[0.07] border-white/15 text-white placeholder:text-white/30 focus:border-gold/50 focus:bg-white/10 sm:flex-1 h-12 rounded-lg"
-                required
-              />
-              <Button
-                type="submit"
-                variant="primary"
-                isLoading={isSubscribing}
-                className="bg-gold hover:bg-gold-light text-wine-dark font-semibold whitespace-nowrap px-8 h-12 rounded-lg shadow-lg shadow-gold/20 hover:shadow-gold/30 transition-all"
-              >
-                {subscribeSuccess ? "Aangemeld!" : "Aanmelden"}
-              </Button>
-            </form>
-            <p className="text-white/25 text-xs mt-4">
-              Geen spam. Maximaal 2x per maand. Altijd uitschrijven mogelijk.
-            </p>
+            <NewsletterForm
+              variant="dark"
+              layout="stacked"
+              socialProof
+              className="max-w-lg mx-auto"
+            />
           </div>
         </div>
       </div>
