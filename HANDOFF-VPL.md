@@ -1,7 +1,7 @@
 # Vino per Lei — Overdracht Volgende Sessie
 
-**Datum:** 16 maart 2026
-**Laatste sessie:** Product card fix + blog redesign via 12 creatieve agents
+**Datum:** 17 maart 2026
+**Laatste sessie:** Grain texture centralisatie + ProductCard premium redesign
 
 ---
 
@@ -21,103 +21,61 @@
 
 ## Huidige Git Staat
 
-### UNCOMMITTED — 71 bestanden gewijzigd + 12 nieuwe bestanden
+### Laatste commits (lokaal, niet gepusht):
 
-Dit bevat TWEE sessies aan werk:
-1. **Vorige sessie**: 12 design agents — volledige site overhaul (icons, typography, design system, content pages)
-2. **Deze sessie**: Product card fix + blog redesign via 12 agents
-
-Laatste commits (gepusht):
 ```
-ee869f4 feat: logo significant groter in Header, Footer en AgeGate
-b9dac5f docs: handoff update
-b6fde4a feat: animated category filter + share buttons upgrade
-3d28949 feat: blog baanbrekend — scroll animations, reading progress, newsletter CTA, editorial details
+1f10d3f feat: premium product cards + grain texture centralisatie
+79f0d4d feat: complete design overhaul — product cards, blog redesign, UI refinements
 ```
 
-**59 modified files, 12 new files, ~4185 insertions, ~3453 deletions**
+**Let op:** commit `79f0d4d` bevat 71+ bestanden van eerdere sessies (12 design agents). Alles is gecommit, niets uncommitted.
 
 ---
 
-## Wat is GEDAAN (deze sessie — 16 maart)
+## Wat is GEDAAN (deze sessie — 17 maart)
 
-### 1. Product Card Fix (ProductCard.tsx)
-- **Probleem**: Flesafbeeldingen werden afgesneden door `overflow-hidden` op image container
-- **Fix**: Container gesplitst in twee lagen:
-  - Binnenste div met `overflow-hidden rounded-t-xl` voor gradient achtergrond + shine sweep
-  - Buitenste div ZONDER overflow zodat flessen vrij uitsteken
-- **Bestand**: `src/components/product/ProductCard.tsx`
+### 1. Grain Texture Centralisatie
+- **Was:** `GRAIN_BG_IMAGE` const in BlogClientComponents.tsx + inline `backgroundImage` url in Footer.tsx
+- **Nu:** `.bg-grain` CSS class in globals.css — alle componenten gebruiken `className="bg-grain"`
+- **Bestanden:** globals.css, BlogClientComponents.tsx (4 plekken), Footer.tsx (1 plek)
 
-### 2. Blog Runtime Bug Fix (BlogClientComponents.tsx)
-- **Probleem**: "Target ref is defined but no element was found" — Framer Motion crash op /blog
-- **Oorzaak**: `FeaturedHero` component had `useScroll({ target: ref })` maar `ref={ref}` ontbrak op de no-image `<article>` branch
-- **Fix**: `ref={ref}` toegevoegd aan beide branches van FeaturedHero
-- **Bestand**: `src/app/blog/BlogClientComponents.tsx` regel 179
+### 2. Build Error Fix — bg-[url()] in Markdown
+- **Root cause:** HANDOFF-VPL.md bevatte letterlijk `bg-[url()]` als tekst. Tailwind v4's content scanner pikte dit op als een Tailwind class en genereerde `background-image: url()` in de compiled CSS. Turbopack probeerde die lege URL te resolven als module → "Can't resolve ''" build crash.
+- **Fix:** Tekst in HANDOFF-VPL.md herschreven zodat er geen Tailwind-class-achtige patterns in staan.
+- **LET OP:** Tailwind v4 scant ALLE bestanden in het project (inclusief .md). Schrijf nooit Tailwind class syntax in markdown bestanden!
 
-### 3. Blog Redesign — 12 Agents
-
-#### Art Director — Homepage Blog (page.tsx)
-- "Il Giornale" editorial masthead met tracking-wide eyebrow
-- "Wijn *Verhalen*" italic serif title accent
-- "No. 01 / 02 / 03" editorial nummering (geen decoratieve SVGs meer)
-- Drie oppervlakken: wine-dark (lead), cream (card 2), wine (card 3)
-- Asymmetrisch grid, thin dividers, refined meta typography
-
-#### UI Designer — Blog Listing (BlogClientComponents.tsx + blog/page.tsx)
-- FeaturedHero: cinematic 3-layer gradient overlays, film grain (data URI via `style=`), gold accent line
-- ArticleCard: 3:2 image ratios, hover slide-in CTA overlay, refined category pills
-- InlineNewsletterCTA: grain texture, vertical gold accent, refined form
-- LoadMoreButton: decorative wine glass divider
-- BlogSkeleton: mirrors actual layout
-- EmptyState: wine-themed, "In vino veritas" tagline
-
-#### UX Designer — Blog Detail (blog/[slug]/ — 5 bestanden)
-- ArticleHero: text-only category, compact meta line, reduced parallax (12%)
-- FloatingShareBar: ghost-style buttons (w-9 h-9), dot separators, no "Delen" label
-- TableOfContents: scroll-aware (appears/hides based on scroll), animated dot progress indicator
-- NewsletterCTA: subtle light bg, natural in reading flow, wine-colored submit
-- Related articles: 3:2 ratio, category as text, subtle hover, simplified author card
-
-#### Graphic Designer — Typography (globals.css)
-- `.prose-wine` verfijnd: line-height 1.85, tighter paragraph spacing (1.6em)
-- Pull quotes: generous vertical padding
-- H4: tighter letter-spacing (0.04em)
-- Ordered list markers: 55% opacity (consistent met unordered)
-
-#### 3x Gestalt Agents — 30+ fixes across all blog files
-- **Hierarchy & Proximity**: heading sizes opgeschaald, CTA's altijd zichtbaar (niet hidden tot hover), metadata grouping
-- **Continuity & Figure-Ground**: reading progress badge sterker, mobile share bar hoger contrast, TOC active states, article grid fade overlay, decoratieve SVG hover verwijderd
-- **Similarity & Common Region**: CTA teksten gestandaardiseerd ("Lees meer"), border-radius consistent (rounded-2xl), badge styling uniform, related articles verbeterd
-
-### 4. Build Fix — GRAIN_TEXTURE
-- UI Designer gebruikte `bg-[url('${GRAIN_TEXTURE}')]` in Tailwind classes — werkt niet (Tailwind kan geen JS template literals parsen)
-- Gefixt naar `style={{ backgroundImage: \`url('${GRAIN_TEXTURE}')\` }}` op 4 plekken
-- `.next` cache moest verwijderd worden om oude Tailwind classes te clearen
+### 3. ProductCard Premium Redesign
+- **Grotere image area** (h-36/h-48 ipv h-28/h-40) — flessen steken eleganter uit
+- **Gold accent lijnen** — subtiele gouden gradient divider boven kaart en tussen image/content
+- **Region als editorial small-caps** — `PUGLIA · 2022` (tracking-[0.15em]) ipv "Puglia Selection | Puglia" + losse vintage
+- **Titel line-clamp-2** — namen als "Amarone della Valpolicella DOCG" worden niet meer afgeknipt
+- **Outline button** — `bg-wine/[0.04] border border-wine/20` → filled bij hover (was: zware navy blok)
+- **Grain texture** op image achtergrond via `bg-grain` class
+- **Wine type pill** toont label op ALLE schermformaten (was: hidden op mobile)
+- **Rounded-2xl** ipv rounded-xl voor meer premium feel
+- **Verfijnde font sizes** — 13px mobile titels, 10px buttons
 
 ---
 
 ## TODO's Volgende Sessie (prioriteit)
 
-### 1. COMMITTEN EN PUSHEN (CRITICAL)
-71 bestanden + 12 nieuwe bestanden staan lokaal. Commit in logische groepen of als één grote commit en push naar master.
+### 1. PUSHEN NAAR GITHUB
+Twee commits staan lokaal. Push naar master: `git push origin master`
 
-### 2. Hydration Warning
-Er is een hydration mismatch warning (niet critical, site werkt). Check console na commit.
+### 2. Blog Hydration Bug (BESTAAND)
+- `/blog` pagina crasht met "Target ref is defined but no element was found"
+- Framer Motion `useScroll({ target: ref })` error — refs zien er correct uit
+- Niet veroorzaakt door deze sessie, was al broken
 
 ### 3. Alle 12 pagina's visueel verifiëren met Playwright
 Screenshot ELKE pagina op 390px (mobile) en 1280px (desktop):
-- `/` (homepage) — WERKT, geverifieerd desktop
-- `/blog` — Bug gefixed, niet visueel gecheckt
-- `/blog/[slug]` — Redesigned, niet gecheckt
-- `/wijnen` — niet gecheckt
+- `/` (homepage) — product cards nu nieuw design, moet gecheckt
+- `/blog` — CRASHT, zie punt 2
+- `/blog/[slug]` — niet gecheckt
+- `/wijnen` — GEVERIFIEERD desktop + mobile, ziet er goed uit
 - `/wijnen/[handle]` — niet gecheckt
-- `/over-ons` — niet gecheckt
-- `/contact` — niet gecheckt
-- `/cadeaus` — niet gecheckt
-- `/klantenservice` — niet gecheckt
-- `/klantenservice/verzending` — niet gecheckt
-- `/klantenservice/retourneren` — niet gecheckt
-- `/klantenservice/faq` — niet gecheckt
+- `/over-ons`, `/contact`, `/cadeaus` — niet gecheckt
+- `/klantenservice/*` — niet gecheckt
 
 ### 4. Blog foto's uploaden
 - Alle 6 artikelen missen featured images → navy gradient fallback
@@ -156,10 +114,11 @@ Vercel CDN → Gebruiker
 
 - **NOOIT `next dev` in foreground draaien** — crasht Claude Code
 - **Shopify tokens** in `.env.local` — NIET committen
-- **Playwright MCP** voor visuele verificatie (Chrome mag niet al open zijn — sluit via PowerShell: `Get-Process chrome | Stop-Process -Force`)
-- **Dev server**: draait mogelijk al op port 3000 — check met `netstat -ano | grep :3000`
-- **Lucide React** is geïnstalleerd — gebruik `import { IconName } from 'lucide-react'` of via `@/components/icons`
+- **Playwright MCP** voor visuele verificatie (Chrome mag niet al open zijn — sluit via: `taskkill /F /IM chrome.exe`)
+- **Dev server**: check welke port — kan 3000 of 3001 zijn als 3000 bezet is
+- **Lucide React** is geïnstalleerd — gebruik `import { IconName } from 'lucide-react'`
 - **`.prose-wine`** class beschikbaar voor article content styling
-- **Typography utilities**: `.text-label`, `.text-button`, `.text-nav`, `.text-tagline` in globals.css
-- **GRAIN_TEXTURE**: verplaatst naar .bg-grain class in globals.css — gebruik className="bg-grain" op overlay divs
+- **`.bg-grain`** class voor grain texture overlay — gebruik op divs, niet inline style
+- **Tailwind v4 LET OP**: Scanner pikt class-achtige patterns op uit ALLE bestanden incl .md — schrijf nooit Tailwind syntax in docs!
 - **Tailwind v4 cache**: bij rare CSS errors, verwijder `.next/` folder en herstart dev server
+- **Node killen**: altijd `taskkill /F /IM node.exe` — NOOIT PowerShell Stop-Process
