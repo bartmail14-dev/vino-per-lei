@@ -46,29 +46,26 @@ export function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("https://api.web3forms.com/submit", {
+      const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          access_key: process.env.NEXT_PUBLIC_WEB3FORMS_KEY,
-          subject: `Vino per Lei — ${formData.onderwerp}`,
-          from_name: formData.naam,
-          name: formData.naam,
+          naam: formData.naam,
           email: formData.email,
           onderwerp: formData.onderwerp,
-          message: formData.bericht,
-          botcheck: honeypot,
+          bericht: formData.bericht,
+          honeypot,
         }),
       });
 
       const data = await response.json();
 
-      if (data.success) {
+      if (response.ok && data.success) {
         setIsSuccess(true);
         setFormData({ naam: "", email: "", onderwerp: "", bericht: "" });
         setTimeout(() => setIsSuccess(false), 5000);
       } else {
-        setErrorMessage("Er ging iets mis. Probeer het later opnieuw.");
+        setErrorMessage(data.error || "Er ging iets mis. Probeer het later opnieuw.");
       }
     } catch {
       setErrorMessage("Er ging iets mis. Controleer je internetverbinding.");

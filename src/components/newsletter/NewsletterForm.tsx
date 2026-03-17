@@ -41,10 +41,24 @@ export function NewsletterForm({
     }
 
     setStatus("submitting");
-    // TODO: integrate with Klaviyo/Mailchimp + double opt-in
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    setStatus("success");
-    setEmail("");
+
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        setStatus("error");
+        return;
+      }
+
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
   };
 
   const isDark = variant === "dark";

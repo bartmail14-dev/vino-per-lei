@@ -105,7 +105,15 @@ function RelatedCard({ article }: { article: BlogArticle }) {
           </div>
         ) : (
           <div className="relative aspect-[3/2] overflow-hidden bg-gradient-to-br from-wine via-wine-dark to-[#0d0f1f]">
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_30%,rgba(201,162,39,0.08),transparent_60%)]" />
+            <div className="absolute inset-0 opacity-[0.04] bg-grain" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_30%,rgba(201,162,39,0.1),transparent_60%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(45,52,84,0.4),transparent_50%)]" />
+            {/* Floating circles — consistent with blog listing cards */}
+            <div className="absolute top-[15%] right-[12%] w-14 h-14 rounded-full border border-gold/[0.06] group-hover:border-gold/[0.12] group-hover:scale-110 transition-all duration-[1.2s]" />
+            <div className="absolute bottom-[20%] left-[15%] w-8 h-8 rounded-full border border-white/[0.04] group-hover:border-white/[0.08] group-hover:scale-125 transition-all duration-[1.5s]" />
+            <div className="absolute top-[40%] right-[30%] w-5 h-5 rounded-full bg-gold/[0.04] group-hover:bg-gold/[0.08] transition-all duration-[1s]" />
+            {/* Gold accent line bottom */}
+            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/15 to-transparent" />
           </div>
         )}
         <div className="p-5 sm:p-6 flex flex-col flex-1">

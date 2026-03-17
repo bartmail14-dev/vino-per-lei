@@ -1,11 +1,11 @@
-# Vino per Lei — Overdracht Volgende Sessie
+# Vino per Lei — Overdracht volgende sessie
 
-**Datum:** 17 maart 2026 (nacht, laat)
-**Laatste sessie:** Blog visuele upgrade — listing + artikelpagina + lightbox + mobiel
+**Datum:** 17 maart 2026
+**Laatste sessie:** Mailgun integratie, rich demo-artikel in Shopify, related articles upgrade, tag-utils
 
 ---
 
-## Project Info
+## Project info
 
 | Veld | Waarde |
 |------|--------|
@@ -19,135 +19,155 @@
 
 ---
 
-## Huidige Git Staat
+## Huidige git staat
 
-**UNCOMMITTED: blog visual upgrade + article page upgrade + HANDOFF. Moet nog gecommit + gepusht.**
+**UNCOMMITTED — moet gecommit + gepusht worden!**
 
 ```
-[uncommitted] feat: blog visual upgrade + article page premium experience
+[uncommitted] feat: mailgun API routes + related articles upgrade + tag-utils uitbreiding
+  - src/app/api/newsletter/route.ts (NIEUW)
+  - src/app/api/contact/route.ts (NIEUW)
+  - src/components/newsletter/NewsletterForm.tsx (→ /api/newsletter ipv fake timeout)
+  - src/app/contact/ContactForm.tsx (→ /api/contact ipv Web3Forms)
+  - src/app/blog/[slug]/page.tsx (RelatedCard no-image → floating circles)
+  - src/lib/tag-utils.ts (7 → 30+ tags)
+  - .env.local + .env.example (Mailgun vars, Web3Forms verwijderd)
+  - scripts/check-articles.mjs + seed-article.mjs (hulpscripts)
+  - HANDOFF-VPL.md
+
+f34ba74 feat: blog visual upgrade + article page premium experience
 d366ddc feat: shared newsletter component + blog tag polish
 4d6f1d6 fix: Tailwind v4 build crash + visual verification all pages
-bfb84d6 docs: overdracht update — hydration fix, grain CSS var, build fixes
-539f181 fix: blog hydration crash + grain texture CSS variable
 ```
 
-**Build:** Clean, `npm run build` slaagt (46 pagina's).
-
-**Eerste actie volgende sessie:** commit + push!
+**Build:** clean, `npm run build` slaagt.
 
 ---
 
-## Wat is GEDAAN (sessie 17 maart — nacht)
+## Eerste acties volgende sessie
 
-### 1. Blog Listing Visuele Upgrade
-
-#### A. Featured Hero Zonder Foto → Animated Abstract Pattern
-- **Bestand:** `src/app/blog/BlogClientComponents.tsx` (FeaturedHero, no-image branch)
-- Statische wine glass SVG vervangen door **animated floating circles** (Framer Motion)
-- 3 grote cirkels met `animate={{ y, x, scale }}` op 8-12s loops — abstract grape/bubble motif
-- 2 pulserende gouden accent dots
-- **Diagonal gold accent line** rechtsboven
-- **Gradient mesh**: meerdere overlappende radial gradients die shiften op hover
-- **Vignette** + entrance animaties (staggered delays)
-- CTA: "Lees het verhaal" + circular gold arrow button
-
-#### B. Article Card Hover States → Premium Interactions
-- **Bestand:** `src/app/blog/BlogClientComponents.tsx` (ArticleCard)
-- Image cards: zoom `scale-[1.08]`, gradient overlay reveal, diepere shadows
-- No-image cards: floating decorative circles, shimmer accent, radial glow shift, watermark opacity transitie, gold bottom accent line
-- Category pill + CTA button animeren op hover
-
-#### C. Bento Grid Variatie
-- **Bestand:** `src/app/blog/BlogClientComponents.tsx` (ArticleGrid)
-- 8e card = large (2-col), 12e card = horizontal (full-width)
-- Werkt met elke hoeveelheid artikelen
-
-### 2. Artikelpagina Premium Experience
-
-#### A. Image Lightbox (NIEUW)
-- **Nieuw bestand:** `src/app/blog/[slug]/ImageLightbox.tsx`
-- Fullscreen image viewer — tap/click om foto's te vergroten
-- Escape of click-buiten om te sluiten
-- Animated entrance/exit (Framer Motion)
-- Zoom-in cursor op afbeeldingen + hover hint icon (vergrootglas)
-- Body scroll lock wanneer open
-- Caption uit alt-text onderaan
-
-#### B. ArticleContentEnhancer Upgrade
-- **Bestand:** `src/app/blog/BlogAnimations.tsx` (ArticleContentEnhancer)
-- **Lead paragraph**: eerste paragraaf automatisch groter (1.2em) + eleganter
-- **Image wrappers**: afbeeldingen worden automatisch gewrapt met:
-  - Rounded container met hover shadow
-  - Zoom-hint icon (vergrootglas) zichtbaar op hover
-  - Click opent ImageLightbox via CustomEvent
-  - Hover scale 1.02 op de afbeelding
-- **Decoratieve h2-dividers**: gold diamond + lijnen automatisch vóór elke h2 (behalve eerste)
-- Scroll-animaties behouden (fade-up tekst, scale images, slide blockquotes)
-
-#### C. No-image ArticleHero Upgrade
-- **Bestand:** `src/app/blog/[slug]/ArticleHero.tsx`
-- Platte gradient → floating circles + gradient mesh + grain + gold accent lines + vignette
-- Consistent met blog listing hero styling
-
-#### D. Mobile Prose Verbeteringen
-- **Bestand:** `src/app/globals.css`
-- Afbeeldingen breken uit content padding op mobiel (full-width feel)
-- Betere font-size (1.0625rem) en line-height (1.8) op mobiel
-- `.article-image-wrapper` hover shadow + mobile breakout
-
-### 3. Eerdere sessie (avond): Newsletter + Tags
-- Gedeeld NewsletterForm component (dark/light varianten)
-- Alle 4 newsletter instances gerefactord
-- Blog tag display names (`tag-utils.ts`)
-- Artikel counts in category filter
-
----
-
-## TODO's Volgende Sessie (prioriteit)
-
-### 1. COMMIT + PUSH (eerste actie!)
+### 1. Commit + push
 ```bash
-cd C:\Users\BartVisser\Desktop\vino-per-lei
-git add -A
-git commit -m "feat: blog visual upgrade + article page premium experience"
+cd /c/Users/BartVisser/Desktop/vino-per-lei
+git add src/app/api/ src/components/newsletter/NewsletterForm.tsx src/app/contact/ContactForm.tsx src/app/blog/\[slug\]/page.tsx src/lib/tag-utils.ts .env.example HANDOFF-VPL.md scripts/
+git commit -m "feat: mailgun integration, related articles upgrade, tag-utils"
 git push origin master
 ```
 
-### 2. Carla: Rijke Blog Content Schrijven in Shopify
-**Dit is de #1 bottleneck.** De hele blog-infrastructuur is nu premium, maar de artikelen bevatten alleen 2 korte paragrafen zonder foto's.
+### 2. Visuele verificatie — ULTRA GRONDIG
 
-**Instructies voor Carla (Shopify Admin → Blog → Wijn Verhalen):**
-- **Featured images**: upload per artikel een hero foto (16:9, min 1200px breed)
-- **Koppen gebruiken**: `Heading 2` voor secties, `Heading 3` voor subsecties
-- **Afbeeldingen in tekst**: voeg foto's toe tussen paragrafen — ze worden automatisch:
-  - Full-bleed op mobiel
-  - Klikbaar voor fullscreen lightbox
-  - Animated scroll reveal
-  - Rounded met hover shadow op desktop
-- **Blockquotes**: gebruik het aanhalingsteken-icoon — wordt premium gestyled met gold accent
-- **Lijsten**: opsommingen krijgen automatisch wine-colored bullets
-- **Lengte**: minimaal 500 woorden voor mooie reading experience + Table of Contents
+Er staat een **rijk demo-artikel** in Shopify: "De ultieme gids voor Barolo: van druif tot glas" (~1000 woorden, 5x h2, 1x h3, 2x blockquote, lijsten, bold/italic, hr). Dit is het eerste artikel met genoeg content om alle premium features te testen.
 
-### 3. Web3Forms API Key
-- web3forms.com → API key maken → email naar Carla
-- `.env.local`: `NEXT_PUBLIC_WEB3FORMS_KEY=...`
-- Ook in Vercel environment variables zetten
+**Check met Playwright MCP (screenshots + snapshots):**
 
-### 4. Shopify / Carla TODO's (extern)
-- **Telefoonnummer** — `040-XXX XXXX` placeholder overal
-- **Shopify Payments** — iDEAL, creditcard activeren
-- **DNS vinoperlei.nl** naar Vercel
-- **Newsletter backend** — Klaviyo/Mailchimp koppelen (NewsletterForm heeft TODO comment)
+#### Blog listing (`/blog`)
+- [ ] Barolo-artikel verschijnt (revalidate=60, kan even duren)
+- [ ] Featured hero toont het nieuwste artikel correct
+- [ ] Bento grid layout klopt (1e card = large 2-col)
+- [ ] Category filter toont "Piemonte", "Wijnkennis", "Regiogids" met juiste counts
+- [ ] No-image cards hebben floating circles + grain (niet platte gradient)
+- [ ] Inline newsletter CTA na 3e artikel
+- [ ] Hover states op alle card-types (zoom, gradient reveal, CTA slide-up)
+- [ ] Mobiel: horizontale scroll related, geen overflow
 
-### 5. Optionele Verbeteringen
-- **Blog listing met foto's testen** — zodra Carla foto's upload, article cards visueel verifiëren
-- **Related articles** zonder foto's: upgrade naar floating circles (nu nog platte gradient)
-- **Table of Contents** verschijnt pas bij 3+ koppen — test met lang artikel
-- **Tag-utils uitbreiden** als Carla nieuwe tags aanmaakt in Shopify
+#### Artikelpagina (`/blog/de-ultieme-gids-voor-barolo-van-druif-tot-glas`)
+- [ ] Lead paragraph (eerste paragraaf groter, 1.2em)
+- [ ] Gold diamond dividers vóór elke h2 (behalve eerste)
+- [ ] Blockquotes: gold border-left, cream bg, slide animatie
+- [ ] Lijsten: wine-colored bullets
+- [ ] Horizontale lijn → gold diamond center divider
+- [ ] Table of contents verschijnt (xl+, 5+ headings → moet werken)
+- [ ] Floating share bar (desktop sidebar, mobile bottom)
+- [ ] Reading progress bar bovenin
+- [ ] Newsletter CTA onderaan artikel
+- [ ] Related articles sectie met floating circles (geen foto's)
+- [ ] No-image article hero: floating circles + grain + gold accents
+- [ ] Scroll-to-top knop
+- [ ] Mobiel: prose font-size, line-height, geen overflow
+
+#### Contact (`/contact`)
+- [ ] Formulier werkt (stuurt naar `/api/contact`)
+- [ ] Foutafhandeling als Mailgun niet geconfigureerd
+- [ ] Honeypot check werkt (hidden field)
+- [ ] Zod validatie foutmeldingen tonen
+
+#### Newsletter (alle 4 plekken)
+- [ ] Footer (dark variant + social proof)
+- [ ] Blog listing bottom
+- [ ] Inline in article grid
+- [ ] Artikelpagina (light variant)
+- [ ] Submit gaat naar `/api/newsletter`
+- [ ] Error state bij ongeldige email
+- [ ] Success animatie (checkmark circle)
 
 ---
 
-## Architectuur Blog
+## Wat er deze sessie gedaan is
+
+### Mailgun integratie
+- `src/app/api/newsletter/route.ts` — voegt subscriber toe aan Mailgun mailing list (EU endpoint)
+- `src/app/api/contact/route.ts` — stuurt contactformulier als email (HTML + plaintext, honeypot, XSS-escaping)
+- `NewsletterForm.tsx` — fake timeout vervangen door echte API call
+- `ContactForm.tsx` — Web3Forms verwijderd, nu via eigen API route
+- Geen tokens meer client-side exposed (was `NEXT_PUBLIC_WEB3FORMS_KEY`)
+
+### Related articles upgrade
+- `[slug]/page.tsx` RelatedCard no-image: floating circles, grain, radial glows, gold accent ipv platte gradient
+
+### Tag-utils uitgebreid
+- 7 → 30+ tags: Italiaanse regio's (Sicilië, Puglia, Campania...), druivenrassen (Nebbiolo, Sangiovese...), wijntypes (rood, wit, rosé, bubbels), extra categorieën
+
+### Rich demo-artikel in Shopify
+- "De ultieme gids voor Barolo: van druif tot glas" aangemaakt via Shopify Admin
+- Tags: piemonte, wijnkennis, regiogids
+- Content: 5x h2, 1x h3, 2x blockquote, meerdere lijsten, bold/italic, hr
+- Visibility: visible, blog: Wijn Verhalen
+
+### Shopify Admin API scope
+- Token `shpat_...` mist `read_content` + `write_content` scopes
+- Seed script (`scripts/seed-article.mjs`) staat klaar maar werkt pas na scope-uitbreiding
+- Fix: Shopify Admin → Settings → Apps → custom app → Configuration → enable read_content + write_content
+
+---
+
+## Wat NIET via Shopify beheersbaar is (hardcoded)
+
+| Pagina | Hardcoded content |
+|--------|-------------------|
+| **Homepage** | Trust stats, testimonials, wijnregio-links |
+| **Over ons** | Values, timeline, filosofie (~80%) |
+| **Klantenservice** | Alles (0% CMS) |
+| **Verzending** | Kosten, stappen, features |
+| **Retourneren** | Stappen, voorwaarden |
+| **Cadeaus** | Pakketten, gelegenheden, stappen |
+| **Header** | Navigatie, regio's, promo |
+| **Footer** | Fallback links, legal tekst |
+
+Wél dynamisch: blog, producten, FAQ, hero, USPs, aankondigingsbalk, contact-gegevens, privacy/voorwaarden.
+
+---
+
+## TODO's (na verificatie)
+
+### Prioriteit
+1. **Mailgun account + domain** — keys invullen in `.env.local` + Vercel env vars
+2. **Featured images** — Carla moet hero-foto's uploaden per artikel (16:9, min 1200px)
+3. **Excerpt toevoegen** aan Barolo-artikel in Shopify Admin (staat nu leeg)
+
+### Shopify / Carla
+- Telefoonnummer (040-XXX XXXX placeholder overal)
+- Shopify Payments activeren (iDEAL, creditcard)
+- DNS vinoperlei.nl naar Vercel
+- Overige artikelen uitbreiden met koppen, blockquotes, meer tekst
+
+### Optioneel
+- Blog listing met foto's visueel verifiëren zodra Carla foto's upload
+- Table of contents testen (moet werken met 5+ headings van Barolo-artikel)
+- Meer hardcoded content naar Shopify metaobjects migreren (klantenservice, verzending etc.)
+
+---
+
+## Architectuur blog
 
 ```
 Shopify Admin (blog "wijn-verhalen")
@@ -166,16 +186,21 @@ Client Components:
     [slug]/FloatingShareBar.tsx — Share sidebar/bottom bar
     [slug]/TableOfContents.tsx — Sticky heading navigator (xl+, 3+ headings)
     [slug]/NewsletterCTA.tsx — Article page newsletter (light variant)
+API Routes:
+    api/newsletter/route.ts — Mailgun mailing list subscribe (EU endpoint)
+    api/contact/route.ts — Mailgun transactional email (honeypot + XSS escaping)
 Shared:
     components/newsletter/NewsletterForm.tsx — gedeeld form (dark/light)
-    lib/tag-utils.ts — tag slug -> display name mapping
+    lib/tag-utils.ts — tag slug → display name mapping (30+ tags)
 ```
 
 ---
 
-## Componentenkaart (snel navigeren)
+## Componentenkaart
 
 ```
+src/app/api/newsletter/route.ts              → Mailgun mailing list subscribe (NIEUW)
+src/app/api/contact/route.ts                 → Mailgun contact email (NIEUW)
 src/components/newsletter/NewsletterForm.tsx  → Gedeeld newsletter form (dark/light/socialProof)
 src/lib/tag-utils.ts                         → Tag display name mapping + getTagLabel()
 src/app/blog/page.tsx                        → Blog listing layout, tagCounts berekening
@@ -183,43 +208,25 @@ src/app/blog/BlogClientComponents.tsx        → FeaturedHero, ArticleCard, Arti
 src/app/blog/BlogCategoryFilter.tsx          → Category pills met counts
 src/app/blog/BlogBottomNewsletter.tsx        → Bottom newsletter client wrapper
 src/app/blog/BlogAnimations.tsx              → 17+ animatie-componenten + ArticleContentEnhancer
-src/app/blog/[slug]/page.tsx                 → Article page layout
+src/app/blog/[slug]/page.tsx                 → Article page layout + RelatedCard
 src/app/blog/[slug]/ArticleHero.tsx          → Article header (parallax + floating circles fallback)
-src/app/blog/[slug]/ImageLightbox.tsx        → Fullscreen image lightbox (NEW)
+src/app/blog/[slug]/ImageLightbox.tsx        → Fullscreen image lightbox
 src/app/blog/[slug]/FloatingShareBar.tsx     → Share sidebar (desktop) / bottom bar (mobile)
 src/app/blog/[slug]/TableOfContents.tsx      → Sticky heading navigator (xl+)
 src/app/blog/[slug]/NewsletterCTA.tsx        → Article newsletter (light variant)
+src/app/contact/ContactForm.tsx              → Contact form (Mailgun, was Web3Forms)
 src/components/layout/Footer.tsx             → Footer met newsletter (dark variant)
 src/app/globals.css                          → Design tokens, prose-wine, animations, .bg-grain
+scripts/seed-article.mjs                     → Shopify blog seed script (needs scope fix)
+scripts/check-articles.mjs                   → Fetch + inspect bestaande artikelen
 ```
 
 ---
 
-## Hoe Shopify Blog Content Premium Rendert
+## Playwright MCP — visuele verificatie
 
-Carla's content in Shopify wordt automatisch verrijkt:
-
-| Shopify Element | Wat er gebeurt |
-|----------------|----------------|
-| **Paragraaf** | Scroll fade-up animatie, eerste paragraaf = lead (groter) |
-| **Heading 2** | Gold diamond divider erboven, serif font, wine-kleur |
-| **Heading 3** | Subtiel, serif, wine-kleur |
-| **Afbeelding** | Wrapped in container, zoom-hint icon, klik = fullscreen lightbox, full-bleed op mobiel |
-| **Blockquote** | Gold border-left, cream achtergrond, slide-from-left animatie |
-| **Lijst** | Wine-colored bullets/numbers |
-| **Link** | Gold underline, wine op hover |
-| **Horizontale lijn** | Gold diamond center divider |
-| **Code** | Champagne achtergrond |
-| **Tabel** | Gold header accent, zebra striping |
-
----
-
-## Playwright MCP — Visuele Verificatie
-
-**De Playwright MCP is beschikbaar en heeft al een Chrome venster open.**
-
-Gebruik dit voor visuele verificatie:
-1. `browser_navigate` naar de pagina die je wilt checken
+Gebruik dit voor de grondige check:
+1. `browser_navigate` naar de pagina
 2. `browser_snapshot` voor accessibility tree (content check)
 3. `browser_take_screenshot` voor visuele check (fullPage: true)
 4. Na code changes: `npm run build` → server herstarten → screenshot vergelijken
@@ -236,16 +243,18 @@ powershell.exe -Command "Get-NetTCPConnection -LocalPort 3000 -ErrorAction Silen
 
 ---
 
-## Claude Code Notities
+## Claude Code notities
 
 - **NOOIT `next dev` in foreground draaien** — crasht Claude Code
 - **Production test:** altijd `npm run build` eerst, dan `npx next start`
 - **Shopify tokens** in `.env.local` — NIET committen
 - **Lucide React** beschikbaar — `import { IconName } from 'lucide-react'`
 - **`.bg-grain`** class voor grain texture overlay
-- **Tailwind v4 LET OP**: Scanner pikt class-achtige patterns op uit ALLE bestanden incl .md
+- **Tailwind v4 LET OP**: scanner pikt class-achtige patterns op uit ALLE bestanden incl .md
 - **Tailwind v4 cache**: bij rare CSS errors, verwijder `.next/` en herstart
 - **Framer Motion + React 19:** `useScroll({ target })` crasht tijdens hydration — gebruik handmatige scroll listeners
-- **`getTagLabel()`** in `src/lib/tag-utils.ts` — gebruik voor alle tag displays, voeg nieuwe mappings toe als Carla nieuwe tags maakt
-- **ImageLightbox** werkt via `CustomEvent("open-lightbox")` — ArticleContentEnhancer dispatcht dit bij image click
-- **ArticleContentEnhancer** is DOM-based (niet React) omdat het `dangerouslySetInnerHTML` content post-processed
+- **`getTagLabel()`** in `src/lib/tag-utils.ts` — gebruik voor alle tag displays
+- **ImageLightbox** werkt via `CustomEvent("open-lightbox")`
+- **ArticleContentEnhancer** is DOM-based (niet React) — post-processed `dangerouslySetInnerHTML` content
+- **Mailgun EU endpoint**: `api.eu.mailgun.net` (niet api.mailgun.net)
+- **Geen title case** — gewoon normaal Nederlands schrijven
