@@ -35,8 +35,6 @@ export function GrapeIcon({ className }: { className?: string }) {
   );
 }
 
-/* Grain texture data URI — reused across components */
-const GRAIN_TEXTURE = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWx0ZXI9InVybCgjYSkiIG9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==";
 
 /* ════════════════════════════════════════════
    Format date helper
@@ -93,7 +91,7 @@ export function FeaturedHero({ article }: { article: BlogArticle }) {
           <div className="absolute inset-0 bg-gradient-to-b from-[#0a0c1a]/20 via-transparent to-transparent" />
 
           {/* Film grain overlay */}
-          <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url('${GRAIN_TEXTURE}')` }} />
+          <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none bg-grain" />
 
           {/* Subtle vignette */}
           <div className="absolute inset-0 shadow-[inset_0_0_150px_60px_rgba(0,0,0,0.2)]" />
@@ -187,7 +185,7 @@ export function FeaturedHero({ article }: { article: BlogArticle }) {
     <Link href={`/blog/${article.handle}`} className="group block">
       <article ref={ref} className="bg-gradient-to-br from-wine via-wine-dark to-[#0d0f1f] rounded-2xl sm:rounded-3xl overflow-hidden relative min-h-[360px] sm:min-h-[420px] flex items-end">
         {/* Grain texture */}
-        <div className="absolute inset-0 opacity-[0.04]" style={{ backgroundImage: `url('${GRAIN_TEXTURE}')` }} />
+        <div className="absolute inset-0 opacity-[0.04] bg-grain" />
         {/* Ambient glow */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,rgba(201,162,39,0.08),transparent_60%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_0%_80%,rgba(201,162,39,0.04),transparent_40%)]" />
@@ -357,7 +355,7 @@ export function ArticleCard({
             }`}
           >
             {/* Grain texture overlay */}
-            <div className="absolute inset-0 opacity-[0.06]" style={{ backgroundImage: `url('${GRAIN_TEXTURE}')` }} />
+            <div className="absolute inset-0 opacity-[0.06] bg-grain" />
             {/* Radial glow */}
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_30%,rgba(201,162,39,0.1),transparent_60%)]" />
             {/* Wine glass silhouette */}
@@ -485,7 +483,7 @@ export function InlineNewsletterCTA() {
     >
       <div className="relative rounded-2xl sm:rounded-3xl overflow-hidden bg-gradient-to-br from-[#0d0f1f] via-wine-dark to-wine">
         {/* Grain texture — prominent for tactile feel */}
-        <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay" style={{ backgroundImage: `url('${GRAIN_TEXTURE}')` }} />
+        <div className="absolute inset-0 opacity-[0.05] mix-blend-overlay bg-grain" />
 
         {/* Ambient glow effects */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(201,162,39,0.1),transparent_50%)]" />

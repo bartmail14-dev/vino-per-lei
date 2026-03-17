@@ -73,19 +73,18 @@ export function ProductCard({
       : product.wineType === "white"
         ? "Wit"
         : product.wineType === "rose"
-          ? "Rose"
+          ? "Rosé"
           : "Bubbels";
 
   return (
     <motion.article
       className={cn(
-        "group relative bg-white rounded-xl",
-        "border border-sand/40",
-        "shadow-sm",
+        "group relative bg-white rounded-2xl",
+        "border border-sand/50",
         "transition-all duration-500 ease-out",
-        "hover:shadow-[0_20px_50px_-12px_rgba(26,31,61,0.15)]",
-        "hover:-translate-y-1.5",
-        "overflow-visible pt-4 sm:pt-6 mt-14 sm:mt-24",
+        "hover:shadow-[0_24px_48px_-12px_rgba(26,31,61,0.12)]",
+        "hover:-translate-y-2",
+        "overflow-visible mt-16 sm:mt-28",
         className
       )}
       onMouseEnter={() => setIsHovering(true)}
@@ -94,27 +93,23 @@ export function ProductCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
-      {/* Subtle border glow on hover */}
-      <motion.div
-        className="absolute -inset-px rounded-xl border-2 border-wine/0 pointer-events-none"
-        animate={{ borderColor: isHovering ? "rgba(26,31,61,0.12)" : "rgba(26,31,61,0)" }}
-        transition={{ duration: 0.3 }}
-      />
+      {/* Gold accent line — top edge */}
+      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
 
       {/* Wishlist Button */}
       <motion.button
         onClick={handleToggleWishlist}
         className={cn(
-          "absolute top-1.5 right-1.5 sm:top-2 sm:right-2 z-20 p-1.5 sm:p-2 rounded-full transition-all duration-200",
-          "bg-white/90 backdrop-blur-sm shadow-sm",
+          "absolute top-2 right-2 sm:top-3 sm:right-3 z-20 p-2 rounded-full transition-all duration-200",
+          "bg-white/90 backdrop-blur-sm",
           "hover:bg-white hover:shadow-md",
-          isInWishlist && "text-wine"
+          isInWishlist ? "text-wine shadow-sm" : "text-grey/40 hover:text-wine"
         )}
         whileHover={{ scale: 1.15 }}
         whileTap={{ scale: 0.9 }}
         aria-label={isInWishlist ? "Verwijder uit verlanglijst" : "Toevoegen aan verlanglijst"}
       >
-        <HeartIcon className="w-4 h-4 sm:w-5 sm:h-5" filled={isInWishlist} />
+        <HeartIcon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" filled={isInWishlist} />
       </motion.button>
 
       {/* Quick View Button - appears on hover */}
@@ -128,14 +123,14 @@ export function ProductCard({
               exit={{ opacity: 0, y: 4, scale: 0.95 }}
               transition={{ duration: 0.2 }}
               className={cn(
-                "absolute top-2 left-2 z-20 px-3 py-1.5 rounded-full text-xs font-medium",
-                "bg-white/95 backdrop-blur-sm shadow-md",
+                "absolute top-2 left-2 z-20 px-3 py-1.5 rounded-full text-[11px] font-medium tracking-wide",
+                "bg-white/95 backdrop-blur-sm shadow-md text-charcoal",
                 "hover:bg-white hover:shadow-lg"
               )}
             >
               <span className="flex items-center gap-1.5">
                 <EyeIcon className="w-3.5 h-3.5" />
-                Quick View
+                Bekijk
               </span>
             </motion.button>
           )}
@@ -147,13 +142,14 @@ export function ProductCard({
         className="block"
         aria-label={`Bekijk ${product.title}`}
       >
-        {/* Image Container — outer has NO overflow clip so bottles extend freely */}
-        <div className="relative h-28 sm:h-40 mx-2 -mt-8 sm:-mt-14">
-          {/* Clipped background + shine (respects rounded corners) */}
-          <div className="absolute inset-0 bg-gradient-to-b from-wine/8 via-champagne/40 to-cream rounded-t-xl overflow-hidden">
+        {/* Image Container */}
+        <div className="relative h-36 sm:h-48 mx-3 sm:mx-4 -mt-12 sm:-mt-20">
+          {/* Background with grain */}
+          <div className="absolute inset-0 bg-gradient-to-b from-champagne/60 via-cream to-white rounded-xl overflow-hidden">
+            <div className="absolute inset-0 bg-grain opacity-[0.03]" />
             {/* Shine sweep on hover */}
             <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 pointer-events-none z-[5]"
+              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12 pointer-events-none z-[5]"
               initial={{ x: "-200%" }}
               animate={{ x: isHovering ? "200%" : "-200%" }}
               transition={{ duration: 0.7, ease: "easeInOut" }}
@@ -174,38 +170,38 @@ export function ProductCard({
             )}
           </div>
 
-          {/* Wine Type Dot */}
+          {/* Wine Type Pill */}
           <div className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 z-10">
             <div className={cn(
-              "flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/80 backdrop-blur-sm",
-              "text-[10px] sm:text-[11px] font-semibold text-charcoal"
+              "flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-sm",
+              "text-[10px] sm:text-[11px] font-medium text-charcoal/70 tracking-wide"
             )}>
               <div className={cn(
-                "w-2 h-2 rounded-full",
+                "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
                 product.wineType === "red" && "bg-wine",
                 product.wineType === "white" && "bg-gold",
                 product.wineType === "rose" && "bg-coral",
                 product.wineType === "sparkling" && "bg-champagne border border-gold"
               )} />
-              <span className="hidden sm:inline">{wineTypeLabel}</span>
+              <span>{wineTypeLabel}</span>
             </div>
           </div>
 
-          {/* Product Image — extends above the card, NOT clipped */}
-          <div className="absolute inset-0 -top-10 sm:-top-18 flex items-center justify-center">
+          {/* Product Image */}
+          <div className="absolute inset-0 -top-8 sm:-top-16 flex items-center justify-center">
             {product.images[0] ? (
-              <div className="relative w-24 sm:w-40 h-44 sm:h-72">
+              <div className="relative w-20 sm:w-36 h-40 sm:h-72">
                 {!imageLoaded && (
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-12 h-32 sm:w-16 sm:h-48 rounded-lg bg-gradient-to-b from-sand/40 to-sand/20 animate-pulse" />
+                    <div className="w-10 h-28 sm:w-14 sm:h-44 rounded-lg bg-gradient-to-b from-sand/30 to-sand/10 animate-pulse" />
                   </div>
                 )}
                 <motion.div
                   className="relative w-full h-full"
                   animate={{
-                    y: isHovering ? -8 : 0,
-                    scale: isHovering ? 1.08 : 1,
-                    rotate: isHovering ? 1 : 0,
+                    y: isHovering ? -6 : 0,
+                    scale: isHovering ? 1.06 : 1,
+                    rotate: isHovering ? 0.8 : 0,
                   }}
                   transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
@@ -213,7 +209,7 @@ export function ProductCard({
                     src={wineImagePresets.card(product.images[0].url)}
                     alt={product.images[0].altText || product.title}
                     fill
-                    sizes="(max-width: 640px) 112px, 192px"
+                    sizes="(max-width: 640px) 96px, 176px"
                     priority={priority}
                     onLoad={handleImageLoad}
                     className={cn(
@@ -226,40 +222,36 @@ export function ProductCard({
               </div>
             ) : (
               <div className="flex items-center justify-center text-grey h-full">
-                <WineBottleIcon className="w-24 h-24 opacity-30" />
+                <WineBottleIcon className="w-20 h-20 opacity-20" />
               </div>
             )}
           </div>
         </div>
 
-        {/* Content */}
-        <div className="p-2.5 sm:p-4">
-          {/* Collection / Region line */}
-          <div className="flex items-center gap-1.5 mb-0.5 sm:mb-1">
-            {product.collection && (
-              <p className="text-[10px] sm:text-label text-wine/70">{product.collection}</p>
-            )}
-            {product.collection && product.region && (
-              <span className="text-sand text-[10px]">|</span>
-            )}
-            <p className="text-[10px] sm:text-label text-grey/70 truncate">
-              {product.region}
-            </p>
-          </div>
+        {/* Gold divider */}
+        <div className="mx-4 sm:mx-5 mt-2 sm:mt-3 mb-2 sm:mb-3">
+          <div className="h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
+        </div>
 
-          <h3 className="font-serif text-sm sm:text-base font-semibold text-charcoal mb-0.5 line-clamp-1 group-hover:text-wine transition-colors duration-300">
+        {/* Content */}
+        <div className="px-3 sm:px-5 pb-1">
+          {/* Region line — editorial small-caps */}
+          <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-grey/60 font-medium mb-1 sm:mb-1.5 truncate">
+            {product.region}
+            {product.vintage && product.vintage !== "NV" && (
+              <span className="text-gold/50 ml-1.5">
+                &middot; {product.vintage}
+              </span>
+            )}
+          </p>
+
+          <h3 className="font-serif text-[13px] sm:text-base font-semibold text-charcoal leading-snug line-clamp-2 group-hover:text-wine transition-colors duration-300 mb-1.5 sm:mb-2">
             {product.title}
           </h3>
 
-          {product.vintage && (
-            <p className="text-xs sm:text-sm text-charcoal/60 mb-1 sm:mb-1.5">
-              {product.vintage === "NV" ? "Non-Vintage" : product.vintage}
-            </p>
-          )}
-
           {/* Rating */}
           {product.rating && (
-            <div className="mb-1.5 sm:mb-2.5">
+            <div className="mb-2 sm:mb-2.5">
               <Rating
                 rating={product.rating}
                 reviewCount={product.reviewCount}
@@ -268,8 +260,8 @@ export function ProductCard({
             </div>
           )}
 
-          {/* Price with sale highlight */}
-          <div className="mb-2 sm:mb-3">
+          {/* Price */}
+          <div className="mb-2.5 sm:mb-3">
             <PriceDisplay
               currentPrice={product.price}
               originalPrice={product.originalPrice}
@@ -279,34 +271,23 @@ export function ProductCard({
       </Link>
 
       {/* Add to Cart Button */}
-      <div className="px-2.5 pb-2.5 sm:px-4 sm:pb-4 relative z-30">
+      <div className="px-3 pb-3 sm:px-5 sm:pb-4 relative z-30">
         {product.inStock ? (
           <motion.button
             onClick={handleAddToCart}
             disabled={isAdding}
             className={cn(
-              "relative w-full h-10 sm:h-12 rounded-lg text-button uppercase cursor-pointer",
-              "overflow-hidden transition-colors duration-300",
+              "relative w-full h-9 sm:h-11 rounded-lg text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] cursor-pointer",
+              "overflow-hidden transition-all duration-300",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2",
               "disabled:pointer-events-none disabled:opacity-50",
               justAdded
-                ? "bg-success text-white"
-                : "bg-wine text-white hover:bg-wine-dark"
+                ? "bg-success text-white border border-success"
+                : "bg-wine/[0.04] text-wine border border-wine/20 hover:bg-wine hover:text-white hover:border-wine"
             )}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
-            {/* Animated background shine */}
-            {!justAdded && (
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"
-                initial={{ x: "-100%" }}
-                animate={{ x: isHovering ? "100%" : "-100%" }}
-                transition={{ duration: 0.6, ease: "easeInOut" }}
-              />
-            )}
-
-            {/* Button content */}
             <AnimatePresence mode="wait">
               {isAdding ? (
                 <motion.span
@@ -326,8 +307,8 @@ export function ProductCard({
                   exit={{ opacity: 0, scale: 0.8 }}
                   className="relative z-10 flex items-center justify-center"
                 >
-                  <CheckIcon className="w-4 h-4 mr-2" />
-                  Toegevoegd!
+                  <CheckIcon className="w-3.5 h-3.5 mr-1.5" />
+                  Toegevoegd
                 </motion.span>
               ) : (
                 <motion.span
@@ -337,21 +318,14 @@ export function ProductCard({
                   exit={{ opacity: 0 }}
                   className="relative z-10 flex items-center justify-center"
                 >
-                  <motion.span
-                    className="inline-block mr-1.5 text-base"
-                    animate={{ rotate: isHovering ? 90 : 0 }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                  >
-                    +
-                  </motion.span>
-                  Winkelmand
+                  + Winkelmand
                 </motion.span>
               )}
             </AnimatePresence>
           </motion.button>
         ) : (
-          <button className="w-full h-10 sm:h-12 rounded-lg text-button uppercase border-2 border-wine/30 text-wine bg-transparent hover:bg-wine hover:text-white hover:border-wine transition-all duration-300">
-            Mail mij bij voorraad
+          <button className="w-full h-9 sm:h-11 rounded-lg text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] border border-wine/20 text-wine/60 bg-transparent hover:bg-wine hover:text-white hover:border-wine transition-all duration-300">
+            Mail bij voorraad
           </button>
         )}
       </div>

@@ -622,6 +622,9 @@ textarea:focus-visible,
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
+/* Grain texture overlay — use on ::before / overlay divs */
+/* .bg-grain temporarily disabled for build test */
+
 /* ============================================
    Premium Wine Editorial Typography — .prose-wine
    Inspired by Decanter, The Wine Advocate, Monocle

@@ -161,5 +161,5 @@ Vercel CDN → Gebruiker
 - **Lucide React** is geïnstalleerd — gebruik `import { IconName } from 'lucide-react'` of via `@/components/icons`
 - **`.prose-wine`** class beschikbaar voor article content styling
 - **Typography utilities**: `.text-label`, `.text-button`, `.text-nav`, `.text-tagline` in globals.css
-- **GRAIN_TEXTURE**: data URI in BlogClientComponents.tsx — gebruik `style={{ backgroundImage }}` NIET `bg-[url()]` met template literals
+- **GRAIN_TEXTURE**: verplaatst naar .bg-grain class in globals.css — gebruik className="bg-grain" op overlay divs
 - **Tailwind v4 cache**: bij rare CSS errors, verwijder `.next/` folder en herstart dev server
