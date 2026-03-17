@@ -68,7 +68,33 @@ export function ArticleHero({
         </motion.div>
       ) : (
         <div className="absolute inset-0 bg-gradient-to-br from-wine via-wine-dark to-[#0d0f1f]">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(201,162,39,0.06),transparent_60%)]" />
+          {/* Animated gradient mesh */}
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(201,162,39,0.1),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_20%,rgba(201,162,39,0.06),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_80%,rgba(45,52,84,0.5),transparent_50%)]" />
+          {/* Grain */}
+          <div className="absolute inset-0 opacity-[0.04] bg-grain" />
+          {/* Floating decorative circles */}
+          <motion.div
+            animate={{ y: [0, -12, 0], x: [0, 6, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[20%] right-[15%] w-28 h-28 sm:w-40 sm:h-40 rounded-full border border-gold/[0.06]"
+          />
+          <motion.div
+            animate={{ y: [0, 10, 0], x: [0, -5, 0] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="absolute top-[40%] right-[30%] w-16 h-16 sm:w-24 sm:h-24 rounded-full border border-white/[0.04]"
+          />
+          <motion.div
+            animate={{ opacity: [0.3, 0.7, 0.3] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[25%] right-[22%] w-2 h-2 rounded-full bg-gold/20"
+          />
+          {/* Gold accent lines */}
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+          <div className="absolute top-0 left-0 w-[1px] h-1/4 bg-gradient-to-b from-gold/20 to-transparent" />
+          {/* Vignette */}
+          <div className="absolute inset-0 shadow-[inset_0_0_120px_40px_rgba(0,0,0,0.15)]" />
         </div>
       )}
 

@@ -1,7 +1,7 @@
 # Vino per Lei — Overdracht Volgende Sessie
 
-**Datum:** 17 maart 2026
-**Laatste sessie:** Build fix + Playwright visuele verificatie alle pagina's
+**Datum:** 17 maart 2026 (nacht, laat)
+**Laatste sessie:** Blog visuele upgrade — listing + artikelpagina + lightbox + mobiel
 
 ---
 
@@ -21,149 +21,217 @@
 
 ## Huidige Git Staat
 
-**Laatste commit gepusht. 1 uncommitted change: deze HANDOFF update.**
+**UNCOMMITTED: blog visual upgrade + article page upgrade + HANDOFF. Moet nog gecommit + gepusht.**
 
 ```
+[uncommitted] feat: blog visual upgrade + article page premium experience
+d366ddc feat: shared newsletter component + blog tag polish
+4d6f1d6 fix: Tailwind v4 build crash + visual verification all pages
 bfb84d6 docs: overdracht update — hydration fix, grain CSS var, build fixes
 539f181 fix: blog hydration crash + grain texture CSS variable
-25ec1f3 docs: overdracht update — grain fix, product card redesign, build fix
-1f10d3f feat: premium product cards + grain texture centralisatie
 ```
 
 **Build:** Clean, `npm run build` slaagt (46 pagina's).
 
+**Eerste actie volgende sessie:** commit + push!
+
 ---
 
-## Wat is GEDAAN (sessie 17 maart — middag)
+## Wat is GEDAAN (sessie 17 maart — nacht)
 
-### 1. Build Fix — Tailwind v4 HANDOFF Scanning
-- **Was:** Build crashte met `Can't resolve '...'` — Turbopack error op globals.css
-- **Root cause:** De HANDOFF-VPL.md zelf bevatte het Tailwind-patroon dat de scanner oppakte en als CSS class genereerde, wat resulteerde in een letterlijke `url(...)` in de compiled CSS
-- **Fix:** Voorbeeld-patroon verwijderd uit de waarschuwingstekst in HANDOFF
+### 1. Blog Listing Visuele Upgrade
 
-### 2. Playwright Visuele Verificatie — ALLE pagina's OK
+#### A. Featured Hero Zonder Foto → Animated Abstract Pattern
+- **Bestand:** `src/app/blog/BlogClientComponents.tsx` (FeaturedHero, no-image branch)
+- Statische wine glass SVG vervangen door **animated floating circles** (Framer Motion)
+- 3 grote cirkels met `animate={{ y, x, scale }}` op 8-12s loops — abstract grape/bubble motif
+- 2 pulserende gouden accent dots
+- **Diagonal gold accent line** rechtsboven
+- **Gradient mesh**: meerdere overlappende radial gradients die shiften op hover
+- **Vignette** + entrance animaties (staggered delays)
+- CTA: "Lees het verhaal" + circular gold arrow button
 
-| Pagina | Desktop (1280px) | Mobile (390px) | Issues |
-|--------|:-:|:-:|--------|
-| `/` (homepage) | OK | OK | Counters "0+" (animate on scroll, niet in static) |
-| `/blog` | OK | OK | Geen |
-| `/blog/[slug]` | OK | OK | **Geen hydration crash** — ArticleHero werkt |
-| `/wijnen` | OK | — | Al eerder geverifieerd |
-| `/wijnen/[handle]` | OK | OK | Geen |
-| `/over-ons` | OK | OK | Geen |
-| `/contact` | OK | OK | Geen |
-| `/cadeaus` | OK | OK | Geen |
-| `/klantenservice/faq` | OK | OK | Geen |
+#### B. Article Card Hover States → Premium Interactions
+- **Bestand:** `src/app/blog/BlogClientComponents.tsx` (ArticleCard)
+- Image cards: zoom `scale-[1.08]`, gradient overlay reveal, diepere shadows
+- No-image cards: floating decorative circles, shimmer accent, radial glow shift, watermark opacity transitie, gold bottom accent line
+- Category pill + CTA button animeren op hover
 
-**0 console errors, 0 hydration crashes** in production mode.
+#### C. Bento Grid Variatie
+- **Bestand:** `src/app/blog/BlogClientComponents.tsx` (ArticleGrid)
+- 8e card = large (2-col), 12e card = horizontal (full-width)
+- Werkt met elke hoeveelheid artikelen
+
+### 2. Artikelpagina Premium Experience
+
+#### A. Image Lightbox (NIEUW)
+- **Nieuw bestand:** `src/app/blog/[slug]/ImageLightbox.tsx`
+- Fullscreen image viewer — tap/click om foto's te vergroten
+- Escape of click-buiten om te sluiten
+- Animated entrance/exit (Framer Motion)
+- Zoom-in cursor op afbeeldingen + hover hint icon (vergrootglas)
+- Body scroll lock wanneer open
+- Caption uit alt-text onderaan
+
+#### B. ArticleContentEnhancer Upgrade
+- **Bestand:** `src/app/blog/BlogAnimations.tsx` (ArticleContentEnhancer)
+- **Lead paragraph**: eerste paragraaf automatisch groter (1.2em) + eleganter
+- **Image wrappers**: afbeeldingen worden automatisch gewrapt met:
+  - Rounded container met hover shadow
+  - Zoom-hint icon (vergrootglas) zichtbaar op hover
+  - Click opent ImageLightbox via CustomEvent
+  - Hover scale 1.02 op de afbeelding
+- **Decoratieve h2-dividers**: gold diamond + lijnen automatisch vóór elke h2 (behalve eerste)
+- Scroll-animaties behouden (fade-up tekst, scale images, slide blockquotes)
+
+#### C. No-image ArticleHero Upgrade
+- **Bestand:** `src/app/blog/[slug]/ArticleHero.tsx`
+- Platte gradient → floating circles + gradient mesh + grain + gold accent lines + vignette
+- Consistent met blog listing hero styling
+
+#### D. Mobile Prose Verbeteringen
+- **Bestand:** `src/app/globals.css`
+- Afbeeldingen breken uit content padding op mobiel (full-width feel)
+- Betere font-size (1.0625rem) en line-height (1.8) op mobiel
+- `.article-image-wrapper` hover shadow + mobile breakout
+
+### 3. Eerdere sessie (avond): Newsletter + Tags
+- Gedeeld NewsletterForm component (dark/light varianten)
+- Alle 4 newsletter instances gerefactord
+- Blog tag display names (`tag-utils.ts`)
+- Artikel counts in category filter
 
 ---
 
 ## TODO's Volgende Sessie (prioriteit)
 
-### 1. NIEUWSBRIEF COMPONENT REDESIGN
+### 1. COMMIT + PUSH (eerste actie!)
+```bash
+cd C:\Users\BartVisser\Desktop\vino-per-lei
+git add -A
+git commit -m "feat: blog visual upgrade + article page premium experience"
+git push origin master
+```
 
-Er zijn **4 nieuwsbrief instances** in de site. Ze werken visueel maar zijn nog basic. Doel: premium editorial feel, meer conversie.
+### 2. Carla: Rijke Blog Content Schrijven in Shopify
+**Dit is de #1 bottleneck.** De hele blog-infrastructuur is nu premium, maar de artikelen bevatten alleen 2 korte paragrafen zonder foto's.
 
-**Bestanden:**
-- `src/components/layout/Footer.tsx` (regel ~207-284) — footer newsletter
-- `src/app/blog/page.tsx` (regel ~158-202) — blog bottom newsletter
-- `src/app/blog/BlogClientComponents.tsx` (regel ~474-590) — `InlineNewsletterCTA` in article grid
-- `src/app/blog/[slug]/NewsletterCTA.tsx` — article page newsletter panel
+**Instructies voor Carla (Shopify Admin → Blog → Wijn Verhalen):**
+- **Featured images**: upload per artikel een hero foto (16:9, min 1200px breed)
+- **Koppen gebruiken**: `Heading 2` voor secties, `Heading 3` voor subsecties
+- **Afbeeldingen in tekst**: voeg foto's toe tussen paragrafen — ze worden automatisch:
+  - Full-bleed op mobiel
+  - Klikbaar voor fullscreen lightbox
+  - Animated scroll reveal
+  - Rounded met hover shadow op desktop
+- **Blockquotes**: gebruik het aanhalingsteken-icoon — wordt premium gestyled met gold accent
+- **Lijsten**: opsommingen krijgen automatisch wine-colored bullets
+- **Lengte**: minimaal 500 woorden voor mooie reading experience + Table of Contents
 
-**Huidige staat:**
-- Footer: gradient wine bg, gold button, animated pulse dot
-- Blog inline: dark gradient + grain overlay, editorial 2-col layout, AnimatePresence success state
-- Blog bottom: dark bg, radial gold glow, grape SVG decoratie
-- Article page: light warm-white panel, rounded-full inputs, checkmark animation
-
-**Verbeterideeeen:**
-- Consistenter design language over alle 4 instances
-- Micro-interacties op de input (focus glow, typing feedback)
-- Premium hover states op de button (shine sweep, gradient shift)
-- Betere mobile spacing — sommige instances voelen krap op 390px
-- Overweeg 1 gedeeld `NewsletterForm` component ipv 4 losse implementaties
-- Social proof element ("500+ wijnliefhebbers gingen je voor")
-- Animated envelope/wine icon bij success state
-- **Backend:** nog niet gekoppeld — Klaviyo of Mailchimp moet nog
-
-### 2. BLOG SECTIE VERBETEREN
-
-**Blog overzicht (`/blog`):**
-- `src/app/blog/page.tsx` — main layout
-- `src/app/blog/BlogClientComponents.tsx` — FeaturedHero, ArticleCard (3 sizes), ArticleGrid (bento)
-- `src/app/blog/BlogCategoryFilter.tsx` — category pills met shared layout animation
-- `src/app/blog/BlogAnimations.tsx` — 17+ animatie-componenten
-
-**Huidige staat:**
-- FeaturedHero: cinematic parallax (custom scroll listener, hydration-safe), gold accent lines, film grain, vignette
-- ArticleCard sizes: "large" (2-col featured), "default" (standard), "horizontal" (wide)
-- Bento grid: newsletter na 3e artikel, load-more pagination
-- CategoryFilter: Framer Motion layoutId shared animation, scroll-snap mobile
-- Alle artikelen missen featured images → navy gradient fallback
-
-**Verbeterideeeen:**
-- **Blog overzicht hero:** De "Wijn Verhalen" header kan meer impact — magazine-achtige typografie, animated wine illustration, of een subtiele video/cinemagraph achtergrond
-- **Article cards:** Hover states kunnen rijker — image zoom, overlay reveal, card lift met shadow transition
-- **Featured hero zonder foto:** Nu een platte gradient — kan interessanter met animated patterns, abstract wine shapes, of generative art
-- **Category filter:** Toevoegen van artikel-count per categorie, animated underline ipv pill bg switch
-- **Bento grid:** Meer variatie in card sizes, asymmetrisch magazine layout
-- **Reading experience (`/blog/[slug]`):** ArticleHero kan groter/cinematischer, pull quotes styling, betere image captions
-- **Lazy load images:** Skeleton shimmer states voor article card images
-- **Empty states:** Wijn-gerelateerde illustraties ipv tekst-only
-
-### 3. Blog foto's (extern — Carla)
-- Alle 6 artikelen missen featured images → navy gradient fallback
-- Carla moet per artikel een foto uploaden in Shopify Admin
-
-### 4. Web3Forms API Key
+### 3. Web3Forms API Key
 - web3forms.com → API key maken → email naar Carla
 - `.env.local`: `NEXT_PUBLIC_WEB3FORMS_KEY=...`
-- Ook in Vercel environment variables
+- Ook in Vercel environment variables zetten
 
-### 5. Dev Mode Hydration Warning (laag)
-- Minor Framer Motion attribute mismatches in `next dev`
-- In production GEEN probleem
-- Optioneel: `suppressHydrationWarning` of `initial={false}`
-
-### 6. Shopify / Carla TODO's (extern)
+### 4. Shopify / Carla TODO's (extern)
 - **Telefoonnummer** — `040-XXX XXXX` placeholder overal
 - **Shopify Payments** — iDEAL, creditcard activeren
 - **DNS vinoperlei.nl** naar Vercel
-- **Newsletter backend** — Klaviyo/Mailchimp koppelen
+- **Newsletter backend** — Klaviyo/Mailchimp koppelen (NewsletterForm heeft TODO comment)
+
+### 5. Optionele Verbeteringen
+- **Blog listing met foto's testen** — zodra Carla foto's upload, article cards visueel verifiëren
+- **Related articles** zonder foto's: upgrade naar floating circles (nu nog platte gradient)
+- **Table of Contents** verschijnt pas bij 3+ koppen — test met lang artikel
+- **Tag-utils uitbreiden** als Carla nieuwe tags aanmaakt in Shopify
 
 ---
 
-## Architectuur
+## Architectuur Blog
 
 ```
-Shopify Admin (Carla beheert content + blog)
-    | Storefront API (GraphQL, read-only)
-    | shopify-cms.ts (metaobjects, pages, blog, menus)
-    | shopify.ts (products, checkout)
-Server Components (async, revalidate=60)
+Shopify Admin (blog "wijn-verhalen")
+    | Storefront API (GraphQL)
+    | shopify-cms.ts (getBlogArticles, getBlogTags, etc.)
+Server Components (page.tsx — revalidate=60)
     | props
-Client Components (Framer Motion, Zustand cart/auth)
-    | ISR
-Vercel CDN -> Gebruiker
+Client Components:
+    BlogClientComponents.tsx — FeaturedHero, ArticleCard, ArticleGrid, InlineNewsletterCTA
+    BlogCategoryFilter.tsx — tag pills met Framer Motion layoutId
+    BlogBottomNewsletter.tsx — bottom newsletter wrapper
+    BlogAnimations.tsx — 17+ animatie-componenten + ArticleContentEnhancer
+    [slug]/page.tsx — Article page layout + ImageLightbox
+    [slug]/ArticleHero.tsx — Article header (parallax + floating circles)
+    [slug]/ImageLightbox.tsx — Fullscreen image viewer (CustomEvent-based)
+    [slug]/FloatingShareBar.tsx — Share sidebar/bottom bar
+    [slug]/TableOfContents.tsx — Sticky heading navigator (xl+, 3+ headings)
+    [slug]/NewsletterCTA.tsx — Article page newsletter (light variant)
+Shared:
+    components/newsletter/NewsletterForm.tsx — gedeeld form (dark/light)
+    lib/tag-utils.ts — tag slug -> display name mapping
 ```
 
 ---
 
-## Componentenkaart Newsletter + Blog
+## Componentenkaart (snel navigeren)
 
 ```
-src/components/layout/Footer.tsx        → Footer newsletter (gold gradient, pulse dot)
-src/app/blog/page.tsx                   → Blog layout + bottom newsletter
-src/app/blog/BlogClientComponents.tsx   → FeaturedHero, ArticleCard, ArticleGrid, InlineNewsletterCTA
-src/app/blog/BlogAnimations.tsx         → 17+ animatie-componenten (BlogFadeIn, RevealText, etc.)
-src/app/blog/BlogCategoryFilter.tsx     → Category pills (Framer Motion layoutId)
-src/app/blog/[slug]/page.tsx            → Article page layout
-src/app/blog/[slug]/NewsletterCTA.tsx   → Article page newsletter panel
-src/app/blog/[slug]/ArticleHero.tsx     → Article header (parallax, metadata)
-src/app/blog/[slug]/FloatingShareBar.tsx → Share buttons
-src/app/blog/[slug]/TableOfContents.tsx  → TOC sidebar
-src/app/globals.css                     → Design tokens, .prose-wine, .bg-grain, animaties
+src/components/newsletter/NewsletterForm.tsx  → Gedeeld newsletter form (dark/light/socialProof)
+src/lib/tag-utils.ts                         → Tag display name mapping + getTagLabel()
+src/app/blog/page.tsx                        → Blog listing layout, tagCounts berekening
+src/app/blog/BlogClientComponents.tsx        → FeaturedHero, ArticleCard, ArticleGrid, InlineNewsletterCTA
+src/app/blog/BlogCategoryFilter.tsx          → Category pills met counts
+src/app/blog/BlogBottomNewsletter.tsx        → Bottom newsletter client wrapper
+src/app/blog/BlogAnimations.tsx              → 17+ animatie-componenten + ArticleContentEnhancer
+src/app/blog/[slug]/page.tsx                 → Article page layout
+src/app/blog/[slug]/ArticleHero.tsx          → Article header (parallax + floating circles fallback)
+src/app/blog/[slug]/ImageLightbox.tsx        → Fullscreen image lightbox (NEW)
+src/app/blog/[slug]/FloatingShareBar.tsx     → Share sidebar (desktop) / bottom bar (mobile)
+src/app/blog/[slug]/TableOfContents.tsx      → Sticky heading navigator (xl+)
+src/app/blog/[slug]/NewsletterCTA.tsx        → Article newsletter (light variant)
+src/components/layout/Footer.tsx             → Footer met newsletter (dark variant)
+src/app/globals.css                          → Design tokens, prose-wine, animations, .bg-grain
+```
+
+---
+
+## Hoe Shopify Blog Content Premium Rendert
+
+Carla's content in Shopify wordt automatisch verrijkt:
+
+| Shopify Element | Wat er gebeurt |
+|----------------|----------------|
+| **Paragraaf** | Scroll fade-up animatie, eerste paragraaf = lead (groter) |
+| **Heading 2** | Gold diamond divider erboven, serif font, wine-kleur |
+| **Heading 3** | Subtiel, serif, wine-kleur |
+| **Afbeelding** | Wrapped in container, zoom-hint icon, klik = fullscreen lightbox, full-bleed op mobiel |
+| **Blockquote** | Gold border-left, cream achtergrond, slide-from-left animatie |
+| **Lijst** | Wine-colored bullets/numbers |
+| **Link** | Gold underline, wine op hover |
+| **Horizontale lijn** | Gold diamond center divider |
+| **Code** | Champagne achtergrond |
+| **Tabel** | Gold header accent, zebra striping |
+
+---
+
+## Playwright MCP — Visuele Verificatie
+
+**De Playwright MCP is beschikbaar en heeft al een Chrome venster open.**
+
+Gebruik dit voor visuele verificatie:
+1. `browser_navigate` naar de pagina die je wilt checken
+2. `browser_snapshot` voor accessibility tree (content check)
+3. `browser_take_screenshot` voor visuele check (fullPage: true)
+4. Na code changes: `npm run build` → server herstarten → screenshot vergelijken
+
+**Server starten (production):**
+```bash
+npm run build && npx next start --port 3000 > /dev/null 2>&1 &
+```
+
+**Server stoppen:**
+```bash
+powershell.exe -Command "Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id \$_ -Force -ErrorAction SilentlyContinue }"
 ```
 
 ---
@@ -171,16 +239,13 @@ src/app/globals.css                     → Design tokens, .prose-wine, .bg-grai
 ## Claude Code Notities
 
 - **NOOIT `next dev` in foreground draaien** — crasht Claude Code
-- **Node killen:** `powershell.exe -Command "Stop-Process -Id PID -Force"` of `kill PID`. NIET `taskkill /F` in Git Bash
-- **Dev server:** altijd background: `npx next dev --port 3000 > /dev/null 2>&1 &`
-- **Production test:** `npm run build && npx next start --port 3000 > /dev/null 2>&1 &`
-- **Build EERST:** draai altijd `npm run build` voor dev — fix errors eerst
+- **Production test:** altijd `npm run build` eerst, dan `npx next start`
 - **Shopify tokens** in `.env.local` — NIET committen
-- **Playwright MCP** voor visuele verificatie
 - **Lucide React** beschikbaar — `import { IconName } from 'lucide-react'`
-- **`.prose-wine`** class voor article content styling
-- **`.bg-grain`** class voor grain texture overlay — CSS variable, veilig voor Tailwind v4
-- **Tailwind v4 LET OP**: Scanner pikt class-achtige patterns op uit ALLE bestanden incl .md — schrijf nooit Tailwind-achtige syntax in docs!
+- **`.bg-grain`** class voor grain texture overlay
+- **Tailwind v4 LET OP**: Scanner pikt class-achtige patterns op uit ALLE bestanden incl .md
 - **Tailwind v4 cache**: bij rare CSS errors, verwijder `.next/` en herstart
-- **`optimizeCss: true`** in next.config.ts — vereist `critters` (al geinstalleerd)
-- **Framer Motion + React 19:** `useScroll({ target: ref })` crasht tijdens hydration. Gebruik handmatige scroll listeners met `useMotionValue` als alternatief (zie FeaturedHero)
+- **Framer Motion + React 19:** `useScroll({ target })` crasht tijdens hydration — gebruik handmatige scroll listeners
+- **`getTagLabel()`** in `src/lib/tag-utils.ts` — gebruik voor alle tag displays, voeg nieuwe mappings toe als Carla nieuwe tags maakt
+- **ImageLightbox** werkt via `CustomEvent("open-lightbox")` — ArticleContentEnhancer dispatcht dit bij image click
+- **ArticleContentEnhancer** is DOM-based (niet React) omdat het `dangerouslySetInnerHTML` content post-processed

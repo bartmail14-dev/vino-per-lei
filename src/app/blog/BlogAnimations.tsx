@@ -742,12 +742,77 @@ export function ArticleContentEnhancer() {
   const reduced = useAccessibleMotion();
 
   useEffect(() => {
-    if (reduced) return;
-
     const article = document.querySelector("article");
     if (!article) return;
 
-    // --- Paragraph / heading reveals: fade-up, staggered ---
+    // --- Lead paragraph: first paragraph gets special styling ---
+    const firstP = article.querySelector("p:first-of-type");
+    if (firstP) {
+      const el = firstP as HTMLElement;
+      el.style.fontSize = "1.2em";
+      el.style.lineHeight = "1.75";
+      el.style.fontWeight = "400";
+      el.style.color = "var(--charcoal)";
+    }
+
+    // --- Images: make clickable for lightbox + add zoom cursor ---
+    const images = article.querySelectorAll("img");
+    images.forEach((img) => {
+      const htmlImg = img as HTMLImageElement;
+      htmlImg.style.cursor = "zoom-in";
+      htmlImg.style.transition = "transform 0.5s cubic-bezier(0.22,1,0.36,1), box-shadow 0.5s ease";
+
+      // Wrap in a div with group class for hover effects
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+      wrapper.style.overflow = "hidden";
+      wrapper.style.borderRadius = "12px";
+      wrapper.style.margin = "2.5em 0";
+      wrapper.className = "article-image-wrapper";
+
+      // Zoom hint icon
+      const hint = document.createElement("div");
+      hint.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>`;
+      hint.style.cssText = "position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.35);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 0.3s;pointer-events:none;color:rgba(255,255,255,0.85);z-index:2";
+
+      wrapper.addEventListener("mouseenter", () => { hint.style.opacity = "1"; htmlImg.style.transform = "scale(1.02)"; });
+      wrapper.addEventListener("mouseleave", () => { hint.style.opacity = "0"; htmlImg.style.transform = "scale(1)"; });
+
+      if (htmlImg.parentNode) {
+        htmlImg.parentNode.insertBefore(wrapper, htmlImg);
+        wrapper.appendChild(htmlImg);
+        wrapper.appendChild(hint);
+      }
+
+      // Lightbox click handler
+      htmlImg.addEventListener("click", () => {
+        const src = htmlImg.src || htmlImg.getAttribute("data-src") || "";
+        const alt = htmlImg.alt || "";
+        window.dispatchEvent(new CustomEvent("open-lightbox", { detail: { src, alt } }));
+      });
+    });
+
+    // --- Decorative dividers before h2 headings ---
+    const h2s = article.querySelectorAll("h2");
+    h2s.forEach((h2, i) => {
+      if (i === 0) return; // Skip first h2 — already has prose-wine border-top
+      const divider = document.createElement("div");
+      divider.setAttribute("aria-hidden", "true");
+      divider.style.cssText = "display:flex;align-items:center;gap:16px;margin:3em 0 0;padding-top:2em";
+      divider.innerHTML = `
+        <div style="flex:1;height:1px;background:linear-gradient(to right,transparent,var(--sand))"></div>
+        <div style="width:6px;height:6px;background:var(--gold);opacity:0.3;border-radius:2px;transform:rotate(45deg);flex-shrink:0"></div>
+        <div style="flex:1;height:1px;background:linear-gradient(to left,transparent,var(--sand))"></div>
+      `;
+      h2.parentNode?.insertBefore(divider, h2);
+      // Remove the default border-top from subsequent h2s since we have dividers
+      (h2 as HTMLElement).style.borderTop = "none";
+      (h2 as HTMLElement).style.paddingTop = "0.5em";
+    });
+
+    if (reduced) return;
+
+    // --- Scroll animations ---
     const textElements = article.querySelectorAll("p, h2, h3, ul, ol");
     const textObserver = new IntersectionObserver(
       (entries) => {
@@ -771,8 +836,8 @@ export function ArticleContentEnhancer() {
       textObserver.observe(htmlEl);
     });
 
-    // --- Image reveals: scale 1.05→1 + opacity ---
-    const images = article.querySelectorAll("img, figure");
+    // --- Image wrapper reveals ---
+    const imageWrappers = article.querySelectorAll(".article-image-wrapper, figure");
     const imageObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -787,15 +852,15 @@ export function ArticleContentEnhancer() {
       { rootMargin: "-50px 0px", threshold: 0.1 }
     );
 
-    images.forEach((el) => {
+    imageWrappers.forEach((el) => {
       const htmlEl = el as HTMLElement;
       htmlEl.style.opacity = "0";
-      htmlEl.style.transform = "scale(1.05)";
+      htmlEl.style.transform = "scale(1.03)";
       htmlEl.style.transition = "opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1)";
       imageObserver.observe(htmlEl);
     });
 
-    // --- Blockquote / pull quote: slide from left ---
+    // --- Blockquote slide from left ---
     const quotes = article.querySelectorAll("blockquote");
     const quoteObserver = new IntersectionObserver(
       (entries) => {

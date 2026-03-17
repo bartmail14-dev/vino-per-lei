@@ -196,66 +196,125 @@ export function FeaturedHero({ article }: { article: BlogArticle }) {
     );
   }
 
-  /* No-image featured: editorial navy card with grain + vine pattern */
+  /* No-image featured: animated abstract wine pattern with grain + floating shapes */
   return (
     <Link href={`/blog/${article.handle}`} className="group block">
-      <article ref={ref} className="bg-gradient-to-br from-wine via-wine-dark to-[#0d0f1f] rounded-2xl sm:rounded-3xl overflow-hidden relative min-h-[360px] sm:min-h-[420px] flex items-end">
+      <article ref={ref} className="bg-gradient-to-br from-wine via-wine-dark to-[#0d0f1f] rounded-2xl sm:rounded-3xl overflow-hidden relative min-h-[360px] sm:min-h-[420px] lg:min-h-[480px] flex items-end">
         {/* Grain texture */}
         <div className="absolute inset-0 opacity-[0.04] bg-grain" />
-        {/* Ambient glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,rgba(201,162,39,0.08),transparent_60%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_0%_80%,rgba(201,162,39,0.04),transparent_40%)]" />
-        {/* Gold accent lines — three edges */}
-        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/20 to-transparent" />
+
+        {/* Animated gradient mesh — multiple overlapping radials that shift on hover */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_20%,rgba(201,162,39,0.12),transparent_50%)] group-hover:bg-[radial-gradient(ellipse_at_60%_30%,rgba(201,162,39,0.18),transparent_50%)] transition-all duration-[2s]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_0%_80%,rgba(201,162,39,0.06),transparent_40%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_80%,rgba(45,52,84,0.6),transparent_50%)]" />
+
+        {/* Animated floating circles — abstract grape/bubble motif */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            animate={{ y: [0, -15, 0], x: [0, 8, 0], scale: [1, 1.05, 1] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[15%] right-[12%] w-32 h-32 sm:w-48 sm:h-48 rounded-full border border-gold/[0.06] bg-gradient-to-br from-gold/[0.03] to-transparent"
+          />
+          <motion.div
+            animate={{ y: [0, 12, 0], x: [0, -6, 0] }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+            className="absolute top-[35%] right-[25%] w-20 h-20 sm:w-28 sm:h-28 rounded-full border border-white/[0.04] bg-gradient-to-br from-white/[0.02] to-transparent"
+          />
+          <motion.div
+            animate={{ y: [0, -8, 0], scale: [1, 1.1, 1] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute top-[10%] right-[40%] w-14 h-14 sm:w-20 sm:h-20 rounded-full border border-gold/[0.04] bg-gradient-to-br from-gold/[0.02] to-transparent"
+          />
+          {/* Small accent dots */}
+          <motion.div
+            animate={{ opacity: [0.3, 0.8, 0.3] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-[22%] right-[20%] w-2 h-2 rounded-full bg-gold/20"
+          />
+          <motion.div
+            animate={{ opacity: [0.5, 0.2, 0.5] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+            className="absolute top-[45%] right-[35%] w-1.5 h-1.5 rounded-full bg-gold/15"
+          />
+        </div>
+
+        {/* Diagonal gold accent line */}
+        <div className="absolute top-0 right-0 w-[200px] h-[200px] sm:w-[300px] sm:h-[300px] overflow-hidden pointer-events-none">
+          <div className="absolute top-0 right-0 w-[1px] h-[140%] bg-gradient-to-b from-gold/20 via-gold/[0.06] to-transparent origin-top-right rotate-[-35deg] translate-x-[60px]" />
+        </div>
+
+        {/* Gold accent lines — edges */}
+        <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
         <div className="absolute bottom-0 right-0 w-1/3 h-[1px] bg-gradient-to-l from-gold/15 to-transparent" />
-        <div className="absolute top-0 left-0 w-[1px] h-1/3 bg-gradient-to-b from-gold/20 to-transparent" />
-        {/* Large decorative wine glass — ethereal */}
-        <svg className="absolute top-8 right-8 w-36 h-36 sm:w-52 sm:h-52 text-white/[0.015] group-hover:text-white/[0.035] transition-colors duration-[1.5s]" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M8 2h8l-1 9a5 5 0 0 1-10 0L8 2z" />
-          <rect x="11" y="11" width="2" height="8" rx="1" />
-          <rect x="8" y="19" width="8" height="2" rx="1" />
-        </svg>
+        <div className="absolute top-0 left-0 w-[1px] h-1/3 bg-gradient-to-b from-gold/25 to-transparent" />
+
+        {/* Subtle vignette */}
+        <div className="absolute inset-0 shadow-[inset_0_0_120px_40px_rgba(0,0,0,0.15)]" />
 
         <div className="px-6 py-10 sm:px-12 sm:py-14 lg:px-16 lg:py-16 max-w-3xl relative z-10 w-full">
           {/* Overline */}
-          <div className="flex items-center gap-3 mb-7">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            className="flex items-center gap-3 mb-7"
+          >
             <span className="text-label text-gold tracking-[0.25em]">Uitgelicht</span>
-            <div className="h-[1px] w-12 bg-gradient-to-r from-gold/30 to-transparent" />
+            <div className="h-[1px] w-16 bg-gradient-to-r from-gold/40 to-transparent" />
             <span className="text-label text-gold/50 tracking-[0.2em]">{category}</span>
-          </div>
+          </motion.div>
 
-          <h2 className="font-serif text-3xl sm:text-[2.75rem] lg:text-[3.75rem] font-semibold text-white mb-5 leading-[1.05] tracking-[-0.015em] group-hover:text-gold transition-colors duration-500">
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+            className="font-serif text-3xl sm:text-[2.75rem] lg:text-[3.75rem] font-semibold text-white mb-5 leading-[1.05] tracking-[-0.015em] group-hover:text-gold/90 transition-colors duration-700"
+          >
             {article.title}
-          </h2>
+          </motion.h2>
 
           {article.excerpt && (
-            <p className="text-white/35 text-base sm:text-lg leading-relaxed mb-9 max-w-2xl font-light tracking-wide">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.55, duration: 0.6 }}
+              className="text-white/40 text-base sm:text-lg leading-relaxed mb-9 max-w-2xl font-light tracking-wide"
+            >
               {article.excerpt}
-            </p>
+            </motion.p>
           )}
 
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-6 border-t border-white/[0.06]">
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.65, duration: 0.5 }}
+            className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-6 border-t border-white/[0.06]"
+          >
             {article.authorV2 && (
               <div className="flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center text-gold text-xs font-bold border border-gold/15">
+                <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-gold/20 to-gold/5 backdrop-blur-sm flex items-center justify-center text-gold text-[10px] sm:text-xs font-bold border border-gold/15 ring-1 ring-gold/[0.08] ring-offset-2 ring-offset-transparent">
                   {article.authorV2.name.split(" ").map(w => w[0]).join("").slice(0, 2)}
                 </div>
-                <span className="text-white/50 text-sm font-medium tracking-wide">{article.authorV2.name}</span>
+                <div className="flex flex-col gap-0.5">
+                  <span className="text-white/80 text-sm font-medium tracking-wide">{article.authorV2.name}</span>
+                  <time dateTime={article.publishedAt} className="text-white/25 text-[11px] tracking-wide">{formatDate(article.publishedAt)}</time>
+                </div>
               </div>
             )}
             <span className="text-white/20 text-[11px] flex items-center gap-1.5 tracking-wide">
               <ClockIcon className="w-3 h-3" />
-              {article.readingTimeMinutes} min
+              {article.readingTimeMinutes} min leestijd
             </span>
-            <time dateTime={article.publishedAt} className="text-white/20 text-[11px] tracking-wide">{formatDate(article.publishedAt)}</time>
             {/* Circular CTA */}
-            <div className="flex items-center gap-3 ml-auto">
-              <span className="text-gold/40 text-[13px] font-medium group-hover:text-gold transition-colors duration-300 tracking-[0.08em] uppercase hidden sm:inline">Lees meer</span>
-              <div className="w-11 h-11 rounded-full border border-gold/15 flex items-center justify-center group-hover:bg-gold/10 group-hover:border-gold/30 group-hover:scale-105 transition-all duration-500">
-                <ArrowIcon className="w-4 h-4 text-gold/40 group-hover:text-gold group-hover:translate-x-0.5 transition-all duration-500" />
+            <div className="hidden sm:flex items-center gap-4 ml-auto">
+              <span className="text-gold/50 text-[13px] font-medium group-hover:text-gold transition-colors duration-500 tracking-[0.08em] uppercase">
+                Lees het verhaal
+              </span>
+              <div className="w-12 h-12 rounded-full border border-gold/20 flex items-center justify-center group-hover:bg-gold/10 group-hover:border-gold/40 group-hover:scale-105 transition-all duration-500">
+                <ArrowIcon className="w-4 h-4 text-gold/50 group-hover:text-gold group-hover:translate-x-0.5 transition-all duration-500" />
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </article>
     </Link>
@@ -286,11 +345,11 @@ export function ArticleCard({
           isHorizontal ? "flex-row" : "flex-col"
         } ${
           isLarge
-            ? "bg-gradient-to-br from-wine via-wine-dark to-[#0d0f1f] text-white shadow-2xl shadow-wine/10"
-            : "bg-white border border-sand/40 hover:border-gold/25 hover:shadow-[0_16px_48px_-8px_rgba(26,31,61,0.08)] hover:-translate-y-1.5"
+            ? "bg-gradient-to-br from-wine via-wine-dark to-[#0d0f1f] text-white shadow-2xl shadow-wine/10 hover:shadow-[0_24px_64px_-12px_rgba(26,31,61,0.25)]"
+            : "bg-white border border-sand/40 hover:border-gold/30 hover:shadow-[0_20px_60px_-12px_rgba(26,31,61,0.12)] hover:-translate-y-2"
         }`}
       >
-        {/* Image — 3:2 ratio default, with slide-in CTA overlay */}
+        {/* Image — 3:2 ratio default, with gradient overlay reveal + zoom */}
         {hasImage && (
           <div
             className={`relative overflow-hidden flex-shrink-0 ${
@@ -305,26 +364,31 @@ export function ArticleCard({
               src={article.image!.url}
               alt={article.image!.altText || article.title}
               fill
-              className="object-cover group-hover:scale-[1.05] transition-transform duration-[1.4s] ease-out"
+              className="object-cover group-hover:scale-[1.08] transition-transform duration-[1.8s] ease-out"
               sizes={
                 isLarge
                   ? "(max-width: 640px) 100vw, 66vw"
                   : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               }
             />
-            {/* Gradient overlays for depth */}
-            <div className={`absolute inset-0 ${
+            {/* Gradient overlays — deeper on hover */}
+            <div className={`absolute inset-0 transition-opacity duration-700 ${
               isLarge
                 ? "bg-gradient-to-t from-wine-dark/80 via-wine-dark/20 to-transparent"
-                : "bg-gradient-to-t from-black/25 via-transparent to-transparent"
+                : "bg-gradient-to-t from-black/30 via-transparent to-transparent group-hover:from-black/50"
             }`} />
+
+            {/* Hover: gold accent gradient reveal from bottom */}
+            {!isLarge && (
+              <div className="absolute inset-0 bg-gradient-to-t from-wine/60 via-wine/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+            )}
 
             {/* Category pill — refined tracking, premium feel */}
             <div className="absolute top-4 left-4">
-              <span className={`text-[10px] font-semibold uppercase tracking-[0.18em] px-3.5 py-1.5 rounded-full backdrop-blur-md ${
+              <span className={`text-[10px] font-semibold uppercase tracking-[0.18em] px-3.5 py-1.5 rounded-full backdrop-blur-md transition-all duration-500 ${
                 isLarge
                   ? "text-gold bg-gold/10 border border-gold/20"
-                  : "text-white/90 bg-black/25 border border-white/[0.08]"
+                  : "text-white/90 bg-black/25 border border-white/[0.08] group-hover:bg-wine/60 group-hover:border-gold/20 group-hover:text-white"
               }`}>
                 {category}
               </span>
@@ -345,8 +409,8 @@ export function ArticleCard({
                   <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white/80">
                     Lees het verhaal
                   </span>
-                  <div className="w-8 h-8 rounded-full border border-white/20 bg-white/10 flex items-center justify-center">
-                    <ArrowIcon className="w-3.5 h-3.5 text-white" />
+                  <div className="w-8 h-8 rounded-full border border-gold/25 bg-gold/10 flex items-center justify-center">
+                    <ArrowIcon className="w-3.5 h-3.5 text-gold" />
                   </div>
                 </div>
               </div>
@@ -363,7 +427,7 @@ export function ArticleCard({
           </div>
         )}
 
-        {/* No-image: premium gradient with grain texture, wine SVG, watermark */}
+        {/* No-image: animated gradient with floating shapes + shimmer accent */}
         {!hasImage && (
           <div
             className={`bg-gradient-to-br from-wine via-wine-dark to-[#1a0a1a] relative overflow-hidden flex-shrink-0 ${
@@ -372,25 +436,34 @@ export function ArticleCard({
           >
             {/* Grain texture overlay */}
             <div className="absolute inset-0 opacity-[0.06] bg-grain" />
-            {/* Radial glow */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_30%,rgba(201,162,39,0.1),transparent_60%)]" />
-            {/* Wine glass silhouette */}
-            <svg className="absolute bottom-3 right-4 w-20 h-20 text-white/[0.04] group-hover:text-white/[0.07] transition-colors duration-700" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8 2h8l-1 9a5 5 0 0 1-10 0L8 2z" />
-              <rect x="11" y="11" width="2" height="8" rx="1" />
-              <rect x="8" y="19" width="8" height="2" rx="1" />
-            </svg>
+            {/* Radial glow — shifts on hover */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_30%,rgba(201,162,39,0.1),transparent_60%)] group-hover:bg-[radial-gradient(ellipse_at_40%_40%,rgba(201,162,39,0.16),transparent_55%)] transition-all duration-[1.5s]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_70%,rgba(45,52,84,0.4),transparent_50%)]" />
+
+            {/* Floating decorative circles */}
+            <div className="absolute top-[15%] right-[10%] w-16 h-16 rounded-full border border-gold/[0.06] group-hover:border-gold/[0.12] group-hover:scale-110 transition-all duration-[1.2s]" />
+            <div className="absolute bottom-[20%] left-[15%] w-10 h-10 rounded-full border border-white/[0.04] group-hover:border-white/[0.08] group-hover:scale-125 transition-all duration-[1.5s]" />
+            <div className="absolute top-[40%] right-[30%] w-6 h-6 rounded-full bg-gold/[0.04] group-hover:bg-gold/[0.08] transition-all duration-[1s]" />
+
+            {/* Shimmer accent line — CSS animated */}
+            <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-100 transition-opacity duration-700">
+              <div className="absolute top-0 left-[-100%] w-full h-full bg-gradient-to-r from-transparent via-gold/[0.04] to-transparent animate-[shine_3s_ease-in-out_infinite]" />
+            </div>
+
             {/* Category as large watermark text */}
-            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-serif text-5xl font-bold text-white/[0.03] uppercase tracking-[0.15em] whitespace-nowrap select-none pointer-events-none">
+            <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-serif text-5xl font-bold text-white/[0.03] group-hover:text-white/[0.05] uppercase tracking-[0.15em] whitespace-nowrap select-none pointer-events-none transition-all duration-700">
               {category}
             </span>
             {/* Category badge */}
             <div className="absolute top-3.5 left-3.5 z-10">
-              <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold/90 bg-gold/10 backdrop-blur-sm px-3 py-1.5 rounded-full border border-gold/20">
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-gold/90 bg-gold/10 backdrop-blur-sm px-3 py-1.5 rounded-full border border-gold/20 group-hover:bg-gold/15 group-hover:border-gold/30 transition-all duration-500">
                 <WineGlassIcon className="w-3 h-3 text-gold/50" />
                 {category}
               </span>
             </div>
+
+            {/* Gold accent line — bottom edge */}
+            <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-gold/15 to-transparent group-hover:via-gold/25 transition-all duration-700" />
           </div>
         )}
 
@@ -590,15 +663,21 @@ export function ArticleGrid({
   const hasMore = visibleCount < articles.length;
   const visible = articles.slice(0, visibleCount);
 
-  // Bento layout: insert newsletter after 3rd article, alternate large/small cards
+  // Bento layout: varied card sizes for visual rhythm, newsletter after 3rd article
   const gridItems: Array<{ type: "article"; article: BlogArticle; size: "large" | "default" | "horizontal" } | { type: "newsletter" }> = [];
 
   visible.forEach((article, i) => {
-    // First card is large, spanning 2 cols
     if (i === 0 && visible.length >= 3) {
+      // First card: large, spanning 2 cols — hero entry point
       gridItems.push({ type: "article", article, size: "large" });
     } else if (i === 4 && visible.length > 5) {
-      // Another horizontal card for visual variety
+      // 5th card: horizontal full-width — breaks the grid rhythm
+      gridItems.push({ type: "article", article, size: "horizontal" });
+    } else if (i === 7 && visible.length > 8) {
+      // 8th card: another large card for second batch visual anchor
+      gridItems.push({ type: "article", article, size: "large" });
+    } else if (i === 11 && visible.length > 12) {
+      // 12th card: horizontal for third batch
       gridItems.push({ type: "article", article, size: "horizontal" });
     } else {
       gridItems.push({ type: "article", article, size: "default" });

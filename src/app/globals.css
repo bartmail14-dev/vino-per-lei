@@ -1038,6 +1038,11 @@ textarea:focus-visible,
 
 /* ─── Responsive fine-tuning ─── */
 @media (max-width: 639px) {
+  .prose-wine {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+  }
+
   .prose-wine blockquote {
     padding: 1.25em 1.25em;
     margin: 2em 0;
@@ -1059,6 +1064,45 @@ textarea:focus-visible,
     font-size: 1.2em;
     margin: 2em 0;
     padding-left: 1.25em;
+  }
+
+  /* Mobile: images break out of content padding for full-width feel */
+  .prose-wine img {
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+    max-width: calc(100% + 2.5rem);
+    border-radius: 0;
+  }
+
+  .prose-wine figure {
+    margin-left: -1.25rem;
+    margin-right: -1.25rem;
+  }
+
+  .prose-wine figure img {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 100%;
+    border-radius: 0;
+  }
+
+  .prose-wine figcaption {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
+/* Article image wrapper — hover shadow for lightbox hint */
+.article-image-wrapper:hover {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Mobile: image wrappers also break out */
+@media (max-width: 639px) {
+  .article-image-wrapper {
+    margin-left: -1.25rem !important;
+    margin-right: -1.25rem !important;
+    border-radius: 0 !important;
   }
 }
 

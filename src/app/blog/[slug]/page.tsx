@@ -20,6 +20,7 @@ import { ArticleHero } from "./ArticleHero";
 import { FloatingShareBar } from "./FloatingShareBar";
 import { TableOfContents } from "./TableOfContents";
 import { NewsletterCTA } from "./NewsletterCTA";
+import { ImageLightbox } from "./ImageLightbox";
 
 export const revalidate = 60;
 
@@ -166,6 +167,7 @@ export default async function BlogArticlePage({ params }: Props) {
       <ScrollToTop />
       <FloatingShareBar title={article.title} />
       <TableOfContents />
+      <ImageLightbox />
 
       <ArticleHero
         title={article.title}
