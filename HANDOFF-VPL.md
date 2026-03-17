@@ -39,9 +39,11 @@
 - **Nu:** `.bg-grain` CSS class in globals.css — alle componenten gebruiken `className="bg-grain"`
 - **Bestanden:** globals.css, BlogClientComponents.tsx (4 plekken), Footer.tsx (1 plek)
 
-### 2. Build Error Fix — bg-[url()] in Markdown
-- **Root cause:** HANDOFF-VPL.md bevatte letterlijk `bg-[url()]` als tekst. Tailwind v4's content scanner pikte dit op als een Tailwind class en genereerde `background-image: url()` in de compiled CSS. Turbopack probeerde die lege URL te resolven als module → "Can't resolve ''" build crash.
-- **Fix:** Tekst in HANDOFF-VPL.md herschreven zodat er geen Tailwind-class-achtige patterns in staan.
+### 2. Build Error Fix — Tailwind class-patronen in Markdown + Grain Texture CSS Variable
+- **Root cause:** Tailwind v4 scande ALLE bestanden incl. markdown. Elke `url()` in bronbestanden werd opgepikt.
+- **Fix 1:** Tekst in HANDOFF herschreven zodat er geen Tailwind-class-achtige patterns in staan.
+- **Fix 2:** Grain texture verplaatst naar CSS variable `--grain-texture` in `:root` (globals.css). `.bg-grain` class gebruikt nu `var(--grain-texture)` — Tailwind scant geen CSS variables.
+- **Fix 3:** `critters` package geïnstalleerd (vereist door `optimizeCss: true` in next.config).
 - **LET OP:** Tailwind v4 scant ALLE bestanden in het project (inclusief .md). Schrijf nooit Tailwind class syntax in markdown bestanden!
 
 ### 3. ProductCard Premium Redesign
@@ -59,13 +61,13 @@
 
 ## TODO's Volgende Sessie (prioriteit)
 
-### 1. PUSHEN NAAR GITHUB
-Twee commits staan lokaal. Push naar master: `git push origin master`
+### 1. ~~PUSHEN NAAR GITHUB~~ — DONE
 
-### 2. Blog Hydration Bug (BESTAAND)
-- `/blog` pagina crasht met "Target ref is defined but no element was found"
-- Framer Motion `useScroll({ target: ref })` error — refs zien er correct uit
-- Niet veroorzaakt door deze sessie, was al broken
+### 2. Blog Hydration Bug — GEFIXT
+- **Was:** `/blog` crashte met "Target ref is defined but no element was found"
+- **Root cause:** Framer Motion `useScroll({ target: ref })` in `FeaturedHero` crashte tijdens hydration (ref nog niet aan DOM element)
+- **Fix:** `useScroll` vervangen door handmatige scroll listener met `useMotionValue` + `useEffect` — zelfde parallax effect, geen hydration crash
+- **Status:** Build clean, production (`next start`) werkt perfect. Dev mode heeft minor hydration attribute warnings (Framer Motion `initial` styles) — dit is dev-only en heeft geen impact op production/Vercel
 
 ### 3. Alle 12 pagina's visueel verifiëren met Playwright
 Screenshot ELKE pagina op 390px (mobile) en 1280px (desktop):

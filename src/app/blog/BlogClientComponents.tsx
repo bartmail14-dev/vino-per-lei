@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useRef, type ReactNode } from "react";
+import { useState, useRef, useEffect, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useInView, useMotionValue, useTransform, AnimatePresence } from "framer-motion";
 import { Clock, ArrowRight, Wine, Mail, BookOpen, Sparkles } from "lucide-react";
 import type { BlogArticle } from "@/lib/shopify-cms";
 
@@ -54,12 +54,26 @@ export function formatDate(date: string) {
 
 export function FeaturedHero({ article }: { article: BlogArticle }) {
   const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-  const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.35, 0.75]);
+
+  // Manual scroll-based parallax — avoids Framer Motion useScroll({ target })
+  // which crashes during hydration ("Target ref is defined but no element was found")
+  const imageY = useMotionValue("0%");
+  const overlayOpacity = useMotionValue(0.35);
+
+  useEffect(() => {
+    function onScroll() {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const h = rect.height || 1;
+      // progress: 0 when element top = viewport top, 1 when element bottom = viewport top
+      const progress = Math.max(0, Math.min(1, -rect.top / h));
+      imageY.set(`${progress * 20}%`);
+      overlayOpacity.set(0.35 + Math.min(progress / 0.5, 1) * 0.4);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [imageY, overlayOpacity]);
   const category = article.tags[0] || "Wijn";
   const hasImage = !!article.image;
 

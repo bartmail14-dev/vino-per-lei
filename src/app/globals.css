@@ -5,6 +5,9 @@
    ============================================ */
 
 :root {
+  /* Grain texture — stored as CSS variable so Tailwind v4 scanner won't pick up url() from source files */
+  --grain-texture: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWx0ZXI9InVybCgjYSkiIG9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==");
+
   /* Primary Colors - Navy Blue (from logo) */
   --wine-burgundy: #1a1f3d;
   --wine-dark: #12152b;
@@ -622,8 +625,11 @@ textarea:focus-visible,
   padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
-/* Grain texture overlay — use on ::before / overlay divs */
-/* .bg-grain temporarily disabled for build test */
+/* Grain texture overlay — uses CSS variable to avoid Tailwind v4 scanning url() */
+.bg-grain {
+  background-image: var(--grain-texture);
+  background-repeat: repeat;
+}
 
 /* ============================================
    Premium Wine Editorial Typography — .prose-wine
