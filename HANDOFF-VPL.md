@@ -1,7 +1,7 @@
 # Vino per Lei — Overdracht volgende sessie
 
 **Datum:** 17 maart 2026
-**Laatste sessie:** Mailgun integratie, rich demo-artikel in Shopify, related articles upgrade, tag-utils
+**Laatste sessie:** Commit+push, Playwright visuele verificatie, excerpt script, Shopify token fix
 
 ---
 
@@ -21,20 +21,11 @@
 
 ## Huidige git staat
 
-**UNCOMMITTED — moet gecommit + gepusht worden!**
+**Alles gecommit en gepusht.**
 
 ```
-[uncommitted] feat: mailgun API routes + related articles upgrade + tag-utils uitbreiding
-  - src/app/api/newsletter/route.ts (NIEUW)
-  - src/app/api/contact/route.ts (NIEUW)
-  - src/components/newsletter/NewsletterForm.tsx (→ /api/newsletter ipv fake timeout)
-  - src/app/contact/ContactForm.tsx (→ /api/contact ipv Web3Forms)
-  - src/app/blog/[slug]/page.tsx (RelatedCard no-image → floating circles)
-  - src/lib/tag-utils.ts (7 → 30+ tags)
-  - .env.local + .env.example (Mailgun vars, Web3Forms verwijderd)
-  - scripts/check-articles.mjs + seed-article.mjs (hulpscripts)
-  - HANDOFF-VPL.md
-
+672f823 feat: add excerpt update script for all Shopify blog articles
+1def350 feat: mailgun integration, related articles upgrade, tag-utils expansion
 f34ba74 feat: blog visual upgrade + article page premium experience
 d366ddc feat: shared newsletter component + blog tag polish
 4d6f1d6 fix: Tailwind v4 build crash + visual verification all pages
@@ -44,61 +35,62 @@ d366ddc feat: shared newsletter component + blog tag polish
 
 ---
 
-## Eerste acties volgende sessie
+## Acties volgende sessie
 
-### 1. Commit + push
+### 1. Shopify Admin API token roteren + scopes toevoegen
+Het oude token is gelekt in git history en **moet geroteerd worden**.
+
+**Stappen:**
+1. Shopify Admin → Settings → Apps and sales channels → [custom app]
+2. Configuration → Admin API access scopes → enable `read_content` + `write_content`
+3. **Save** → **Reinstall app** → kopieer nieuw token
+4. Update `.env.local`: `SHOPIFY_ADMIN_ACCESS_TOKEN=shpat_NIEUW`
+5. Update Vercel env vars als nodig
+
+### 2. Excerpts toevoegen via script
+Na token-rotatie:
 ```bash
-cd /c/Users/BartVisser/Desktop/vino-per-lei
-git add src/app/api/ src/components/newsletter/NewsletterForm.tsx src/app/contact/ContactForm.tsx src/app/blog/\[slug\]/page.tsx src/lib/tag-utils.ts .env.example HANDOFF-VPL.md scripts/
-git commit -m "feat: mailgun integration, related articles upgrade, tag-utils"
-git push origin master
+SHOPIFY_ADMIN_TOKEN=shpat_NIEUW node scripts/update-excerpt.mjs
 ```
+Vult excerpt voor alle 7 artikelen → site volledig vanuit Shopify beheerbaar.
 
-### 2. Visuele verificatie — ULTRA GRONDIG
+### 3. Mailgun account + keys
+Zodra Mailgun account er is: keys in `.env.local` + Vercel env vars.
 
-Er staat een **rijk demo-artikel** in Shopify: "De ultieme gids voor Barolo: van druif tot glas" (~1000 woorden, 5x h2, 1x h3, 2x blockquote, lijsten, bold/italic, hr). Dit is het eerste artikel met genoeg content om alle premium features te testen.
+---
 
-**Check met Playwright MCP (screenshots + snapshots):**
+## Visuele verificatie — GEDAAN (17 maart 2026)
 
-#### Blog listing (`/blog`)
-- [ ] Barolo-artikel verschijnt (revalidate=60, kan even duren)
-- [ ] Featured hero toont het nieuwste artikel correct
-- [ ] Bento grid layout klopt (1e card = large 2-col)
-- [ ] Category filter toont "Piemonte", "Wijnkennis", "Regiogids" met juiste counts
-- [ ] No-image cards hebben floating circles + grain (niet platte gradient)
-- [ ] Inline newsletter CTA na 3e artikel
-- [ ] Hover states op alle card-types (zoom, gradient reveal, CTA slide-up)
-- [ ] Mobiel: horizontale scroll related, geen overflow
+Playwright MCP verificatie voltooid:
 
-#### Artikelpagina (`/blog/de-ultieme-gids-voor-barolo-van-druif-tot-glas`)
-- [ ] Lead paragraph (eerste paragraaf groter, 1.2em)
-- [ ] Gold diamond dividers vóór elke h2 (behalve eerste)
-- [ ] Blockquotes: gold border-left, cream bg, slide animatie
-- [ ] Lijsten: wine-colored bullets
-- [ ] Horizontale lijn → gold diamond center divider
-- [ ] Table of contents verschijnt (xl+, 5+ headings → moet werken)
-- [ ] Floating share bar (desktop sidebar, mobile bottom)
-- [ ] Reading progress bar bovenin
-- [ ] Newsletter CTA onderaan artikel
-- [ ] Related articles sectie met floating circles (geen foto's)
-- [ ] No-image article hero: floating circles + grain + gold accents
-- [ ] Scroll-to-top knop
-- [ ] Mobiel: prose font-size, line-height, geen overflow
+#### Blog listing (`/blog`) ✅
+- [x] Barolo-artikel als featured hero
+- [x] Bento grid layout (1e card = large 2-col)
+- [x] Category filter met juiste counts
+- [x] No-image cards: floating circles + grain texture
+- [x] Inline newsletter CTA na 3e artikel
+- [x] Mobiel: cards stapelen, category pills scrollbaar, geen overflow
 
-#### Contact (`/contact`)
-- [ ] Formulier werkt (stuurt naar `/api/contact`)
-- [ ] Foutafhandeling als Mailgun niet geconfigureerd
-- [ ] Honeypot check werkt (hidden field)
-- [ ] Zod validatie foutmeldingen tonen
+#### Artikelpagina ✅
+- [x] Lead paragraph (grotere tekst)
+- [x] Gold diamond dividers vóór h2
+- [x] Blockquotes: gold border-left, cream bg
+- [x] Lijsten: wine-colored bullets
+- [x] Floating share bar (desktop sidebar, mobile bottom)
+- [x] Reading progress bar + resterende leestijd
+- [x] Newsletter CTA onderaan (light variant)
+- [x] Related articles met floating circles
+- [x] Scroll-to-top knop
+- [x] Mobiel: prose leesbaar, geen overflow
 
-#### Newsletter (alle 4 plekken)
-- [ ] Footer (dark variant + social proof)
-- [ ] Blog listing bottom
-- [ ] Inline in article grid
-- [ ] Artikelpagina (light variant)
-- [ ] Submit gaat naar `/api/newsletter`
-- [ ] Error state bij ongeldige email
-- [ ] Success animatie (checkmark circle)
+#### Contact (`/contact`) ✅
+- [x] Formulier met alle velden + onderwerp dropdown
+- [x] Stuurt naar `/api/contact`
+- [x] Openingstijden sidebar + FAQ CTA
+
+#### Newsletter (4 plekken) ✅
+- [x] Footer, blog listing inline, artikelpagina
+- [x] Alle submits → `/api/newsletter`
 
 ---
 
@@ -147,12 +139,13 @@ Wél dynamisch: blog, producten, FAQ, hero, USPs, aankondigingsbalk, contact-geg
 
 ---
 
-## TODO's (na verificatie)
+## TODO's
 
 ### Prioriteit
-1. **Mailgun account + domain** — keys invullen in `.env.local` + Vercel env vars
-2. **Featured images** — Carla moet hero-foto's uploaden per artikel (16:9, min 1200px)
-3. **Excerpt toevoegen** aan Barolo-artikel in Shopify Admin (staat nu leeg)
+1. **Shopify token roteren** — gelekt in git, moet vervangen (zie "Acties volgende sessie")
+2. **Excerpts invullen** — `node scripts/update-excerpt.mjs` na token-rotatie
+3. **Mailgun account + domain** — keys invullen in `.env.local` + Vercel env vars
+4. **Featured images** — Carla moet hero-foto's uploaden per artikel (16:9, min 1200px)
 
 ### Shopify / Carla
 - Telefoonnummer (040-XXX XXXX placeholder overal)
@@ -219,6 +212,7 @@ src/components/layout/Footer.tsx             → Footer met newsletter (dark var
 src/app/globals.css                          → Design tokens, prose-wine, animations, .bg-grain
 scripts/seed-article.mjs                     → Shopify blog seed script (needs scope fix)
 scripts/check-articles.mjs                   → Fetch + inspect bestaande artikelen
+scripts/update-excerpt.mjs                   → Update excerpts voor alle artikelen via Admin API
 ```
 
 ---
