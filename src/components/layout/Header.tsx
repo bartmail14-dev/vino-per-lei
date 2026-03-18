@@ -207,8 +207,8 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-2 -ml-2 hover:bg-sand/50 rounded-md transition-colors"
-              aria-label="Open menu"
+              className="lg:hidden p-3 -ml-3 hover:bg-sand/50 rounded-md transition-colors"
+              aria-label="Open navigatiemenu"
             >
               <MenuIcon className="w-6 h-6" />
             </button>
@@ -271,8 +271,8 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                   <>
                     <button
                       onClick={() => setShowUserMenu(!showUserMenu)}
-                      className="flex items-center gap-2 p-2 hover:bg-sand/50 rounded-md transition-colors"
-                      aria-label="Account menu"
+                      className="flex items-center gap-2 p-3 hover:bg-sand/50 rounded-md transition-colors"
+                      aria-label="Account menu openen"
                     >
                       <div className="w-7 h-7 bg-wine/10 rounded-full flex items-center justify-center">
                         <span className="text-wine text-sm font-medium">
@@ -345,8 +345,8 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                 ) : (
                   <button
                     onClick={() => openLoginModal()}
-                    className="flex items-center gap-2 p-2 hover:bg-sand/50 rounded-md transition-colors"
-                    aria-label="Inloggen"
+                    className="flex items-center gap-2 p-3 hover:bg-sand/50 rounded-md transition-colors"
+                    aria-label="Inloggen of registreren"
                   >
                     <UserIcon className="w-5 h-5" />
                   </button>
@@ -354,15 +354,17 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
               </div>
               <button
                 onClick={toggleCart}
-                className="relative p-2 hover:bg-sand/50 rounded-md transition-colors"
-                aria-label={`Winkelmand (${itemCount} items)`}
+                className="relative p-3 hover:bg-sand/50 rounded-md transition-colors"
+                aria-label={`Winkelmand${itemCount > 0 ? `, ${itemCount} ${itemCount === 1 ? 'artikel' : 'artikelen'}` : ', leeg'}`}
               >
                 <CartIcon className="w-5 h-5" />
-                {itemCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 w-5 h-5 bg-wine text-white text-xs font-semibold rounded-full flex items-center justify-center">
-                    {itemCount > 9 ? "9+" : itemCount}
-                  </span>
-                )}
+                <span aria-live="polite" aria-atomic="true" className="absolute -top-0.5 -right-0.5">
+                  {itemCount > 0 && (
+                    <span className="w-5 h-5 bg-wine text-white text-xs font-semibold rounded-full flex items-center justify-center">
+                      {itemCount > 9 ? "9+" : itemCount}
+                    </span>
+                  )}
+                </span>
               </button>
             </div>
           </div>
@@ -525,8 +527,8 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                 </span>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-2 hover:bg-sand/50 rounded-md transition-colors"
-                  aria-label="Sluit menu"
+                  className="p-3 hover:bg-sand/50 rounded-md transition-colors"
+                  aria-label="Sluit navigatiemenu"
                 >
                   <CloseIcon className="w-6 h-6" />
                 </button>

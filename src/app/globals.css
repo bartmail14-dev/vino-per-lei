@@ -371,19 +371,19 @@ body {
    ============================================ */
 
 :focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 3px solid var(--wine-burgundy);
   outline-offset: 2px;
   border-radius: 2px;
 }
 
-/* Interactive elements get a gold ring */
+/* Interactive elements get a wine-colored ring (4.5:1+ contrast on white) */
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible,
 [role="button"]:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 3px solid var(--wine-burgundy);
   outline-offset: 2px;
 }
 
