@@ -151,7 +151,6 @@ const defaultFooterLinks = {
     title: "Over Ons",
     links: [
       { label: "Ons Verhaal", href: "/over-ons" },
-      { label: "Onze Selectie", href: "/over-ons/selectie" },
       { label: "Blog", href: "/blog" },
     ],
   },
