@@ -25,8 +25,8 @@ const PRODUCT_FIELDS = `
   images(first: 5) {
     edges { node { url altText width height } }
   }
-  variants(first: 1) {
-    edges { node { id title price { amount currencyCode } } }
+  variants(first: 10) {
+    edges { node { id title price { amount currencyCode } availableForSale } }
   }
   wineType: metafield(namespace: "custom", key: "wine_type") { value }
   grapeVarieties: metafield(namespace: "custom", key: "grape_varieties") { value }
@@ -63,7 +63,7 @@ interface ShopifyProductNode {
     maxVariantPrice: { amount: string; currencyCode: string };
   };
   images: { edges: Array<{ node: { url: string; altText: string | null; width?: number; height?: number } }> };
-  variants: { edges: Array<{ node: { id: string; title: string; price: { amount: string; currencyCode: string } } }> };
+  variants: { edges: Array<{ node: { id: string; title: string; price: { amount: string; currencyCode: string }; availableForSale?: boolean } }> };
   // Metafields — dynamic keys via GraphQL aliases
   [key: string]: unknown;
 }
@@ -138,7 +138,17 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
     isFeatured: (node.isFeatured as MetafieldNode | null)?.value === 'true',
     hasAward: (node.hasAward as MetafieldNode | null)?.value === 'true',
     awardText: mf(node.awardText as MetafieldNode | null) ?? undefined,
-    variantId: node.variants?.edges?.[0]?.node?.id ?? '',
+    variants: node.variants?.edges?.map((e) => ({
+      id: e.node.id,
+      title: e.node.title,
+      price: parseFloat(e.node.price.amount),
+      availableForSale: e.node.availableForSale ?? true,
+    })) ?? [],
+    // Default to first available variant, or first variant if none available
+    variantId:
+      node.variants?.edges?.find((e) => e.node.availableForSale !== false)?.node?.id ??
+      node.variants?.edges?.[0]?.node?.id ??
+      '',
   };
 }
 
