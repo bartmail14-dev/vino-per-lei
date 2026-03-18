@@ -4,7 +4,7 @@ import { OverOnsContent } from "./OverOnsContent";
 
 import type { Metadata } from "next";
 
-export const revalidate = 60;
+export const revalidate = 3600; // 1 hour — static CMS content
 
 export const metadata: Metadata = {
   title: "Over Ons | Vino per Lei",

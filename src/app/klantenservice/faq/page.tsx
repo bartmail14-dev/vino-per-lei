@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getFAQItems } from "@/lib/shopify-cms";
 import { FAQContent } from "./FAQContent";
 
-export const revalidate = 60;
+export const revalidate = 3600; // 1 hour — static CMS content
 
 export const metadata: Metadata = {
   title: "Veelgestelde Vragen | Vino per Lei",

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getSiteSettings, DEFAULT_SITE_SETTINGS } from "@/lib/shopify-cms";
 import { ContactPageContent } from "./ContactPageContent";
 
-export const revalidate = 60;
+export const revalidate = 3600; // 1 hour — static CMS content
 
 export const metadata: Metadata = {
   title: "Contact | Vino per Lei",
