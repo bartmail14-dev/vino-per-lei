@@ -1,13 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { useCheckoutStore } from "@/stores/checkoutStore";
-import { usePostcodeLookup } from "@/hooks/usePostcodeLookup";
 import { addressSchema, validateSection } from "@/lib/validation";
 import { Input, Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
-import { LoadingSpinner, CheckIcon } from "@/components/icons";
 
 interface DeliverySectionProps {
   onComplete: () => void;
@@ -15,34 +11,14 @@ interface DeliverySectionProps {
 
 export function DeliverySection({ onComplete }: DeliverySectionProps) {
   const { address, setAddress, errors, setError, clearError } = useCheckoutStore();
-  const { lookup, result, isLoading, error: lookupError, reset } = usePostcodeLookup();
-  const [showManualEntry, setShowManualEntry] = useState(address.isManualEntry);
-
-  // Auto-lookup when postcode and house number are valid
-  useEffect(() => {
-    if (!showManualEntry && address.postcode.length >= 6 && address.houseNumber) {
-      const timer = setTimeout(() => {
-        lookup(address.postcode, address.houseNumber);
-      }, 300);
-      return () => clearTimeout(timer);
-    }
-  }, [address.postcode, address.houseNumber, showManualEntry, lookup]);
-
-  // Update address when lookup result changes
-  useEffect(() => {
-    if (result) {
-      setAddress({
-        street: result.street,
-        city: result.city,
-        isManualEntry: false,
-      });
-    }
-  }, [result, setAddress]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const validationErrors = validateSection(addressSchema, address);
+    const validationErrors = validateSection(addressSchema, {
+      ...address,
+      isManualEntry: true,
+    });
 
     if (Object.keys(validationErrors).length > 0) {
       Object.entries(validationErrors).forEach(([field, message]) => {
@@ -61,40 +37,34 @@ export function DeliverySection({ onComplete }: DeliverySectionProps) {
     if (value.length > 4) {
       formatted = value.slice(0, 4) + " " + value.slice(4, 6);
     }
-    setAddress({ postcode: formatted, street: "", city: "" });
+    setAddress({ postcode: formatted });
     clearError("address.postcode");
-    reset();
   };
 
   const handleHouseNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress({ houseNumber: e.target.value, street: "", city: "" });
+    setAddress({ houseNumber: e.target.value });
     clearError("address.houseNumber");
-    reset();
   };
 
-  const toggleManualEntry = () => {
-    setShowManualEntry(!showManualEntry);
-    setAddress({ isManualEntry: !showManualEntry });
-    reset();
-  };
-
-  const hasAddressResult = result || (address.street && address.city);
+  const hasRequiredFields = address.postcode && address.houseNumber && address.street && address.city;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Postcode lookup */}
-      <div className="grid grid-cols-2 gap-4">
-        <Input
-          label="Postcode"
-          value={address.postcode}
-          onChange={handlePostcodeChange}
-          error={errors["address.postcode"] || (lookupError && !showManualEntry ? lookupError : undefined)}
-          placeholder="1234 AB"
-          required
-          autoComplete="postal-code"
-          maxLength={7}
-        />
+      {/* Street and house number */}
+      <Input
+        label="Straatnaam"
+        value={address.street}
+        onChange={(e) => {
+          setAddress({ street: e.target.value });
+          clearError("address.street");
+        }}
+        error={errors["address.street"]}
+        placeholder="Hoofdstraat"
+        required
+        autoComplete="street-address"
+      />
 
+      <div className="grid grid-cols-2 gap-4">
         <Input
           label="Huisnummer"
           value={address.houseNumber}
@@ -104,100 +74,44 @@ export function DeliverySection({ onComplete }: DeliverySectionProps) {
           required
           autoComplete="address-line2"
         />
+
+        <Input
+          label="Toevoeging (optioneel)"
+          value={address.addition}
+          onChange={(e) => setAddress({ addition: e.target.value })}
+          placeholder="A, bis, etc."
+          autoComplete="address-line3"
+        />
       </div>
 
-      <Input
-        label="Toevoeging (optioneel)"
-        value={address.addition}
-        onChange={(e) => setAddress({ addition: e.target.value })}
-        placeholder="A, bis, etc."
-        autoComplete="address-line3"
-      />
+      <div className="grid grid-cols-2 gap-4">
+        <Input
+          label="Postcode"
+          value={address.postcode}
+          onChange={handlePostcodeChange}
+          error={errors["address.postcode"]}
+          placeholder="1234 AB"
+          required
+          autoComplete="postal-code"
+          maxLength={7}
+        />
 
-      {/* Loading state */}
-      {isLoading && (
-        <div className="flex items-center gap-2 text-sm text-grey">
-          <LoadingSpinner className="w-4 h-4" />
-          <span>Adres opzoeken...</span>
-        </div>
-      )}
-
-      {/* Auto-filled address result */}
-      <AnimatePresence>
-        {hasAddressResult && !showManualEntry && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="p-4 bg-success/10 border border-success/20 rounded-lg"
-          >
-            <div className="flex items-start gap-3">
-              <CheckIcon className="w-5 h-5 text-success flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="font-medium text-charcoal">
-                  {address.street} {address.houseNumber}
-                  {address.addition && ` ${address.addition}`}
-                </p>
-                <p className="text-sm text-grey">
-                  {address.postcode}, {address.city}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Manual entry toggle */}
-      <button
-        type="button"
-        onClick={toggleManualEntry}
-        className="text-sm text-wine hover:text-wine-dark transition-colors"
-      >
-        {showManualEntry
-          ? "← Terug naar automatisch invullen"
-          : "Adres handmatig invoeren"}
-      </button>
-
-      {/* Manual entry fields */}
-      <AnimatePresence>
-        {showManualEntry && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="space-y-4 overflow-hidden"
-          >
-            <Input
-              label="Straatnaam"
-              value={address.street}
-              onChange={(e) => {
-                setAddress({ street: e.target.value });
-                clearError("address.street");
-              }}
-              error={errors["address.street"]}
-              placeholder="Hoofdstraat"
-              required
-              autoComplete="street-address"
-            />
-
-            <Input
-              label="Plaats"
-              value={address.city}
-              onChange={(e) => {
-                setAddress({ city: e.target.value });
-                clearError("address.city");
-              }}
-              error={errors["address.city"]}
-              placeholder="Amsterdam"
-              required
-              autoComplete="address-level2"
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+        <Input
+          label="Plaats"
+          value={address.city}
+          onChange={(e) => {
+            setAddress({ city: e.target.value });
+            clearError("address.city");
+          }}
+          error={errors["address.city"]}
+          placeholder="Amsterdam"
+          required
+          autoComplete="address-level2"
+        />
+      </div>
 
       {/* Country (fixed to Netherlands) */}
-      <div className={cn("p-3 bg-warm-white rounded-lg", showManualEntry && "mt-4")}>
+      <div className={cn("p-3 bg-warm-white rounded-lg")}>
         <div className="flex items-center gap-2">
           <span className="text-lg">🇳🇱</span>
           <span className="text-sm text-charcoal">Nederland</span>
@@ -212,7 +126,7 @@ export function DeliverySection({ onComplete }: DeliverySectionProps) {
           type="submit"
           variant="primary"
           fullWidth
-          disabled={!hasAddressResult && !showManualEntry}
+          disabled={!hasRequiredFields}
         >
           Doorgaan naar cadeau-opties
         </Button>

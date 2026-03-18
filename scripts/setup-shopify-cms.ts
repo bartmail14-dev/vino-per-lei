@@ -210,7 +210,7 @@ async function seedContent() {
   await createMetaobject('site_settings', 'main', [
     { key: 'company_name', value: 'Vino per Lei' },
     { key: 'owner_name', value: 'Carla Daniels' },
-    { key: 'phone', value: '040-XXX XXXX' },
+    { key: 'phone', value: '' },
     { key: 'email', value: 'info@vinoperlei.nl' },
     { key: 'address_street', value: 'Pastorielaan 56' },
     { key: 'address_postal', value: '5504 CR' },

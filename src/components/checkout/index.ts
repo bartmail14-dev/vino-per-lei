@@ -7,4 +7,3 @@ export { DeliverySection } from "./DeliverySection";
 export { GiftSection } from "./GiftSection";
 export { ShippingSection } from "./ShippingSection";
 export { PaymentSection } from "./PaymentSection";
-export { ExpressCheckout } from "./ExpressCheckout";

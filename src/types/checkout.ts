@@ -96,15 +96,6 @@ export interface OrderResult {
   redirectUrl?: string;
 }
 
-export interface PostcodeResult {
-  street: string;
-  city: string;
-  municipality: string;
-  province: string;
-  latitude: number;
-  longitude: number;
-}
-
 // Shipping costs
 export const SHIPPING_COSTS: Record<ShippingMethod, number> = {
   standard: 4.95,
