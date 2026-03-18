@@ -9,11 +9,11 @@ export const revalidate = 60;
 export const metadata: Metadata = {
   title: "Over Ons | Vino per Lei",
   description:
-    "Ontdek het verhaal achter Vino per Lei — onze passie voor authentieke Italiaanse wijnen.",
+    "Carla Daniels importeert 19 Italiaanse wijnen rechtstreeks van familieproducenten in Piemonte, Veneto en Toscane.",
   openGraph: {
     title: "Over Ons | Vino per Lei",
     description:
-      "Ontdek het verhaal achter Vino per Lei — onze passie voor authentieke Italiaanse wijnen.",
+      "Carla Daniels importeert 19 Italiaanse wijnen rechtstreeks van familieproducenten in Piemonte, Veneto en Toscane.",
     locale: "nl_NL",
     siteName: "Vino per Lei",
   },
