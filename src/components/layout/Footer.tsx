@@ -235,7 +235,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
               Blijf op de hoogte
             </h2>
             <p className="text-white/50 mb-8 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-              Ontvang als eerste nieuwe wijnen, wijnverhalen en exclusieve aanbiedingen direct in je inbox.
+              Nieuwe wijnen, seizoenstips en af en toe een aanbieding. Geen spam, hooguit twee keer per maand.
             </p>
             <NewsletterForm
               variant="dark"
@@ -273,7 +273,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
                 &ldquo;Wijn met karakter, speciaal voor jou&rdquo;
               </p>
               <p className="text-wine/35 text-sm leading-relaxed mt-3 max-w-sm">
-                Zorgvuldig geselecteerde Italiaanse wijnen van familiebedrijven met passie voor hun vak.
+                19 Italiaanse wijnen, rechtstreeks van de producent. Geen tussenpersonen, geen eindeloos schap.
               </p>
               {/* Social Links */}
               <div className="flex gap-1 mt-6">

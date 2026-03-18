@@ -99,7 +99,7 @@ export function ProductCarousel({
               href={viewAllHref}
               className="hidden sm:flex items-center gap-1 text-wine font-medium hover:underline"
             >
-              Bekijk alles
+              Alle wijnen
               <ArrowRightIcon className="w-4 h-4" />
             </Link>
           )}

@@ -43,7 +43,7 @@ export function FoodPairingGallery({ product, className }: FoodPairingGalleryPro
             transition={{ delay: 0.1 }}
             className="text-grey text-sm sm:text-base"
           >
-            Aanbevolen combinaties voor deze wijn
+            Wat zet je erbij op tafel?
           </motion.p>
         )}
       </div>

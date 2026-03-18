@@ -431,13 +431,13 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
 };
 
 export const DEFAULT_HERO: HeroContent = {
-  subtitle: 'Authentieke Italiaanse Wijnen',
-  titleLine1: 'La Dolce Vita',
-  titleLine2: 'in Elk Glas',
-  description: 'Ontdek onze zorgvuldig geselecteerde collectie Italiaanse wijnen. Van krachtige Barolo tot frisse Pinot Grigio.',
-  ctaPrimaryText: 'Bekijk Collectie',
+  subtitle: 'Kleine producenten, grote wijnen',
+  titleLine1: 'Italiaanse wijn',
+  titleLine2: 'zonder omwegen',
+  description: 'Rechtstreeks van familiewijngaarden in Piemonte, Veneto en Toscane. 19 wijnen die Carla zelf heeft geproefd en geimporteerd.',
+  ctaPrimaryText: 'Bekijk de 19 wijnen',
   ctaPrimaryLink: '/wijnen',
-  ctaSecondaryText: 'Ons Verhaal',
+  ctaSecondaryText: 'Wie is Carla?',
   ctaSecondaryLink: '/over-ons',
 };
 

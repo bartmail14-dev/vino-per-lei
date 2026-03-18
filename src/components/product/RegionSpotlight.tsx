@@ -112,7 +112,7 @@ export function RegionSpotlight({ product, className }: RegionSpotlightProps) {
               href={`/wijnen?region=${regionInfo?.slug || product.region.toLowerCase()}`}
               className="inline-flex items-center gap-2 bg-wine text-white px-6 py-3 rounded-lg font-medium hover:bg-wine-dark transition-colors"
             >
-              <span>Ontdek alle wijnen uit {product.region}</span>
+              <span>Meer wijnen uit {product.region}</span>
               <ArrowRightIcon className="w-4 h-4" />
             </Link>
           </motion.div>

@@ -326,13 +326,12 @@ export function WijnenContent({ products }: { products: Product[] }) {
           <p className="text-body-lg text-grey max-w-2xl mx-auto">
             {activeRegionName ? (
               <>
-                Ontdek onze {filteredProducts.length} geselecteerde wijnen uit {activeRegionName}.
-                {" "}Elke wijn vertelt het verhaal van deze prachtige Italiaanse regio.
+                {filteredProducts.length} wijnen uit {activeRegionName}, rechtstreeks van de producent.
               </>
             ) : (
               <>
-                Ontdek onze zorgvuldig geselecteerde collectie van {filteredProducts.length} authentieke
-                Italiaanse wijnen uit de mooiste regio&apos;s van Italië.
+                {filteredProducts.length} wijnen uit Piemonte, Veneto en Toscane.
+                Allemaal persoonlijk geselecteerd en rechtstreeks geimporteerd.
               </>
             )}
           </p>

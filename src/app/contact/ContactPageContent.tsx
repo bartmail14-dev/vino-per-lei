@@ -48,7 +48,7 @@ export function ContactPageContent({
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-4 leading-[1.15]"
           >
-            Neem Contact Op
+            Stel je vraag aan Carla
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -56,8 +56,8 @@ export function ContactPageContent({
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-white/60 max-w-lg text-sm sm:text-base leading-relaxed"
           >
-            Heb je een vraag, opmerking of wil je advies over onze wijnen? We
-            horen graag van je.
+            Wijnadvies, vragen over je bestelling of een cadeau samenstellen?
+            Carla beantwoordt alles persoonlijk.
           </motion.p>
         </div>
       </div>

@@ -8,48 +8,48 @@ import { Wine as WineGlassIcon, Heart as HeartHandIcon, Leaf as LeafIcon, Truck 
 const values = [
   {
     Icon: WineGlassIcon,
-    title: "Handgeselecteerd",
+    title: "19 wijnen, niet meer",
     description:
-      "Elke wijn in onze collectie is persoonlijk geproefd en geselecteerd. We werken alleen met familiewijngaarden die generaties lang dezelfde passie delen.",
+      "Geen eindeloze schappen. Elke fles is er omdat Carla hem zelf zou drinken. Valt een wijn tegen na een seizoen? Dan gaat hij eruit.",
   },
   {
     Icon: HeartHandIcon,
-    title: "Met Liefde",
+    title: "Naam en gezicht",
     description:
-      "Vino per Lei betekent 'Wijn voor Haar'. We geloven dat elke fles een verhaal vertelt — van de wijngaard tot jouw tafel.",
+      "Bij elke wijn hoort een producent die Carla persoonlijk kent. Geen anonieme groothandel, maar families die je bij naam kunt noemen.",
   },
   {
     Icon: LeafIcon,
-    title: "Duurzaam & Eerlijk",
+    title: "Eerlijke prijzen",
     description:
-      "Onze producenten werken met respect voor het land. Veel van onze wijnen zijn biologisch of biodynamisch geproduceerd.",
+      "Zonder tussenpersonen importeren betekent: betere wijn voor minder geld. Wat je bij ons betaalt, gaat naar de producent en de kwaliteit in je glas.",
   },
   {
     Icon: TruckIcon,
-    title: "Direct uit Italië",
+    title: "Veldhoven - Italië, directe lijn",
     description:
-      "Geen tussenpersonen. Wij importeren rechtstreeks van de wijngaard naar jouw deur, zodat je de beste prijs-kwaliteitverhouding krijgt.",
+      "Van producent naar ons magazijn in Veldhoven, en dan naar jou. Geen omwegen via importeurs of distributeurs.",
   },
 ];
 
 const timeline = [
   {
     year: "Het Begin",
-    title: "Een passie geboren in Italië",
+    title: "Een Barolo die alles veranderde",
     description:
-      "Tijdens een reis door Toscane ontdekten we de magie van kleine familiewijngaarden. Wijnen met karakter, gemaakt door mensen die hun land kennen als geen ander.",
+      "Carla dronk haar eerste serieuze Italiaanse wijn bij een klein restaurant in de Langhe. Een Barolo van een producent die drie hectare bezat en alles met de hand deed. Die fles kostte lokaal een fractie van wat je in Nederland betaalt. Dat verschil wilde ze oplossen.",
   },
   {
-    year: "De Missie",
-    title: "Italië naar Nederland brengen",
+    year: "De Eerste Stap",
+    title: "Zelf importeren, zonder tussenpersonen",
     description:
-      "We begonnen contacten te leggen met producenten in Piemonte, Puglia, Sicilië en Veneto. Geen grote handelshuizen, maar families met generaties ervaring.",
+      "Carla ging terug naar Piemonte, daarna Veneto en Toscane. Ze proefde zich door tientallen kelders en koos alleen producenten die klein werken en hun eigen druiven verbouwen. Geen handelshuis ertussen, geen marge voor een importeur.",
   },
   {
     year: "Vandaag",
-    title: "Jouw persoonlijke wijnimporteur",
+    title: "19 wijnen, 3 gebieden, 1 filosofie",
     description:
-      "Met een zorgvuldig samengestelde collectie brengen wij het beste van Italië bij jou thuis. Elke fles vertelt een verhaal, elke slok neemt je mee.",
+      "Vanuit Veldhoven levert Carla nu rechtstreeks aan wijnliefhebbers in heel Nederland. Geen warehouse vol pallets, maar een selectie die ze bewust klein houdt. Als een wijn niet goed genoeg is om zelf te schenken, komt hij niet in het assortiment.",
   },
 ];
 
@@ -90,9 +90,9 @@ export function OverOnsContent({ pageBody, email }: OverOnsContentProps) {
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-6 leading-[1.15]"
           >
-            Passie voor
+            Waarom deze
             <br />
-            <span className="text-gold">Italiaanse Wijn</span>
+            <span className="text-gold">19 wijnen?</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -100,9 +100,10 @@ export function OverOnsContent({ pageBody, email }: OverOnsContentProps) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-white/70 text-base sm:text-lg max-w-2xl leading-relaxed"
           >
-            Achter elke fles schuilt een verhaal van generaties, terroir en
-            vakmanschap. Wij brengen de mooiste Italiaanse wijnen naar jouw
-            tafel — met zorg geselecteerd, met liefde geleverd.
+            Carla Daniels importeert Italiaanse wijn rechtstreeks van kleine
+            familieproducenten in Piemonte, Veneto en Toscane. Geen
+            tussenpersonen, geen eindeloos assortiment. Alleen wijnen die ze
+            zelf zou schenken.
           </motion.p>
         </div>
       </section>
@@ -134,10 +135,10 @@ export function OverOnsContent({ pageBody, email }: OverOnsContentProps) {
           <AnimateOnScroll variant="fadeUp">
             <div className="text-center mb-12 sm:mb-16">
               <p className="text-label text-gold/60 mb-3">
-                Onze Reis
+                Hoe het begon
               </p>
               <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold text-charcoal leading-[1.2]">
-                Van Wijngaard tot Jouw Tafel
+                Drie momenten die ertoe deden
               </h2>
             </div>
           </AnimateOnScroll>
@@ -190,10 +191,10 @@ export function OverOnsContent({ pageBody, email }: OverOnsContentProps) {
           <AnimateOnScroll variant="fadeUp">
             <div className="text-center mb-12">
               <p className="text-label text-gold/60 mb-3">
-                Onze Filosofie
+                Zo werken wij
               </p>
               <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold text-charcoal leading-[1.2]">
-                Waar wij in geloven
+                Drie principes, geen compromissen
               </h2>
             </div>
           </AnimateOnScroll>
@@ -202,18 +203,18 @@ export function OverOnsContent({ pageBody, email }: OverOnsContentProps) {
             {[
               {
                 Icon: StarIcon,
-                title: "Kwaliteit boven Kwantiteit",
-                text: "Liever twintig uitzonderlijke wijnen dan honderd middelmatige. Elke fles in onze collectie is er op eigen verdienste.",
+                title: "Klein houden",
+                text: "We groeien niet om te groeien. 19 wijnen is genoeg als elke fles goed is. Groter worden betekent concessies doen, en dat doen we niet.",
               },
               {
                 Icon: GlobeIcon,
-                title: "Transparantie",
-                text: "We vertellen je precies waar elke wijn vandaan komt, wie hem maakt en waarom wij er zo enthousiast over zijn.",
+                title: "Volledige herkomst",
+                text: "Bij elke wijn staat wie hem maakt, welk perceel, welk jaar. Geen vaag etiket, geen marketingverhaal. Gewoon de feiten.",
               },
               {
                 Icon: HeartHandIcon,
-                title: "Persoonlijke Service",
-                text: "Wijn kiezen kan overweldigend zijn. Wij helpen je graag met persoonlijk advies — of je nu beginner bent of kenner.",
+                title: "Advies van Carla zelf",
+                text: "Mail of bel, en je hebt Carla aan de lijn. Geen callcenter, geen chatbot. Vertel wat je zoekt en ze wijst je de goede kant op.",
               },
             ].map((item) => (
               <StaggerItem key={item.title}>
@@ -279,18 +280,18 @@ export function OverOnsContent({ pageBody, email }: OverOnsContentProps) {
             <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-tr-[60px]" />
             <div className="relative">
               <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-white mb-3">
-                Vragen? Neem contact op
+                Wijnadvies nodig?
               </h2>
               <p className="text-white/70 mb-8 max-w-lg mx-auto">
-                We helpen je graag met wijnadvies, bestellingen of andere
-                vragen. Je kunt ons bereiken via e-mail of telefoon.
+                Niet zeker welke wijn bij jouw gelegenheid past? Carla denkt
+                graag mee. Stuur een mail of bel even.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Link
                   href="/contact"
                   className="inline-flex items-center justify-center h-12 px-8 bg-white text-wine text-button uppercase rounded hover:bg-white/90 transition-colors"
                 >
-                  Contact Opnemen
+                  Vraag advies aan Carla
                 </Link>
                 <a
                   href={`mailto:${email}`}

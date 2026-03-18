@@ -231,19 +231,19 @@ export default async function Home() {
         <AnimatedSection variant="fadeUp">
           <div className="flex items-start sm:items-end justify-between mb-8 sm:mb-14">
             <div>
-              <p className="text-label text-wine/40 mb-2">Handgeselecteerd</p>
+              <p className="text-label text-wine/40 mb-2">Door Carla gekozen</p>
               <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight">
                 Onze Favorieten
               </h2>
               <p className="text-grey text-sm sm:text-base mt-2 max-w-md">
-                Zorgvuldig geselecteerde wijnen uit de beste Italiaanse wijnhuizen.
+                De flessen die het vaakst op Carla&apos;s eigen tafel staan. Getest op dinertjes, verjaardagen en gewone dinsdagavonden.
               </p>
             </div>
             <Link
               href="/wijnen"
               className="group flex items-center gap-2 text-wine font-medium text-sm hover:text-wine-dark transition-colors"
             >
-              Bekijk alles
+              Alle 19 wijnen
               <ChevronRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
@@ -265,13 +265,12 @@ export default async function Home() {
       <Section background="dark" spacing="xl">
         <div className="grid lg:grid-cols-2 gap-10 sm:gap-16 items-center">
           <AnimatedSection variant="fadeLeft" className="order-2 lg:order-1">
-            <p className="text-label text-gold/60 mb-3">Ontdek per Regio</p>
+            <p className="text-label text-gold/60 mb-3">Drie wijngebieden</p>
             <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold text-white mb-4 sm:mb-6 leading-tight">
               Van Piemonte<br className="hidden sm:block" /> tot Toscane
             </h2>
             <p className="text-sm sm:text-base text-white/50 mb-8 sm:mb-10 leading-relaxed max-w-lg">
-              Onze selectie komt uit de mooiste wijnregio&apos;s van Italië.
-              Van de nebbiolo-heuvels van Piemonte tot de sangiovese-dalen van Toscane.
+              Piemonte voor de krachtige Nebbiolo&apos;s. Veneto voor rijke Amarone en Ripasso. Toscane voor klassieke Sangiovese. Meer hebben we niet nodig.
             </p>
             <div className="flex flex-wrap gap-2.5 sm:gap-3">
               {[
@@ -305,10 +304,10 @@ export default async function Home() {
         <AnimatedSection variant="fadeUp">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-16 text-center">
             {[
-              { target: 2500, suffix: "+", label: "Tevreden klanten" },
-              { target: 150, suffix: "+", label: "Italiaanse wijnen" },
-              { target: 20, suffix: "+", label: "Wijnregio's" },
-              { target: 48, suffix: "", label: "Uur snelle levering", prefix: "< " },
+              { target: 19, suffix: "", label: "Geselecteerde wijnen" },
+              { target: 3, suffix: "", label: "Italiaanse wijngebieden" },
+              { target: 12, suffix: "+", label: "Familieproducenten" },
+              { target: 48, suffix: "", label: "Uur levering", prefix: "< " },
             ].map((stat) => (
               <div key={stat.label}>
                 <p className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-wine leading-none mb-1.5 tabular-nums">
@@ -360,8 +359,8 @@ export default async function Home() {
       <Section background="default" spacing="xl">
         <AnimatedSection variant="fadeUp">
           <div className="text-center mb-8 sm:mb-14">
-            <p className="text-label text-wine/40 mb-2">Shop per Categorie</p>
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Ontdek Onze Collectie</h2>
+            <p className="text-label text-wine/40 mb-2">Shop per type</p>
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Weet je wat je zoekt?</h2>
           </div>
         </AnimatedSection>
         <AnimatedStagger className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-5 md:gap-6" staggerDelay={0.08}>
@@ -402,10 +401,10 @@ export default async function Home() {
               <div>
                 <p className="text-label text-gold tracking-[0.2em] mb-3">Il Giornale</p>
                 <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-charcoal leading-[1.08] tracking-tight">
-                  Wijn <span className="font-serif italic text-wine/70">Verhalen</span>
+                  Achter <span className="font-serif italic text-wine/70">het etiket</span>
                 </h2>
                 <p className="text-grey text-sm sm:text-base mt-3 max-w-md leading-relaxed">
-                  Verdiep je in de wereld van Italiaanse wijn — van regio&apos;s tot druivenrassen.
+                  Wat maakt een Barolo anders dan een Barbaresco? Waarom kost Amarone meer? Wij leggen het uit.
                 </p>
               </div>
               <Link

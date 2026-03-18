@@ -11,11 +11,11 @@ export const revalidate = 3600; // 1 hour — static CMS content
 export const metadata: Metadata = {
   title: "Cadeaus | Vino per Lei",
   description:
-    "Verras met een uniek wijncadeau — geschenksets en cadeaubonnen van Vino per Lei.",
+    "Geef Italiaanse wijn cadeau die je niet in de supermarkt vindt. Enkele fles, duo of proeverij box, met persoonlijk kaartje.",
   openGraph: {
     title: "Cadeaus | Vino per Lei",
     description:
-      "Verras met een uniek wijncadeau — geschenksets en cadeaubonnen van Vino per Lei.",
+      "Geef Italiaanse wijn cadeau die je niet in de supermarkt vindt. Enkele fles, duo of proeverij box, met persoonlijk kaartje.",
     locale: "nl_NL",
     siteName: "Vino per Lei",
   },
@@ -44,7 +44,7 @@ export default async function CadeausPage() {
               Perfecte Cadeauwijnen
             </h2>
             <p className="text-grey text-sm sm:text-base mt-2 max-w-lg mx-auto">
-              Award-winnende en premium wijnen die altijd in de smaak vallen.
+              Wijnen die indruk maken zonder dat je wijnkenner hoeft te zijn.
             </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
@@ -57,7 +57,7 @@ export default async function CadeausPage() {
               href="/wijnen"
               className="inline-flex items-center justify-center h-12 px-8 border-2 border-wine text-wine text-button uppercase rounded hover:bg-wine hover:text-white transition-colors"
             >
-              Bekijk Alle Wijnen
+              Alle 19 wijnen bekijken
             </Link>
           </div>
         </Section>
