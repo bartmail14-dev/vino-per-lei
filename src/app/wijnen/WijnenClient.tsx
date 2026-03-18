@@ -16,7 +16,7 @@ import {
 import { cn } from "@/lib/utils";
 import { wineRegions, getRegionBySlug } from "@/data/wineRegions";
 import { FilterIcon, ChevronRightIcon } from "@/components/icons";
-import { LayoutGrid, List } from "lucide-react";
+import { LayoutGrid, List, Search, X } from "lucide-react";
 
 // Build filter groups dynamically from actual products
 function buildFilterGroups(products: Product[]): FilterGroup[] {
@@ -135,6 +135,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
 
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>(initialFilters);
   const [sortBy, setSortBy] = useState("popular");
+  const [searchQuery, setSearchQuery] = useState("");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
@@ -166,6 +167,16 @@ export function WijnenContent({ products }: { products: Product[] }) {
   // Filter and sort products
   const filteredProducts = useMemo(() => {
     let result = [...products];
+
+    // Apply search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
+      result = result.filter((p) =>
+        p.title.toLowerCase().includes(query) ||
+        p.region?.toLowerCase().includes(query) ||
+        p.grapeVarieties?.some((g) => g.toLowerCase().includes(query))
+      );
+    }
 
     // Apply region filter
     if (activeFilters.region?.length) {
@@ -232,7 +243,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
     }
 
     return result;
-  }, [activeFilters, sortBy, products]);
+  }, [activeFilters, sortBy, searchQuery, products]);
 
   const handleFilterChange = (
     groupId: string,
@@ -344,6 +355,28 @@ export function WijnenContent({ products }: { products: Product[] }) {
 
           {/* Products */}
           <div className="flex-1 min-w-0">
+            {/* Search bar */}
+            <div className="relative mb-6">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-grey" strokeWidth={1.5} />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Zoek op wijn, regio of druivenras..."
+                className="w-full pl-10 pr-10 py-2.5 border border-sand rounded-lg text-sm text-charcoal placeholder:text-grey/60 focus:outline-none focus:ring-2 focus:ring-wine/20 focus:border-wine transition-colors bg-white"
+                aria-label="Zoek wijnen"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery("")}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 hover:bg-sand/50 rounded transition-colors"
+                  aria-label="Wis zoekopdracht"
+                >
+                  <X className="w-4 h-4 text-grey" strokeWidth={1.5} />
+                </button>
+              )}
+            </div>
+
             {/* Toolbar */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
               {/* Mobile filter button */}
