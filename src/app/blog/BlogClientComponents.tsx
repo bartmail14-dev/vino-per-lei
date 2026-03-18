@@ -341,7 +341,7 @@ export function ArticleCard({
   return (
     <Link href={`/blog/${article.handle}`} className="group block h-full">
       <article
-        className={`rounded-xl sm:rounded-2xl overflow-hidden h-full flex transition-all duration-500 ${
+        className={`rounded-lg sm:rounded-2xl overflow-hidden h-full flex transition-all duration-500 ${
           isHorizontal ? "flex-row" : "flex-col"
         } ${
           isLarge
@@ -813,7 +813,7 @@ export function BlogSkeleton() {
         {/* Grid skeletons — matching card design with 3:2 ratios */}
         <div className="grid gap-6 sm:gap-7 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className={`rounded-xl sm:rounded-2xl overflow-hidden bg-white border border-sand/20 ${i === 0 ? "sm:col-span-2" : ""}`}>
+            <div key={i} className={`rounded-lg sm:rounded-2xl overflow-hidden bg-white border border-sand/20 ${i === 0 ? "sm:col-span-2" : ""}`}>
               <div className={`skeleton ${i === 0 ? "aspect-[2/1]" : "aspect-[3/2]"} relative`}>
                 {/* Category pill skeleton */}
                 <div className="absolute top-4 left-4 h-6 w-16 bg-white/10 rounded-full" />

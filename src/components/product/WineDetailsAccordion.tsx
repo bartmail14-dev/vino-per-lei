@@ -166,7 +166,7 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
   ];
 
   return (
-    <div className={cn("bg-white rounded-xl sm:rounded-2xl border border-sand/50 overflow-hidden", className)}>
+    <div className={cn("bg-white rounded-lg sm:rounded-2xl border border-sand/50 overflow-hidden", className)}>
       {items.map((item, index) => (
         <div key={item.id} className={cn(index !== 0 && "border-t border-sand/50")}>
           <button

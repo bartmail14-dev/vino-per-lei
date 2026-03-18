@@ -145,7 +145,7 @@ export function ProductCard({
         {/* Image Container */}
         <div className="relative h-36 sm:h-48 mx-3 sm:mx-4 -mt-12 sm:-mt-20">
           {/* Background with grain */}
-          <div className="absolute inset-0 bg-gradient-to-b from-champagne/60 via-cream to-white rounded-xl overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-champagne/60 via-cream to-white rounded-lg overflow-hidden">
             <div className="absolute inset-0 bg-grain opacity-[0.03]" />
             {/* Shine sweep on hover */}
             <motion.div

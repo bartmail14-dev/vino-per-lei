@@ -112,7 +112,7 @@ export function OverOnsContent({ pageBody, email }: OverOnsContentProps) {
         <StaggerChildren className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4" staggerDelay={0.08}>
           {values.map((v) => (
             <StaggerItem key={v.title}>
-              <div className="bg-white rounded-xl p-6 shadow-lg border border-sand/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
+              <div className="bg-white rounded-lg p-6 shadow-lg border border-sand/50 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full">
                 <div className="w-12 h-12 rounded-lg bg-wine/10 flex items-center justify-center mb-4">
                   <v.Icon className="w-6 h-6 text-wine" strokeWidth={1.5} />
                 </div>

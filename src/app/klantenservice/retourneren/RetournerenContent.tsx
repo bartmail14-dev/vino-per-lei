@@ -89,7 +89,7 @@ export function RetournerenContent({ pageBody, pageTitle }: RetournerenContentPr
       {/* Guarantee banner */}
       <div className="max-w-4xl mx-auto px-4 -mt-6 relative z-10 mb-12">
         <AnimateOnScroll variant="scaleIn">
-          <div className="bg-white rounded-xl shadow-lg border border-sand/50 p-5 sm:p-6 flex items-center gap-4">
+          <div className="bg-white rounded-lg shadow-lg border border-sand/50 p-5 sm:p-6 flex items-center gap-4">
             <div className="w-12 h-12 rounded-full bg-wine/10 flex items-center justify-center flex-shrink-0">
               <ShieldCheck className="w-6 h-6 text-wine" strokeWidth={1.5} />
             </div>
@@ -125,7 +125,7 @@ export function RetournerenContent({ pageBody, pageTitle }: RetournerenContentPr
           <div className="space-y-4">
             {returnSteps.map((step, index) => (
               <AnimateOnScroll key={step.number} variant="fadeUp" delay={index * 0.1}>
-                <div className="bg-white rounded-xl border border-sand/50 p-5 sm:p-6 flex items-start gap-4 sm:gap-5 hover:shadow-md transition-shadow">
+                <div className="bg-white rounded-lg border border-sand/50 p-5 sm:p-6 flex items-start gap-4 sm:gap-5 hover:shadow-md transition-shadow">
                   {/* Number circle */}
                   <div className="flex-shrink-0 w-12 h-12 rounded-full bg-wine flex items-center justify-center">
                     <step.Icon className="w-5 h-5 text-white" strokeWidth={1.5} />
@@ -157,7 +157,7 @@ export function RetournerenContent({ pageBody, pageTitle }: RetournerenContentPr
             </h2>
             <div className="grid sm:grid-cols-2 gap-6">
               {/* Allowed */}
-              <div className="bg-white rounded-xl border border-sand/50 p-6">
+              <div className="bg-white rounded-lg border border-sand/50 p-6">
                 <h3 className="font-semibold text-charcoal mb-4 flex items-center gap-2">
                   <CheckCircleIcon className="w-5 h-5 text-green-600" />
                   Retour mogelijk
@@ -173,7 +173,7 @@ export function RetournerenContent({ pageBody, pageTitle }: RetournerenContentPr
               </div>
 
               {/* Not Allowed */}
-              <div className="bg-white rounded-xl border border-sand/50 p-6">
+              <div className="bg-white rounded-lg border border-sand/50 p-6">
                 <h3 className="font-semibold text-charcoal mb-4 flex items-center gap-2">
                   <XCircleIcon className="w-5 h-5 text-red-500" />
                   Niet retourneerbaar

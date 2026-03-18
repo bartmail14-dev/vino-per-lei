@@ -68,7 +68,7 @@ export function ContactPageContent({
           <StaggerItem>
             <a
               href={`mailto:${email}`}
-              className="bg-white rounded-xl p-5 sm:p-6 shadow-lg border border-sand/50 flex items-start gap-4 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 group block"
+              className="bg-white rounded-lg p-5 sm:p-6 shadow-lg border border-sand/50 flex items-start gap-4 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 group block"
             >
               <div className="w-11 h-11 rounded-full bg-wine/10 flex items-center justify-center flex-shrink-0 group-hover:bg-wine/20 transition-colors">
                 <MailIcon className="w-5 h-5 text-wine" />
@@ -85,7 +85,7 @@ export function ContactPageContent({
           <StaggerItem>
             <a
               href={`tel:${phone.replace(/\s/g, "")}`}
-              className="bg-white rounded-xl p-5 sm:p-6 shadow-lg border border-sand/50 flex items-start gap-4 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 group block"
+              className="bg-white rounded-lg p-5 sm:p-6 shadow-lg border border-sand/50 flex items-start gap-4 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 group block"
             >
               <div className="w-11 h-11 rounded-full bg-wine/10 flex items-center justify-center flex-shrink-0 group-hover:bg-wine/20 transition-colors">
                 <PhoneIcon className="w-5 h-5 text-wine" />
@@ -98,7 +98,7 @@ export function ContactPageContent({
           </StaggerItem>
 
           <StaggerItem>
-            <div className="bg-white rounded-xl p-5 sm:p-6 shadow-lg border border-sand/50 flex items-start gap-4">
+            <div className="bg-white rounded-lg p-5 sm:p-6 shadow-lg border border-sand/50 flex items-start gap-4">
               <div className="w-11 h-11 rounded-full bg-wine/10 flex items-center justify-center flex-shrink-0">
                 <MapPinIcon className="w-5 h-5 text-wine" />
               </div>
@@ -133,7 +133,7 @@ export function ContactPageContent({
           {/* Sidebar */}
           <div className="space-y-6">
             <AnimateOnScroll variant="fadeRight" delay={0.1}>
-              <div className="bg-warm-white rounded-xl p-6 border border-sand">
+              <div className="bg-warm-white rounded-lg p-6 border border-sand">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-9 h-9 rounded-full bg-gold/10 flex items-center justify-center flex-shrink-0">
                     <ClockIcon className="w-4 h-4 text-gold" />
@@ -163,7 +163,7 @@ export function ContactPageContent({
             </AnimateOnScroll>
 
             <AnimateOnScroll variant="fadeRight" delay={0.2}>
-              <div className="relative bg-gradient-to-br from-wine to-wine-dark rounded-xl p-6 overflow-hidden">
+              <div className="relative bg-gradient-to-br from-wine to-wine-dark rounded-lg p-6 overflow-hidden">
                 <div className="absolute top-0 right-0 w-24 h-24 bg-white/5 rounded-bl-[60px]" />
                 <div className="absolute bottom-0 left-0 w-16 h-16 bg-white/3 rounded-tr-[40px]" />
                 <div className="relative">
@@ -187,7 +187,7 @@ export function ContactPageContent({
 
             {/* Trust signals */}
             <AnimateOnScroll variant="fadeRight" delay={0.3}>
-              <div className="bg-white rounded-xl p-5 border border-sand/50">
+              <div className="bg-white rounded-lg p-5 border border-sand/50">
                 <h3 className="font-semibold text-charcoal text-sm mb-4 flex items-center gap-2">
                   <ShieldCheckIcon className="w-4 h-4 text-wine" />
                   Vertrouwenssignalen

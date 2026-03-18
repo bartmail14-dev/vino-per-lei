@@ -313,7 +313,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
             </p>
 
             {/* Wine Type + Alcohol Indicator */}
-            <div className="flex items-center gap-4 mb-4 p-3 sm:p-4 rounded-xl bg-warm-white/80 border border-sand/30">
+            <div className="flex items-center gap-4 mb-4 p-3 sm:p-4 rounded-lg bg-warm-white/80 border border-sand/30">
               <div className="flex items-center gap-2.5">
                 <div className={cn(
                   "w-5 h-5 rounded-full shadow-sm",

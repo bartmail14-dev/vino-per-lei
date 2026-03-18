@@ -202,7 +202,7 @@ export default async function Home() {
           ============================================= */}
       <Section background="default" spacing="none" className="relative -mt-8 sm:-mt-10 z-10">
         <AnimatedUSPBar>
-          <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl shadow-charcoal/5 border border-sand/40 px-4 sm:px-8 py-5 sm:py-6">
+          <div className="bg-white rounded-lg sm:rounded-2xl shadow-xl shadow-charcoal/5 border border-sand/40 px-4 sm:px-8 py-5 sm:py-6">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0">
               {uspItems.map((usp, i) => {
                 const IconComp = uspIconMap[usp.iconName] || TruckIcon;
@@ -372,7 +372,7 @@ export default async function Home() {
               <StaggerItem key={category.name}>
                 <Link
                   href={category.href}
-                  className={`${mapping.color} rounded-xl sm:rounded-2xl p-5 sm:p-8 text-center transition-all duration-300 hover:shadow-xl active:scale-95 sm:hover:-translate-y-2 group border border-transparent hover:border-wine/10 block`}
+                  className={`${mapping.color} rounded-lg sm:rounded-2xl p-5 sm:p-8 text-center transition-all duration-300 hover:shadow-xl active:scale-95 sm:hover:-translate-y-2 group border border-transparent hover:border-wine/10 block`}
                 >
                   <div className={`${mapping.iconColor} mb-3 sm:mb-4 flex justify-center`}>
                     <CategoryIcon className="w-12 h-12 sm:w-16 sm:h-16 transition-transform duration-300 group-hover:scale-110" />

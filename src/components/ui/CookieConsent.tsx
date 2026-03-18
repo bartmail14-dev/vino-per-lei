@@ -43,7 +43,7 @@ export function CookieConsent() {
           role="region"
           aria-label="Cookie-instellingen"
         >
-          <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-xl border border-sand/80 p-5 sm:p-6">
+          <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl border border-sand/80 p-5 sm:p-6">
             <div className="flex flex-col sm:flex-row sm:items-center gap-4">
               {/* Text */}
               <div className="flex-1">

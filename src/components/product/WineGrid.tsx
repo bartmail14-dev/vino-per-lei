@@ -113,7 +113,7 @@ function WineCard({ product, size, index, onQuickView }: WineCardProps) {
       <Link
         href={`/wijnen/${product.handle}`}
         className={cn(
-          "block h-full rounded-xl overflow-hidden relative",
+          "block h-full rounded-lg overflow-hidden relative",
           `bg-gradient-to-br ${bgGradient}`,
           "border border-sand/30",
           "transition-all duration-500 ease-out",

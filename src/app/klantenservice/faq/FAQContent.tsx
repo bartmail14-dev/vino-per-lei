@@ -117,7 +117,7 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
               placeholder="Zoek een vraag..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-12 pl-12 pr-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/40 focus:bg-white/15 focus:border-gold/50 focus:outline-none transition-all"
+              className="w-full h-12 pl-12 pr-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/40 focus:bg-white/15 focus:border-gold/50 focus:outline-none transition-all"
             />
           </motion.div>
         </div>
@@ -183,7 +183,7 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
                         {category.items.length}
                       </span>
                     </div>
-                    <div className="bg-white rounded-xl border border-sand/50 overflow-hidden shadow-sm">
+                    <div className="bg-white rounded-lg border border-sand/50 overflow-hidden shadow-sm">
                       <div className="px-6">
                         {category.items.map((item) => (
                           <FAQAccordion
@@ -200,7 +200,7 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
             })}
           </div>
         ) : (
-          <div className="bg-warm-white rounded-xl p-8 text-center border border-sand/50">
+          <div className="bg-warm-white rounded-lg p-8 text-center border border-sand/50">
             <SearchIcon className="w-10 h-10 text-grey/30 mx-auto mb-3" />
             <p className="text-charcoal font-semibold mb-1">Geen resultaten gevonden</p>
             <p className="text-grey text-sm">
