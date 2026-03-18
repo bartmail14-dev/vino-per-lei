@@ -132,8 +132,8 @@ const defaultFooterLinks = {
     title: "Shop",
     links: [
       { label: "Alle Wijnen", href: "/wijnen" },
-      { label: "Rode Wijn", href: "/wijnen?type=rood" },
-      { label: "Witte Wijn", href: "/wijnen?type=wit" },
+      { label: "Rode Wijn", href: "/wijnen?type=red" },
+      { label: "Witte Wijn", href: "/wijnen?type=white" },
       { label: "Rosé", href: "/wijnen?type=rose" },
       { label: "Cadeaus", href: "/cadeaus" },
     ],
@@ -151,7 +151,6 @@ const defaultFooterLinks = {
     title: "Over Ons",
     links: [
       { label: "Ons Verhaal", href: "/over-ons" },
-      { label: "Onze Selectie", href: "/over-ons/selectie" },
       { label: "Blog", href: "/blog" },
     ],
   },

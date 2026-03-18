@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
-import { MenuIcon, CloseIcon, UserIcon, CartIcon, ChevronDownIcon, ChevronRightIcon, HeartIcon, PackageIcon, SettingsIcon, LogOutIcon } from "@/components/icons";
+import { MenuIcon, CloseIcon, UserIcon, CartIcon, ChevronDownIcon, ChevronRightIcon } from "@/components/icons";
 import type { AnnouncementBar } from "@/lib/shopify-cms";
 
 interface HeaderProps {
@@ -81,8 +81,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
 
   const itemCount = useCartStore((state) => state.itemCount);
   const toggleCart = useCartStore((state) => state.toggleCart);
-  const { isAuthenticated, user, openLoginModal, logout } = useAuthStore();
-  const [showUserMenu, setShowUserMenu] = useState(false);
+  const { openLoginModal } = useAuthStore();
 
   // Handle scroll
   useEffect(() => {
@@ -265,93 +264,14 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
             {/* Right Icons */}
             <div className="flex items-center gap-1">
               {/* TODO: Search implementeren */}
-              {/* User Account Button */}
-              <div className="relative hidden lg:block">
-                {isAuthenticated ? (
-                  <>
-                    <button
-                      onClick={() => setShowUserMenu(!showUserMenu)}
-                      className="flex items-center gap-2 p-3 hover:bg-sand/50 rounded-md transition-colors"
-                      aria-label="Account menu openen"
-                    >
-                      <div className="w-7 h-7 bg-wine/10 rounded-full flex items-center justify-center">
-                        <span className="text-wine text-sm font-medium">
-                          {user?.firstName?.[0]?.toUpperCase() || "U"}
-                        </span>
-                      </div>
-                    </button>
-                    <AnimatePresence>
-                      {showUserMenu && (
-                        <>
-                          <div
-                            className="fixed inset-0 z-40"
-                            onClick={() => setShowUserMenu(false)}
-                          />
-                          <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 10 }}
-                            className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-sand z-50 overflow-hidden"
-                          >
-                            <div className="p-3 border-b border-sand">
-                              <p className="text-sm font-medium text-charcoal">
-                                {user?.firstName} {user?.lastName}
-                              </p>
-                              <p className="text-xs text-grey truncate">{user?.email}</p>
-                            </div>
-                            <div className="py-1">
-                              <Link
-                                href="/account/verlanglijst"
-                                onClick={() => setShowUserMenu(false)}
-                                className="flex items-center gap-2 px-3 py-2 text-sm text-charcoal hover:bg-sand/50"
-                              >
-                                <HeartIcon className="w-4 h-4" />
-                                Verlanglijstje
-                              </Link>
-                              <Link
-                                href="/account/bestellingen"
-                                onClick={() => setShowUserMenu(false)}
-                                className="flex items-center gap-2 px-3 py-2 text-sm text-charcoal hover:bg-sand/50"
-                              >
-                                <PackageIcon className="w-4 h-4" />
-                                Bestellingen
-                              </Link>
-                              <Link
-                                href="/account/instellingen"
-                                onClick={() => setShowUserMenu(false)}
-                                className="flex items-center gap-2 px-3 py-2 text-sm text-charcoal hover:bg-sand/50"
-                              >
-                                <SettingsIcon className="w-4 h-4" />
-                                Instellingen
-                              </Link>
-                            </div>
-                            <div className="border-t border-sand py-1">
-                              <button
-                                onClick={() => {
-                                  logout();
-                                  setShowUserMenu(false);
-                                }}
-                                className="flex items-center gap-2 w-full px-3 py-2 text-sm text-charcoal hover:bg-sand/50"
-                              >
-                                <LogOutIcon className="w-4 h-4" />
-                                Uitloggen
-                              </button>
-                            </div>
-                          </motion.div>
-                        </>
-                      )}
-                    </AnimatePresence>
-                  </>
-                ) : (
-                  <button
-                    onClick={() => openLoginModal()}
-                    className="flex items-center gap-2 p-3 hover:bg-sand/50 rounded-md transition-colors"
-                    aria-label="Inloggen of registreren"
-                  >
-                    <UserIcon className="w-5 h-5" />
-                  </button>
-                )}
-              </div>
+              {/* Account Button — opens "coming soon" modal */}
+              <button
+                onClick={() => openLoginModal()}
+                className="hidden lg:flex items-center gap-2 p-3 hover:bg-sand/50 rounded-md transition-colors"
+                aria-label="Inloggen of registreren"
+              >
+                <UserIcon className="w-5 h-5" />
+              </button>
               <button
                 onClick={toggleCart}
                 className="relative p-3 hover:bg-sand/50 rounded-md transition-colors"
@@ -648,62 +568,18 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                   </li>
                 </ul>
 
-                {/* Account Links */}
+                {/* Account Link */}
                 <div className="mt-6 pt-6 border-t border-sand">
-                  {isAuthenticated ? (
-                    <>
-                      <div className="flex items-center gap-3 py-3 mb-2">
-                        <div className="w-8 h-8 bg-wine/10 rounded-full flex items-center justify-center">
-                          <span className="text-wine font-medium">
-                            {user?.firstName?.[0]?.toUpperCase() || "U"}
-                          </span>
-                        </div>
-                        <div>
-                          <p className="font-medium text-charcoal">
-                            {user?.firstName} {user?.lastName}
-                          </p>
-                          <p className="text-xs text-grey">{user?.email}</p>
-                        </div>
-                      </div>
-                      <Link
-                        href="/account/verlanglijst"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center gap-3 py-3 text-charcoal hover:text-wine"
-                      >
-                        <HeartIcon className="w-5 h-5" />
-                        Verlanglijstje
-                      </Link>
-                      <Link
-                        href="/account/bestellingen"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                        className="flex items-center gap-3 py-3 text-charcoal hover:text-wine"
-                      >
-                        <PackageIcon className="w-5 h-5" />
-                        Bestellingen
-                      </Link>
-                      <button
-                        onClick={() => {
-                          logout();
-                          setIsMobileMenuOpen(false);
-                        }}
-                        className="flex items-center gap-3 py-3 text-charcoal hover:text-wine w-full"
-                      >
-                        <LogOutIcon className="w-5 h-5" />
-                        Uitloggen
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      onClick={() => {
-                        setIsMobileMenuOpen(false);
-                        openLoginModal();
-                      }}
-                      className="flex items-center gap-3 py-3 text-charcoal hover:text-wine w-full"
-                    >
-                      <UserIcon className="w-5 h-5" />
-                      Inloggen / Registreren
-                    </button>
-                  )}
+                  <button
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      openLoginModal();
+                    }}
+                    className="flex items-center gap-3 py-3 text-charcoal hover:text-wine w-full"
+                  >
+                    <UserIcon className="w-5 h-5" />
+                    Inloggen / Registreren
+                  </button>
                 </div>
 
                 {/* Contact Info */}

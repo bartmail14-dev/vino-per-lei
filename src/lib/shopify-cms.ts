@@ -1,10 +1,22 @@
 import { createStorefrontApiClient } from '@shopify/storefront-api-client';
 
-const client = createStorefrontApiClient({
-  storeDomain: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!,
-  apiVersion: '2026-01',
-  publicAccessToken: process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!,
-});
+// Lazy-init: avoid throwing at module evaluation when env vars are missing (e.g. build without .env)
+let _client: ReturnType<typeof createStorefrontApiClient> | null = null;
+function getClient() {
+  if (!_client) {
+    const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
+    const token = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+    if (!domain || !token) {
+      throw new Error('Missing Shopify env vars: NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN and NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN must be set');
+    }
+    _client = createStorefrontApiClient({
+      storeDomain: domain,
+      apiVersion: '2026-01',
+      publicAccessToken: token,
+    });
+  }
+  return _client;
+}
 
 // --- Types ---
 
@@ -125,7 +137,7 @@ async function getMetaobject<T>(
   mapper: (fields: Record<string, string>) => T
 ): Promise<T | null> {
   try {
-    const { data } = await client.request(`
+    const { data } = await getClient().request(`
       query getMetaobject($handle: MetaobjectHandleInput!) {
         metaobject(handle: $handle) {
           fields { key value }
@@ -145,7 +157,7 @@ async function getMetaobjects<T>(
   mapper: (fields: Record<string, string>, handle: string) => T
 ): Promise<T[]> {
   try {
-    const { data } = await client.request(`
+    const { data } = await getClient().request(`
       query getMetaobjects($type: String!) {
         metaobjects(type: $type, first: 100) {
           nodes {
@@ -260,7 +272,7 @@ export async function getCategoryBlocks(): Promise<CategoryBlock[]> {
 
 export async function getPage(handle: string): Promise<ShopifyPage | null> {
   try {
-    const { data } = await client.request(`
+    const { data } = await getClient().request(`
       query getPage($handle: String!) {
         pageByHandle(handle: $handle) {
           title
@@ -320,7 +332,7 @@ function mapArticle(node: Record<string, unknown>): BlogArticle {
 
 export async function getBlogArticles(first: number = 20): Promise<BlogArticle[]> {
   try {
-    const { data } = await client.request(`
+    const { data } = await getClient().request(`
       query getBlogArticles($first: Int!) {
         blog(handle: "${BLOG_HANDLE}") {
           articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
@@ -338,7 +350,7 @@ export async function getBlogArticles(first: number = 20): Promise<BlogArticle[]
 
 export async function getBlogArticlesByTag(tag: string, first: number = 20): Promise<BlogArticle[]> {
   try {
-    const { data } = await client.request(`
+    const { data } = await getClient().request(`
       query getBlogArticlesByTag($first: Int!, $query: String!) {
         blog(handle: "${BLOG_HANDLE}") {
           articles(first: $first, sortKey: PUBLISHED_AT, reverse: true, query: $query) {
@@ -356,7 +368,7 @@ export async function getBlogArticlesByTag(tag: string, first: number = 20): Pro
 
 export async function getBlogArticleByHandle(handle: string): Promise<BlogArticle | null> {
   try {
-    const { data } = await client.request(`
+    const { data } = await getClient().request(`
       query getBlogArticle($blogHandle: String!, $articleHandle: String!) {
         blog(handle: $blogHandle) {
           articleByHandle(handle: $articleHandle) { ${ARTICLE_FIELDS} }
@@ -385,7 +397,7 @@ export async function getBlogTags(): Promise<string[]> {
 
 export async function getMenu(handle: string): Promise<MenuItem[]> {
   try {
-    const { data } = await client.request(`
+    const { data } = await getClient().request(`
       query getMenu($handle: String!) {
         menu(handle: $handle) {
           items {
