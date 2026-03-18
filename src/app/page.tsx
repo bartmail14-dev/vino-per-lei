@@ -149,8 +149,24 @@ export default async function Home() {
   const hero = heroRaw ?? DEFAULT_HERO;
   const featuredBlogPosts = blogArticles.map(mapBlogPost);
 
+  // JSON-LD: Organization schema
+  const organizationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Vino per Lei",
+    url: "https://vinoperlei.nl",
+    logo: "https://vinoperlei.nl/logo.png",
+    description:
+      "19 Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
+    sameAs: [],
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+      />
       {/* =============================================
           HERO — Full-viewport parallax with layered gradients
           ============================================= */}

@@ -34,6 +34,14 @@ export const metadata: Metadata = {
     locale: "nl_NL",
     siteName: "Vino per Lei",
     url: "https://vinoperlei.nl",
+    images: [
+      {
+        url: "/hero-banner.webp",
+        width: 1200,
+        height: 630,
+        alt: "Vino per Lei — Italiaanse wijnen rechtstreeks van de producent",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

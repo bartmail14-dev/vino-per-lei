@@ -94,6 +94,32 @@ export default async function ProductDetailPage({ params }: PageProps) {
     )
     .slice(0, 8);
 
+  // JSON-LD: BreadcrumbList
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://vinoperlei.nl",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Wijnen",
+        item: "https://vinoperlei.nl/wijnen",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: product.title,
+        item: `https://vinoperlei.nl/wijnen/${handle}`,
+      },
+    ],
+  };
+
   // JSON-LD structured data
   const jsonLd = {
     "@context": "https://schema.org",
@@ -161,6 +187,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

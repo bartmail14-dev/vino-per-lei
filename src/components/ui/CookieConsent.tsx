@@ -5,6 +5,19 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 
 const CONSENT_KEY = "vpl_cookie_consent";
+const CONSENT_COOKIE = "vpl_cookie_consent";
+const COOKIE_MAX_AGE = 365 * 24 * 60 * 60; // 1 year in seconds
+
+function setConsentCookie(value: string) {
+  document.cookie = `${CONSENT_COOKIE}=${value}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
+}
+
+function getConsentCookie(): string | null {
+  const match = document.cookie.match(
+    new RegExp(`(?:^|;\\s*)${CONSENT_COOKIE}=([^;]*)`)
+  );
+  return match ? match[1] : null;
+}
 
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
@@ -12,23 +25,31 @@ export function CookieConsent() {
   useEffect(() => {
     // Small delay so it doesn't flash on page load
     const timer = setTimeout(() => {
-      const consent = localStorage.getItem(CONSENT_KEY);
-      if (!consent) {
+      const consentLS = localStorage.getItem(CONSENT_KEY);
+      const consentCookie = getConsentCookie();
+      if (!consentLS && !consentCookie) {
         setVisible(true);
+      } else if (consentLS && !consentCookie) {
+        // Sync: localStorage exists but cookie was cleared — re-set cookie
+        setConsentCookie(consentLS);
       }
     }, 1500);
 
     return () => clearTimeout(timer);
   }, []);
 
-  const handleAccept = () => {
-    localStorage.setItem(CONSENT_KEY, "all");
+  const saveConsent = (value: string) => {
+    localStorage.setItem(CONSENT_KEY, value);
+    setConsentCookie(value);
     setVisible(false);
   };
 
+  const handleAccept = () => {
+    saveConsent("all");
+  };
+
   const handleNecessaryOnly = () => {
-    localStorage.setItem(CONSENT_KEY, "necessary");
-    setVisible(false);
+    saveConsent("necessary");
   };
 
   return (
