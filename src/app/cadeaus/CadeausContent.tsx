@@ -24,23 +24,23 @@ const giftIdeas = [
   {
     icon: "bottle",
     title: "Enkele Fles",
-    description: "Een zorgvuldig geselecteerde wijn, prachtig verpakt in een geschenkdoos.",
+    description: "Eén fles die indruk maakt. Carla helpt je kiezen op basis van smaak en gelegenheid.",
     price: "Vanaf \u20AC12",
     features: ["Geschenkdoos inbegrepen", "Optioneel kaartje"],
   },
   {
     icon: "duo",
     title: "Duo Pakket",
-    description: "Twee complementaire wijnen — perfect voor een avond vol Italiaans genieten.",
+    description: "Een rode en een witte uit dezelfde streek, of juist twee totaal verschillende karakters. Jij kiest het thema.",
     price: "Vanaf \u20AC25",
-    features: ["Twee wijnen", "Premium verpakking", "Persoonlijk bericht"],
+    features: ["Twee wijnen", "Stevige geschenkverpakking", "Persoonlijk bericht"],
   },
   {
     icon: "box",
     title: "Proeverij Box",
-    description: "Drie of zes wijnen uit verschillende regio\u2019s. Ideaal voor de ontdekker.",
+    description: "Drie of zes flessen uit Piemonte, Veneto en Toscane. Voor wie een avond lang wil vergelijken en leren.",
     price: "Vanaf \u20AC40",
-    features: ["3 of 6 wijnen", "Proefnotities", "Luxe geschenkverpakking"],
+    features: ["3 of 6 wijnen", "Proefnotities per wijn", "Geschenkverpakking"],
   },
 ];
 
@@ -85,8 +85,8 @@ export function CadeausContent({ children }: CadeausContentProps) {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-white/70 text-base sm:text-lg max-w-xl mx-auto leading-relaxed"
           >
-            Verras iemand met een authentieke Italiaanse wijn. Elke fles wordt
-            met zorg verpakt en kan voorzien worden van een persoonlijk bericht.
+            Geen willekeurige fles uit het schap, maar een wijn met een verhaal
+            erachter. Inclusief geschenkverpakking en eventueel een persoonlijk kaartje.
           </motion.p>
 
           {/* Occasion tags */}
@@ -214,24 +214,24 @@ export function CadeausContent({ children }: CadeausContentProps) {
               <div className="relative">
                 <GiftBoxIcon className="w-12 h-12 text-gold/40 mx-auto mb-4" />
                 <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-white mb-4">
-                  Op Zoek naar Iets Speciaals?
+                  Twijfel je? Carla denkt mee
                 </h2>
                 <p className="text-white/70 leading-relaxed mb-8 max-w-lg mx-auto">
-                  We stellen graag een persoonlijk wijncadeau voor je samen. Neem
-                  contact op en vertel ons de gelegenheid — wij doen de rest.
+                  Vertel voor wie het is en wat de gelegenheid is. Carla stelt
+                  een pakket samen dat past bij de persoon en het moment.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3 justify-center">
                   <Link
                     href="/contact"
                     className="inline-flex items-center justify-center h-12 px-8 bg-white text-wine text-button uppercase rounded hover:bg-white/90 transition-colors"
                   >
-                    Neem Contact Op
+                    Vraag advies aan Carla
                   </Link>
                   <Link
                     href="/wijnen"
                     className="inline-flex items-center justify-center h-12 px-8 border-2 border-white/30 text-white text-button uppercase rounded hover:bg-white/10 transition-colors"
                   >
-                    Bekijk Alle Wijnen
+                    Alle 19 wijnen bekijken
                   </Link>
                 </div>
               </div>
