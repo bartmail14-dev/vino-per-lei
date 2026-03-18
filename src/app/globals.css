@@ -211,7 +211,7 @@ body {
 
 /* ─── H4 (card titels) ─── */
 .text-h4 {
-  font-family: var(--font-sans);
+  font-family: var(--font-serif);
   font-size: 1.125rem;         /* 18px mobile */
   line-height: 1.4;
   font-weight: 600;
