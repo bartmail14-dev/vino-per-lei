@@ -1,25 +1,42 @@
 import { NextResponse } from "next/server";
+import { z } from "zod/v4";
 
-const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY!;
-const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN!;
+const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY ?? "";
+const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN ?? "";
 const MAILGUN_LIST = process.env.MAILGUN_LIST || `newsletter@${MAILGUN_DOMAIN}`;
+
+// Check if Mailgun credentials are real (not placeholder values from .env.example)
+function isMailgunConfigured(): boolean {
+  if (!MAILGUN_API_KEY || !MAILGUN_DOMAIN) return false;
+  if (MAILGUN_API_KEY.includes("your-mailgun") || MAILGUN_API_KEY === "your-mailgun-api-key") return false;
+  if (MAILGUN_DOMAIN.includes("your-") || MAILGUN_DOMAIN === "your-mailgun-domain.com") return false;
+  return true;
+}
+
+const newsletterSchema = z.object({
+  email: z.email("Ongeldig e-mailadres"),
+});
 
 export async function POST(request: Request) {
   try {
-    const { email } = await request.json();
+    const body = await request.json();
+    const parsed = newsletterSchema.safeParse(body);
 
-    if (!email || !email.includes("@")) {
-      return NextResponse.json(
-        { error: "Ongeldig e-mailadres" },
-        { status: 400 },
-      );
+    if (!parsed.success) {
+      const firstError = parsed.error.issues[0]?.message ?? "Ongeldige invoer";
+      return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
-    if (!MAILGUN_API_KEY || !MAILGUN_DOMAIN) {
-      console.error("Mailgun environment variables not configured");
+    const { email } = parsed.data;
+
+    if (!isMailgunConfigured()) {
+      console.warn(
+        "[newsletter] Mailgun is niet geconfigureerd — API keys zijn placeholders of ontbreken. " +
+        "Stel MAILGUN_API_KEY en MAILGUN_DOMAIN in met echte waarden."
+      );
       return NextResponse.json(
-        { error: "Server configuratie fout" },
-        { status: 500 },
+        { error: "E-mail service is nog niet geconfigureerd" },
+        { status: 503 },
       );
     }
 
