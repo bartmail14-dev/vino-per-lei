@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   title: "Veelgestelde Vragen | Vino per Lei",
   description:
     "Antwoorden op veelgestelde vragen over bestellen, betalen, verzenden en retourneren bij Vino per Lei.",
+  openGraph: {
+    title: "Veelgestelde Vragen | Vino per Lei",
+    description:
+      "Antwoorden op veelgestelde vragen over bestellen, betalen, verzenden en retourneren bij Vino per Lei.",
+    type: "website",
+    locale: "nl_NL",
+    siteName: "Vino per Lei",
+  },
 };
 
 export default async function FAQPage() {

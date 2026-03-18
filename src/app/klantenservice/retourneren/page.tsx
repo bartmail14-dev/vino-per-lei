@@ -8,6 +8,14 @@ export const metadata: Metadata = {
   title: "Retourbeleid | Vino per Lei",
   description:
     "Informatie over retourneren bij Vino per Lei. 14 dagen bedenktijd op ongeopende producten.",
+  openGraph: {
+    title: "Retourbeleid | Vino per Lei",
+    description:
+      "Informatie over retourneren bij Vino per Lei. 14 dagen bedenktijd op ongeopende producten.",
+    type: "website",
+    locale: "nl_NL",
+    siteName: "Vino per Lei",
+  },
 };
 
 export default async function RetournerenPage() {
