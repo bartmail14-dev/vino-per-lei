@@ -93,6 +93,7 @@ const sortOptions = [
   { value: "price-asc", label: "Prijs laag-hoog" },
   { value: "price-desc", label: "Prijs hoog-laag" },
   { value: "newest", label: "Nieuwste" },
+  { value: "name-asc", label: "Naam A-Z" },
   { value: "rating", label: "Best beoordeeld" },
 ];
 
@@ -218,6 +219,9 @@ export function WijnenContent({ products }: { products: Product[] }) {
         break;
       case "newest":
         result.sort((a) => (a.isNew ? -1 : 1));
+        break;
+      case "name-asc":
+        result.sort((a, b) => a.title.localeCompare(b.title, "nl"));
         break;
       case "rating":
         result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
