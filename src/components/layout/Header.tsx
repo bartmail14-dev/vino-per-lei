@@ -189,7 +189,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
               </p>
               <button
                 onClick={dismissAnnouncement}
-                className="absolute right-4 p-1 hover:opacity-70 transition-opacity"
+                className="absolute right-4 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:opacity-70 transition-opacity"
                 aria-label="Sluit melding"
               >
                 <CloseIcon className="w-4 h-4" />
@@ -206,7 +206,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-3 -ml-3 hover:bg-sand/50 rounded-md transition-colors"
+              className="lg:hidden p-3 -ml-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-colors"
               aria-label="Open navigatiemenu"
             >
               <MenuIcon className="w-6 h-6" />
@@ -267,14 +267,14 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
               {/* Account Button — opens "coming soon" modal */}
               <button
                 onClick={() => openLoginModal()}
-                className="hidden lg:flex items-center gap-2 p-3 hover:bg-sand/50 rounded-md transition-colors"
+                className="hidden lg:flex items-center gap-2 p-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-colors"
                 aria-label="Inloggen of registreren"
               >
                 <UserIcon className="w-5 h-5" />
               </button>
               <button
                 onClick={toggleCart}
-                className="relative p-3 hover:bg-sand/50 rounded-md transition-colors"
+                className="relative p-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-colors"
                 aria-label={`Winkelmand${itemCount > 0 ? `, ${itemCount} ${itemCount === 1 ? 'artikel' : 'artikelen'}` : ', leeg'}`}
               >
                 <CartIcon className="w-5 h-5" />
@@ -447,7 +447,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                 </span>
                 <button
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-3 hover:bg-sand/50 rounded-md transition-colors"
+                  className="p-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-colors"
                   aria-label="Sluit navigatiemenu"
                 >
                   <CloseIcon className="w-6 h-6" />

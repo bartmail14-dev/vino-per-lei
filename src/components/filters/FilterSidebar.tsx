@@ -197,7 +197,7 @@ export function FilterSidebar({
               </div>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-sand/40 rounded-lg transition-colors"
+                className="p-2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-sand/40 rounded-lg transition-colors"
                 aria-label="Sluit filters"
               >
                 <CloseIcon className="w-5 h-5" strokeWidth={1.5} />

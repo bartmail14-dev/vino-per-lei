@@ -171,12 +171,12 @@ function AccordionSection({ title, children }: AccordionSectionProps) {
         className="flex items-center justify-between w-full py-4 lg:cursor-default lg:pointer-events-none"
         aria-expanded={isOpen}
       >
-        <h3 className="text-label text-wine/40">
+        <h3 className="text-label text-wine/60">
           {title}
         </h3>
         <ChevronDownIcon
           className={cn(
-            "w-5 h-5 text-wine/20 transition-transform duration-200 lg:hidden",
+            "w-5 h-5 text-wine/40 transition-transform duration-200 lg:hidden",
             isOpen && "rotate-180"
           )}
         />
@@ -286,7 +286,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 text-wine/25 hover:text-wine/60 hover:bg-wine/5 rounded-lg transition-all duration-200"
+                    className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center text-wine/50 hover:text-wine/60 hover:bg-wine/5 rounded-lg transition-all duration-200"
                     aria-label={`Volg ons op ${label}`}
                   >
                     <Icon className="w-5 h-5" />
@@ -328,7 +328,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
                         <li key={link.href}>
                           <Link
                             href={link.href}
-                            className="text-sm text-wine/40 hover:text-wine/80 transition-colors duration-200"
+                            className="text-sm text-wine/60 hover:text-wine/80 transition-colors duration-200"
                           >
                             {link.label}
                           </Link>
@@ -354,7 +354,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {/* Payment Methods */}
             <div>
-              <p className="text-label text-wine/25 mb-3">Betaalmethodes</p>
+              <p className="text-label text-wine/50 mb-3">Betaalmethodes</p>
               <div className="flex flex-wrap items-center gap-2">
                 <IdealIcon />
                 <MastercardIcon />
@@ -366,7 +366,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
 
             {/* Trust Badges */}
             <div>
-              <p className="text-label text-wine/25 mb-3">Vertrouwd</p>
+              <p className="text-label text-wine/50 mb-3">Vertrouwd</p>
               <div className="flex flex-wrap items-center gap-4">
                 <div className="flex items-center gap-2 text-wine/35">
                   <AgeVerifyIcon />
@@ -381,11 +381,11 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
 
             {/* Contact info */}
             <div>
-              <p className="text-label text-wine/25 mb-3">Contact</p>
-              <div className="space-y-1.5 text-sm text-wine/40">
+              <p className="text-label text-wine/50 mb-3">Contact</p>
+              <div className="space-y-1.5 text-sm text-wine/60">
                 {settings?.phone && <p>{settings.phone}</p>}
                 <p>{settings?.email || "info@vinoperlei.nl"}</p>
-                <p className="text-wine/25 text-xs">Ma-Vr {settings?.hoursWeekday || "09:00 - 17:00"}</p>
+                <p className="text-wine/50 text-xs">Ma-Vr {settings?.hoursWeekday || "09:00 - 17:00"}</p>
               </div>
             </div>
           </div>
@@ -394,7 +394,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
         {/* Company Details & Legal */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-            <div className="text-xs text-wine/40 leading-relaxed">
+            <div className="text-xs text-wine/60 leading-relaxed">
               <p className="font-medium text-wine/50">{settings?.companyName || "Vino per Lei"}</p>
               <p>{settings?.addressStreet || "Pastorielaan 56"}</p>
               <p>{settings?.addressPostal || "5504 CR"} {settings?.addressCity || "Veldhoven"}</p>
@@ -402,9 +402,9 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
               <p>BTW: {settings?.btw || "NL005360033B10"}</p>
             </div>
 
-            <div className="text-xs text-wine/25 leading-relaxed sm:text-right space-y-2">
+            <div className="text-xs text-wine/50 leading-relaxed sm:text-right space-y-2">
               <p>Alle prijzen zijn inclusief BTW</p>
-              <p className="text-wine/40 font-medium">
+              <p className="text-wine/60 font-medium">
                 Het is verboden alcoholhoudende dranken te verkopen aan personen onder de 18 jaar
               </p>
             </div>
@@ -415,10 +415,10 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
         <div className="relative border-t border-wine/[0.06]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-              <p className="text-xs text-wine/20">
+              <p className="text-xs text-wine/40">
                 &copy; {new Date().getFullYear()} {settings?.companyName || "Vino per Lei"}. Alle rechten voorbehouden.
               </p>
-              <div className="flex flex-wrap items-center gap-4 text-xs text-wine/20">
+              <div className="flex flex-wrap items-center gap-4 text-xs text-wine/40">
                 <Link href="/voorwaarden" className="hover:text-wine/50 transition-colors">
                   Algemene Voorwaarden
                 </Link>

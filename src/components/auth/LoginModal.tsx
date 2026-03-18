@@ -75,7 +75,7 @@ export function LoginModal() {
                 <button
                   ref={closeButtonRef}
                   onClick={closeLoginModal}
-                  className="absolute top-4 right-4 p-2 hover:bg-wine/10 rounded-full transition-colors duration-150"
+                  className="absolute top-4 right-4 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-wine/10 rounded-full transition-colors duration-150"
                   aria-label="Sluiten"
                 >
                   <CloseIcon className="w-5 h-5 text-charcoal" strokeWidth={1.5} />

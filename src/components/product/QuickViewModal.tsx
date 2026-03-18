@@ -116,7 +116,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
             {/* Close button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/90 hover:bg-white shadow-md transition-all hover:scale-110"
+              className="absolute top-4 right-4 z-10 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/90 hover:bg-white shadow-md transition-all hover:scale-110"
               aria-label="Sluiten"
             >
               <CloseIcon className="w-5 h-5" />
