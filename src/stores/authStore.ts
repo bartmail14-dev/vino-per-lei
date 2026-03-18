@@ -46,60 +46,15 @@ export const useAuthStore = create<AuthState>()(
 
       setHydrated: () => set({ isHydrated: true }),
 
-      login: async (email: string, _password: string) => {
-        // Mock login - in production this would call an API
-        // Simulate API call delay
-        await new Promise((resolve) => setTimeout(resolve, 800));
-
-        // For demo: accept any email/password combo
-        const mockUser: User = {
-          id: `user-${Date.now()}`,
-          email,
-          firstName: email.split("@")[0],
-          lastName: "",
-        };
-
-        set({
-          user: mockUser,
-          isAuthenticated: true,
-          showLoginModal: false,
-        });
-
-        // Execute redirect action if set
-        const { loginRedirectAction } = get();
-        if (loginRedirectAction) {
-          loginRedirectAction();
-          set({ loginRedirectAction: null });
-        }
-
-        return true;
+      login: async (_email: string, _password: string) => {
+        // Coming soon — no auth backend connected yet.
+        // When a real auth provider is integrated, replace this stub.
+        return false;
       },
 
-      register: async (data: RegisterData) => {
-        // Mock registration - in production this would call an API
-        await new Promise((resolve) => setTimeout(resolve, 800));
-
-        const mockUser: User = {
-          id: `user-${Date.now()}`,
-          email: data.email,
-          firstName: data.firstName,
-          lastName: data.lastName,
-        };
-
-        set({
-          user: mockUser,
-          isAuthenticated: true,
-          showLoginModal: false,
-        });
-
-        // Execute redirect action if set
-        const { loginRedirectAction } = get();
-        if (loginRedirectAction) {
-          loginRedirectAction();
-          set({ loginRedirectAction: null });
-        }
-
-        return true;
+      register: async (_data: RegisterData) => {
+        // Coming soon — no auth backend connected yet.
+        return false;
       },
 
       logout: () => {

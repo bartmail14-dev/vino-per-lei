@@ -46,6 +46,12 @@ export interface Product {
 
   // Shopify
   variantId: string;
+  variants?: Array<{
+    id: string;
+    title: string;
+    price: number;
+    availableForSale: boolean;
+  }>;
 }
 
 export interface ProductImage {

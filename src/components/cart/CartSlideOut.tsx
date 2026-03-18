@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/stores/cartStore";
-import { createCheckout } from "@/lib/shopify";
+import { getShopifyCartUrl } from "@/lib/shopify";
 import { Button, QuantitySelector } from "@/components/ui";
 import { formatPrice, wineImagePresets } from "@/lib/utils";
 import { cn } from "@/lib/utils";
@@ -25,7 +25,6 @@ export function CartSlideOut() {
   const removeItem = useCartStore((state) => state.removeItem);
 
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: closeCart });
 
@@ -231,37 +230,19 @@ export function CartSlideOut() {
                     </div>
                   </div>
 
-                  {/* Checkout Button — redirects to Shopify hosted checkout */}
-                  {checkoutError && (
-                    <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">
-                      {checkoutError}
-                    </div>
-                  )}
+                  {/* Checkout Button — redirects to Shopify cart permalink */}
                   <Button
                     variant="primary"
                     fullWidth
                     size="lg"
                     disabled={isCheckingOut}
-                    onClick={async () => {
+                    onClick={() => {
                       setIsCheckingOut(true);
-                      setCheckoutError(null);
-                      try {
-                        const lineItems = items.map((item) => ({
-                          variantId: item.product.variantId,
-                          quantity: item.quantity,
-                        }));
-                        const checkout = await createCheckout(lineItems);
-                        if (checkout?.webUrl) {
-                          window.location.href = checkout.webUrl;
-                        } else {
-                          setCheckoutError("Kan checkout niet starten. Probeer het opnieuw.");
-                          setIsCheckingOut(false);
-                        }
-                      } catch (error) {
-                        console.error("Checkout failed:", error);
-                        setCheckoutError("Er ging iets mis. Probeer het later opnieuw.");
-                        setIsCheckingOut(false);
-                      }
+                      const lineItems = items.map((item) => ({
+                        variantId: item.product.variantId,
+                        quantity: item.quantity,
+                      }));
+                      window.location.href = getShopifyCartUrl(lineItems);
                     }}
                   >
                     {isCheckingOut ? "Doorsturen naar betaling..." : "Afrekenen"}

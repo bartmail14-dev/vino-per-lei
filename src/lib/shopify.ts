@@ -25,8 +25,8 @@ const PRODUCT_FIELDS = `
   images(first: 5) {
     edges { node { url altText width height } }
   }
-  variants(first: 1) {
-    edges { node { id title price { amount currencyCode } } }
+  variants(first: 10) {
+    edges { node { id title price { amount currencyCode } availableForSale } }
   }
   wineType: metafield(namespace: "custom", key: "wine_type") { value }
   grapeVarieties: metafield(namespace: "custom", key: "grape_varieties") { value }
@@ -63,7 +63,7 @@ interface ShopifyProductNode {
     maxVariantPrice: { amount: string; currencyCode: string };
   };
   images: { edges: Array<{ node: { url: string; altText: string | null; width?: number; height?: number } }> };
-  variants: { edges: Array<{ node: { id: string; title: string; price: { amount: string; currencyCode: string } } }> };
+  variants: { edges: Array<{ node: { id: string; title: string; price: { amount: string; currencyCode: string }; availableForSale?: boolean } }> };
   // Metafields — dynamic keys via GraphQL aliases
   [key: string]: unknown;
 }
@@ -138,7 +138,17 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
     isFeatured: (node.isFeatured as MetafieldNode | null)?.value === 'true',
     hasAward: (node.hasAward as MetafieldNode | null)?.value === 'true',
     awardText: mf(node.awardText as MetafieldNode | null) ?? undefined,
-    variantId: node.variants?.edges?.[0]?.node?.id ?? '',
+    variants: node.variants?.edges?.map((e) => ({
+      id: e.node.id,
+      title: e.node.title,
+      price: parseFloat(e.node.price.amount),
+      availableForSale: e.node.availableForSale ?? true,
+    })) ?? [],
+    // Default to first available variant, or first variant if none available
+    variantId:
+      node.variants?.edges?.find((e) => e.node.availableForSale !== false)?.node?.id ??
+      node.variants?.edges?.[0]?.node?.id ??
+      '',
   };
 }
 
@@ -201,45 +211,24 @@ export async function getProductByHandle(
 }
 
 /**
- * Create a Shopify checkout with one or more line items.
- * Returns { id, webUrl } where webUrl is the Shopify hosted checkout page.
- * The user is redirected to webUrl to complete payment (iDEAL, credit card, etc.).
+ * Build a Shopify cart permalink URL and redirect the user.
+ * Format: https://{shop}/cart/{variantId}:{qty},{variantId}:{qty}
+ * This bypasses the deprecated Checkout API and sends users directly
+ * to Shopify's hosted checkout with their cart pre-filled.
  */
-export async function createCheckout(
+export function getShopifyCartUrl(
   lineItems: Array<{ variantId: string; quantity: number }>
-) {
-  try {
-    const query = `
-      mutation createCheckout($input: CheckoutCreateInput!) {
-        checkoutCreate(input: $input) {
-          checkout {
-            id
-            webUrl
-          }
-          checkoutUserErrors {
-            code
-            field
-            message
-          }
-        }
-      }
-    `;
+): string {
+  const shop = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!;
 
-    const { data } = await client.request(query, {
-      variables: {
-        input: { lineItems },
-      },
-    });
+  const cartParts = lineItems.map((item) => {
+    // Shopify variant GIDs look like "gid://shopify/ProductVariant/12345"
+    // The cart permalink needs just the numeric ID
+    const numericId = item.variantId.includes('/')
+      ? item.variantId.split('/').pop()!
+      : item.variantId;
+    return `${numericId}:${item.quantity}`;
+  });
 
-    const errors = data?.checkoutCreate?.checkoutUserErrors;
-    if (errors && errors.length > 0) {
-      console.error('Shopify checkout errors:', errors);
-      return null;
-    }
-
-    return data?.checkoutCreate?.checkout ?? null;
-  } catch (error) {
-    console.error('Failed to create Shopify checkout:', error);
-    return null;
-  }
+  return `https://${shop}/cart/${cartParts.join(',')}`;
 }

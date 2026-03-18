@@ -19,6 +19,7 @@ import { useWishlistStore } from "@/stores/wishlistStore";
 import { type Product } from "@/types";
 import { cn } from "@/lib/utils";
 import { CheckIcon, HeartIcon, TruckIcon, ShieldIcon, ClockIcon } from "@/components/icons";
+import { AlertTriangle } from "lucide-react";
 
 interface ProductDetailClientProps {
   product: Product;
@@ -232,6 +233,17 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
             </h2>
           </div>
           <WineDetailsAccordion product={product} />
+
+          {/* Allergen information — EU regulation requirement */}
+          <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+            <div>
+              <p className="text-sm font-medium text-amber-900">Allergeninformatie</p>
+              <p className="text-sm text-amber-800 mt-0.5">
+                Bevat sulfieten. Alcoholhoudende drank. Niet geschikt voor personen onder de 18 jaar.
+              </p>
+            </div>
+          </div>
         </div>
       </Section>
 

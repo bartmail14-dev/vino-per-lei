@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useCartStore } from "@/stores/cartStore";
-import { createCheckout } from "@/lib/shopify";
+import { getShopifyCartUrl } from "@/lib/shopify";
 import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
 
@@ -13,40 +13,18 @@ interface ExpressCheckoutProps {
 export function ExpressCheckout({ className }: ExpressCheckoutProps) {
   const items = useCartStore((state) => state.items);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const handleShopifyCheckout = async () => {
+  const handleShopifyCheckout = () => {
     setIsLoading(true);
-    setError(null);
-    try {
-      const lineItems = items.map((item) => ({
-        variantId: item.product.variantId,
-        quantity: item.quantity,
-      }));
-      const checkout = await createCheckout(lineItems);
-      if (checkout?.webUrl) {
-        window.location.href = checkout.webUrl;
-      } else {
-        setError("Kan checkout niet starten. Probeer het opnieuw.");
-        setIsLoading(false);
-      }
-    } catch (err) {
-      console.error("Express checkout failed:", err);
-      setError("Er ging iets mis. Probeer het later opnieuw.");
-      setIsLoading(false);
-    }
+    const lineItems = items.map((item) => ({
+      variantId: item.product.variantId,
+      quantity: item.quantity,
+    }));
+    window.location.href = getShopifyCartUrl(lineItems);
   };
 
   return (
     <div className={cn("space-y-3", className)}>
-      <p className="text-sm text-grey text-center">Snel afrekenen</p>
-
-      {error && (
-        <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 text-center">
-          {error}
-        </div>
-      )}
-
       <Button
         variant="primary"
         fullWidth

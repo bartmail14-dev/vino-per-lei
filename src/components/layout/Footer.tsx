@@ -395,11 +395,11 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
         {/* Company Details & Legal */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
-            <div className="text-xs text-wine/25 leading-relaxed">
-              <p>{settings?.companyName || "Vino per Lei"}</p>
+            <div className="text-xs text-wine/40 leading-relaxed">
+              <p className="font-medium text-wine/50">{settings?.companyName || "Vino per Lei"}</p>
               <p>{settings?.addressStreet || "Pastorielaan 56"}</p>
               <p>{settings?.addressPostal || "5504 CR"} {settings?.addressCity || "Veldhoven"}</p>
-              <p>KvK: {settings?.kvk || "98874977"}</p>
+              <p className="mt-1">KvK: {settings?.kvk || "98874977"}</p>
               <p>BTW: {settings?.btw || "NL005360033B10"}</p>
             </div>
 
