@@ -11,7 +11,9 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error("Application error:", error);
+    // Log error for debugging but never expose error.message or stack traces
+    // in the rendered UI — only generic messages are shown to users.
+    console.error("Application error:", error.digest ?? "unknown");
   }, [error]);
 
   return (
