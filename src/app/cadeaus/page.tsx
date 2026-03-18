@@ -6,7 +6,7 @@ import { CadeausContent } from "./CadeausContent";
 
 import type { Metadata } from "next";
 
-export const revalidate = 60;
+export const revalidate = 3600; // 1 hour — static CMS content
 
 export const metadata: Metadata = {
   title: "Cadeaus | Vino per Lei",

@@ -3,6 +3,8 @@ import { Suspense } from "react";
 import { getProducts } from "@/lib/shopify";
 import { WijnenContent, WijnenLoading } from "./WijnenClient";
 
+export const revalidate = 300; // 5 min — product data from Shopify
+
 export const metadata: Metadata = {
   title: "Onze Wijnen | Vino per Lei",
   description:

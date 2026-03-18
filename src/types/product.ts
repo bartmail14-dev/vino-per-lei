@@ -78,4 +78,5 @@ export type SortOption =
   | "price-asc"
   | "price-desc"
   | "newest"
+  | "name-asc"
   | "rating";

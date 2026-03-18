@@ -18,7 +18,7 @@ import {
   AnimatedCounter,
 } from "@/components/home/HomeAnimations";
 
-export const revalidate = 60;
+export const revalidate = 300; // 5 min — fetches products from Shopify
 
 // Lazy load the map component (below-fold)
 const ItalyWineMap = dynamic(() => import("@/components/map").then(mod => mod.ItalyWineMap), {

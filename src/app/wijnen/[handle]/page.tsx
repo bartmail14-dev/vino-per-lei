@@ -4,6 +4,8 @@ import { Section } from "@/components/layout";
 import { getProductByHandle, getProducts } from "@/lib/shopify";
 import { ProductDetailClient } from "./ProductDetailClient";
 
+export const revalidate = 300; // 5 min — product data from Shopify
+
 interface PageProps {
   params: Promise<{ handle: string }>;
 }
