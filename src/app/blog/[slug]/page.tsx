@@ -168,7 +168,71 @@ export default async function BlogArticlePage({ params }: Props) {
     .join("")
     .slice(0, 2);
 
+  // JSON-LD: BlogPosting schema
+  const blogPostingJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: article.title,
+    description: article.excerpt || undefined,
+    datePublished: article.publishedAt,
+    author: {
+      "@type": "Person",
+      name: authorName,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Vino per Lei",
+      url: "https://vinoperlei.nl",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://vinoperlei.nl/logo.png",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://vinoperlei.nl/blog/${slug}`,
+    },
+    ...(article.image && {
+      image: article.image.url,
+    }),
+  };
+
+  // JSON-LD: BreadcrumbList schema
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://vinoperlei.nl",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: "https://vinoperlei.nl/blog",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: article.title,
+        item: `https://vinoperlei.nl/blog/${slug}`,
+      },
+    ],
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
     <div className="bg-background min-h-screen">
       <ReadingProgressEnhanced readingTimeMinutes={article.readingTimeMinutes} />
       <ArticleContentEnhancer />
@@ -339,5 +403,6 @@ export default async function BlogArticlePage({ params }: Props) {
 
       <div className="h-14 lg:hidden" aria-hidden="true" />
     </div>
+    </>
   );
 }
