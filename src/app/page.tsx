@@ -321,8 +321,8 @@ export default async function Home() {
 
         <AnimatedSection variant="fadeUp">
           <div className="text-center mb-8 sm:mb-12">
-            <p className="text-label text-wine/40 mb-2">Wat Klanten Zeggen</p>
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Beoordelingen</h2>
+            <p className="text-label text-wine/40 mb-2">Reacties van proefklanten</p>
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Wat klanten zeggen</h2>
           </div>
         </AnimatedSection>
         <AnimatedStagger className="grid sm:grid-cols-3 gap-5 sm:gap-6" staggerDelay={0.15}>
