@@ -35,7 +35,7 @@ export function TastingExperience({ product, className }: TastingExperienceProps
             Proefervaring
           </h2>
           <p className="text-grey text-sm sm:text-base max-w-xl mx-auto">
-            Ontdek de lagen van smaak en aroma in drie fasen
+            Wat je ruikt, proeft en voelt in drie stappen
           </p>
         </motion.div>
       </div>

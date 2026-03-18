@@ -6,11 +6,11 @@ import { WijnenContent, WijnenLoading } from "./WijnenClient";
 export const metadata: Metadata = {
   title: "Onze Wijnen | Vino per Lei",
   description:
-    "Ontdek onze zorgvuldig geselecteerde collectie authentieke Italiaanse wijnen. Filter op regio, druivenras, prijs en smaakprofiel. Gratis verzending vanaf €35.",
+    "19 Italiaanse wijnen uit Piemonte, Veneto en Toscane. Filter op regio, druif of prijs. Gratis verzending vanaf 35 euro.",
   openGraph: {
     title: "Onze Wijnen | Vino per Lei",
     description:
-      "Authentieke Italiaanse wijnen uit Piemonte, Veneto, Toscana en meer. Bestel online met gratis verzending vanaf €35.",
+      "19 Italiaanse wijnen rechtstreeks van familieproducenten. Filter op regio, druif of prijs.",
     type: "website",
     locale: "nl_NL",
     siteName: "Vino per Lei",

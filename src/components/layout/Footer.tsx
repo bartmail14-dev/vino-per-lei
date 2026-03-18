@@ -235,7 +235,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
               Blijf op de hoogte
             </h2>
             <p className="text-white/50 mb-8 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
-              Ontvang als eerste nieuwe wijnen, wijnverhalen en exclusieve aanbiedingen direct in je inbox.
+              Nieuwe wijnen, seizoenstips en af en toe een aanbieding. Geen spam, hooguit twee keer per maand.
             </p>
             <NewsletterForm
               variant="dark"

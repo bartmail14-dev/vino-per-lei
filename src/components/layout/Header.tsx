@@ -470,7 +470,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                     <div className="relative z-10">
                       <p className="text-label text-wine mb-2">Seizoenstip</p>
                       <h4 className="font-serif text-xl text-charcoal mb-3">
-                        Ontdek onze rosé selectie
+                        Onze Italiaanse rosés
                       </h4>
                       <p className="text-sm text-grey mb-4">
                         Verfrissend voor de zomermaanden

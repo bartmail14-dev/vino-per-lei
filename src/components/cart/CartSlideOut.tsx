@@ -100,7 +100,7 @@ export function CartSlideOut() {
                   Je winkelmand is leeg
                 </h3>
                 <p className="text-sm text-grey mb-6">
-                  Ontdek onze wijnen en voeg je favorieten toe.
+                  Bekijk onze 19 Italiaanse wijnen en kies je favoriet.
                 </p>
                 <Button onClick={closeCart} variant="primary">
                   Bekijk onze wijnen

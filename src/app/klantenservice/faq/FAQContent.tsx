@@ -223,13 +223,13 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
                 Vraag niet gevonden?
               </h2>
               <p className="text-white/70 mb-6 max-w-md mx-auto text-sm">
-                Ons team staat voor je klaar om je te helpen.
+                Carla helpt je persoonlijk verder.
               </p>
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center h-12 px-8 bg-white text-wine text-button uppercase rounded hover:bg-white/90 transition-colors"
               >
-                Neem Contact Op
+                Stuur Carla een bericht
               </Link>
             </div>
           </div>
