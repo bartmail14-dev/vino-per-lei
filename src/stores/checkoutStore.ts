@@ -22,7 +22,6 @@ import {
   paymentSchema,
   validateSection,
 } from "@/lib/validation";
-import { useCartStore } from "@/stores/cartStore";
 
 const initialContact: CheckoutContact = {
   email: "",
@@ -194,76 +193,12 @@ export const useCheckoutStore = create<CheckoutState>()(
           discountApplied: null,
         }),
 
-      // Submit order
-      /**
-       * TODO: LIVEGANG — Vervang deze mock door echte Shopify Checkout
-       *
-       * Optie 1: Redirect naar Shopify Hosted Checkout
-       *   - Gebruik createCheckout() uit lib/shopify.ts
-       *   - Loop door cart items, bouw lineItems[] met variantId + quantity
-       *   - Redirect naar checkout.webUrl
-       *
-       * Optie 2: Shopify Storefront Checkout API + eigen betaalpagina
-       *   - Complexer maar meer controle over UX
-       *
-       * Huidige implementatie is een DEMO — er wordt geen bestelling geplaatst.
-       */
+      // Order submission is handled by Shopify hosted checkout via cart permalink.
+      // See getShopifyCartUrl() in lib/shopify.ts.
       submitOrder: async (): Promise<OrderResult> => {
-        // Check cart has items before proceeding
-        const cartItems = useCartStore.getState().items;
-        if (cartItems.length === 0) {
-          return { success: false, error: "Je winkelmand is leeg" };
-        }
-
-        set({ isSubmitting: true, errors: {} });
-
-        const state = get();
-
-        // Validate all sections
-        const contactErrors = validateSection(contactSchema, state.contact);
-        const addressErrors = validateSection(addressSchema, state.address);
-        const giftErrors = validateSection(giftSchema, state.gift);
-        const shippingErrors = validateSection(shippingSchema, { method: state.shipping.method });
-        const paymentErrors = validateSection(paymentSchema, state.payment);
-
-        const allErrors = {
-          ...Object.fromEntries(
-            Object.entries(contactErrors).map(([k, v]) => [`contact.${k}`, v])
-          ),
-          ...Object.fromEntries(
-            Object.entries(addressErrors).map(([k, v]) => [`address.${k}`, v])
-          ),
-          ...Object.fromEntries(
-            Object.entries(giftErrors).map(([k, v]) => [`gift.${k}`, v])
-          ),
-          ...Object.fromEntries(
-            Object.entries(shippingErrors).map(([k, v]) => [`shipping.${k}`, v])
-          ),
-          ...Object.fromEntries(
-            Object.entries(paymentErrors).map(([k, v]) => [`payment.${k}`, v])
-          ),
-        };
-
-        if (Object.keys(allErrors).length > 0) {
-          set({ isSubmitting: false, errors: allErrors });
-          return {
-            success: false,
-            error: "Controleer de ingevulde gegevens",
-          };
-        }
-
-        // Simulate order creation
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-
-        // Generate mock order ID
-        const orderId = `VPL-${Date.now().toString(36).toUpperCase()}`;
-
-        set({ isSubmitting: false });
-
         return {
-          success: true,
-          orderId,
-          redirectUrl: `/checkout/success?order=${orderId}`,
+          success: false,
+          error: "Gebruik de afrekenen-knop om door te gaan naar Shopify checkout.",
         };
       },
 

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useCheckoutStore } from "@/stores/checkoutStore";
 import { useCartStore } from "@/stores/cartStore";
-import { createCheckout } from "@/lib/shopify";
+import { getShopifyCartUrl } from "@/lib/shopify";
 import { paymentSchema, validateSection } from "@/lib/validation";
 import { Checkbox, Button } from "@/components/ui";
 import { Wine } from "lucide-react";
@@ -32,25 +32,13 @@ export function PaymentSection() {
       return;
     }
 
-    // Redirect to Shopify hosted checkout
+    // Redirect to Shopify cart permalink
     setIsSubmitting(true);
-    try {
-      const lineItems = items.map((item) => ({
-        variantId: item.product.variantId,
-        quantity: item.quantity,
-      }));
-      const checkout = await createCheckout(lineItems);
-      if (checkout?.webUrl) {
-        window.location.href = checkout.webUrl;
-      } else {
-        setLocalError("Kan checkout niet starten. Probeer het opnieuw.");
-        setIsSubmitting(false);
-      }
-    } catch (error) {
-      console.error("Checkout failed:", error);
-      setLocalError("Er is een fout opgetreden. Probeer het opnieuw.");
-      setIsSubmitting(false);
-    }
+    const lineItems = items.map((item) => ({
+      variantId: item.product.variantId,
+      quantity: item.quantity,
+    }));
+    window.location.href = getShopifyCartUrl(lineItems);
   };
 
   return (
