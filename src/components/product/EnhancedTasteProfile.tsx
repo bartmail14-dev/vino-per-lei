@@ -15,7 +15,6 @@ interface TasteMetric {
   leftLabel: string;
   rightLabel: string;
   value: number;
-  description: string;
   emoji: string;
 }
 
@@ -48,7 +47,7 @@ export function EnhancedTasteProfile({ product, className }: EnhancedTasteProfil
           transition={{ delay: 0.1 }}
           className="text-grey text-sm sm:text-base max-w-md mx-auto"
         >
-          {generateTasteDescription(product.wineType, metrics)}
+          De smaakbalans van deze wijn op een schaal van 1 tot 6
         </motion.p>
       </div>
 
@@ -172,18 +171,7 @@ function TasteMetricBar({
         </motion.div>
       </div>
 
-      {/* Description on hover */}
-      <motion.p
-        initial={false}
-        animate={{
-          height: isHovered ? "auto" : 0,
-          opacity: isHovered ? 1 : 0,
-          marginTop: isHovered ? 6 : 0,
-        }}
-        className="text-xs text-grey overflow-hidden"
-      >
-        {metric.description}
-      </motion.p>
+      {/* Description removed — was algorithmically generated fake text */}
     </motion.div>
   );
 }
@@ -372,7 +360,6 @@ function getMetricsForWineType(
       rightLabel: "Zoet",
       value: profile.drySweet,
       emoji: "💧",
-      description: profile.drySweet <= 2 ? "Droge wijn met minimale restsuiker" : profile.drySweet >= 5 ? "Zoete wijn met merkbare suiker" : "Medium droog met lichte zoetheid",
     },
     {
       label: "Body",
@@ -380,7 +367,6 @@ function getMetricsForWineType(
       rightLabel: "Vol",
       value: profile.lightFull,
       emoji: "🍷",
-      description: profile.lightFull <= 2 ? "Licht en delicaat in de mond" : profile.lightFull >= 5 ? "Vol en krachtig met veel textuur" : "Medium body met goede structuur",
     },
   ];
 
@@ -392,7 +378,6 @@ function getMetricsForWineType(
         rightLabel: "Tanninrijk",
         value: profile.softTannic || 3,
         emoji: "🫧",
-        description: (profile.softTannic || 3) <= 2 ? "Zachte, fluweelachtige tannines" : (profile.softTannic || 3) >= 5 ? "Stevige, grijpende tannines" : "Gebalanceerde tanninestructuur",
       },
       {
         label: "Aroma",
@@ -400,7 +385,6 @@ function getMetricsForWineType(
         rightLabel: "Kruidig",
         value: profile.fruitySpicy || 3,
         emoji: "🌿",
-        description: (profile.fruitySpicy || 3) <= 2 ? "Rijp fruit en bessenaroma's" : (profile.fruitySpicy || 3) >= 5 ? "Kruidige en aardse tonen" : "Balans tussen fruit en kruiden",
       }
     );
   } else {
@@ -411,7 +395,6 @@ function getMetricsForWineType(
         rightLabel: "Zacht",
         value: profile.freshSoft || 3,
         emoji: "❄️",
-        description: (profile.freshSoft || 3) <= 2 ? "Verfrissend met levendige zuren" : (profile.freshSoft || 3) >= 5 ? "Zacht en rond in de mond" : "Aangename frisheid met zachtheid",
       }
     );
 
@@ -422,7 +405,6 @@ function getMetricsForWineType(
         rightLabel: "Bloemig",
         value: profile.fruitySpicy || 3,
         emoji: "🌸",
-        description: (profile.fruitySpicy || 3) <= 2 ? "Citrus en steenfruit" : (profile.fruitySpicy || 3) >= 5 ? "Bloemige en honingachtige tonen" : "Mix van fruit en bloemen",
       });
     }
   }
@@ -430,14 +412,4 @@ function getMetricsForWineType(
   return baseMetrics;
 }
 
-function generateTasteDescription(wineType: string, metrics: TasteMetric[]): string {
-  const bodyMetric = metrics.find(m => m.label === "Body");
-  const dryMetric = metrics.find(m => m.label === "Droog/Zoet");
-
-  const bodyDesc = bodyMetric?.value && bodyMetric.value >= 4 ? "volle" : bodyMetric?.value && bodyMetric.value <= 2 ? "lichte" : "medium";
-  const dryDesc = dryMetric?.value && dryMetric.value <= 2 ? "droge" : dryMetric?.value && dryMetric.value >= 5 ? "zoete" : "";
-
-  const typeDesc = wineType === "red" ? "rode wijn" : wineType === "white" ? "witte wijn" : wineType === "rose" ? "rose" : "mousserende wijn";
-
-  return `Een ${dryDesc} ${bodyDesc} ${typeDesc} met een elegante structuur en uitgesproken karakter.`.replace("  ", " ");
-}
+// generateTasteDescription removed — was generating fake algorithmically composed descriptions

@@ -172,6 +172,12 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
                 <span className="text-grey">1-2 werkdagen</span>
               </div>
             </div>
+
+            {/* Allergen notice (EU requirement) */}
+            <div className="mt-4 pt-4 border-t border-sand/50 flex items-center gap-2 text-sm text-grey">
+              <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" strokeWidth={1.5} />
+              <span>Bevat sulfieten</span>
+            </div>
           </div>
         </div>
       </Section>
@@ -191,6 +197,11 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
             <ClockIcon className="w-5 h-5 text-wine" />
             <span className="text-xs text-grey">1-2 dagen</span>
           </div>
+        </div>
+        {/* Allergen notice (EU requirement) */}
+        <div className="mt-2 pt-2 border-t border-sand/30 flex items-center justify-center gap-1.5 text-xs text-grey">
+          <AlertTriangle className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" strokeWidth={1.5} />
+          <span>Bevat sulfieten</span>
         </div>
       </div>
 

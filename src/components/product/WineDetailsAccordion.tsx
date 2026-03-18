@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { ChevronDownIcon, CheckIcon, AwardIcon } from "@/components/icons";
-import { ClipboardList, Calendar, Leaf, Warehouse } from "lucide-react";
+import { ChevronDownIcon, CheckIcon } from "@/components/icons";
+import { ClipboardList, Warehouse } from "lucide-react";
 import type { Product } from "@/types";
 
 interface WineDetailsAccordionProps {
@@ -44,6 +44,7 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
             { label: "Inhoud", value: "750ml" },
             { label: "Wijnstijl", value: getWineStyleLabel(product.wineType) },
             { label: "Sluiting", value: "Natuurkurk" },
+            { label: "Allergenen", value: "Bevat sulfieten" },
           ].map((detail) => (
             <div key={detail.label} className="flex justify-between py-2 border-b border-sand/50">
               <span className="text-grey">{detail.label}</span>
@@ -53,116 +54,43 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
         </div>
       ),
     },
-    {
-      id: "vinification",
-      title: "Vinificatie & Rijping",
-      icon: BarrelIcon,
-      content: (
-        <div className="space-y-4 text-charcoal">
-          <p>
-            <strong className="text-wine">Oogst:</strong> Handgeplukt in de vroege ochtenduren om de frisheid van de druiven te behouden.
-          </p>
-          <p>
-            <strong className="text-wine">Vinificatie:</strong> {product.wineType === "red"
-              ? "Koude maceratie gedurende 3-4 dagen, gevolgd door gisting op gecontroleerde temperatuur in roestvrijstalen tanks. Malolactische gisting volledig afgerond."
-              : product.wineType === "white"
-              ? "Zachte persing en gisting op lage temperatuur in roestvrijstalen tanks om de frisse aroma's te behouden."
-              : "Directe persing en gisting op lage temperatuur voor een frisse, fruitige stijl."}
-          </p>
-          <p>
-            <strong className="text-wine">Rijping:</strong> {product.wineType === "red"
-              ? "12-18 maanden in Franse eiken barriques (30% nieuw hout), gevolgd door minimaal 6 maanden flesrijping."
-              : "4-6 maanden op de fijne droesem in roestvrijstalen tanks voor extra complexiteit."}
-          </p>
-          <p>
-            <strong className="text-wine">Productie:</strong> Beperkte oplage van zorgvuldig geselecteerde wijngaarden.
-          </p>
-        </div>
-      ),
-    },
+    // Vinification section removed — was hardcoded fake template text.
+    // Re-add when real data is available via Shopify metafield "custom.vinification".
     {
       id: "storage",
       title: "Opslag & Drinkadvies",
       icon: CellarIcon,
       content: (
         <div className="space-y-4 text-charcoal">
-          <div className="grid sm:grid-cols-2 gap-6">
-            <div className="bg-champagne/30 rounded-lg p-4">
-              <h4 className="font-semibold text-wine mb-2 flex items-center gap-2">
-                <Warehouse className="w-5 h-5" strokeWidth={1.5} />
-                Bewaren
-              </h4>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-start gap-2">
-                  <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                  Horizontaal bewaren
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                  Temperatuur: 12-14°C
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                  Luchtvochtigheid: 70%
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                  Donker en trillingsvrij
-                </li>
-              </ul>
-            </div>
-            <div className="bg-champagne/30 rounded-lg p-4">
-              <h4 className="font-semibold text-wine mb-2 flex items-center gap-2">
-                <Calendar className="w-5 h-5" strokeWidth={1.5} />
-                Optimaal Drinken
-              </h4>
-              <p className="text-sm mb-2">
-                {product.wineType === "red"
-                  ? "Deze wijn kan nu gedronken worden, maar zal de komende 5-10 jaar nog mooier evolueren."
-                  : product.wineType === "white"
-                  ? "Op zijn best binnen 2-4 jaar na oogst. Drink bij voorkeur jong voor optimale frisheid."
-                  : "Drink bij voorkeur binnen 1-2 jaar voor maximale frisheid en fruitigheid."}
-              </p>
-              <div className="mt-4 flex items-center gap-2">
-                <span className="text-sm text-grey">Drinkvenster:</span>
-                <span className="font-semibold text-wine">
-                  {product.wineType === "red" ? "2024 - 2034" : product.wineType === "white" ? "2024 - 2028" : "2024 - 2026"}
-                </span>
-              </div>
-            </div>
+          <div className="bg-champagne/30 rounded-lg p-4">
+            <h4 className="font-semibold text-wine mb-2 flex items-center gap-2">
+              <Warehouse className="w-5 h-5" strokeWidth={1.5} />
+              Bewaren
+            </h4>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-start gap-2">
+                <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                Horizontaal bewaren
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                Temperatuur: 12-14°C
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                Luchtvochtigheid: 70%
+              </li>
+              <li className="flex items-start gap-2">
+                <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                Donker en trillingsvrij
+              </li>
+            </ul>
           </div>
         </div>
       ),
     },
-    {
-      id: "producer",
-      title: "Over de Producent",
-      icon: WineryIcon,
-      content: (
-        <div className="flex flex-col sm:flex-row gap-6">
-          <div className="flex-1">
-            <p className="text-charcoal mb-4">
-              Dit familiewijngoed, al generaties in dezelfde familie, combineert traditionele wijnmaakmethoden met moderne technieken.
-              Gelegen in het hart van {product.region}, profiteren de wijngaarden van een uniek microklimaat en rijke bodemsamenstelling.
-            </p>
-            <p className="text-charcoal mb-4">
-              De wijnmaker is bekend om zijn passie voor kwaliteit en zijn toewijding aan duurzame wijngaarden.
-              Elk fles vertelt het verhaal van de streek en het vakmanschap dat van generatie op generatie is doorgegeven.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="inline-flex items-center gap-1 bg-success/10 text-success px-3 py-1 rounded-full text-sm">
-                <Leaf className="w-4 h-4" strokeWidth={1.5} />
-                Duurzame teelt
-              </span>
-              <span className="inline-flex items-center gap-1 bg-wine/10 text-wine px-3 py-1 rounded-full text-sm">
-                <AwardIcon className="w-4 h-4" />
-                Bekroonde wijnen
-              </span>
-            </div>
-          </div>
-        </div>
-      ),
-    },
+    // Producer section removed — was hardcoded fake template text.
+    // Re-add when real producer data is available via Shopify metafield "custom.producer_description".
   ];
 
   return (
@@ -218,35 +146,12 @@ function getWineStyleLabel(wineType: string): string {
 }
 
 // Wine-specific custom icons (no Lucide equivalent)
-function BarrelIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <ellipse cx="12" cy="5" rx="8" ry="3" />
-      <ellipse cx="12" cy="19" rx="8" ry="3" />
-      <path d="M4 5V19" />
-      <path d="M20 5V19" />
-      <path d="M4 12C4 12 8 14 12 14C16 14 20 12 20 12" />
-    </svg>
-  );
-}
-
 function CellarIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
       <path d="M3 21H21" />
       <path d="M5 21V7L12 3L19 7V21" />
       <rect x="9" y="13" width="6" height="8" />
-    </svg>
-  );
-}
-
-function WineryIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M3 21H21" />
-      <path d="M5 21V11L12 5L19 11V21" />
-      <path d="M9 21V15H15V21" />
-      <path d="M9 11H15" />
     </svg>
   );
 }
