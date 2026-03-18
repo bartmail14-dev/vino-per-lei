@@ -709,7 +709,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                 {/* Contact Info */}
                 <div className="mt-6 pt-6 border-t border-sand text-sm text-grey">
                   <p className="mb-2">Vragen? Neem contact op:</p>
-                  <p className="font-medium text-charcoal">{contactPhone || "040-XXX XXXX"}</p>
+                  {contactPhone && <p className="font-medium text-charcoal">{contactPhone}</p>}
                   <p className="text-charcoal">{contactEmail || "info@vinoperlei.nl"}</p>
                 </div>
               </nav>

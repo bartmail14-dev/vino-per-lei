@@ -384,7 +384,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
             <div>
               <p className="text-label text-wine/25 mb-3">Contact</p>
               <div className="space-y-1.5 text-sm text-wine/40">
-                <p>{settings?.phone || "040-XXX XXXX"}</p>
+                {settings?.phone && <p>{settings.phone}</p>}
                 <p>{settings?.email || "info@vinoperlei.nl"}</p>
                 <p className="text-wine/25 text-xs">Ma-Vr {settings?.hoursWeekday || "09:00 - 17:00"}</p>
               </div>
