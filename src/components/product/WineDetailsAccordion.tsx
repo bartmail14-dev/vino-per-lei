@@ -44,6 +44,7 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
             { label: "Inhoud", value: "750ml" },
             { label: "Wijnstijl", value: getWineStyleLabel(product.wineType) },
             { label: "Sluiting", value: "Natuurkurk" },
+            { label: "Allergenen", value: "Bevat sulfieten" },
           ].map((detail) => (
             <div key={detail.label} className="flex justify-between py-2 border-b border-sand/50">
               <span className="text-grey">{detail.label}</span>
