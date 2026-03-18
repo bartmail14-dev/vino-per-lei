@@ -1,11 +1,23 @@
 import { createStorefrontApiClient } from '@shopify/storefront-api-client';
 import { type Product, type ProductImage } from '@/types';
 
-const client = createStorefrontApiClient({
-  storeDomain: process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!,
-  apiVersion: '2026-01',
-  publicAccessToken: process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!,
-});
+// Lazy-init: avoid throwing at module evaluation when env vars are missing (e.g. build without .env)
+let _client: ReturnType<typeof createStorefrontApiClient> | null = null;
+function getClient() {
+  if (!_client) {
+    const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
+    const token = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+    if (!domain || !token) {
+      throw new Error('Missing Shopify env vars: NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN and NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN must be set');
+    }
+    _client = createStorefrontApiClient({
+      storeDomain: domain,
+      apiVersion: '2026-01',
+      publicAccessToken: token,
+    });
+  }
+  return _client;
+}
 
 // --- GraphQL fragments ---
 
@@ -173,7 +185,7 @@ export async function getProducts(first: number = 50): Promise<Product[]> {
       }
     `;
 
-    const { data } = await client.request(query, { variables: { first } });
+    const { data } = await getClient().request(query, { variables: { first } });
     return (
       data?.products?.edges?.map(
         (edge: { node: ShopifyProductNode }) => mapShopifyProduct(edge.node)
@@ -201,7 +213,7 @@ export async function getProductByHandle(
       }
     `;
 
-    const { data } = await client.request(query, { variables: { handle } });
+    const { data } = await getClient().request(query, { variables: { handle } });
     if (!data?.productByHandle) return null;
     return mapShopifyProduct(data.productByHandle);
   } catch (error) {
