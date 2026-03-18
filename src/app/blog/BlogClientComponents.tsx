@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useRef, useEffect, type ReactNode } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useInView, useMotionValue, useTransform } from "framer-motion";
-import { Clock, ArrowRight, Wine, Mail, BookOpen } from "lucide-react";
+import { motion, useInView, useMotionValue } from "framer-motion";
+import { Clock, ArrowRight, Wine, Mail } from "lucide-react";
 import type { BlogArticle } from "@/lib/shopify-cms";
 import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
 import { getTagLabel } from "@/lib/tag-utils";
@@ -17,7 +17,6 @@ export const ClockIcon = Clock;
 export const ArrowIcon = ArrowRight;
 export const WineGlassIcon = Wine;
 const MailIcon = Mail;
-const BookOpenIcon = BookOpen;
 
 // Decorative grape cluster (custom — used as background pattern with opacity)
 export function GrapeIcon({ className }: { className?: string }) {

@@ -37,7 +37,7 @@ export interface RegisterData {
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       user: null,
       isAuthenticated: false,
       isHydrated: false,
@@ -46,12 +46,14 @@ export const useAuthStore = create<AuthState>()(
 
       setHydrated: () => set({ isHydrated: true }),
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       login: async (_email: string, _password: string) => {
         // Coming soon — no auth backend connected yet.
         // When a real auth provider is integrated, replace this stub.
         return false;
       },
 
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       register: async (_data: RegisterData) => {
         // Coming soon — no auth backend connected yet.
         return false;

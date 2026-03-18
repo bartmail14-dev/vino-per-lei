@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AnimateOnScroll, StaggerChildren, StaggerItem } from "@/components/ui/AnimateOnScroll";
 import { motion } from "framer-motion";
 import { Wine as WineGlassIcon, Heart as HeartHandIcon, Leaf as LeafIcon, Truck as TruckIcon, Star as StarIcon, Globe as GlobeIcon } from "lucide-react";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 const values = [
   {
@@ -240,7 +241,7 @@ export function OverOnsContent({ pageBody, email }: OverOnsContentProps) {
         {pageBody ? (
           <div
             className="prose prose-lg max-w-none text-grey prose-headings:font-serif prose-headings:text-charcoal prose-headings:font-semibold prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-10 prose-h3:text-xl prose-h3:mb-3 prose-a:text-wine prose-a:underline hover:prose-a:text-wine-dark prose-strong:text-charcoal prose-li:text-grey prose-ul:space-y-1 prose-ol:space-y-2"
-            dangerouslySetInnerHTML={{ __html: pageBody }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageBody) }}
           />
         ) : (
           <AnimateOnScroll variant="scaleIn">

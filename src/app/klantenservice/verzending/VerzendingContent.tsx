@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { AnimateOnScroll, StaggerChildren, StaggerItem } from "@/components/ui/AnimateOnScroll";
 import { Package as PackageIcon, Truck as TruckIcon, Home as HomeIcon, ShoppingCart as ShoppingCartIcon, Shield as ShieldIcon } from "lucide-react";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 const steps = [
   {
@@ -132,7 +133,7 @@ export function VerzendingContent({ pageBody, pageTitle }: VerzendingContentProp
           <AnimateOnScroll variant="fadeUp">
             <div
               className="prose prose-lg max-w-none text-grey prose-headings:font-serif prose-headings:text-charcoal prose-headings:font-semibold prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-10 prose-h3:text-xl prose-h3:mb-3 prose-a:text-wine prose-a:underline hover:prose-a:text-wine-dark prose-strong:text-charcoal prose-li:text-grey prose-ul:space-y-1 prose-ol:space-y-2 mb-16"
-              dangerouslySetInnerHTML={{ __html: pageBody }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageBody) }}
             />
           </AnimateOnScroll>
         )}

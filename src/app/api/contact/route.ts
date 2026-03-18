@@ -17,7 +17,7 @@ const contactSchema = z.object({
   naam: z.string().min(2, "Naam is te kort").max(200, "Naam is te lang"),
   email: z.email("Ongeldig e-mailadres"),
   onderwerp: z.string().min(1, "Kies een onderwerp").max(200, "Onderwerp is te lang"),
-  bericht: z.string().min(10, "Bericht is te kort").max(5000, "Bericht is te lang"),
+  bericht: z.string().min(10, "Bericht is te kort").max(2000, "Bericht is te lang"),
   honeypot: z.string().optional(),
 });
 

@@ -24,16 +24,8 @@ function formatDate(date: string) {
   });
 }
 
-export function ArticleHero({
-  title,
-  tags,
-  authorName,
-  authorInitials,
-  publishedAt,
-  readingTimeMinutes,
-  image,
-  excerpt,
-}: ArticleHeroProps) {
+export function ArticleHero(props: ArticleHeroProps) {
+  const { title, tags, authorName, publishedAt, readingTimeMinutes, image } = props;
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: heroRef,

@@ -3,8 +3,8 @@ import Link from "next/link";
 import { Lock } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Checkout | Vino per Lei",
-  description: "Rond je bestelling af bij Vino per Lei.",
+  title: "Afrekenen | Vino per Lei",
+  description: "Rond je bestelling af bij Vino per Lei. Veilig betalen met iDEAL, creditcard of PayPal.",
   robots: { index: false, follow: false },
 };
 

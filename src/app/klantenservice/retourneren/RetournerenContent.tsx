@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { AnimateOnScroll, StaggerChildren, StaggerItem } from "@/components/ui/AnimateOnScroll";
+import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
 import { Mail as MailIcon, Package as PackageIcon, RotateCcw as RefreshIcon, CreditCard as CreditCardIcon, CheckCircle as CheckCircleIcon, XCircle as XCircleIcon, ShieldCheck, Check, X } from "lucide-react";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 const returnSteps = [
   {
@@ -109,7 +110,7 @@ export function RetournerenContent({ pageBody, pageTitle }: RetournerenContentPr
           <AnimateOnScroll variant="fadeUp">
             <div
               className="prose prose-lg max-w-none text-grey prose-headings:font-serif prose-headings:text-charcoal prose-headings:font-semibold prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-10 prose-h3:text-xl prose-h3:mb-3 prose-a:text-wine prose-a:underline hover:prose-a:text-wine-dark prose-strong:text-charcoal prose-li:text-grey prose-ul:space-y-1 prose-ol:space-y-2 mb-16"
-              dangerouslySetInnerHTML={{ __html: pageBody }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageBody) }}
             />
           </AnimateOnScroll>
         )}

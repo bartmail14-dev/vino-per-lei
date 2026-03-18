@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { Section, Grid } from "@/components/layout";
+import { Section } from "@/components/layout";
 import { ProductCard } from "@/components/product";
 import { getProducts } from "@/lib/shopify";
 import dynamic from "next/dynamic";
-import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ClockIcon, ArrowRightIcon, MapPinIcon, StarIcon, ShieldIcon } from "@/components/icons";
+import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ArrowRightIcon, StarIcon, ShieldIcon } from "@/components/icons";
 import { getHeroContent, getUSPItems, getCategoryBlocks, getBlogArticles, DEFAULT_HERO } from "@/lib/shopify-cms";
-import type { USPItem, CategoryBlock, BlogArticle } from "@/lib/shopify-cms";
+import type { BlogArticle } from "@/lib/shopify-cms";
 import {
   AnimatedSection,
   AnimatedStagger,

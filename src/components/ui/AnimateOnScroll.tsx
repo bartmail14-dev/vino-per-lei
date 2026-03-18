@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { motion, useInView, type Transition, type Variants } from "framer-motion";
+import { motion, useInView, type Variants } from "framer-motion";
 
 type AnimationVariant = "fadeUp" | "fadeIn" | "fadeLeft" | "fadeRight" | "scaleIn" | "zoomIn";
 

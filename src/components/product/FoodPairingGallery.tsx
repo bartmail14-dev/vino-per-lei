@@ -179,6 +179,7 @@ const FULL_WHITE_GRAPES = ["chardonnay", "viognier", "gewurztraminer", "friulano
  * component renders nothing until real per-product data is provided
  * via Shopify metafield "custom.food_pairing".
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getFoodPairingsForProduct(_product: Product): FoodPairing[] {
   // TODO: parse product metafield "custom.food_pairing" (JSON array)
   // when available in the Shopify data model. Until then, show nothing.

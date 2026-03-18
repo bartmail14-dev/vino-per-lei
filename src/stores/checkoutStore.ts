@@ -9,19 +9,10 @@ import type {
   CheckoutPayment,
   CheckoutSection,
   OrderResult,
-  DiscountCode,
   ShippingMethod,
 } from "@/types/checkout";
 import { SHIPPING_COSTS } from "@/types/checkout";
 import { FREE_SHIPPING_THRESHOLD } from "@/types/cart";
-import {
-  contactSchema,
-  addressSchema,
-  giftSchema,
-  shippingSchema,
-  paymentSchema,
-  validateSection,
-} from "@/lib/validation";
 
 const initialContact: CheckoutContact = {
   email: "",
@@ -180,6 +171,7 @@ export const useCheckoutStore = create<CheckoutState>()(
       clearAllErrors: () => set({ errors: {} }),
 
       // Discount code
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       applyDiscountCode: async (_code) => {
         // TODO: Validate discount code via Shopify API (checkoutDiscountCodeApplyV2 mutation)
         // Never validate discount codes client-side — always server-side via Shopify

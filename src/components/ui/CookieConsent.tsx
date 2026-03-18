@@ -87,13 +87,13 @@ export function CookieConsent() {
               <div className="flex flex-col sm:flex-row gap-2 sm:flex-shrink-0">
                 <button
                   onClick={handleNecessaryOnly}
-                  className="h-10 px-5 text-sm font-semibold text-grey border border-sand rounded-lg hover:border-wine/30 hover:text-charcoal active:scale-[0.98] transition-all duration-200"
+                  className="h-11 min-h-[44px] px-5 text-sm font-semibold text-grey border border-sand rounded-lg hover:border-wine/30 hover:text-charcoal active:scale-[0.98] transition-all duration-200"
                 >
                   Alleen noodzakelijk
                 </button>
                 <button
                   onClick={handleAccept}
-                  className="h-10 px-5 text-sm font-semibold text-white bg-wine rounded-lg hover:bg-wine-dark active:scale-[0.98] transition-all duration-200"
+                  className="h-11 min-h-[44px] px-5 text-sm font-semibold text-white bg-wine rounded-lg hover:bg-wine-dark active:scale-[0.98] transition-all duration-200"
                 >
                   Accepteren
                 </button>

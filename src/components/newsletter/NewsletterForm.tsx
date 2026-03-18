@@ -27,6 +27,7 @@ export function NewsletterForm({
   className = "",
 }: NewsletterFormProps) {
   const [email, setEmail] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -35,6 +36,14 @@ export function NewsletterForm({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Bot detected — silently return success
+    if (honeypot) {
+      setStatus("success");
+      setEmail("");
+      return;
+    }
+
     if (!email || !email.includes("@")) {
       setStatus("error");
       return;
@@ -141,6 +150,18 @@ export function NewsletterForm({
                 : "flex flex-col sm:flex-row gap-3"
             }
           >
+            {/* Honeypot — hidden from real users, filled by bots */}
+            <input
+              type="text"
+              name="company"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              style={{ position: "absolute", left: "-9999px", opacity: 0 }}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+            />
+
             <div className="flex-1 relative">
               <label htmlFor={inputId} className="sr-only">E-mailadres</label>
 

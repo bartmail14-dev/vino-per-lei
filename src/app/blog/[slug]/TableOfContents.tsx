@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface TocItem {
@@ -9,31 +9,46 @@ interface TocItem {
   level: number;
 }
 
+function extractHeadings(): TocItem[] {
+  const article = document.querySelector("article");
+  if (!article) return [];
+
+  const elements = article.querySelectorAll("h2, h3");
+  const items: TocItem[] = [];
+
+  elements.forEach((el, index) => {
+    if (!el.id) {
+      el.id = `heading-${index}-${el.textContent?.slice(0, 30).replace(/\s+/g, "-").toLowerCase() || index}`;
+    }
+    items.push({
+      id: el.id,
+      text: el.textContent || "",
+      level: el.tagName === "H2" ? 2 : 3,
+    });
+  });
+
+  return items;
+}
+
 export function TableOfContents() {
   const [headings, setHeadings] = useState<TocItem[]>([]);
+  const headingsExtracted = useRef(false);
   const [activeId, setActiveId] = useState<string>("");
   const [visible, setVisible] = useState(false);
 
-  // Extract headings from article content
+  // Extract headings from article content after initial render
   useEffect(() => {
-    const article = document.querySelector("article");
-    if (!article) return;
+    if (headingsExtracted.current) return;
+    headingsExtracted.current = true;
 
-    const elements = article.querySelectorAll("h2, h3");
-    const items: TocItem[] = [];
-
-    elements.forEach((el, index) => {
-      if (!el.id) {
-        el.id = `heading-${index}-${el.textContent?.slice(0, 30).replace(/\s+/g, "-").toLowerCase() || index}`;
+    const rafId = requestAnimationFrame(() => {
+      const items = extractHeadings();
+      if (items.length > 0) {
+        setHeadings(items);
       }
-      items.push({
-        id: el.id,
-        text: el.textContent || "",
-        level: el.tagName === "H2" ? 2 : 3,
-      });
     });
 
-    setHeadings(items);
+    return () => cancelAnimationFrame(rafId);
   }, []);
 
   // Scroll-aware: show after hero, hide near footer

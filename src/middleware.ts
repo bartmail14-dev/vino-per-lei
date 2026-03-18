@@ -17,7 +17,17 @@ const RATE_LIMIT_COOKIE = "__rl";
 
 // HMAC-like signing using a simple hash to prevent cookie tampering.
 // Uses a server-side secret so clients cannot forge valid timestamps.
-const RATE_LIMIT_SECRET = process.env.RATE_LIMIT_SECRET || "vpl-rl-default-secret";
+// If RATE_LIMIT_SECRET is not set, a random fallback is generated per instance.
+// This means cookies won't survive across deploys/instances, but it's safe.
+const RATE_LIMIT_SECRET = (() => {
+  const envSecret = process.env.RATE_LIMIT_SECRET;
+  if (envSecret) return envSecret;
+  console.warn(
+    "[middleware] RATE_LIMIT_SECRET env var is not set. Using a random per-instance fallback. " +
+    "Set RATE_LIMIT_SECRET for consistent cookie signing across instances."
+  );
+  return crypto.randomUUID();
+})();
 
 function simpleHash(data: string): string {
   let hash = 0;

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getPage } from "@/lib/shopify-cms";
+import { sanitizeHtml } from "@/lib/sanitize";
 
 export const revalidate = 3600; // 1 hour — static CMS content
 
@@ -38,7 +39,7 @@ export default async function PrivacyPage() {
         {page?.body ? (
           <div
             className="prose prose-lg max-w-none text-grey prose-headings:font-serif prose-headings:text-charcoal prose-headings:font-semibold prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-10 prose-h3:text-xl prose-h3:mb-3 prose-a:text-wine prose-a:underline hover:prose-a:text-wine-dark prose-strong:text-charcoal prose-li:text-grey prose-ul:space-y-1 prose-ol:space-y-2"
-            dangerouslySetInnerHTML={{ __html: page.body }}
+            dangerouslySetInnerHTML={{ __html: sanitizeHtml(page.body) }}
           />
         ) : (
           <div className="bg-warm-white rounded-lg p-8 text-center border border-sand">

@@ -494,8 +494,8 @@ export function WijnenContent({ products }: { products: Product[] }) {
         <div className="max-w-3xl">
           <h2 className="text-h3 mb-4">Authentieke Italiaanse Wijnen</h2>
           <p className="text-grey mb-4">
-            Bij Vino per Lei selecteren we elke wijn met passie en expertise. Onze collectie
-            bestaat uitsluitend uit authentieke Italiaanse wijnen van gerenommeerde
+            Bij Vino per Lei selecteren we elke wijn met persoonlijke proefingen en expertise. Onze collectie
+            bestaat uitsluitend uit echte Italiaanse wijnen van gerenommeerde
             familiewijngaarden. Van krachtige Barolo uit Piemonte tot elegante Valpolicella
             uit Veneto — wij brengen het beste van Italië naar jouw tafel.
           </p>

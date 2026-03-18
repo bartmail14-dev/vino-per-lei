@@ -7,6 +7,7 @@ import {
   getBlogArticles,
 } from "@/lib/shopify-cms";
 import type { BlogArticle } from "@/lib/shopify-cms";
+import { sanitizeHtml } from "@/lib/sanitize";
 import {
   BlogFadeIn,
   BlogStagger,
@@ -259,7 +260,7 @@ export default async function BlogArticlePage({ params }: Props) {
           <BlogFadeIn>
             <article
               className="prose-wine max-w-none"
-              dangerouslySetInnerHTML={{ __html: article.contentHtml }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(article.contentHtml) }}
             />
           </BlogFadeIn>
 

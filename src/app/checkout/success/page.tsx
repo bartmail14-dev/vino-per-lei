@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
@@ -15,12 +15,12 @@ function CheckoutSuccessContent() {
   const rawOrderId = searchParams.get("order");
   const orderId = rawOrderId && /^[a-zA-Z0-9-]{1,50}$/.test(rawOrderId) ? rawOrderId : null;
   const { contact, address, shipping, resetCheckout } = useCheckoutStore();
-  const [hasTriggeredConfetti, setHasTriggeredConfetti] = useState(false);
+  const hasTriggeredConfetti = useRef(false);
 
   // Trigger confetti on mount
   useEffect(() => {
-    if (!hasTriggeredConfetti) {
-      setHasTriggeredConfetti(true);
+    if (!hasTriggeredConfetti.current) {
+      hasTriggeredConfetti.current = true;
       // Fire confetti
       const duration = 3 * 1000;
       const animationEnd = Date.now() + duration;
@@ -55,7 +55,7 @@ function CheckoutSuccessContent() {
 
       return () => clearInterval(interval);
     }
-  }, [hasTriggeredConfetti]);
+  }, []);
 
   // Reset checkout on unmount
   useEffect(() => {

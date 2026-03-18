@@ -111,7 +111,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
             className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-4xl md:max-h-[85vh] bg-white rounded-2xl shadow-2xl z-50 overflow-hidden"
             role="dialog"
             aria-modal="true"
-            aria-label="Product quick view"
+            aria-label={`Snel bekijken: ${product.title}`}
           >
             {/* Close button */}
             <button

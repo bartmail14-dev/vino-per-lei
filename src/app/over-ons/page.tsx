@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { getPage, getSiteSettings, DEFAULT_SITE_SETTINGS } from "@/lib/shopify-cms";
 import { OverOnsContent } from "./OverOnsContent";
 

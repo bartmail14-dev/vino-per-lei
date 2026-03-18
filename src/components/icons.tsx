@@ -66,8 +66,8 @@ export {
 } from "lucide-react";
 
 // ─── HeartIcon (wrapper with `filled` prop support) ──
-export function HeartIcon({ className, filled }: { className?: string; filled?: boolean }) {
-  return <Heart className={className} fill={filled ? "currentColor" : "none"} strokeWidth={1.5} />;
+export function HeartIcon({ className, filled, "aria-hidden": ariaHidden }: { className?: string; filled?: boolean; "aria-hidden"?: boolean | "true" | "false" }) {
+  return <Heart className={className} fill={filled ? "currentColor" : "none"} strokeWidth={1.5} aria-hidden={ariaHidden} />;
 }
 
 // ─── StarIcon (filled by default for ratings) ────────

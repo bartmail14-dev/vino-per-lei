@@ -100,7 +100,7 @@ export function ProductCard({
       <motion.button
         onClick={handleToggleWishlist}
         className={cn(
-          "absolute top-2 right-2 sm:top-3 sm:right-3 z-20 p-2 rounded-full transition-all duration-200",
+          "absolute top-2 right-2 sm:top-3 sm:right-3 z-20 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full transition-all duration-200",
           "bg-white/90 backdrop-blur-sm",
           "hover:bg-white hover:shadow-md",
           isInWishlist ? "text-wine shadow-sm" : "text-grey/40 hover:text-wine"
@@ -109,7 +109,7 @@ export function ProductCard({
         whileTap={{ scale: 0.9 }}
         aria-label={isInWishlist ? "Verwijder uit verlanglijst" : "Toevoegen aan verlanglijst"}
       >
-        <HeartIcon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" filled={isInWishlist} />
+        <HeartIcon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" filled={isInWishlist} aria-hidden="true" />
       </motion.button>
 
       {/* Quick View Button - appears on hover */}

@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { Checkbox, Button } from "@/components/ui";
 import { ItalyWineMap, type WineRegionData } from "@/components/map";
 import { ChevronDown as ChevronDownIcon, X as CloseIcon, RotateCcw as FilterResetIcon } from "lucide-react";
+import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 export interface FilterOption {
   value: string;
@@ -147,6 +148,8 @@ export function FilterSidebar({
 }: FilterSidebarProps) {
   const totalActiveFilters = Object.values(activeFilters).flat().length;
 
+  const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: onClose });
+
   // Get currently selected region for the map
   const selectedRegion = activeFilters["region"]?.[0] || null;
 
@@ -179,11 +182,15 @@ export function FilterSidebar({
 
           {/* Panel */}
           <motion.div
+            ref={focusTrapRef}
             initial={{ x: "-100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
             className="fixed top-0 left-0 bottom-0 w-full max-w-sm bg-white z-50 overflow-y-auto lg:hidden shadow-2xl"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Filters"
           >
             {/* Header */}
             <div className="sticky top-0 bg-white/95 backdrop-blur-sm border-b border-sand/60 px-4 py-4 flex items-center justify-between z-10">
