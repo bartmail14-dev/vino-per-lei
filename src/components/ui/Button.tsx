@@ -30,7 +30,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const variants = {
       primary:
-        "bg-wine text-white hover:bg-wine-dark active:scale-[0.98] shadow-sm hover:shadow-md",
+        "bg-wine-gradient text-white hover:bg-wine-gradient-hover active:scale-[0.98] shadow-sm hover:shadow-md",
       secondary:
         "border-2 border-wine text-wine bg-transparent hover:bg-wine hover:text-white active:scale-[0.98]",
       ghost:

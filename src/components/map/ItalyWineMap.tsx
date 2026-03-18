@@ -257,7 +257,7 @@ export function ItalyWineMap({
       return "#c9a227"; // Gold on hover
     }
 
-    return "#722f37"; // Burgundy color for active regions
+    return "#1a1f3d"; // Navy blue color for active regions
   };
 
   return (
@@ -278,8 +278,8 @@ export function ItalyWineMap({
             x2="100%"
             y2="100%"
           >
-            <stop offset="0%" stopColor="#8e4a52" />
-            <stop offset="100%" stopColor="#722f37" />
+            <stop offset="0%" stopColor="#2d3454" />
+            <stop offset="100%" stopColor="#1a1f3d" />
           </linearGradient>
 
         </defs>

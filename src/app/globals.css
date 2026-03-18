@@ -8,10 +8,15 @@
   /* Grain texture — stored as CSS variable so Tailwind v4 scanner won't pick up url() from source files */
   --grain-texture: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiBmaWx0ZXI9InVybCgjYSkiIG9wYWNpdHk9IjAuMiIvPjwvc3ZnPg==");
 
-  /* Primary Colors - Burgundy Wine */
-  --wine-burgundy: #722f37;
-  --wine-dark: #501e24;
-  --wine-light: #8e4a52;
+  /* Primary Colors - Navy Blue */
+  --wine-burgundy: #1a1f3d;
+  --wine-dark: #12152b;
+  --wine-light: #2d3454;
+
+  /* Gradients */
+  --wine-gradient: linear-gradient(135deg, #1a1f3d 0%, #2d3454 50%, #3d4a6b 100%);
+  --wine-gradient-hover: linear-gradient(135deg, #12152b 0%, #1a1f3d 50%, #2d3454 100%);
+  --wine-gradient-subtle: linear-gradient(135deg, #1a1f3d 0%, #252b4d 100%);
 
   /* Secondary Colors */
   --gold: #c9a227;
@@ -608,6 +613,27 @@ textarea:focus-visible,
 .bg-grain {
   background-image: var(--grain-texture);
   background-repeat: repeat;
+}
+
+/* Wine gradient backgrounds */
+.bg-wine-gradient {
+  background: var(--wine-gradient);
+}
+
+.bg-wine-gradient-hover {
+  background: var(--wine-gradient-hover);
+}
+
+.bg-wine-gradient-subtle {
+  background: var(--wine-gradient-subtle);
+}
+
+/* Text gradient effect */
+.text-wine-gradient {
+  background: var(--wine-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* ============================================

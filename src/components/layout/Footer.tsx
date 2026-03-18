@@ -207,7 +207,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
   return (
     <footer>
       {/* Newsletter Section — Full bleed wine gradient */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-wine via-wine-dark to-[#0a0d1a]">
+      <div className="relative overflow-hidden bg-wine-gradient">
         {/* Decorative glows */}
         <div className="absolute -right-32 -top-32 w-96 h-96 rounded-full bg-gold/8 blur-[100px]" />
         <div className="absolute -left-24 -bottom-24 w-72 h-72 rounded-full bg-gold/5 blur-[80px]" />
@@ -266,7 +266,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12 lg:gap-16 mb-16">
             <div className="lg:max-w-md">
               <Link href="/" className="inline-block mb-6 group">
-                <Logo variant="full" color="#722f37" className="h-24 sm:h-28 lg:h-32 w-auto transition-transform duration-500 group-hover:scale-[1.02]" />
+                <Logo variant="full" color="#1a1f3d" className="h-24 sm:h-28 lg:h-32 w-auto transition-transform duration-500 group-hover:scale-[1.02]" />
               </Link>
               <p className="text-tagline text-lg sm:text-xl text-wine/80 leading-relaxed">
                 &ldquo;Wijn met karakter, speciaal voor jou&rdquo;

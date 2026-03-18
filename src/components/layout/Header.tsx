@@ -175,7 +175,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="bg-gradient-to-r from-wine via-wine-dark to-wine text-white overflow-hidden"
+            className="bg-wine-gradient-subtle text-white overflow-hidden"
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center relative">
               <p className="text-xs sm:text-sm text-center pr-8 tracking-wide">
@@ -217,7 +217,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
               href="/"
               className="flex-shrink-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 group"
             >
-              <Logo variant="full" color="#722f37" className="h-20 sm:h-24 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
+              <Logo variant="full" color="#1a1f3d" className="h-20 sm:h-24 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
             </Link>
 
             {/* Desktop Navigation - Left aligned */}

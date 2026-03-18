@@ -198,7 +198,7 @@ export function FeaturedHero({ article }: { article: BlogArticle }) {
   /* No-image featured: animated abstract wine pattern with grain + floating shapes */
   return (
     <Link href={`/blog/${article.handle}`} className="group block">
-      <article ref={ref} className="bg-gradient-to-br from-wine via-wine-dark to-[#0d0f1f] rounded-2xl sm:rounded-3xl overflow-hidden relative min-h-[360px] sm:min-h-[420px] lg:min-h-[480px] flex items-end">
+      <article ref={ref} className="bg-wine-gradient rounded-2xl sm:rounded-3xl overflow-hidden relative min-h-[360px] sm:min-h-[420px] lg:min-h-[480px] flex items-end">
         {/* Grain texture */}
         <div className="absolute inset-0 opacity-[0.04] bg-grain" />
 
@@ -344,7 +344,7 @@ export function ArticleCard({
           isHorizontal ? "flex-row" : "flex-col"
         } ${
           isLarge
-            ? "bg-gradient-to-br from-wine via-wine-dark to-[#0d0f1f] text-white shadow-2xl shadow-wine/10 hover:shadow-[0_24px_64px_-12px_rgba(26,31,61,0.25)]"
+            ? "bg-wine-gradient text-white shadow-2xl shadow-wine/10 hover:shadow-[0_24px_64px_-12px_rgba(26,31,61,0.25)]"
             : "bg-white border border-sand/40 hover:border-gold/30 hover:shadow-[0_20px_60px_-12px_rgba(26,31,61,0.12)] hover:-translate-y-2"
         }`}
       >
@@ -429,7 +429,7 @@ export function ArticleCard({
         {/* No-image: animated gradient with floating shapes + shimmer accent */}
         {!hasImage && (
           <div
-            className={`bg-gradient-to-br from-wine via-wine-dark to-[#1a0a1a] relative overflow-hidden flex-shrink-0 ${
+            className={`bg-wine-gradient relative overflow-hidden flex-shrink-0 ${
               isHorizontal ? "w-2/5 min-h-[200px]" : isLarge ? "aspect-[16/10]" : "aspect-[3/2]"
             }`}
           >
@@ -516,7 +516,7 @@ export function ArticleCard({
                 <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0 ${
                   isLarge
                     ? "bg-gold/15 text-gold border border-gold/15"
-                    : "bg-gradient-to-br from-wine to-wine-dark text-white"
+                    : "bg-wine-gradient text-white"
                 }`}>
                   {article.authorV2.name.split(" ").map(w => w[0]).join("").slice(0, 2)}
                 </div>
