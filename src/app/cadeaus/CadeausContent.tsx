@@ -115,7 +115,7 @@ export function CadeausContent({ children }: CadeausContentProps) {
           {giftIdeas.map((idea) => (
             <StaggerItem key={idea.title}>
               <div className="bg-white rounded-2xl p-6 sm:p-7 shadow-lg border border-sand/50 text-center hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col">
-                <div className="w-14 h-14 rounded-xl bg-wine/10 flex items-center justify-center mx-auto mb-5">
+                <div className="w-14 h-14 rounded-lg bg-wine/10 flex items-center justify-center mx-auto mb-5">
                   {idea.icon === "duo" ? (
                     <WineGlassesIcon className="w-7 h-7 text-wine" />
                   ) : idea.icon === "box" ? (

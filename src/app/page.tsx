@@ -42,7 +42,7 @@ function RedWineIcon({ className }: { className?: string }) {
       <path d="M24 38V28" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       <path d="M16 42H32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       <path d="M14 8H34L32 20C31.5 24 28 28 24 28C20 28 16.5 24 16 20L14 8Z" stroke="currentColor" strokeWidth="2" fill="none" />
-      <path d="M16 16C16.5 19 19.5 22 24 22C28.5 22 31.5 19 32 16L32.5 12H15.5L16 16Z" fill="#1a1f3d" opacity="0.8" />
+      <path d="M16 16C16.5 19 19.5 22 24 22C28.5 22 31.5 19 32 16L32.5 12H15.5L16 16Z" fill="#722f37" opacity="0.8" />
     </svg>
   );
 }
@@ -89,10 +89,10 @@ function GiftBoxIcon({ className }: { className?: string }) {
     <svg className={className} viewBox="0 0 48 48" fill="none">
       <rect x="8" y="18" width="32" height="24" rx="2" stroke="currentColor" strokeWidth="2" fill="none" />
       <rect x="6" y="12" width="36" height="8" rx="2" stroke="currentColor" strokeWidth="2" fill="none" />
-      <path d="M24 12V42" stroke="#1a1f3d" strokeWidth="3" opacity="0.8" />
-      <path d="M6 16H42" stroke="#1a1f3d" strokeWidth="3" opacity="0.8" />
-      <path d="M18 12C18 8 20 6 24 6C28 6 30 8 30 12" stroke="#1a1f3d" strokeWidth="2" fill="none" opacity="0.8" />
-      <circle cx="24" cy="12" r="2" fill="#1a1f3d" opacity="0.8" />
+      <path d="M24 12V42" stroke="#722f37" strokeWidth="3" opacity="0.8" />
+      <path d="M6 16H42" stroke="#722f37" strokeWidth="3" opacity="0.8" />
+      <path d="M18 12C18 8 20 6 24 6C28 6 30 8 30 12" stroke="#722f37" strokeWidth="2" fill="none" opacity="0.8" />
+      <circle cx="24" cy="12" r="2" fill="#722f37" opacity="0.8" />
     </svg>
   );
 }
@@ -202,7 +202,7 @@ export default async function Home() {
           ============================================= */}
       <Section background="default" spacing="none" className="relative -mt-8 sm:-mt-10 z-10">
         <AnimatedUSPBar>
-          <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl shadow-charcoal/5 border border-sand/40 px-4 sm:px-8 py-5 sm:py-6">
+          <div className="bg-white rounded-lg sm:rounded-2xl shadow-xl shadow-charcoal/5 border border-sand/40 px-4 sm:px-8 py-5 sm:py-6">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0">
               {uspItems.map((usp, i) => {
                 const IconComp = uspIconMap[usp.iconName] || TruckIcon;
@@ -371,7 +371,7 @@ export default async function Home() {
               <StaggerItem key={category.name}>
                 <Link
                   href={category.href}
-                  className={`${mapping.color} rounded-xl sm:rounded-2xl p-5 sm:p-8 text-center transition-all duration-300 hover:shadow-xl active:scale-95 sm:hover:-translate-y-2 group border border-transparent hover:border-wine/10 block`}
+                  className={`${mapping.color} rounded-lg sm:rounded-2xl p-5 sm:p-8 text-center transition-all duration-300 hover:shadow-xl active:scale-95 sm:hover:-translate-y-2 group border border-transparent hover:border-wine/10 block`}
                 >
                   <div className={`${mapping.iconColor} mb-3 sm:mb-4 flex justify-center`}>
                     <CategoryIcon className="w-12 h-12 sm:w-16 sm:h-16 transition-transform duration-300 group-hover:scale-110" />

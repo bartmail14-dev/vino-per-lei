@@ -44,7 +44,7 @@ export function RegionSpotlight({ product, className }: RegionSpotlightProps) {
             transition={{ duration: 0.6 }}
             className="order-2 lg:order-1"
           >
-            <div className="bg-white/50 backdrop-blur-sm rounded-xl p-4 shadow-lg">
+            <div className="bg-white/50 backdrop-blur-sm rounded-lg p-4 shadow-lg">
               <ItalyWineMap
                 size="md"
                 selectedRegion={regionInfo?.slug}

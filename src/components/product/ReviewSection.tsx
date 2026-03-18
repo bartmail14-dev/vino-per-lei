@@ -58,7 +58,7 @@ export function ReviewSection({ product, className }: ReviewSectionProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white rounded-2xl p-8 sm:p-12 border border-sand/30 shadow-sm text-center"
+            className="bg-white rounded-lg p-8 sm:p-12 border border-sand/30 shadow-sm text-center"
           >
             <div className="flex justify-center gap-1 mb-4">
               {Array.from({ length: 5 }).map((_, i) => (

@@ -149,7 +149,7 @@ export function TastingExperience({ product, className }: TastingExperienceProps
               </span>
 
               <div className={cn(
-                "w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300",
+                "w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0 transition-all duration-300",
                 activePhase === phase.id ? "bg-wine text-white" : "bg-wine/8 text-wine"
               )}>
                 <phase.icon className="w-5 h-5" />

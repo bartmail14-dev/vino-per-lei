@@ -91,8 +91,8 @@ function RelatedCard({ article }: { article: BlogArticle }) {
   const hasImage = !!article.image;
 
   return (
-    <Link href={`/blog/${article.handle}`} className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-xl">
-      <article className="bg-white rounded-xl overflow-hidden hover:shadow-md hover:shadow-black/[0.04] transition-all duration-500 h-full flex flex-col border border-sand/30">
+    <Link href={`/blog/${article.handle}`} className="group block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-lg">
+      <article className="bg-white rounded-lg overflow-hidden hover:shadow-md hover:shadow-black/[0.04] transition-all duration-500 h-full flex flex-col border border-sand/30">
         {hasImage ? (
           <div className="relative aspect-[3/2] overflow-hidden">
             <Image

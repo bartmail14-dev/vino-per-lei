@@ -143,7 +143,7 @@ export function VerzendingContent({ pageBody, pageTitle }: VerzendingContentProp
             <h2 className="font-serif text-xl sm:text-2xl font-semibold text-charcoal mb-6">
               Verzendkosten
             </h2>
-            <div className="bg-white rounded-xl border border-sand/50 overflow-hidden">
+            <div className="bg-white rounded-lg border border-sand/50 overflow-hidden">
               {shippingCosts.map((item, index) => (
                 <div
                   key={item.description}
@@ -168,7 +168,7 @@ export function VerzendingContent({ pageBody, pageTitle }: VerzendingContentProp
         <StaggerChildren className="grid sm:grid-cols-3 gap-6 mb-16" staggerDelay={0.1}>
           {features.map((feature) => (
             <StaggerItem key={feature.title}>
-              <div className="bg-warm-white rounded-xl p-6 border border-sand/50 h-full">
+              <div className="bg-warm-white rounded-lg p-6 border border-sand/50 h-full">
                 <div className="w-11 h-11 rounded-lg bg-wine/10 flex items-center justify-center mb-4">
                   <feature.Icon className="w-5 h-5 text-wine" strokeWidth={1.5} />
                 </div>

@@ -100,7 +100,7 @@ export function KlantenserviceContent() {
               placeholder="Zoek in klantenservice..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full h-12 pl-12 pr-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/40 focus:bg-white/15 focus:border-gold/50 focus:outline-none transition-all"
+              className="w-full h-12 pl-12 pr-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/40 focus:bg-white/15 focus:border-gold/50 focus:outline-none transition-all"
             />
           </motion.div>
         </div>
@@ -113,10 +113,10 @@ export function KlantenserviceContent() {
             <StaggerItem key={item.href}>
               <Link
                 href={item.href}
-                className="group bg-white rounded-xl p-6 border border-sand/50 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 block h-full"
+                className="group bg-white rounded-lg p-6 border border-sand/50 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 block h-full"
               >
                 <div className="flex items-start gap-4">
-                  <div className={`flex-shrink-0 w-12 h-12 rounded-xl ${item.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+                  <div className={`flex-shrink-0 w-12 h-12 rounded-lg ${item.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
                     {item.icon}
                   </div>
                   <div className="flex-1 min-w-0">

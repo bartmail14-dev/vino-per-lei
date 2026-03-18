@@ -267,7 +267,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-12 lg:gap-16 mb-16">
             <div className="lg:max-w-md">
               <Link href="/" className="inline-block mb-6 group">
-                <Logo variant="full" color="#1a1f3d" className="h-24 sm:h-28 lg:h-32 w-auto transition-transform duration-500 group-hover:scale-[1.02]" />
+                <Logo variant="full" color="#722f37" className="h-24 sm:h-28 lg:h-32 w-auto transition-transform duration-500 group-hover:scale-[1.02]" />
               </Link>
               <p className="text-tagline text-lg sm:text-xl text-wine/60 leading-relaxed">
                 &ldquo;Wijn met karakter, speciaal voor jou&rdquo;
