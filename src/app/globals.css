@@ -1186,3 +1186,11 @@ textarea:focus-visible,
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
 }
+
+/* ============================================
+   Safe area inset for iOS notch / home indicator
+   ============================================ */
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}

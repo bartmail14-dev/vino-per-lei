@@ -80,7 +80,7 @@ export function FloatingShareBar({ title }: FloatingShareBarProps) {
             exit={{ opacity: 0, x: -12 }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             aria-label="Artikel delen"
-            className="fixed left-5 xl:left-8 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col items-center print:hidden"
+            className="fixed left-3 xl:left-8 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col items-center print:hidden"
           >
             <div className="flex flex-col items-center gap-0.5">
               <ShareBtn
@@ -159,7 +159,7 @@ export function FloatingShareBar({ title }: FloatingShareBarProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 16 }}
             transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-0 inset-x-0 z-40 lg:hidden print:hidden"
+            className="fixed bottom-0 inset-x-0 z-40 xl:hidden print:hidden"
           >
             <div className="bg-white/90 backdrop-blur-xl border-t border-sand/50 shadow-[0_-1px_12px_rgba(0,0,0,0.06)] px-5 py-2 flex items-center justify-center gap-1 safe-area-bottom">
               <MobileBtn label="WhatsApp" onClick={() => handleShare("whatsapp")}>

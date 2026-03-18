@@ -256,7 +256,7 @@ export default async function BlogArticlePage({ params }: Props) {
       <div className="relative">
         <div className="absolute -top-5 inset-x-0 h-6 bg-background rounded-t-[2rem] sm:rounded-t-[3rem]" />
 
-        <div className="max-w-[680px] mx-auto px-5 sm:px-8 pt-14 sm:pt-20 lg:pt-24 pb-8 sm:pb-12 relative z-10">
+        <div className="max-w-[680px] mx-auto px-5 sm:px-8 pt-14 sm:pt-20 lg:pt-24 pb-20 xl:pb-12 relative z-10">
           <BlogFadeIn>
             <article
               className="prose-wine max-w-none"
@@ -402,7 +402,7 @@ export default async function BlogArticlePage({ params }: Props) {
         </div>
       </nav>
 
-      <div className="h-14 lg:hidden" aria-hidden="true" />
+      <div className="h-14 xl:hidden" aria-hidden="true" />
     </div>
     </>
   );
