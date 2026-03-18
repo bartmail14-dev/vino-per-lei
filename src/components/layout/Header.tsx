@@ -218,7 +218,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
               href="/"
               className="flex-shrink-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 group"
             >
-              <Logo variant="full" color="#1a1f3d" className="h-20 sm:h-24 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
+              <Logo variant="full" color="#722f37" className="h-20 sm:h-24 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
             </Link>
 
             {/* Desktop Navigation - Left aligned */}

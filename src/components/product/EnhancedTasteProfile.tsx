@@ -343,11 +343,11 @@ function RadarChart({ metrics, wineColor }: { metrics: TasteMetric[]; wineColor:
 // Helper functions
 function getWineColor(wineType: string): string {
   switch (wineType) {
-    case "red": return "#1a1f3d";
+    case "red": return "#722f37";
     case "white": return "#c9a227";
     case "rose": return "#e8836a";
     case "sparkling": return "#c9a227";
-    default: return "#1a1f3d";
+    default: return "#722f37";
   }
 }
 

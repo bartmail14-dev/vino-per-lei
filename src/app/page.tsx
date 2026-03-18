@@ -42,7 +42,7 @@ function RedWineIcon({ className }: { className?: string }) {
       <path d="M24 38V28" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       <path d="M16 42H32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
       <path d="M14 8H34L32 20C31.5 24 28 28 24 28C20 28 16.5 24 16 20L14 8Z" stroke="currentColor" strokeWidth="2" fill="none" />
-      <path d="M16 16C16.5 19 19.5 22 24 22C28.5 22 31.5 19 32 16L32.5 12H15.5L16 16Z" fill="#1a1f3d" opacity="0.8" />
+      <path d="M16 16C16.5 19 19.5 22 24 22C28.5 22 31.5 19 32 16L32.5 12H15.5L16 16Z" fill="#722f37" opacity="0.8" />
     </svg>
   );
 }
@@ -89,10 +89,10 @@ function GiftBoxIcon({ className }: { className?: string }) {
     <svg className={className} viewBox="0 0 48 48" fill="none">
       <rect x="8" y="18" width="32" height="24" rx="2" stroke="currentColor" strokeWidth="2" fill="none" />
       <rect x="6" y="12" width="36" height="8" rx="2" stroke="currentColor" strokeWidth="2" fill="none" />
-      <path d="M24 12V42" stroke="#1a1f3d" strokeWidth="3" opacity="0.8" />
-      <path d="M6 16H42" stroke="#1a1f3d" strokeWidth="3" opacity="0.8" />
-      <path d="M18 12C18 8 20 6 24 6C28 6 30 8 30 12" stroke="#1a1f3d" strokeWidth="2" fill="none" opacity="0.8" />
-      <circle cx="24" cy="12" r="2" fill="#1a1f3d" opacity="0.8" />
+      <path d="M24 12V42" stroke="#722f37" strokeWidth="3" opacity="0.8" />
+      <path d="M6 16H42" stroke="#722f37" strokeWidth="3" opacity="0.8" />
+      <path d="M18 12C18 8 20 6 24 6C28 6 30 8 30 12" stroke="#722f37" strokeWidth="2" fill="none" opacity="0.8" />
+      <circle cx="24" cy="12" r="2" fill="#722f37" opacity="0.8" />
     </svg>
   );
 }

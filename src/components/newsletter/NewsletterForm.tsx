@@ -101,7 +101,7 @@ export function NewsletterForm({
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" className="drop-shadow-lg">
                   <motion.circle
                     cx="16" cy="16" r="14"
-                    stroke={isDark ? "#c9a227" : "#1a1f3d"}
+                    stroke={isDark ? "#c9a227" : "#722f37"}
                     strokeWidth="2"
                     fill="none"
                     initial={{ pathLength: 0 }}
@@ -110,7 +110,7 @@ export function NewsletterForm({
                   />
                   <motion.path
                     d="M10 16.5L14 20.5L22 12.5"
-                    stroke={isDark ? "#c9a227" : "#1a1f3d"}
+                    stroke={isDark ? "#c9a227" : "#722f37"}
                     strokeWidth="2.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
