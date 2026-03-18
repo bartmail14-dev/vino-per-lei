@@ -1,60 +1,95 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// --- In-memory rate limiter ---
-// Tracks request counts per IP for API routes (contact, newsletter).
-// Max 5 requests per IP per 60 seconds.
+// --- Cookie-based rate limiter ---
+// On Vercel serverless, in-memory state is NOT shared between instances.
+// This cookie-based approach tracks request timestamps per client.
+// It is NOT bulletproof (cookies can be cleared by the client), but provides
+// basic protection without external dependencies like Upstash Redis or Vercel KV.
+//
+// For production-grade rate limiting, consider:
+// - Upstash Redis (@upstash/ratelimit)
+// - Vercel KV
+// - Cloudflare Rate Limiting
 const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 5;
-const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_COOKIE = "__rl";
 
-function isRateLimited(ip: string): boolean {
-  const now = Date.now();
-  const entry = rateLimitMap.get(ip);
+// HMAC-like signing using a simple hash to prevent cookie tampering.
+// Uses a server-side secret so clients cannot forge valid timestamps.
+const RATE_LIMIT_SECRET = process.env.RATE_LIMIT_SECRET || "vpl-rl-default-secret";
 
-  if (!entry || now > entry.resetAt) {
-    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
-    return false;
+function simpleHash(data: string): string {
+  let hash = 0;
+  const str = data + RATE_LIMIT_SECRET;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash + char) | 0;
   }
-
-  entry.count++;
-  if (entry.count > RATE_LIMIT_MAX) {
-    return true;
-  }
-
-  return false;
+  return Math.abs(hash).toString(36);
 }
 
-// Periodically clean up stale entries to prevent memory leaks
-if (typeof globalThis !== "undefined") {
-  const CLEANUP_INTERVAL = 5 * 60_000; // 5 minutes
-  setInterval(() => {
-    const now = Date.now();
-    for (const [key, entry] of rateLimitMap) {
-      if (now > entry.resetAt) {
-        rateLimitMap.delete(key);
-      }
+function signPayload(payload: string): string {
+  return `${payload}.${simpleHash(payload)}`;
+}
+
+function verifyAndParse(cookie: string): number[] | null {
+  const lastDot = cookie.lastIndexOf(".");
+  if (lastDot === -1) return null;
+  const payload = cookie.substring(0, lastDot);
+  const sig = cookie.substring(lastDot + 1);
+  if (simpleHash(payload) !== sig) return null;
+  try {
+    const timestamps = JSON.parse(payload);
+    if (!Array.isArray(timestamps)) return null;
+    return timestamps.filter((t): t is number => typeof t === "number");
+  } catch {
+    return null;
+  }
+}
+
+function checkRateLimit(
+  request: NextRequest,
+  response: NextResponse
+): { limited: boolean; response: NextResponse } {
+  const now = Date.now();
+  const cookieValue = request.cookies.get(RATE_LIMIT_COOKIE)?.value;
+
+  // Parse existing timestamps from signed cookie
+  let timestamps: number[] = [];
+  if (cookieValue) {
+    const parsed = verifyAndParse(cookieValue);
+    if (parsed) {
+      // Keep only timestamps within the current window
+      timestamps = parsed.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
     }
-  }, CLEANUP_INTERVAL);
+  }
+
+  // Check if rate limited
+  if (timestamps.length >= RATE_LIMIT_MAX) {
+    const errorResponse = NextResponse.json(
+      { error: "Te veel verzoeken. Probeer het over een minuut opnieuw." },
+      { status: 429 }
+    );
+    return { limited: true, response: errorResponse };
+  }
+
+  // Add current timestamp and sign
+  timestamps.push(now);
+  const signed = signPayload(JSON.stringify(timestamps));
+  response.cookies.set(RATE_LIMIT_COOKIE, signed, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    maxAge: Math.ceil(RATE_LIMIT_WINDOW_MS / 1000),
+    path: "/api",
+  });
+
+  return { limited: false, response };
 }
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-
-  // --- Rate limiting for API routes ---
-  if (pathname.startsWith("/api/contact") || pathname.startsWith("/api/newsletter")) {
-    const ip =
-      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
-      request.headers.get("x-real-ip") ??
-      "unknown";
-
-    if (isRateLimited(ip)) {
-      return NextResponse.json(
-        { error: "Te veel verzoeken. Probeer het over een minuut opnieuw." },
-        { status: 429 }
-      );
-    }
-  }
 
   const response = NextResponse.next();
 
@@ -66,9 +101,18 @@ export function middleware(request: NextRequest) {
   response.headers.set("X-DNS-Prefetch-Control", "on");
   response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
 
-  // CSP: unsafe-inline is required for style-src (Tailwind v4 injects styles at runtime).
-  // script-src uses strict-dynamic where possible; unsafe-inline is kept as fallback
-  // for Next.js inline script tags (hydration data).
+  // --- X-Robots-Tag: noindex for API routes ---
+  // Prevents search engines from indexing API endpoints
+  if (pathname.startsWith("/api/")) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+
+  // --- CSP ---
+  // NOTE: 'unsafe-inline' is required for both script-src and style-src:
+  // - style-src: Tailwind v4 injects styles at runtime via <style> tags
+  // - script-src: Next.js uses inline <script> tags for hydration data
+  // These cannot be replaced with nonces without custom Next.js config.
+  // DO NOT add 'unsafe-eval' — it is not needed and weakens CSP significantly.
   response.headers.set(
     "Content-Security-Policy",
     [
@@ -86,6 +130,13 @@ export function middleware(request: NextRequest) {
       "upgrade-insecure-requests",
     ].join("; ") + ";"
   );
+
+  // --- Rate limiting for API form routes ---
+  if (pathname.startsWith("/api/contact") || pathname.startsWith("/api/newsletter")) {
+    const { limited, response: rlResponse } = checkRateLimit(request, response);
+    if (limited) return rlResponse;
+    return rlResponse;
+  }
 
   return response;
 }
