@@ -287,7 +287,7 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 text-wine/25 hover:text-wine/60 hover:bg-wine/5 rounded-lg transition-all duration-200"
+                    className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center text-wine/25 hover:text-wine/60 hover:bg-wine/5 rounded-lg transition-all duration-200"
                     aria-label={`Volg ons op ${label}`}
                   >
                     <Icon className="w-5 h-5" />

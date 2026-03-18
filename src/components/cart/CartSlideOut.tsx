@@ -83,7 +83,7 @@ export function CartSlideOut() {
               </h2>
               <button
                 onClick={closeCart}
-                className="p-2 -mr-2 hover:bg-sand/50 rounded-md transition-colors"
+                className="p-2 -mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-sand/50 rounded-md transition-colors"
                 aria-label="Sluit winkelmand"
               >
                 <CloseIcon className="w-5 h-5" />
