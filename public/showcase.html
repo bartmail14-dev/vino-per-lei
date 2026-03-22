@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vino per Lei — Voortgang Update</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #1a1f3d;
+    --navy-light: #2d3454;
+    --navy-dark: #12152b;
+    --gold: #c9a227;
+    --gold-light: #d4b44a;
+    --cream: #faf8f5;
+    --text: #2c2c2c;
+    --text-light: #6b6b6b;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    background: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* Hero */
+  .hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 50%, #3d4a6b 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 50%, rgba(201, 162, 39, 0.08) 0%, transparent 60%);
+    animation: shimmer 8s ease-in-out infinite alternate;
+  }
+
+  @keyframes shimmer {
+    0% { transform: translateX(-10%) translateY(-5%); }
+    100% { transform: translateX(10%) translateY(5%); }
+  }
+
+  .hero-badge {
+    display: inline-block;
+    padding: 8px 24px;
+    border: 1px solid rgba(201, 162, 39, 0.4);
+    border-radius: 100px;
+    color: var(--gold);
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 1s ease-out;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    color: white;
+    font-weight: 400;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 1s ease-out 0.2s both;
+  }
+
+  .hero h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .hero p {
+    font-size: clamp(16px, 2vw, 20px);
+    color: rgba(255,255,255,0.7);
+    max-width: 500px;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+    animation: fadeUp 1s ease-out 0.4s both;
+  }
+
+  .hero-date {
+    position: absolute;
+    bottom: 40px;
+    color: rgba(255,255,255,0.3);
+    font-size: 13px;
+    letter-spacing: 2px;
+    z-index: 1;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 80px;
+    z-index: 1;
+    animation: bounce 2s ease-in-out infinite;
+  }
+
+  .scroll-hint svg {
+    width: 24px;
+    height: 24px;
+    stroke: rgba(255,255,255,0.4);
+    fill: none;
+    stroke-width: 2;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Sections */
+  section {
+    padding: 100px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--navy);
+  }
+
+  .section-subtitle {
+    font-size: 17px;
+    color: var(--text-light);
+    line-height: 1.7;
+    max-width: 650px;
+    margin-bottom: 60px;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    background: var(--navy);
+    padding: 60px 24px;
+  }
+
+  .stats-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+    text-align: center;
+  }
+
+  .stat-item .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    color: var(--gold);
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .stat-item .stat-label {
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    padding-left: 60px;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--gold), var(--navy-light), var(--gold));
+  }
+
+  .timeline-item {
+    position: relative;
+    margin-bottom: 60px;
+    padding: 32px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.04);
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .timeline-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  }
+
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -48px;
+    top: 36px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--gold);
+    border: 3px solid var(--cream);
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+
+  .timeline-item .step-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    color: white;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .timeline-item h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: var(--navy);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .timeline-item p {
+    color: var(--text-light);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .timeline-item .tag {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(201, 162, 39, 0.1);
+    color: var(--gold);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 16px;
+    margin-right: 6px;
+    letter-spacing: 0.5px;
+  }
+
+  .tag.green {
+    background: rgba(34, 139, 34, 0.08);
+    color: #228b22;
+  }
+
+  .tag.blue {
+    background: rgba(26, 31, 61, 0.08);
+    color: var(--navy);
+  }
+
+  /* Screenshot showcase */
+  .screenshot-section {
+    background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 100%);
+    padding: 100px 24px;
+    text-align: center;
+  }
+
+  .screenshot-section .section-label {
+    color: var(--gold);
+  }
+
+  .screenshot-section .section-title {
+    color: white;
+  }
+
+  .screenshot-section .section-subtitle {
+    color: rgba(255,255,255,0.6);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .screenshot-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .screenshot-wrapper img {
+    width: 100%;
+    display: block;
+  }
+
+  .screenshot-caption {
+    color: rgba(255,255,255,0.4);
+    font-size: 13px;
+    margin-top: 20px;
+    font-style: italic;
+  }
+
+  /* Feature grid */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+  }
+
+  .feature-card {
+    padding: 32px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.06);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.08);
+  }
+
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .feature-icon svg {
+    width: 24px;
+    height: 24px;
+    stroke: var(--gold);
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  .feature-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  .feature-card p {
+    color: var(--text-light);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* Check list */
+  .check-list {
+    list-style: none;
+    margin-top: 16px;
+  }
+
+  .check-list li {
+    padding: 8px 0;
+    padding-left: 28px;
+    position: relative;
+    color: var(--text-light);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  .check-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 12px;
+    width: 16px;
+    height: 16px;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23228b22' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E") no-repeat center;
+  }
+
+  /* Next steps */
+  .next-steps {
+    background: white;
+    border-radius: 16px;
+    padding: 48px;
+    border: 2px solid rgba(201, 162, 39, 0.2);
+    margin-top: 60px;
+  }
+
+  .next-steps h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .next-steps > p {
+    color: var(--text-light);
+    margin-bottom: 32px;
+    font-size: 15px;
+  }
+
+  .step-row {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+    align-items: flex-start;
+  }
+
+  .step-row:last-child { border-bottom: none; }
+
+  .step-row .step-icon {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    background: rgba(201, 162, 39, 0.1);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .step-row strong {
+    display: block;
+    color: var(--navy);
+    margin-bottom: 4px;
+    font-size: 15px;
+  }
+
+  .step-row span {
+    color: var(--text-light);
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  /* Footer */
+  .showcase-footer {
+    text-align: center;
+    padding: 80px 24px;
+    background: var(--navy);
+  }
+
+  .showcase-footer p {
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .showcase-footer .brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* Before/After slider */
+  .compare-container {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    cursor: col-resize;
+    aspect-ratio: 640/1020;
+  }
+
+  .compare-container img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .compare-after {
+    clip-path: inset(0 0 0 50%);
+    z-index: 2;
+  }
+
+  .compare-slider {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 4px;
+    background: white;
+    z-index: 10;
+    cursor: col-resize;
+    transform: translateX(-50%);
+  }
+
+  .compare-slider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px;
+    height: 44px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .compare-slider::after {
+    content: '\2194';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    color: var(--navy);
+    z-index: 11;
+  }
+
+  .compare-label {
+    position: absolute;
+    top: 20px;
+    padding: 6px 16px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 100px;
+    z-index: 5;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  .label-before { left: 20px; }
+  .label-after { right: 20px; }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    section { padding: 60px 20px; }
+    .timeline { padding-left: 40px; }
+    .timeline::before { left: 10px; }
+    .timeline-item::before { left: -38px; }
+    .timeline-item { padding: 24px; }
+    .next-steps { padding: 28px; }
+    .stats-grid { gap: 24px; }
+    .stat-item .stat-number { font-size: 36px; }
+    .feature-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-badge">Voortgang Update</div>
+  <h1>Vino per Lei<br><em>wordt volwassen</em></h1>
+  <p>Een overzicht van alle verbeteringen aan jouw webshop. Van een prototype naar een professionele, veilige en gebruiksvriendelijke winkel.</p>
+  <div class="scroll-hint">
+    <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+  <div class="hero-date">Maart 2026 &middot; Blue Wire Media</div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stats-grid">
+    <div class="stat-item">
+      <div class="stat-number">50+</div>
+      <div class="stat-label">Verbeteringen doorgevoerd</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">0</div>
+      <div class="stat-label">Build errors</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">6</div>
+      <div class="stat-label">Optimalisatierondes</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">AA</div>
+      <div class="stat-label">Toegankelijkheid (WCAG)</div>
+    </div>
+  </div>
+</div>
+
+<!-- Screenshot -->
+<div class="screenshot-section">
+  <div class="section-label">Het resultaat</div>
+  <div class="section-title" style="margin-bottom: 16px;">Jouw webshop vandaag</div>
+  <div class="section-subtitle">De homepage van Vino per Lei met het vernieuwde navy-blauw kleurenschema, verbeterde copy en professionele footer.</div>
+  <div class="screenshot-wrapper">
+    <img src="showcase-after.png" alt="Vino per Lei homepage — huidige versie" loading="lazy">
+  </div>
+  <div class="screenshot-caption">Homepage — maart 2026</div>
+</div>
+
+<!-- Timeline -->
+<section>
+  <div class="section-label">De reis</div>
+  <div class="section-title">Wat er allemaal is gebeurd</div>
+  <div class="section-subtitle">In zes rondes is de webshop van prototype naar productie-klaar gebracht. Hier zijn de belangrijkste stappen.</div>
+
+  <div class="timeline">
+
+    <div class="timeline-item">
+      <div class="step-number">1</div>
+      <h3>Webshop fundamenten gerepareerd</h3>
+      <p>De checkout werkte niet — klanten konden niets kopen. Dit is volledig opnieuw opgezet met een directe koppeling naar Shopify. Nep-reviews en een fake keurmerk zijn verwijderd. Alles wat bezoekers nu zien is echt.</p>
+      <span class="tag">Checkout</span>
+      <span class="tag">Shopify</span>
+      <span class="tag green">Opgelost</span>
+    </div>
+
+    <div class="timeline-item">
+      <div class="step-number">2</div>
+      <h3>Filters en zoeken werken nu echt</h3>
+      <p>Bezoekers kunnen eindelijk filteren op regio (Piemonte, Veneto, Toscane), wijntype, druivenras en prijs. Sorteren en zoeken werkt ook. Voorheen gaven de filters altijd alle producten terug.</p>
+      <span class="tag">Filters</span>
+      <span class="tag">Zoeken</span>
+      <span class="tag">Sorteren</span>
+      <span class="tag green">Opgelost</span>
+    </div>
+
+    <div class="timeline-item">
+      <div class="step-number">3</div>
+      <h3>Wijndata op orde gebracht</h3>
+      <p>Alle nep-proefnotities en template-teksten zijn verwijderd. Serveertemperaturen zijn nu specifiek: een Barolo krijgt 17-18&deg;C, een Pinot Grigio 8-10&deg;C. Food pairings zijn per wijn aangepast. En "Bevat sulfieten" staat er nu bij (EU-verplichting).</p>
+      <span class="tag">Proefnotities</span>
+      <span class="tag">Temperaturen</span>
+      <span class="tag">EU Compliance</span>
+      <span class="tag green">Opgelost</span>
+    </div>
+
+    <div class="timeline-item">
+      <div class="step-number">4</div>
+      <h3>Teksten volledig herschreven</h3>
+      <p>Alle AI-clich&eacute;s ("passie voor wijn", "van wijngaard tot tafel", "ontdek de magie") zijn vervangen door echte, warme copy die bij jou past. De Over Ons pagina vertelt nu j&oacute;uw verhaal. CTA-knoppen zijn specifiek: "Vraag advies aan Carla" in plaats van "Neem contact op".</p>
+      <span class="tag">Homepage</span>
+      <span class="tag">Over Ons</span>
+      <span class="tag">Cadeaus</span>
+      <span class="tag">CTA's</span>
+      <span class="tag green">Herschreven</span>
+    </div>
+
+    <div class="timeline-item">
+      <div class="step-number">5</div>
+      <h3>Nieuw kleurenschema</h3>
+      <p>Het design is omgezet van de oude kleuren naar een stijlvol navy-blauw gradient. Dit geeft de site een premium, vertrouwenwekkende uitstraling. Doorgevoerd op de navigatie, knoppen, nieuwsbrief, blog en kaart.</p>
+      <span class="tag blue">Navy Gradient</span>
+      <span class="tag">Hele site</span>
+      <span class="tag green">Doorgevoerd</span>
+    </div>
+
+    <div class="timeline-item">
+      <div class="step-number">6</div>
+      <h3>Beveiliging, SEO en toegankelijkheid</h3>
+      <p>De site is beveiligd tegen spam en aanvallen. Google kan nu alle pagina's &eacute;n blogartikelen vinden. KvK- en BTW-nummer staan in de footer. Knoppen zijn groot genoeg voor mobiel, en de site is voorleesbaar voor mensen met een beperking.</p>
+      <span class="tag">Beveiliging</span>
+      <span class="tag">SEO</span>
+      <span class="tag">WCAG AA</span>
+      <span class="tag green">Afgerond</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- Feature highlights -->
+<section style="background: rgba(26,31,61,0.02); max-width: 100%; padding: 100px 24px;">
+  <div style="max-width: 1100px; margin: 0 auto;">
+    <div class="section-label">Onder de motorkap</div>
+    <div class="section-title">Wat bezoekers niet zien, maar w&eacute;l merken</div>
+    <div class="section-subtitle">Technische verbeteringen die zorgen voor een snellere, veiligere en betrouwbaardere ervaring.</div>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h3>Beveiliging</h3>
+        <p>XSS-bescherming, spam-filters, beveiligingsheaders en rate limiting. Jouw klanten en hun data zijn veilig.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+        <h3>Vindbaarheid</h3>
+        <p>Sitemap met alle producten &eacute;n blogs, structured data voor Google, en OG-afbeeldingen voor social media.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <h3>Snelheid</h3>
+        <p>Caching op alle productdata, geoptimaliseerde afbeeldingen en slimme laadstrategieen. De site laadt snel, ook op mobiel.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3>Compliance</h3>
+        <p>KvK &amp; BTW zichtbaar, allergeninformatie bij producten, cookie consent en privacy-vriendelijke opzet.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+        </div>
+        <h3>Toegankelijkheid</h3>
+        <p>WCAG AA-niveau. Toetsenbordnavigatie, screenreader-ondersteuning en voldoende contrast voor iedereen.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V9a2 2 0 012-2h2a2 2 0 012 2v9a2 2 0 01-2 2h-2z"/></svg>
+        </div>
+        <h3>Blog verbeterd</h3>
+        <p>Afbeeldingen uit Shopify werken, deelknoppen op mobiel, en een inhoudsopgave bij langere artikelen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Volgende stappen -->
+<section>
+  <div class="section-label">Bijna live</div>
+  <div class="section-title">Wat er nog nodig is</div>
+  <div class="section-subtitle">Een paar stappen en dan kan de site live. De meeste hiervan zijn instellingen die jij moet doen in Shopify.</div>
+
+  <div class="next-steps">
+    <h3>Jouw actiepunten</h3>
+    <p>Ik help je hier graag bij — we kunnen het samen doorlopen.</p>
+
+    <div class="step-row">
+      <div class="step-icon">1</div>
+      <div>
+        <strong>Shopify token vernieuwen</strong>
+        <span>Het oude token is zichtbaar geweest. Een nieuw token aanmaken kost 2 minuten in Shopify Admin.</span>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-icon">2</div>
+      <div>
+        <strong>Betalingen activeren</strong>
+        <span>iDEAL, creditcard en Bancontact aanzetten in Shopify. Zodra dit aan staat, kunnen klanten afrekenen.</span>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-icon">3</div>
+      <div>
+        <strong>Mailgun instellen</strong>
+        <span>Voor werkende e-mails vanuit het contactformulier en de nieuwsbrief. Ik help je met de setup.</span>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-icon">4</div>
+      <div>
+        <strong>Domein koppelen</strong>
+        <span>vinoperlei.nl koppelen aan de site. E&eacute;n DNS-instelling bij je domeinprovider.</span>
+      </div>
+    </div>
+
+    <div class="step-row">
+      <div class="step-icon">5</div>
+      <div>
+        <strong>Telefoonnummer &amp; blogfoto's</strong>
+        <span>Je echte telefoonnummer invoeren en hero-afbeeldingen uploaden bij je blogartikelen.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<div class="showcase-footer">
+  <p>Gemaakt met zorg door</p>
+  <div class="brand">Blue Wire Media</div>
+</div>
+
+</body>
+</html>
