@@ -138,28 +138,48 @@ const FEATURES = [
   },
 ] as const;
 
-const NEXT_STEPS = [
+const WE_HANDLE = [
   {
-    title: "Shopify token vernieuwen",
-    description: "Het oude token is zichtbaar geweest. Een nieuw token aanmaken kost 2 minuten in Shopify Admin.",
+    title: "Shopify API-token roteren",
+    description: "Het huidige token is in de git-history terechtgekomen. Wij genereren een nieuw token in Shopify Admin, updaten de environment variables op Vercel en verifi\u00ebren dat de Storefront API-koppeling blijft werken.",
+    status: "Gepland",
   },
   {
-    title: "Betalingen activeren",
-    description: "iDEAL, creditcard en Bancontact aanzetten in Shopify. Zodra dit aan staat, kunnen klanten afrekenen.",
+    title: "Mailgun e-mailverkeer opzetten",
+    description: "Wij maken een Mailgun-account aan op het EU-endpoint (api.eu.mailgun.net), verifi\u00ebren het domein mg.vinoperlei.nl met SPF-, DKIM- en MX-records, koppelen de API-key in Vercel en testen zowel het contactformulier als de nieuwsbriefaanmelding end-to-end.",
+    status: "Gepland",
   },
   {
-    title: "Mailgun instellen",
-    description: "Voor werkende e-mails vanuit het contactformulier en de nieuwsbrief. Ik help je met de setup.",
+    title: "DNS vinoperlei.nl \u2192 Vercel",
+    description: "Wij zetten een CNAME-record naar cname.vercel-dns.com bij je domeinprovider, configureren het domein in het Vercel-dashboard, en zorgen dat HTTPS automatisch wordt geactiveerd via Let\u2019s Encrypt. Geen downtime.",
+    status: "Gepland",
   },
   {
-    title: "Domein koppelen",
-    description: "vinoperlei.nl koppelen aan de site. E\u00e9n DNS-instelling bij je domeinprovider.",
+    title: "Telefoonnummer invoeren",
+    description: "Zodra je ons je telefoonnummer doorgeeft, vullen wij het in via Shopify CMS-settings zodat het op de contactpagina en in de footer verschijnt.",
+    status: "Wacht op info",
   },
   {
-    title: "Telefoonnummer & blogfoto's",
-    description: "Je echte telefoonnummer invoeren en hero-afbeeldingen uploaden bij je blogartikelen.",
+    title: "Blog hero-afbeeldingen uploaden",
+    description: "Per blogartikel uploaden wij een hero-foto (16:9, minimaal 1200px breed) in de Shopify blog-editor. Als je eigen foto\u2019s hebt, stuur ze op \u2014 anders selecteren wij passende beelden.",
+    status: "Wacht op foto\u2019s",
+  },
+  {
+    title: "Mobiele responsive check",
+    description: "Wij testen de volledige site op 375px (iPhone SE), 390px (iPhone 14) en 768px (iPad) met Playwright-screenshots, en fixen eventuele layout-issues.",
+    status: "Gepland",
+  },
+  {
+    title: "Ordernotificaties instellen",
+    description: "Wij configureren Shopify-notificaties zodat je direct een pushmelding en e-mail krijgt bij elke nieuwe bestelling. Inclusief escalerende herinneringen na 1, 4 en 8 uur als een order niet is verwerkt.",
+    status: "Gepland",
   },
 ] as const;
+
+const CARLA_STEP = {
+  title: "Betalingen activeren in Shopify",
+  description: "Dit is de enige stap die jij zelf moet doen, omdat Shopify hier om veiligheidsredenen je persoonlijke verificatie voor nodig heeft. Ga naar Shopify Admin \u2192 Settings \u2192 Payments en activeer iDEAL, creditcard en Bancontact. Zodra dit aan staat, kunnen klanten afrekenen. Wij checken daarna of alles correct doorkomt.",
+} as const;
 
 export default async function ShowcasePage() {
   const allProducts = await getProducts();
@@ -390,35 +410,85 @@ export default async function ShowcasePage() {
             Wat er nog nodig is
           </h2>
           <p className="text-grey text-base max-w-lg mb-10">
-            Een paar stappen en dan kan de site live. De meeste hiervan zijn instellingen die jij moet doen in Shopify.
+            Nog een paar stappen en dan kan de site live. Wij pakken vrijwel alles op — jij hoeft maar één ding te doen.
           </p>
         </AnimatedSection>
 
+        {/* === WIJ REGELEN === */}
         <AnimatedSection variant="fadeUp" delay={0.15}>
-          <div className="bg-white rounded-2xl p-8 sm:p-10 border-2 border-gold/20 max-w-3xl mx-auto">
-            <h3 className="font-serif text-2xl text-wine mb-2 font-semibold">
-              Jouw actiepunten
-            </h3>
+          <div className="bg-white rounded-2xl p-8 sm:p-10 border border-sand/60 max-w-3xl mx-auto mb-8">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 bg-wine-gradient rounded-lg flex items-center justify-center">
+                <svg className="w-4 h-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                  <path d="M22 4L12 14.01l-3-3" />
+                </svg>
+              </div>
+              <h3 className="font-serif text-2xl text-wine font-semibold">
+                Dit regelen wij
+              </h3>
+            </div>
             <p className="text-grey text-sm mb-8">
-              Ik help je hier graag bij — we kunnen het samen doorlopen.
+              Blue Wire Media pakt de volgende {WE_HANDLE.length} punten op. Hier hoef jij niets voor te doen.
             </p>
 
             <div className="space-y-0 divide-y divide-sand/60">
-              {NEXT_STEPS.map((step, i) => (
+              {WE_HANDLE.map((step, i) => (
                 <div key={step.title} className="flex gap-4 py-5 first:pt-0 last:pb-0">
-                  <div className="w-9 h-9 min-w-[36px] bg-gold/10 rounded-lg flex items-center justify-center text-gold font-bold text-sm">
+                  <div className="w-9 h-9 min-w-[36px] bg-wine/5 rounded-lg flex items-center justify-center text-wine font-bold text-sm">
                     {i + 1}
                   </div>
-                  <div>
-                    <p className="font-semibold text-wine text-[15px] mb-1">
-                      {step.title}
-                    </p>
+                  <div className="flex-1">
+                    <div className="flex items-start justify-between gap-3 mb-1">
+                      <p className="font-semibold text-wine text-[15px]">
+                        {step.title}
+                      </p>
+                      <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full whitespace-nowrap ${
+                        step.status === "Gepland"
+                          ? "bg-blue-50 text-blue-700"
+                          : "bg-amber-50 text-amber-700"
+                      }`}>
+                        {step.status}
+                      </span>
+                    </div>
                     <p className="text-grey text-sm leading-relaxed">
                       {step.description}
                     </p>
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </AnimatedSection>
+
+        {/* === CARLA'S ENIGE STAP === */}
+        <AnimatedSection variant="fadeUp" delay={0.3}>
+          <div className="bg-white rounded-2xl p-8 sm:p-10 border-2 border-gold/30 max-w-3xl mx-auto relative overflow-hidden">
+            {/* Gold accent stripe */}
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-gold via-gold-light to-gold" />
+
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 bg-gold/15 rounded-lg flex items-center justify-center">
+                <svg className="w-4 h-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 2a10 10 0 110 20 10 10 0 010-20z" />
+                  <path d="M12 8v4M12 16h.01" />
+                </svg>
+              </div>
+              <h3 className="font-serif text-2xl text-wine font-semibold">
+                Jouw enige stap
+              </h3>
+            </div>
+            <p className="text-grey text-sm mb-6">
+              Dit is het enige punt waarvoor wij jouw medewerking nodig hebben.
+            </p>
+
+            <div className="bg-cream/60 rounded-xl p-6 border border-gold/10">
+              <p className="font-semibold text-wine text-base mb-2">
+                {CARLA_STEP.title}
+              </p>
+              <p className="text-grey text-sm leading-relaxed">
+                {CARLA_STEP.description}
+              </p>
             </div>
           </div>
         </AnimatedSection>
