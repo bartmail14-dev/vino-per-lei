@@ -1,7 +1,7 @@
 # Vino per Lei — Overdracht volgende sessie
 
-**Datum:** 18 maart 2026
-**Laatste sessie:** Alle audit TODO's gefixt + kleurschema navy gradient + footer compact + blog fixes. Alles gecommit en gepusht.
+**Datum:** 22 maart 2026
+**Laatste sessie:** Showcase pagina gebouwd, icon cleanup, cadeaus page upgrade, CTA tekst gewijzigd. Alles gecommit, gepusht en live op Vercel.
 
 ---
 
@@ -16,148 +16,140 @@
 | **Shopify** | `vino-per-lei-2.myshopify.com` (CMS + products) |
 | **Klant** | Carla Daniels, Pastorielaan 56, 5504 CR Veldhoven |
 | **KvK** | 98874977 — **BTW:** NL005360033B10 |
-| **Laatste commit** | `7886b4d` — blog + footer + images fix |
+| **Laatste commit** | `11c98ab` — CTA 'Over Vino per Lei' |
 | **Build** | clean, 0 errors, 0 warnings |
-| **Lint** | clean, 0 errors, 0 warnings |
+| **Vercel deploy** | `npx vercel --prod --force` (git push alleen triggert NIET altijd) |
 
 ---
 
 ## Wat er deze sessie is gedaan
 
-### Ronde 4 — Alle audit TODO's gefixt (4 agents parallel)
-| Fix | Details |
-|-----|---------|
-| XSS DOMPurify | `isomorphic-dompurify` op 7 bestanden, `src/lib/sanitize.ts` |
-| Footer contrast | Opaciteiten verhoogd naar WCAG AA (60-80%) |
-| Checkout metadata | noindex + title/description op checkout + success |
-| Newsletter honeypot | Hidden "company" field, fake success bij bot |
-| Validation alignment | Zod bericht max 2000 frontend + API |
-| error.tsx Link | `<a>` → Next.js `<Link>` |
-| Unused imports | 27 warnings → 0 |
-| A11y polish | QuickViewModal aria-label, FilterSidebar focus trap, touch targets 44px, CookieConsent 44px, aria-hidden decoratieve icons |
-| Rate limiting | Hardcoded secret → `crypto.randomUUID()` fallback |
-| AI-clichés | "passie"→"persoonlijke proefingen", "authentieke"→"echte" |
-| Lint errors | 3x set-state-in-effect → useRef/useSyncExternalStore |
+### 1. Showcase pagina (nieuw)
+- `public/showcase.html` (static, 404 op Vercel) → `src/app/showcase/page.tsx` (Next.js route)
+- Haalt live productdata op uit Shopify (`getProducts()`, featured wines)
+- Filter demo links (Piemonte, Veneto, Toscana, Rood, Wit)
+- Hergebruikt `ProductCard`, `Section`, `AnimatedSection` componenten
+- `noindex` — alleen voor klant Carla, niet vindbaar in Google
+- **URL:** `vino-per-lei.vercel.app/showcase`
 
-### Ronde 5 — Kleurschema + design (2 agents parallel)
-| Wijziging | Details |
-|-----------|---------|
-| Navy gradient | Burgundy (#722f37) → Navy (#1a1f3d) + gradient variabelen |
-| Gradient toegepast | Navbar, buttons, newsletter, blog cards, region CTA, announcement bar |
-| Hardcoded hex | 10 bestanden: favicon, layout, header, footer, map, taste profile, confetti, newsletter SVG |
+### 2. Showcase next steps gesplitst
+- **"Dit regelen wij"** (7 items met statusbadges: Gepland / Wacht op info)
+  - Token roteren, Mailgun, DNS, telefoonnummer, blog foto's, responsive check, ordernotificaties
+- **"Jouw enige stap"** — Betalingen activeren (iDEAL/creditcard/Bancontact)
+  - Goud-omrand, opvallend, met uitleg waarom alleen Carla dit kan
 
-### Ronde 6 — Blog + Footer (3 agents parallel)
-| Wijziging | Details |
-|-----------|---------|
-| Blog sticky menu | FloatingShareBar verborgen onder xl, bottom bar op mobiel/tablet |
-| Blog CMS images | `figure`/`figcaption` + `width`/`height`/`loading`/`style` in sanitizer |
-| Footer compact | Newsletter inline, links strakker, bottom bar op 1 regel, decoraties weg |
+### 3. Icon cleanup
+- 12 inline SVG duplicaten verwijderd uit page.tsx, showcase/page.tsx, CadeausContent.tsx
+- Alles gecentraliseerd in `src/components/icons.tsx` + `src/components/icons/WineCategoryIcons.tsx`
+- `src/app/cadeaus/GiftBoxIcon.tsx` verwijderd (was dubbel)
+- Hardcoded `#1a1f3d` kleuren → `currentColor`
+- Lucide re-exports toegevoegd: `BoltIcon` (Zap), `NewspaperIcon` (Newspaper)
 
----
+### 4. Premium category icons
+- Nieuw bestand: `src/components/icons/WineCategoryIcons.tsx`
+- `viewBox="0 0 64 64"` voor meer detail (was 48x48)
+- RedWineIcon (Bordeaux glas, #722F37 vulling), WhiteWineIcon (gouden vulling), RoseWineIcon (tulpvorm, coral), BubblesIcon (fluit met bubbels), GiftBoxIcon (lint+strik+textuur), TuscanyIcon (cipres)
 
-## TODO's volgende sessie
+### 5. Cadeaus landing page upgrade
+- Hero: Grotere typografie, goud sparkle particles, decoratieve wijnfles SVG
+- Gift cards: Gradient header, "Populair" badge op Duo Pakket, "Stel samen" CTA-buttons (linken naar /contact?onderwerp=...)
+- "Zo Werkt Het": Horizontale timeline met Lucide icons (Wine, PenLine, Truck)
+- Nieuw: "Waarom Vino per Lei" trust signals (4 items)
+- Contact CTA: Zwevende animatie + "Reactietijd: binnen 24 uur"
 
-### HIGH — Shopify order notificatie systeem
-Carla doet dit ZZP naast haar baan. Ze moet dezelfde avond nog bestellingen verwerken.
-- **Shopify Flow** of **Shopify Notifications** instellen voor escalerende herinneringen
-- Push notificaties via Shopify app op telefoon
-- Herinnering na 1 uur, 4 uur, 8 uur als order niet verwerkt
-- Overweeg: Shopify Flow + email/SMS escalatie
-- **Dit is Shopify Admin configuratie, geen code**
-
-### HIGH — Shopify blog afbeeldingen testen
-- Sanitizer staat nu `figure`/`figcaption`/`img` toe
-- Testen of Shopify blog editor correct `<figure>` + `<figcaption>` genereert
-- Eventueel blog editor instructies voor Carla schrijven
-
-### MEDIUM — Visuele polish
-- Verdere UI/UX audit met Playwright screenshots
-- Mobiele responsive check (375px, 768px)
-- Product detail pagina visueel checken
-
-### KLANT (Carla moet doen)
-
-#### 1. Shopify Admin token roteren
-Token is gelekt in git history. **MOET geroteerd worden.**
-1. Shopify Admin → Settings → Apps → custom app → Configuration
-2. Enable `read_content` + `write_content` scopes
-3. Save → Reinstall → kopieer nieuw token
-4. Update `.env.local`: `SHOPIFY_ADMIN_ACCESS_TOKEN=shpat_NIEUW`
-5. Update Vercel env vars
-
-#### 2. Mailgun credentials
-`.env.local` heeft placeholder keys. Zodra Mailgun account er is:
-- `MAILGUN_API_KEY=key-xxx`
-- `MAILGUN_DOMAIN=mg.vinoperlei.nl`
-- `MAILGUN_LIST=newsletter@mg.vinoperlei.nl`
-- Ook in Vercel env vars zetten
-
-#### 3. Shopify Payments activeren
-iDEAL, creditcard, Bancontact in Shopify Admin → Settings → Payments.
-
-#### 4. DNS vinoperlei.nl → Vercel
-CNAME record naar cname.vercel-dns.com.
-
-#### 5. Echt telefoonnummer
-Carla's telefoonnummer invoeren in Shopify CMS settings.
-
-#### 6. Featured images blog
-Hero-foto's uploaden per blog artikel (16:9, min 1200px breed).
+### 6. CTA tekst gewijzigd
+- Hero fallback: "Wie is Carla?" → "Over Vino per Lei"
+- **LET OP:** Als Shopify CMS `homepage_hero` metaobject `cta_secondary_text` gevuld heeft, overschrijft dat de fallback. Check in Shopify Admin of daar ook "Wie is Carla?" staat en pas het aan naar "Over Vino per Lei".
 
 ---
 
-## Design systeem
+## KRITIEK — Volgende sessie EERST checken
 
-| Token | Waarde |
-|-------|--------|
-| `--wine-burgundy` | `#1a1f3d` (navy blauw) |
-| `--wine-dark` | `#12152b` |
-| `--wine-light` | `#2d3454` |
-| `--wine-gradient` | `135deg, #1a1f3d → #2d3454 → #3d4a6b` |
-| `--gold` | `#c9a227` |
-| `--radius-md` | `8px` |
-| `--radius-lg` | `12px` |
-| Fonts | Inter (body) + Playfair Display (headings) |
-| Icons | Lucide React |
-| Animaties | Framer Motion |
-| Smooth scroll | Lenis (disabled bij reduced-motion) |
+### 1. Wijnen verdwenen van homepage?
+Bart meldde dat de wijnen "ineens helemaal weg" zijn. Mogelijke oorzaken:
+- **Scroll-animaties**: Secties onder de fold zijn scroll-triggered (AnimateOnScroll/InView). In Playwright screenshots renderen ze als leeg/zwart. In de browser zelf zouden ze moeten infaden. **Check eerst visueel in de browser.**
+- **WineCategoryIcons viewBox change**: Van `0 0 48 48` naar `0 0 64 64`. De icons worden met `w-12 h-12` / `w-16 h-16` classes gerenderd — zou moeten werken, maar visueel verifiëren.
+- **ProductCard rendering**: De `featuredProducts` array wordt gevuld via `allProducts.filter(p => p.isFeatured).slice(0, 4)`. Als Shopify geen `is_featured` metafield heeft op producten, is de array leeg.
+
+**Actie:** Open `vino-per-lei.vercel.app` in de browser, scroll door de hele homepage, en verifieer:
+1. "Onze Favorieten" sectie toont 4 productkaarten
+2. "Shop per type" sectie toont 5 categorie-knoppen met nieuwe icons
+3. Wijnregio's kaart + regio-knoppen werken
+
+Als wijnen echt weg zijn, check:
+```bash
+# Test Shopify API lokaal
+cd /c/Users/BartVisser/Desktop/vino-per-lei
+node -e "require('./src/lib/shopify').getProducts().then(p => console.log(p.length, 'products,', p.filter(x=>x.isFeatured).length, 'featured'))"
+```
+
+### 2. Shopify CMS hero text
+Check of `cta_secondary_text` in Shopify Admin → Content → `homepage_hero` metaobject nog "Wie is Carla?" bevat. Zo ja, wijzig naar "Over Vino per Lei".
 
 ---
 
-## Architectuur (key bestanden)
+## TODO's volgende sessie (prioriteit)
+
+### HIGH — Visuele verificatie
+- [ ] Homepage volledig doorlopen in browser (wijnen, icons, categorie-knoppen)
+- [ ] Cadeaus pagina visueel checken (hero, gift cards, trust signals)
+- [ ] Showcase pagina checken (`/showcase`)
+- [ ] Mobiele responsive check (375px, 768px) met Playwright screenshots
+
+### HIGH — Shopify CMS hero text
+- [ ] Shopify Admin: `homepage_hero` metaobject → `cta_secondary_text` → "Over Vino per Lei"
+
+### HIGH — Shopify API-token roteren
+- [ ] Shopify Admin → Settings → Apps → custom app → nieuw token genereren
+- [ ] `.env.local` updaten: `SHOPIFY_ADMIN_ACCESS_TOKEN=shpat_NIEUW`
+- [ ] Vercel env vars updaten
+- [ ] Testen of Storefront API nog werkt
+
+### HIGH — Mailgun opzetten
+- [ ] Mailgun account aanmaken (EU endpoint: api.eu.mailgun.net)
+- [ ] Domein mg.vinoperlei.nl verifiëren (SPF, DKIM, MX records)
+- [ ] `.env.local` + Vercel env vars: `MAILGUN_API_KEY`, `MAILGUN_DOMAIN`, `MAILGUN_LIST`
+- [ ] Contactformulier + nieuwsbrief end-to-end testen
+
+### HIGH — DNS vinoperlei.nl → Vercel
+- [ ] CNAME record naar `cname.vercel-dns.com` bij domeinprovider
+- [ ] Domein toevoegen in Vercel dashboard
+- [ ] HTTPS automatisch via Let's Encrypt
+
+### MEDIUM — Ordernotificaties
+- [ ] Shopify Notifications instellen (push + e-mail bij nieuwe bestelling)
+- [ ] Escalerende herinneringen na 1, 4, 8 uur
+
+### MEDIUM — Content
+- [ ] Telefoonnummer Carla invoeren in Shopify CMS
+- [ ] Blog hero-afbeeldingen uploaden (16:9, min 1200px)
+- [ ] Betalingen activeren — **Carla moet dit zelf doen** (Shopify Admin → Settings → Payments)
+
+---
+
+## Architectuur na deze sessie
 
 ```
 src/
 ├── app/
-│   ├── layout.tsx           → Root layout, metadataBase, fonts, OG image
-│   ├── page.tsx             → Homepage (Organization JSON-LD, testimonials)
-│   ├── globals.css          → Design tokens, gradient utilities, prose-wine, animations
-│   ├── sitemap.ts           → Dynamisch: producten + blog + statisch
-│   ├── robots.ts            → Disallow /checkout/, /account/
-│   ├── error.tsx            → Error boundary (Next.js Link)
-│   ├── not-found.tsx        → Custom 404
-│   ├── wijnen/              → Product listing + detail
-│   ├── blog/                → Blog listing + detail (FloatingShareBar, TableOfContents)
-│   ├── checkout/            → Shopify cart permalink redirect + success (noindex)
-│   ├── api/                 → Contact (Mailgun, Zod, honeypot) + Newsletter (Zod)
-│   └── (overige: over-ons, cadeaus, contact, klantenservice/*, privacy, voorwaarden, cookies)
+│   ├── showcase/page.tsx      ← NIEUW: Next.js showcase met live Shopify data
+│   ├── cadeaus/
+│   │   ├── page.tsx           ← Product fetch + heading update
+│   │   └── CadeausContent.tsx ← UPGRADED: hero, cards, trust signals, CTA
+│   │   (GiftBoxIcon.tsx VERWIJDERD — verplaatst naar icons)
+│   └── page.tsx               ← Icons nu via import uit @/components/icons
 ├── components/
-│   ├── layout/Header.tsx    → Mega menu, mobile menu, cart, login button
-│   ├── layout/Footer.tsx    → Compact: newsletter inline, links, compliance
-│   ├── product/             → Cards, carousel, accordion, taste profile, pairings
-│   ├── checkout/            → Delivery, payment, order summary
-│   ├── ui/                  → Button (gradient), CookieConsent, AgeGate, Input
-│   ├── newsletter/          → NewsletterForm (honeypot)
-│   └── filters/             → FilterSidebar (focus trap)
-├── lib/
-│   ├── shopify.ts           → Storefront API (lazy-init, 10 variants)
-│   ├── shopify-cms.ts       → CMS content (lazy-init, fallbacks)
-│   ├── sanitize.ts          → DOMPurify (figure, figcaption, img + attrs)
-│   └── tag-utils.ts         → 30+ tag labels
-├── stores/                  → Zustand: cart, checkout, auth (placeholder), wishlist
-├── middleware.ts             → Rate limiting (random secret), CSP, HSTS, security headers
-└── hooks/useFocusTrap.ts    → Focus trap voor modals
+│   ├── icons.tsx              ← Gecentraliseerd: 60+ Lucide + 7 custom wine icons
+│   └── icons/
+│       └── WineCategoryIcons.tsx ← NIEUW: Premium 64x64 wine category icons
+└── lib/
+    └── shopify-cms.ts         ← Fallback CTA: "Over Vino per Lei"
 ```
+
+Verwijderde bestanden:
+- `public/showcase.html` (vervangen door Next.js route)
+- `public/showcase-before.png`, `public/showcase-hero-old.png`
+- `src/app/cadeaus/GiftBoxIcon.tsx` (verplaatst naar icons.tsx)
 
 ---
 
@@ -165,12 +157,7 @@ src/
 
 - **NOOIT `next dev` in foreground draaien** — crasht Claude Code
 - **Production test:** `npm run build && npx next start --port 3000 > /dev/null 2>&1 &`
-- **Server stoppen:** `powershell.exe -Command "Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess | ForEach-Object { Stop-Process -Id \$_ -Force -ErrorAction SilentlyContinue }"`
-- **Shopify tokens** in `.env.local` — NIET committen
-- **Tailwind v4**: scanner pikt class-achtige patterns op uit ALLE bestanden incl .md
-- **Tailwind v4 cache**: bij rare CSS errors, verwijder `.next/` en herstart
-- **Framer Motion + React 19:** `useScroll({ target })` crasht tijdens hydration
+- **Vercel deploy:** `npx vercel --prod --force` (git push alleen is niet betrouwbaar)
+- **Chrome Playwright:** Chrome moet eerst gesloten worden + SingletonLock verwijderen
+- **Tailwind v4 cache:** Bij rare CSS errors, verwijder `.next/` en herstart
 - **Windows paths** voor Claude tools, **Unix paths** voor Bash
-- **Mailgun EU endpoint**: `api.eu.mailgun.net`
-- **CSP `unsafe-inline`**: nodig voor Tailwind v4 + Next.js, niet te vermijden
-- **Chrome Playwright**: Chrome moet eerst gesloten worden, SingletonLock verwijderen
