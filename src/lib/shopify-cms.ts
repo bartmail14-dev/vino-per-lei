@@ -449,7 +449,7 @@ export const DEFAULT_HERO: HeroContent = {
   description: 'Rechtstreeks van familiewijngaarden in Piemonte, Veneto en Toscane. 19 wijnen die Carla zelf heeft geproefd en geimporteerd.',
   ctaPrimaryText: 'Bekijk de 19 wijnen',
   ctaPrimaryLink: '/wijnen',
-  ctaSecondaryText: 'Wie is Carla?',
+  ctaSecondaryText: 'Over Vino per Lei',
   ctaSecondaryLink: '/over-ons',
 };
 
