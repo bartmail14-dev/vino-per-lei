@@ -37,14 +37,14 @@ export default async function CadeausPage() {
       {displayProducts.length > 0 && (
         <Section background="default" spacing="lg">
           <div className="text-center mb-8 sm:mb-12">
-            <p className="text-label text-wine/40 mb-2">
-              Onze Suggesties
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-gold mb-3">
+              Meest Cadeau Gegeven
             </p>
             <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">
-              Perfecte Cadeauwijnen
+              Populaire Cadeauwijnen
             </h2>
             <p className="text-grey text-sm sm:text-base mt-2 max-w-lg mx-auto">
-              Wijnen die indruk maken zonder dat je wijnkenner hoeft te zijn.
+              Deze wijnen worden het vaakst cadeau gegeven — en dat is geen toeval.
             </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">

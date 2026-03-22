@@ -7,6 +7,8 @@ import { Heart, Star } from "lucide-react";
 
 // ─── Lucide Re-exports ───────────────────────────────
 export {
+  Zap as BoltIcon,
+  Newspaper as NewspaperIcon,
   Menu as MenuIcon,
   X as CloseIcon,
   Search as SearchIcon,
@@ -92,6 +94,26 @@ export function WineBottleIcon({ className }: { className?: string }) {
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
       <path d="M10 2h4v4l2 3v11a2 2 0 01-2 2h-4a2 2 0 01-2-2V9l2-3V2z" />
       <path d="M10 13h4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+// ─── Tuscany / Cypress Leaf Icon (premium) ──────────
+export { TuscanyIcon } from "@/components/icons/WineCategoryIcons";
+
+// ─── Premium Wine Category Icons (re-exported from dedicated file) ───
+export { RedWineIcon, WhiteWineIcon, RoseWineIcon, BubblesIcon, GiftBoxIcon } from "@/components/icons/WineCategoryIcons";
+
+// ─── Wine Glasses (Duo) Icon ─────────────────────────
+export function WineGlassesIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+      <path d="M5.5 2h5l-.5 5a3.5 3.5 0 0 1-4 0L5.5 2z" />
+      <path d="M8 7v5" />
+      <path d="M5 14h6" />
+      <path d="M13.5 2h5l-.5 5a3.5 3.5 0 0 1-4 0L13.5 2z" />
+      <path d="M16 7v5" />
+      <path d="M13 14h6" />
     </svg>
   );
 }

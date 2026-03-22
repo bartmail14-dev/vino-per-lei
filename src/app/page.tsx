@@ -3,7 +3,7 @@ import { Section } from "@/components/layout";
 import { ProductCard } from "@/components/product";
 import { getProducts } from "@/lib/shopify";
 import dynamic from "next/dynamic";
-import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ArrowRightIcon, StarIcon, ShieldIcon } from "@/components/icons";
+import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ArrowRightIcon, StarIcon, ShieldIcon, TuscanyIcon, RedWineIcon, WhiteWineIcon, RoseWineIcon, BubblesIcon, GiftBoxIcon } from "@/components/icons";
 import { getHeroContent, getUSPItems, getCategoryBlocks, getBlogArticles, DEFAULT_HERO } from "@/lib/shopify-cms";
 import type { BlogArticle } from "@/lib/shopify-cms";
 import {
@@ -24,78 +24,6 @@ export const revalidate = 300; // 5 min — fetches products from Shopify
 const ItalyWineMap = dynamic(() => import("@/components/map").then(mod => mod.ItalyWineMap), {
   loading: () => <div className="h-[400px] bg-sand/30 rounded-lg animate-pulse" />,
 });
-
-function TuscanyIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M12 22V8" strokeLinecap="round" />
-      <path d="M12 3C12 3 8 6 8 10C8 14 10 16 12 18C14 16 16 14 16 10C16 6 12 3 12 3Z" fill="currentColor" opacity="0.3" />
-      <path d="M12 3C12 3 8 6 8 10C8 14 10 16 12 18C14 16 16 14 16 10C16 6 12 3 12 3Z" />
-    </svg>
-  );
-}
-
-// Elegant category icons
-function RedWineIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 48 48" fill="none">
-      <path d="M24 38V28" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M16 42H32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M14 8H34L32 20C31.5 24 28 28 24 28C20 28 16.5 24 16 20L14 8Z" stroke="currentColor" strokeWidth="2" fill="none" />
-      <path d="M16 16C16.5 19 19.5 22 24 22C28.5 22 31.5 19 32 16L32.5 12H15.5L16 16Z" fill="#1a1f3d" opacity="0.8" />
-    </svg>
-  );
-}
-
-function WhiteWineIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 48 48" fill="none">
-      <path d="M24 38V28" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M16 42H32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M14 8H34L32 20C31.5 24 28 28 24 28C20 28 16.5 24 16 20L14 8Z" stroke="currentColor" strokeWidth="2" fill="none" />
-      <path d="M17 14C17.3 16 19.5 18 24 18C28.5 18 30.7 16 31 14L31.5 11H16.5L17 14Z" fill="#c9a227" opacity="0.5" />
-    </svg>
-  );
-}
-
-function RoseWineIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 48 48" fill="none">
-      <path d="M24 38V28" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M16 42H32" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M14 8H34L32 20C31.5 24 28 28 24 28C20 28 16.5 24 16 20L14 8Z" stroke="currentColor" strokeWidth="2" fill="none" />
-      <path d="M16.5 15C17 17.5 20 20 24 20C28 20 31 17.5 31.5 15L32 11H16L16.5 15Z" fill="#ffa38b" opacity="0.7" />
-    </svg>
-  );
-}
-
-function BubblesIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 48 48" fill="none">
-      <path d="M24 40V30" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M18 44H30" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-      <path d="M20 4H28L27 18C26.8 22 25.5 30 24 30C22.5 30 21.2 22 21 18L20 4Z" stroke="currentColor" strokeWidth="2" fill="none" />
-      <path d="M21.5 12C21.7 15 22.8 20 24 20C25.2 20 26.3 15 26.5 12L27 6H21L21.5 12Z" fill="#c9a227" opacity="0.4" />
-      <circle cx="23" cy="14" r="1" fill="currentColor" opacity="0.5" />
-      <circle cx="25" cy="10" r="0.8" fill="currentColor" opacity="0.4" />
-      <circle cx="24" cy="17" r="0.6" fill="currentColor" opacity="0.3" />
-      <circle cx="22.5" cy="11" r="0.5" fill="currentColor" opacity="0.3" />
-    </svg>
-  );
-}
-
-function GiftBoxIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 48 48" fill="none">
-      <rect x="8" y="18" width="32" height="24" rx="2" stroke="currentColor" strokeWidth="2" fill="none" />
-      <rect x="6" y="12" width="36" height="8" rx="2" stroke="currentColor" strokeWidth="2" fill="none" />
-      <path d="M24 12V42" stroke="#1a1f3d" strokeWidth="3" opacity="0.8" />
-      <path d="M6 16H42" stroke="#1a1f3d" strokeWidth="3" opacity="0.8" />
-      <path d="M18 12C18 8 20 6 24 6C28 6 30 8 30 12" stroke="#1a1f3d" strokeWidth="2" fill="none" opacity="0.8" />
-      <circle cx="24" cy="12" r="2" fill="#1a1f3d" opacity="0.8" />
-    </svg>
-  );
-}
 
 // Map CMS iconName to icon components
 const uspIconMap: Record<string, React.ComponentType<{ className?: string }>> = {
