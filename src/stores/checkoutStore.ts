@@ -53,9 +53,10 @@ const initialPayment: CheckoutPayment = {
 // Calculate shipping cost based on method and subtotal
 export function calculateShippingCost(
   method: ShippingMethod,
-  subtotal: number
+  subtotal: number,
+  freeShippingThreshold: number = FREE_SHIPPING_THRESHOLD
 ): number {
-  if (method === "standard" && subtotal >= FREE_SHIPPING_THRESHOLD) {
+  if (method === "standard" && subtotal >= freeShippingThreshold) {
     return 0;
   }
   return SHIPPING_COSTS[method];

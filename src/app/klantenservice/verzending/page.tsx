@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getPage } from "@/lib/shopify-cms";
+import { getPage, getShopConfig } from "@/lib/shopify-cms";
 import { VerzendingContent } from "./VerzendingContent";
 
 export const revalidate = 3600; // 1 hour — static CMS content
@@ -19,7 +19,17 @@ export const metadata: Metadata = {
 };
 
 export default async function VerzendingPage() {
-  const page = await getPage("verzending-levering");
+  const [page, shopConfig] = await Promise.all([
+    getPage("verzending-levering"),
+    getShopConfig(),
+  ]);
 
-  return <VerzendingContent pageBody={page?.body ?? null} pageTitle={page?.title ?? null} />;
+  return (
+    <VerzendingContent
+      pageBody={page?.body ?? null}
+      pageTitle={page?.title ?? null}
+      freeShippingThreshold={shopConfig.freeShippingThreshold}
+      shippingCost={shopConfig.shippingCost}
+    />
+  );
 }

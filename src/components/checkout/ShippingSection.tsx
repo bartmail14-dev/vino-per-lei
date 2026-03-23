@@ -4,7 +4,7 @@ import { useCheckoutStore, calculateShippingCost, calculateEstimatedDelivery } f
 import { useCartStore } from "@/stores/cartStore";
 import { Button } from "@/components/ui";
 import { SHIPPING_COSTS, type ShippingMethod } from "@/types/checkout";
-import { FREE_SHIPPING_THRESHOLD } from "@/types/cart";
+import { useShopConfig } from "@/components/providers";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { TruckIcon, ThermometerIcon, MoonIcon, ClockIcon, CheckIcon, SunIcon } from "@/components/icons";
@@ -46,6 +46,7 @@ const shippingOptions: {
 export function ShippingSection({ onComplete }: ShippingSectionProps) {
   const { shipping, setShipping } = useCheckoutStore();
   const { subtotal } = useCartStore();
+  const { freeShippingThreshold } = useShopConfig();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,19 +54,19 @@ export function ShippingSection({ onComplete }: ShippingSectionProps) {
   };
 
   const handleMethodChange = (method: ShippingMethod) => {
-    const cost = calculateShippingCost(method, subtotal);
+    const cost = calculateShippingCost(method, subtotal, freeShippingThreshold);
     const estimatedDate = calculateEstimatedDelivery(method);
     setShipping({ method, cost, estimatedDate });
   };
 
   const getShippingPrice = (method: ShippingMethod): string => {
-    if (method === "standard" && subtotal >= FREE_SHIPPING_THRESHOLD) {
+    if (method === "standard" && subtotal >= freeShippingThreshold) {
       return "Gratis";
     }
     return formatPrice(SHIPPING_COSTS[method]);
   };
 
-  const isFreeShippingEligible = subtotal >= FREE_SHIPPING_THRESHOLD;
+  const isFreeShippingEligible = subtotal >= freeShippingThreshold;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">

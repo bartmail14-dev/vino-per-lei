@@ -15,6 +15,7 @@ interface ContactPageContentProps {
   hoursWeekday: string;
   hoursSaturday: string;
   hoursSunday: string;
+  freeShippingThreshold: number;
 }
 
 export function ContactPageContent({
@@ -26,6 +27,7 @@ export function ContactPageContent({
   hoursWeekday,
   hoursSaturday,
   hoursSunday,
+  freeShippingThreshold,
 }: ContactPageContentProps) {
   return (
     <div className="bg-background">
@@ -197,7 +199,7 @@ export function ContactPageContent({
                     "Reactie binnen 1 werkdag",
                     "100% proefgarantie",
                     "Veilig betalen via iDEAL",
-                    "Gratis verzending vanaf \u20AC35",
+                    `Gratis verzending vanaf €${freeShippingThreshold}`,
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-2">
                       <Check className="w-4 h-4 text-wine/60 flex-shrink-0" strokeWidth={2} />

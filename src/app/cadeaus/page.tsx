@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Section } from "@/components/layout";
 import { ProductCard } from "@/components/product";
 import { getProducts } from "@/lib/shopify";
+import { getShopConfig } from "@/lib/shopify-cms";
 import { CadeausContent } from "./CadeausContent";
 
 import type { Metadata } from "next";
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
 };
 
 export default async function CadeausPage() {
-  const allProducts = await getProducts();
+  const [allProducts, shopConfig] = await Promise.all([getProducts(), getShopConfig()]);
   const giftWines = allProducts
     .filter((p) => p.inStock && (p.hasAward || p.price >= 30))
     .slice(0, 4);
@@ -32,7 +33,7 @@ export default async function CadeausPage() {
       : allProducts.filter((p) => p.isFeatured && p.inStock).slice(0, 4);
 
   return (
-    <CadeausContent>
+    <CadeausContent freeShippingThreshold={shopConfig.freeShippingThreshold}>
       {/* Gift-worthy Products */}
       {displayProducts.length > 0 && (
         <Section background="default" spacing="lg">

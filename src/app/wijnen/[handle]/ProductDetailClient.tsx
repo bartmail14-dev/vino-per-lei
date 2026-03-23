@@ -20,6 +20,7 @@ import { type Product } from "@/types";
 import { cn } from "@/lib/utils";
 import { CheckIcon, HeartIcon, TruckIcon, ShieldIcon, ClockIcon } from "@/components/icons";
 import { AlertTriangle } from "lucide-react";
+import { useShopConfig } from "@/components/providers";
 
 interface ProductDetailClientProps {
   product: Product;
@@ -33,6 +34,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
 
+  const { freeShippingThreshold } = useShopConfig();
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const isInWishlist = useWishlistStore((state) => state.isInWishlist(product.id));
@@ -161,7 +163,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
             <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-sand/50">
               <div className="flex items-center gap-2 text-sm">
                 <TruckIcon className="w-5 h-5 text-wine flex-shrink-0" />
-                <span className="text-grey">Gratis vanaf €35</span>
+                <span className="text-grey">Gratis vanaf €{freeShippingThreshold}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <ShieldIcon className="w-5 h-5 text-wine flex-shrink-0" />
@@ -187,7 +189,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
         <div className="flex justify-around text-center">
           <div className="flex flex-col items-center gap-1">
             <TruckIcon className="w-5 h-5 text-wine" />
-            <span className="text-xs text-grey">Gratis €35+</span>
+            <span className="text-xs text-grey">Gratis €{freeShippingThreshold}+</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <ShieldIcon className="w-5 h-5 text-wine" />

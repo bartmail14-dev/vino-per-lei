@@ -86,7 +86,7 @@ const trustPoints = [
   {
     icon: Truck,
     title: "Gratis verzending",
-    description: "Vanaf €35 bezorgen wij gratis in heel Nederland",
+    description: "Vanaf €{{threshold}} bezorgen wij gratis in heel Nederland",
   },
 ];
 
@@ -163,9 +163,10 @@ function WineBottleBg() {
 
 interface CadeausContentProps {
   children?: React.ReactNode; // product cards slot
+  freeShippingThreshold?: number;
 }
 
-export function CadeausContent({ children }: CadeausContentProps) {
+export function CadeausContent({ children, freeShippingThreshold = 35 }: CadeausContentProps) {
   return (
     <div className="bg-background">
       {/* Hero — Immersive */}
@@ -366,7 +367,7 @@ export function CadeausContent({ children }: CadeausContentProps) {
                     {point.title}
                   </h3>
                   <p className="text-xs text-grey leading-relaxed">
-                    {point.description}
+                    {point.description.replace("{{threshold}}", String(freeShippingThreshold))}
                   </p>
                 </div>
               </StaggerItem>

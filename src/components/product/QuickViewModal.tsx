@@ -12,6 +12,7 @@ import { cn, wineImagePresets } from "@/lib/utils";
 import type { TasteProfileItem } from "@/components/ui";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { CloseIcon, HeartIcon, EyeIcon, CartIcon, CheckIcon, TruckIcon, ShieldIcon, LoadingSpinner } from "@/components/icons";
+import { useShopConfig } from "@/components/providers";
 
 interface QuickViewModalProps {
   product: Product | null;
@@ -31,6 +32,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
     setViewerCount(Math.floor(Math.random() * 20) + 5);
   }, []);
 
+  const { freeShippingThreshold } = useShopConfig();
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: onClose });
 
   const addItem = useCartStore((state) => state.addItem);
@@ -273,7 +275,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                 <div className="mt-6 pt-6 border-t border-sand grid grid-cols-2 gap-3 text-sm text-grey">
                   <div className="flex items-center gap-2">
                     <TruckIcon className="w-4 h-4 text-wine" />
-                    <span>Gratis vanaf €35</span>
+                    <span>Gratis vanaf €{freeShippingThreshold}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <ShieldIcon className="w-4 h-4 text-wine" />

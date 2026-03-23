@@ -7,7 +7,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { useCheckoutStore } from "@/stores/checkoutStore";
 import { formatPrice, cn, wineImagePresets } from "@/lib/utils";
 import { GIFT_WRAPPING_COST } from "@/types/checkout";
-import { FREE_SHIPPING_THRESHOLD } from "@/types/cart";
+import { useShopConfig } from "@/components/providers";
 import { DiscountCode } from "./DiscountCode";
 import { TrustSignals } from "./TrustSignals";
 import { ChevronDownIcon, TruckIcon } from "@/components/icons";
@@ -19,12 +19,13 @@ interface OrderSummaryProps {
 export function OrderSummary({ className }: OrderSummaryProps) {
   const { items, subtotal } = useCartStore();
   const { shipping, gift, discountApplied } = useCheckoutStore();
+  const { freeShippingThreshold } = useShopConfig();
   const [isExpanded, setIsExpanded] = useState(true);
 
   // Calculate totals
   const giftCost = gift.wrapping ? GIFT_WRAPPING_COST : 0;
   const shippingCost =
-    subtotal >= FREE_SHIPPING_THRESHOLD && shipping.method === "standard"
+    subtotal >= freeShippingThreshold && shipping.method === "standard"
       ? 0
       : shipping.cost;
 
@@ -37,10 +38,10 @@ export function OrderSummary({ className }: OrderSummaryProps) {
   const total = Math.max(0, subtotal + shippingCost + giftCost - discountAmount);
 
   const freeShippingProgress = Math.min(
-    (subtotal / FREE_SHIPPING_THRESHOLD) * 100,
+    (subtotal / freeShippingThreshold) * 100,
     100
   );
-  const amountToFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal;
+  const amountToFreeShipping = freeShippingThreshold - subtotal;
 
   return (
     <div
@@ -110,7 +111,7 @@ export function OrderSummary({ className }: OrderSummaryProps) {
             <DiscountCode className="mb-4" />
 
             {/* Free shipping progress */}
-            {subtotal < FREE_SHIPPING_THRESHOLD && (
+            {subtotal < freeShippingThreshold && (
               <div className="mb-4 p-3 bg-warm-white rounded-lg">
                 <div className="flex justify-between text-sm mb-2">
                   <span className="text-grey">Nog {formatPrice(amountToFreeShipping)} voor gratis verzending</span>

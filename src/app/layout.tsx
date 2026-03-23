@@ -5,8 +5,9 @@ import { HeaderWrapper, FooterWrapper } from "@/components/layout";
 import { AgeGate } from "@/components/ui";
 import { CartSlideOut } from "@/components/cart";
 import { LoginModal } from "@/components/auth";
-import { SmoothScrollProvider } from "@/components/providers";
+import { SmoothScrollProvider, ShopConfigProvider } from "@/components/providers";
 import { CookieConsent } from "@/components/ui/CookieConsent";
+import { getShopConfig } from "@/lib/shopify-cms";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -62,11 +63,13 @@ export const viewport: Viewport = {
   themeColor: "#1a1f3d",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const shopConfig = await getShopConfig();
+
   return (
     <html lang="nl" className={`${inter.variable} ${playfair.variable}`}>
       <body className="antialiased min-h-screen flex flex-col bg-background text-foreground overflow-x-hidden">
@@ -76,15 +79,17 @@ export default function RootLayout({
         >
           Ga naar inhoud
         </a>
-        <SmoothScrollProvider>
-          <AgeGate />
-          <HeaderWrapper />
-          <main id="main-content" className="flex-1">{children}</main>
-          <FooterWrapper />
-          <CookieConsent />
-          <CartSlideOut />
-          <LoginModal />
-        </SmoothScrollProvider>
+        <ShopConfigProvider config={shopConfig}>
+          <SmoothScrollProvider>
+            <AgeGate />
+            <HeaderWrapper />
+            <main id="main-content" className="flex-1">{children}</main>
+            <FooterWrapper />
+            <CookieConsent />
+            <CartSlideOut />
+            <LoginModal />
+          </SmoothScrollProvider>
+        </ShopConfigProvider>
       </body>
     </html>
   );

@@ -33,12 +33,7 @@ const steps = [
   },
 ];
 
-const shippingCosts = [
-  { description: "Bestelling tot \u20AC35", cost: "\u20AC5,95" },
-  { description: "Bestelling vanaf \u20AC35", cost: "Gratis", highlight: true },
-  { description: "Avondlevering", cost: "\u20AC2,50 toeslag" },
-  { description: "Belgi\u00EB", cost: "\u20AC8,95" },
-];
+// shippingCosts is built dynamically inside the component using CMS values
 
 const features = [
   {
@@ -61,9 +56,19 @@ const features = [
 interface VerzendingContentProps {
   pageBody: string | null;
   pageTitle: string | null;
+  freeShippingThreshold?: number;
+  shippingCost?: number;
 }
 
-export function VerzendingContent({ pageBody, pageTitle }: VerzendingContentProps) {
+export function VerzendingContent({ pageBody, pageTitle, freeShippingThreshold = 35, shippingCost = 4.95 }: VerzendingContentProps) {
+  const formattedCost = `€${shippingCost.toFixed(2).replace(".", ",")}`;
+  const shippingCosts = [
+    { description: `Bestelling tot €${freeShippingThreshold}`, cost: formattedCost },
+    { description: `Bestelling vanaf €${freeShippingThreshold}`, cost: "Gratis", highlight: true },
+    { description: "Avondlevering", cost: "€2,50 toeslag" },
+    { description: "België", cost: "€8,95" },
+  ];
+
   return (
     <div className="bg-background">
       {/* Hero */}
@@ -92,7 +97,7 @@ export function VerzendingContent({ pageBody, pageTitle }: VerzendingContentProp
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-white/60 max-w-lg"
           >
-            Jouw wijn, veilig en snel bezorgd. Gratis verzending vanaf \u20AC35.
+            Jouw wijn, veilig en snel bezorgd. Gratis verzending vanaf €{freeShippingThreshold}.
           </motion.p>
         </div>
       </section>

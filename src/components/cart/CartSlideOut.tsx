@@ -10,7 +10,7 @@ import { Button, QuantitySelector } from "@/components/ui";
 import { formatPrice, wineImagePresets } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { CloseIcon, TrashIcon, ShoppingBagIcon, CheckIcon } from "@/components/icons";
-import { FREE_SHIPPING_THRESHOLD } from "@/types";
+import { useShopConfig } from "@/components/providers";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 export function CartSlideOut() {
@@ -25,6 +25,7 @@ export function CartSlideOut() {
   const removeItem = useCartStore((state) => state.removeItem);
 
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const { freeShippingThreshold, shippingCost } = useShopConfig();
 
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: closeCart });
 
@@ -39,12 +40,13 @@ export function CartSlideOut() {
     };
   }, [isOpen]);
 
-  const amountUntilFreeShipping = FREE_SHIPPING_THRESHOLD - subtotal;
+  const amountUntilFreeShipping = freeShippingThreshold - subtotal;
   const freeShippingProgress = Math.min(
-    (subtotal / FREE_SHIPPING_THRESHOLD) * 100,
+    (subtotal / freeShippingThreshold) * 100,
     100
   );
-  const hasFreeShipping = subtotal >= FREE_SHIPPING_THRESHOLD;
+  const hasFreeShipping = subtotal >= freeShippingThreshold;
+  const effectiveShipping = hasFreeShipping ? 0 : shippingCost;
 
   return (
     <AnimatePresence>
@@ -221,7 +223,7 @@ export function CartSlideOut() {
                     <div className="flex justify-between">
                       <span className="text-grey">Verzending</span>
                       <span className={cn(hasFreeShipping && "text-success")}>
-                        {hasFreeShipping ? "Gratis" : formatPrice(shipping)}
+                        {hasFreeShipping ? "Gratis" : formatPrice(effectiveShipping)}
                       </span>
                     </div>
                     <div className="flex justify-between pt-2 border-t border-sand text-base font-semibold">

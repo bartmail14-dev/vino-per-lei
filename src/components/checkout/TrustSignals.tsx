@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { ShieldIcon, TruckIcon, ReturnIcon, StarIcon } from "@/components/icons";
+import { useShopConfig } from "@/components/providers";
 
 interface TrustSignalsProps {
   className?: string;
@@ -9,6 +10,8 @@ interface TrustSignalsProps {
 }
 
 export function TrustSignals({ className, variant = "compact" }: TrustSignalsProps) {
+  const { freeShippingThreshold } = useShopConfig();
+
   if (variant === "full") {
     return (
       <div className={cn("grid grid-cols-2 gap-4", className)}>
@@ -52,7 +55,7 @@ export function TrustSignals({ className, variant = "compact" }: TrustSignalsPro
       </div>
       <div className="flex items-center gap-2 text-sm text-grey">
         <TruckIcon className="w-4 h-4 text-wine" />
-        <span>Gratis verzending vanaf €35</span>
+        <span>Gratis verzending vanaf €{freeShippingThreshold}</span>
       </div>
       <div className="flex items-center gap-2 text-sm text-grey">
         <ReturnIcon className="w-4 h-4 text-wine" />
