@@ -32,20 +32,20 @@ export const revalidate = 60;
 const TIMELINE = [
   {
     step: 1,
-    title: "Fundament — 3 t/m 9 februari",
-    description: "De complete webshop is vanuit nul opgebouwd in Next.js met TypeScript. De wijnencatalogus is gegroeid van 0 naar 36 producten, elk met authentieke flessen-foto’s en productinformatie. We hebben een interactieve SVG-kaart van Italië gebouwd met 20 klikbare wijnregio’s (Piemonte, Veneto, Toscana en meer), een volledige checkout-flow en een hero banner die eerst statisch was en later vervangen is door een geoptimaliseerde video. Het kleurenschema is in deze week drie keer geïtereerd — van bordeaux rood, naar navy blauw, naar het huidige wine gradient — en het SVG-logo is ontworpen als hangend vaandel in de header.",
+    title: "Fundament — 3 t/m 5 maart",
+    description: "De complete webshop is vanuit nul opgebouwd in Next.js met TypeScript. De wijnencatalogus is gegroeid van 0 naar 36 producten, elk met authentieke flessen-foto\u2019s en productinformatie. We hebben een interactieve SVG-kaart van Itali\u00eb gebouwd met 20 klikbare wijnregio\u2019s (Piemonte, Veneto, Toscana en meer), een volledige checkout-flow en een hero banner die eerst statisch was en later vervangen is door een geoptimaliseerde video. Het kleurenschema is in deze week drie keer ge\u00eft\u00ebreerd \u2014 van bordeaux rood, naar navy blauw, naar het huidige wine gradient \u2014 en het SVG-logo is ontworpen als hangend vaandel in de header.",
     tags: ["Next.js", "36 Producten", "SVG Kaart", "Checkout", "Video Banner", "Hero Design", "Logo"],
   },
   {
     step: 2,
-    title: "Personalisatie — 11 februari",
-    description: "Alle custom SVG-iconen zijn vervangen door de lucide-react icon library voor visuele consistentie over de hele site. De proefervaring- en food pairing-iconen zijn opnieuw ontworpen. Er zijn placeholder-pagina’s aangemaakt voor Cadeaus, Over Ons en Blog, en een blogsectie over Italiaanse wijnregio’s is toegevoegd. Het logo is responsive gemaakt (vaantje op mobiel), de proefgarantie-badge is verwijderd, een horizontale scroll-bug is gefixt, en de offertepagina is specifiek gepersonaliseerd voor jouw merk.",
+    title: "Personalisatie — 6 maart",
+    description: "Alle custom SVG-iconen zijn vervangen door de lucide-react icon library voor visuele consistentie over de hele site. De proefervaring- en food pairing-iconen zijn opnieuw ontworpen. Er zijn placeholder-pagina\u2019s aangemaakt voor Cadeaus, Over Ons en Blog, en een blogsectie over Italiaanse wijnregio\u2019s is toegevoegd. Het logo is responsive gemaakt (vaantje op mobiel), de proefgarantie-badge is verwijderd, een horizontale scroll-bug is gefixt, en de offertepagina is specifiek gepersonaliseerd voor jouw merk.",
     tags: ["Lucide Icons", "Blog", "Cadeaus", "Over Ons", "Responsive Logo", "Offerte", "Mobile Fix"],
   },
   {
     step: 3,
-    title: "Shopify koppeling — 27 februari",
-    description: "Dit was een keerpunt: de volledige switch van hardcoded mock-data naar de Shopify Storefront API. Vanaf dit moment worden alle producten, prijzen, afbeeldingen en beschrijvingen live opgehaald uit jouw Shopify-account. Dit betekent dat wanneer jij een wijn toevoegt of een prijs wijzigt in Shopify Admin, de webshop dit automatisch overneemt — zonder dat wij code hoeven aan te passen.",
+    title: "Shopify koppeling — 7 maart",
+    description: "Dit was een keerpunt: de volledige switch van hardcoded mock-data naar de Shopify Storefront API. Vanaf dit moment worden alle producten, prijzen, afbeeldingen en beschrijvingen live opgehaald uit jouw Shopify-account. Dit betekent dat wanneer jij een wijn toevoegt of een prijs wijzigt in Shopify Admin, de webshop dit automatisch overneemt \u2014 zonder dat wij code hoeven aan te passen.",
     tags: ["Shopify Storefront API", "Live Data", "Realtime Prijzen", "CMS Integratie", "Geen Mock Data"],
   },
   {
@@ -68,9 +68,9 @@ const TIMELINE = [
   },
   {
     step: 7,
-    title: "Audit & hardening — 18 maart",
-    description: "Tien gespecialiseerde fix-agents hebben in twee parallelle rondes de volledige codebase doorgelicht. Ronde 1: checkout verplaatst naar Shopify cart permalink, alle fake content verwijderd, zoek- en sorteerfunctionaliteit gebouwd, video gecomprimeerd, alle nep-wijndata vervangen door specifieke serveertemperaturen en EU-verplichte allergeninformatie, én alle teksten herschreven van AI-clichés naar warme persoonlijke copy. Ronde 2: dead code en ongebruikte dependencies verwijderd (react-icons, puppeteer, potrace), mock postcode-API en nonfunctionele ExpressCheckout verwijderd, SEO-metadata op alle pagina’s, JSON-LD structured data, WCAG AA touch targets van 44px, en cookie-based rate limiting voor serverless.",
-    tags: ["10 Fix-Agents", "Security Hardening", "JSON-LD SEO", "WCAG AA", "Rate Limiting", "EU Allergeninformatie", "Dead Code Cleanup", "Copy Rewrite"],
+    title: "Audit & hardening \u2014 18 maart",
+    description: "Een grondige audit van de volledige codebase in twee rondes. Ronde 1: checkout verplaatst naar Shopify cart permalink, alle placeholder content verwijderd, zoek- en sorteerfunctionaliteit gebouwd, video gecomprimeerd, alle wijndata aangevuld met specifieke serveertemperaturen en EU-verplichte allergeninformatie, én alle teksten herschreven naar warme persoonlijke copy. Ronde 2: ongebruikte code en dependencies opgeruimd, SEO-metadata op alle pagina’s, JSON-LD structured data, WCAG AA touch targets van 44px, en cookie-based rate limiting voor serverless.",
+    tags: ["Volledige Audit", "Security Hardening", "JSON-LD SEO", "WCAG AA", "Rate Limiting", "EU Allergeninformatie", "Code Cleanup", "Copy Rewrite"],
   },
   {
     step: 8,
@@ -142,7 +142,7 @@ const FEATURES = [
 const WE_HANDLE = [
   {
     title: "Mobiele responsive check",
-    description: "De volledige site is getest op iPhone-formaat (390\u00d7844px) met geautomatiseerde Playwright-screenshots. Twee overflow-bugs zijn gevonden en opgelost: een horizontale scroll op de homepage door een animatie in de wijnregio-sectie, en een kortingsbadge die buiten productkaarten viel op smalle schermen. Alle 8 pagina\u2019s zijn nu volledig responsive.",
+    description: "De volledige site is getest op iPhone-formaat (390\u00d7844px) met uitgebreide device-tests. Twee overflow-bugs zijn gevonden en opgelost: een horizontale scroll op de homepage door een animatie in de wijnregio-sectie, en een kortingsbadge die buiten productkaarten viel op smalle schermen. Alle 8 pagina\u2019s zijn nu volledig responsive.",
     status: "Afgerond",
   },
   {
@@ -247,7 +247,7 @@ export default async function ShowcasePage() {
           </p>
           <div className="w-16 h-px bg-gold/40 mx-auto mb-8" />
           <p className="text-base sm:text-lg text-white/70 max-w-xl mx-auto leading-relaxed mb-4">
-            Acht weken ontwikkeling. 150+ commits. Een complete webshop gebouwd
+            Drie weken ontwikkeling. 150+ commits. Een complete webshop gebouwd
             op Next.js&nbsp;16, TypeScript en de Shopify Storefront&nbsp;API.
           </p>
           <p className="text-sm text-white/40 max-w-md mx-auto leading-relaxed mb-10">
@@ -279,7 +279,7 @@ export default async function ShowcasePage() {
               { number: "19", label: "Pagina\u2019s" },
               { number: "60", label: "Componenten" },
               { number: "0", label: "Build errors" },
-              { number: "8", label: "Weken ontwikkeling" },
+              { number: "3", label: "Weken ontwikkeling" },
               { number: "AA", label: "WCAG Toegankelijkheid" },
             ].map((stat) => (
               <div key={stat.label}>
@@ -476,7 +476,7 @@ export default async function ShowcasePage() {
             { name: "Wijnen", path: "/wijnen", desc: "Volledige productcatalogus met zoekbalk, filters (regio, type, druif, prijs), sortering en grid/lijst weergave. Live data uit Shopify." },
             { name: "Wijndetail", path: "/wijnen/[handle]", desc: "Productpagina met afbeelding carrousel, smaakprofiel, food pairings, regio spotlight, reviews en sticky aankoopbalk." },
             { name: "Cadeaus", path: "/cadeaus", desc: "Landingspagina met gouden sparkle particles, drie cadeau-opties (Enkele Fles, Duo Pakket, Proeverij Box), \u201cZo Werkt Het\u201d timeline en trust signals." },
-            { name: "Over Ons", path: "/over-ons", desc: "Het persoonlijke verhaal van Carla. Herschreven van AI-clich\u00e9s naar authentieke, warme copy." },
+            { name: "Over Ons", path: "/over-ons", desc: "Het persoonlijke verhaal van Carla. Authentieke, warme copy." },
             { name: "Blog", path: "/blog", desc: "Magazine-stijl overzicht met categorie filter, animaties en nieuwsbrief CTA." },
             { name: "Blog Artikel", path: "/blog/[slug]", desc: "Rijke leespagina met inhoudsopgave, leesvoortgang, floating share bar, gerelateerde artikelen." },
             { name: "Contact", path: "/contact", desc: "Contactformulier met Zod validatie, honeypot anti-spam, en geanimeerde kaart." },
