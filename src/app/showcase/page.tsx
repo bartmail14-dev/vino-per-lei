@@ -78,6 +78,12 @@ const TIMELINE = [
     description: "Deze showcase-pagina is gebouwd met live data uit Shopify, zodat je het echte resultaat ziet in plaats van screenshots. Daarnaast zijn 12 inline SVG-duplicaten gecentraliseerd in één icon library, en zijn er zes premium categorie-iconen ontworpen (RedWineIcon, WhiteWineIcon, RoséWineIcon, BubblesIcon, GiftBoxIcon, TuscanyIcon) op een 64×64 viewBox. De Cadeaus-pagina heeft een upgrade gekregen met gouden sparkle-particles in de hero, gradient gift cards en een “Zo Werkt Het”-timeline met trust signals.",
     tags: ["Showcase Pagina", "Icon Library", "6 Premium Icons", "Cadeaus Upgrade", "Sparkle Particles", "Live Shopify Data"],
   },
+  {
+    step: 9,
+    title: "Handleiding, mobile & deploy — 23 maart",
+    description: "Een volledige handleiding is gebouwd op /handleiding met 8 secties, zoekfunctie, Shopify Admin-screenshots \u00e9n live website-screenshots met rode annotaties zodat je precies ziet waar elke instelling terechtkomt. Daarnaast is de hele site getest op iPhone-formaat (390\u00d7844px) \u2014 twee overflow-bugs zijn gefixt (wine regions animatie en kortingsbadge op productkaarten). Een CMS key-mismatch is opgelost: de verzendkosten en gratis-verzenddrempel worden nu correct uit Shopify gelezen in plaats van altijd terug te vallen op standaardwaarden. De site is gedeployed naar Vercel met beveiligingssleutels en een projectoverzicht voor jou op de handleiding-pagina.",
+    tags: ["Handleiding Pagina", "8 Secties", "20 Screenshots", "Mobile Fix", "CMS Key Fix", "Vercel Deploy", "Projectoverzicht"],
+  },
 ] as const;
 
 const FEATURES = [
@@ -135,6 +141,31 @@ const FEATURES = [
 
 const WE_HANDLE = [
   {
+    title: "Mobiele responsive check",
+    description: "De volledige site is getest op iPhone-formaat (390\u00d7844px) met geautomatiseerde Playwright-screenshots. Twee overflow-bugs zijn gevonden en opgelost: een horizontale scroll op de homepage door een animatie in de wijnregio-sectie, en een kortingsbadge die buiten productkaarten viel op smalle schermen. Alle 8 pagina\u2019s zijn nu volledig responsive.",
+    status: "Afgerond",
+  },
+  {
+    title: "Rate limit secret geconfigureerd",
+    description: "De cryptografische sleutel voor de server-side rate limiter is gegenereerd en geconfigureerd in Vercel. De spam-bescherming op het contactformulier en de nieuwsbriefaanmelding werkt nu betrouwbaar, ook na serverless cold starts.",
+    status: "Afgerond",
+  },
+  {
+    title: "CMS key-mismatch opgelost",
+    description: "De Shopify CMS-velden voor verzendkosten en gratis-verzenddrempel werden niet correct uitgelezen door een verschil tussen Engelse code-keys en Nederlandse Shopify-labels. Dit is opgelost \u2014 wijzigingen in Shopify Admin worden nu direct overgenomen op de website.",
+    status: "Afgerond",
+  },
+  {
+    title: "Handleiding gebouwd",
+    description: "Een volledige handleiding op /handleiding met 8 secties, zoekfunctie, 13 Shopify Admin-screenshots en 7 live website-screenshots met rode annotaties. Inclusief projectoverzicht met wat er klaar is en wat er nog nodig is.",
+    status: "Afgerond",
+  },
+  {
+    title: "Vercel productie-deploy",
+    description: "De site is gedeployed naar vino-per-lei.vercel.app met alle environment variables correct geconfigureerd. 23 routes, 0 build errors.",
+    status: "Afgerond",
+  },
+  {
     title: "Shopify API-token roteren",
     description: "Het huidige API-token is tijdens ontwikkeling in de git-history terechtgekomen. Wij genereren een volledig nieuw Storefront API-token in Shopify Admin \u2192 Settings \u2192 Apps, updaten de environment variables op zowel de lokale ontwikkelomgeving als Vercel, en verifi\u00ebren dat de productcatalogus, checkout en CMS-integratie correct blijven functioneren. Het oude token wordt daarna ingetrokken.",
     status: "Gepland",
@@ -150,6 +181,16 @@ const WE_HANDLE = [
     status: "Gepland",
   },
   {
+    title: "Carla\u2019s Shopify staff account aanmaken",
+    description: "Zodra we Carla\u2019s e-mailadres hebben, maken we een Shopify staff account aan met rechten voor producten, content en bestellingen. Zo kan zij zelf de webshop beheren via de handleiding.",
+    status: "Wacht op info",
+  },
+  {
+    title: "Ordernotificaties instellen",
+    description: "Wij configureren Shopify-notificaties zodat Carla direct een e-mail krijgt bij elke nieuwe bestelling. Hiervoor hebben we haar e-mailadres nodig.",
+    status: "Wacht op info",
+  },
+  {
     title: "Telefoonnummer invoeren",
     description: "Zodra Carla haar telefoonnummer doorgeeft, vullen wij het in via de Shopify CMS-settings. Het nummer verschijnt dan automatisch op de contactpagina, in de footer, en in de meta-informatie voor Google.",
     status: "Wacht op info",
@@ -158,21 +199,6 @@ const WE_HANDLE = [
     title: "Blog hero-afbeeldingen",
     description: "Per blogartikel uploaden wij een hero-foto (16:9 verhouding, minimaal 1200px breed) in de Shopify blog-editor. Deze afbeeldingen verschijnen op de blog listing pagina, de detail pagina en als OpenGraph preview bij het delen op social media. Als Carla eigen foto\u2019s heeft, verwerken wij die \u2014 anders selecteren wij passende beelden.",
     status: "Wacht op foto\u2019s",
-  },
-  {
-    title: "Mobiele responsive check",
-    description: "Wij testen de volledige site op iPhone SE (375px), iPhone 14 (390px) en iPad (768px) met geautomatiseerde Playwright-screenshots. Eventuele layout-problemen (overflow, tekst afkapping, overlappende elementen) worden direct opgelost.",
-    status: "Gepland",
-  },
-  {
-    title: "Ordernotificaties instellen",
-    description: "Wij configureren Shopify-notificaties zodat Carla direct een pushmelding \u00e9n e-mail krijgt bij elke nieuwe bestelling. Daarnaast stellen wij escalerende herinneringen in na 1, 4 en 8 uur als een order niet is verwerkt \u2014 zodat geen enkele bestelling vergeten wordt.",
-    status: "Gepland",
-  },
-  {
-    title: "Rate limit secret genereren",
-    description: "De server-side rate limiter heeft een cryptografische sleutel nodig die stabiel blijft tussen serverless cold starts. Wij genereren een veilige random key en configureren deze in Vercel. Dit zorgt ervoor dat de spam-bescherming op het contactformulier en de nieuwsbriefaanmelding betrouwbaar werkt.",
-    status: "Gepland",
   },
   {
     title: "Shopify CMS hero tekst",
@@ -221,7 +247,7 @@ export default async function ShowcasePage() {
           </p>
           <div className="w-16 h-px bg-gold/40 mx-auto mb-8" />
           <p className="text-base sm:text-lg text-white/70 max-w-xl mx-auto leading-relaxed mb-4">
-            Zeven weken ontwikkeling. 147 commits. Een complete webshop gebouwd
+            Acht weken ontwikkeling. 150+ commits. Een complete webshop gebouwd
             op Next.js&nbsp;16, TypeScript en de Shopify Storefront&nbsp;API.
           </p>
           <p className="text-sm text-white/40 max-w-md mx-auto leading-relaxed mb-10">
@@ -235,7 +261,7 @@ export default async function ShowcasePage() {
           <ChevronDownIcon className="w-6 h-6 text-white/40" />
         </div>
         <p className="absolute bottom-10 text-white/30 text-xs tracking-[2px]">
-          22 maart 2026 &middot; Blue Wire Media
+          23 maart 2026 &middot; Blue Wire Media
         </p>
       </section>
 
@@ -247,13 +273,13 @@ export default async function ShowcasePage() {
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-6 text-center max-w-4xl mx-auto">
             {[
-              { number: "147", label: "Commits" },
-              { number: "128", label: "Bronbestanden" },
-              { number: "21.720", label: "Regels code" },
-              { number: "18", label: "Pagina\u2019s" },
-              { number: "59", label: "Componenten" },
+              { number: "150+", label: "Commits" },
+              { number: "130", label: "Bronbestanden" },
+              { number: "22.000+", label: "Regels code" },
+              { number: "19", label: "Pagina\u2019s" },
+              { number: "60", label: "Componenten" },
               { number: "0", label: "Build errors" },
-              { number: "7", label: "Weken ontwikkeling" },
+              { number: "8", label: "Weken ontwikkeling" },
               { number: "AA", label: "WCAG Toegankelijkheid" },
             ].map((stat) => (
               <div key={stat.label}>
@@ -359,7 +385,7 @@ export default async function ShowcasePage() {
             Wat er allemaal is gebeurd
           </h2>
           <p className="text-grey text-base max-w-lg mb-14">
-            In acht rondes is de webshop van prototype naar productie-klaar gebracht.
+            In negen rondes is de webshop van prototype naar productie-klaar gebracht.
           </p>
         </AnimatedSection>
 
@@ -440,7 +466,7 @@ export default async function ShowcasePage() {
             Elke pagina, met zorg gebouwd
           </h2>
           <p className="text-grey text-base max-w-lg mb-14">
-            18 pagina&apos;s, elk met een eigen doel en doordachte functionaliteit.
+            19 pagina&apos;s, elk met een eigen doel en doordachte functionaliteit.
           </p>
         </AnimatedSection>
 
@@ -463,6 +489,7 @@ export default async function ShowcasePage() {
             { name: "Privacy", path: "/privacy", desc: "Privacyverklaring conform AVG/GDPR." },
             { name: "Voorwaarden", path: "/voorwaarden", desc: "Algemene voorwaarden." },
             { name: "Cookies", path: "/cookies", desc: "Cookiebeleid." },
+            { name: "Handleiding", path: "/handleiding", desc: "Stap-voor-stap Shopify handleiding met 20 screenshots, zoekfunctie en projectoverzicht (niet publiek, noindex)." },
             { name: "Showcase", path: "/showcase", desc: "Deze pagina (niet publiek, noindex)." },
           ].map((page, i) => (
             <StaggerItem key={page.name}>
@@ -612,7 +639,7 @@ export default async function ShowcasePage() {
               </h3>
             </div>
             <p className="text-grey text-sm mb-8">
-              Blue Wire Media pakt de volgende {WE_HANDLE.length} punten op. Hier hoef jij niets voor te doen.
+              Hieronder staat de voortgang van alle {WE_HANDLE.length} punten. Groene items zijn afgerond, blauwe staan gepland, en oranje wachten op informatie van jou.
             </p>
 
             <div className="space-y-0 divide-y divide-sand/60">
@@ -627,9 +654,11 @@ export default async function ShowcasePage() {
                         {step.title}
                       </p>
                       <span className={`text-xs font-medium px-2.5 py-0.5 rounded-full whitespace-nowrap ${
-                        step.status === "Gepland"
-                          ? "bg-blue-50 text-blue-700"
-                          : "bg-amber-50 text-amber-700"
+                        step.status === "Afgerond"
+                          ? "bg-green-50 text-green-700"
+                          : step.status === "Gepland"
+                            ? "bg-blue-50 text-blue-700"
+                            : "bg-amber-50 text-amber-700"
                       }`}>
                         {step.status}
                       </span>
