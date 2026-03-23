@@ -1,7 +1,7 @@
 # Vino per Lei — Overdracht volgende sessie
 
-**Datum:** 23 maart 2026
-**Laatste sessie:** Showcase massaal uitgebreid, product fallbacks, responsive fixes, Over Ons CMS-driven, alle "19 wijnen" hardcoding verwijderd, Shop per type sectie opgeschoond.
+**Datum:** 23 maart 2026 (sessie 2)
+**Laatste sessie:** Wine category icons vervangen (custom glasvormen), shipping config CMS-driven gemaakt, RATE_LIMIT_SECRET gegenereerd.
 
 ---
 
@@ -16,7 +16,7 @@
 | **Shopify** | `vino-per-lei-2.myshopify.com` (CMS + products) |
 | **Klant** | Carla Daniels, Pastorielaan 56, 5504 CR Veldhoven |
 | **KvK** | 98874977 — **BTW:** NL005360033B10 |
-| **Laatste commit** | `2264f2e` — shop per type icons + cards |
+| **Laatste commit** | `dccdad2` — wine glass icons + shipping config CMS |
 | **Build** | clean, 0 errors, 0 warnings |
 | **Vercel deploy** | `npx vercel --prod --force` (git push alleen triggert NIET altijd) |
 
@@ -24,100 +24,118 @@
 
 ## Wat er deze sessie is gedaan
 
-### 1. Showcase pagina massaal uitgebreid
-- **Hero**: Professioneel "Technisch Dossier — Maart 2026", Blue Wire Media branding
-- **Stats bar**: 8 metrics (147 commits, 21.720 regels code, 128 bronbestanden, 18 pagina's, 59 componenten, 0 errors, 7 weken, WCAG AA)
-- **Timeline**: 8 gedetailleerde rondes met 5-8 tags per ronde
-- **Features grid**: Van 6 naar 10 kaarten (beveiliging, SEO, performance, WCAG, Shopify, compliance, responsive, blog, UX, code kwaliteit)
-- **NIEUW**: "Elke pagina, met zorg gebouwd" — 18-pagina grid met beschrijvingen
-- **NIEUW**: "De technische architectuur" — 4-koloms tech stack diagram (dark section)
-- **NIEUW**: "Gebouwd met oog voor detail" — 10 micro-detail kaarten (18+ gate, cookie consent, mega menu, etc.)
-- **Next Steps**: Van 7 naar 10 items met uitgebreide beschrijvingen, warmere Carla-stap
-- Showcase product count fallback (minimum 19)
+### 1. Wine category icons — custom glasvormen
+De "Shop per type" icons zijn nu **herkenbare wijnglas-silhouetten** per categorie:
+- **Rode Wijn** — Bordeaux glas (brede kelk, bold stroke)
+- **Witte Wijn** — Tulip glas (smaller, hoger, eleganter)
+- **Rosé** — Coupe glas (breed, ondiep — klassiek rosé)
+- **Bubbels** — Flute glas (lang, smal + bubbels)
+- **Cadeaus** — Geschenkdoos met strik
+- **Toscane** — Cipres boom
 
-### 2. Product fallbacks (homepage niet meer leeg)
-- **Featured products**: Als geen `isFeatured` metafield in Shopify → toon eerste 4 producten
-- **Category blocks**: Hardcoded defaults (Rode Wijn, Witte Wijn, Rosé, Mousserend, Cadeaus) als CMS leeg
-- **Blog sectie**: Werkt nu met 1-2 artikelen (was: minimum 3). Grid past zich aan.
+Alle icons: 24x24 viewBox, strokeWidth 1.5, `currentColor` — consistent met Lucide icons.
+Bestand: `src/components/icons/WineCategoryIcons.tsx`
 
-### 3. Responsive fixes
-- `overflow-x: hidden` op `<html>` element — fixt 15px horizontal scroll op 375px
-- AnimatedCounter SSR-safe: rendert target value bij eerste render, animeert pas bij scroll
-- Nav breakpoint was al correct (`lg:` = 1024px)
+**Geprobeerd en verworpen:**
+- Phosphor Icons (`@phosphor-icons/react`) — maar 1 wijnglas icon, te beperkt
+- Tabler Icons (`@tabler/icons-react`) — `IconGlassFull` was een tumbler, niet een wijnglas
+- Conclusie: geen enkele icon library heeft genoeg wijn-specifieke variatie
 
-### 4. Over Ons pagina CMS-first
-- **Structuur gewijzigd**: Als Shopify page body gevuld is → toon ALLEEN hero + CMS content + CTA
-- Zonder CMS content → toon huidige fallback layout (values, timeline, brand philosophy)
-- Alle hardcoded aantallen verwijderd ("drie gebieden", "19 wijnen", "6 regio's")
-- Wijncount is dynamisch via `getProducts().length`
+### 2. Shipping config CMS-driven
+- `SiteSettings` interface uitgebreid met `freeShippingThreshold` en `shippingCost`
+- `getSiteSettings()` leest nu `free_shipping_threshold` en `shipping_cost` uit Shopify metaobject
+- Nieuwe `getShopConfig()` helper geëxporteerd voor server components
+- Fallbacks: €35 / €4.95 als Shopify metaobject niet geconfigureerd
+- `DEFAULT_SITE_SETTINGS` bijgewerkt
 
-### 5. Alle "19 wijnen" hardcoding verwijderd
-11 bestanden aangepast — nergens meer een hardcoded wijnaantal:
-- `layout.tsx` (metadata), `page.tsx` (JSON-LD, counter, link), `wijnen/page.tsx` (metadata)
-- `cadeaus/page.tsx`, `CartSlideOut.tsx`, `shopify-cms.ts` (DEFAULT_HERO)
-- `showcase/page.tsx`, `over-ons/OverOnsContent.tsx`, `over-ons/page.tsx`
-
-### 6. Shop per type sectie opgeschoond
-- Icons vereenvoudigd: van complexe 64x64 SVGs met opacity fills naar clean 48x48 stroke icons
-- Cards: witte achtergrond, sand border, uniforme hoogte via flex, betere gaps
-- **MAAR**: Bart wil hier een unieke icon library voor — zie TODO #1
+### 3. RATE_LIMIT_SECRET
+- Gegenereerd (`openssl rand -base64 32`) en toegevoegd aan `.env.local`
+- **Moet nog naar Vercel**: `npx vercel env add RATE_LIMIT_SECRET`
 
 ---
 
 ## TODO's volgende sessie (prioriteit)
 
-### #1 HIGH — Unieke icon library voor "Shop per type"
-**Bart wil GEEN custom SVG icons die we zelf tekenen.** In plaats daarvan moet er een externe, unieke icon library worden gebruikt voor de wijn-categorie icons (Rode Wijn, Witte Wijn, Rosé, Mousserende Wijn, Cadeaus).
+### #1 HIGH — Shopify Admin opzetten via Playwright MCP
+**Open `https://vino-per-lei-2.myshopify.com/admin` met Playwright** en doe het volgende:
 
-**Opties om te onderzoeken:**
-1. **Phosphor Icons** (`phosphor-react`) — 6000+ icons, 6 stijlen (thin/light/regular/bold/fill/duotone). Heeft `Wine`, `WineGlass`, `Champagne`, `Gift`, `Sparkle`. Duotone stijl is premium.
-2. **Tabler Icons** (`@tabler/icons-react`) — 5000+ icons, consistent stroke style. Heeft `IconGlass`, `IconBottle`, `IconGift`, `IconSparkles`.
-3. **Heroicons** (`@heroicons/react`) — Van Tailwind team, 300+ icons, outline/solid/mini stijlen. Beperktere selectie.
-4. **Flaticon/Iconify** — Via `@iconify/react` kun je uit 200.000+ icons kiezen van duizenden sets. Zoek op "wine" voor gespecialiseerde wijn-icons.
-5. **React Icons** (`react-icons`) — Bundelt 40+ libraries (Font Awesome, Material, Remix, etc.).
+#### A. Carla een staff account geven
+1. Settings → Users and permissions → Add staff
+2. Email: Carla's email (vraag aan Bart)
+3. Rechten: Products, Content (pages/blog/metaobjects), Orders (view)
+4. Uitnodiging versturen
 
-**Aanpak volgende sessie:**
-- Kies een library met Bart
-- Installeer via npm
-- Vervang de 5 WineCategoryIcons (RedWine, WhiteWine, Rose, Bubbles, GiftBox)
-- Optioneel: vervang ook de TuscanyIcon (cipres) als de library iets beters heeft
-- Het bestand `src/components/icons/WineCategoryIcons.tsx` kan dan weg
+#### B. Metaobject `site_settings` velden toevoegen
+De volgende velden moeten worden toegevoegd aan het bestaande `site_settings` metaobject:
+- `free_shipping_threshold` (type: `number_decimal`, default: 35)
+- `shipping_cost` (type: `number_decimal`, default: 4.95)
 
-**Huidige icon mapping in `src/app/page.tsx` (regel 37-43):**
-```ts
-const categoryIconMap = {
-  red:       { Icon: RedWineIcon, ... },
-  white:     { Icon: WhiteWineIcon, ... },
-  rose:      { Icon: RoseWineIcon, ... },
-  sparkling: { Icon: BubblesIcon, ... },
-  gift:      { Icon: GiftBoxIcon, ... },
-};
-```
+Dan in het `main` entry deze waarden invullen.
 
-### #2 HIGH — Shopify data probleem (wijnen verdwenen)
-De homepage toonde 0 producten en 0 categorieën. Oorzaak: Shopify metafields/metaobjects niet (meer) geconfigureerd. Fallbacks zijn nu ingebouwd, maar de echte fix is:
-- Check of producten `custom.is_featured` metafield hebben (exact `"true"`)
-- Check of `category_block` metaobjects bestaan in Shopify Admin
-- Check of er ≥3 blogartikelen in blog "wijn-verhalen" staan
-- Check server logs voor "Failed to fetch products" errors
+#### C. Check of deze metaobjects bestaan en correct zijn:
+- `site_settings/main` — bedrijfsgegevens
+- `homepage_hero/main` — hero tekst
+- `announcement_bar/main` — top bar
+- `usp_item/*` — 4 USP items
+- `category_block/*` — 5 wijn-categorieën
+- `faq_item/*` — FAQ items
+
+Als ze niet bestaan: het script `npm run shopify:setup` zou ze moeten aanmaken, maar check eerst of het up-to-date is met de nieuwe velden.
+
+### #2 HIGH — Hardcoded €35 doorlinken naar CMS
+Nu de `getShopConfig()` helper bestaat, moeten deze bestanden geüpdatet worden om de CMS-waarde te gebruiken in plaats van hardcoded "€35":
+
+| Bestand | Wat aanpassen |
+|---------|---------------|
+| `src/components/cart/CartSlideOut.tsx` | Free shipping progress bar |
+| `src/components/checkout/OrderSummary.tsx` | Shipping progress |
+| `src/components/checkout/ShippingSection.tsx` | Free shipping banner |
+| `src/components/checkout/TrustSignals.tsx` | "Gratis verzending vanaf €35" |
+| `src/components/product/QuickViewModal.tsx` | "Gratis vanaf €35" |
+| `src/app/wijnen/[handle]/ProductDetailClient.tsx` | "Gratis vanaf €35" (2x) |
+| `src/app/contact/ContactPageContent.tsx` | Trust signal tekst |
+| `src/app/cadeaus/CadeausContent.tsx` | "Vanaf €35 bezorgen wij gratis" |
+| `src/app/klantenservice/verzending/VerzendingContent.tsx` | Tarieftabel |
+| `src/types/cart.ts` | `FREE_SHIPPING_THRESHOLD` + `SHIPPING_COST` |
+
+**Aanpak:** Client components (cart, checkout) kunnen de waarde niet direct server-side fetchen. Opties:
+1. Via `layout.tsx` als React context/provider doorsturen
+2. Via een klein API route `/api/config` dat `getShopConfig()` cached
+3. De cart store initialiseren met de waarden uit een `<script>` tag in layout
 
 ### #3 HIGH — Shopify API-token roteren
-Token in git history. Nieuw token genereren, `.env.local` + Vercel updaten.
+Het huidige Storefront token staat in git history. In Shopify Admin:
+1. Settings → Apps and sales channels → "Headless" (of custom app)
+2. Nieuw Storefront token genereren
+3. Oud token intrekken
+4. Nieuw token in `.env.local` + Vercel env vars
 
 ### #4 HIGH — Mailgun opzetten
-Credentials zijn placeholders. Account aanmaken, domein verifiëren, env vars invullen.
+Contact form en newsletter zijn placeholders. Nodig:
+1. Mailgun account aanmaken (gratis tier)
+2. Domein `mg.vinoperlei.nl` verifiëren (SPF, DKIM, MX records)
+3. Env vars invullen: `MAILGUN_API_KEY`, `MAILGUN_DOMAIN`, `MAILGUN_LIST`
 
 ### #5 HIGH — DNS vinoperlei.nl → Vercel
-CNAME record, domein toevoegen, HTTPS.
+1. Domein toevoegen in Vercel dashboard
+2. CNAME record `vinoperlei.nl` → `cname.vercel-dns.com`
+3. `www` CNAME → zelfde
+4. HTTPS wordt automatisch ingeregeld door Vercel
 
-### #6 MEDIUM — `RATE_LIMIT_SECRET` genereren
-`openssl rand -base64 32` → in `.env.local` + Vercel. Zonder dit reset rate limiting bij elke cold start.
+### #6 MEDIUM — RATE_LIMIT_SECRET naar Vercel
+```bash
+npx vercel env add RATE_LIMIT_SECRET
+# Plak: i0B7wWUKqw3L/Dz1yUL37Aq/Xq+UVvWfXq5c0aupjvs=
+```
 
 ### #7 MEDIUM — Ordernotificaties, telefoonnummer, blog foto's
-Zie showcase pagina `/showcase` voor de volledige lijst.
+Shopify Admin taken — zie `/showcase` pagina voor de volledige lijst.
 
-### #8 LOW — Next.js 16 middleware → proxy migration
-`middleware.ts` geeft deprecation warning. Migreren naar `proxy` convention.
+### #8 LOW — Vercel deploy na alle wijzigingen
+```bash
+git push origin master
+npx vercel --prod --force
+```
 
 ---
 
@@ -125,21 +143,12 @@ Zie showcase pagina `/showcase` voor de volledige lijst.
 
 ```
 src/
-├── app/
-│   ├── showcase/page.tsx      ← UITGEBREID: 8 secties, ~600 regels
-│   ├── over-ons/
-│   │   ├── page.tsx           ← Fetcht nu ook getProducts() voor wineCount
-│   │   └── OverOnsContent.tsx ← CMS-first: Shopify page body overschrijft fallback
-│   ├── page.tsx               ← Product fallbacks, dynamische counter, category defaults
-│   └── ...
-├── components/
-│   ├── icons/
-│   │   └── WineCategoryIcons.tsx ← Vereenvoudigd 48x48, WORDT VERVANGEN door externe library
-│   ├── home/
-│   │   └── HomeAnimations.tsx    ← AnimatedCounter SSR-safe
-│   └── ...
+├── components/icons/
+│   └── WineCategoryIcons.tsx  ← NIEUW: custom glasvormen (Bordeaux/Tulip/Coupe/Flute)
 ├── lib/
-│   └── shopify-cms.ts           ← DEFAULT_CATEGORIES fallback, hero tekst zonder "19"
+│   └── shopify-cms.ts         ← GEWIJZIGD: SiteSettings + getShopConfig() met shipping velden
+├── types/
+│   └── cart.ts                ← FREE_SHIPPING_THRESHOLD = 35 (fallback, wordt CMS-driven)
 └── ...
 ```
 
@@ -149,7 +158,8 @@ src/
 
 - **NOOIT `next dev` in foreground draaien** — crasht Claude Code
 - **Production test:** `npm run build && npx next start --port 3000 > /dev/null 2>&1 &`
-- **Vercel deploy:** `npx vercel --prod --force` (git push alleen is niet betrouwbaar)
-- **Tailwind v4 cache:** Bij rare CSS errors, verwijder `.next/` en herstart
-- **Windows paths** voor Claude tools, **Unix paths** voor Bash
-- **Geen hardcoded aantallen** — wijncount, regio's, producenten etc. moeten altijd dynamisch zijn of generiek geschreven
+- **Vercel deploy:** `npx vercel --prod --force`
+- **Playwright MCP:** Sluit ALLE Chrome vensters voor gebruik, anders crasht de browser launch
+- **Shopify Admin:** `https://vino-per-lei-2.myshopify.com/admin` — gebruik Playwright om daar in te loggen en metaobjects te beheren
+- **Geen hardcoded aantallen** — wijncount, verzenddrempels, etc. moeten CMS-driven zijn
+- **Geen externe icon libraries nodig** — custom SVGs in Lucide-stijl werken het best voor wijn-specifieke icons
