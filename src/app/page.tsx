@@ -34,12 +34,12 @@ const uspIconMap: Record<string, React.ComponentType<{ className?: string }>> = 
 };
 
 // Map CMS iconType to category icon components + styling
-const categoryIconMap: Record<string, { Icon: React.ComponentType<{ className?: string }>; color: string; iconColor: string }> = {
-  red: { Icon: RedWineIcon, color: "bg-wine/10 hover:bg-wine/15", iconColor: "text-wine" },
-  white: { Icon: WhiteWineIcon, color: "bg-gold/10 hover:bg-gold/15", iconColor: "text-gold" },
-  rose: { Icon: RoseWineIcon, color: "bg-coral/10 hover:bg-coral/15", iconColor: "text-coral" },
-  sparkling: { Icon: BubblesIcon, color: "bg-champagne hover:bg-gold/20", iconColor: "text-charcoal" },
-  gift: { Icon: GiftBoxIcon, color: "bg-wine/5 hover:bg-wine/10", iconColor: "text-charcoal" },
+const categoryIconMap: Record<string, { Icon: React.ComponentType<{ className?: string }>; color: string; iconColor: string; accent: string }> = {
+  red: { Icon: RedWineIcon, color: "bg-white", iconColor: "text-wine", accent: "bg-wine" },
+  white: { Icon: WhiteWineIcon, color: "bg-white", iconColor: "text-gold", accent: "bg-gold" },
+  rose: { Icon: RoseWineIcon, color: "bg-white", iconColor: "text-coral", accent: "bg-coral" },
+  sparkling: { Icon: BubblesIcon, color: "bg-white", iconColor: "text-charcoal", accent: "bg-charcoal" },
+  gift: { Icon: GiftBoxIcon, color: "bg-white", iconColor: "text-wine", accent: "bg-wine" },
 };
 
 // Map BlogArticle to the shape used in the template
@@ -308,7 +308,7 @@ export default async function Home() {
             <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Weet je wat je zoekt?</h2>
           </div>
         </AnimatedSection>
-        <AnimatedStagger className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 sm:gap-5 md:gap-6" staggerDelay={0.08}>
+        <AnimatedStagger className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-5" staggerDelay={0.08}>
           {categoryBlocks.map((category) => {
             const mapping = categoryIconMap[category.iconType] || categoryIconMap.red;
             const CategoryIcon = mapping.Icon;
@@ -316,13 +316,13 @@ export default async function Home() {
               <StaggerItem key={category.name}>
                 <Link
                   href={category.href}
-                  className={`${mapping.color} rounded-lg sm:rounded-2xl p-5 sm:p-8 text-center transition-all duration-300 hover:shadow-xl active:scale-95 sm:hover:-translate-y-2 group border border-transparent hover:border-wine/10 block`}
+                  className={`${mapping.color} rounded-2xl p-6 sm:p-7 text-center transition-all duration-300 hover:shadow-lg active:scale-[0.97] sm:hover:-translate-y-1.5 group border border-sand/50 hover:border-wine/15 block h-full flex flex-col items-center justify-center`}
                 >
-                  <div className={`${mapping.iconColor} mb-3 sm:mb-4 flex justify-center`}>
-                    <CategoryIcon className="w-12 h-12 sm:w-16 sm:h-16 transition-transform duration-300 group-hover:scale-110" />
+                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-xl ${mapping.accent}/8 group-hover:${mapping.accent}/12 flex items-center justify-center mb-4 transition-colors duration-300`}>
+                    <CategoryIcon className={`w-8 h-8 sm:w-9 sm:h-9 ${mapping.iconColor} transition-transform duration-300 group-hover:scale-110`} />
                   </div>
-                  <h3 className="font-serif font-semibold text-charcoal text-sm sm:text-lg mb-0.5 sm:mb-1">{category.name}</h3>
-                  <p className="text-xs sm:text-sm text-grey">{category.description}</p>
+                  <h3 className="font-serif font-semibold text-charcoal text-sm sm:text-base mb-1 leading-tight">{category.name}</h3>
+                  <p className="text-xs text-grey leading-snug">{category.description}</p>
                 </Link>
               </StaggerItem>
             );
