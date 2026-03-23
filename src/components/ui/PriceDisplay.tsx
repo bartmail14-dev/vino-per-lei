@@ -40,7 +40,7 @@ export function PriceDisplay({
 
   return (
     <div className={cn("flex flex-col gap-1", className)}>
-      <div className="flex items-baseline gap-2">
+      <div className="flex items-baseline gap-2 flex-wrap">
         <span
           className={cn(
             sizes[size].current,
@@ -63,7 +63,7 @@ export function PriceDisplay({
         )}
 
         {hasSale && !showSavings && (
-          <span className="text-xs font-semibold text-error bg-error/10 px-1.5 py-0.5 rounded">
+          <span className="text-xs font-semibold text-error bg-error/10 px-1.5 py-0.5 rounded whitespace-nowrap">
             -{discount}%
           </span>
         )}

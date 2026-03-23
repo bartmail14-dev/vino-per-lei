@@ -198,8 +198,8 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     hoursWeekday: f.hours_weekday || '09:00 - 17:00',
     hoursSaturday: f.hours_saturday || 'Gesloten',
     hoursSunday: f.hours_sunday || 'Gesloten',
-    freeShippingThreshold: parseFloat(f.free_shipping_threshold) || 35,
-    shippingCost: parseFloat(f.shipping_cost) || 4.95,
+    freeShippingThreshold: parseFloat(f.gratis_verzending_drempel) || 35,
+    shippingCost: parseFloat(f.verzendkosten) || 4.95,
   }));
 }
 

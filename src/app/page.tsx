@@ -207,7 +207,7 @@ export default async function Home() {
       {/* =============================================
           WINE REGIONS MAP — Dark immersive section
           ============================================= */}
-      <Section background="dark" spacing="xl">
+      <Section background="dark" spacing="xl" className="overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-10 sm:gap-16 items-center">
           <AnimatedSection variant="fadeLeft" className="order-2 lg:order-1">
             <p className="text-label text-gold/60 mb-3">Drie wijngebieden</p>

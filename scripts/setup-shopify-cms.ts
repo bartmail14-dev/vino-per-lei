@@ -62,6 +62,8 @@ const metaobjectDefinitions = [
       { key: 'hours_weekday', name: 'Openingstijden Ma-Vr', type: 'single_line_text_field' },
       { key: 'hours_saturday', name: 'Openingstijden Za', type: 'single_line_text_field' },
       { key: 'hours_sunday', name: 'Openingstijden Zo', type: 'single_line_text_field' },
+      { key: 'gratis_verzending_drempel', name: 'Gratis verzending drempel', type: 'number_decimal' },
+      { key: 'verzendkosten', name: 'Verzendkosten', type: 'number_decimal' },
     ],
   },
   {
@@ -223,6 +225,8 @@ async function seedContent() {
     { key: 'hours_weekday', value: '09:00 - 17:00' },
     { key: 'hours_saturday', value: '10:00 - 14:00' },
     { key: 'hours_sunday', value: 'Gesloten' },
+    { key: 'gratis_verzending_drempel', value: '35' },
+    { key: 'verzendkosten', value: '4.95' },
   ]);
 
   // Hero
