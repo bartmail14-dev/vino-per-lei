@@ -17,6 +17,10 @@ import {
   BookOpen,
   Search,
   Info,
+  CheckCircle2,
+  Clock,
+  AlertCircle,
+  ClipboardList,
 } from "lucide-react";
 
 /* ─── Types ─── */
@@ -510,6 +514,108 @@ export function HandleidingContent() {
             </div>
           )}
         </div>
+
+        {/* Project status overview */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-16 rounded-xl border border-[var(--sand)] bg-white overflow-hidden"
+        >
+          <div className="px-5 sm:px-6 py-5 bg-gradient-to-r from-[var(--wine-burgundy)] to-[var(--wine-dark)] text-white">
+            <div className="flex items-center gap-3">
+              <ClipboardList className="w-5 h-5" />
+              <h2 className="font-semibold text-lg">Projectoverzicht</h2>
+            </div>
+            <p className="text-white/70 text-sm mt-1">
+              Wat er al klaar is en wat er nog op de planning staat.
+            </p>
+          </div>
+
+          <div className="px-5 sm:px-6 py-6 space-y-6">
+            {/* Done */}
+            <div>
+              <h3 className="flex items-center gap-2 font-semibold text-[var(--charcoal)] mb-3">
+                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+                Afgerond
+              </h3>
+              <ul className="space-y-2 ml-7">
+                {[
+                  "Volledige webshop gebouwd en live op vino-per-lei.vercel.app",
+                  "Alle producten, categorieën en content gekoppeld aan Shopify CMS",
+                  "Wijnpagina's met filters, zoekfunctie en productdetails",
+                  "Cadeaupakketten pagina met gelegenheden en prijsfilters",
+                  "Blog systeem — artikelen schrijven en publiceren via Shopify",
+                  "FAQ pagina met categorieën — beheerbaar via Shopify",
+                  "Contactformulier met e-mail notificaties",
+                  "Winkelwagen en Shopify Checkout integratie",
+                  "Gratis verzending drempel en verzendkosten instelbaar via Shopify",
+                  "Announcement bar, USP-balk en hero teksten aanpasbaar via CMS",
+                  "Bedrijfsgegevens (KvK, BTW, adres) in footer via CMS",
+                  "Over Ons pagina met jouw verhaal",
+                  "Mobile-friendly: getest en geoptimaliseerd voor telefoon en tablet",
+                  "Beveiligingsheaders en rate limiting op formulieren",
+                  "Deze handleiding met screenshots en stap-voor-stap uitleg",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-[var(--grey)]">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Todo - our side */}
+            <div>
+              <h3 className="flex items-center gap-2 font-semibold text-[var(--charcoal)] mb-3">
+                <Clock className="w-5 h-5 text-amber-500" />
+                Nog te doen (onze kant)
+              </h3>
+              <ul className="space-y-2 ml-7">
+                {[
+                  "Eigen domeinnaam vinoperlei.nl koppelen aan de website",
+                  "E-mail instellen via het domein (bijv. info@vinoperlei.nl)",
+                  "Shopify API-beveiliging extra versterken (token roteren)",
+                  "Lightbox toevoegen aan handleiding-screenshots (klik om te vergroten)",
+                ].map((item, i) => (
+                  <li key={i} className="flex items-start gap-2 text-sm text-[var(--grey)]">
+                    <Clock className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Nodig van Carla */}
+            <div>
+              <h3 className="flex items-center gap-2 font-semibold text-[var(--charcoal)] mb-3">
+                <AlertCircle className="w-5 h-5 text-[var(--wine-burgundy)]" />
+                Nodig van jou
+              </h3>
+              <div className="ml-7 space-y-3">
+                {[
+                  {
+                    title: "E-mailadres voor Shopify account",
+                    description: "Zodat we een eigen Shopify-inlog voor je kunnen aanmaken. Dan kun je zelf producten, teksten en bestellingen beheren.",
+                  },
+                  {
+                    title: "E-mailadres voor bestelnotificaties",
+                    description: "Op dit adres ontvang je een melding zodra er een bestelling binnenkomt. Mag hetzelfde adres zijn.",
+                  },
+                  {
+                    title: "Domeinnaam vinoperlei.nl",
+                    description: "Is deze al geregistreerd? Dan hebben we de inloggegevens van de domeinprovider nodig om de website te koppelen.",
+                  },
+                ].map((item, i) => (
+                  <div key={i} className="p-3 rounded-lg bg-[var(--wine-burgundy)]/5 border border-[var(--wine-burgundy)]/10">
+                    <p className="text-sm font-medium text-[var(--charcoal)]">{item.title}</p>
+                    <p className="text-xs text-[var(--grey)] mt-1">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Footer help */}
         <motion.div
