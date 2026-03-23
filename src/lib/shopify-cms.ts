@@ -36,6 +36,8 @@ export interface SiteSettings {
   hoursWeekday: string;
   hoursSaturday: string;
   hoursSunday: string;
+  freeShippingThreshold: number;
+  shippingCost: number;
 }
 
 export interface HeroContent {
@@ -196,6 +198,8 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     hoursWeekday: f.hours_weekday || '09:00 - 17:00',
     hoursSaturday: f.hours_saturday || 'Gesloten',
     hoursSunday: f.hours_sunday || 'Gesloten',
+    freeShippingThreshold: parseFloat(f.free_shipping_threshold) || 35,
+    shippingCost: parseFloat(f.shipping_cost) || 4.95,
   }));
 }
 
@@ -449,6 +453,8 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   hoursWeekday: '09:00 - 17:00',
   hoursSaturday: '10:00 - 14:00',
   hoursSunday: 'Gesloten',
+  freeShippingThreshold: 35,
+  shippingCost: 4.95,
 };
 
 export const DEFAULT_HERO: HeroContent = {
@@ -467,3 +473,24 @@ export const DEFAULT_ANNOUNCEMENT: AnnouncementBar = {
   enabled: true,
   link: '/wijnen',
 };
+
+// --- Shop Config (shipping settings, CMS-driven with fallbacks) ---
+
+export interface ShopConfig {
+  freeShippingThreshold: number;
+  shippingCost: number;
+}
+
+const DEFAULT_SHOP_CONFIG: ShopConfig = {
+  freeShippingThreshold: 35,
+  shippingCost: 4.95,
+};
+
+export async function getShopConfig(): Promise<ShopConfig> {
+  const settings = await getSiteSettings();
+  if (!settings) return DEFAULT_SHOP_CONFIG;
+  return {
+    freeShippingThreshold: settings.freeShippingThreshold,
+    shippingCost: settings.shippingCost,
+  };
+}
