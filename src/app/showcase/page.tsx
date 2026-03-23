@@ -620,7 +620,7 @@ export default async function ShowcasePage() {
             Wat er nog nodig is voor go-live
           </h2>
           <p className="text-grey text-base max-w-lg mb-10">
-            Hieronder staat alles wat er nog moet gebeuren voordat vinoperlei.nl live kan. Wij pakken het overgrote deel op \u2014 jij hoeft alleen de betalingen te activeren in Shopify.
+            Hieronder staat alles wat er nog moet gebeuren voordat vinoperlei.nl live kan. Wij pakken het overgrote deel op &mdash; jij hoeft alleen de betalingen te activeren in Shopify.
           </p>
         </AnimatedSection>
 
