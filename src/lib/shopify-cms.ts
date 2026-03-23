@@ -257,6 +257,14 @@ export async function getWineRegions(): Promise<WineRegionCMS[]> {
   });
 }
 
+const DEFAULT_CATEGORIES: CategoryBlock[] = [
+  { name: "Rode Wijn", description: "Krachtig & vol", href: "/wijnen?type=red", iconType: "red", sortOrder: 0 },
+  { name: "Witte Wijn", description: "Fris & elegant", href: "/wijnen?type=white", iconType: "white", sortOrder: 1 },
+  { name: "Rosé", description: "Zacht & fruitig", href: "/wijnen?type=rose", iconType: "rose", sortOrder: 2 },
+  { name: "Mousserende Wijn", description: "Feestelijk & sprankelend", href: "/wijnen?type=sparkling", iconType: "sparkling", sortOrder: 3 },
+  { name: "Cadeaus", description: "Het perfecte cadeau", href: "/cadeaus", iconType: "gift", sortOrder: 4 },
+];
+
 export async function getCategoryBlocks(): Promise<CategoryBlock[]> {
   const items = await getMetaobjects<CategoryBlock>('category_block', (f) => ({
     name: f.name || '',
@@ -265,7 +273,8 @@ export async function getCategoryBlocks(): Promise<CategoryBlock[]> {
     iconType: f.icon_type || 'red',
     sortOrder: parseInt(f.sort_order || '0'),
   }));
-  return items.sort((a, b) => a.sortOrder - b.sortOrder);
+  const sorted = items.sort((a, b) => a.sortOrder - b.sortOrder);
+  return sorted.length > 0 ? sorted : DEFAULT_CATEGORIES;
 }
 
 // --- Shopify Pages ---
@@ -446,8 +455,8 @@ export const DEFAULT_HERO: HeroContent = {
   subtitle: 'Kleine producenten, grote wijnen',
   titleLine1: 'Italiaanse wijn',
   titleLine2: 'zonder omwegen',
-  description: 'Rechtstreeks van familiewijngaarden in Piemonte, Veneto en Toscane. 19 wijnen die Carla zelf heeft geproefd en geimporteerd.',
-  ctaPrimaryText: 'Bekijk de 19 wijnen',
+  description: 'Rechtstreeks van familiewijngaarden in Piemonte, Veneto en Toscane. Persoonlijk geproefd en geïmporteerd door Carla.',
+  ctaPrimaryText: 'Bekijk de collectie',
   ctaPrimaryLink: '/wijnen',
   ctaSecondaryText: 'Over Vino per Lei',
   ctaSecondaryLink: '/over-ons',

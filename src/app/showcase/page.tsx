@@ -13,11 +13,17 @@ import {
   EyeIcon,
   NewspaperIcon,
   ChevronDownIcon,
+  GridIcon,
+  BookOpenIcon,
+  AwardIcon,
+  SettingsIcon,
+  CartIcon,
+  GiftIcon,
 } from "@/components/icons";
 
 export const metadata: Metadata = {
-  title: "Voortgang Update — Vino per Lei",
-  description: "Een overzicht van alle verbeteringen aan de Vino per Lei webshop.",
+  title: "Technisch Dossier — Vino per Lei | Blue Wire Media",
+  description: "Projectoverzicht en technisch dossier van de Vino per Lei webshop, ontwikkeld door Blue Wire Media.",
   robots: { index: false, follow: false },
 };
 
@@ -26,39 +32,51 @@ export const revalidate = 60;
 const TIMELINE = [
   {
     step: 1,
-    title: "Webshop fundamenten gerepareerd",
-    description: "De checkout werkte niet — klanten konden niets kopen. Dit is volledig opnieuw opgezet met een directe koppeling naar Shopify. Nep-reviews en een fake keurmerk zijn verwijderd.",
-    tags: ["Checkout", "Shopify"],
+    title: "Fundament — 3 t/m 9 februari",
+    description: "De complete webshop is vanuit nul opgebouwd in Next.js met TypeScript. De wijnencatalogus is gegroeid van 0 naar 36 producten, elk met authentieke flessen-foto’s en productinformatie. We hebben een interactieve SVG-kaart van Italië gebouwd met 20 klikbare wijnregio’s (Piemonte, Veneto, Toscana en meer), een volledige checkout-flow en een hero banner die eerst statisch was en later vervangen is door een geoptimaliseerde video. Het kleurenschema is in deze week drie keer geïtereerd — van bordeaux rood, naar navy blauw, naar het huidige wine gradient — en het SVG-logo is ontworpen als hangend vaandel in de header.",
+    tags: ["Next.js", "36 Producten", "SVG Kaart", "Checkout", "Video Banner", "Hero Design", "Logo"],
   },
   {
     step: 2,
-    title: "Filters en zoeken werken nu echt",
-    description: "Bezoekers kunnen filteren op regio (Piemonte, Veneto, Toscane), wijntype, druivenras en prijs. Sorteren en zoeken werkt ook.",
-    tags: ["Filters", "Zoeken", "Sorteren"],
+    title: "Personalisatie — 11 februari",
+    description: "Alle custom SVG-iconen zijn vervangen door de lucide-react icon library voor visuele consistentie over de hele site. De proefervaring- en food pairing-iconen zijn opnieuw ontworpen. Er zijn placeholder-pagina’s aangemaakt voor Cadeaus, Over Ons en Blog, en een blogsectie over Italiaanse wijnregio’s is toegevoegd. Het logo is responsive gemaakt (vaantje op mobiel), de proefgarantie-badge is verwijderd, een horizontale scroll-bug is gefixt, en de offertepagina is specifiek gepersonaliseerd voor jouw merk.",
+    tags: ["Lucide Icons", "Blog", "Cadeaus", "Over Ons", "Responsive Logo", "Offerte", "Mobile Fix"],
   },
   {
     step: 3,
-    title: "Wijndata op orde gebracht",
-    description: "Nep-proefnotities verwijderd. Serveertemperaturen zijn nu specifiek per wijn. Food pairings per product aangepast. \"Bevat sulfieten\" toegevoegd (EU-verplichting).",
-    tags: ["Proefnotities", "Temperaturen", "EU Compliance"],
+    title: "Shopify koppeling — 27 februari",
+    description: "Dit was een keerpunt: de volledige switch van hardcoded mock-data naar de Shopify Storefront API. Vanaf dit moment worden alle producten, prijzen, afbeeldingen en beschrijvingen live opgehaald uit jouw Shopify-account. Dit betekent dat wanneer jij een wijn toevoegt of een prijs wijzigt in Shopify Admin, de webshop dit automatisch overneemt — zonder dat wij code hoeven aan te passen.",
+    tags: ["Shopify Storefront API", "Live Data", "Realtime Prijzen", "CMS Integratie", "Geen Mock Data"],
   },
   {
     step: 4,
-    title: "Teksten volledig herschreven",
-    description: "AI-clich\u00e9s zijn vervangen door warme, echte copy die bij jou past. CTA-knoppen zijn specifiek: \"Vraag advies aan Carla\" in plaats van \"Neem contact op\".",
-    tags: ["Homepage", "Over Ons", "Cadeaus", "CTA's"],
+    title: "Professionaliteit — 12 maart",
+    description: "Alle wettelijk verplichte pagina’s zijn toegevoegd: Privacy, Algemene Voorwaarden en Cookies, inclusief een cookie consent banner. KvK-nummer (98874977) en BTW-nummer (NL005360033B10) staan in de footer. De checkout is verplaatst naar Shopify’s eigen beveiligde omgeving, nep-reviews en mock-authenticatie zijn volledig verwijderd. Daarnaast zijn alle wijn-PNG’s geconverteerd naar WebP (van 31 MB naar 2,4 MB, 92% kleiner), de hero banner van 1,5 MB naar 91 KB (94% kleiner), en de hero video van 4,1 MB naar 1,5 MB (63% kleiner).",
+    tags: ["Privacy & Voorwaarden", "Cookie Consent", "KvK/BTW", "Shopify Checkout", "WebP Compressie", "92% Kleiner", "Sitemap & Robots"],
   },
   {
     step: 5,
-    title: "Nieuw kleurenschema",
-    description: "Het design is omgezet naar een stijlvol navy-blauw gradient. Doorgevoerd op de navigatie, knoppen, nieuwsbrief, blog en kaart.",
-    tags: ["Navy Gradient", "Hele site"],
+    title: "Design upgrade — 13 en 14 maart",
+    description: "Een grote visuele sprong. Het SVG-logo is opnieuw ontworpen als component en geïntegreerd in Header, Footer en de AgeGate. Scroll-animaties, een shimmer-effect op productkaarten en een testimonials-upgrade geven de site een premium gevoel. De Over Ons-pagina is volledig herontworpen, de Cadeaus-pagina toont nu echte producten, en de blog heeft een magazine-achtige listing gekregen met rijke detailpagina’s, categoriefilter, deelknoppen, leesvoortgangsindicator en een newsletter-CTA.",
+    tags: ["SVG Logo", "Scroll Animaties", "Blog Magazine Layout", "Cadeaus Pagina", "Over Ons Redesign", "Shimmer Effect", "Newsletter CTA"],
   },
   {
     step: 6,
-    title: "Beveiliging, SEO en toegankelijkheid",
-    description: "Beveiligd tegen spam en aanvallen. Google vindt nu alle pagina's \u00e9n blogartikelen. KvK- en BTW-nummer in de footer. Toetsenbord- en screenreader-ondersteuning.",
-    tags: ["Beveiliging", "SEO", "WCAG AA"],
+    title: "Premium polish — 16 t/m 18 maart",
+    description: "Een complete design overhaul van de productkaarten, blog en UI-details. Premium product cards met een grain texture zijn geïntroduceerd en de texture is gecentraliseerd als herbruikbare CSS-variabele. Een hydration crash in de blog is opgelost, een Tailwind v4 build-crash is gefixt, en een gedeeld newsletter-component zorgt voor consistentie. Het kleurenschema is definitief vastgelegd: van burgundy naar het huidige navy-blauw gradient, doorgevoerd op elke pagina.",
+    tags: ["Product Cards Redesign", "Grain Texture", "Hydration Fix", "Tailwind v4", "Navy Gradient", "Shared Components", "Blog Polish"],
+  },
+  {
+    step: 7,
+    title: "Audit & hardening — 18 maart",
+    description: "Tien gespecialiseerde fix-agents hebben in twee parallelle rondes de volledige codebase doorgelicht. Ronde 1: checkout verplaatst naar Shopify cart permalink, alle fake content verwijderd, zoek- en sorteerfunctionaliteit gebouwd, video gecomprimeerd, alle nep-wijndata vervangen door specifieke serveertemperaturen en EU-verplichte allergeninformatie, én alle teksten herschreven van AI-clichés naar warme persoonlijke copy. Ronde 2: dead code en ongebruikte dependencies verwijderd (react-icons, puppeteer, potrace), mock postcode-API en nonfunctionele ExpressCheckout verwijderd, SEO-metadata op alle pagina’s, JSON-LD structured data, WCAG AA touch targets van 44px, en cookie-based rate limiting voor serverless.",
+    tags: ["10 Fix-Agents", "Security Hardening", "JSON-LD SEO", "WCAG AA", "Rate Limiting", "EU Allergeninformatie", "Dead Code Cleanup", "Copy Rewrite"],
+  },
+  {
+    step: 8,
+    title: "Showcase & icons — 22 maart",
+    description: "Deze showcase-pagina is gebouwd met live data uit Shopify, zodat je het echte resultaat ziet in plaats van screenshots. Daarnaast zijn 12 inline SVG-duplicaten gecentraliseerd in één icon library, en zijn er zes premium categorie-iconen ontworpen (RedWineIcon, WhiteWineIcon, RoséWineIcon, BubblesIcon, GiftBoxIcon, TuscanyIcon) op een 64×64 viewBox. De Cadeaus-pagina heeft een upgrade gekregen met gouden sparkle-particles in de hero, gradient gift cards en een “Zo Werkt Het”-timeline met trust signals.",
+    tags: ["Showcase Pagina", "Icon Library", "6 Premium Icons", "Cadeaus Upgrade", "Sparkle Particles", "Live Shopify Data"],
   },
 ] as const;
 
@@ -66,82 +84,119 @@ const FEATURES = [
   {
     icon: ShieldIcon,
     title: "Beveiliging",
-    description: "XSS-bescherming, spam-filters, beveiligingsheaders en rate limiting. Jouw klanten en hun data zijn veilig.",
+    description: "Content Security Policy headers, HSTS, X-Frame-Options DENY en X-Content-Type-Options nosniff beschermen tegen aanvallen. Het contactformulier en de nieuwsbrief hebben cookie-based rate limiting (maximaal 5 verzoeken per 60 seconden) plus een honeypot anti-spam veld. Alle invoer wordt server-side gevalideerd met Zod, en foutmeldingen lekken nooit technische details naar bezoekers.",
   },
   {
     icon: SearchIcon,
-    title: "Vindbaarheid",
-    description: "Sitemap met alle producten \u00e9n blogs, structured data voor Google, en OG-afbeeldingen voor social media.",
+    title: "Vindbaarheid (SEO)",
+    description: "Een sitemap.xml bevat alle 18 pagina\u2019s, dynamische wijn-URLs \u00e9n blogartikelen. Google krijgt JSON-LD structured data (Organization, BreadcrumbList, BlogPosting) en elke pagina heeft OpenGraph + Twitter Card meta tags met een standaard OG-afbeelding. Canonical URLs en een correcte h1-h6 hi\u00ebrarchie zorgen voor maximale vindbaarheid.",
   },
   {
     icon: BoltIcon,
-    title: "Snelheid",
-    description: "Caching op alle productdata, geoptimaliseerde afbeeldingen en slimme laadstrategie\u00ebn. De site laadt snel, ook op mobiel.",
-  },
-  {
-    icon: CheckCircleIcon,
-    title: "Compliance",
-    description: "KvK & BTW zichtbaar, allergeninformatie bij producten, cookie consent en privacy-vriendelijke opzet.",
+    title: "Performance",
+    description: "Alle wijnafbeeldingen zijn geconverteerd van PNG naar WebP: van 31 MB naar 2,4 MB (92% besparing). De hero banner ging van 1,5 MB naar 91 KB (94%) en de hero video van 4,1 MB naar 1,5 MB (63%). Productpagina\u2019s worden elke 5 minuten ververst via ISR, blogpagina\u2019s elk uur. Below-fold componenten zoals de Itali\u00eb-kaart laden pas als je ernaartoe scrollt.",
   },
   {
     icon: EyeIcon,
-    title: "Toegankelijkheid",
-    description: "WCAG AA-niveau. Toetsenbordnavigatie, screenreader-ondersteuning en voldoende contrast voor iedereen.",
+    title: "Toegankelijkheid (WCAG AA)",
+    description: "Alle knoppen en links hebben minimaal 44\u00d744px touch targets. De hele site is navigeerbaar met het toetsenbord, inclusief het mega menu, met een skip-to-content link bovenaan. Dropdowns hebben aria-expanded/aria-haspopup, het mobiele menu heeft een focus trap, en animaties worden automatisch uitgeschakeld als een bezoeker prefers-reduced-motion heeft ingesteld.",
   },
   {
-    icon: NewspaperIcon,
-    title: "Blog verbeterd",
-    description: "Afbeeldingen uit Shopify werken, deelknoppen op mobiel, en een inhoudsopgave bij langere artikelen.",
+    icon: CartIcon,
+    title: "Shopify Integratie",
+    description: "Alle productdata \u2014 prijzen, afbeeldingen, beschrijvingen en tot 10 varianten per product \u2014 komt live uit de Shopify Storefront API. De homepage hero, USP-items en categorieblokken worden beheerd via Shopify CMS metaobjects. De checkout draait op Shopify\u2019s eigen PCI-compliant platform, en blogartikelen en de nieuwsbrieflijst zijn eveneens gekoppeld.",
+  },
+  {
+    icon: CheckCircleIcon,
+    title: "Wettelijke Compliance",
+    description: "KvK-nummer 98874977 en BTW-nummer NL005360033B10 staan in de footer. Elke wijnpagina toont \"Bevat sulfieten\" (EU-verplichting voor allergeninformatie). Een cookie consent banner slaat toestemming op via localStorage \u00e9n HTTP cookies, en er zijn aparte pagina\u2019s voor Privacy, Voorwaarden en Cookies. De leeftijdsverificatie (18+) gate blokkeert minderjarigen, en testimonials zijn gelabeld als \"proefklanten\".",
+  },
+  {
+    icon: GridIcon,
+    title: "Responsive Design",
+    description: "De site is mobile-first gebouwd. Op mobiel krijg je een hamburger menu met volledige navigatie en een accordion footer; op desktop wordt dat een 3-koloms footer. Het productgrid schaalt van 1 kolom (mobiel) naar 2 kolommen (tablet) naar 4 kolommen (desktop). De announcement bar en payment icons rij passen zich automatisch aan op elk schermformaat.",
+  },
+  {
+    icon: BookOpenIcon,
+    title: "Blog Platform",
+    description: "Een magazine-stijl listing pagina met categorie filters en scroll-animaties. Artikelpagina\u2019s hebben een inhoudsopgave, leesvoortgang indicator, floating share bar en gerelateerde artikelen onderaan. Shopify dient als CMS backend, zodat je artikelen gewoon in Shopify Admin schrijft en ze automatisch op de site verschijnen met nieuwsbrief CTA\u2019s ertussen.",
+  },
+  {
+    icon: AwardIcon,
+    title: "Gebruikerservaring",
+    description: "Smooth scrolling via Lenis, parallax effect op de hero en staggered scroll-animaties op productgrids en secties. Animated counters tellen op naar de actuele wijncollectie, 3 regio\u2019s en 12+ producenten. De cadeaupagina heeft gouden shimmer particles, premium dividers scheiden secties, en alle hover states hebben translate- en shadow-transities voor een luxe gevoel.",
+  },
+  {
+    icon: SettingsIcon,
+    title: "Code Kwaliteit",
+    description: "TypeScript strict mode staat aan, de build heeft 0 errors en 0 warnings, en ESLint is schoon. Een centrale icon library beheert 60+ Lucide icons en 7 custom wijn-iconen. Design tokens voor kleuren en border-radius zorgen voor consistentie, Zod validatie draait op zowel client als server, en de component architectuur is uniform opgezet over alle 59 componenten.",
   },
 ] as const;
 
 const WE_HANDLE = [
   {
     title: "Shopify API-token roteren",
-    description: "Het huidige token is in de git-history terechtgekomen. Wij genereren een nieuw token in Shopify Admin, updaten de environment variables op Vercel en verifi\u00ebren dat de Storefront API-koppeling blijft werken.",
+    description: "Het huidige API-token is tijdens ontwikkeling in de git-history terechtgekomen. Wij genereren een volledig nieuw Storefront API-token in Shopify Admin \u2192 Settings \u2192 Apps, updaten de environment variables op zowel de lokale ontwikkelomgeving als Vercel, en verifi\u00ebren dat de productcatalogus, checkout en CMS-integratie correct blijven functioneren. Het oude token wordt daarna ingetrokken.",
     status: "Gepland",
   },
   {
     title: "Mailgun e-mailverkeer opzetten",
-    description: "Wij maken een Mailgun-account aan op het EU-endpoint (api.eu.mailgun.net), verifi\u00ebren het domein mg.vinoperlei.nl met SPF-, DKIM- en MX-records, koppelen de API-key in Vercel en testen zowel het contactformulier als de nieuwsbriefaanmelding end-to-end.",
+    description: "Wij maken een Mailgun-account aan op het EU-endpoint (api.eu.mailgun.net) voor GDPR-compliance. Het domein mg.vinoperlei.nl wordt geverifieerd met SPF-, DKIM- en MX-records bij de domeinprovider. De API-key en domeinnaam worden als environment variables in Vercel geconfigureerd. Zowel het contactformulier als de nieuwsbriefaanmelding worden end-to-end getest \u2014 van formulier tot inbox, inclusief de HTML e-mail templates.",
     status: "Gepland",
   },
   {
     title: "DNS vinoperlei.nl \u2192 Vercel",
-    description: "Wij zetten een CNAME-record naar cname.vercel-dns.com bij je domeinprovider, configureren het domein in het Vercel-dashboard, en zorgen dat HTTPS automatisch wordt geactiveerd via Let\u2019s Encrypt. Geen downtime.",
+    description: "Wij zetten een CNAME-record (cname.vercel-dns.com) bij de domeinprovider, configureren het domein in het Vercel-dashboard en zorgen dat HTTPS automatisch wordt geactiveerd via Let\u2019s Encrypt. De www-variant wordt doorgestuurd naar het kale domein. Er is geen downtime \u2014 de oude site blijft bereikbaar tot de DNS-propagatie compleet is (meestal 15\u201360 minuten).",
     status: "Gepland",
   },
   {
     title: "Telefoonnummer invoeren",
-    description: "Zodra je ons je telefoonnummer doorgeeft, vullen wij het in via Shopify CMS-settings zodat het op de contactpagina en in de footer verschijnt.",
+    description: "Zodra Carla haar telefoonnummer doorgeeft, vullen wij het in via de Shopify CMS-settings. Het nummer verschijnt dan automatisch op de contactpagina, in de footer, en in de meta-informatie voor Google.",
     status: "Wacht op info",
   },
   {
-    title: "Blog hero-afbeeldingen uploaden",
-    description: "Per blogartikel uploaden wij een hero-foto (16:9, minimaal 1200px breed) in de Shopify blog-editor. Als je eigen foto\u2019s hebt, stuur ze op \u2014 anders selecteren wij passende beelden.",
+    title: "Blog hero-afbeeldingen",
+    description: "Per blogartikel uploaden wij een hero-foto (16:9 verhouding, minimaal 1200px breed) in de Shopify blog-editor. Deze afbeeldingen verschijnen op de blog listing pagina, de detail pagina en als OpenGraph preview bij het delen op social media. Als Carla eigen foto\u2019s heeft, verwerken wij die \u2014 anders selecteren wij passende beelden.",
     status: "Wacht op foto\u2019s",
   },
   {
     title: "Mobiele responsive check",
-    description: "Wij testen de volledige site op 375px (iPhone SE), 390px (iPhone 14) en 768px (iPad) met Playwright-screenshots, en fixen eventuele layout-issues.",
+    description: "Wij testen de volledige site op iPhone SE (375px), iPhone 14 (390px) en iPad (768px) met geautomatiseerde Playwright-screenshots. Eventuele layout-problemen (overflow, tekst afkapping, overlappende elementen) worden direct opgelost.",
     status: "Gepland",
   },
   {
     title: "Ordernotificaties instellen",
-    description: "Wij configureren Shopify-notificaties zodat je direct een pushmelding en e-mail krijgt bij elke nieuwe bestelling. Inclusief escalerende herinneringen na 1, 4 en 8 uur als een order niet is verwerkt.",
+    description: "Wij configureren Shopify-notificaties zodat Carla direct een pushmelding \u00e9n e-mail krijgt bij elke nieuwe bestelling. Daarnaast stellen wij escalerende herinneringen in na 1, 4 en 8 uur als een order niet is verwerkt \u2014 zodat geen enkele bestelling vergeten wordt.",
+    status: "Gepland",
+  },
+  {
+    title: "Rate limit secret genereren",
+    description: "De server-side rate limiter heeft een cryptografische sleutel nodig die stabiel blijft tussen serverless cold starts. Wij genereren een veilige random key en configureren deze in Vercel. Dit zorgt ervoor dat de spam-bescherming op het contactformulier en de nieuwsbriefaanmelding betrouwbaar werkt.",
+    status: "Gepland",
+  },
+  {
+    title: "Shopify CMS hero tekst",
+    description: "In Shopify Admin staat mogelijk nog de oude CTA-tekst \u201cWie is Carla?\u201d in het homepage_hero metaobject. Wij wijzigen dit naar \u201cOver Vino per Lei\u201d zodat de homepage-button de juiste tekst toont.",
+    status: "Gepland",
+  },
+  {
+    title: "Productdata verifi\u00ebren",
+    description: "Wij controleren of alle wijnen de juiste metafields hebben in Shopify: is_featured voor de homepage-sectie \u201cOnze Favorieten\u201d, regio-tags voor filtering, en proefnotities. Eventueel ontbrekende data vullen wij aan.",
     status: "Gepland",
   },
 ] as const;
 
 const CARLA_STEP = {
   title: "Betalingen activeren in Shopify",
-  description: "Dit is de enige stap die jij zelf moet doen, omdat Shopify hier om veiligheidsredenen je persoonlijke verificatie voor nodig heeft. Ga naar Shopify Admin \u2192 Settings \u2192 Payments en activeer iDEAL, creditcard en Bancontact. Zodra dit aan staat, kunnen klanten afrekenen. Wij checken daarna of alles correct doorkomt.",
+  description: "Dit is de enige stap die jij zelf doet \u2014 en het kost je maximaal 5 minuten. Shopify heeft om veiligheidsredenen jouw persoonlijke verificatie nodig om betalingen te activeren. Ga naar Shopify Admin \u2192 Settings \u2192 Payments en zet iDEAL, creditcard en Bancontact aan. Wij hebben een stap-voor-stap handleiding voor je klaargezet zodat je er zo doorheen klikt. Zodra dit aan staat, kunnen klanten afrekenen \u2014 en wij controleren daarna of elke betaalmethode correct doorkomt.",
 } as const;
 
 export default async function ShowcasePage() {
   const allProducts = await getProducts();
-  const featuredProducts = allProducts.filter((p) => p.isFeatured).slice(0, 4);
+  const featured = allProducts.filter((p) => p.isFeatured);
+  const featuredProducts = featured.length > 0 ? featured.slice(0, 4) : allProducts.slice(0, 4);
   const totalProducts = allProducts.length;
+  const displayCount = totalProducts > 0 ? totalProducts : 19;
 
   return (
     <>
@@ -149,18 +204,29 @@ export default async function ShowcasePage() {
       <section className="relative min-h-[90vh] bg-wine-gradient flex flex-col items-center justify-center text-center px-6 overflow-hidden">
         {/* Shimmer background */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(201,162,39,0.08),transparent_60%)] animate-pulse-slow" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_80%,rgba(201,162,39,0.05),transparent_50%)]" />
 
         <AnimatedSection variant="fadeUp">
-          <p className="text-label text-gold mb-6 tracking-[4px]">
-            Voortgang Update
+          <p className="text-label text-gold/60 mb-4 tracking-[3px] text-xs">
+            Een presentatie van Blue Wire Media
           </p>
-          <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl text-white font-normal leading-[1.1] mb-6">
+          <p className="text-label text-gold mb-8 tracking-[5px] uppercase text-sm">
+            Technisch Dossier &mdash; Maart 2026
+          </p>
+          <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl text-white font-normal leading-[1.05] mb-4">
             Vino per Lei
-            <br />
-            <span className="text-gold italic">wordt volwassen</span>
           </h1>
-          <p className="text-base sm:text-lg text-white/70 max-w-lg mx-auto leading-relaxed mb-10">
-            Een overzicht van alle verbeteringen aan jouw webshop. Van een prototype naar een professionele, veilige en gebruiksvriendelijke winkel.
+          <p className="font-serif text-2xl sm:text-3xl md:text-4xl text-gold italic leading-tight mb-8">
+            Van prototype naar productie
+          </p>
+          <div className="w-16 h-px bg-gold/40 mx-auto mb-8" />
+          <p className="text-base sm:text-lg text-white/70 max-w-xl mx-auto leading-relaxed mb-4">
+            Zeven weken ontwikkeling. 147 commits. Een complete webshop gebouwd
+            op Next.js&nbsp;16, TypeScript en de Shopify Storefront&nbsp;API.
+          </p>
+          <p className="text-sm text-white/40 max-w-md mx-auto leading-relaxed mb-10">
+            Dit dossier documenteert elke verbetering, technische keuze
+            en volgende stap voor de lancering van vinoperlei.nl.
           </p>
         </AnimatedSection>
 
@@ -169,22 +235,29 @@ export default async function ShowcasePage() {
           <ChevronDownIcon className="w-6 h-6 text-white/40" />
         </div>
         <p className="absolute bottom-10 text-white/30 text-xs tracking-[2px]">
-          Maart 2026 &middot; Blue Wire Media
+          22 maart 2026 &middot; Blue Wire Media
         </p>
       </section>
 
       {/* ===== STATS BAR ===== */}
       <Section background="dark" spacing="md">
         <AnimatedSection variant="fadeUp">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
+          <p className="text-center text-white/40 text-xs tracking-[3px] uppercase mb-8">
+            Het project in cijfers
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-y-8 gap-x-6 text-center max-w-4xl mx-auto">
             {[
-              { number: "50+", label: "Verbeteringen doorgevoerd" },
+              { number: "147", label: "Commits" },
+              { number: "128", label: "Bronbestanden" },
+              { number: "21.720", label: "Regels code" },
+              { number: "18", label: "Pagina\u2019s" },
+              { number: "59", label: "Componenten" },
               { number: "0", label: "Build errors" },
-              { number: "6", label: "Optimalisatierondes" },
-              { number: "AA", label: "Toegankelijkheid (WCAG)" },
+              { number: "7", label: "Weken ontwikkeling" },
+              { number: "AA", label: "WCAG Toegankelijkheid" },
             ].map((stat) => (
               <div key={stat.label}>
-                <p className="font-serif text-4xl sm:text-5xl font-bold text-gold leading-none mb-2">
+                <p className="font-serif text-3xl sm:text-5xl font-bold text-gold leading-none mb-2">
                   {stat.number}
                 </p>
                 <p className="text-white/60 text-sm">{stat.label}</p>
@@ -228,7 +301,7 @@ export default async function ShowcasePage() {
           <div className="text-center mb-4">
             <p className="text-label text-wine/40 mb-2">Live uit de webshop</p>
             <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4">
-              {totalProducts} wijnen, echte data
+              {displayCount} wijnen, echte data
             </h2>
             <p className="text-grey text-base max-w-lg mx-auto mb-3">
               Geen placeholders meer. Alle productkaarten tonen live data uit Shopify — prijzen, afbeeldingen, regio&apos;s en profielscores.
@@ -269,7 +342,7 @@ export default async function ShowcasePage() {
               href="/wijnen"
               className="inline-flex items-center gap-2 px-8 py-3 bg-wine-gradient text-white text-sm font-medium rounded-sm hover:opacity-90 transition-opacity"
             >
-              Bekijk alle {totalProducts} wijnen
+              Bekijk alle {displayCount} wijnen
               <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -286,7 +359,7 @@ export default async function ShowcasePage() {
             Wat er allemaal is gebeurd
           </h2>
           <p className="text-grey text-base max-w-lg mb-14">
-            In zes rondes is de webshop van prototype naar productie-klaar gebracht.
+            In acht rondes is de webshop van prototype naar productie-klaar gebracht.
           </p>
         </AnimatedSection>
 
@@ -340,7 +413,7 @@ export default async function ShowcasePage() {
           </p>
         </AnimatedSection>
 
-        <AnimatedStagger className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5" staggerDelay={0.1}>
+        <AnimatedStagger className="grid sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-5" staggerDelay={0.08}>
           {FEATURES.map((feature) => (
             <StaggerItem key={feature.title}>
               <div className="bg-white rounded-xl p-7 border border-sand/60 hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
@@ -359,15 +432,168 @@ export default async function ShowcasePage() {
         </AnimatedStagger>
       </Section>
 
+      {/* ===== PAGE OVERVIEW GRID ===== */}
+      <Section background="warm" spacing="xl">
+        <AnimatedSection variant="fadeUp">
+          <p className="text-label text-wine/40 mb-3">Overzicht</p>
+          <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4">
+            Elke pagina, met zorg gebouwd
+          </h2>
+          <p className="text-grey text-base max-w-lg mb-14">
+            18 pagina&apos;s, elk met een eigen doel en doordachte functionaliteit.
+          </p>
+        </AnimatedSection>
+
+        <AnimatedStagger className="grid md:grid-cols-2 gap-4" staggerDelay={0.06}>
+          {[
+            { name: "Homepage", path: "/", desc: "Hero met parallax effect, USP balk, uitgelichte wijnen, interactieve Itali\u00eb-kaart, geanimeerde statistieken, testimonials, blog magazine sectie. 513 regels code." },
+            { name: "Wijnen", path: "/wijnen", desc: "Volledige productcatalogus met zoekbalk, filters (regio, type, druif, prijs), sortering en grid/lijst weergave. Live data uit Shopify." },
+            { name: "Wijndetail", path: "/wijnen/[handle]", desc: "Productpagina met afbeelding carrousel, smaakprofiel, food pairings, regio spotlight, reviews en sticky aankoopbalk." },
+            { name: "Cadeaus", path: "/cadeaus", desc: "Landingspagina met gouden sparkle particles, drie cadeau-opties (Enkele Fles, Duo Pakket, Proeverij Box), \u201cZo Werkt Het\u201d timeline en trust signals." },
+            { name: "Over Ons", path: "/over-ons", desc: "Het persoonlijke verhaal van Carla. Herschreven van AI-clich\u00e9s naar authentieke, warme copy." },
+            { name: "Blog", path: "/blog", desc: "Magazine-stijl overzicht met categorie filter, animaties en nieuwsbrief CTA." },
+            { name: "Blog Artikel", path: "/blog/[slug]", desc: "Rijke leespagina met inhoudsopgave, leesvoortgang, floating share bar, gerelateerde artikelen." },
+            { name: "Contact", path: "/contact", desc: "Contactformulier met Zod validatie, honeypot anti-spam, en geanimeerde kaart." },
+            { name: "Klantenservice", path: "/klantenservice", desc: "Overzichtspagina met links naar FAQ, verzending en retourneren." },
+            { name: "FAQ", path: "/klantenservice/faq", desc: "Veelgestelde vragen met accordion component." },
+            { name: "Verzending", path: "/klantenservice/verzending", desc: "Verzendbeleid en levertijden." },
+            { name: "Retourneren", path: "/klantenservice/retourneren", desc: "Retourbeleid en procedure." },
+            { name: "Checkout", path: "/checkout", desc: "Bestelflow met contactgegevens, verzending, betaling en overzicht." },
+            { name: "Checkout Success", path: "/checkout/success", desc: "Bedankpagina na succesvolle bestelling." },
+            { name: "Privacy", path: "/privacy", desc: "Privacyverklaring conform AVG/GDPR." },
+            { name: "Voorwaarden", path: "/voorwaarden", desc: "Algemene voorwaarden." },
+            { name: "Cookies", path: "/cookies", desc: "Cookiebeleid." },
+            { name: "Showcase", path: "/showcase", desc: "Deze pagina (niet publiek, noindex)." },
+          ].map((page, i) => (
+            <StaggerItem key={page.name}>
+              <div className={`rounded-xl p-6 border-l-4 border-wine/40 ${i % 2 === 0 ? "bg-white" : "bg-cream/60"} hover:shadow-md transition-shadow duration-200`}>
+                <div className="flex items-baseline gap-3 mb-2">
+                  <h3 className="font-serif text-lg text-wine font-semibold">{page.name}</h3>
+                  <code className="text-xs text-wine/40 font-mono">{page.path}</code>
+                </div>
+                <p className="text-grey text-sm leading-relaxed">{page.desc}</p>
+              </div>
+            </StaggerItem>
+          ))}
+        </AnimatedStagger>
+      </Section>
+
+      {/* ===== ARCHITECTURE OVERVIEW ===== */}
+      <Section background="dark" spacing="xl" className="bg-wine-gradient">
+        <AnimatedSection variant="fadeUp">
+          <p className="text-label text-gold/60 mb-3 tracking-[3px] text-xs">Architectuur</p>
+          <h2 className="font-serif text-3xl sm:text-4xl text-white mb-4">
+            De technische architectuur
+          </h2>
+          <p className="text-white/60 text-base max-w-lg mx-auto mb-14 text-center">
+            De volledige tech stack achter Vino per Lei, van frontend tot infrastructuur.
+          </p>
+        </AnimatedSection>
+
+        <AnimatedStagger className="grid sm:grid-cols-2 xl:grid-cols-4 gap-6 max-w-6xl mx-auto" staggerDelay={0.1}>
+          {[
+            {
+              title: "Frontend",
+              items: [
+                "Next.js 16.1.6 (App Router, Server Components)",
+                "React 19 (nieuwste versie)",
+                "TypeScript strict mode",
+                "Tailwind CSS v4",
+              ],
+            },
+            {
+              title: "Animaties",
+              items: [
+                "Framer Motion v12 (scroll-triggered animaties)",
+                "Lenis (smooth scrolling)",
+                "CSS keyframe animaties (hero, fade-in)",
+              ],
+            },
+            {
+              title: "Backend",
+              items: [
+                "Shopify Storefront API (producten, checkout)",
+                "Shopify CMS (metaobjects voor alle content)",
+                "Next.js API Routes (contact, nieuwsbrief)",
+                "Mailgun EU (e-mail verzending)",
+              ],
+            },
+            {
+              title: "Infrastructuur",
+              items: [
+                "Vercel (hosting, CDN, edge network)",
+                "ISR (pagina\u2019s worden elke 5 min ververst)",
+                "Automatische HTTPS via Let\u2019s Encrypt",
+                "49 statische pagina\u2019s bij build",
+              ],
+            },
+          ].map((category) => (
+            <StaggerItem key={category.title}>
+              <div className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-gold/30 transition-colors duration-300">
+                <h3 className="font-serif text-xl text-gold mb-4 font-semibold">{category.title}</h3>
+                <ul className="space-y-2.5">
+                  {category.items.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5 text-white/70 text-sm leading-relaxed">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold mt-1.5 shrink-0" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </StaggerItem>
+          ))}
+        </AnimatedStagger>
+      </Section>
+
+      {/* ===== MICRO-DETAILS ===== */}
+      <Section background="cream" spacing="xl">
+        <AnimatedSection variant="fadeUp">
+          <p className="text-label text-wine/40 mb-3">Vakmanschap</p>
+          <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4">
+            Gebouwd met oog voor detail
+          </h2>
+          <p className="text-grey text-base max-w-lg mb-14">
+            Tien voorbeelden van micro-details die het verschil maken tussen een website en een &eacute;chte webshop.
+          </p>
+        </AnimatedSection>
+
+        <AnimatedStagger className="grid md:grid-cols-2 gap-5 max-w-5xl mx-auto" staggerDelay={0.07}>
+          {[
+            { title: "Leeftijdsverificatie", desc: "Bij het eerste bezoek verschijnt een elegante 18+ gate. De keuze wordt onthouden zodat terugkerende bezoekers niet opnieuw hoeven te bevestigen." },
+            { title: "Cookie consent", desc: "Niet zomaar een popup: de banner slaat de voorkeur op in zowel localStorage als een HTTP cookie, zodat de keuze ook server-side beschikbaar is." },
+            { title: "Announcement bar", desc: "De gouden balk bovenaan (\u201cWELKOM10\u201d) is sluitbaar en onthoudt via een cookie dat de bezoeker hem heeft weggeklikt." },
+            { title: "Animatie-respect", desc: "Bezoekers die in hun besturingssysteem \u201cverminder beweging\u201d hebben ingesteld, zien geen scroll-animaties. De site is volledig bruikbaar zonder animaties." },
+            { title: "Interactieve Itali\u00eb-kaart", desc: "Een volledig in SVG getekende kaart van alle 20 Italiaanse regio\u2019s, met interactieve highlight en klik op Piemonte, Veneto en Toscane." },
+            { title: "Mega menu", desc: "Het dropdown menu op desktop heeft een 100ms hover-vertraging zodat het niet per ongeluk sluit, toetsenbordnavigatie, en aria-labels voor screenreaders." },
+            { title: "Skip-to-content", desc: "Een verborgen link die zichtbaar wordt bij Tab-toets, zodat toetsenbordgebruikers direct naar de inhoud kunnen springen." },
+            { title: "Grain textuur", desc: "Een subtiele film-grain overlay op donkere secties die diepte en tactiliteit toevoegt aan het design." },
+            { title: "Premium dividers", desc: "Handgemaakte scheidingslijnen tussen secties in drie varianten: goud, wijn-kleur en subtiel \u2014 voor visueel ritme." },
+            { title: "Scroll indicator", desc: "Een geanimeerde pijl in de hero die bezoekers uitnodigt om te scrollen, verdwijnt zodra ze beginnen." },
+          ].map((detail, i) => (
+            <StaggerItem key={detail.title}>
+              <div className="flex gap-4 bg-white rounded-xl p-6 border border-sand/60 hover:shadow-md transition-shadow duration-200">
+                <div className="w-9 h-9 min-w-[36px] bg-wine-gradient rounded-lg flex items-center justify-center text-gold font-bold text-sm shrink-0">
+                  {i + 1}
+                </div>
+                <div>
+                  <h3 className="font-serif text-lg text-wine font-semibold mb-1">{detail.title}</h3>
+                  <p className="text-grey text-sm leading-relaxed">{detail.desc}</p>
+                </div>
+              </div>
+            </StaggerItem>
+          ))}
+        </AnimatedStagger>
+      </Section>
+
       {/* ===== NEXT STEPS ===== */}
       <Section background="warm" spacing="xl">
         <AnimatedSection variant="fadeUp">
-          <p className="text-label text-wine/40 mb-3">Bijna live</p>
+          <p className="text-label text-wine/40 mb-3">De laatste stappen naar lancering</p>
           <h2 className="font-serif text-3xl sm:text-4xl font-semibold mb-4">
-            Wat er nog nodig is
+            Wat er nog nodig is voor go-live
           </h2>
           <p className="text-grey text-base max-w-lg mb-10">
-            Nog een paar stappen en dan kan de site live. Wij pakken vrijwel alles op — jij hoeft maar één ding te doen.
+            Hieronder staat alles wat er nog moet gebeuren voordat vinoperlei.nl live kan. Wij pakken het overgrote deel op \u2014 jij hoeft alleen de betalingen te activeren in Shopify.
           </p>
         </AnimatedSection>
 
@@ -448,6 +674,12 @@ export default async function ShowcasePage() {
               </p>
             </div>
           </div>
+        </AnimatedSection>
+
+        <AnimatedSection variant="fadeUp" delay={0.4}>
+          <p className="text-center text-grey text-sm max-w-2xl mx-auto mt-10 italic">
+            Na afronding van deze punten kan vinoperlei.nl live &mdash; wij begeleiden het hele proces.
+          </p>
         </AnimatedSection>
       </Section>
 

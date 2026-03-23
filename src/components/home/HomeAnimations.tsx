@@ -112,10 +112,14 @@ export function AnimatedCounter({
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.5 });
-  const [count, setCount] = useState(0);
+  // Start with target value so SSR/static renders show the correct number
+  const [count, setCount] = useState(target);
+  const [hasAnimated, setHasAnimated] = useState(false);
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || hasAnimated) return;
+    // Reset to 0 and animate up to target on client
+    setCount(0);
     let start = 0;
     const end = target;
     const increment = end / (duration * 60); // ~60fps
@@ -128,8 +132,9 @@ export function AnimatedCounter({
         setCount(Math.floor(start));
       }
     }, 1000 / 60);
+    setHasAnimated(true);
     return () => clearInterval(timer);
-  }, [isInView, target, duration]);
+  }, [isInView, target, duration, hasAnimated]);
 
   return (
     <span ref={ref}>

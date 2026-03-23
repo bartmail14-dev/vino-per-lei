@@ -24,12 +24,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://vinoperlei.nl"),
   title: "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
   description:
-    "19 Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
+    "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
   keywords: ["Italiaanse wijn", "Barolo", "Amarone", "Chianti", "Prosecco", "wijn cadeau", "wijnimport"],
   authors: [{ name: "Vino per Lei" }],
   openGraph: {
     title: "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
-    description: "19 wijnen uit Piemonte, Veneto en Toscane. Persoonlijk geselecteerd, rechtstreeks geimporteerd.",
+    description: "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Persoonlijk geselecteerd, rechtstreeks geïmporteerd.",
     type: "website",
     locale: "nl_NL",
     siteName: "Vino per Lei",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
     description:
-      "19 Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
+      "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
   },
   robots: {
     index: true,

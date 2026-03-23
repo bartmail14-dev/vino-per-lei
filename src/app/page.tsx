@@ -73,7 +73,8 @@ export default async function Home() {
     getCategoryBlocks(),
     getBlogArticles(3),
   ]);
-  const featuredProducts = allProducts.filter((p) => p.isFeatured).slice(0, 4);
+  const featured = allProducts.filter((p) => p.isFeatured);
+  const featuredProducts = featured.length > 0 ? featured.slice(0, 4) : allProducts.slice(0, 4);
   const hero = heroRaw ?? DEFAULT_HERO;
   const featuredBlogPosts = blogArticles.map(mapBlogPost);
 
@@ -85,7 +86,7 @@ export default async function Home() {
     url: "https://vinoperlei.nl",
     logo: "https://vinoperlei.nl/logo.png",
     description:
-      "19 Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
+      "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
     sameAs: [],
   };
 
@@ -187,7 +188,7 @@ export default async function Home() {
               href="/wijnen"
               className="group flex items-center gap-2 text-wine font-medium text-sm hover:text-wine-dark transition-colors"
             >
-              Alle 19 wijnen
+              Alle wijnen
               <ChevronRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
@@ -248,7 +249,7 @@ export default async function Home() {
         <AnimatedSection variant="fadeUp">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-16 text-center">
             {[
-              { target: 19, suffix: "", label: "Geselecteerde wijnen" },
+              { target: allProducts.length, suffix: "", label: "Geselecteerde wijnen" },
               { target: 3, suffix: "", label: "Italiaanse wijngebieden" },
               { target: 12, suffix: "+", label: "Familieproducenten" },
               { target: 48, suffix: "", label: "Uur levering", prefix: "< " },
@@ -334,7 +335,7 @@ export default async function Home() {
       {/* =============================================
           BLOG / MAGAZINE — Editorial grid
           ============================================= */}
-      {featuredBlogPosts.length >= 3 && <Section background="default" spacing="xl">
+      {featuredBlogPosts.length > 0 && <Section background="default" spacing="xl">
         {/* Editorial masthead */}
         <AnimatedSection variant="fadeUp">
           <div className="mb-14 sm:mb-20">
@@ -364,12 +365,12 @@ export default async function Home() {
 
         {/* Editorial asymmetric grid */}
         <AnimatedSection variant="scaleIn" delay={0.15}>
-          <div className="grid lg:grid-cols-12 gap-6 lg:gap-8">
+          <div className={`grid ${featuredBlogPosts.length >= 2 ? "lg:grid-cols-12" : ""} gap-6 lg:gap-8`}>
 
             {/* LEAD ARTICLE — Large feature card */}
             <Link
               href={`/blog/${featuredBlogPosts[0].slug}`}
-              className="group relative lg:col-span-7"
+              className={`group relative ${featuredBlogPosts.length >= 2 ? "lg:col-span-7" : ""}`}
             >
               {/* Card with cream background and editorial padding */}
               <div className="relative bg-wine-gradient overflow-hidden h-full min-h-[440px] sm:min-h-[520px] lg:min-h-[580px] flex flex-col justify-end">
@@ -411,7 +412,8 @@ export default async function Home() {
               </div>
             </Link>
 
-            {/* RIGHT COLUMN — Two stacked editorial cards with rhythm */}
+            {/* RIGHT COLUMN — Stacked editorial cards (only when 2+ articles) */}
+            {featuredBlogPosts.length >= 2 && (
             <div className="lg:col-span-5 flex flex-col gap-6 lg:gap-8">
 
               {/* CARD 2 — Warm cream, text-forward */}
@@ -451,7 +453,8 @@ export default async function Home() {
                 </div>
               </Link>
 
-              {/* CARD 3 — Deep wine, editorial contrast */}
+              {/* CARD 3 — Deep wine, editorial contrast (only when 3+ articles) */}
+              {featuredBlogPosts.length >= 3 && (
               <Link
                 href={`/blog/${featuredBlogPosts[2].slug}`}
                 className="group relative flex-1"
@@ -487,7 +490,9 @@ export default async function Home() {
                   </div>
                 </div>
               </Link>
+              )}
             </div>
+            )}
           </div>
         </AnimatedSection>
 

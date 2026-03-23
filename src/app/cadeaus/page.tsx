@@ -57,7 +57,7 @@ export default async function CadeausPage() {
               href="/wijnen"
               className="inline-flex items-center justify-center h-12 px-8 border-2 border-wine text-wine text-button uppercase rounded hover:bg-wine hover:text-white transition-colors"
             >
-              Alle 19 wijnen bekijken
+              Alle wijnen bekijken
             </Link>
           </div>
         </Section>
