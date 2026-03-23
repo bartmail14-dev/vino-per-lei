@@ -1,7 +1,7 @@
 # Vino per Lei — Overdracht volgende sessie
 
-**Datum:** 23 maart 2026 (sessie 5)
-**Laatste sessie:** Handleiding pagina + live website screenshots met rode annotaties.
+**Datum:** 23 maart 2026 (sessie 6)
+**Laatste sessie:** Deploy, mobile fixes, CMS key fix, showcase update, handleiding projectoverzicht.
 
 ---
 
@@ -15,136 +15,103 @@
 | **Vercel** | vino-per-lei.vercel.app (auto-deploy vanuit master) |
 | **Shopify** | `vino-per-lei-2.myshopify.com` (CMS + products) |
 | **Klant** | Carla Daniels, Pastorielaan 56, 5504 CR Veldhoven |
+| **Carla's email** | `vinoperlei@outlook.com` (tijdelijk) |
 | **KvK** | 98874977 — **BTW:** NL005360033B10 |
-| **Laatste commit** | `51d9285` — handleiding page with Shopify + live website screenshots |
+| **Laatste commit** | `0b220fc` — fix \u2014 literal in JSX |
 | **Git status** | Clean, up to date met origin/master |
-| **Vercel deploy** | NIET gedaan — moet nog: `npx vercel --prod --force` |
 
 ---
 
-## Wat er sessie 4+5 is gedaan
+## Wat er sessie 6 is gedaan
 
-### 1. Handleiding pagina (`/handleiding`) — COMMITTED + PUSHED
-- `src/app/handleiding/page.tsx` — Server component, `robots: noindex`
-- `src/app/handleiding/HandleidingContent.tsx` — Client component, 8 secties
-- `public/handleiding/` — 13 Shopify Admin + 7 live website screenshots
+### 1. Vercel productie-deploy — DONE
+- Site live op https://vino-per-lei.vercel.app
+- RATE_LIMIT_SECRET toegevoegd aan Vercel env vars
+- 23 routes, 0 build errors
 
-### 2. Live website screenshots met rode annotaties
-Per handleiding-stap ziet Carla nu twee screenshots:
-1. **Shopify Admin** — waar ze het aanpast
-2. **"Op de website"** — hoe het er op de live site uitziet, met rode kaders + labels
+### 2. Mobile-friendly check (8 pagina's) — DONE
+- Alle pagina's getest op iPhone 390×844 viewport via Playwright MCP
+- **Fix 1:** Homepage wine regions sectie had horizontale overflow door `x: -30` animatie → `overflow-hidden` op Section
+- **Fix 2:** PriceDisplay kortingsbadge overflow op smalle productkaarten → `flex-wrap` + `whitespace-nowrap`
+- Bestanden: `src/app/page.tsx`, `src/components/ui/PriceDisplay.tsx`
 
-| Screenshot | Wat het toont |
-|---|---|
-| `website-announcement-bar.png` | Hero + announcement bar met ❶❷ labels |
-| `website-usp-balk.png` | USP vertrouwenspunten ❸ |
-| `website-producten.png` | Productkaarten homepage ❹ |
-| `website-product-detail.png` | Productpagina: titel, beschrijving, foto |
-| `website-categorieen.png` | Categorie blokken ❺ |
-| `website-blog.png` | Blog sectie ❻ |
-| `website-bedrijfsgegevens.png` | Footer: contact ❼ + KvK/BTW ❽ |
-| `website-faq.png` | FAQ pagina met vragen |
+### 3. Shopify CMS key mismatch — DONE
+- `f.free_shipping_threshold` → `f.gratis_verzending_drempel`
+- `f.shipping_cost` → `f.verzendkosten`
+- Setup script ook bijgewerkt met juiste field definitions + seed values
+- Bestanden: `src/lib/shopify-cms.ts`, `scripts/setup-shopify-cms.ts`
+
+### 4. Handleiding projectoverzicht — DONE
+- Sectie toegevoegd onderaan `/handleiding` met 3 blokken:
+  - Afgerond (15 punten, groene checks)
+  - Nog te doen (4 punten, oranje klokken)
+  - Nodig van jou (3 items: email, notifications, domein)
+- Bestand: `src/app/handleiding/HandleidingContent.tsx`
+
+### 5. Showcase pagina update — DONE
+- Timeline stap 9 toegevoegd (handleiding, mobile, deploy)
+- **DATA GECORRIGEERD**: Timeline start nu op 3 maart (was fout februari)
+- **AI-REFERENTIES VERWIJDERD**: Alle mentions van agents, AI, Playwright, fix-agents
+- 5 items gemarkeerd als "Afgerond" (groen), 3 als "Wacht op info" (oranje)
+- Stats: 3 weken, 150+ commits, 19 pagina's
+- Em-dash bug gefixt (`\u2014` literal in JSX → `&mdash;`)
+- Bestand: `src/app/showcase/page.tsx`
 
 ---
 
 ## TODO's volgende sessie (prioriteit)
 
-### #1 HIGH — Vercel deployen
-```bash
-cd C:\Users\BartVisser\Desktop\vino-per-lei
-npx vercel --prod --force
-```
-Daarna check: `https://vino-per-lei.vercel.app/handleiding`
-
-### #2 HIGH — Mobile-friendly check handleiding + hele site
-**Doel:** Carla bekijkt de site en handleiding op haar telefoon. Alles moet goed werken.
-
-**Aanpak via Playwright MCP (mobile viewport):**
-1. Resize browser naar iPhone viewport (390×844)
-2. Loop door alle pagina's: `/`, `/wijnen`, `/wijnen/[handle]`, `/cadeaus`, `/over-ons`, `/blog`, `/klantenservice/faq`, `/contact`, `/handleiding`
-3. Check per pagina:
-   - Hamburger menu werkt
-   - Geen horizontale overflow/scroll
-   - Screenshots in handleiding schalen goed mee
-   - Tekst is leesbaar (niet te klein)
-   - Knoppen zijn tap-friendly (min 44×44px touch target)
-   - Collapsible secties in handleiding openen/sluiten correct
-4. Fix eventuele issues
-
-**Bekende aandachtspunten handleiding mobile:**
-- Screenshots zijn breed (1280px oorsprong) — moeten goed schalen in `max-w-4xl` container
-- "Op de website" pill + caption tekst mag niet wrappen op rare plekken
-- Zoekbalk en snelle links pills moeten op mobile wrappen
-- Tip-boxen (amber) moeten niet te breed worden
-
-### #3 HIGH — Key mismatch checken + fixen
-De code in `getSiteSettings()` leest `f.free_shipping_threshold` en `f.shipping_cost`, maar Shopify genereert keys uit labels. Check of de keys in `src/lib/shopify-cms.ts` matchen met de werkelijke Shopify field keys (`gratis_verzending_drempel` en `verzendkosten`).
-
-### #4 HIGH — Shopify Order Notifications naar Carla
-**Simpelste aanpak (geen code):**
-- Shopify Admin → Settings → Notifications → Staff order notifications
-- Voeg Carla's e-mailadres toe (VRAAG BART OM HET ADRES)
-
-### #5 HIGH — Carla staff account aanmaken
-1. Shopify Admin → Settings → Users and permissions → Add staff
-2. **VRAAG BART OM CARLA'S EMAIL!**
+### #1 HIGH — Carla's Shopify staff account aanmaken
+**Status:** Halverwege — Settings → Users pagina is al open in Playwright.
+**Email:** `vinoperlei@outlook.com`
+**Aanpak:**
+1. Open Shopify Admin → Settings → Users → "Add users"
+2. Vul `vinoperlei@outlook.com` in
 3. Rechten: Products, Content (pages/blog/metaobjects), Orders (view)
-4. Uitnodiging versturen
+4. Verstuur uitnodiging
 
-### #6 HIGH — Shopify API-token roteren
-Huidig Storefront token staat in git history. Nieuw token genereren, oud intrekken, updaten in `.env.local` + Vercel env.
+### #2 HIGH — Shopify Order Notifications naar Carla
+- Shopify Admin → Settings → Notifications → Staff order notifications
+- Voeg `vinoperlei@outlook.com` toe
+- Zo krijgt Carla een mail bij elke nieuwe bestelling
 
-### #7 MEDIUM — Handleiding uitbreiden
-- Lightbox/zoom op screenshots (klik om te vergroten)
-- Extra secties: Kortingscodes, Collecties, Wijnregio's
-- Meer screenshots per sectie (individuele entries)
+### #3 HIGH — Shopify API-token roteren
+- Huidig Storefront token staat in git history
+- Nieuw token genereren in Shopify Admin → Settings → Apps → Headless
+- Update in `.env.local` + Vercel env vars
+- Oud token intrekken
+- Test dat producten, checkout en CMS nog werken
 
-### #8 MEDIUM — RATE_LIMIT_SECRET naar Vercel
-```bash
-npx vercel env add RATE_LIMIT_SECRET
-# Plak: i0B7wWUKqw3L/Dz1yUL37Aq/Xq+UVvWfXq5c0aupjvs=
-```
-
-### #9 MEDIUM — Mailgun + DNS
-1. Mailgun: `mg.vinoperlei.nl` verifiëren
+### #4 MEDIUM — Mailgun + DNS
+1. Mailgun: `mg.vinoperlei.nl` verifiëren (SPF, DKIM, MX records)
 2. DNS: `vinoperlei.nl` → Vercel (CNAME records)
+3. Vraag Bart of domein al geregistreerd is + DNS-toegang
+
+### #5 MEDIUM — Handleiding uitbreiden
+- Lightbox/zoom op screenshots (klik om te vergroten)
+- Extra secties: Kortingscodes, Collecties
+
+### #6 LOW — Shopify CMS hero tekst
+- Check of homepage_hero metaobject nog "Wie is Carla?" bevat
+- Wijzig naar "Over Vino per Lei"
 
 ---
 
-## Architectuur
-
-```
-src/
-├── app/
-│   ├── handleiding/
-│   │   ├── page.tsx              ← Server component, noindex
-│   │   └── HandleidingContent.tsx ← Client, 8 secties, search, website previews
-│   └── layout.tsx                ← async, ShopConfigProvider
-├── components/providers/
-│   └── ShopConfigProvider.tsx    ← React context CMS shipping config
-├── lib/
-│   └── shopify-cms.ts           ← getShopConfig() + getSiteSettings()
-├── stores/
-│   ├── cartStore.ts             ← fallback FREE_SHIPPING_THRESHOLD
-│   └── checkoutStore.ts         ← calculateShippingCost()
-└── middleware.ts                ← Security headers + rate limiting
-
-public/
-└── handleiding/                  ← 13 Shopify Admin + 7 website screenshots
-```
-
----
-
-## Claude Code notities
+## Belangrijke regels
 
 - **NOOIT `next dev` in foreground draaien** — crasht Claude Code
 - **Production test:** `npm run build && npx next start --port 3099 > /dev/null 2>&1 &`
 - **Port killen:** `npx --yes kill-port 3099`
-- **Vercel deploy:** `npx vercel --prod --force`
+- **Vercel deploy:** Git push triggert auto-deploy. Alternatief: `npx vercel --prod --force`
+- **NOOIT AI/agents/tooling vermelden** in klant-zichtbare content (showcase, handleiding, emails)
+- **Timeline start 3 maart** — niet februari. Git commits in feb waren prototype/demo.
 - **Playwright MCP:** Sluit ALLE Chrome vensters voor gebruik
-- **Shopify Admin:** `https://vino-per-lei-2.myshopify.com/admin`
 - **Shopify login:** Bart logt zelf in via Playwright, dan kan Claude verder navigeren
-- **Geen hardcoded bedragen** — alles CMS-driven via ShopConfigProvider
-- **Key mismatch risico:** Shopify genereert keys uit Nederlandse labels — check of code keys matchen
-- **Screenshots:** Genomen via Playwright MCP op 23 maart 2026, updaten als Shopify UI of website verandert
-- **Website screenshots** bevatten rode annotaties (injected via JS in Playwright, niet in de code zelf)
+
+---
+
+## URLs voor Carla
+
+- **Website:** https://vino-per-lei.vercel.app
+- **Handleiding:** https://vino-per-lei.vercel.app/handleiding
+- **Showcase (technisch dossier):** https://vino-per-lei.vercel.app/showcase
