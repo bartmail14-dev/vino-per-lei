@@ -16,6 +16,7 @@ import {
   PremiumDivider,
   AnimatedUSPBar,
   AnimatedCounter,
+  OverlapTransition,
 } from "@/components/home/HomeAnimations";
 
 export const revalidate = 300; // 5 min — fetches products from Shopify
@@ -242,9 +243,14 @@ export default async function Home() {
       </Section>
 
       {/* =============================================
+          OVERLAP TRANSITION — Quote bridge dark → warm
+          ============================================= */}
+      <OverlapTransition />
+
+      {/* =============================================
           SOCIAL PROOF — Numbers + Testimonials
           ============================================= */}
-      <Section background="warm" spacing="xl">
+      <Section background="warm" spacing="xl" className="pt-24 sm:pt-32">
         {/* Trust numbers bar */}
         <AnimatedSection variant="fadeUp">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-16 text-center">

@@ -354,10 +354,14 @@ export async function getBlogArticles(first: number = 20): Promise<BlogArticle[]
         }
       }
     `, { variables: { first } });
-    return (data?.blog?.articles?.nodes ?? []).map(mapArticle);
+    const articles = (data?.blog?.articles?.nodes ?? []).map(mapArticle);
+    if (articles.length > 0) return articles;
+    // Fallback to hardcoded articles when Shopify blog is empty or not yet created
+    return DEFAULT_BLOG_ARTICLES.slice(0, first);
   } catch (error) {
     console.error('Failed to fetch blog articles:', error);
-    return [];
+    // Fallback to hardcoded articles on error
+    return DEFAULT_BLOG_ARTICLES.slice(0, first);
   }
 }
 
@@ -389,10 +393,13 @@ export async function getBlogArticleByHandle(handle: string): Promise<BlogArticl
       }
     `, { variables: { blogHandle: BLOG_HANDLE, articleHandle: handle } });
     const node = data?.blog?.articleByHandle;
-    return node ? mapArticle(node) : null;
+    if (node) return mapArticle(node);
+    // Fallback to hardcoded article
+    return DEFAULT_BLOG_ARTICLES.find((a) => a.handle === handle) ?? null;
   } catch (error) {
     console.error(`Failed to fetch article "${handle}":`, error);
-    return null;
+    // Fallback to hardcoded article on error
+    return DEFAULT_BLOG_ARTICLES.find((a) => a.handle === handle) ?? null;
   }
 }
 
@@ -473,6 +480,81 @@ export const DEFAULT_ANNOUNCEMENT: AnnouncementBar = {
   enabled: true,
   link: '/wijnen',
 };
+
+export const DEFAULT_BLOG_ARTICLES: BlogArticle[] = [
+  {
+    title: 'Barolo: De Koning der Italiaanse Wijnen',
+    handle: 'barolo-de-koning-der-italiaanse-wijnen',
+    contentHtml: '<p>Ontdek waarom Barolo uit Piemonte al eeuwenlang de kroon draagt. Van de Nebbiolo-druif tot de kenmerkende tannines — alles over deze iconische wijn.</p>',
+    excerpt: 'Ontdek waarom Barolo uit Piemonte al eeuwenlang de kroon draagt. Van de Nebbiolo-druif tot de kenmerkende tannines — alles over deze iconische wijn.',
+    publishedAt: '2025-01-15T12:00:00Z',
+    image: null,
+    tags: ['wijnkennis', 'piemonte'],
+    authorV2: { name: 'Carla Daniels', bio: '' },
+    seo: { title: 'Barolo: De Koning der Italiaanse Wijnen', description: 'Ontdek waarom Barolo uit Piemonte al eeuwenlang de kroon draagt.' },
+    readingTimeMinutes: 5,
+  },
+  {
+    title: 'Toscana: De Ultieme Wijngids',
+    handle: 'toscana-de-ultieme-wijngids',
+    contentHtml: '<p>Van Chianti Classico tot Brunello di Montalcino — een reis door de wijnheuvels van Toscane. Leer welke wijnen je moet proeven en waarom.</p>',
+    excerpt: 'Van Chianti Classico tot Brunello di Montalcino — een reis door de wijnheuvels van Toscane. Leer welke wijnen je moet proeven en waarom.',
+    publishedAt: '2025-01-08T12:00:00Z',
+    image: null,
+    tags: ['regiogids', 'toscana'],
+    authorV2: { name: 'Carla Daniels', bio: '' },
+    seo: { title: 'Toscana: De Ultieme Wijngids', description: 'Een reis door de wijnheuvels van Toscane.' },
+    readingTimeMinutes: 7,
+  },
+  {
+    title: 'Het Geheim van Amarone',
+    handle: 'het-geheim-van-amarone',
+    contentHtml: '<p>Hoe gedroogde druiven de meest intense wijn van de Veneto creëren. De appassimento-methode uitgelegd voor liefhebbers.</p>',
+    excerpt: 'Hoe gedroogde druiven de meest intense wijn van de Veneto creëren. De appassimento-methode uitgelegd voor liefhebbers.',
+    publishedAt: '2024-12-20T12:00:00Z',
+    image: null,
+    tags: ['wijnkennis', 'veneto'],
+    authorV2: { name: 'Carla Daniels', bio: '' },
+    seo: { title: 'Het Geheim van Amarone', description: 'De appassimento-methode uitgelegd voor liefhebbers.' },
+    readingTimeMinutes: 4,
+  },
+  {
+    title: 'Prosecco vs. Champagne: De Verschillen',
+    handle: 'prosecco-vs-champagne-de-verschillen',
+    contentHtml: '<p>Twee bubbels, twee werelden. Waarom Prosecco uit Valdobbiadene een eigen karakter heeft en wanneer je welke kiest.</p>',
+    excerpt: 'Twee bubbels, twee werelden. Waarom Prosecco uit Valdobbiadene een eigen karakter heeft en wanneer je welke kiest.',
+    publishedAt: '2024-12-12T12:00:00Z',
+    image: null,
+    tags: ['tips'],
+    authorV2: { name: 'Carla Daniels', bio: '' },
+    seo: { title: 'Prosecco vs. Champagne', description: 'Waarom Prosecco uit Valdobbiadene een eigen karakter heeft.' },
+    readingTimeMinutes: 3,
+  },
+  {
+    title: 'Piemonte: Meer dan Alleen Barolo',
+    handle: 'piemonte-meer-dan-barolo',
+    contentHtml: '<p>Barbera, Nebbiolo, Dolcetto — de andere schatten van Piemonte. Een gids voor de veelzijdigste wijnregio van Noord-Italië.</p>',
+    excerpt: 'Barbera, Nebbiolo, Dolcetto — de andere schatten van Piemonte. Een gids voor de veelzijdigste wijnregio van Noord-Italië.',
+    publishedAt: '2024-12-05T12:00:00Z',
+    image: null,
+    tags: ['regiogids', 'piemonte'],
+    authorV2: { name: 'Carla Daniels', bio: '' },
+    seo: { title: 'Piemonte: Meer dan Alleen Barolo', description: 'De andere schatten van Piemonte.' },
+    readingTimeMinutes: 6,
+  },
+  {
+    title: 'Wijn & Spijs: De Perfecte Italiaanse Match',
+    handle: 'italiaanse-wijn-en-spijs-combinaties',
+    contentHtml: '<p>Van Amarone bij ossobuco tot Vermentino bij zeevruchten. De gouden regels van Italiaans combineren.</p>',
+    excerpt: 'Van Amarone bij ossobuco tot Vermentino bij zeevruchten. De gouden regels van Italiaans combineren.',
+    publishedAt: '2024-11-28T12:00:00Z',
+    image: null,
+    tags: ['tips'],
+    authorV2: { name: 'Carla Daniels', bio: '' },
+    seo: { title: 'Wijn & Spijs Combinaties', description: 'De gouden regels van Italiaans combineren.' },
+    readingTimeMinutes: 5,
+  },
+];
 
 // --- Shop Config (shipping settings, CMS-driven with fallbacks) ---
 

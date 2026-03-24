@@ -77,8 +77,8 @@ export function HeroParallax({ children }: { children: ReactNode }) {
       </motion.div>
 
       {/* Multi-layer gradient overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/30 to-black/70" />
-      <div className="absolute inset-0 bg-gradient-to-r from-wine/30 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/15 to-black/50" />
+      <div className="absolute inset-0 bg-gradient-to-r from-wine/15 via-transparent to-transparent" />
       {/* Subtle gold radial glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(201,162,39,0.08),transparent_60%)]" />
 
@@ -91,7 +91,7 @@ export function HeroParallax({ children }: { children: ReactNode }) {
       </motion.div>
 
       {/* Bottom fade to next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-background/80 to-transparent" />
     </div>
   );
 }
@@ -219,6 +219,45 @@ export function TestimonialCard({ name, text, rating, wine }: TestimonialProps) 
         </div>
       </motion.div>
     </StaggerItem>
+  );
+}
+
+// ============================================
+// Overlapping Transition Section — bridges dark → light
+// ============================================
+export function OverlapTransition() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+  return (
+    <div className="relative z-10 -mt-14 sm:-mt-20 mb-0 pointer-events-none">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-auto">
+        <motion.div
+          ref={ref}
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+          className="relative bg-white rounded-2xl shadow-xl shadow-charcoal/8 border border-sand/40 px-6 sm:px-10 lg:px-14 py-8 sm:py-10 text-center overflow-hidden"
+        >
+          {/* Decorative gold accent top */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-16 h-1 bg-gradient-to-r from-gold/0 via-gold to-gold/0 rounded-b" />
+
+          {/* Large decorative quote mark */}
+          <div className="absolute top-3 left-6 sm:left-10 text-wine/5 font-serif text-7xl sm:text-8xl leading-none select-none">
+            &ldquo;
+          </div>
+
+          <p className="relative font-serif text-lg sm:text-xl lg:text-2xl text-charcoal leading-relaxed italic max-w-2xl mx-auto mb-4">
+            Elke fles vertelt het verhaal van een familie, een streek en een traditie die generaties overspant.
+          </p>
+          <div className="flex items-center justify-center gap-3">
+            <div className="h-px w-8 bg-gold/40" />
+            <p className="text-sm font-medium text-wine/70 tracking-wide">Carla Daniels</p>
+            <div className="h-px w-8 bg-gold/40" />
+          </div>
+        </motion.div>
+      </div>
+    </div>
   );
 }
 
