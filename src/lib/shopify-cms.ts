@@ -305,8 +305,6 @@ export async function getPage(handle: string): Promise<ShopifyPage | null> {
 
 // --- Blog ---
 
-const BLOG_HANDLE = 'reis-door-italie';
-
 const ARTICLE_FIELDS = `
   title
   handle
@@ -347,20 +345,26 @@ export async function getBlogArticles(first: number = 20): Promise<BlogArticle[]
   try {
     const { data } = await getClient().request(`
       query getBlogArticles($first: Int!) {
-        blog(handle: "${BLOG_HANDLE}") {
-          articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
-            nodes { ${ARTICLE_FIELDS} }
+        blogs(first: 10) {
+          nodes {
+            articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
+              nodes { ${ARTICLE_FIELDS} }
+            }
           }
         }
       }
     `, { variables: { first } });
-    const articles = (data?.blog?.articles?.nodes ?? []).map(mapArticle);
-    if (articles.length > 0) return articles;
-    // Fallback to hardcoded articles when Shopify blog is empty or not yet created
+    const allArticles: BlogArticle[] = [];
+    for (const blog of data?.blogs?.nodes ?? []) {
+      for (const node of blog?.articles?.nodes ?? []) {
+        allArticles.push(mapArticle(node));
+      }
+    }
+    allArticles.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+    if (allArticles.length > 0) return allArticles.slice(0, first);
     return DEFAULT_BLOG_ARTICLES.slice(0, first);
   } catch (error) {
     console.error('Failed to fetch blog articles:', error);
-    // Fallback to hardcoded articles on error
     return DEFAULT_BLOG_ARTICLES.slice(0, first);
   }
 }
@@ -369,14 +373,22 @@ export async function getBlogArticlesByTag(tag: string, first: number = 20): Pro
   try {
     const { data } = await getClient().request(`
       query getBlogArticlesByTag($first: Int!, $query: String!) {
-        blog(handle: "${BLOG_HANDLE}") {
-          articles(first: $first, sortKey: PUBLISHED_AT, reverse: true, query: $query) {
-            nodes { ${ARTICLE_FIELDS} }
+        blogs(first: 10) {
+          nodes {
+            articles(first: $first, sortKey: PUBLISHED_AT, reverse: true, query: $query) {
+              nodes { ${ARTICLE_FIELDS} }
+            }
           }
         }
       }
     `, { variables: { first, query: `tag:${tag}` } });
-    return (data?.blog?.articles?.nodes ?? []).map(mapArticle);
+    const allArticles: BlogArticle[] = [];
+    for (const blog of data?.blogs?.nodes ?? []) {
+      for (const node of blog?.articles?.nodes ?? []) {
+        allArticles.push(mapArticle(node));
+      }
+    }
+    return allArticles.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()).slice(0, first);
   } catch (error) {
     console.error(`Failed to fetch articles by tag "${tag}":`, error);
     return [];
@@ -385,20 +397,13 @@ export async function getBlogArticlesByTag(tag: string, first: number = 20): Pro
 
 export async function getBlogArticleByHandle(handle: string): Promise<BlogArticle | null> {
   try {
-    const { data } = await getClient().request(`
-      query getBlogArticle($blogHandle: String!, $articleHandle: String!) {
-        blog(handle: $blogHandle) {
-          articleByHandle(handle: $articleHandle) { ${ARTICLE_FIELDS} }
-        }
-      }
-    `, { variables: { blogHandle: BLOG_HANDLE, articleHandle: handle } });
-    const node = data?.blog?.articleByHandle;
-    if (node) return mapArticle(node);
-    // Fallback to hardcoded article
+    // Search across all blogs for the article
+    const allArticles = await getBlogArticles(50);
+    const found = allArticles.find((a) => a.handle === handle);
+    if (found) return found;
     return DEFAULT_BLOG_ARTICLES.find((a) => a.handle === handle) ?? null;
   } catch (error) {
     console.error(`Failed to fetch article "${handle}":`, error);
-    // Fallback to hardcoded article on error
     return DEFAULT_BLOG_ARTICLES.find((a) => a.handle === handle) ?? null;
   }
 }
