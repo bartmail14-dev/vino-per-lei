@@ -305,7 +305,7 @@ export async function getPage(handle: string): Promise<ShopifyPage | null> {
 
 // --- Blog ---
 
-const BLOG_HANDLE = 'wijn-verhalen';
+const BLOG_HANDLE = 'reis-door-italie';
 
 const ARTICLE_FIELDS = `
   title
