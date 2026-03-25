@@ -17,8 +17,9 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       <label
         htmlFor={checkboxId}
         className={cn(
-          "flex items-center gap-3 cursor-pointer group py-1.5",
-          "transition-colors duration-150",
+          "flex items-center gap-3 cursor-pointer group py-2 px-1 -mx-1 rounded-lg",
+          "transition-all duration-200",
+          "hover:bg-gold/[0.04]",
           props.disabled && "cursor-not-allowed opacity-50",
           className
         )}
@@ -33,15 +34,15 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
           />
           <div
             className={cn(
-              "w-5 h-5 border-2 rounded transition-all duration-200",
-              "border-grey/50",
-              "peer-checked:bg-wine peer-checked:border-wine",
-              "peer-focus-visible:ring-2 peer-focus-visible:ring-gold/50 peer-focus-visible:ring-offset-2",
-              "group-hover:border-wine/60"
+              "w-[18px] h-[18px] border-[1.5px] rounded transition-all duration-200",
+              "border-sand shadow-[0_1px_2px_rgba(26,26,26,0.06)]",
+              "peer-checked:bg-[image:var(--wine-gradient)] peer-checked:border-wine peer-checked:shadow-[0_1px_3px_rgba(26,31,61,0.25)]",
+              "peer-focus-visible:ring-2 peer-focus-visible:ring-gold/40 peer-focus-visible:ring-offset-2 peer-focus-visible:ring-offset-cream",
+              "group-hover:border-gold/70"
             )}
           />
           <svg
-            className="absolute top-0.5 left-0.5 w-4 h-4 text-white opacity-0 peer-checked:opacity-100 transition-opacity duration-150 pointer-events-none"
+            className="absolute top-[3px] left-[3px] w-3 h-3 text-gold opacity-0 peer-checked:opacity-100 transition-opacity duration-150 pointer-events-none"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -50,16 +51,18 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={3}
+              strokeWidth={3.5}
               d="M5 13l4 4L19 7"
             />
           </svg>
         </div>
         {label && (
-          <span className="text-sm text-charcoal group-hover:text-wine-dark transition-colors duration-150">
+          <span className="text-sm text-charcoal tracking-wide group-hover:text-wine-dark transition-colors duration-200 leading-snug">
             {label}
             {count !== undefined && (
-              <span className="text-grey ml-1.5 tabular-nums">({count})</span>
+              <span className="ml-2 text-[11px] text-grey/80 bg-champagne/50 px-1.5 py-0.5 rounded-md tabular-nums font-medium">
+                {count}
+              </span>
             )}
           </span>
         )}

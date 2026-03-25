@@ -37,13 +37,14 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
             ref={ref}
             id={selectId}
             className={cn(
-              "flex h-12 w-full appearance-none rounded-lg border bg-white px-4 py-3 pr-10 text-base",
+              "flex h-10 w-full appearance-none rounded-lg border bg-white px-4 py-2 pr-10 text-sm text-charcoal",
+              "shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)]",
               "transition-all duration-200 ease-out",
-              "focus:outline-none focus:ring-2 focus:border-transparent",
-              "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-sand",
+              "focus:outline-none focus:ring-2 focus:border-gold",
+              "disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-cream",
               error
                 ? "border-error focus:ring-error/50 ring-1 ring-error/20"
-                : "border-sand hover:border-grey focus:ring-gold/50",
+                : "border-sand hover:border-gold focus:ring-gold/30",
               className
             )}
             aria-invalid={error ? "true" : "false"}
@@ -63,7 +64,7 @@ const Select = forwardRef<HTMLSelectElement, SelectProps>(
           </select>
           <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
             <svg
-              className="h-5 w-5 text-grey"
+              className="h-4 w-4 text-gold"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"

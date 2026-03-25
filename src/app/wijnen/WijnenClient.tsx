@@ -356,22 +356,22 @@ export function WijnenContent({ products }: { products: Product[] }) {
           <div className="flex-1 min-w-0">
             {/* Search bar */}
             <div className="relative mb-6">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-grey" strokeWidth={1.5} />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gold" strokeWidth={1.5} />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Zoek op wijn, regio of druivenras..."
-                className="w-full pl-10 pr-10 py-2.5 border border-sand rounded-lg text-sm text-charcoal placeholder:text-grey/60 focus:outline-none focus:ring-2 focus:ring-wine/20 focus:border-wine transition-colors bg-white"
+                className="w-full pl-11 pr-11 py-3 border border-sand rounded-xl text-sm text-charcoal placeholder:text-grey/50 placeholder:italic focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold transition-all duration-200 bg-white shadow-sm"
                 aria-label="Zoek wijnen"
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-0.5 hover:bg-sand/50 rounded transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gold/10 rounded-full transition-colors"
                   aria-label="Wis zoekopdracht"
                 >
-                  <X className="w-4 h-4 text-grey" strokeWidth={1.5} />
+                  <X className="w-4 h-4 text-gold" strokeWidth={1.5} />
                 </button>
               )}
             </div>
@@ -380,47 +380,53 @@ export function WijnenContent({ products }: { products: Product[] }) {
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
               {/* Mobile filter button */}
               <Button
-                variant="secondary"
+                variant="ghost"
                 onClick={() => setIsMobileFilterOpen(true)}
-                className="lg:hidden"
+                className="lg:hidden border border-gold/40 shadow-sm uppercase tracking-wide text-xs"
               >
-                <FilterIcon className="w-4 h-4 mr-2" />
+                <FilterIcon className="w-4 h-4 mr-2 text-gold" />
                 Filters
                 {totalActiveFilters > 0 && (
-                  <span className="ml-2 bg-wine text-white text-xs px-1.5 py-0.5 rounded-full">
+                  <span className="ml-2 bg-gold text-white text-xs px-1.5 py-0.5 rounded-full font-medium">
                     {totalActiveFilters}
                   </span>
                 )}
               </Button>
 
               {/* Results count */}
-              <p className="text-sm text-grey">
-                <span className="font-medium text-charcoal">{filteredProducts.length}</span> wijnen
+              <p className="text-sm text-grey flex items-center gap-2">
+                <span className="font-serif font-semibold text-gold text-base">{filteredProducts.length}</span>
+                <span className="text-grey/40">|</span>
+                <span>wijnen</span>
               </p>
 
               {/* Right side controls */}
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-3">
                 {/* View mode toggle */}
-                <div className="hidden sm:flex items-center border border-sand rounded overflow-hidden">
+                <div className="hidden sm:flex items-center border border-sand rounded-lg overflow-hidden shadow-sm">
                   <button
                     onClick={() => setViewMode("grid")}
                     className={cn(
-                      "p-2 transition-colors",
-                      viewMode === "grid" ? "bg-wine text-white" : "hover:bg-sand"
+                      "p-2 transition-all duration-200",
+                      viewMode === "grid"
+                        ? "bg-gradient-to-br from-wine to-[#2d3454] text-white"
+                        : "hover:text-gold text-grey"
                     )}
                     aria-label="Grid weergave"
                   >
-                    <LayoutGrid className="w-4 h-4" strokeWidth={1.5} />
+                    <LayoutGrid className="w-3.5 h-3.5" strokeWidth={1.5} />
                   </button>
                   <button
                     onClick={() => setViewMode("list")}
                     className={cn(
-                      "p-2 transition-colors",
-                      viewMode === "list" ? "bg-wine text-white" : "hover:bg-sand"
+                      "p-2 transition-all duration-200",
+                      viewMode === "list"
+                        ? "bg-gradient-to-br from-wine to-[#2d3454] text-white"
+                        : "hover:text-gold text-grey"
                     )}
                     aria-label="Lijst weergave"
                   >
-                    <List className="w-4 h-4" strokeWidth={1.5} />
+                    <List className="w-3.5 h-3.5" strokeWidth={1.5} />
                   </button>
                 </div>
 
@@ -429,7 +435,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                   options={sortOptions}
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-44"
+                  className="w-48"
                 />
               </div>
             </div>
@@ -464,14 +470,14 @@ export function WijnenContent({ products }: { products: Product[] }) {
             ) : (
               /* Empty State */
               <div className="text-center py-16">
-                <div className="w-16 h-16 bg-sand rounded-full flex items-center justify-center mx-auto mb-4">
-                  <FilterIcon className="w-8 h-8 text-grey" />
+                <div className="w-16 h-16 bg-champagne border border-gold/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                  <FilterIcon className="w-8 h-8 text-gold" />
                 </div>
-                <h3 className="text-h4 mb-2">Geen wijnen gevonden</h3>
-                <p className="text-grey mb-6">
+                <h3 className="font-serif text-xl text-charcoal mb-2">Geen wijnen gevonden</h3>
+                <p className="text-grey/70 mb-6">
                   Probeer andere filters of bekijk al onze wijnen.
                 </p>
-                <Button variant="primary" onClick={handleClearAll}>
+                <Button variant="gold" onClick={handleClearAll}>
                   Wis alle filters
                 </Button>
               </div>
@@ -479,9 +485,10 @@ export function WijnenContent({ products }: { products: Product[] }) {
 
             {/* Pagination placeholder */}
             {filteredProducts.length > 0 && (
-              <div className="flex justify-center mt-12">
-                <p className="text-sm text-grey">
-                  Toont {filteredProducts.length} van {products.length} wijnen
+              <div className="mt-12">
+                <div className="border-t border-sand/60 mb-6" />
+                <p className="text-sm text-grey text-center">
+                  Toont <span className="font-serif font-semibold text-gold">{filteredProducts.length}</span> van <span className="font-serif font-semibold text-gold">{products.length}</span> wijnen
                 </p>
               </div>
             )}
