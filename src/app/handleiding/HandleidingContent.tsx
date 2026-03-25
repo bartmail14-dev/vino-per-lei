@@ -21,6 +21,7 @@ import {
   Clock,
   AlertCircle,
   ClipboardList,
+  UserPlus,
 } from "lucide-react";
 
 /* ─── Types ─── */
@@ -46,6 +47,43 @@ interface Section {
 const SHOPIFY_ADMIN_URL = "https://vino-per-lei-2.myshopify.com/admin";
 
 const sections: Section[] = [
+  {
+    id: "toegang",
+    icon: <UserPlus className="w-5 h-5" />,
+    title: "Toegang tot Shopify",
+    subtitle: "Eenmalig instellen — zo krijg je toegang tot het beheerpaneel",
+    color: "from-green-500/20 to-green-600/10",
+    steps: [
+      {
+        title: "Maak een gratis Shopify Partners account aan",
+        description:
+          "Ga naar partners.shopify.com en klik op \"Join now\" (of \"Aanmelden\"). Maak een account aan met je e-mailadres. Dit is volledig gratis en geeft je toegang om webshops te beheren.",
+        tip: "Je hebt alleen een e-mailadres en wachtwoord nodig. Er worden geen kosten in rekening gebracht.",
+      },
+      {
+        title: "Log in op het Partners dashboard",
+        description:
+          "Na het aanmaken log je in op partners.shopify.com. Je komt op het Partners Dashboard terecht.",
+      },
+      {
+        title: "Vraag toegang aan tot de webshop",
+        description:
+          "Klik in het linkermenu op \"Stores\" en vervolgens op \"Add store\" \u2192 \"Request access\". Vul de volgende URL in:\n\nvino-per-lei-2.myshopify.com\n\nVoeg een kort bericht toe (bijv. \"Ik ben de eigenaar van Vino per Lei\") en klik op \"Submit request\".",
+        tip: "Na het versturen van je verzoek krijgen wij een melding. We keuren je verzoek zo snel mogelijk goed, waarna je direct toegang hebt.",
+      },
+      {
+        title: "Wacht op goedkeuring",
+        description:
+          "Je ontvangt een e-mail zodra je verzoek is goedgekeurd. Daarna kun je via het Partners Dashboard direct inloggen op het Shopify beheerpaneel van Vino per Lei.",
+      },
+      {
+        title: "Ga naar het beheerpaneel",
+        description:
+          "Na goedkeuring klik je in het Partners Dashboard op \"Stores\" \u2192 \"Vino per Lei\" \u2192 \"Log in to store\". Je kunt dan producten, teksten, bestellingen en alle andere instellingen beheren — precies zoals beschreven in de secties hieronder.",
+        tip: "Sla de link naar het beheerpaneel op als bladwijzer zodat je er snel bij kunt.",
+      },
+    ],
+  },
   {
     id: "producten",
     icon: <Wine className="w-5 h-5" />,
@@ -595,12 +633,8 @@ export function HandleidingContent() {
               <div className="ml-7 space-y-3">
                 {[
                   {
-                    title: "E-mailadres voor Shopify account",
-                    description: "Zodat we een eigen Shopify-inlog voor je kunnen aanmaken. Dan kun je zelf producten, teksten en bestellingen beheren.",
-                  },
-                  {
-                    title: "E-mailadres voor bestelnotificaties",
-                    description: "Op dit adres ontvang je een melding zodra er een bestelling binnenkomt. Mag hetzelfde adres zijn.",
+                    title: "Shopify Partners account aanmaken",
+                    description: "Maak een gratis account aan op partners.shopify.com en vraag toegang aan tot de webshop. Zie de sectie \"Toegang tot Shopify\" hierboven voor stap-voor-stap uitleg.",
                   },
                   {
                     title: "Domeinnaam vinoperlei.nl",

@@ -11,7 +11,7 @@ function getClient() {
     }
     _client = createStorefrontApiClient({
       storeDomain: domain,
-      apiVersion: '2026-01',
+      apiVersion: '2025-01',
       publicAccessToken: token,
     });
   }
@@ -313,7 +313,7 @@ const ARTICLE_FIELDS = `
   publishedAt
   image { url altText }
   tags
-  authorV2 { name bio }
+  authorV2 { name }
   seo { title description }
 `;
 
@@ -325,7 +325,7 @@ function estimateReadingTime(html: string): number {
 
 function mapArticle(node: Record<string, unknown>): BlogArticle {
   const contentHtml = (node.contentHtml as string) || '';
-  const authorV2Raw = node.authorV2 as { name?: string; bio?: string } | null;
+  const authorV2Raw = node.authorV2 as { name?: string; bio?: string } | null | undefined;
   const seoRaw = node.seo as { title?: string; description?: string } | null;
   return {
     title: (node.title as string) || '',
@@ -335,7 +335,7 @@ function mapArticle(node: Record<string, unknown>): BlogArticle {
     publishedAt: (node.publishedAt as string) || '',
     image: node.image as BlogArticle['image'],
     tags: (node.tags as string[]) || [],
-    authorV2: authorV2Raw?.name ? { name: authorV2Raw.name, bio: authorV2Raw.bio || '' } : null,
+    authorV2: authorV2Raw?.name ? { name: authorV2Raw.name, bio: authorV2Raw.bio ?? '' } : null,
     seo: { title: seoRaw?.title || null, description: seoRaw?.description || null },
     readingTimeMinutes: estimateReadingTime(contentHtml),
   };
@@ -343,7 +343,7 @@ function mapArticle(node: Record<string, unknown>): BlogArticle {
 
 export async function getBlogArticles(first: number = 20): Promise<BlogArticle[]> {
   try {
-    const { data } = await getClient().request(`
+    const response = await getClient().request(`
       query getBlogArticles($first: Int!) {
         blogs(first: 10) {
           nodes {
@@ -354,6 +354,10 @@ export async function getBlogArticles(first: number = 20): Promise<BlogArticle[]
         }
       }
     `, { variables: { first } });
+    const { data, errors } = response as { data: typeof response.data; errors?: Array<{ message: string }> };
+    if (errors?.length) {
+      console.error('[getBlogArticles] Shopify GraphQL errors:', JSON.stringify(errors, null, 2));
+    }
     const allArticles: BlogArticle[] = [];
     for (const blog of data?.blogs?.nodes ?? []) {
       for (const node of blog?.articles?.nodes ?? []) {
@@ -362,9 +366,10 @@ export async function getBlogArticles(first: number = 20): Promise<BlogArticle[]
     }
     allArticles.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
     if (allArticles.length > 0) return allArticles.slice(0, first);
+    console.warn('[getBlogArticles] No articles from Shopify, using defaults');
     return DEFAULT_BLOG_ARTICLES.slice(0, first);
   } catch (error) {
-    console.error('Failed to fetch blog articles:', error);
+    console.error('[getBlogArticles] Failed to fetch blog articles:', error instanceof Error ? error.message : error);
     return DEFAULT_BLOG_ARTICLES.slice(0, first);
   }
 }
@@ -390,7 +395,7 @@ export async function getBlogArticlesByTag(tag: string, first: number = 20): Pro
     }
     return allArticles.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()).slice(0, first);
   } catch (error) {
-    console.error(`Failed to fetch articles by tag "${tag}":`, error);
+    console.error(`[getBlogArticlesByTag] Failed to fetch articles by tag "${tag}":`, error instanceof Error ? error.message : error);
     return [];
   }
 }
@@ -492,7 +497,7 @@ export const DEFAULT_BLOG_ARTICLES: BlogArticle[] = [
     handle: 'barolo-de-koning-der-italiaanse-wijnen',
     contentHtml: '<p>Ontdek waarom Barolo uit Piemonte al eeuwenlang de kroon draagt. Van de Nebbiolo-druif tot de kenmerkende tannines — alles over deze iconische wijn.</p>',
     excerpt: 'Ontdek waarom Barolo uit Piemonte al eeuwenlang de kroon draagt. Van de Nebbiolo-druif tot de kenmerkende tannines — alles over deze iconische wijn.',
-    publishedAt: '2025-01-15T12:00:00Z',
+    publishedAt: '2026-03-15T12:00:00Z',
     image: null,
     tags: ['wijnkennis', 'piemonte'],
     authorV2: { name: 'Carla Daniels', bio: '' },
@@ -504,7 +509,7 @@ export const DEFAULT_BLOG_ARTICLES: BlogArticle[] = [
     handle: 'toscana-de-ultieme-wijngids',
     contentHtml: '<p>Van Chianti Classico tot Brunello di Montalcino — een reis door de wijnheuvels van Toscane. Leer welke wijnen je moet proeven en waarom.</p>',
     excerpt: 'Van Chianti Classico tot Brunello di Montalcino — een reis door de wijnheuvels van Toscane. Leer welke wijnen je moet proeven en waarom.',
-    publishedAt: '2025-01-08T12:00:00Z',
+    publishedAt: '2026-03-08T12:00:00Z',
     image: null,
     tags: ['regiogids', 'toscana'],
     authorV2: { name: 'Carla Daniels', bio: '' },
@@ -516,7 +521,7 @@ export const DEFAULT_BLOG_ARTICLES: BlogArticle[] = [
     handle: 'het-geheim-van-amarone',
     contentHtml: '<p>Hoe gedroogde druiven de meest intense wijn van de Veneto creëren. De appassimento-methode uitgelegd voor liefhebbers.</p>',
     excerpt: 'Hoe gedroogde druiven de meest intense wijn van de Veneto creëren. De appassimento-methode uitgelegd voor liefhebbers.',
-    publishedAt: '2024-12-20T12:00:00Z',
+    publishedAt: '2026-02-20T12:00:00Z',
     image: null,
     tags: ['wijnkennis', 'veneto'],
     authorV2: { name: 'Carla Daniels', bio: '' },
@@ -528,7 +533,7 @@ export const DEFAULT_BLOG_ARTICLES: BlogArticle[] = [
     handle: 'prosecco-vs-champagne-de-verschillen',
     contentHtml: '<p>Twee bubbels, twee werelden. Waarom Prosecco uit Valdobbiadene een eigen karakter heeft en wanneer je welke kiest.</p>',
     excerpt: 'Twee bubbels, twee werelden. Waarom Prosecco uit Valdobbiadene een eigen karakter heeft en wanneer je welke kiest.',
-    publishedAt: '2024-12-12T12:00:00Z',
+    publishedAt: '2026-02-12T12:00:00Z',
     image: null,
     tags: ['tips'],
     authorV2: { name: 'Carla Daniels', bio: '' },
@@ -540,7 +545,7 @@ export const DEFAULT_BLOG_ARTICLES: BlogArticle[] = [
     handle: 'piemonte-meer-dan-barolo',
     contentHtml: '<p>Barbera, Nebbiolo, Dolcetto — de andere schatten van Piemonte. Een gids voor de veelzijdigste wijnregio van Noord-Italië.</p>',
     excerpt: 'Barbera, Nebbiolo, Dolcetto — de andere schatten van Piemonte. Een gids voor de veelzijdigste wijnregio van Noord-Italië.',
-    publishedAt: '2024-12-05T12:00:00Z',
+    publishedAt: '2026-02-05T12:00:00Z',
     image: null,
     tags: ['regiogids', 'piemonte'],
     authorV2: { name: 'Carla Daniels', bio: '' },
@@ -552,7 +557,7 @@ export const DEFAULT_BLOG_ARTICLES: BlogArticle[] = [
     handle: 'italiaanse-wijn-en-spijs-combinaties',
     contentHtml: '<p>Van Amarone bij ossobuco tot Vermentino bij zeevruchten. De gouden regels van Italiaans combineren.</p>',
     excerpt: 'Van Amarone bij ossobuco tot Vermentino bij zeevruchten. De gouden regels van Italiaans combineren.',
-    publishedAt: '2024-11-28T12:00:00Z',
+    publishedAt: '2026-01-28T12:00:00Z',
     image: null,
     tags: ['tips'],
     authorV2: { name: 'Carla Daniels', bio: '' },

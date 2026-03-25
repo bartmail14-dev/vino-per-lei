@@ -19,7 +19,7 @@ import {
   OverlapTransition,
 } from "@/components/home/HomeAnimations";
 
-export const revalidate = 300; // 5 min — fetches products from Shopify
+export const revalidate = 60; // 1 min — align with blog pages for fresh content
 
 // Lazy load the map component (below-fold)
 const ItalyWineMap = dynamic(() => import("@/components/map").then(mod => mod.ItalyWineMap), {
@@ -146,7 +146,7 @@ export default async function Home() {
       {/* =============================================
           USP BAR — Elevated trust signals
           ============================================= */}
-      <Section background="default" spacing="none" className="relative -mt-8 sm:-mt-10 z-10">
+      <Section background="default" spacing="none" className="relative -mt-16 sm:-mt-20 z-10">
         <AnimatedUSPBar>
           <div className="bg-white rounded-lg sm:rounded-2xl shadow-xl shadow-charcoal/5 border border-sand/40 px-4 sm:px-8 py-5 sm:py-6">
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0">

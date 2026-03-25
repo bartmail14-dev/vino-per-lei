@@ -12,7 +12,7 @@ function getClient() {
     }
     _client = createStorefrontApiClient({
       storeDomain: domain,
-      apiVersion: '2026-01',
+      apiVersion: '2025-01',
       publicAccessToken: token,
     });
   }
@@ -27,7 +27,6 @@ const PRODUCT_FIELDS = `
   handle
   description
   availableForSale
-  totalInventory
   priceRange {
     minVariantPrice { amount currencyCode }
   }
@@ -67,7 +66,6 @@ interface ShopifyProductNode {
   handle: string;
   description: string;
   availableForSale: boolean;
-  totalInventory?: number;
   priceRange: {
     minVariantPrice: { amount: string; currencyCode: string };
   };
@@ -145,7 +143,7 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
       ? parseInt((node.reviewCount as MetafieldNode).value)
       : undefined,
     inStock: node.availableForSale ?? true,
-    stockQuantity: node.totalInventory ?? undefined,
+    stockQuantity: undefined,
     isNew: (node.isNew as MetafieldNode | null)?.value === 'true',
     isFeatured: (node.isFeatured as MetafieldNode | null)?.value === 'true',
     hasAward: (node.hasAward as MetafieldNode | null)?.value === 'true',
@@ -192,7 +190,10 @@ export async function getProducts(first: number = 50): Promise<Product[]> {
       ) ?? []
     );
   } catch (error) {
-    console.error('Failed to fetch products from Shopify:', error);
+    console.error('[Shopify] Failed to fetch products:', error instanceof Error ? error.message : error);
+    if (error instanceof Error && error.message) {
+      console.error('[Shopify] Full error details:', JSON.stringify(error, null, 2));
+    }
     return [];
   }
 }
@@ -217,7 +218,10 @@ export async function getProductByHandle(
     if (!data?.productByHandle) return null;
     return mapShopifyProduct(data.productByHandle);
   } catch (error) {
-    console.error(`Failed to fetch product "${handle}" from Shopify:`, error);
+    console.error(`[Shopify] Failed to fetch product "${handle}":`, error instanceof Error ? error.message : error);
+    if (error instanceof Error && error.message) {
+      console.error('[Shopify] Full error details:', JSON.stringify(error, null, 2));
+    }
     return null;
   }
 }
