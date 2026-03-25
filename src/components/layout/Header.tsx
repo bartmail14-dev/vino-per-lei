@@ -434,32 +434,38 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ type: "tween", duration: 0.3 }}
-              className="fixed top-0 left-0 bottom-0 w-full max-w-sm bg-white z-50 overflow-y-auto lg:hidden"
+              transition={{ type: "spring", damping: 28, stiffness: 260 }}
+              className="fixed top-0 left-0 bottom-0 w-full max-w-sm bg-cream z-50 overflow-y-auto lg:hidden shadow-2xl"
               role="dialog"
               aria-modal="true"
               aria-label="Navigatie menu"
             >
-              {/* Menu Header */}
-              <div className="flex items-center justify-between p-4 border-b border-sand">
-                <span className="font-serif text-xl font-semibold text-wine">
-                  Menu
-                </span>
-                <button
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="p-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-colors"
-                  aria-label="Sluit navigatiemenu"
-                >
-                  <CloseIcon className="w-6 h-6" />
-                </button>
+              {/* Menu Header — wine gradient with logo */}
+              <div className="bg-wine-gradient px-5 pt-6 pb-5">
+                <div className="flex items-center justify-between mb-4">
+                  <Logo variant="icon" color="#ffffff" className="h-10 w-auto opacity-90" />
+                  <button
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className="w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+                    aria-label="Sluit navigatiemenu"
+                  >
+                    <CloseIcon className="w-5 h-5 text-white" />
+                  </button>
+                </div>
+                <p className="text-white/60 text-xs tracking-widest uppercase">Italiaanse wijnen</p>
               </div>
 
               {/* Menu Content */}
-              <nav className="p-4">
+              <nav className="px-5 pt-6 pb-32">
                 {/* Main Navigation */}
-                <ul className="space-y-1">
-                  {mainNavItems.map((item) => (
-                    <li key={item.label}>
+                <ul className="space-y-0.5">
+                  {mainNavItems.map((item, index) => (
+                    <motion.li
+                      key={item.label}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + index * 0.05, duration: 0.3 }}
+                    >
                       {item.hasMegaMenu ? (
                         <>
                           <button
@@ -468,15 +474,23 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                 mobileSubmenu === item.label ? null : item.label
                               )
                             }
-                            className="flex items-center justify-between w-full py-3 text-lg font-medium text-charcoal"
+                            className={cn(
+                              "flex items-center justify-between w-full py-3.5 text-[17px] font-medium tracking-wide transition-colors rounded-lg px-3 -mx-3",
+                              mobileSubmenu === item.label
+                                ? "text-wine bg-wine/5"
+                                : "text-charcoal hover:text-wine hover:bg-wine/5"
+                            )}
                           >
                             {item.label}
-                            <ChevronRightIcon
-                              className={cn(
-                                "w-5 h-5 transition-transform duration-200",
-                                mobileSubmenu === item.label && "rotate-90"
-                              )}
-                            />
+                            <motion.div
+                              animate={{ rotate: mobileSubmenu === item.label ? 90 : 0 }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <ChevronRightIcon className={cn(
+                                "w-4 h-4 transition-colors",
+                                mobileSubmenu === item.label ? "text-gold" : "text-grey"
+                              )} />
+                            </motion.div>
                           </button>
                           <AnimatePresence>
                             {mobileSubmenu === item.label && (
@@ -484,16 +498,16 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                 initial={{ height: 0, opacity: 0 }}
                                 animate={{ height: "auto", opacity: 1 }}
                                 exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.2 }}
+                                transition={{ duration: 0.25, ease: "easeOut" }}
                                 className="overflow-hidden"
                               >
-                                <div className="pl-4 pb-4 space-y-4">
+                                <div className="ml-3 pl-4 pb-4 pt-1 space-y-4 border-l-2 border-gold/30">
                                   {/* Type */}
                                   <div>
-                                    <h4 className="text-label text-grey mb-2">
+                                    <h4 className="text-[10px] text-gold font-semibold uppercase tracking-[0.15em] mb-2">
                                       Wijntype
                                     </h4>
-                                    <ul className="space-y-1">
+                                    <ul className="space-y-0.5">
                                       {wineCategories.type.map((subItem) => (
                                         <li key={subItem.label}>
                                           <Link
@@ -501,7 +515,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                             onClick={() =>
                                               setIsMobileMenuOpen(false)
                                             }
-                                            className="block py-2 text-charcoal hover:text-wine"
+                                            className="block py-2 text-[15px] text-charcoal/80 hover:text-wine transition-colors"
                                           >
                                             {subItem.label}
                                           </Link>
@@ -511,10 +525,10 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                   </div>
                                   {/* Region */}
                                   <div>
-                                    <h4 className="text-label text-grey mb-2">
+                                    <h4 className="text-[10px] text-gold font-semibold uppercase tracking-[0.15em] mb-2">
                                       Regio
                                     </h4>
-                                    <ul className="space-y-1">
+                                    <ul className="space-y-0.5">
                                       {wineCategories.region
                                         .slice(0, 4)
                                         .map((subItem) => (
@@ -524,7 +538,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                               onClick={() =>
                                                 setIsMobileMenuOpen(false)
                                               }
-                                              className="block py-2 text-charcoal hover:text-wine"
+                                              className="block py-2 text-[15px] text-charcoal/80 hover:text-wine transition-colors"
                                             >
                                               {subItem.label}
                                             </Link>
@@ -536,10 +550,10 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                   <Link
                                     href="/wijnen"
                                     onClick={() => setIsMobileMenuOpen(false)}
-                                    className="inline-flex items-center gap-1 text-wine font-medium"
+                                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold hover:text-wine transition-colors"
                                   >
-                                    Alle Wijnen
-                                    <ChevronRightIcon className="w-4 h-4" />
+                                    Bekijk alle wijnen
+                                    <ChevronRightIcon className="w-3.5 h-3.5" />
                                   </Link>
                                 </div>
                               </motion.div>
@@ -550,43 +564,59 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                         <Link
                           href={item.href}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className="block py-3 text-lg font-medium text-charcoal hover:text-wine"
+                          className="block py-3.5 text-[17px] font-medium tracking-wide text-charcoal hover:text-wine hover:bg-wine/5 transition-colors rounded-lg px-3 -mx-3"
                         >
                           {item.label}
                         </Link>
                       )}
-                    </li>
+                    </motion.li>
                   ))}
-                  <li>
+                  <motion.li
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3, duration: 0.3 }}
+                  >
                     <Link
                       href="/klantenservice"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="block py-3 text-lg font-medium text-charcoal hover:text-wine"
+                      className="block py-3.5 text-[17px] font-medium tracking-wide text-charcoal hover:text-wine hover:bg-wine/5 transition-colors rounded-lg px-3 -mx-3"
                     >
                       Klantenservice
                     </Link>
-                  </li>
+                  </motion.li>
                 </ul>
 
                 {/* Account Link */}
-                <div className="mt-6 pt-6 border-t border-sand">
+                <div className="mt-8 pt-6 border-t border-sand/60">
                   <button
                     onClick={() => {
                       setIsMobileMenuOpen(false);
                       openLoginModal();
                     }}
-                    className="flex items-center gap-3 py-3 text-charcoal hover:text-wine w-full"
+                    className="flex items-center gap-3 w-full py-3 px-4 text-[15px] font-medium text-wine bg-wine/5 hover:bg-wine/10 rounded-xl transition-colors"
                   >
-                    <UserIcon className="w-5 h-5" />
+                    <div className="w-9 h-9 rounded-full bg-wine/10 flex items-center justify-center">
+                      <UserIcon className="w-4 h-4 text-wine" />
+                    </div>
                     Inloggen / Registreren
                   </button>
                 </div>
 
                 {/* Contact Info */}
-                <div className="mt-6 pt-6 border-t border-sand text-sm text-grey">
-                  <p className="mb-2">Vragen? Neem contact op:</p>
-                  {contactPhone && <p className="font-medium text-charcoal">{contactPhone}</p>}
-                  <p className="text-charcoal">{contactEmail || "info@vinoperlei.nl"}</p>
+                <div className="mt-8 pt-6 border-t border-sand/60">
+                  <p className="text-[10px] text-gold font-semibold uppercase tracking-[0.15em] mb-3">Contact</p>
+                  <div className="space-y-2">
+                    {contactPhone && (
+                      <a href={`tel:${contactPhone.replace(/[^0-9+]/g, '')}`} className="flex items-center gap-3 text-sm text-charcoal hover:text-wine transition-colors">
+                        <span className="w-8 h-8 rounded-lg bg-champagne/50 flex items-center justify-center text-xs">&#9742;</span>
+                        {contactPhone}
+                      </a>
+                    )}
+                    <a href={`mailto:${contactEmail || "info@vinoperlei.nl"}`} className="flex items-center gap-3 text-sm text-charcoal hover:text-wine transition-colors">
+                      <span className="w-8 h-8 rounded-lg bg-champagne/50 flex items-center justify-center text-xs">&#9993;</span>
+                      {contactEmail || "info@vinoperlei.nl"}
+                    </a>
+                  </div>
                 </div>
               </nav>
             </motion.div>
