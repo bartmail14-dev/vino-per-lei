@@ -206,7 +206,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="lg:hidden p-3 -ml-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-colors"
+              className="lg:hidden p-2 -ml-2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:opacity-60 transition-opacity"
               aria-label="Open navigatiemenu"
             >
               <MenuIcon className="w-6 h-6" />
