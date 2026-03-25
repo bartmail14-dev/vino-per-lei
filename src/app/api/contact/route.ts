@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { z } from "zod/v4";
 
 const WEB3FORMS_KEY = process.env.WEB3FORMS_ACCESS_KEY ?? "";
@@ -10,11 +11,24 @@ const contactSchema = z.object({
   onderwerp: z.string().min(1, "Kies een onderwerp").max(200, "Onderwerp is te lang"),
   bericht: z.string().min(10, "Bericht is te kort").max(2000, "Bericht is te lang"),
   honeypot: z.string().optional(),
+  _csrf: z.string().optional(),
 });
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    // --- CSRF validation ---
+    const cookieStore = await cookies();
+    const csrfCookie = cookieStore.get("vpl_csrf")?.value;
+    const csrfBody = body?._csrf;
+    if (!csrfCookie || !csrfBody || csrfCookie !== csrfBody) {
+      return NextResponse.json(
+        { error: "Ongeldige sessie. Herlaad de pagina en probeer opnieuw." },
+        { status: 403 }
+      );
+    }
+
     const parsed = contactSchema.safeParse(body);
 
     if (!parsed.success) {

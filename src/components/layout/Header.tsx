@@ -9,6 +9,8 @@ import { useCartStore } from "@/stores/cartStore";
 import { useAuthStore } from "@/stores/authStore";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { MenuIcon, CloseIcon, UserIcon, CartIcon, ChevronDownIcon, ChevronRightIcon } from "@/components/icons";
+import { Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 import type { AnnouncementBar } from "@/lib/shopify-cms";
 
 interface HeaderProps {
@@ -55,10 +57,14 @@ const mainNavItems = [
 ];
 
 export function Header({ announcement, contactPhone, contactEmail }: HeaderProps) {
+  const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
   // null = not checked, true = show, false = dismissed
   const [announcementState, setAnnouncementState] = useState<boolean | null>(null);
 
@@ -159,6 +165,23 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
     localStorage.setItem("vpl_announcement_dismissed", "true");
   };
 
+  const handleSearchSubmit = (e?: React.FormEvent) => {
+    e?.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/wijnen?zoek=${encodeURIComponent(searchQuery.trim())}`);
+      setIsSearchOpen(false);
+      setSearchQuery("");
+    }
+  };
+
+  const handleSearchToggle = () => {
+    setIsSearchOpen((prev) => {
+      if (!prev) {
+        setTimeout(() => searchInputRef.current?.focus(), 100);
+      }
+      return !prev;
+    });
+  };
 
   return (
     <header
@@ -263,7 +286,47 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
 
             {/* Right Icons */}
             <div className="flex items-center gap-1">
-              {/* TODO: Search implementeren */}
+              {/* Search Button */}
+              <div className="relative">
+                <button
+                  onClick={handleSearchToggle}
+                  className="hidden lg:flex items-center gap-2 p-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-colors"
+                  aria-label="Zoeken"
+                >
+                  <Search className="w-5 h-5" strokeWidth={1.5} />
+                </button>
+                <AnimatePresence>
+                  {isSearchOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -4, scaleY: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scaleY: 1 }}
+                      exit={{ opacity: 0, y: -4, scaleY: 0.95 }}
+                      transition={{ duration: 0.15 }}
+                      className="absolute right-0 top-full mt-2 z-50 origin-top"
+                    >
+                      <form onSubmit={handleSearchSubmit} className="flex items-center bg-white border border-sand shadow-lg rounded-lg overflow-hidden">
+                        <input
+                          ref={searchInputRef}
+                          type="text"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          placeholder="Zoek wijnen..."
+                          className="w-56 px-4 py-2.5 text-sm text-charcoal placeholder:text-grey/50 outline-none bg-transparent"
+                          onKeyDown={(e) => { if (e.key === "Escape") setIsSearchOpen(false); }}
+                          onBlur={(e) => { if (!e.currentTarget.closest("form")?.contains(e.relatedTarget as Node)) setIsSearchOpen(false); }}
+                        />
+                        <button
+                          type="submit"
+                          className="px-3 py-2.5 text-wine hover:bg-sand/30 transition-colors"
+                          aria-label="Zoeken"
+                        >
+                          <Search className="w-4 h-4" strokeWidth={1.5} />
+                        </button>
+                      </form>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
               {/* Account Button — opens "coming soon" modal */}
               <button
                 onClick={() => openLoginModal()}

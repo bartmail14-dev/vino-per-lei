@@ -56,6 +56,11 @@ const PRODUCT_FIELDS = `
   tasteSoftTannic: metafield(namespace: "custom", key: "taste_soft_tannic") { value }
   tasteFruitySpicy: metafield(namespace: "custom", key: "taste_fruity_spicy") { value }
   tasteFreshSoft: metafield(namespace: "custom", key: "taste_fresh_soft") { value }
+  foodPairing: metafield(namespace: "custom", key: "food_pairing") { value }
+  servingTemperature: metafield(namespace: "custom", key: "serving_temperature") { value }
+  alcoholPercentage: metafield(namespace: "custom", key: "alcohol_percentage") { value }
+  vinification: metafield(namespace: "custom", key: "vinification") { value }
+  producerStory: metafield(namespace: "custom", key: "producer_story") { value }
 `;
 
 // --- Types ---
@@ -80,6 +85,21 @@ interface ShopifyProductNode {
 
 interface MetafieldNode {
   value: string;
+}
+
+// --- Helpers ---
+
+function parseFoodPairing(value: string | null | undefined): string[] | undefined {
+  if (!value) return undefined;
+  try {
+    const parsed = JSON.parse(value);
+    if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+  } catch {
+    // Could be comma-separated string
+    if (value.includes(',')) return value.split(',').map((s: string) => s.trim()).filter(Boolean);
+    if (value.trim()) return [value.trim()];
+  }
+  return undefined;
 }
 
 // --- Mapper ---
@@ -148,6 +168,12 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
     isFeatured: (node.isFeatured as MetafieldNode | null)?.value === 'true',
     hasAward: (node.hasAward as MetafieldNode | null)?.value === 'true',
     awardText: mf(node.awardText as MetafieldNode | null) ?? undefined,
+    // Metafield-driven content
+    foodPairing: parseFoodPairing((node.foodPairing as MetafieldNode | null)?.value),
+    servingTemperature: mf(node.servingTemperature as MetafieldNode | null) ?? undefined,
+    alcoholPercentage: mf(node.alcoholPercentage as MetafieldNode | null) ?? undefined,
+    vinification: mf(node.vinification as MetafieldNode | null) ?? undefined,
+    producerStory: mf(node.producerStory as MetafieldNode | null) ?? undefined,
     variants: node.variants?.edges?.map((e) => ({
       id: e.node.id,
       title: e.node.title,

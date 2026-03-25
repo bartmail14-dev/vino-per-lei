@@ -457,7 +457,7 @@ export async function getMenu(handle: string): Promise<MenuItem[]> {
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   companyName: 'Vino per Lei',
   ownerName: 'Carla Daniels',
-  phone: '',
+  phone: '+31 6 00 00 00 00', // TODO: Vervang met Carla's echte telefoonnummer
   email: 'info@vinoperlei.nl',
   addressStreet: 'Pastorielaan 56',
   addressPostal: '5504 CR',

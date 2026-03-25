@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "Veelgestelde Vragen | Vino per Lei",
   description:
     "Antwoorden op veelgestelde vragen over bestellen, betalen, verzenden en retourneren bij Vino per Lei.",
+  alternates: {
+    canonical: "https://vinoperlei.nl/klantenservice/faq",
+  },
   openGraph: {
     title: "Veelgestelde Vragen | Vino per Lei",
     description:
@@ -33,5 +36,58 @@ export default async function FAQPage() {
     ([title, items]) => ({ title, items })
   );
 
-  return <FAQContent faqCategories={faqCategories} />;
+  // JSON-LD: FAQPage schema
+  const allItems = faqCategories.flatMap((cat) => cat.items);
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: allItems.map((item) => ({
+      "@type": "Question",
+      name: item.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer,
+      },
+    })),
+  };
+
+  // JSON-LD: BreadcrumbList schema
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://vinoperlei.nl",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Klantenservice",
+        item: "https://vinoperlei.nl/klantenservice",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Veelgestelde Vragen",
+        item: "https://vinoperlei.nl/klantenservice/faq",
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <FAQContent faqCategories={faqCategories} />
+    </>
+  );
 }

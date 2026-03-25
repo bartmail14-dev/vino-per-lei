@@ -17,7 +17,7 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
       <label
         htmlFor={checkboxId}
         className={cn(
-          "flex items-center gap-3 cursor-pointer group py-2 px-1 -mx-1 rounded-lg",
+          "flex items-center gap-3 cursor-pointer group py-2.5 px-2 -mx-2 rounded-lg min-h-[44px]",
           "transition-all duration-200",
           "hover:bg-gold/[0.04]",
           props.disabled && "cursor-not-allowed opacity-50",

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Section } from "@/components/layout";
 import { Button, PriceDisplay, SavingsBadge, QuantitySelector } from "@/components/ui";
+import { NotifyMeModal } from "@/components/ui/NotifyMeModal";
 import {
   HeroSection,
   StickyPurchaseBar,
@@ -18,6 +19,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
 import { type Product } from "@/types";
 import { cn } from "@/lib/utils";
+import { trackViewItem, trackAddToCart } from "@/lib/analytics";
 import { CheckIcon, HeartIcon, TruckIcon, ShieldIcon, ClockIcon } from "@/components/icons";
 import { AlertTriangle } from "lucide-react";
 import { useShopConfig } from "@/components/providers";
@@ -33,8 +35,14 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
+  const [notifyOpen, setNotifyOpen] = useState(false);
 
   const { freeShippingThreshold } = useShopConfig();
+
+  // Track view_item on mount
+  useEffect(() => {
+    trackViewItem({ title: product.title, id: product.id, price: product.price, category: product.wineType });
+  }, [product.title, product.id, product.price, product.wineType]);
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
   const isInWishlist = useWishlistStore((state) => state.isInWishlist(product.id));
@@ -45,6 +53,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
     setIsAdding(true);
     await new Promise((resolve) => setTimeout(resolve, 400));
     addItem(product, quantity);
+    trackAddToCart({ title: product.title, id: product.id, price: product.price, quantity });
     setIsAdding(false);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 2000);
@@ -136,8 +145,8 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
                     )}
                   </Button>
                 ) : (
-                  <Button variant="secondary" size="lg" fullWidth>
-                    Notify me
+                  <Button variant="secondary" size="lg" fullWidth onClick={() => setNotifyOpen(true)}>
+                    Mail bij voorraad
                   </Button>
                 )}
               </div>
@@ -175,10 +184,13 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
               </div>
             </div>
 
-            {/* Allergen notice (EU requirement) */}
-            <div className="mt-4 pt-4 border-t border-sand/50 flex items-center gap-2 text-sm text-grey">
-              <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" strokeWidth={1.5} />
-              <span>Bevat sulfieten</span>
+            {/* Allergeninformatie — EU LMIV 1169/2011 */}
+            <div className="bg-gold/5 border border-gold/20 rounded-lg p-4 mt-4">
+              <div className="flex items-center gap-2 mb-1">
+                <AlertTriangle className="w-4 h-4 text-gold" strokeWidth={1.5} />
+                <h4 className="font-semibold text-sm text-wine/80">Allergeninformatie</h4>
+              </div>
+              <p className="text-sm text-wine/60">Bevat sulfieten (SO₂). Kan sporen van ei-eiwitten en melkeiwitten bevatten (gebruikt bij het klaren van wijn).</p>
             </div>
           </div>
         </div>
@@ -200,10 +212,13 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
             <span className="text-xs text-grey">1-2 dagen</span>
           </div>
         </div>
-        {/* Allergen notice (EU requirement) */}
-        <div className="mt-2 pt-2 border-t border-sand/30 flex items-center justify-center gap-1.5 text-xs text-grey">
-          <AlertTriangle className="w-3.5 h-3.5 text-amber-600 flex-shrink-0" strokeWidth={1.5} />
-          <span>Bevat sulfieten</span>
+        {/* Allergeninformatie — EU LMIV 1169/2011 */}
+        <div className="mt-2 mx-4 p-3 bg-gold/5 border border-gold/20 rounded-lg">
+          <div className="flex items-center gap-1.5 mb-0.5">
+            <AlertTriangle className="w-4 h-4 text-gold flex-shrink-0" strokeWidth={1.5} />
+            <span className="font-semibold text-xs text-wine/80">Allergeninformatie</span>
+          </div>
+          <p className="text-xs text-wine/60">Bevat sulfieten (SO₂). Kan sporen van ei-eiwitten en melkeiwitten bevatten.</p>
         </div>
       </div>
 
@@ -247,13 +262,13 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
           </div>
           <WineDetailsAccordion product={product} />
 
-          {/* Allergen information — EU regulation requirement */}
-          <div className="mt-6 p-4 bg-amber-50 border border-amber-200 rounded-lg flex items-start gap-3">
-            <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+          {/* Allergeninformatie — EU LMIV 1169/2011 */}
+          <div className="mt-6 p-4 bg-gold/5 border border-gold/20 rounded-lg flex items-start gap-3">
+            <AlertTriangle className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" strokeWidth={1.5} />
             <div>
-              <p className="text-sm font-medium text-amber-900">Allergeninformatie</p>
-              <p className="text-sm text-amber-800 mt-0.5">
-                Bevat sulfieten. Alcoholhoudende drank. Niet geschikt voor personen onder de 18 jaar.
+              <p className="text-sm font-medium text-wine/80">Allergeninformatie</p>
+              <p className="text-sm text-wine/60 mt-0.5">
+                Bevat sulfieten (SO₂). Kan sporen van ei-eiwitten en melkeiwitten bevatten (gebruikt bij het klaren van wijn). Alcoholhoudende drank. Niet geschikt voor personen onder de 18 jaar.
               </p>
             </div>
           </div>
@@ -281,6 +296,13 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
 
       {/* Bottom padding for mobile sticky bar */}
       <div className="h-24 lg:h-0" />
+
+      {/* Notify Me Modal */}
+      <NotifyMeModal
+        isOpen={notifyOpen}
+        onClose={() => setNotifyOpen(false)}
+        productTitle={product.title}
+      />
     </>
   );
 }

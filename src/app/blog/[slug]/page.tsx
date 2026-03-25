@@ -45,6 +45,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: article.seo.title || `${article.title} | Vino per Lei`,
     description: article.seo.description || article.excerpt || undefined,
+    alternates: {
+      canonical: `https://vinoperlei.nl/blog/${slug}`,
+    },
     openGraph: {
       title: article.seo.title || article.title,
       description: article.seo.description || article.excerpt || undefined,

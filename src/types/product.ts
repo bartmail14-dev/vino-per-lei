@@ -44,6 +44,13 @@ export interface Product {
   hasAward?: boolean;
   awardText?: string;
 
+  // Metafield-driven content
+  foodPairing?: string[];          // from custom.food_pairing JSON array
+  servingTemperature?: string;     // from custom.serving_temperature e.g. "16-18°C"
+  alcoholPercentage?: string;      // from custom.alcohol_percentage e.g. "13.5%"
+  vinification?: string;           // from custom.vinification
+  producerStory?: string;          // from custom.producer_story
+
   // Shopify
   variantId: string;
   variants?: Array<{

@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "Over Ons | Vino per Lei",
   description:
     "Carla Daniels importeert Italiaanse wijnen rechtstreeks van familieproducenten in Piemonte, Veneto en Toscane.",
+  alternates: {
+    canonical: "https://vinoperlei.nl/over-ons",
+  },
   openGraph: {
     title: "Over Ons | Vino per Lei",
     description:
@@ -27,11 +30,37 @@ export default async function OverOnsPage() {
   ]);
   const site = settings ?? DEFAULT_SITE_SETTINGS;
 
+  // JSON-LD: BreadcrumbList schema
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://vinoperlei.nl",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Over Ons",
+        item: "https://vinoperlei.nl/over-ons",
+      },
+    ],
+  };
+
   return (
-    <OverOnsContent
-      pageBody={page?.body ?? null}
-      email={site.email}
-      wineCount={products.length}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
+      <OverOnsContent
+        pageBody={page?.body ?? null}
+        email={site.email}
+        wineCount={products.length}
+      />
+    </>
   );
 }

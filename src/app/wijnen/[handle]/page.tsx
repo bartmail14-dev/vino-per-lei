@@ -42,6 +42,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title,
     description,
+    alternates: {
+      canonical: `https://vinoperlei.nl/wijnen/${handle}`,
+    },
     openGraph: {
       title: product.title,
       description,

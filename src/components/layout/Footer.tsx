@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ChevronDownIcon } from "@/components/icons";
 import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
+import { reopenCookieConsent } from "@/components/ui/CookieConsent";
 import type { SiteSettings } from "@/lib/shopify-cms";
 
 // --- Props ---
@@ -386,11 +387,17 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
                 <Link href="/voorwaarden" className="hover:text-wine/80 transition-colors">Voorwaarden</Link>
                 <Link href="/privacy" className="hover:text-wine/80 transition-colors">Privacy</Link>
                 <Link href="/cookies" className="hover:text-wine/80 transition-colors">Cookies</Link>
+                <button onClick={reopenCookieConsent} className="hover:text-wine/80 transition-colors cursor-pointer">Cookie-instellingen</button>
               </div>
             </div>
-            <p className="text-[10px] text-wine/40 mt-1">
-              Het is verboden alcoholhoudende dranken te verkopen aan personen onder de 18 jaar.
-            </p>
+            <div className="flex items-center gap-2.5 mt-3 px-4 py-2.5 bg-wine/[0.06] border border-wine/15 rounded-lg">
+              <svg viewBox="0 0 24 24" className="w-4 h-4 text-wine/70 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                <path d="M12 9v4m0 4h.01M12 2L2 22h20L12 2z" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              <p className="text-xs sm:text-sm text-wine/70 leading-snug font-medium">
+                Het is verboden alcoholhoudende dranken te verkopen aan personen onder de 18 jaar. Bij levering wordt om legitimatie gevraagd.
+              </p>
+            </div>
           </div>
         </div>
       </div>

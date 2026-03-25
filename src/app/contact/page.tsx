@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: "Contact | Vino per Lei",
   description:
     "Neem contact op met Vino per Lei. Wij helpen je graag met vragen over onze wijnen, bestellingen of wijnadvies.",
+  alternates: {
+    canonical: "https://vinoperlei.nl/contact",
+  },
   openGraph: {
     title: "Contact | Vino per Lei",
     description:

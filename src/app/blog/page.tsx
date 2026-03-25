@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   title: "Blog — Wijn Verhalen | Vino per Lei",
   description:
     "Verhalen over Italiaanse wijnen, wijnboeren, regio's, druivenrassen en food pairing tips.",
+  alternates: {
+    canonical: "https://vinoperlei.nl/blog",
+  },
   openGraph: {
     title: "Blog — Wijn Verhalen | Vino per Lei",
     description:

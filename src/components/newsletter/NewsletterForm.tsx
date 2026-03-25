@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useRef, useId } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+
+/** Read the CSRF token from the vpl_csrf cookie (set by middleware, SameSite=Lax). */
+function getCsrfToken(): string {
+  const match = document.cookie.match(/(?:^|;\s*)vpl_csrf=([^;]*)/);
+  return match ? match[1] : "";
+}
 
 type Variant = "dark" | "light";
 
@@ -28,6 +35,8 @@ export function NewsletterForm({
 }: NewsletterFormProps) {
   const [email, setEmail] = useState("");
   const [honeypot, setHoneypot] = useState("");
+  const [consent, setConsent] = useState(false);
+  const [consentError, setConsentError] = useState(false);
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [focused, setFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -44,6 +53,11 @@ export function NewsletterForm({
       return;
     }
 
+    if (!consent) {
+      setConsentError(true);
+      return;
+    }
+
     if (!email || !email.includes("@")) {
       setStatus("error");
       return;
@@ -55,7 +69,7 @@ export function NewsletterForm({
       const res = await fetch("/api/newsletter", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, _csrf: getCsrfToken() }),
       });
 
       if (!res.ok) {
@@ -146,8 +160,8 @@ export function NewsletterForm({
             initial={false}
             className={
               layout === "inline"
-                ? "flex flex-col sm:flex-row gap-3"
-                : "flex flex-col sm:flex-row gap-3"
+                ? "flex flex-col sm:flex-row sm:flex-wrap gap-3"
+                : "flex flex-col sm:flex-row sm:flex-wrap gap-3"
             }
           >
             {/* Honeypot — hidden from real users, filled by bots */}
@@ -242,6 +256,33 @@ export function NewsletterForm({
                   )}
                 </span>
               </button>
+            </div>
+            {/* GDPR consent checkbox */}
+            <div className={`w-full ${layout === "inline" ? "sm:col-span-2" : ""}`}>
+              <label className="flex items-start gap-2 cursor-pointer group">
+                <input
+                  type="checkbox"
+                  checked={consent}
+                  onChange={(e) => {
+                    setConsent(e.target.checked);
+                    if (e.target.checked) setConsentError(false);
+                  }}
+                  className={`mt-0.5 w-4 h-4 rounded border flex-shrink-0 cursor-pointer ${
+                    isDark ? "border-white/20 accent-gold" : "border-sand accent-wine"
+                  } ${consentError ? "ring-2 ring-red-400/50" : ""}`}
+                />
+                <span className={`text-[11px] leading-relaxed ${isDark ? "text-white/40" : "text-grey/60"}`}>
+                  Ik ga akkoord met het ontvangen van de nieuwsbrief en het{" "}
+                  <Link href="/privacy" className={`underline underline-offset-2 ${isDark ? "text-white/50 hover:text-white/70" : "text-wine/60 hover:text-wine"} transition-colors`}>
+                    privacybeleid
+                  </Link>
+                </span>
+              </label>
+              {consentError && (
+                <p className={`text-[11px] mt-1 ml-6 ${isDark ? "text-red-400/70" : "text-error/70"}`}>
+                  Geef toestemming om je aan te melden.
+                </p>
+              )}
             </div>
           </motion.form>
         )}

@@ -247,6 +247,12 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
               {product.title}
             </h1>
 
+            {/* Curated by Carla badge */}
+            <div className="flex items-center gap-1.5 mb-3">
+              <svg viewBox="0 0 16 16" className="w-3.5 h-3.5 text-gold" fill="currentColor"><path d="M8 0l2 5h5l-4 3.5 1.5 5L8 10.5 3.5 13.5 5 8.5 1 5h5z"/></svg>
+              <span className="text-sm text-wine/70 italic">Persoonlijk geselecteerd door Carla</span>
+            </div>
+
             {/* Vintage & Region */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-grey text-sm sm:text-base mb-4 sm:mb-5">
               {product.vintage && (

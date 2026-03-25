@@ -1,6 +1,47 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+// --- Age-restricted paths ---
+// These routes require the `vpl_age_verified` cookie to be present.
+// If missing, the user is redirected to the homepage where the AgeGate component handles verification.
+const AGE_RESTRICTED_PATHS = ["/wijnen", "/checkout", "/cadeaus"];
+
+function isAgeRestrictedPath(pathname: string): boolean {
+  return AGE_RESTRICTED_PATHS.some(
+    (p) => pathname === p || pathname.startsWith(`${p}/`)
+  );
+}
+
+// --- CSRF token generation ---
+const CSRF_COOKIE = "vpl_csrf";
+
+function ensureCsrfToken(
+  request: NextRequest,
+  response: NextResponse
+): string {
+  const existing = request.cookies.get(CSRF_COOKIE)?.value;
+  if (existing && existing.length >= 32) {
+    // Expose token via response header so client JS can read it
+    response.headers.set("X-CSRF-Token", existing);
+    return existing;
+  }
+
+  // Generate a cryptographically random token
+  const token = crypto.randomUUID() + crypto.randomUUID().replace(/-/g, "");
+  // Not httpOnly — client JS must read this token to include it in form submissions.
+  // Security relies on SameSite=Lax preventing cross-origin cookie attachment,
+  // combined with the double-submit pattern (cookie value must match body value).
+  response.cookies.set(CSRF_COOKIE, token, {
+    httpOnly: false,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24, // 24 hours
+  });
+  response.headers.set("X-CSRF-Token", token);
+  return token;
+}
+
 // --- Cookie-based rate limiter ---
 // On Vercel serverless, in-memory state is NOT shared between instances.
 // This cookie-based approach tracks request timestamps per client.
@@ -101,7 +142,23 @@ function checkRateLimit(
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // --- Age verification gate (server-side) ---
+  // Redirect to homepage if age cookie is missing on restricted routes.
+  // The client-side AgeGate component on "/" handles the actual verification UI.
+  if (isAgeRestrictedPath(pathname)) {
+    const ageVerified = request.cookies.get("vpl_age_verified")?.value;
+    if (!ageVerified) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/";
+      url.searchParams.set("age_required", "1");
+      return NextResponse.redirect(url);
+    }
+  }
+
   const response = NextResponse.next();
+
+  // --- CSRF token (generate per session, expose via header) ---
+  ensureCsrfToken(request, response);
 
   // --- Security headers ---
   response.headers.set("X-Frame-Options", "DENY");
@@ -138,6 +195,7 @@ export function middleware(request: NextRequest) {
       "form-action 'self' https://*.myshopify.com",
       "object-src 'none'",
       "upgrade-insecure-requests",
+      "report-uri /api/csp-report",
     ].join("; ") + ";"
   );
 

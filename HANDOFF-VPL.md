@@ -1,7 +1,7 @@
 # Vino per Lei — Overdracht volgende sessie
 
-**Datum:** 23 maart 2026 (sessie 6)
-**Laatste sessie:** Deploy, mobile fixes, CMS key fix, showcase update, handleiding projectoverzicht.
+**Datum:** 25 maart 2026 (sessie 7)
+**Laatste sessie:** Shopify API fixes, premium filter/toolbar/menu redesign, visual QA via Playwright.
 
 ---
 
@@ -17,83 +17,88 @@
 | **Klant** | Carla Daniels, Pastorielaan 56, 5504 CR Veldhoven |
 | **Carla's email** | `vinoperlei@outlook.com` (tijdelijk) |
 | **KvK** | 98874977 — **BTW:** NL005360033B10 |
-| **Laatste commit** | `0b220fc` — fix \u2014 literal in JSX |
+| **Laatste commit** | `e8eea04` — fix hamburger button |
 | **Git status** | Clean, up to date met origin/master |
 
 ---
 
-## Wat er sessie 6 is gedaan
+## Wat er sessie 7 is gedaan
 
-### 1. Vercel productie-deploy — DONE
-- Site live op https://vino-per-lei.vercel.app
-- RATE_LIMIT_SECRET toegevoegd aan Vercel env vars
-- 23 routes, 0 build errors
+### 1. Shopify API fixes — 3 kritieke bugs opgelost
+- **Producten waren onzichtbaar**: `totalInventory` veld verwijderd uit GraphQL query (vereiste onbeschikbare scope, brak hele query stil)
+- **Blog artikelen ontbraken**: API versie `2026-01` → `2025-01` (ongeldig), `authorV2.bio` verwijderd (niet op Storefront API)
+- **Hero overlap gebroken**: USP bar margin `-mt-8` → `-mt-16`, hero gradient `h-16/80%` → `h-10/40%`
+- Bestanden: `shopify.ts`, `shopify-cms.ts`, `page.tsx`, `HomeAnimations.tsx`
 
-### 2. Mobile-friendly check (8 pagina's) — DONE
-- Alle pagina's getest op iPhone 390×844 viewport via Playwright MCP
-- **Fix 1:** Homepage wine regions sectie had horizontale overflow door `x: -30` animatie → `overflow-hidden` op Section
-- **Fix 2:** PriceDisplay kortingsbadge overflow op smalle productkaarten → `flex-wrap` + `whitespace-nowrap`
-- Bestanden: `src/app/page.tsx`, `src/components/ui/PriceDisplay.tsx`
+### 2. Premium filter/toolbar redesign
+- **FilterSidebar desktop**: Cream card, serif headers, gouden chevrons, champagne map card, gold left-border actieve groepen
+- **FilterSidebar mobile**: Wine-gradient header, grain texture, verfijnde actieknoppen
+- **Checkbox**: Wine-gradient fill, gouden vinkje, champagne count-pills
+- **Select**: Compact h-10, gouden chevron/focus ring, inner shadow
+- **Toolbar**: Gouden zoekicoon, rounded-xl search, wine-gradient view toggle, serif resultaat-teller
+- **ActiveFilterTags**: Champagne/goud tags, serif italic label
+- **Empty state**: Champagne card met goud border
+- Bestanden: `FilterSidebar.tsx`, `Checkbox.tsx`, `Select.tsx`, `WijnenClient.tsx`
 
-### 3. Shopify CMS key mismatch — DONE
-- `f.free_shipping_threshold` → `f.gratis_verzending_drempel`
-- `f.shipping_cost` → `f.verzendkosten`
-- Setup script ook bijgewerkt met juiste field definitions + seed values
-- Bestanden: `src/lib/shopify-cms.ts`, `scripts/setup-shopify-cms.ts`
+### 3. Premium mobile menu redesign
+- Wine-gradient header met logo + "ITALIAANSE WIJNEN" tagline
+- Cream achtergrond, spring animatie, staggered entry items
+- Gouden accent submenu met gold left-border
+- Premium inlog-knop met avatar cirkel
+- Klikbare contact links (tel/email) met champagne icoon-containers
+- Clean hamburger button (geen achtergrond-vlak)
+- Bestanden: `Header.tsx`
 
-### 4. Handleiding projectoverzicht — DONE
-- Sectie toegevoegd onderaan `/handleiding` met 3 blokken:
-  - Afgerond (15 punten, groene checks)
-  - Nog te doen (4 punten, oranje klokken)
-  - Nodig van jou (3 items: email, notifications, domein)
-- Bestand: `src/app/handleiding/HandleidingContent.tsx`
+### 4. Overige verbeteringen
+- Homepage revalidation 300s → 60s (aligned met blog)
+- Fallback blog dates bijgewerkt naar 2026
+- Betere error logging in shopify.ts en shopify-cms.ts
+- Handleiding: Shopify Partners toegang-sectie toegevoegd
 
-### 5. Showcase pagina update — DONE
-- Timeline stap 9 toegevoegd (handleiding, mobile, deploy)
-- **DATA GECORRIGEERD**: Timeline start nu op 3 maart (was fout februari)
-- **AI-REFERENTIES VERWIJDERD**: Alle mentions van agents, AI, Playwright, fix-agents
-- 5 items gemarkeerd als "Afgerond" (groen), 3 als "Wacht op info" (oranje)
-- Stats: 3 weken, 150+ commits, 19 pagina's
-- Em-dash bug gefixt (`\u2014` literal in JSX → `&mdash;`)
-- Bestand: `src/app/showcase/page.tsx`
+---
+
+## Commits deze sessie (4 stuks)
+
+```
+e8eea04 fix: clean hamburger button — remove background box, opacity hover only
+6933897 feat: premium mobile menu redesign
+9465fb1 feat: premium redesign filters, toolbar, select and checkboxes
+ed10f1e fix: restore products, blog articles and hero overlap
+```
 
 ---
 
 ## TODO's volgende sessie (prioriteit)
 
-### #1 HIGH — Carla's Shopify staff account aanmaken
-**Status:** Halverwege — Settings → Users pagina is al open in Playwright.
-**Email:** `vinoperlei@outlook.com`
-**Aanpak:**
-1. Open Shopify Admin → Settings → Users → "Add users"
-2. Vul `vinoperlei@outlook.com` in
-3. Rechten: Products, Content (pages/blog/metaobjects), Orders (view)
-4. Verstuur uitnodiging
-
-### #2 HIGH — Shopify Order Notifications naar Carla
-- Shopify Admin → Settings → Notifications → Staff order notifications
-- Voeg `vinoperlei@outlook.com` toe
-- Zo krijgt Carla een mail bij elke nieuwe bestelling
-
-### #3 HIGH — Shopify API-token roteren
+### #1 HIGH — Shopify API-token roteren
 - Huidig Storefront token staat in git history
 - Nieuw token genereren in Shopify Admin → Settings → Apps → Headless
 - Update in `.env.local` + Vercel env vars
 - Oud token intrekken
 - Test dat producten, checkout en CMS nog werken
 
+### #2 HIGH — Carla's Shopify staff account
+- Email: `vinoperlei@outlook.com`
+- Shopify Admin → Settings → Users → Add users
+- Rechten: Products, Content, Orders (view)
+
+### #3 HIGH — Shopify Order Notifications
+- Settings → Notifications → Staff order notifications
+- Voeg `vinoperlei@outlook.com` toe
+
 ### #4 MEDIUM — Mailgun + DNS
-1. Mailgun: `mg.vinoperlei.nl` verifiëren (SPF, DKIM, MX records)
-2. DNS: `vinoperlei.nl` → Vercel (CNAME records)
-3. Vraag Bart of domein al geregistreerd is + DNS-toegang
+1. Mailgun: `mg.vinoperlei.nl` verifiëren (SPF, DKIM, MX)
+2. DNS: `vinoperlei.nl` → Vercel (CNAME)
+3. Vraag Bart of domein al geregistreerd is
 
-### #5 MEDIUM — Handleiding uitbreiden
-- Lightbox/zoom op screenshots (klik om te vergroten)
-- Extra secties: Kortingscodes, Collecties
+### #5 MEDIUM — Web3Forms contact form
+- Contact form stuurt nog niks
+- Web3Forms API key koppelen
 
-### #6 LOW — Shopify CMS hero tekst
-- Check of homepage_hero metaobject nog "Wie is Carla?" bevat
-- Wijzig naar "Over Vino per Lei"
+### #6 LOW — Visuele polish
+- Wijnen submenu in mobile menu: test dat accordion + gouden border goed werken
+- Tablet breakpoint (768px) check op /wijnen filters
+- Homepage hero "Ons Verhaal" button styling kan nog wat strakker
 
 ---
 
@@ -103,10 +108,25 @@
 - **Production test:** `npm run build && npx next start --port 3099 > /dev/null 2>&1 &`
 - **Port killen:** `npx --yes kill-port 3099`
 - **Vercel deploy:** Git push triggert auto-deploy. Alternatief: `npx vercel --prod --force`
-- **NOOIT AI/agents/tooling vermelden** in klant-zichtbare content (showcase, handleiding, emails)
-- **Timeline start 3 maart** — niet februari. Git commits in feb waren prototype/demo.
+- **NOOIT AI/agents/tooling vermelden** in klant-zichtbare content
+- **Shopify API versie:** `2025-01` (NIET 2026-01, die bestaat niet)
 - **Playwright MCP:** Sluit ALLE Chrome vensters voor gebruik
-- **Shopify login:** Bart logt zelf in via Playwright, dan kan Claude verder navigeren
+- **Lettertype mobile menu:** Inter (modern, leesbaar) — Bart wil dit behouden
+
+---
+
+## Design systeem quick reference
+
+| Element | Waarde |
+|---------|--------|
+| Primary | wine-burgundy `#1a1f3d` |
+| Accent | gold `#c9a227` |
+| Background | cream `#faf9f7` |
+| Border | sand `#e8e0d5` |
+| Serif | Playfair Display |
+| Sans | Inter |
+| Gradient | `wine-gradient` (135deg navy) |
+| Radius | rounded-lg to rounded-2xl |
 
 ---
 
@@ -114,4 +134,4 @@
 
 - **Website:** https://vino-per-lei.vercel.app
 - **Handleiding:** https://vino-per-lei.vercel.app/handleiding
-- **Showcase (technisch dossier):** https://vino-per-lei.vercel.app/showcase
+- **Showcase:** https://vino-per-lei.vercel.app/showcase

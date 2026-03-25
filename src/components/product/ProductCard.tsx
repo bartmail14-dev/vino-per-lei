@@ -6,9 +6,11 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { type Product } from "@/types";
 import { Badge, Rating, PriceDisplay } from "@/components/ui";
+import { NotifyMeModal } from "@/components/ui/NotifyMeModal";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
 import { cn, wineImagePresets } from "@/lib/utils";
+import { trackAddToCart } from "@/lib/analytics";
 import { WineBottleIcon, CheckIcon, HeartIcon, LoadingSpinner, EyeIcon } from "@/components/icons";
 
 export interface ProductCardProps {
@@ -28,6 +30,7 @@ export function ProductCard({
   const [justAdded, setJustAdded] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [notifyOpen, setNotifyOpen] = useState(false);
   const handleImageLoad = useCallback(() => setImageLoaded(true), []);
 
   const addItem = useCartStore((state) => state.addItem);
@@ -44,6 +47,7 @@ export function ProductCard({
     await new Promise((resolve) => setTimeout(resolve, 300));
 
     addItem(product);
+    trackAddToCart({ title: product.title, id: product.id, price: product.price, quantity: 1 });
     setIsAdding(false);
     setJustAdded(true);
 
@@ -165,6 +169,9 @@ export function ProductCard({
               <Badge variant="sale">-{discountPercentage}%</Badge>
             )}
             {!product.inStock && <Badge variant="soldout">Uitverkocht</Badge>}
+            {product.inStock && product.stockQuantity != null && product.stockQuantity > 0 && product.stockQuantity <= 5 && (
+              <Badge variant="lowstock">Nog {product.stockQuantity} {product.stockQuantity === 1 ? "fles" : "flessen"}</Badge>
+            )}
             {product.hasAward && (
               <Badge variant="award">{product.awardText || "Award"}</Badge>
             )}
@@ -324,11 +331,21 @@ export function ProductCard({
             </AnimatePresence>
           </motion.button>
         ) : (
-          <button className="w-full h-9 sm:h-11 rounded-lg text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] border border-wine/20 text-wine/60 bg-transparent hover:bg-wine hover:text-white hover:border-wine transition-all duration-300">
+          <button
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setNotifyOpen(true); }}
+            className="w-full h-9 sm:h-11 rounded-lg text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] border border-wine/20 text-wine/60 bg-transparent hover:bg-wine hover:text-white hover:border-wine transition-all duration-300"
+          >
             Mail bij voorraad
           </button>
         )}
       </div>
+
+      {/* Notify Me Modal */}
+      <NotifyMeModal
+        isOpen={notifyOpen}
+        onClose={() => setNotifyOpen(false)}
+        productTitle={product.title}
+      />
     </motion.article>
   );
 }

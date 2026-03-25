@@ -110,4 +110,8 @@ export const wineImagePresets = {
   /** OG image / social share */
   og: (url: string) =>
     optimizeShopifyImage(url, { width: 1200, height: 630, crop: "center" }),
+
+  /** Mobile card — smaller for faster LCP on mobile devices */
+  cardMobile: (url: string) =>
+    optimizeShopifyImage(url, { width: 200, height: 300, crop: "center" }),
 } as const;

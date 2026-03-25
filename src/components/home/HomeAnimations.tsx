@@ -1,9 +1,14 @@
 "use client";
 
 import { type ReactNode, useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, useReducedMotion } from "framer-motion";
 import { AnimateOnScroll, StaggerChildren, StaggerItem } from "@/components/ui";
 import { StarIcon } from "@/components/icons";
+
+function useAccessibleMotion() {
+  const prefersReduced = useReducedMotion();
+  return prefersReduced ?? false;
+}
 
 // Wrapper for animated sections in the homepage (Server Component can't use hooks)
 export function AnimatedSection({
@@ -46,6 +51,7 @@ export { StaggerItem };
 // Hero Parallax — video bg moves slower than content
 // ============================================
 export function HeroParallax({ children }: { children: ReactNode }) {
+  const reduced = useAccessibleMotion();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -53,10 +59,10 @@ export function HeroParallax({ children }: { children: ReactNode }) {
   });
 
   // Video moves DOWN at 30% of scroll speed (parallax)
-  const videoY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const videoY = useTransform(scrollYProgress, [0, 1], ["0%", reduced ? "0%" : "30%"]);
   // Content fades and shifts up
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", reduced ? "0%" : "15%"]);
+  const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, reduced ? 1 : 0]);
 
   return (
     <div ref={ref} className="relative h-[80vh] sm:h-[90vh] min-h-[560px] sm:min-h-[640px] max-h-[1000px] overflow-hidden">
@@ -67,7 +73,7 @@ export function HeroParallax({ children }: { children: ReactNode }) {
           muted
           loop
           playsInline
-          preload="metadata"
+          preload="none"
           poster="/hero-banner.webp"
           aria-hidden="true"
           className="absolute inset-0 w-full h-[120%] object-cover"
@@ -147,8 +153,11 @@ export function AnimatedCounter({
 // USP Bar with reveal animation
 // ============================================
 export function AnimatedUSPBar({ children }: { children: ReactNode }) {
+  const reduced = useAccessibleMotion();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+  if (reduced) return <div ref={ref}>{children}</div>;
 
   return (
     <motion.div
@@ -170,9 +179,11 @@ interface TestimonialProps {
   text: string;
   rating: number;
   wine: string;
+  attribution?: string;
 }
 
-export function TestimonialCard({ name, text, rating, wine }: TestimonialProps) {
+export function TestimonialCard({ name, text, rating, wine, attribution }: TestimonialProps) {
+  const reduced = useAccessibleMotion();
   const initials = name
     .split(" ")
     .map((w) => w[0])
@@ -182,7 +193,7 @@ export function TestimonialCard({ name, text, rating, wine }: TestimonialProps) 
   return (
     <StaggerItem>
       <motion.div
-        whileHover={{ y: -4, transition: { duration: 0.3 } }}
+        whileHover={reduced ? {} : { y: -4, transition: { duration: 0.3 } }}
         className="relative bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-sand/50 hover:shadow-xl transition-shadow duration-500 group overflow-hidden"
       >
         {/* Decorative gradient corner */}
@@ -214,6 +225,7 @@ export function TestimonialCard({ name, text, rating, wine }: TestimonialProps) 
             <div>
               <p className="font-semibold text-charcoal text-sm">{name}</p>
               <p className="text-xs text-grey">{wine}</p>
+              {attribution && <p className="text-[10px] text-grey/60 italic mt-0.5">{attribution}</p>}
             </div>
           </div>
         </div>
@@ -226,6 +238,7 @@ export function TestimonialCard({ name, text, rating, wine }: TestimonialProps) 
 // Overlapping Transition Section — bridges dark → light
 // ============================================
 export function OverlapTransition() {
+  const reduced = useAccessibleMotion();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
 
@@ -234,9 +247,9 @@ export function OverlapTransition() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-auto">
         <motion.div
           ref={ref}
-          initial={{ opacity: 0, y: 30 }}
+          initial={reduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+          transition={{ duration: reduced ? 0 : 0.7, ease: [0.25, 0.1, 0.25, 1] }}
           className="relative bg-white rounded-2xl shadow-xl shadow-charcoal/8 border border-sand/40 px-6 sm:px-10 lg:px-14 py-8 sm:py-10 text-center overflow-hidden"
         >
           {/* Decorative gold accent top */}
@@ -265,6 +278,7 @@ export function OverlapTransition() {
 // Decorative Section Divider — wine-themed
 // ============================================
 export function PremiumDivider({ variant = "gold" }: { variant?: "gold" | "wine" | "subtle" }) {
+  const reduced = useAccessibleMotion();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
@@ -279,9 +293,9 @@ export function PremiumDivider({ variant = "gold" }: { variant?: "gold" | "wine"
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, scaleX: 0.3 }}
+      initial={reduced ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0.3 }}
       animate={isInView ? { opacity: 1, scaleX: 1 } : {}}
-      transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
+      transition={{ duration: reduced ? 0 : 0.8, ease: [0.25, 0.1, 0.25, 1] }}
       className="flex items-center justify-center py-2 sm:py-4"
     >
       <div className={`h-px w-20 sm:w-32 bg-gradient-to-r ${c.line}`} />
@@ -295,6 +309,19 @@ export function PremiumDivider({ variant = "gold" }: { variant?: "gold" | "wine"
 // Scroll indicator with smooth animation
 // ============================================
 export function ScrollIndicator() {
+  const reduced = useAccessibleMotion();
+
+  if (reduced) {
+    return (
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center gap-2">
+        <span className="text-white/40 text-[10px] uppercase tracking-[0.3em] font-medium">Scroll</span>
+        <div className="w-5 h-8 border border-white/30 rounded-full flex justify-center pt-1.5">
+          <div className="w-0.5 h-1.5 bg-gold/80 rounded-full" />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0 }}

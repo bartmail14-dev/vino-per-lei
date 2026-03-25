@@ -3,6 +3,12 @@
 import { useState } from "react";
 import { z } from "zod";
 
+/** Read the CSRF token from the vpl_csrf cookie (set by middleware, SameSite=Lax). */
+function getCsrfToken(): string {
+  const match = document.cookie.match(/(?:^|;\s*)vpl_csrf=([^;]*)/);
+  return match ? match[1] : "";
+}
+
 const contactSchema = z.object({
   naam: z.string().min(2, "Naam is te kort").max(100, "Naam is te lang"),
   email: z.string().email("Ongeldig e-mailadres"),
@@ -55,6 +61,7 @@ export function ContactForm() {
           onderwerp: formData.onderwerp,
           bericht: formData.bericht,
           honeypot,
+          _csrf: getCsrfToken(),
         }),
       });
 

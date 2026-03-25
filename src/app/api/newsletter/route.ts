@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { z } from "zod/v4";
 
 const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY ?? "";
@@ -15,11 +16,24 @@ function isMailgunConfigured(): boolean {
 
 const newsletterSchema = z.object({
   email: z.email("Ongeldig e-mailadres"),
+  _csrf: z.string().optional(),
 });
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+
+    // --- CSRF validation ---
+    const cookieStore = await cookies();
+    const csrfCookie = cookieStore.get("vpl_csrf")?.value;
+    const csrfBody = body?._csrf;
+    if (!csrfCookie || !csrfBody || csrfCookie !== csrfBody) {
+      return NextResponse.json(
+        { error: "Ongeldige sessie. Herlaad de pagina en probeer opnieuw." },
+        { status: 403 }
+      );
+    }
+
     const parsed = newsletterSchema.safeParse(body);
 
     if (!parsed.success) {

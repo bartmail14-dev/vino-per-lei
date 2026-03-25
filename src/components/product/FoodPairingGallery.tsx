@@ -6,6 +6,12 @@ import { cn } from "@/lib/utils";
 import {
   Wine,
   Thermometer,
+  UtensilsCrossed,
+  Beef,
+  Fish,
+  Salad,
+  CakeSlice,
+  Grape,
 } from "lucide-react";
 import type { Product } from "@/types";
 
@@ -21,7 +27,7 @@ interface FoodPairing {
 }
 
 export function FoodPairingGallery({ product, className }: FoodPairingGalleryProps) {
-  const pairings = getFoodPairingsForProduct(product);
+  const { pairings, isFallback } = getFoodPairingsForProduct(product);
   const servingTemp = getServingTemperature(product);
   const decantTime = getDecantTime(product.wineType);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -43,12 +49,12 @@ export function FoodPairingGallery({ product, className }: FoodPairingGalleryPro
             transition={{ delay: 0.1 }}
             className="text-grey text-sm sm:text-base"
           >
-            Wat zet je erbij op tafel?
+            {isFallback ? "Suggesties op basis van wijntype" : "Wat zet je erbij op tafel?"}
           </motion.p>
         )}
       </div>
 
-      {/* Food Cards Grid - Only shown when real pairing data exists */}
+      {/* Food Cards Grid */}
       {pairings.length > 0 && (
         <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-4 mb-8 sm:mb-12">
           {pairings.map((pairing, index) => (
@@ -121,6 +127,9 @@ export function FoodPairingGallery({ product, className }: FoodPairingGalleryPro
             <div className="min-w-0">
               <h4 className="font-medium text-grey text-xs sm:text-sm mb-0.5">Serveertemperatuur</h4>
               <p className="text-xl sm:text-2xl font-bold text-wine leading-tight">{servingTemp}</p>
+              {!product.servingTemperature && (
+                <p className="text-[10px] text-grey/60 mt-0.5">Op basis van wijntype</p>
+              )}
             </div>
           </div>
         </motion.div>
@@ -168,29 +177,97 @@ export function FoodPairingGallery({ product, className }: FoodPairingGalleryPro
   );
 }
 
+// --- Icon mapping for food pairing names ---
+const PAIRING_ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  pasta: UtensilsCrossed,
+  "gegrild vlees": Beef,
+  vlees: Beef,
+  steak: Beef,
+  "gerijpte kaas": Grape,
+  kaas: Grape,
+  vis: Fish,
+  zeevruchten: Fish,
+  salade: Salad,
+  antipasti: UtensilsCrossed,
+  "lichte pasta": UtensilsCrossed,
+  "gegrilde groenten": Salad,
+  groenten: Salad,
+  aperitief: Wine,
+  oesters: Fish,
+  desserts: CakeSlice,
+  dessert: CakeSlice,
+};
+
+function getIconForPairing(name: string): React.ComponentType<{ className?: string }> {
+  const lower = name.toLowerCase();
+  for (const [key, icon] of Object.entries(PAIRING_ICON_MAP)) {
+    if (lower.includes(key)) return icon;
+  }
+  return UtensilsCrossed;
+}
+
+// Type-based fallback pairings
+const FALLBACK_PAIRINGS: Record<string, { names: string[]; descriptions: string[] }> = {
+  red: {
+    names: ["Pasta", "Gegrild vlees", "Gerijpte kaas"],
+    descriptions: ["Ragu, lasagne, tagliatelle", "Biefstuk, lamskotelet", "Parmigiano, Pecorino"],
+  },
+  white: {
+    names: ["Vis", "Zeevruchten", "Salade"],
+    descriptions: ["Gegrilde zeebaars, kabeljauw", "Garnalen, mosselen", "Caprese, groene salade"],
+  },
+  rose: {
+    names: ["Antipasti", "Lichte pasta", "Gegrilde groenten"],
+    descriptions: ["Bruschetta, carpaccio", "Pesto, primavera", "Courgette, paprika"],
+  },
+  sparkling: {
+    names: ["Aperitief", "Oesters", "Desserts"],
+    descriptions: ["Perfect als aperitief", "Verse oesters, crudo", "Fruit, lichte gebakjes"],
+  },
+};
+
+/**
+ * Use real metafield data when available (custom.food_pairing),
+ * otherwise fall back to sensible suggestions based on wine type.
+ */
+function getFoodPairingsForProduct(product: Product): { pairings: FoodPairing[]; isFallback: boolean } {
+  // Real data from metafield
+  if (product.foodPairing && product.foodPairing.length > 0) {
+    return {
+      pairings: product.foodPairing.map((name) => ({
+        name,
+        icon: getIconForPairing(name),
+        description: "",
+      })),
+      isFallback: false,
+    };
+  }
+
+  // Fallback based on wine type
+  const fallback = FALLBACK_PAIRINGS[product.wineType] ?? FALLBACK_PAIRINGS.red;
+  return {
+    pairings: fallback.names.map((name, i) => ({
+      name,
+      icon: getIconForPairing(name),
+      description: fallback.descriptions[i] || "",
+    })),
+    isFallback: true,
+  };
+}
+
 // Known grape varieties mapped to wine body weight for temperature selection
 const HEAVY_RED_GRAPES = ["nebbiolo", "barolo", "barbaresco", "amarone", "brunello", "sagrantino", "aglianico"];
 const LIGHT_RED_GRAPES = ["barbera", "dolcetto", "schiava", "grignolino", "freisa", "lagrein"];
 const FULL_WHITE_GRAPES = ["chardonnay", "viognier", "gewurztraminer", "friulano", "ribolla gialla"];
 
 /**
- * No hardcoded pairings per wine type — that produces nonsense
- * (not every red goes with steak). Return empty array so the
- * component renders nothing until real per-product data is provided
- * via Shopify metafield "custom.food_pairing".
- */
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getFoodPairingsForProduct(_product: Product): FoodPairing[] {
-  // TODO: parse product metafield "custom.food_pairing" (JSON array)
-  // when available in the Shopify data model. Until then, show nothing.
-  return [];
-}
-
-/**
- * Serving temperature based on wine type AND body/grape variety,
- * not just a blanket "16-18°C for all reds".
+ * Serving temperature: use metafield value when available,
+ * otherwise calculate based on wine type AND body/grape variety.
  */
 function getServingTemperature(product: Product): string {
+  // Real data from metafield takes priority
+  if (product.servingTemperature) return product.servingTemperature;
+
   const grapes = product.grapeVarieties.map(g => g.toLowerCase());
   const body = product.tasteProfile?.lightFull ?? 3;
 

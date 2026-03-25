@@ -24,7 +24,8 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
   const regionCounts: Record<string, number> = {};
   const typeCounts: Record<string, number> = {};
   const grapeCounts: Record<string, number> = {};
-  const priceBuckets = { "0-10": 0, "10-15": 0, "15-20": 0, "20-30": 0, "30+": 0 };
+  const priceBuckets = { "0-10": 0, "10-15": 0, "15-20": 0, "20-30": 0, "30-50": 0, "50+": 0 };
+  const alcoholBuckets = { "light": 0, "medium": 0, "full": 0 };
 
   products.forEach((p) => {
     if (p.region) regionCounts[p.region] = (regionCounts[p.region] || 0) + 1;
@@ -36,7 +37,16 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
     else if (p.price < 15) priceBuckets["10-15"]++;
     else if (p.price < 20) priceBuckets["15-20"]++;
     else if (p.price < 30) priceBuckets["20-30"]++;
-    else priceBuckets["30+"]++;
+    else if (p.price < 50) priceBuckets["30-50"]++;
+    else priceBuckets["50+"]++;
+
+    // Alcohol percentage filter
+    const abv = parseFloat(p.alcoholPercentage?.replace('%', '').replace(',', '.') || '0');
+    if (abv > 0) {
+      if (abv < 12) alcoholBuckets["light"]++;
+      else if (abv < 14) alcoholBuckets["medium"]++;
+      else alcoholBuckets["full"]++;
+    }
   });
 
   const regionFilterOptions = wineRegions
@@ -62,6 +72,9 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
       count,
     }));
 
+  // Only include alcohol filter if we have data
+  const hasAlcoholData = Object.values(alcoholBuckets).some(c => c > 0);
+
   return [
     { id: "region", label: "Regio", options: regionFilterOptions },
     {
@@ -82,9 +95,19 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
         { value: "10-15", label: "€10 - €15", count: priceBuckets["10-15"] },
         { value: "15-20", label: "€15 - €20", count: priceBuckets["15-20"] },
         { value: "20-30", label: "€20 - €30", count: priceBuckets["20-30"] },
-        { value: "30+", label: "€30+", count: priceBuckets["30+"] },
+        { value: "30-50", label: "€30 - €50", count: priceBuckets["30-50"] },
+        { value: "50+", label: "€50+", count: priceBuckets["50+"] },
       ],
     },
+    ...(hasAlcoholData ? [{
+      id: "alcohol",
+      label: "Alcoholpercentage",
+      options: [
+        { value: "light", label: "Licht (< 12%)", count: alcoholBuckets["light"] },
+        { value: "medium", label: "Medium (12-14%)", count: alcoholBuckets["medium"] },
+        { value: "full", label: "Vol (14%+)", count: alcoholBuckets["full"] },
+      ],
+    }] : []),
   ];
 }
 
@@ -214,7 +237,23 @@ export function WijnenContent({ products }: { products: Product[] }) {
           if (range === "10-15") return price >= 10 && price < 15;
           if (range === "15-20") return price >= 15 && price < 20;
           if (range === "20-30") return price >= 20 && price < 30;
-          if (range === "30+") return price >= 30;
+          if (range === "30-50") return price >= 30 && price < 50;
+          if (range === "30+") return price >= 30; // backwards compat
+          if (range === "50+") return price >= 50;
+          return true;
+        });
+      });
+    }
+
+    // Apply alcohol filter
+    if (activeFilters.alcohol?.length) {
+      result = result.filter((p) => {
+        const abv = parseFloat(p.alcoholPercentage?.replace('%', '').replace(',', '.') || '0');
+        if (abv === 0) return false; // no data = exclude
+        return activeFilters.alcohol!.some((range) => {
+          if (range === "light") return abv < 12;
+          if (range === "medium") return abv >= 12 && abv < 14;
+          if (range === "full") return abv >= 14;
           return true;
         });
       });

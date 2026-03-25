@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 import { Section } from "@/components/layout";
 import { ProductCard } from "@/components/product";
 import { getProducts } from "@/lib/shopify";
@@ -273,8 +274,8 @@ export default async function Home() {
 
         <AnimatedSection variant="fadeUp">
           <div className="text-center mb-8 sm:mb-12">
-            <p className="text-label text-wine/40 mb-2">Reacties van proefklanten</p>
-            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Wat klanten zeggen</h2>
+            <p className="text-label text-wine/40 mb-2">Wat onze proevers zeggen</p>
+            <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold">Reacties van de proeverij</h2>
           </div>
         </AnimatedSection>
         <AnimatedStagger className="grid sm:grid-cols-3 gap-5 sm:gap-6" staggerDelay={0.15}>
@@ -284,18 +285,21 @@ export default async function Home() {
               text: "Prachtige selectie! De Barolo was een absolute hit op ons feestje. Wordt nu vaste klant.",
               rating: 5,
               wine: "Montaribaldi Barolo",
+              attribution: "Proeverij, maart 2026",
             },
             {
               name: "Peter de G.",
               text: "Snelle levering en mooi verpakt. De Amarone overtrof mijn verwachtingen — geweldige prijs-kwaliteit.",
               rating: 5,
               wine: "Amarone della Valpolicella",
+              attribution: "Proeverij, maart 2026",
             },
             {
               name: "Sandra K.",
               text: "Al drie keer besteld en altijd tevreden. De wijnbeschrijvingen kloppen precies. Aanrader!",
               rating: 5,
               wine: "Valpolicella Ripasso",
+              attribution: "Proeverij, maart 2026",
             },
           ].map((review) => (
             <TestimonialCard key={review.name} {...review} />
@@ -325,7 +329,12 @@ export default async function Home() {
                   href={category.href}
                   className={`${mapping.color} rounded-2xl p-6 sm:p-7 text-center transition-all duration-300 hover:shadow-lg active:scale-[0.97] sm:hover:-translate-y-1.5 group border border-sand/50 hover:border-wine/15 block h-full flex flex-col items-center justify-center`}
                 >
-                  <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-xl ${mapping.accent}/8 group-hover:${mapping.accent}/12 flex items-center justify-center mb-4 transition-colors duration-300`}>
+                  <div className={cn("w-14 h-14 sm:w-16 sm:h-16 rounded-xl flex items-center justify-center mb-4 transition-colors duration-300", {
+                    "bg-wine/8 group-hover:bg-wine/12": mapping.accent === "bg-wine",
+                    "bg-gold/8 group-hover:bg-gold/12": mapping.accent === "bg-gold",
+                    "bg-coral/8 group-hover:bg-coral/12": mapping.accent === "bg-coral",
+                    "bg-charcoal/8 group-hover:bg-charcoal/12": mapping.accent === "bg-charcoal",
+                  })}>
                     <CategoryIcon className={`w-8 h-8 sm:w-9 sm:h-9 ${mapping.iconColor} transition-transform duration-300 group-hover:scale-110`} />
                   </div>
                   <h3 className="font-serif font-semibold text-charcoal text-sm sm:text-base mb-1 leading-tight">{category.name}</h3>

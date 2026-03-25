@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { HeaderWrapper, FooterWrapper } from "@/components/layout";
 import { AgeGate } from "@/components/ui";
@@ -7,6 +8,7 @@ import { CartSlideOut } from "@/components/cart";
 import { LoginModal } from "@/components/auth";
 import { SmoothScrollProvider, ShopConfigProvider } from "@/components/providers";
 import { CookieConsent } from "@/components/ui/CookieConsent";
+import { ExitIntentModal } from "@/components/ui/ExitIntentModal";
 import { getShopConfig } from "@/lib/shopify-cms";
 
 const inter = Inter({
@@ -50,6 +52,10 @@ export const metadata: Metadata = {
     description:
       "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
   },
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
   robots: {
     index: true,
     follow: true,
@@ -72,6 +78,16 @@ export default async function RootLayout({
 
   return (
     <html lang="nl" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        {/* GA4 — only loads after cookie consent (checked in gtag config) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+          strategy="afterInteractive"
+        />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('consent','default',{analytics_storage:'denied'});if(document.cookie.match(/vpl_cookie_consent=[^;]*analytics/)){gtag('consent','update',{analytics_storage:'granted'});}gtag('config','G-XXXXXXXXXX');`}
+        </Script>
+      </head>
       <body className="antialiased min-h-screen flex flex-col bg-background text-foreground overflow-x-hidden">
         <a
           href="#main-content"
@@ -88,6 +104,7 @@ export default async function RootLayout({
             <CookieConsent />
             <CartSlideOut />
             <LoginModal />
+            <ExitIntentModal />
           </SmoothScrollProvider>
         </ShopConfigProvider>
       </body>

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { AnimateOnScroll, StaggerChildren, StaggerItem } from "@/components/ui/AnimateOnScroll";
-import { Package as PackageIcon, Truck as TruckIcon, Home as HomeIcon, ShoppingCart as ShoppingCartIcon, Shield as ShieldIcon } from "lucide-react";
+import { Package as PackageIcon, Truck as TruckIcon, Home as HomeIcon, ShoppingCart as ShoppingCartIcon, Shield as ShieldIcon, AlertTriangle as AlertTriangleIcon } from "lucide-react";
 import { sanitizeHtml } from "@/lib/sanitize";
 
 const steps = [
@@ -188,6 +188,33 @@ export function VerzendingContent({ pageBody, pageTitle, freeShippingThreshold =
             </StaggerItem>
           ))}
         </StaggerChildren>
+
+        {/* Age Verification at Delivery */}
+        <AnimateOnScroll variant="fadeUp">
+          <div className="mb-16 bg-wine/[0.04] border border-wine/15 rounded-2xl p-6 sm:p-8">
+            <div className="flex items-start gap-4">
+              <div className="w-11 h-11 rounded-lg bg-wine/10 flex items-center justify-center flex-shrink-0">
+                <AlertTriangleIcon className="w-5 h-5 text-wine" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h2 className="font-serif text-xl sm:text-2xl font-semibold text-charcoal mb-3">
+                  Leeftijdsverificatie bij levering
+                </h2>
+                <p className="text-sm text-grey leading-relaxed mb-3">
+                  Bij aflevering van alcoholhoudende dranken wordt door de bezorger om <strong className="text-charcoal">legitimatie</strong> gevraagd.
+                  Alleen personen van <strong className="text-charcoal">18 jaar en ouder</strong> mogen de bestelling in ontvangst nemen.
+                </p>
+                <p className="text-sm text-grey leading-relaxed mb-3">
+                  Geen geldig legitimatiebewijs? Dan wordt de bestelling <strong className="text-charcoal">niet afgeleverd</strong> en
+                  retour gestuurd of opnieuw aangeboden.
+                </p>
+                <p className="text-xs text-grey/70">
+                  Geldige legitimatiebewijzen: paspoort, identiteitskaart of rijbewijs. Dit is conform de Drank- en Horecawet.
+                </p>
+              </div>
+            </div>
+          </div>
+        </AnimateOnScroll>
 
         {/* Delivery Area */}
         <AnimateOnScroll variant="fadeUp">

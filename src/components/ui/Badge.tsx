@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { type ReactNode } from "react";
 
 export interface BadgeProps {
-  variant?: "new" | "sale" | "soldout" | "award" | "bestseller" | "default";
+  variant?: "new" | "sale" | "soldout" | "award" | "bestseller" | "lowstock" | "default";
   children: ReactNode;
   className?: string;
 }
@@ -16,6 +16,7 @@ export function Badge({ variant = "default", children, className }: BadgeProps) 
     soldout: "bg-grey/80 text-white",
     award: "bg-gold text-white",
     bestseller: "bg-gradient-to-r from-gold to-gold-light text-white",
+    lowstock: "bg-gold/15 text-wine border border-gold/30",
     default: "bg-sand text-charcoal",
   };
 

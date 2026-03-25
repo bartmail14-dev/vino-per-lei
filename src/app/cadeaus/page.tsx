@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   title: "Cadeaus | Vino per Lei",
   description:
     "Geef Italiaanse wijn cadeau die je niet in de supermarkt vindt. Enkele fles, duo of proeverij box, met persoonlijk kaartje.",
+  alternates: {
+    canonical: "https://vinoperlei.nl/cadeaus",
+  },
   openGraph: {
     title: "Cadeaus | Vino per Lei",
     description:
@@ -32,7 +35,32 @@ export default async function CadeausPage() {
       ? giftWines
       : allProducts.filter((p) => p.isFeatured && p.inStock).slice(0, 4);
 
+  // JSON-LD: BreadcrumbList schema
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://vinoperlei.nl",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Cadeaus",
+        item: "https://vinoperlei.nl/cadeaus",
+      },
+    ],
+  };
+
   return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
     <CadeausContent freeShippingThreshold={shopConfig.freeShippingThreshold}>
       {/* Gift-worthy Products */}
       {displayProducts.length > 0 && (
@@ -64,5 +92,6 @@ export default async function CadeausPage() {
         </Section>
       )}
     </CadeausContent>
+    </>
   );
 }

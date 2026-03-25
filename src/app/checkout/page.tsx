@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "@/stores/cartStore";
 import { getShopifyCartUrl } from "@/lib/shopify";
+import { trackBeginCheckout } from "@/lib/analytics";
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -17,6 +18,13 @@ export default function CheckoutPage() {
       router.push("/wijnen");
       return;
     }
+
+    // Track begin_checkout
+    const totalValue = items.reduce((sum, i) => sum + i.product.price * i.quantity, 0);
+    trackBeginCheckout(
+      totalValue,
+      items.map((i) => ({ id: i.product.id, title: i.product.title, price: i.product.price, quantity: i.quantity }))
+    );
 
     // Redirect to Shopify cart permalink
     const lineItems = items.map((item) => ({

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, type ReactNode } from "react";
-import { motion, useInView, type Variants } from "framer-motion";
+import { motion, useInView, useReducedMotion, type Variants } from "framer-motion";
 
 type AnimationVariant = "fadeUp" | "fadeIn" | "fadeLeft" | "fadeRight" | "scaleIn" | "zoomIn";
 
@@ -54,8 +54,11 @@ export function AnimateOnScroll({
   once = true,
   amount = 0.2,
 }: AnimateOnScrollProps) {
+  const reduced = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once, amount });
+
+  if (reduced) return <div ref={ref} className={className}>{children}</div>;
 
   const v = variants[variant];
 

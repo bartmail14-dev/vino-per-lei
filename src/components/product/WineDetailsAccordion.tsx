@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ChevronDownIcon, CheckIcon } from "@/components/icons";
-import { ClipboardList, Warehouse } from "lucide-react";
+import { ClipboardList, Warehouse, GrapeIcon, UserCircle } from "lucide-react";
 import type { Product } from "@/types";
 
 interface WineDetailsAccordionProps {
@@ -40,11 +40,11 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
             { label: "Land", value: product.country },
             { label: "Regio", value: product.region },
             { label: "Jaargang", value: product.vintage === "NV" ? "Non-Vintage" : product.vintage },
-            { label: "Alcoholpercentage", value: "13.5%" },
+            { label: "Alcoholpercentage", value: product.alcoholPercentage || "Zie etiket" },
             { label: "Inhoud", value: "750ml" },
             { label: "Wijnstijl", value: getWineStyleLabel(product.wineType) },
             { label: "Sluiting", value: "Natuurkurk" },
-            { label: "Allergenen", value: "Bevat sulfieten" },
+            { label: "Allergenen", value: "Bevat sulfieten (SO₂)" },
           ].map((detail) => (
             <div key={detail.label} className="flex justify-between py-2 border-b border-sand/50">
               <span className="text-grey">{detail.label}</span>
@@ -54,8 +54,23 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
         </div>
       ),
     },
-    // Vinification section removed — was hardcoded fake template text.
-    // Re-add when real data is available via Shopify metafield "custom.vinification".
+    // Vinification — show real metafield data, or placeholder
+    {
+      id: "vinification",
+      title: "Vinificatie",
+      icon: GrapeIcon,
+      content: (
+        <div className="space-y-3 text-charcoal">
+          {product.vinification ? (
+            <p className="text-sm leading-relaxed">{product.vinification}</p>
+          ) : (
+            <div className="bg-champagne/20 rounded-lg p-4">
+              <p className="text-sm text-grey italic">Informatie over het vinificatieproces volgt binnenkort.</p>
+            </div>
+          )}
+        </div>
+      ),
+    },
     {
       id: "storage",
       title: "Opslag & Drinkadvies",
@@ -89,8 +104,23 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
         </div>
       ),
     },
-    // Producer section removed — was hardcoded fake template text.
-    // Re-add when real producer data is available via Shopify metafield "custom.producer_description".
+    // Producer section — show real metafield data, or placeholder
+    {
+      id: "producer",
+      title: "Producent",
+      icon: UserCircle,
+      content: (
+        <div className="space-y-3 text-charcoal">
+          {product.producerStory ? (
+            <p className="text-sm leading-relaxed">{product.producerStory}</p>
+          ) : (
+            <div className="bg-champagne/20 rounded-lg p-4">
+              <p className="text-sm text-grey italic">Informatie over de producent volgt binnenkort.</p>
+            </div>
+          )}
+        </div>
+      ),
+    },
   ];
 
   return (
