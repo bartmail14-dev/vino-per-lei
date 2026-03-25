@@ -131,9 +131,10 @@ export default async function Home() {
               </Link>
               <Link
                 href={hero.ctaSecondaryLink}
-                className="inline-flex items-center justify-center h-13 sm:h-14 px-8 sm:px-10 border border-white/40 text-white text-button uppercase rounded-sm hover:bg-white/10 hover:border-white/60 backdrop-blur-sm transition-all duration-300"
+                className="group inline-flex items-center justify-center h-13 sm:h-14 px-8 sm:px-10 border border-white/40 text-white text-button uppercase rounded-sm hover:bg-white/10 hover:border-white/60 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-white/10 hover:scale-[1.02]"
               >
                 {hero.ctaSecondaryText}
+                <ChevronRightIcon className="w-4 h-4 ml-2 opacity-60 transition-all group-hover:opacity-100 group-hover:translate-x-1" />
               </Link>
             </div>
           </div>

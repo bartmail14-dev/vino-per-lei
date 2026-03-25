@@ -508,8 +508,13 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                       Wijntype
                                     </h4>
                                     <ul className="space-y-0.5">
-                                      {wineCategories.type.map((subItem) => (
-                                        <li key={subItem.label}>
+                                      {wineCategories.type.map((subItem, i) => (
+                                        <motion.li
+                                          key={subItem.label}
+                                          initial={{ opacity: 0, x: -10 }}
+                                          animate={{ opacity: 1, x: 0 }}
+                                          transition={{ delay: i * 0.04, duration: 0.2 }}
+                                        >
                                           <Link
                                             href={subItem.href}
                                             onClick={() =>
@@ -519,7 +524,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                           >
                                             {subItem.label}
                                           </Link>
-                                        </li>
+                                        </motion.li>
                                       ))}
                                     </ul>
                                   </div>
@@ -531,8 +536,13 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                     <ul className="space-y-0.5">
                                       {wineCategories.region
                                         .slice(0, 4)
-                                        .map((subItem) => (
-                                          <li key={subItem.label}>
+                                        .map((subItem, i) => (
+                                          <motion.li
+                                            key={subItem.label}
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: 0.16 + i * 0.04, duration: 0.2 }}
+                                          >
                                             <Link
                                               href={subItem.href}
                                               onClick={() =>
@@ -542,19 +552,25 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                             >
                                               {subItem.label}
                                             </Link>
-                                          </li>
+                                          </motion.li>
                                         ))}
                                     </ul>
                                   </div>
                                   {/* All Wines */}
-                                  <Link
-                                    href="/wijnen"
-                                    onClick={() => setIsMobileMenuOpen(false)}
-                                    className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold hover:text-wine transition-colors"
+                                  <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.35, duration: 0.2 }}
                                   >
-                                    Bekijk alle wijnen
-                                    <ChevronRightIcon className="w-3.5 h-3.5" />
-                                  </Link>
+                                    <Link
+                                      href="/wijnen"
+                                      onClick={() => setIsMobileMenuOpen(false)}
+                                      className="inline-flex items-center gap-1.5 text-sm font-semibold text-gold hover:text-wine transition-colors"
+                                    >
+                                      Bekijk alle wijnen
+                                      <ChevronRightIcon className="w-3.5 h-3.5" />
+                                    </Link>
+                                  </motion.div>
                                 </div>
                               </motion.div>
                             )}
