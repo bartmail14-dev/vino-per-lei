@@ -1,27 +1,70 @@
 # Vino per Lei — Overdracht volgende sessie
 
-**Datum:** 26 maart 2026 (sessie 11)
-**Laatste sessie:** Product-aanmaak E2E getest via Shopify Admin + Playwright MCP. WineType normalisatie-bug gevonden en gefixt.
+**Datum:** 26 maart 2026 (sessie 12)
+**Laatste sessie:** Badge kleur gefixt, inventory systeem gebouwd, Storefront API scope aangezet, gecommit + gepusht naar Vercel.
 
 ---
 
 ## INSTRUCTIE VOLGENDE SESSIE
 
-> **Doel:** Uncommitted code committen, visuele polish (wijntype badge kleur), en volledige site-validatie.
+> **PRIORITEIT 1: Bereid Carla-call samen voor (zie sectie hieronder)**
 >
+> **PRIORITEIT 2: Inventory tracking aanzetten**
 > 1. Lees deze HANDOFF-VPL.md volledig door
-> 2. Commit de 2 uncommitted wijzigingen (wineType normalisatie fix)
-> 3. **Fix wijntype badge kleur** — "Rode Wijn" badge op productdetailpagina heeft een BLAUW bolletje, moet ROOD zijn (zie Prio 1 hieronder)
-> 4. Verwijder de duplicate `main-1` Homepage Hero entry in Shopify Admin
-> 5. Build + start prod server: `npm run build && npx next start --port 3099 > /dev/null 2>&1 &`
-> 6. Open Playwright MCP en loop **elke pagina** af (zie Prio 3 checklist)
-> 7. Test functioneel: age gate, winkelwagen, zoek, checkout redirect, cookie consent, mobile menu
-> 8. Test responsive: mobile 375px, tablet 768px, desktop 1440px
-> 9. Fix gevonden issues direct
-> 10. Als alles PASS: commit, push, verify op vino-per-lei.vercel.app
+> 2. Ga naar Shopify Admin → Products → elk product → variant → "Track quantity" AAN + voorraad 48
+>    OF: update Admin API token scopes (write_inventory + read_locations) en draai:
+>    `node scripts/enable-inventory-tracking.mjs 48`
+> 3. Verifieer op de site dat voorraad badges werken (low-stock, uitverkocht)
+> 4. Build + test: `npm run build && npx next start --port 3099 > /dev/null 2>&1 &`
+>
+> **PRIORITEIT 3: Visuele + functionele tests**
+> 5. Loop alle pagina's af met Playwright MCP (zie checklist onderaan)
+> 6. Test: age gate, winkelwagen, checkout redirect, zoek, mobile menu
+> 7. Test responsive: 375px, 768px, 1440px
 >
 > **LET OP:** NOOIT `next dev` draaien — crasht Claude Code. Gebruik altijd prod server.
 > **PLAYWRIGHT:** Sluit ALLE Chrome vensters voordat je Playwright MCP start.
+
+---
+
+## CARLA-CALL VOORBEREIDING (URGENT — 40 min)
+
+Bart heeft over 40 minuten een call met Carla. Bereid een beknopt overzicht voor dat Bart kan gebruiken om Carla bij te praten. Structuur:
+
+### Wat er deze sessie is gedaan (sessie 12):
+1. **Wijntype badge kleur gefixt** — Het bolletje naast "Rode Wijn" op productpagina's was blauw (design-fout), nu is het echt wijnrood. Ziet er professioneel uit.
+2. **Wijntype normalisatie** — Carla kan nu zowel Nederlands als Engels invullen in Shopify (Rood/red, Wit/white, Rosé/rose, Bubbels/sparkling). De site herkent beide automatisch.
+3. **Inventory systeem gebouwd** — De site kan nu voorraad bijhouden:
+   - Producten met voorraad → "Op voorraad" + groene badge + "In Winkelmand"
+   - Producten met ≤5 flessen → "Nog X flessen" gouden badge (urgentie)
+   - Producten zonder voorraad → "Uitverkocht" + "Mail bij voorraad" knop
+4. **Shopify API permissions** aangepast zodat voorraaddata doorkomt naar de website
+5. **Setup script** gemaakt om voorraad in te stellen voor alle producten in één keer
+
+### Wat er vorige sessie is gedaan (sessie 11):
+- Volledige E2E test: product aanmaken in Shopify Admin → 17/17 velden correct op website
+- Alle metafields werken (smaakprofiel, druiven, regio, beoordeling, food pairing, etc.)
+- Testproduct aangemaakt en weer verwijderd
+
+### Wat Carla moet weten:
+- **Voorraad bijhouden**: Zodra tracking aan staat, wordt voorraad automatisch bijgewerkt bij verkoop via Shopify checkout
+- **Wijntype invullen**: Mag in NL of EN — site herkent het automatisch
+- **Smaakwaarden**: Schaal 0-5 (niet 0-100)
+- **"Mail bij voorraad"**: De knop bestaat, maar stuurt nog GEEN echte emails — dat is een TODO
+
+### Nog te doen voor livegang:
+1. Inventory tracking aanzetten + startvoorraad instellen (48 flessen per product)
+2. Visuele test alle pagina's
+3. Functionele tests (age gate, winkelwagen, checkout)
+4. Responsive tests (mobiel, tablet, desktop)
+5. Placeholders invullen: GA4 code, telefoonnummer, Web3Forms key
+6. "Mail bij voorraad" koppelen aan echte email service (Klaviyo of vergelijkbaar)
+7. Duplicate Shopify entries opruimen
+
+### Vraag aan Carla:
+- Wat is de startvoorraad per product? (suggestie: 48 per wijn)
+- Wil ze "Mail bij voorraad" emails ontvangen? Zo ja, via welk emailadres?
+- Is het telefoonnummer 040-XXX XXXX definitief, of komt er een ander nummer?
 
 ---
 
@@ -35,121 +78,49 @@
 | **Vercel** | vino-per-lei.vercel.app (auto-deploy vanuit master) |
 | **Shopify** | `vino-per-lei-2.myshopify.com` (CMS + products) |
 | **Klant** | Carla Daniels, Pastorielaan 56, 5504 CR Veldhoven |
-| **Git status** | **2 bestanden UNCOMMITTED** (wineType normalisatie fix) |
+| **Laatste commit** | `561c090` — badge kleur + inventory systeem |
 
 ---
 
-## Wat er sessie 11 is gedaan
+## Wat er sessie 12 is gedaan
 
-### Product-aanmaak E2E test (Shopify Admin → Website)
+### 1. Wijntype badge kleur gefixt
+- Nieuwe CSS kleur `--wine-red: #8B1A32` (echt wijnrood) toegevoegd
+- `bg-wine` (was navy #1a1f3d) → `bg-wine-red` in HeroSection.tsx en ProductCard.tsx
+- Visueel geverifieerd met Playwright: bolletje is nu donkerrood op alle plekken
 
-Via Playwright MCP ingelogd op Shopify Admin en een **compleet testproduct** aangemaakt:
+### 2. WineType normalisatie gecommit
+- `normalizeWineType()` in shopify.ts accepteert NL en EN input
+- Fallback "Wijn" i.p.v. "Mousserende Wijn" als type onbekend
 
-| Veld | Ingevoerde waarde | Website output | Status |
-|------|------------------|----------------|--------|
-| Titel | Testproduct Chianti Classico DOCG 2020 | H1 heading correct | **PASS** |
-| Beschrijving | Volledige tekst over Chianti | Zichtbaar onder titel | **PASS** |
-| Prijs | €18.95 | € 18,95 | **PASS** |
-| Afbeelding | barolo-classico-2018.webp | Fles zichtbaar in hero | **PASS** |
-| Jaargang | 2020 | Badge "2020" naast titel | **PASS** |
-| Regio | Toscane | "Toscane, Italië" + kaart + link | **PASS** |
-| Beoordeling | 4.3 | 4.3 + sterren-rating | **PASS** |
-| Druivensoorten | Sangiovese, Merlot (lijst) | Beide met druif-iconen | **PASS** |
-| Wijntype | Rood | Badge + correct smaakprofiel | **PASS** (na fix) |
-| Smaak Fris-Zacht | 2 | Balk op juiste positie | **PASS** |
-| Smaak Fruitig-Kruidig | 4 | Balk op juiste positie | **PASS** |
-| Smaak Zacht-Tannine | 4 | Balk op juiste positie | **PASS** |
-| Smaak Licht-Vol | 4 | Balk op juiste positie | **PASS** |
-| Smaak Droog-Zoet | 1 | Balk op juiste positie | **PASS** |
-| Type | Red Wine | Product correct gecategoriseerd | **PASS** |
-| Vendor | Vino per Lei | In technische details | **PASS** |
-| Tags | red | Tag toegepast | **PASS** |
-| Inventory | 0 | "Uitverkocht" + "Mail bij voorraad" | **PASS** |
+### 3. Inventory systeem gebouwd
+- **Admin API enrichment**: `enrichWithInventory()` in shopify.ts
+- Haalt `totalInventory` + `tracked` status op via Admin API
+- Automatisch ingebouwd in `getProducts()` en `getProductByHandle()`
+- Cached met 60 seconden revalidatie
+- **Setup script**: `scripts/enable-inventory-tracking.mjs` — zet tracking aan + stelt voorraad in
 
-**Automatisch gegenereerde secties** (op basis van wijntype):
-- Smaakprofiel met rode-wijn assen (Tannine, Kruidig) ✅
-- Proefervaring (Geur, Smaak, Afdronk) ✅
-- Food pairing (Pasta, Gegrild vlees, Gerijpte kaas) ✅
-- Serveertemperatuur 16-17°C + Decanteren 30-60 min ✅
-- Wijnregio kaart met Toscane ✅
-- "Ook interessant" met andere rode wijnen ✅
+### 4. Storefront API scope aangezet
+- Via Shopify Admin → Headless → Storefront API → Edit
+- `unauthenticated_read_product_inventory` is nu ENABLED
+- Opgeslagen en bevestigd
 
-**Testproduct is na validatie weer verwijderd uit Shopify.**
-
-### Bug gevonden en gefixt: WineType normalisatie
-
-**Probleem:** Carla vult "Rood" in (NL) maar code verwachtte "red" (EN). Default was "Mousserende Wijn" → page title, smaakprofiel, serveeradvies en related products waren allemaal verkeerd.
-
-**Fix:** `normalizeWineType()` helper in `src/lib/shopify.ts` regel 105-113. Accepteert nu:
-- `red` / `rood` → `'red'`
-- `white` / `wit` → `'white'`
-- `rose` / `rosé` → `'rose'`
-- `sparkling` / `mousserende` / `bubbels` → `'sparkling'`
-
-**Gewijzigde bestanden (UNCOMMITTED):**
-- `src/lib/shopify.ts` — `normalizeWineType()` functie + aangeroepen in `mapShopifyProduct()`
-- `src/app/wijnen/[handle]/page.tsx` — default fallback "Wijn" i.p.v. "Mousserende Wijn"
-
-### Smaakprofiel validatie-inzicht
-
-Smaakwaarden zijn integers op schaal **0-5** (niet 0-100). Shopify valideert dit automatisch. Dit moet in de handleiding voor Carla staan.
+### 5. Wat NIET werkt (nog)
+- **Inventory tracking staat UIT** op alle 19 producten (`tracked: false`)
+- Admin API token mist `write_inventory` + `read_locations` scopes → script kan tracking niet aanzetten
+- Moet handmatig per product OF token scopes updaten
 
 ---
 
-## Volgende sessie: TODO's
+## Gewijzigde bestanden (sessie 12, commit 561c090)
 
-### Prio 1: Uncommitted code committen + visuele polish
-
-- [ ] **Commit wineType normalisatie fix** (2 bestanden, zie hierboven)
-- [ ] **Fix wijntype badge kleur** — Op de productdetailpagina (`/wijnen/[handle]`) staat bij "Rode Wijn" een classificatie-badge. Het bolletje/dot naast de tekst is **blauw** maar zou **rood** moeten zijn voor rode wijn (en goud/champagne voor wit, koraal voor rosé, etc.). Zoek in `HeroSection.tsx` en/of `ProductDetailClient.tsx` naar de wijntype-badge styling. De `bg-wine` class wordt al conditioneel gezet op de ProductCard, maar op de detailpagina mist dit mogelijk.
-- [ ] **Check alle plekken** waar wijntype-kleur wordt getoond (ProductCard, HeroSection, QuickViewModal) en zorg dat de kleuren consistent zijn: rood=bg-wine, wit=bg-gold, rosé=bg-coral, sparkling=bg-champagne
-
-### Prio 2: Shopify opruimen
-
-- [ ] **Verwijder duplicate `main-1` Homepage Hero entry** in Shopify Admin
-- [ ] **Verwijder duplicate `main-1` entry** ook voor Announcement Bar (als die er is)
-
-### Prio 3: Visuele test alle pagina's (Playwright MCP)
-
-Start prod server en test ELKE pagina visueel:
-- [ ] **Homepage** — hero, USP-balk, producten, wijnkaart, testimonials, cijfers, categorieën, blog
-- [ ] **`/wijnen`** — filters, zoek, productkaarten, low-stock badges, allergeninfo
-- [ ] **`/wijnen/[handle]`** — productdetail, food pairing, smaakprofiel, add to cart, wijntype badge kleur
-- [ ] **`/cadeaus`** — cadeaupakketten, filters
-- [ ] **`/blog`** — artikeloverzicht, tag filtering
-- [ ] **`/blog/[slug]`** — artikeldetail, leestijd, author
-- [ ] **`/over-ons`** — CMS content of fallback, hero, CTA
-- [ ] **`/contact`** — formulier, bedrijfsgegevens, openingstijden
-- [ ] **`/klantenservice/faq`** — categorieën, accordion
-- [ ] **`/klantenservice/verzending`** — verzendinfo
-- [ ] **`/klantenservice/retourneren`** — retourbeleid
-- [ ] **`/privacy`**, **`/voorwaarden`**, **`/cookies`** — juridische pagina's
-- [ ] **`/handleiding`** — alle 13 secties
-- [ ] **`/showcase`** — projectshowcase
-
-### Prio 4: Functionele tests
-
-- [ ] **Age gate** — eerste bezoek moet leeftijdsbevestiging tonen
-- [ ] **Zoekfunctie** — zoek in header, navigeert naar `/wijnen?zoek=`
-- [ ] **Winkelwagen** — product toevoegen, hoeveelheid wijzigen, verwijderen
-- [ ] **Cart slide-out** — payment badges, gratis verzending balk
-- [ ] **Checkout** — redirect naar Shopify checkout
-- [ ] **Exit-intent modal** — mouse uit viewport (1x per sessie)
-- [ ] **Cookie consent** — granulaire opties
-- [ ] **Mobile menu** — hamburger, stagger-animatie, submenu's
-- [ ] **Newsletter** — formulier submit, GDPR checkbox
-
-### Prio 5: Responsive tests
-
-- [ ] **Mobile (375px)**, **Tablet (768px)**, **Desktop (1440px)** — alle pagina's
-
-### Prio 6: Bekende issues
-
-- [ ] **CSP report endpoint** (`/api/csp-report`) — bestaat nog niet, maar is als directive geconfigureerd
-- [ ] **GA4 Measurement ID** — nog `G-XXXXXXXXXX`, moet worden ingevuld
-- [ ] **Web3Forms key** — moet nog worden aangemaakt
-- [ ] **Telefoonnummer** — nog placeholder `040-XXX XXXX` / `+31 6 00 00 00 00`
-- [ ] **NotifyMe modal** — frontend-only, stuurt nog geen email
+- `src/app/globals.css` — `--wine-red` kleur + Tailwind mapping
+- `src/components/product/HeroSection.tsx` — `bg-wine` → `bg-wine-red`
+- `src/components/product/ProductCard.tsx` — `bg-wine` → `bg-wine-red`
+- `src/lib/shopify.ts` — normalizeWineType() + Admin API inventory enrichment
+- `src/app/wijnen/[handle]/page.tsx` — fallback "Wijn"
+- `src/types/product.ts` — type cleanup
+- `scripts/enable-inventory-tracking.mjs` — inventory setup script (NIEUW)
 
 ---
 
@@ -161,10 +132,8 @@ Start prod server en test ELKE pagina visueel:
 - **Vercel deploy:** Git push triggert auto-deploy
 - **NOOIT AI/agents/tooling vermelden** in klant-zichtbare content
 - **Shopify API versie:** `2025-01`
-- **Playwright MCP:** Sluit ALLE Chrome vensters voor gebruik
-- **Metaobjects worden opgehaald via handle** — bijv. `getMetaobject('homepage_hero', 'main', ...)`
-- **Smaakwaarden:** Integer schaal 0-5 (niet 0-100)
-- **Wijntype in Shopify:** Carla mag NL of EN invullen (Rood/red, Wit/white, Rosé/rose, Bubbels/sparkling)
+- **Smaakwaarden:** Integer schaal 0-5
+- **Wijntype:** Carla mag NL of EN invullen
 
 ---
 
@@ -176,6 +145,26 @@ Start prod server en test ELKE pagina visueel:
 | Accent | gold `#c9a227` |
 | Background | cream `#faf9f7` |
 | Border | sand `#e8e0d5` |
+| Wine type rood | wine-red `#8B1A32` |
 | Serif | Playfair Display |
 | Sans | Inter |
-| Wijntype kleuren | red=`bg-wine`, white=`bg-gold`, rosé=`bg-coral`, sparkling=`bg-champagne` |
+| Wijntype kleuren | red=`bg-wine-red`, white=`bg-gold`, rosé=`bg-coral`, sparkling=`bg-champagne` |
+
+---
+
+## Visuele test checklist (Prio 3)
+
+- [ ] **Homepage** — hero, USP-balk, producten, wijnkaart, testimonials, cijfers, categorieën, blog
+- [ ] **`/wijnen`** — filters, zoek, productkaarten, wijntype dots (rood/goud/koraal/champagne)
+- [ ] **`/wijnen/[handle]`** — productdetail, food pairing, smaakprofiel, badge kleur, inventory status
+- [ ] **`/cadeaus`** — cadeaupakketten, filters
+- [ ] **`/blog`** — artikeloverzicht, tag filtering
+- [ ] **`/blog/[slug]`** — artikeldetail, leestijd, author
+- [ ] **`/over-ons`** — CMS content of fallback, hero, CTA
+- [ ] **`/contact`** — formulier, bedrijfsgegevens, openingstijden
+- [ ] **`/klantenservice/faq`** — categorieën, accordion
+- [ ] **`/klantenservice/verzending`** — verzendinfo
+- [ ] **`/klantenservice/retourneren`** — retourbeleid
+- [ ] **`/privacy`**, **`/voorwaarden`**, **`/cookies`** — juridische pagina's
+- [ ] **`/handleiding`** — alle 13 secties
+- [ ] **`/showcase`** — projectshowcase
