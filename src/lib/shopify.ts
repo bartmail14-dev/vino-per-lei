@@ -102,6 +102,15 @@ function parseFoodPairing(value: string | null | undefined): string[] | undefine
   return undefined;
 }
 
+function normalizeWineType(raw: string): Product['wineType'] {
+  const v = raw.toLowerCase().trim();
+  if (v === 'red' || v === 'rood') return 'red';
+  if (v === 'white' || v === 'wit') return 'white';
+  if (v === 'rose' || v === 'rosé') return 'rose';
+  if (v === 'sparkling' || v === 'mousserende' || v === 'bubbels') return 'sparkling';
+  return 'red';
+}
+
 // --- Mapper ---
 
 function mapShopifyProduct(node: ShopifyProductNode): Product {
@@ -133,7 +142,7 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
     title: node.title,
     description: node.description,
     collection: mf(node.collectionName as MetafieldNode | null) ?? undefined,
-    wineType: (mf(node.wineType as MetafieldNode | null) ?? 'red') as Product['wineType'],
+    wineType: normalizeWineType(mf(node.wineType as MetafieldNode | null) ?? 'red'),
     grapeVarieties,
     country: mf(node.country as MetafieldNode | null) ?? 'Italië',
     region: mf(node.region as MetafieldNode | null) ?? '',
@@ -163,7 +172,7 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
       ? parseInt((node.reviewCount as MetafieldNode).value)
       : undefined,
     inStock: node.availableForSale ?? true,
-    stockQuantity: undefined,
+    stockQuantity: undefined, // Populated by Admin API enrichment when inventory tracking is enabled
     isNew: (node.isNew as MetafieldNode | null)?.value === 'true',
     isFeatured: (node.isFeatured as MetafieldNode | null)?.value === 'true',
     hasAward: (node.hasAward as MetafieldNode | null)?.value === 'true',
@@ -210,11 +219,10 @@ export async function getProducts(first: number = 50): Promise<Product[]> {
     `;
 
     const { data } = await getClient().request(query, { variables: { first } });
-    return (
-      data?.products?.edges?.map(
-        (edge: { node: ShopifyProductNode }) => mapShopifyProduct(edge.node)
-      ) ?? []
-    );
+    const products = data?.products?.edges?.map(
+      (edge: { node: ShopifyProductNode }) => mapShopifyProduct(edge.node)
+    ) ?? [];
+    return enrichWithInventory(products);
   } catch (error) {
     console.error('[Shopify] Failed to fetch products:', error instanceof Error ? error.message : error);
     if (error instanceof Error && error.message) {
@@ -242,7 +250,9 @@ export async function getProductByHandle(
 
     const { data } = await getClient().request(query, { variables: { handle } });
     if (!data?.productByHandle) return null;
-    return mapShopifyProduct(data.productByHandle);
+    const product = mapShopifyProduct(data.productByHandle);
+    const [enriched] = await enrichWithInventory([product]);
+    return enriched;
   } catch (error) {
     console.error(`[Shopify] Failed to fetch product "${handle}":`, error instanceof Error ? error.message : error);
     if (error instanceof Error && error.message) {
@@ -273,4 +283,103 @@ export function getShopifyCartUrl(
   });
 
   return `https://${shop}/cart/${cartParts.join(',')}`;
+}
+
+// --- Admin API: Inventory ---
+
+interface AdminInventoryData {
+  [productId: string]: {
+    totalInventory: number;
+    tracked: boolean;
+    variantInventory: { [variantId: string]: number };
+  };
+}
+
+/**
+ * Fetch inventory data via Shopify Admin API (server-side only).
+ * Requires SHOPIFY_ADMIN_ACCESS_TOKEN env var.
+ * Returns inventory keyed by product GID.
+ */
+export async function getInventoryData(): Promise<AdminInventoryData> {
+  const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
+  const adminToken = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN;
+  if (!domain || !adminToken) return {};
+
+  try {
+    const res = await fetch(`https://${domain}/admin/api/2025-01/graphql.json`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Access-Token': adminToken,
+      },
+      body: JSON.stringify({
+        query: `{
+          products(first: 50) {
+            edges {
+              node {
+                id
+                totalInventory
+                variants(first: 10) {
+                  edges {
+                    node {
+                      id
+                      inventoryQuantity
+                      inventoryItem { tracked }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }`,
+      }),
+      next: { revalidate: 60 },
+    });
+
+    const json = await res.json();
+    const result: AdminInventoryData = {};
+
+    for (const edge of json.data?.products?.edges ?? []) {
+      const node = edge.node;
+      const variantInventory: { [key: string]: number } = {};
+      let tracked = false;
+
+      for (const ve of node.variants?.edges ?? []) {
+        variantInventory[ve.node.id] = ve.node.inventoryQuantity ?? 0;
+        if (ve.node.inventoryItem?.tracked) tracked = true;
+      }
+
+      result[node.id] = {
+        totalInventory: node.totalInventory ?? 0,
+        tracked,
+        variantInventory,
+      };
+    }
+
+    return result;
+  } catch (error) {
+    console.error('[Shopify Admin] Failed to fetch inventory:', error);
+    return {};
+  }
+}
+
+/**
+ * Enrich products with real inventory data from Admin API.
+ * Call this server-side after getProducts() to add stockQuantity.
+ */
+export async function enrichWithInventory(products: Product[]): Promise<Product[]> {
+  const inventory = await getInventoryData();
+  if (Object.keys(inventory).length === 0) return products;
+
+  return products.map((p) => {
+    const fullId = `gid://shopify/Product/${p.id}`;
+    const inv = inventory[fullId];
+    if (!inv || !inv.tracked) return p;
+
+    return {
+      ...p,
+      stockQuantity: inv.totalInventory > 0 ? inv.totalInventory : undefined,
+      inStock: inv.totalInventory > 0,
+    };
+  });
 }

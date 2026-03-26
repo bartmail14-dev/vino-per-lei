@@ -323,7 +323,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
               <div className="flex items-center gap-2.5">
                 <div className={cn(
                   "w-5 h-5 rounded-full shadow-sm",
-                  product.wineType === "red" && "bg-wine",
+                  product.wineType === "red" && "bg-wine-red",
                   product.wineType === "white" && "bg-gold",
                   product.wineType === "rose" && "bg-coral",
                   product.wineType === "sparkling" && "bg-champagne border border-gold"

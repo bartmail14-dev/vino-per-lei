@@ -40,6 +40,7 @@
   /* Dark Mode (Age Gate) */
   --dark-bg: #1a1c1e;
   --dark-surface: #25282a;
+  --wine-red: #8B1A32;
   --coral: #ffa38b;
 
   /* Semantic */
@@ -111,6 +112,7 @@
 
   --color-dark-bg: var(--dark-bg);
   --color-dark-surface: var(--dark-surface);
+  --color-wine-red: var(--wine-red);
   --color-coral: var(--coral);
 
   /* Typography */

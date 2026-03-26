@@ -185,7 +185,7 @@ export function ProductCard({
             )}>
               <div className={cn(
                 "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
-                product.wineType === "red" && "bg-wine",
+                product.wineType === "red" && "bg-wine-red",
                 product.wineType === "white" && "bg-gold",
                 product.wineType === "rose" && "bg-coral",
                 product.wineType === "sparkling" && "bg-champagne border border-gold"

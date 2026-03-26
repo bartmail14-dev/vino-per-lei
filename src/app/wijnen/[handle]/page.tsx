@@ -32,7 +32,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
         ? "Witte Wijn"
         : product.wineType === "rose"
           ? "Rosé"
-          : "Mousserende Wijn";
+          : product.wineType === "sparkling"
+            ? "Mousserende Wijn"
+            : "Wijn";
 
   const title = `${product.title} | ${wineTypeNL} | Vino per Lei`;
   const description =

@@ -1,7 +1,27 @@
 # Vino per Lei — Overdracht volgende sessie
 
-**Datum:** 26 maart 2026 (sessie 9)
-**Laatste sessie:** Alle content CMS-gestuurd gemaakt + handleiding volledig herschreven.
+**Datum:** 26 maart 2026 (sessie 11)
+**Laatste sessie:** Product-aanmaak E2E getest via Shopify Admin + Playwright MCP. WineType normalisatie-bug gevonden en gefixt.
+
+---
+
+## INSTRUCTIE VOLGENDE SESSIE
+
+> **Doel:** Uncommitted code committen, visuele polish (wijntype badge kleur), en volledige site-validatie.
+>
+> 1. Lees deze HANDOFF-VPL.md volledig door
+> 2. Commit de 2 uncommitted wijzigingen (wineType normalisatie fix)
+> 3. **Fix wijntype badge kleur** — "Rode Wijn" badge op productdetailpagina heeft een BLAUW bolletje, moet ROOD zijn (zie Prio 1 hieronder)
+> 4. Verwijder de duplicate `main-1` Homepage Hero entry in Shopify Admin
+> 5. Build + start prod server: `npm run build && npx next start --port 3099 > /dev/null 2>&1 &`
+> 6. Open Playwright MCP en loop **elke pagina** af (zie Prio 3 checklist)
+> 7. Test functioneel: age gate, winkelwagen, zoek, checkout redirect, cookie consent, mobile menu
+> 8. Test responsive: mobile 375px, tablet 768px, desktop 1440px
+> 9. Fix gevonden issues direct
+> 10. Als alles PASS: commit, push, verify op vino-per-lei.vercel.app
+>
+> **LET OP:** NOOIT `next dev` draaien — crasht Claude Code. Gebruik altijd prod server.
+> **PLAYWRIGHT:** Sluit ALLE Chrome vensters voordat je Playwright MCP start.
 
 ---
 
@@ -15,88 +35,86 @@
 | **Vercel** | vino-per-lei.vercel.app (auto-deploy vanuit master) |
 | **Shopify** | `vino-per-lei-2.myshopify.com` (CMS + products) |
 | **Klant** | Carla Daniels, Pastorielaan 56, 5504 CR Veldhoven |
-| **Git status** | 4 gewijzigde bestanden, NIET gecommit |
+| **Git status** | **2 bestanden UNCOMMITTED** (wineType normalisatie fix) |
 
 ---
 
-## Wat er sessie 9 is gedaan
+## Wat er sessie 11 is gedaan
 
-### 1. Alle content CMS-gestuurd gemaakt
-- **Testimonials** → nieuw Shopify Metaobject `testimonial` aangemaakt via Admin API
-  - 3 seed reviews (Marloes, Peter, Sandra) aangemaakt in Shopify
-  - `getTestimonials()` in `shopify-cms.ts` met fallback naar defaults
-  - Homepage `page.tsx` haalt reviews nu uit CMS i.p.v. hardcoded array
+### Product-aanmaak E2E test (Shopify Admin → Website)
 
-- **Homepage cijfers** → nieuw Shopify Metaobject `homepage_stat` aangemaakt via Admin API
-  - 4 seed stats aangemaakt in Shopify (wijnen, regio's, producenten, levering)
-  - `getHomeStats()` in `shopify-cms.ts`
-  - **Dynamische fallback**: als geen CMS stats → telt `allProducts.length` en unieke regio's automatisch uit Shopify producten
+Via Playwright MCP ingelogd op Shopify Admin en een **compleet testproduct** aangemaakt:
 
-- **Setup script** (`scripts/setup-shopify-cms.ts`) bijgewerkt met beide nieuwe definities + seed data
+| Veld | Ingevoerde waarde | Website output | Status |
+|------|------------------|----------------|--------|
+| Titel | Testproduct Chianti Classico DOCG 2020 | H1 heading correct | **PASS** |
+| Beschrijving | Volledige tekst over Chianti | Zichtbaar onder titel | **PASS** |
+| Prijs | €18.95 | € 18,95 | **PASS** |
+| Afbeelding | barolo-classico-2018.webp | Fles zichtbaar in hero | **PASS** |
+| Jaargang | 2020 | Badge "2020" naast titel | **PASS** |
+| Regio | Toscane | "Toscane, Italië" + kaart + link | **PASS** |
+| Beoordeling | 4.3 | 4.3 + sterren-rating | **PASS** |
+| Druivensoorten | Sangiovese, Merlot (lijst) | Beide met druif-iconen | **PASS** |
+| Wijntype | Rood | Badge + correct smaakprofiel | **PASS** (na fix) |
+| Smaak Fris-Zacht | 2 | Balk op juiste positie | **PASS** |
+| Smaak Fruitig-Kruidig | 4 | Balk op juiste positie | **PASS** |
+| Smaak Zacht-Tannine | 4 | Balk op juiste positie | **PASS** |
+| Smaak Licht-Vol | 4 | Balk op juiste positie | **PASS** |
+| Smaak Droog-Zoet | 1 | Balk op juiste positie | **PASS** |
+| Type | Red Wine | Product correct gecategoriseerd | **PASS** |
+| Vendor | Vino per Lei | In technische details | **PASS** |
+| Tags | red | Tag toegepast | **PASS** |
+| Inventory | 0 | "Uitverkocht" + "Mail bij voorraad" | **PASS** |
 
-### 2. Handleiding volledig herschreven
-- **Toegang-sectie**: 7 gedetailleerde stappen (was 5) — van partners.shopify.com account aanmaken tot inloggen op beheerpaneel
-- **13 secties totaal**, allemaal herschreven in duidelijke, niet-technische taal:
-  1. Toegang tot Shopify (account aanmaken)
-  2. Producten beheren
-  3. Homepage teksten (hero, announcement, USP)
-  4. Klantervaringen (reviews) — NIEUW
-  5. Homepage cijfers — NIEUW
-  6. FAQ beheren
-  7. Wijn categorieën
-  8. Site instellingen (bedrijfsgegevens)
-  9. Blog schrijven
-  10. Juridische pagina's — NIEUW
-  11. Bestellingen bekijken
-  12. Verzending instellen
-- **Projectoverzicht** bijgewerkt: "Wat je zelf kunt beheren" lijst + genummerde actiepunten
-- Blog sectie gecorrigeerd naar "Online Store → Blog Posts" (was foutief Metaobjects)
+**Automatisch gegenereerde secties** (op basis van wijntype):
+- Smaakprofiel met rode-wijn assen (Tannine, Kruidig) ✅
+- Proefervaring (Geur, Smaak, Afdronk) ✅
+- Food pairing (Pasta, Gegrild vlees, Gerijpte kaas) ✅
+- Serveertemperatuur 16-17°C + Decanteren 30-60 min ✅
+- Wijnregio kaart met Toscane ✅
+- "Ook interessant" met andere rode wijnen ✅
 
-### 3. Overzicht: wat Carla nu ALLEMAAL kan beheren
+**Testproduct is na validatie weer verwijderd uit Shopify.**
 
-| Content | Shopify locatie | Type |
-|---------|----------------|------|
-| Producten, prijzen, voorraad | Products | Native |
-| Hero tekst + CTA's | Metaobjects → Homepage Hero | Metaobject |
-| Announcement bar | Metaobjects → Announcement Bar | Metaobject |
-| USP-punten | Metaobjects → USP Item | Metaobject |
-| Categorieblokken homepage | Metaobjects → Categorie Blok | Metaobject |
-| FAQ vragen | Metaobjects → FAQ Item | Metaobject |
-| Wijnregio's | Metaobjects → Wijnregio | Metaobject |
-| **Klantervaringen** | Metaobjects → Testimonial | Metaobject (NIEUW) |
-| **Homepage cijfers** | Metaobjects → Homepage Cijfer | Metaobject (NIEUW) |
-| Bedrijfsgegevens + verzendkosten | Metaobjects → Site Instellingen | Metaobject |
-| Blog artikelen | Online Store → Blog Posts | Native |
-| Privacy, Voorwaarden, Cookies | Online Store → Pages | Pages |
-| Over Ons, Verzending, Retour | Online Store → Pages | Pages |
-| Bestellingen | Orders | Native |
-| Footer menu's | Online Store → Navigation | Native |
+### Bug gevonden en gefixt: WineType normalisatie
 
----
+**Probleem:** Carla vult "Rood" in (NL) maar code verwachtte "red" (EN). Default was "Mousserende Wijn" → page title, smaakprofiel, serveeradvies en related products waren allemaal verkeerd.
 
-## Gewijzigde bestanden (uncommitted)
+**Fix:** `normalizeWineType()` helper in `src/lib/shopify.ts` regel 105-113. Accepteert nu:
+- `red` / `rood` → `'red'`
+- `white` / `wit` → `'white'`
+- `rose` / `rosé` → `'rose'`
+- `sparkling` / `mousserende` / `bubbels` → `'sparkling'`
 
-```
-M scripts/setup-shopify-cms.ts      — testimonial + homepage_stat definities + seed
-M src/lib/shopify-cms.ts            — getTestimonials() + getHomeStats() + types
-M src/app/page.tsx                  — CMS testimonials + dynamic stats
-M src/app/handleiding/HandleidingContent.tsx — volledig herschreven (13 secties)
-```
+**Gewijzigde bestanden (UNCOMMITTED):**
+- `src/lib/shopify.ts` — `normalizeWineType()` functie + aangeroepen in `mapShopifyProduct()`
+- `src/app/wijnen/[handle]/page.tsx` — default fallback "Wijn" i.p.v. "Mousserende Wijn"
+
+### Smaakprofiel validatie-inzicht
+
+Smaakwaarden zijn integers op schaal **0-5** (niet 0-100). Shopify valideert dit automatisch. Dit moet in de handleiding voor Carla staan.
 
 ---
 
-## Volgende sessie: ALLES TESTEN
+## Volgende sessie: TODO's
 
-### Stap 0: Commit + deploy
-- [ ] Commit alle wijzigingen
-- [ ] Push naar master → auto-deploy Vercel
-- [ ] Wacht op deploy, check build logs
+### Prio 1: Uncommitted code committen + visuele polish
 
-### Stap 1: Playwright — visuele test alle pagina's
-Start prod server en test ELKE pagina visueel met Playwright MCP:
+- [ ] **Commit wineType normalisatie fix** (2 bestanden, zie hierboven)
+- [ ] **Fix wijntype badge kleur** — Op de productdetailpagina (`/wijnen/[handle]`) staat bij "Rode Wijn" een classificatie-badge. Het bolletje/dot naast de tekst is **blauw** maar zou **rood** moeten zijn voor rode wijn (en goud/champagne voor wit, koraal voor rosé, etc.). Zoek in `HeroSection.tsx` en/of `ProductDetailClient.tsx` naar de wijntype-badge styling. De `bg-wine` class wordt al conditioneel gezet op de ProductCard, maar op de detailpagina mist dit mogelijk.
+- [ ] **Check alle plekken** waar wijntype-kleur wordt getoond (ProductCard, HeroSection, QuickViewModal) en zorg dat de kleuren consistent zijn: rood=bg-wine, wit=bg-gold, rosé=bg-coral, sparkling=bg-champagne
+
+### Prio 2: Shopify opruimen
+
+- [ ] **Verwijder duplicate `main-1` Homepage Hero entry** in Shopify Admin
+- [ ] **Verwijder duplicate `main-1` entry** ook voor Announcement Bar (als die er is)
+
+### Prio 3: Visuele test alle pagina's (Playwright MCP)
+
+Start prod server en test ELKE pagina visueel:
 - [ ] **Homepage** — hero, USP-balk, producten, wijnkaart, testimonials, cijfers, categorieën, blog
 - [ ] **`/wijnen`** — filters, zoek, productkaarten, low-stock badges, allergeninfo
-- [ ] **`/wijnen/[handle]`** — productdetail, food pairing, smaakprofiel, add to cart
+- [ ] **`/wijnen/[handle]`** — productdetail, food pairing, smaakprofiel, add to cart, wijntype badge kleur
 - [ ] **`/cadeaus`** — cadeaupakketten, filters
 - [ ] **`/blog`** — artikeloverzicht, tag filtering
 - [ ] **`/blog/[slug]`** — artikeldetail, leestijd, author
@@ -105,53 +123,33 @@ Start prod server en test ELKE pagina visueel met Playwright MCP:
 - [ ] **`/klantenservice/faq`** — categorieën, accordion
 - [ ] **`/klantenservice/verzending`** — verzendinfo
 - [ ] **`/klantenservice/retourneren`** — retourbeleid
-- [ ] **`/privacy`** — privacybeleid (CMS of fallback)
-- [ ] **`/voorwaarden`** — algemene voorwaarden (CMS of fallback)
-- [ ] **`/cookies`** — cookiebeleid (CMS of fallback)
-- [ ] **`/handleiding`** — alle 13 secties openen en lezen
+- [ ] **`/privacy`**, **`/voorwaarden`**, **`/cookies`** — juridische pagina's
+- [ ] **`/handleiding`** — alle 13 secties
 - [ ] **`/showcase`** — projectshowcase
 
-### Stap 2: Functionele tests
+### Prio 4: Functionele tests
+
 - [ ] **Age gate** — eerste bezoek moet leeftijdsbevestiging tonen
 - [ ] **Zoekfunctie** — zoek in header, navigeert naar `/wijnen?zoek=`
 - [ ] **Winkelwagen** — product toevoegen, hoeveelheid wijzigen, verwijderen
 - [ ] **Cart slide-out** — payment badges, gratis verzending balk
 - [ ] **Checkout** — redirect naar Shopify checkout
-- [ ] **Exit-intent modal** — mouse uit viewport, toont cart samenvatting (1x per sessie)
-- [ ] **Notify-me modal** — uitverkocht product, email invoer
-- [ ] **Cookie consent** — granulaire opties (noodzakelijk/analytisch/marketing)
+- [ ] **Exit-intent modal** — mouse uit viewport (1x per sessie)
+- [ ] **Cookie consent** — granulaire opties
 - [ ] **Mobile menu** — hamburger, stagger-animatie, submenu's
 - [ ] **Newsletter** — formulier submit, GDPR checkbox
 
-### Stap 3: CMS-koppeling verifiëren
-- [ ] **Testimonials** — wijzig een review in Shopify Admin → check of homepage bijwerkt
-- [ ] **Homepage stats** — wijzig een cijfer → check homepage
-- [ ] **Hero tekst** — wijzig titel in Shopify → check homepage
-- [ ] **Announcement bar** — wijzig tekst + zet uit → check header
-- [ ] **USP items** — wijzig tekst → check USP-balk
-- [ ] **FAQ** — voeg vraag toe → check FAQ pagina
-- [ ] **Blog** — check of artikelen laden vanuit Shopify Blog
-- [ ] **Site Settings** — wijzig telefoon → check footer + contact
+### Prio 5: Responsive tests
 
-### Stap 4: Responsive tests
-- [ ] **Mobile (375px)** — alle pagina's
-- [ ] **Tablet (768px)** — alle pagina's
-- [ ] **Desktop (1440px)** — alle pagina's
-- [ ] **Touch targets** — minimaal 44px op interactieve elementen
+- [ ] **Mobile (375px)**, **Tablet (768px)**, **Desktop (1440px)** — alle pagina's
 
-### Stap 5: Performance + SEO
-- [ ] **Lighthouse** — score check op homepage en productpagina
-- [ ] **JSON-LD** — Organization, FAQ, BreadcrumbList schema's
-- [ ] **Canonical URLs** — check op alle pagina's
-- [ ] **Meta tags** — title + description op elke pagina
-- [ ] **Sitemap** — `/sitemap.xml` bevat alle pagina's
+### Prio 6: Bekende issues
 
-### Stap 6: Security check
-- [ ] **Age gate middleware** — direct naar `/wijnen` zonder cookie → redirect
-- [ ] **CSRF tokens** — contact + newsletter formulieren
-- [ ] **CSP headers** — check response headers
-- [ ] **Rate limiting** — spam contact formulier
-- [ ] **Honeypot** — check dat hidden field werkt
+- [ ] **CSP report endpoint** (`/api/csp-report`) — bestaat nog niet, maar is als directive geconfigureerd
+- [ ] **GA4 Measurement ID** — nog `G-XXXXXXXXXX`, moet worden ingevuld
+- [ ] **Web3Forms key** — moet nog worden aangemaakt
+- [ ] **Telefoonnummer** — nog placeholder `040-XXX XXXX` / `+31 6 00 00 00 00`
+- [ ] **NotifyMe modal** — frontend-only, stuurt nog geen email
 
 ---
 
@@ -164,18 +162,9 @@ Start prod server en test ELKE pagina visueel met Playwright MCP:
 - **NOOIT AI/agents/tooling vermelden** in klant-zichtbare content
 - **Shopify API versie:** `2025-01`
 - **Playwright MCP:** Sluit ALLE Chrome vensters voor gebruik
-- **Lettertype mobile menu:** Inter (behouden)
-
----
-
-## Bekende issues / aandachtspunten
-
-1. **Shopify Pages** konden niet via script worden aangemaakt (API token mist `write_content` scope) — fallback-teksten werken, maar Carla moet pages handmatig aanmaken in Shopify Admin als ze ze wil aanpassen
-2. **Telefoonnummer** is nog placeholder `+31 6 00 00 00 00` — Carla moet dit invullen via Site Instellingen
-3. **GA4 Measurement ID** is nog `G-XXXXXXXXXX` — moet worden ingevuld
-4. **Web3Forms key** — moet nog worden aangemaakt en ingevuld
-5. **CSP report endpoint** (`/api/csp-report`) is als directive geconfigureerd maar de endpoint bestaat nog niet
-6. **NotifyMe modal** — frontend-only, stuurt nog geen email (backend TODO)
+- **Metaobjects worden opgehaald via handle** — bijv. `getMetaobject('homepage_hero', 'main', ...)`
+- **Smaakwaarden:** Integer schaal 0-5 (niet 0-100)
+- **Wijntype in Shopify:** Carla mag NL of EN invullen (Rood/red, Wit/white, Rosé/rose, Bubbels/sparkling)
 
 ---
 
@@ -189,3 +178,4 @@ Start prod server en test ELKE pagina visueel met Playwright MCP:
 | Border | sand `#e8e0d5` |
 | Serif | Playfair Display |
 | Sans | Inter |
+| Wijntype kleuren | red=`bg-wine`, white=`bg-gold`, rosé=`bg-coral`, sparkling=`bg-champagne` |
