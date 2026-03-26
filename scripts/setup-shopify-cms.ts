@@ -133,6 +133,29 @@ const metaobjectDefinitions = [
       { key: 'sort_order', name: 'Volgorde', type: 'number_integer' },
     ],
   },
+  {
+    type: 'testimonial',
+    name: 'Testimonial',
+    fieldDefinitions: [
+      { key: 'name', name: 'Naam klant', type: 'single_line_text_field' },
+      { key: 'text', name: 'Review tekst', type: 'multi_line_text_field' },
+      { key: 'rating', name: 'Sterren (1-5)', type: 'number_integer' },
+      { key: 'wine', name: 'Wijn', type: 'single_line_text_field' },
+      { key: 'attribution', name: 'Bron (bijv. Google Review)', type: 'single_line_text_field' },
+      { key: 'sort_order', name: 'Volgorde', type: 'number_integer' },
+    ],
+  },
+  {
+    type: 'homepage_stat',
+    name: 'Homepage Cijfer',
+    fieldDefinitions: [
+      { key: 'value', name: 'Getal', type: 'single_line_text_field' },
+      { key: 'prefix', name: 'Prefix (bijv. "< ")', type: 'single_line_text_field' },
+      { key: 'suffix', name: 'Suffix (bijv. "+")', type: 'single_line_text_field' },
+      { key: 'label', name: 'Label', type: 'single_line_text_field' },
+      { key: 'sort_order', name: 'Volgorde', type: 'number_integer' },
+    ],
+  },
 ];
 
 async function createDefinitions() {
@@ -308,6 +331,42 @@ async function seedContent() {
       { key: 'famous_wines', value: region.famous_wines },
       { key: 'area', value: region.area },
       { key: 'active', value: 'true' },
+    ]);
+  }
+
+  // Testimonials
+  console.log('Seeding testimonials...');
+  const testimonials = [
+    { handle: 'marloes-v', name: 'Marloes V.', text: 'Prachtige selectie! De Barolo was een absolute hit op ons feestje. Wordt nu vaste klant.', rating: '5', wine: 'Montaribaldi Barolo', attribution: 'Proeverij, maart 2026', sort_order: '1' },
+    { handle: 'peter-de-g', name: 'Peter de G.', text: 'Snelle levering en mooi verpakt. De Amarone overtrof mijn verwachtingen — geweldige prijs-kwaliteit.', rating: '5', wine: 'Amarone della Valpolicella', attribution: 'Proeverij, maart 2026', sort_order: '2' },
+    { handle: 'sandra-k', name: 'Sandra K.', text: 'Al drie keer besteld en altijd tevreden. De wijnbeschrijvingen kloppen precies. Aanrader!', rating: '5', wine: 'Valpolicella Ripasso', attribution: 'Proeverij, maart 2026', sort_order: '3' },
+  ];
+  for (const t of testimonials) {
+    await createMetaobject('testimonial', t.handle, [
+      { key: 'name', value: t.name },
+      { key: 'text', value: t.text },
+      { key: 'rating', value: t.rating },
+      { key: 'wine', value: t.wine },
+      { key: 'attribution', value: t.attribution },
+      { key: 'sort_order', value: t.sort_order },
+    ]);
+  }
+
+  // Homepage Stats
+  console.log('Seeding homepage_stats...');
+  const stats = [
+    { handle: 'wijnen', value: '19', prefix: '', suffix: '', label: 'Geselecteerde wijnen', sort_order: '1' },
+    { handle: 'regio', value: '3', prefix: '', suffix: '', label: 'Italiaanse wijngebieden', sort_order: '2' },
+    { handle: 'producenten', value: '12', prefix: '', suffix: '+', label: 'Familieproducenten', sort_order: '3' },
+    { handle: 'levering', value: '48', prefix: '< ', suffix: '', label: 'Uur levering', sort_order: '4' },
+  ];
+  for (const s of stats) {
+    await createMetaobject('homepage_stat', s.handle, [
+      { key: 'value', value: s.value },
+      { key: 'prefix', value: s.prefix },
+      { key: 'suffix', value: s.suffix },
+      { key: 'label', value: s.label },
+      { key: 'sort_order', value: s.sort_order },
     ]);
   }
 

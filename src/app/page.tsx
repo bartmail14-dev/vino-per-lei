@@ -5,7 +5,7 @@ import { ProductCard } from "@/components/product";
 import { getProducts } from "@/lib/shopify";
 import dynamic from "next/dynamic";
 import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ArrowRightIcon, StarIcon, ShieldIcon, TuscanyIcon, RedWineIcon, WhiteWineIcon, RoseWineIcon, BubblesIcon, GiftBoxIcon } from "@/components/icons";
-import { getHeroContent, getUSPItems, getCategoryBlocks, getBlogArticles, DEFAULT_HERO } from "@/lib/shopify-cms";
+import { getHeroContent, getUSPItems, getCategoryBlocks, getBlogArticles, getTestimonials, getHomeStats, DEFAULT_HERO } from "@/lib/shopify-cms";
 import type { BlogArticle } from "@/lib/shopify-cms";
 import {
   AnimatedSection,
@@ -68,17 +68,26 @@ function mapBlogPost(article: BlogArticle) {
 }
 
 export default async function Home() {
-  const [allProducts, heroRaw, uspItems, categoryBlocks, blogArticles] = await Promise.all([
+  const [allProducts, heroRaw, uspItems, categoryBlocks, blogArticles, testimonials, cmsStats] = await Promise.all([
     getProducts(),
     getHeroContent(),
     getUSPItems(),
     getCategoryBlocks(),
     getBlogArticles(3),
+    getTestimonials(),
+    getHomeStats(),
   ]);
   const featured = allProducts.filter((p) => p.isFeatured);
   const featuredProducts = featured.length > 0 ? featured.slice(0, 4) : allProducts.slice(0, 4);
   const hero = heroRaw ?? DEFAULT_HERO;
   const featuredBlogPosts = blogArticles.map(mapBlogPost);
+  const uniqueRegions = new Set(allProducts.map((p) => p.region).filter(Boolean));
+  const homeStats = cmsStats.length > 0 ? cmsStats : [
+    { value: String(allProducts.length), prefix: "", suffix: "", label: "Geselecteerde wijnen", sortOrder: 0 },
+    { value: String(uniqueRegions.size || 3), prefix: "", suffix: "", label: "Italiaanse wijngebieden", sortOrder: 1 },
+    { value: "12", prefix: "", suffix: "+", label: "Familieproducenten", sortOrder: 2 },
+    { value: "48", prefix: "< ", suffix: "", label: "Uur levering", sortOrder: 3 },
+  ];
 
   // JSON-LD: Organization schema
   const organizationJsonLd = {
@@ -256,15 +265,10 @@ export default async function Home() {
         {/* Trust numbers bar */}
         <AnimatedSection variant="fadeUp">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 mb-12 sm:mb-16 text-center">
-            {[
-              { target: allProducts.length, suffix: "", label: "Geselecteerde wijnen" },
-              { target: 3, suffix: "", label: "Italiaanse wijngebieden" },
-              { target: 12, suffix: "+", label: "Familieproducenten" },
-              { target: 48, suffix: "", label: "Uur levering", prefix: "< " },
-            ].map((stat) => (
+            {homeStats.map((stat) => (
               <div key={stat.label}>
                 <p className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-wine leading-none mb-1.5 tabular-nums">
-                  <AnimatedCounter target={stat.target} suffix={stat.suffix} prefix={stat.prefix} />
+                  <AnimatedCounter target={parseInt(stat.value) || 0} suffix={stat.suffix} prefix={stat.prefix} />
                 </p>
                 <p className="text-xs sm:text-sm text-grey font-medium">{stat.label}</p>
               </div>
@@ -279,29 +283,7 @@ export default async function Home() {
           </div>
         </AnimatedSection>
         <AnimatedStagger className="grid sm:grid-cols-3 gap-5 sm:gap-6" staggerDelay={0.15}>
-          {[
-            {
-              name: "Marloes V.",
-              text: "Prachtige selectie! De Barolo was een absolute hit op ons feestje. Wordt nu vaste klant.",
-              rating: 5,
-              wine: "Montaribaldi Barolo",
-              attribution: "Proeverij, maart 2026",
-            },
-            {
-              name: "Peter de G.",
-              text: "Snelle levering en mooi verpakt. De Amarone overtrof mijn verwachtingen — geweldige prijs-kwaliteit.",
-              rating: 5,
-              wine: "Amarone della Valpolicella",
-              attribution: "Proeverij, maart 2026",
-            },
-            {
-              name: "Sandra K.",
-              text: "Al drie keer besteld en altijd tevreden. De wijnbeschrijvingen kloppen precies. Aanrader!",
-              rating: 5,
-              wine: "Valpolicella Ripasso",
-              attribution: "Proeverij, maart 2026",
-            },
-          ].map((review) => (
+          {testimonials.map((review) => (
             <TestimonialCard key={review.name} {...review} />
           ))}
         </AnimatedStagger>

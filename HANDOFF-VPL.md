@@ -1,7 +1,7 @@
 # Vino per Lei — Overdracht volgende sessie
 
-**Datum:** 25 maart 2026 (sessie 8)
-**Laatste sessie:** Complete livegang audit met 6 gespecialiseerde agents — 40+ fixes over SEO, security, trust, UX, product en legal.
+**Datum:** 26 maart 2026 (sessie 9)
+**Laatste sessie:** Alle content CMS-gestuurd gemaakt + handleiding volledig herschreven.
 
 ---
 
@@ -15,141 +15,143 @@
 | **Vercel** | vino-per-lei.vercel.app (auto-deploy vanuit master) |
 | **Shopify** | `vino-per-lei-2.myshopify.com` (CMS + products) |
 | **Klant** | Carla Daniels, Pastorielaan 56, 5504 CR Veldhoven |
-| **Carla's email** | `vinoperlei@outlook.com` (tijdelijk) |
-| **KvK** | 98874977 — **BTW:** NL005360033B10 |
-| **Laatste commit** | `8852716` — complete livegang audit |
-| **Git status** | Clean, up to date met origin/master |
+| **Git status** | 4 gewijzigde bestanden, NIET gecommit |
 
 ---
 
-## Wat er sessie 8 is gedaan
+## Wat er sessie 9 is gedaan
 
-### 1. Web3Forms contactformulier
-- Mailgun vervangen door Web3Forms API (`api/contact/route.ts`)
-- Zod validatie, honeypot, error handling behouden
-- `.env.local` + `.env.example` bijgewerkt
+### 1. Alle content CMS-gestuurd gemaakt
+- **Testimonials** → nieuw Shopify Metaobject `testimonial` aangemaakt via Admin API
+  - 3 seed reviews (Marloes, Peter, Sandra) aangemaakt in Shopify
+  - `getTestimonials()` in `shopify-cms.ts` met fallback naar defaults
+  - Homepage `page.tsx` haalt reviews nu uit CMS i.p.v. hardcoded array
 
-### 2. Visuele polish (sessie 7 afgemaakt)
-- Hero "Ons Verhaal" button: chevron-icoon, hover scale/shadow
-- Mobile submenu: stagger-animatie op individuele items
+- **Homepage cijfers** → nieuw Shopify Metaobject `homepage_stat` aangemaakt via Admin API
+  - 4 seed stats aangemaakt in Shopify (wijnen, regio's, producenten, levering)
+  - `getHomeStats()` in `shopify-cms.ts`
+  - **Dynamische fallback**: als geen CMS stats → telt `allProducts.length` en unieke regio's automatisch uit Shopify producten
 
-### 3. Livegang audit — 6 gespecialiseerde agents (40+ fixes)
+- **Setup script** (`scripts/setup-shopify-cms.ts`) bijgewerkt met beide nieuwe definities + seed data
 
-#### SEO/Performance (81→95)
-- Canonical URLs op 7 pagina's
-- Hero video `preload="none"` (LCP fix)
-- FAQ JSON-LD schema, breadcrumbs op /cadeaus en /over-ons
-- `useReducedMotion` in alle animatie-componenten
-- Mobile image preset `cardMobile` (200x300)
+### 2. Handleiding volledig herschreven
+- **Toegang-sectie**: 7 gedetailleerde stappen (was 5) — van partners.shopify.com account aanmaken tot inloggen op beheerpaneel
+- **13 secties totaal**, allemaal herschreven in duidelijke, niet-technische taal:
+  1. Toegang tot Shopify (account aanmaken)
+  2. Producten beheren
+  3. Homepage teksten (hero, announcement, USP)
+  4. Klantervaringen (reviews) — NIEUW
+  5. Homepage cijfers — NIEUW
+  6. FAQ beheren
+  7. Wijn categorieën
+  8. Site instellingen (bedrijfsgegevens)
+  9. Blog schrijven
+  10. Juridische pagina's — NIEUW
+  11. Bestellingen bekijken
+  12. Verzending instellen
+- **Projectoverzicht** bijgewerkt: "Wat je zelf kunt beheren" lijst + genummerde actiepunten
+- Blog sectie gecorrigeerd naar "Online Store → Blog Posts" (was foutief Metaobjects)
 
-#### Security (60→95)
-- **Age gate server-side middleware** — redirect naar `/?age_required=1` als cookie mist op `/wijnen`, `/checkout`, `/cadeaus`
-- **CSRF tokens** op contact + newsletter forms (cookie + hidden field)
-- Secure cookie flag op consent cookie
-- CSP `report-uri /api/csp-report` directive
+### 3. Overzicht: wat Carla nu ALLEMAAL kan beheren
 
-#### Trust/Branding (75→95)
-- Testimonials eerlijk gelabeld als "Proeverij, maart 2026"
-- Payment badges in cart slide-out (iDEAL, Visa, MC, PayPal + SSL)
-- Favicon geconfigureerd (`/logo.png`)
-- "Persoonlijk geselecteerd door Carla" badge op productpagina's
-- **Werkende zoekfunctie** in header → navigeert naar `/wijnen?zoek=`
-
-#### UX/Conversie (65→95)
-- **GA4 tracking** — `view_item`, `add_to_cart`, `begin_checkout` + Google Consent Mode v2
-- **Low-stock badges** — "Nog X flessen" (gouden `lowstock` variant, 1-5 stuks)
-- **Exit-intent modal** — detecteert mouse-exit, toont cart samenvatting, 1x per sessie
-- **Notify-me modal** — email verzamelen voor uitverkochte producten (frontend-only, backend TODO)
-- 44px touch targets op checkboxes en selects
-
-#### Product/Content (55→95)
-- **EU-compliant allergeninfo** op 3 plekken (desktop, mobile, accordion) — gold/wine palette
-- Food pairing uit `custom.food_pairing` metafield + type-based fallbacks
-- Serving temperature uit `custom.serving_temperature` metafield
-- Vinificatie + Producent accordion secties uit metafields
-- Alcohol % filter + verfijnde prijsfilter (30-50 / 50+)
-
-#### Legal/Compliance (50→95)
-- **Volledige Privacy Policy** (GDPR Art. 13/14, hardcoded fallback)
-- **Algemene Voorwaarden** (13 artikelen, BW 6:230f compliant)
-- **Cookiebeleid** met cookietabel
-- Alcohol disclaimer prominenter (text-sm, font-medium, betere border)
-- ID-verificatie bij bezorging op verzendpagina
-- **Granulaire cookie consent** (noodzakelijk/analytisch/marketing)
-- GDPR checkbox op nieuwsbrief
-- Placeholder telefoon → `+31 6 00 00 00 00` (TODO: echt nummer)
-
-### 4. UI review fixes (post-audit)
-- GA4 consent mismatch gefixt (checkt nu `analytics` substring)
-- Dynamic Tailwind classes → statische `cn()` mapping op category cards
-- Allergen boxes amber → gold/wine palette (consistent met thema)
-- Search close-on-blur, SSL icon sizing
+| Content | Shopify locatie | Type |
+|---------|----------------|------|
+| Producten, prijzen, voorraad | Products | Native |
+| Hero tekst + CTA's | Metaobjects → Homepage Hero | Metaobject |
+| Announcement bar | Metaobjects → Announcement Bar | Metaobject |
+| USP-punten | Metaobjects → USP Item | Metaobject |
+| Categorieblokken homepage | Metaobjects → Categorie Blok | Metaobject |
+| FAQ vragen | Metaobjects → FAQ Item | Metaobject |
+| Wijnregio's | Metaobjects → Wijnregio | Metaobject |
+| **Klantervaringen** | Metaobjects → Testimonial | Metaobject (NIEUW) |
+| **Homepage cijfers** | Metaobjects → Homepage Cijfer | Metaobject (NIEUW) |
+| Bedrijfsgegevens + verzendkosten | Metaobjects → Site Instellingen | Metaobject |
+| Blog artikelen | Online Store → Blog Posts | Native |
+| Privacy, Voorwaarden, Cookies | Online Store → Pages | Pages |
+| Over Ons, Verzending, Retour | Online Store → Pages | Pages |
+| Bestellingen | Orders | Native |
+| Footer menu's | Online Store → Navigation | Native |
 
 ---
 
-## Commits deze sessie (2 stuks)
+## Gewijzigde bestanden (uncommitted)
 
 ```
-8852716 feat: complete livegang audit — SEO, security, trust, UX, product, legal
-54a901a feat: Web3Forms contact form, hero button polish, mobile menu stagger
+M scripts/setup-shopify-cms.ts      — testimonial + homepage_stat definities + seed
+M src/lib/shopify-cms.ts            — getTestimonials() + getHomeStats() + types
+M src/app/page.tsx                  — CMS testimonials + dynamic stats
+M src/app/handleiding/HandleidingContent.tsx — volledig herschreven (13 secties)
 ```
 
 ---
 
-## TODO's volgende sessie (prioriteit)
+## Volgende sessie: ALLES TESTEN
 
-### BLOKKEREND VOOR LIVEGANG
+### Stap 0: Commit + deploy
+- [ ] Commit alle wijzigingen
+- [ ] Push naar master → auto-deploy Vercel
+- [ ] Wacht op deploy, check build logs
 
-#### #1 Carla: echte gegevens invullen
-- [ ] **Telefoonnummer** — vervang `+31 6 00 00 00 00` in `src/lib/shopify-cms.ts` (regel met `// TODO: Vervang met Carla's echte telefoonnummer`)
-- [ ] **Web3Forms key** — account aanmaken op web3forms.com met info@vinoperlei.nl, key in `.env.local` + Vercel env vars
-- [ ] **GA4 Measurement ID** — vervang `G-XXXXXXXXXX` in `src/app/layout.tsx` (2 plekken)
+### Stap 1: Playwright — visuele test alle pagina's
+Start prod server en test ELKE pagina visueel met Playwright MCP:
+- [ ] **Homepage** — hero, USP-balk, producten, wijnkaart, testimonials, cijfers, categorieën, blog
+- [ ] **`/wijnen`** — filters, zoek, productkaarten, low-stock badges, allergeninfo
+- [ ] **`/wijnen/[handle]`** — productdetail, food pairing, smaakprofiel, add to cart
+- [ ] **`/cadeaus`** — cadeaupakketten, filters
+- [ ] **`/blog`** — artikeloverzicht, tag filtering
+- [ ] **`/blog/[slug]`** — artikeldetail, leestijd, author
+- [ ] **`/over-ons`** — CMS content of fallback, hero, CTA
+- [ ] **`/contact`** — formulier, bedrijfsgegevens, openingstijden
+- [ ] **`/klantenservice/faq`** — categorieën, accordion
+- [ ] **`/klantenservice/verzending`** — verzendinfo
+- [ ] **`/klantenservice/retourneren`** — retourbeleid
+- [ ] **`/privacy`** — privacybeleid (CMS of fallback)
+- [ ] **`/voorwaarden`** — algemene voorwaarden (CMS of fallback)
+- [ ] **`/cookies`** — cookiebeleid (CMS of fallback)
+- [ ] **`/handleiding`** — alle 13 secties openen en lezen
+- [ ] **`/showcase`** — projectshowcase
 
-#### #2 Shopify API-token roteren (SECURITY)
-- Huidig Storefront token + Admin token staan in git history
-- Shopify Admin → Settings → Apps → Headless → Regenerate
-- Update `.env.local` + Vercel env vars
-- Test dat producten, checkout en blog nog werken
+### Stap 2: Functionele tests
+- [ ] **Age gate** — eerste bezoek moet leeftijdsbevestiging tonen
+- [ ] **Zoekfunctie** — zoek in header, navigeert naar `/wijnen?zoek=`
+- [ ] **Winkelwagen** — product toevoegen, hoeveelheid wijzigen, verwijderen
+- [ ] **Cart slide-out** — payment badges, gratis verzending balk
+- [ ] **Checkout** — redirect naar Shopify checkout
+- [ ] **Exit-intent modal** — mouse uit viewport, toont cart samenvatting (1x per sessie)
+- [ ] **Notify-me modal** — uitverkocht product, email invoer
+- [ ] **Cookie consent** — granulaire opties (noodzakelijk/analytisch/marketing)
+- [ ] **Mobile menu** — hamburger, stagger-animatie, submenu's
+- [ ] **Newsletter** — formulier submit, GDPR checkbox
 
-#### #3 Carla's Shopify staff account
-- Shopify Admin → Settings → Users → Add staff
-- Email: vinoperlei@outlook.com
-- Rechten: Products, Content, Orders (view)
+### Stap 3: CMS-koppeling verifiëren
+- [ ] **Testimonials** — wijzig een review in Shopify Admin → check of homepage bijwerkt
+- [ ] **Homepage stats** — wijzig een cijfer → check homepage
+- [ ] **Hero tekst** — wijzig titel in Shopify → check homepage
+- [ ] **Announcement bar** — wijzig tekst + zet uit → check header
+- [ ] **USP items** — wijzig tekst → check USP-balk
+- [ ] **FAQ** — voeg vraag toe → check FAQ pagina
+- [ ] **Blog** — check of artikelen laden vanuit Shopify Blog
+- [ ] **Site Settings** — wijzig telefoon → check footer + contact
 
-#### #4 Shopify Order Notifications
-- Settings → Notifications → Staff order notifications
-- Voeg vinoperlei@outlook.com toe
+### Stap 4: Responsive tests
+- [ ] **Mobile (375px)** — alle pagina's
+- [ ] **Tablet (768px)** — alle pagina's
+- [ ] **Desktop (1440px)** — alle pagina's
+- [ ] **Touch targets** — minimaal 44px op interactieve elementen
 
-### NA LIVEGANG (conversie-optimalisatie)
+### Stap 5: Performance + SEO
+- [ ] **Lighthouse** — score check op homepage en productpagina
+- [ ] **JSON-LD** — Organization, FAQ, BreadcrumbList schema's
+- [ ] **Canonical URLs** — check op alle pagina's
+- [ ] **Meta tags** — title + description op elke pagina
+- [ ] **Sitemap** — `/sitemap.xml` bevat alle pagina's
 
-#### #5 Shopify metafields invullen (Carla)
-- `custom.food_pairing` — JSON array per wijn (nu type-based fallback)
-- `custom.serving_temperature` — tekst per wijn (nu berekend)
-- `custom.vinification` — wijnmakingsproces per wijn (nu placeholder)
-- `custom.producer_story` — producentverhaal per wijn (nu placeholder)
-- `custom.alcohol_percentage` — getal per wijn (nu "Zie etiket")
-- Smaakprofiel sliders (taste_dry_sweet etc.) per wijn invullen
-
-#### #6 Mailgun + DNS (voor nieuwsbrief)
-- `mg.vinoperlei.nl` verifiëren (SPF, DKIM, MX)
-- DNS: vinoperlei.nl → Vercel (CNAME)
-- Newsletter route (`api/newsletter`) koppelen
-
-#### #7 Reviews systeem
-- Judge.me of Trustpilot koppelen
-- ReviewSection.tsx is ready, wacht op data
-
-#### #8 Over Ons pagina
-- Echt verhaal + foto van Carla nodig
-- Content in Shopify CMS of hardcoded
-
-#### #9 NotifyMeModal backend
-- Frontend verzamelt email, maar stuurt nog niks
-- Koppel aan Shopify customer list of Klaviyo
-
-#### #10 Visuele verificatie
-- Start prod server en check alle pagina's visueel
-- Specifiek: exit-intent modal, notify-me modal, cookie consent granularity, search dropdown, allergeninfo boxes
+### Stap 6: Security check
+- [ ] **Age gate middleware** — direct naar `/wijnen` zonder cookie → redirect
+- [ ] **CSRF tokens** — contact + newsletter formulieren
+- [ ] **CSP headers** — check response headers
+- [ ] **Rate limiting** — spam contact formulier
+- [ ] **Honeypot** — check dat hidden field werkt
 
 ---
 
@@ -158,30 +160,22 @@
 - **NOOIT `next dev` in foreground draaien** — crasht Claude Code
 - **Production test:** `npm run build && npx next start --port 3099 > /dev/null 2>&1 &`
 - **Port killen:** `npx --yes kill-port 3099`
-- **Vercel deploy:** Git push triggert auto-deploy. Alternatief: `npx vercel --prod --force`
+- **Vercel deploy:** Git push triggert auto-deploy
 - **NOOIT AI/agents/tooling vermelden** in klant-zichtbare content
-- **Shopify API versie:** `2025-01` (NIET 2026-01, die bestaat niet)
+- **Shopify API versie:** `2025-01`
 - **Playwright MCP:** Sluit ALLE Chrome vensters voor gebruik
-- **Lettertype mobile menu:** Inter (modern, leesbaar) — Bart wil dit behouden
+- **Lettertype mobile menu:** Inter (behouden)
 
 ---
 
-## Nieuwe componenten deze sessie
+## Bekende issues / aandachtspunten
 
-| Component | Locatie | Functie |
-|-----------|---------|---------|
-| `ExitIntentModal` | `src/components/ui/ExitIntentModal.tsx` | Cart abandonment popup bij mouse-exit |
-| `NotifyMeModal` | `src/components/ui/NotifyMeModal.tsx` | Email verzamelen voor uitverkochte producten |
-| `analytics.ts` | `src/lib/analytics.ts` | GA4 event helpers (consent-aware) |
-
-## Gewijzigde security
-
-| Wat | Waar | Details |
-|-----|------|---------|
-| Age gate middleware | `src/middleware.ts` | Server-side cookie check op `/wijnen`, `/checkout`, `/cadeaus` |
-| CSRF tokens | `src/middleware.ts` + API routes | Cookie `vpl_csrf` + hidden form field `_csrf` |
-| Secure cookies | `CookieConsent.tsx` | `; Secure` flag toegevoegd |
-| CSP report-uri | `src/middleware.ts` | `/api/csp-report` directive (endpoint nog niet aangemaakt) |
+1. **Shopify Pages** konden niet via script worden aangemaakt (API token mist `write_content` scope) — fallback-teksten werken, maar Carla moet pages handmatig aanmaken in Shopify Admin als ze ze wil aanpassen
+2. **Telefoonnummer** is nog placeholder `+31 6 00 00 00 00` — Carla moet dit invullen via Site Instellingen
+3. **GA4 Measurement ID** is nog `G-XXXXXXXXXX` — moet worden ingevuld
+4. **Web3Forms key** — moet nog worden aangemaakt en ingevuld
+5. **CSP report endpoint** (`/api/csp-report`) is als directive geconfigureerd maar de endpoint bestaat nog niet
+6. **NotifyMe modal** — frontend-only, stuurt nog geen email (backend TODO)
 
 ---
 
@@ -195,15 +189,3 @@
 | Border | sand `#e8e0d5` |
 | Serif | Playfair Display |
 | Sans | Inter |
-| Gradient | `wine-gradient` (135deg navy) |
-| Radius | rounded-lg to rounded-2xl |
-| Allergen box | `bg-gold/5 border-gold/20 text-wine/80` |
-| Low-stock badge | `lowstock` variant (gold/15, wine text) |
-
----
-
-## URLs voor Carla
-
-- **Website:** https://vino-per-lei.vercel.app
-- **Handleiding:** https://vino-per-lei.vercel.app/handleiding
-- **Showcase:** https://vino-per-lei.vercel.app/showcase

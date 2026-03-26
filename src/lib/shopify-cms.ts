@@ -566,6 +566,79 @@ export const DEFAULT_BLOG_ARTICLES: BlogArticle[] = [
   },
 ];
 
+// --- Testimonials (CMS-driven with fallbacks) ---
+
+export interface TestimonialCMS {
+  name: string;
+  text: string;
+  rating: number;
+  wine: string;
+  attribution: string;
+  sortOrder: number;
+}
+
+export async function getTestimonials(): Promise<TestimonialCMS[]> {
+  const items = await getMetaobjects<TestimonialCMS>('testimonial', (f) => ({
+    name: f.name || '',
+    text: f.text || '',
+    rating: parseInt(f.rating || '5'),
+    wine: f.wine || '',
+    attribution: f.attribution || '',
+    sortOrder: parseInt(f.sort_order || '0'),
+  }));
+  const sorted = items.filter((t) => t.name && t.text).sort((a, b) => a.sortOrder - b.sortOrder);
+  return sorted.length > 0 ? sorted : DEFAULT_TESTIMONIALS;
+}
+
+export const DEFAULT_TESTIMONIALS: TestimonialCMS[] = [
+  {
+    name: 'Marloes V.',
+    text: 'Prachtige selectie! De Barolo was een absolute hit op ons feestje. Wordt nu vaste klant.',
+    rating: 5,
+    wine: 'Montaribaldi Barolo',
+    attribution: 'Proeverij, maart 2026',
+    sortOrder: 0,
+  },
+  {
+    name: 'Peter de G.',
+    text: 'Snelle levering en mooi verpakt. De Amarone overtrof mijn verwachtingen — geweldige prijs-kwaliteit.',
+    rating: 5,
+    wine: 'Amarone della Valpolicella',
+    attribution: 'Proeverij, maart 2026',
+    sortOrder: 1,
+  },
+  {
+    name: 'Sandra K.',
+    text: 'Al drie keer besteld en altijd tevreden. De wijnbeschrijvingen kloppen precies. Aanrader!',
+    rating: 5,
+    wine: 'Valpolicella Ripasso',
+    attribution: 'Proeverij, maart 2026',
+    sortOrder: 2,
+  },
+];
+
+// --- Homepage Stats (CMS-driven with fallbacks) ---
+
+export interface HomeStatCMS {
+  value: string;
+  prefix: string;
+  suffix: string;
+  label: string;
+  sortOrder: number;
+}
+
+export async function getHomeStats(): Promise<HomeStatCMS[]> {
+  const items = await getMetaobjects<HomeStatCMS>('homepage_stat', (f) => ({
+    value: f.value || '0',
+    prefix: f.prefix || '',
+    suffix: f.suffix || '',
+    label: f.label || '',
+    sortOrder: parseInt(f.sort_order || '0'),
+  }));
+  const sorted = items.filter((s) => s.label).sort((a, b) => a.sortOrder - b.sortOrder);
+  return sorted.length > 0 ? sorted : [];
+}
+
 // --- Shop Config (shipping settings, CMS-driven with fallbacks) ---
 
 export interface ShopConfig {
