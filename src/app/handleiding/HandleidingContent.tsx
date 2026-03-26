@@ -61,27 +61,32 @@ const sections: Section[] = [
         title: "Ga naar de Shopify Partners website",
         description:
           "Open je browser en ga naar:\n\npartners.shopify.com\n\nDit is de officiële website van Shopify waar je gratis een beheerdersaccount kunt aanmaken. Je hebt hiervoor geen webshop of abonnement nodig — het is puur om toegang te krijgen tot het beheerpaneel van Vino per Lei.",
+        screenshot: "/handleiding/toegang-stap1-partners-website.png",
       },
       {
         title: 'Klik op "Join now" (Aanmelden)',
         description:
           "Je ziet rechtsboven een groene knop \"Join now\" (of \"Aanmelden\" als de pagina in het Nederlands staat). Klik hierop om te beginnen met het aanmaken van je account.",
+        screenshot: "/handleiding/toegang-stap1-partners-website.png",
       },
       {
         title: "Vul je gegevens in",
         description:
           "Je wordt gevraagd om de volgende gegevens:\n\n1. E-mailadres — gebruik je zakelijke e-mail (bijv. vinoperlei@outlook.com)\n2. Wachtwoord — kies een sterk wachtwoord\n3. Voornaam en achternaam\n\nKlik daarna op \"Create account\" (Account aanmaken). Je krijgt mogelijk een verificatie-e-mail — klik op de link in die e-mail om je account te bevestigen.",
+        screenshot: "/handleiding/toegang-stap2-aanmelden.png",
         tip: "Gebruik bij voorkeur hetzelfde e-mailadres als waarmee je straks bestellingen wilt ontvangen. Dit maakt het overzichtelijker.",
       },
       {
         title: "Log in op het Partners Dashboard",
         description:
           "Na het aanmaken en verifiëren van je account log je in op partners.shopify.com. Je komt op het Partners Dashboard terecht. Dit is je startpagina van waaruit je de webshop kunt beheren.",
+        screenshot: "/handleiding/toegang-stap4-inloggen.png",
       },
       {
         title: "Vraag toegang aan tot de webshop",
         description:
           "Nu ga je toegang aanvragen tot de Vino per Lei webshop. Volg deze stappen:\n\n1. Klik in het linkermenu op \"Stores\"\n2. Klik rechtsboven op \"Add store\"\n3. Kies \"Request access\" (Toegang aanvragen)\n4. Vul bij \"Store URL\" het volgende in:\n\nvino-per-lei-2.myshopify.com\n\n5. Voeg een kort bericht toe, bijv.: \"Ik ben Carla, de eigenaar van Vino per Lei\"\n6. Klik op \"Submit request\" (Verzoek versturen)",
+        screenshot: "/handleiding/toegang-stap4-dashboard.png",
         tip: "Na het versturen krijgen wij automatisch een melding. We keuren je verzoek zo snel mogelijk goed — meestal binnen een paar uur.",
       },
       {
@@ -93,6 +98,7 @@ const sections: Section[] = [
         title: "Log in op het beheerpaneel",
         description:
           "Zodra je goedkeuring hebt ontvangen:\n\n1. Ga naar partners.shopify.com en log in\n2. Klik in het linkermenu op \"Stores\"\n3. Je ziet nu \"Vino per Lei\" in de lijst staan\n4. Klik op de naam van de store\n5. Klik op \"Log in to store\"\n\nJe bent nu in het Shopify beheerpaneel! Hier kun je alles beheren: producten, teksten, bestellingen, en meer.",
+        screenshot: "/handleiding/toegang-stap7-admin-panel.png",
         tip: "Sla deze link op als bladwijzer in je browser zodat je er snel bij kunt:\nhttps://vino-per-lei-2.myshopify.com/admin",
       },
     ],

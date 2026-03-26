@@ -127,6 +127,16 @@ function SecureIcon() {
   );
 }
 
+// Convert absolute Shopify URLs to relative paths
+function toRelativeUrl(url: string): string {
+  try {
+    const parsed = new URL(url);
+    return parsed.pathname + parsed.search + parsed.hash;
+  } catch {
+    return url; // already relative
+  }
+}
+
 // Hardcoded fallback footer links (used when CMS menu props are empty)
 const defaultFooterLinks = {
   shop: {
@@ -286,21 +296,21 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
                     key: "shop",
                     title: defaultFooterLinks.shop.title,
                     links: shopLinks && shopLinks.length > 0
-                      ? shopLinks.map((l) => ({ label: l.title, href: l.url }))
+                      ? shopLinks.map((l) => ({ label: l.title, href: toRelativeUrl(l.url) }))
                       : defaultFooterLinks.shop.links,
                   },
                   {
                     key: "service",
                     title: defaultFooterLinks.service.title,
                     links: serviceLinks && serviceLinks.length > 0
-                      ? serviceLinks.map((l) => ({ label: l.title, href: l.url }))
+                      ? serviceLinks.map((l) => ({ label: l.title, href: toRelativeUrl(l.url) }))
                       : defaultFooterLinks.service.links,
                   },
                   {
                     key: "about",
                     title: defaultFooterLinks.about.title,
                     links: aboutLinks && aboutLinks.length > 0
-                      ? aboutLinks.map((l) => ({ label: l.title, href: l.url }))
+                      ? aboutLinks.map((l) => ({ label: l.title, href: toRelativeUrl(l.url) }))
                       : defaultFooterLinks.about.links,
                   },
                 ];
