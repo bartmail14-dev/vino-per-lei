@@ -1,70 +1,150 @@
 # Vino per Lei — Overdracht volgende sessie
 
-**Datum:** 26 maart 2026 (sessie 12)
-**Laatste sessie:** Badge kleur gefixt, inventory systeem gebouwd, Storefront API scope aangezet, gecommit + gepusht naar Vercel.
+**Datum:** 26 maart 2026 (sessie 15)
+**Laatste sessie:** Screenshots handleiding + duplicate CMS entries opgeruimd + Vercel deploy.
 
 ---
 
 ## INSTRUCTIE VOLGENDE SESSIE
 
-> **PRIORITEIT 1: Bereid Carla-call samen voor (zie sectie hieronder)**
+> **PRIORITEIT 1: Inventory tracking AFMAKEN — nog 15 producten**
 >
-> **PRIORITEIT 2: Inventory tracking aanzetten**
+> 5 van 20 producten zijn KLAAR. De overige 15 moeten nog.
+>
+> **Stappen:**
 > 1. Lees deze HANDOFF-VPL.md volledig door
-> 2. Ga naar Shopify Admin → Products → elk product → variant → "Track quantity" AAN + voorraad 48
->    OF: update Admin API token scopes (write_inventory + read_locations) en draai:
->    `node scripts/enable-inventory-tracking.mjs 48`
-> 3. Verifieer op de site dat voorraad badges werken (low-stock, uitverkocht)
-> 4. Build + test: `npm run build && npx next start --port 3099 > /dev/null 2>&1 &`
+> 2. Sluit ALLE Chrome vensters
+> 3. Navigeer met Playwright MCP naar: `https://admin.shopify.com/store/vino-per-lei-2/products`
+> 4. Bart moet inloggen in Shopify Admin (Playwright kan dat niet automatisch)
+> 5. Per product (15 resterende): tracking aan + voorraad 48 + save
+> 6. Na alle producten: build + test om te verifiëren dat badges werken
+> 7. Commit + push naar Vercel
 >
-> **PRIORITEIT 3: Visuele + functionele tests**
-> 5. Loop alle pagina's af met Playwright MCP (zie checklist onderaan)
-> 6. Test: age gate, winkelwagen, checkout redirect, zoek, mobile menu
-> 7. Test responsive: 375px, 768px, 1440px
+> **PRIORITEIT 2: Handleiding screenshots overige secties**
+> - Sectie 1 "Toegang tot Shopify" is KLAAR (5 screenshots)
+> - Secties 2-12 hebben deels websiteScreenshots maar GEEN Shopify Admin screenshots
+> - Neem per sectie screenshots van de relevante Shopify Admin pagina's
+> - Voeg `screenshot` property toe aan de stappen in HandleidingContent.tsx
+>
+> **PRIORITEIT 3: Functionele tests (als tijd over)**
+> - Age gate popup testen
+> - Checkout redirect (Shopify checkout)
+> - Zoekfunctionaliteit
+> - Mobile menu (hamburger)
+>
+> **PRIORITEIT 4: Overige TODO's**
+> - Placeholders invullen als Carla info heeft gegeven: GA4 code, telefoonnummer, Web3Forms key
+> - "Mail bij voorraad" koppelen aan email service (Klaviyo of vergelijkbaar)
 >
 > **LET OP:** NOOIT `next dev` draaien — crasht Claude Code. Gebruik altijd prod server.
 > **PLAYWRIGHT:** Sluit ALLE Chrome vensters voordat je Playwright MCP start.
 
 ---
 
-## CARLA-CALL VOORBEREIDING (URGENT — 40 min)
+## WAT ER DEZE SESSIE IS GEDAAN (sessie 15)
 
-Bart heeft over 40 minuten een call met Carla. Bereid een beknopt overzicht voor dat Bart kan gebruiken om Carla bij te praten. Structuur:
+### 1. Screenshots handleiding sectie "Toegang tot Shopify"
+- 5 screenshots genomen met Playwright MCP van Shopify Partners + Admin:
+  - `toegang-stap1-partners-website.png` — partners.shopify.com homepage
+  - `toegang-stap2-aanmelden.png` — aanmeld/registratieformulier
+  - `toegang-stap4-inloggen.png` — account kiezen scherm
+  - `toegang-stap4-dashboard.png` — Partners organisatie keuze
+  - `toegang-stap7-admin-panel.png` — Shopify Admin beheerpaneel
+- Screenshots gekoppeld aan stappen in `HandleidingContent.tsx` via `screenshot` property
+- Stap 6 ("Wacht op goedkeuring") heeft bewust geen screenshot
+- **LET OP:** Screenshots tonen Bart Visser account — later eventueel vervangen
 
-### Wat er deze sessie is gedaan (sessie 12):
-1. **Wijntype badge kleur gefixt** — Het bolletje naast "Rode Wijn" op productpagina's was blauw (design-fout), nu is het echt wijnrood. Ziet er professioneel uit.
-2. **Wijntype normalisatie** — Carla kan nu zowel Nederlands als Engels invullen in Shopify (Rood/red, Wit/white, Rosé/rose, Bubbels/sparkling). De site herkent beide automatisch.
-3. **Inventory systeem gebouwd** — De site kan nu voorraad bijhouden:
-   - Producten met voorraad → "Op voorraad" + groene badge + "In Winkelmand"
-   - Producten met ≤5 flessen → "Nog X flessen" gouden badge (urgentie)
-   - Producten zonder voorraad → "Uitverkocht" + "Mail bij voorraad" knop
-4. **Shopify API permissions** aangepast zodat voorraaddata doorkomt naar de website
-5. **Setup script** gemaakt om voorraad in te stellen voor alle producten in één keer
+### 2. Duplicate CMS entries verwijderd
+- **USP Items:** 4 duplicaten verwijderd (hadden " 1" suffix, aangemaakt 10:36 am vandaag)
+  - Gratis Verzending 1, Gratis Retour 1, Expert Selectie 1, Veilig Betalen 1
+  - Nu 4 correcte entries over
+- **Categorie Blokken:** 5 duplicaten verwijderd (zelfde " 1" suffix patroon)
+  - Rode Wijn 1, Witte Wijn 1, Rose 1, Bubbels 1, Cadeaus 1
+  - Nu 5 correcte entries over
+- **Oorzaak:** Waarschijnlijk dubbel aangemaakt via Headless Setup app
+- **Fix is direct zichtbaar** — site haalt live data uit Shopify API, geen redeploy nodig
 
-### Wat er vorige sessie is gedaan (sessie 11):
-- Volledige E2E test: product aanmaken in Shopify Admin → 17/17 velden correct op website
-- Alle metafields werken (smaakprofiel, druiven, regio, beoordeling, food pairing, etc.)
-- Testproduct aangemaakt en weer verwijderd
+### 3. Deploy
+- Commit `46a7a8f` — screenshots + HandleidingContent.tsx + Footer.tsx
+- Gepusht naar master → Vercel auto-deploy
+- Daarnaast `npx vercel --prod` gedraaid voor zekerheid
+- **Live op:** https://vino-per-lei.vercel.app
 
-### Wat Carla moet weten:
-- **Voorraad bijhouden**: Zodra tracking aan staat, wordt voorraad automatisch bijgewerkt bij verkoop via Shopify checkout
-- **Wijntype invullen**: Mag in NL of EN — site herkent het automatisch
-- **Smaakwaarden**: Schaal 0-5 (niet 0-100)
-- **"Mail bij voorraad"**: De knop bestaat, maar stuurt nog GEEN echte emails — dat is een TODO
+### 4. SEO / Vindbaarheid check
+- Site is NIET geïndexeerd door Google (nog)
+- Robots.txt en metadata staan correct (`index: true, follow: true`)
+- **Probleem:** `metadataBase` en sitemap wijzen naar `vinoperlei.nl` — domein nog niet gekoppeld
+- **Nodig:** Domein koppelen + Google Search Console instellen + sitemap indienen
 
-### Nog te doen voor livegang:
-1. Inventory tracking aanzetten + startvoorraad instellen (48 flessen per product)
-2. Visuele test alle pagina's
-3. Functionele tests (age gate, winkelwagen, checkout)
-4. Responsive tests (mobiel, tablet, desktop)
-5. Placeholders invullen: GA4 code, telefoonnummer, Web3Forms key
-6. "Mail bij voorraad" koppelen aan echte email service (Klaviyo of vergelijkbaar)
-7. Duplicate Shopify entries opruimen
+---
 
-### Vraag aan Carla:
-- Wat is de startvoorraad per product? (suggestie: 48 per wijn)
-- Wil ze "Mail bij voorraad" emails ontvangen? Zo ja, via welk emailadres?
-- Is het telefoonnummer 040-XXX XXXX definitief, of komt er een ander nummer?
+## INVENTORY TRACKING STATUS
+
+### ✅ KLAAR (5 producten — tracking AAN + voorraad ingesteld)
+1. **Asolo Prosecco Superiore DOCG Extra Brut** — had al tracking (18 available, 24 on hand)
+2. **Prosecco Superiore Valdobbiadene DOCG** — tracking AAN, 48 stuks
+3. **Cerasuolo d'Abruzzo Rosé DOC** — tracking AAN, 48 stuks
+4. **Bardolino Chiaretto Rosé DOC** — tracking AAN, 48 stuks
+5. **Vermentino Toscana IGT** — tracking AAN, 48 stuks
+
+### ⬜ NOG TE DOEN (15 producten)
+De volgorde in Shopify Admin (van boven naar beneden na Vermentino):
+6. Pinot Grigio delle Venezie DOC
+7. Montaribaldi Langhe Chardonnay
+8. San Marzano Il Pumo Primitivo
+9. Jo Primitivo Salento IGT
+10. Refosco dal Peduncolo Rosso DOC
+11. Teroldego Rotaliano DOC
+12. Tenuta Val d'Ombra 'Ombra Alta'
+13. Valpolicella Ripasso Superiore DOC
+14. Rubinelli Vajol Valpolicella Ripasso
+15. Amarone della Valpolicella DOCG
+16. Nebbiolo Langhe DOC
+17. Barolo Classico DOCG
+18. Montaribaldi Barbera d'Alba
+19. Montaribaldi Barolo DOCG
+20. (check of er nog meer zijn)
+
+> **LET OP:** Productnamen en volgorde kunnen afwijken. Gebruik de Shopify Admin als bron van waarheid.
+
+---
+
+## EXACTE STAPPEN PER PRODUCT (bewezen workflow sessie 14)
+
+Dit is de exacte flow die werkt — **geen varianten nodig**, alles zit direct op de productpagina:
+
+1. **Open product** (klik op productnaam of gebruik "Next" knop rechtsboven)
+2. **Scroll naar "Inventory" sectie** — je ziet `checkbox "Inventory not tracked"`
+3. **Klik de checkbox** → verandert naar `"Inventory tracked" [checked]`
+4. **Inventory tabel verschijnt** met Pastorielaan 56, alle waarden op 0
+5. **Klik op "0" bij Available** (4e kolom) → popup opent met "Adjust by" en "New" velden
+6. **Klik op "New" spinbutton** en type `48`
+7. **Klik "Save"** in de inventory popup → toast "Quantity updated"
+8. **Klik "Save"** onderaan de productpagina (of in de toolbar bovenaan) → toast "Product saved"
+9. **Klik "Next"** (→ pijltje rechtsboven) om naar het volgende product te gaan
+10. Herhaal stappen 2-9
+
+### Tips
+- De "Save" knop in de inventory popup zit in `#PolarisPortalsContainer`
+- De "Save" knop voor het product zit in `#AppFrameScrollable`
+- Na het aanvinken van tracking verschijnt ook "Sell when out of stock: Off" — dat is goed, laat staan
+- De "Next" knop ref verandert elke keer, gebruik altijd een verse snapshot
+
+---
+
+## Na alle producten: Build + Test
+
+```bash
+cd /c/Users/BartVisser/Desktop/vino-per-lei
+npx --yes kill-port 3099
+npm run build && npx next start --port 3099 > /dev/null 2>&1 &
+```
+
+Gebruik Playwright MCP om te verifiëren:
+- Open `http://localhost:3099/wijnen` → producten moeten "Op voorraad" badge tonen
+- Open een productdetail → "In Winkelmand" knop moet actief zijn
+- Test: wijzig in Shopify Admin één product naar voorraad 3 → moet "Nog 3 flessen" tonen
+- Test: wijzig naar voorraad 0 → moet "Uitverkocht" + "Mail bij voorraad" tonen
 
 ---
 
@@ -77,50 +157,15 @@ Bart heeft over 40 minuten een call met Carla. Bereid een beknopt overzicht voor
 | **Tech** | Next.js 16.1.6 + React 19 + TypeScript + Tailwind v4 + Framer Motion v12 + Shopify Storefront API |
 | **Vercel** | vino-per-lei.vercel.app (auto-deploy vanuit master) |
 | **Shopify** | `vino-per-lei-2.myshopify.com` (CMS + products) |
+| **Shopify Admin** | `https://admin.shopify.com/store/vino-per-lei-2` |
 | **Klant** | Carla Daniels, Pastorielaan 56, 5504 CR Veldhoven |
-| **Laatste commit** | `561c090` — badge kleur + inventory systeem |
+| **Laatste commit** | `46a7a8f` — screenshots handleiding + footer fix |
 
 ---
 
-## Wat er sessie 12 is gedaan
+## Gewijzigde bestanden (alles GECOMMIT)
 
-### 1. Wijntype badge kleur gefixt
-- Nieuwe CSS kleur `--wine-red: #8B1A32` (echt wijnrood) toegevoegd
-- `bg-wine` (was navy #1a1f3d) → `bg-wine-red` in HeroSection.tsx en ProductCard.tsx
-- Visueel geverifieerd met Playwright: bolletje is nu donkerrood op alle plekken
-
-### 2. WineType normalisatie gecommit
-- `normalizeWineType()` in shopify.ts accepteert NL en EN input
-- Fallback "Wijn" i.p.v. "Mousserende Wijn" als type onbekend
-
-### 3. Inventory systeem gebouwd
-- **Admin API enrichment**: `enrichWithInventory()` in shopify.ts
-- Haalt `totalInventory` + `tracked` status op via Admin API
-- Automatisch ingebouwd in `getProducts()` en `getProductByHandle()`
-- Cached met 60 seconden revalidatie
-- **Setup script**: `scripts/enable-inventory-tracking.mjs` — zet tracking aan + stelt voorraad in
-
-### 4. Storefront API scope aangezet
-- Via Shopify Admin → Headless → Storefront API → Edit
-- `unauthenticated_read_product_inventory` is nu ENABLED
-- Opgeslagen en bevestigd
-
-### 5. Wat NIET werkt (nog)
-- **Inventory tracking staat UIT** op alle 19 producten (`tracked: false`)
-- Admin API token mist `write_inventory` + `read_locations` scopes → script kan tracking niet aanzetten
-- Moet handmatig per product OF token scopes updaten
-
----
-
-## Gewijzigde bestanden (sessie 12, commit 561c090)
-
-- `src/app/globals.css` — `--wine-red` kleur + Tailwind mapping
-- `src/components/product/HeroSection.tsx` — `bg-wine` → `bg-wine-red`
-- `src/components/product/ProductCard.tsx` — `bg-wine` → `bg-wine-red`
-- `src/lib/shopify.ts` — normalizeWineType() + Admin API inventory enrichment
-- `src/app/wijnen/[handle]/page.tsx` — fallback "Wijn"
-- `src/types/product.ts` — type cleanup
-- `scripts/enable-inventory-tracking.mjs` — inventory setup script (NIEUW)
+Geen uncommitted changes na sessie 15.
 
 ---
 
@@ -132,8 +177,6 @@ Bart heeft over 40 minuten een call met Carla. Bereid een beknopt overzicht voor
 - **Vercel deploy:** Git push triggert auto-deploy
 - **NOOIT AI/agents/tooling vermelden** in klant-zichtbare content
 - **Shopify API versie:** `2025-01`
-- **Smaakwaarden:** Integer schaal 0-5
-- **Wijntype:** Carla mag NL of EN invullen
 
 ---
 
@@ -148,23 +191,19 @@ Bart heeft over 40 minuten een call met Carla. Bereid een beknopt overzicht voor
 | Wine type rood | wine-red `#8B1A32` |
 | Serif | Playfair Display |
 | Sans | Inter |
-| Wijntype kleuren | red=`bg-wine-red`, white=`bg-gold`, rosé=`bg-coral`, sparkling=`bg-champagne` |
 
 ---
 
-## Visuele test checklist (Prio 3)
+## Nog te doen voor livegang (volledig overzicht)
 
-- [ ] **Homepage** — hero, USP-balk, producten, wijnkaart, testimonials, cijfers, categorieën, blog
-- [ ] **`/wijnen`** — filters, zoek, productkaarten, wijntype dots (rood/goud/koraal/champagne)
-- [ ] **`/wijnen/[handle]`** — productdetail, food pairing, smaakprofiel, badge kleur, inventory status
-- [ ] **`/cadeaus`** — cadeaupakketten, filters
-- [ ] **`/blog`** — artikeloverzicht, tag filtering
-- [ ] **`/blog/[slug]`** — artikeldetail, leestijd, author
-- [ ] **`/over-ons`** — CMS content of fallback, hero, CTA
-- [ ] **`/contact`** — formulier, bedrijfsgegevens, openingstijden
-- [ ] **`/klantenservice/faq`** — categorieën, accordion
-- [ ] **`/klantenservice/verzending`** — verzendinfo
-- [ ] **`/klantenservice/retourneren`** — retourbeleid
-- [ ] **`/privacy`**, **`/voorwaarden`**, **`/cookies`** — juridische pagina's
-- [ ] **`/handleiding`** — alle 13 secties
-- [ ] **`/showcase`** — projectshowcase
+1. ⬜ **Inventory tracking AFMAKEN** — 15 resterende producten, elk "Track quantity" AAN + voorraad 48
+2. ⬜ **Handleiding screenshots** — secties 2-12 nog Shopify Admin screenshots toevoegen
+3. ⬜ **Functionele tests** — age gate, checkout redirect, zoek, mobile menu
+4. ⬜ **GA4 tracking ID** invullen
+5. ⬜ **Telefoonnummer** invullen (040-XXX XXXX → echt nummer van Carla)
+6. ⬜ **Web3Forms key** invullen voor contactformulier
+7. ⬜ **"Mail bij voorraad"** koppelen aan email service (Klaviyo of vergelijkbaar)
+8. ⬜ **Domein vinoperlei.nl** koppelen aan Vercel + Google Search Console
+9. ✅ ~~Duplicate Shopify entries opruimen~~ — DONE (sessie 15)
+10. ✅ ~~Footer fix committen~~ — DONE (sessie 15)
+11. ✅ ~~Screenshots handleiding sectie 1~~ — DONE (sessie 15)
