@@ -51,9 +51,7 @@ const wineCategories = {
 
 const mainNavItems = [
   { label: "Wijnen", href: "/wijnen", hasMegaMenu: true },
-  { label: "Cadeaus", href: "/cadeaus" },
   { label: "Over Ons", href: "/over-ons" },
-  { label: "Blog", href: "/blog" },
 ];
 
 export function Header({ announcement, contactPhone, contactEmail }: HeaderProps) {
@@ -685,12 +683,6 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                 <div className="mt-8 pt-6 border-t border-sand/60">
                   <p className="text-[10px] text-gold font-semibold uppercase tracking-[0.15em] mb-3">Contact</p>
                   <div className="space-y-2">
-                    {contactPhone && (
-                      <a href={`tel:${contactPhone.replace(/[^0-9+]/g, '')}`} className="flex items-center gap-3 text-sm text-charcoal hover:text-wine transition-colors">
-                        <span className="w-8 h-8 rounded-lg bg-champagne/50 flex items-center justify-center text-xs">&#9742;</span>
-                        {contactPhone}
-                      </a>
-                    )}
                     <a href={`mailto:${contactEmail || "info@vinoperlei.nl"}`} className="flex items-center gap-3 text-sm text-charcoal hover:text-wine transition-colors">
                       <span className="w-8 h-8 rounded-lg bg-champagne/50 flex items-center justify-center text-xs">&#9993;</span>
                       {contactEmail || "info@vinoperlei.nl"}

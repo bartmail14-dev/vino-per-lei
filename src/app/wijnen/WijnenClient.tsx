@@ -75,40 +75,50 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
   // Only include alcohol filter if we have data
   const hasAlcoholData = Object.values(alcoholBuckets).some(c => c > 0);
 
-  return [
-    { id: "region", label: "Regio", options: regionFilterOptions },
-    {
-      id: "wineType",
-      label: "Wijntype",
-      options: (["red", "white", "rose", "sparkling"] as const).map((t) => ({
-        value: t,
-        label: typeLabels[t],
-        count: typeCounts[t] || 0,
-      })),
-    },
-    { id: "grape", label: "Druivenras", options: grapeOptions },
-    {
-      id: "price",
-      label: "Prijs",
-      options: [
-        { value: "0-10", label: "Tot €10", count: priceBuckets["0-10"] },
-        { value: "10-15", label: "€10 - €15", count: priceBuckets["10-15"] },
-        { value: "15-20", label: "€15 - €20", count: priceBuckets["15-20"] },
-        { value: "20-30", label: "€20 - €30", count: priceBuckets["20-30"] },
-        { value: "30-50", label: "€30 - €50", count: priceBuckets["30-50"] },
-        { value: "50+", label: "€50+", count: priceBuckets["50+"] },
-      ],
-    },
-    ...(hasAlcoholData ? [{
-      id: "alcohol",
-      label: "Alcoholpercentage",
-      options: [
-        { value: "light", label: "Licht (< 12%)", count: alcoholBuckets["light"] },
-        { value: "medium", label: "Medium (12-14%)", count: alcoholBuckets["medium"] },
-        { value: "full", label: "Vol (14%+)", count: alcoholBuckets["full"] },
-      ],
-    }] : []),
-  ];
+  // Build groups, filtering out options with 0 products
+  const groups: FilterGroup[] = [];
+
+  const activeRegionOptions = regionFilterOptions.filter(o => (o.count ?? 0) > 0);
+  if (activeRegionOptions.length > 0) {
+    groups.push({ id: "region", label: "Regio", options: activeRegionOptions });
+  }
+
+  const typeOptions = (["red", "white", "rose", "sparkling"] as const)
+    .map((t) => ({ value: t, label: typeLabels[t], count: typeCounts[t] || 0 }))
+    .filter(o => o.count > 0);
+  if (typeOptions.length > 0) {
+    groups.push({ id: "wineType", label: "Wijntype", options: typeOptions });
+  }
+
+  const activeGrapeOptions = grapeOptions.filter(o => (o.count ?? 0) > 0);
+  if (activeGrapeOptions.length > 0) {
+    groups.push({ id: "grape", label: "Druivenras", options: activeGrapeOptions });
+  }
+
+  const priceOptions = [
+    { value: "0-10", label: "Tot €10", count: priceBuckets["0-10"] },
+    { value: "10-15", label: "€10 - €15", count: priceBuckets["10-15"] },
+    { value: "15-20", label: "€15 - €20", count: priceBuckets["15-20"] },
+    { value: "20-30", label: "€20 - €30", count: priceBuckets["20-30"] },
+    { value: "30-50", label: "€30 - €50", count: priceBuckets["30-50"] },
+    { value: "50+", label: "€50+", count: priceBuckets["50+"] },
+  ].filter(o => o.count > 0);
+  if (priceOptions.length > 0) {
+    groups.push({ id: "price", label: "Prijs", options: priceOptions });
+  }
+
+  if (hasAlcoholData) {
+    const alcoholOptions = [
+      { value: "light", label: "Licht (< 12%)", count: alcoholBuckets["light"] },
+      { value: "medium", label: "Medium (12-14%)", count: alcoholBuckets["medium"] },
+      { value: "full", label: "Vol (14%+)", count: alcoholBuckets["full"] },
+    ].filter(o => o.count > 0);
+    if (alcoholOptions.length > 0) {
+      groups.push({ id: "alcohol", label: "Alcoholpercentage", options: alcoholOptions });
+    }
+  }
+
+  return groups;
 }
 
 const sortOptions = [
@@ -539,15 +549,11 @@ export function WijnenContent({ products }: { products: Product[] }) {
       <Section background="warm" spacing="md">
         <div className="max-w-3xl">
           <h2 className="text-h3 mb-4">Authentieke Italiaanse Wijnen</h2>
-          <p className="text-grey mb-4">
+          <p className="text-grey">
             Bij Vino per Lei selecteren we elke wijn met persoonlijke proefingen en expertise. Onze collectie
             bestaat uitsluitend uit echte Italiaanse wijnen van gerenommeerde
             familiewijngaarden. Van krachtige Barolo uit Piemonte tot elegante Valpolicella
             uit Veneto — wij brengen het beste van Italië naar jouw tafel.
-          </p>
-          <p className="text-grey">
-            Alle wijnen worden geleverd met onze 100% proefgarantie. Niet tevreden?
-            Dan krijg je je geld terug, geen vragen gesteld.
           </p>
         </div>
       </Section>

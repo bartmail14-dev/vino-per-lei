@@ -266,7 +266,6 @@ const DEFAULT_CATEGORIES: CategoryBlock[] = [
   { name: "Witte Wijn", description: "Fris & elegant", href: "/wijnen?type=white", iconType: "white", sortOrder: 1 },
   { name: "Rosé", description: "Zacht & fruitig", href: "/wijnen?type=rose", iconType: "rose", sortOrder: 2 },
   { name: "Mousserende Wijn", description: "Feestelijk & sprankelend", href: "/wijnen?type=sparkling", iconType: "sparkling", sortOrder: 3 },
-  { name: "Cadeaus", description: "Het perfecte cadeau", href: "/cadeaus", iconType: "gift", sortOrder: 4 },
 ];
 
 export async function getCategoryBlocks(): Promise<CategoryBlock[]> {
@@ -457,7 +456,7 @@ export async function getMenu(handle: string): Promise<MenuItem[]> {
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   companyName: 'Vino per Lei',
   ownerName: 'Carla Daniels',
-  phone: '+31 6 00 00 00 00', // TODO: Vervang met Carla's echte telefoonnummer
+  phone: '', // Telefoonnummer bewust niet getoond
   email: 'info@vinoperlei.nl',
   addressStreet: 'Pastorielaan 56',
   addressPostal: '5504 CR',

@@ -4,9 +4,8 @@ import { Section } from "@/components/layout";
 import { ProductCard } from "@/components/product";
 import { getProducts } from "@/lib/shopify";
 import dynamic from "next/dynamic";
-import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, ArrowRightIcon, StarIcon, ShieldIcon, TuscanyIcon, RedWineIcon, WhiteWineIcon, RoseWineIcon, BubblesIcon, GiftBoxIcon } from "@/components/icons";
-import { getHeroContent, getUSPItems, getCategoryBlocks, getBlogArticles, getTestimonials, getHomeStats, DEFAULT_HERO } from "@/lib/shopify-cms";
-import type { BlogArticle } from "@/lib/shopify-cms";
+import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, WineBottleIcon, StarIcon, ShieldIcon, TuscanyIcon, RedWineIcon, WhiteWineIcon, RoseWineIcon, BubblesIcon, GiftBoxIcon } from "@/components/icons";
+import { getHeroContent, getUSPItems, getCategoryBlocks, getTestimonials, getHomeStats, DEFAULT_HERO } from "@/lib/shopify-cms";
 import {
   AnimatedSection,
   AnimatedStagger,
@@ -44,43 +43,18 @@ const categoryIconMap: Record<string, { Icon: React.ComponentType<{ className?: 
   gift: { Icon: GiftBoxIcon, color: "bg-white", iconColor: "text-wine", accent: "bg-wine" },
 };
 
-// Map BlogArticle to the shape used in the template
-function mapBlogPost(article: BlogArticle) {
-  const categoryLabel = article.tags[0]
-    ? article.tags[0].charAt(0).toUpperCase() + article.tags[0].slice(1)
-    : "Wijn";
-  const region = article.tags[1] || undefined;
-  const readTime = article.contentHtml
-    ? Math.ceil(article.contentHtml.length / 1000)
-    : 5;
-  const date = article.publishedAt
-    ? article.publishedAt.slice(0, 10)
-    : "";
-  return {
-    slug: article.handle,
-    title: article.title,
-    excerpt: article.excerpt || "",
-    categoryLabel,
-    region,
-    readTime,
-    date,
-  };
-}
-
 export default async function Home() {
-  const [allProducts, heroRaw, uspItems, categoryBlocks, blogArticles, testimonials, cmsStats] = await Promise.all([
+  const [allProducts, heroRaw, uspItems, categoryBlocks, testimonials, cmsStats] = await Promise.all([
     getProducts(),
     getHeroContent(),
     getUSPItems(),
     getCategoryBlocks(),
-    getBlogArticles(3),
     getTestimonials(),
     getHomeStats(),
   ]);
   const featured = allProducts.filter((p) => p.isFeatured);
   const featuredProducts = featured.length > 0 ? featured.slice(0, 4) : allProducts.slice(0, 4);
   const hero = heroRaw ?? DEFAULT_HERO;
-  const featuredBlogPosts = blogArticles.map(mapBlogPost);
   const uniqueRegions = new Set(allProducts.map((p) => p.region).filter(Boolean));
   const homeStats = cmsStats.length > 0 ? cmsStats : [
     { value: String(allProducts.length), prefix: "", suffix: "", label: "Geselecteerde wijnen", sortOrder: 0 },
@@ -328,183 +302,6 @@ export default async function Home() {
         </AnimatedStagger>
       </Section>
 
-      <PremiumDivider variant="wine" />
-
-      {/* =============================================
-          BLOG / MAGAZINE — Editorial grid
-          ============================================= */}
-      {featuredBlogPosts.length > 0 && <Section background="default" spacing="xl">
-        {/* Editorial masthead */}
-        <AnimatedSection variant="fadeUp">
-          <div className="mb-14 sm:mb-20">
-            {/* Masthead rule */}
-            <div className="h-px w-full bg-charcoal/10 mb-10 sm:mb-14" />
-
-            <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
-              <div>
-                <p className="text-label text-gold tracking-[0.2em] mb-3">Il Giornale</p>
-                <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-charcoal leading-[1.08] tracking-tight">
-                  Achter <span className="font-serif italic text-wine/70">het etiket</span>
-                </h2>
-                <p className="text-grey text-sm sm:text-base mt-3 max-w-md leading-relaxed">
-                  Wat maakt een Barolo anders dan een Barbaresco? Waarom kost Amarone meer? Wij leggen het uit.
-                </p>
-              </div>
-              <Link
-                href="/blog"
-                className="hidden sm:inline-flex items-center gap-2 text-label text-charcoal hover:text-gold transition-colors duration-300 group"
-              >
-                Alle artikelen
-                <ArrowRightIcon className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-              </Link>
-            </div>
-          </div>
-        </AnimatedSection>
-
-        {/* Editorial asymmetric grid */}
-        <AnimatedSection variant="scaleIn" delay={0.15}>
-          <div className={`grid ${featuredBlogPosts.length >= 2 ? "lg:grid-cols-12" : ""} gap-6 lg:gap-8`}>
-
-            {/* LEAD ARTICLE — Large feature card */}
-            <Link
-              href={`/blog/${featuredBlogPosts[0].slug}`}
-              className={`group relative ${featuredBlogPosts.length >= 2 ? "lg:col-span-7" : ""}`}
-            >
-              {/* Card with cream background and editorial padding */}
-              <div className="relative bg-wine-gradient overflow-hidden h-full min-h-[440px] sm:min-h-[520px] lg:min-h-[580px] flex flex-col justify-end">
-                {/* Subtle warm light from top-left */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_15%_0%,rgba(201,162,39,0.07),transparent_55%)]" />
-
-                <div className="relative p-7 sm:p-10 lg:p-12">
-                  {/* Editorial number + category line */}
-                  <div className="flex items-center gap-3 mb-6 sm:mb-8">
-                    <span className="font-serif text-[11px] font-semibold tracking-[0.15em] uppercase text-gold/50">No. 01</span>
-                    <span className="w-8 h-px bg-gold/25" />
-                    <span className="text-label text-white/50">{featuredBlogPosts[0].categoryLabel}</span>
-                    {featuredBlogPosts[0].region && (
-                      <span className="text-white/30 text-xs hidden sm:inline">/ {featuredBlogPosts[0].region}</span>
-                    )}
-                  </div>
-
-                  {/* Title — large serif, editorial weight */}
-                  <h3 className="font-serif text-2xl sm:text-3xl lg:text-[2.5rem] font-semibold text-white leading-[1.12] mb-4 sm:mb-5 group-hover:text-gold transition-colors duration-500 max-w-xl tracking-tight">
-                    {featuredBlogPosts[0].title}
-                  </h3>
-
-                  {/* Excerpt */}
-                  <p className="text-white/45 text-sm sm:text-[15px] leading-relaxed line-clamp-2 max-w-lg mb-8">
-                    {featuredBlogPosts[0].excerpt}
-                  </p>
-
-                  {/* Footer meta — minimal, refined */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-5 text-white/30 text-xs tracking-wide">
-                      <span>{featuredBlogPosts[0].readTime} min leestijd</span>
-                      <span className="hidden sm:inline">{featuredBlogPosts[0].date}</span>
-                    </div>
-                    <span className="flex items-center gap-2 text-gold/80 text-xs font-medium opacity-0 group-hover:opacity-100 translate-x-3 group-hover:translate-x-0 transition-all duration-400">
-                      Lees artikel <ArrowRightIcon className="w-3.5 h-3.5" />
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </Link>
-
-            {/* RIGHT COLUMN — Stacked editorial cards (only when 2+ articles) */}
-            {featuredBlogPosts.length >= 2 && (
-            <div className="lg:col-span-5 flex flex-col gap-6 lg:gap-8">
-
-              {/* CARD 2 — Warm cream, text-forward */}
-              <Link
-                href={`/blog/${featuredBlogPosts[1].slug}`}
-                className="group relative flex-1"
-              >
-                <div className="h-full bg-[#f5f0e8] p-6 sm:p-8 lg:p-9 flex flex-col justify-between min-h-[240px] sm:min-h-[260px]">
-                  {/* Top: editorial number line */}
-                  <div className="flex items-center gap-3 mb-auto">
-                    <span className="font-serif text-[11px] font-semibold tracking-[0.15em] uppercase text-gold/50">No. 02</span>
-                    <span className="w-6 h-px bg-gold/20" />
-                    <span className="text-label text-charcoal/40">{featuredBlogPosts[1].categoryLabel}</span>
-                    {featuredBlogPosts[1].region && (
-                      <span className="text-charcoal/25 text-xs hidden sm:inline">/ {featuredBlogPosts[1].region}</span>
-                    )}
-                  </div>
-
-                  {/* Content block — anchored to bottom */}
-                  <div className="mt-auto pt-6">
-                    <h3 className="font-serif text-lg sm:text-xl lg:text-[1.4rem] font-semibold text-charcoal leading-snug mb-2.5 group-hover:text-wine transition-colors duration-300 line-clamp-2 tracking-tight">
-                      {featuredBlogPosts[1].title}
-                    </h3>
-                    <p className="text-grey/70 text-sm leading-relaxed line-clamp-2 mb-5">
-                      {featuredBlogPosts[1].excerpt}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-charcoal/30 text-xs tracking-wide">
-                        {featuredBlogPosts[1].readTime} min
-                      </span>
-                      <span className="flex items-center gap-1.5 text-wine text-xs font-medium opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-                        Lees meer <ArrowRightIcon className="w-3.5 h-3.5" />
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-
-              {/* CARD 3 — Deep wine, editorial contrast (only when 3+ articles) */}
-              {featuredBlogPosts.length >= 3 && (
-              <Link
-                href={`/blog/${featuredBlogPosts[2].slug}`}
-                className="group relative flex-1"
-              >
-                <div className="h-full bg-wine p-6 sm:p-8 lg:p-9 flex flex-col justify-between min-h-[240px] sm:min-h-[260px]">
-                  {/* Top: editorial number line */}
-                  <div className="flex items-center gap-3 mb-auto">
-                    <span className="font-serif text-[11px] font-semibold tracking-[0.15em] uppercase text-gold/40">No. 03</span>
-                    <span className="w-6 h-px bg-gold/15" />
-                    <span className="text-label text-white/35">{featuredBlogPosts[2].categoryLabel}</span>
-                    {featuredBlogPosts[2].region && (
-                      <span className="text-white/20 text-xs hidden sm:inline">/ {featuredBlogPosts[2].region}</span>
-                    )}
-                  </div>
-
-                  {/* Content block — anchored to bottom */}
-                  <div className="mt-auto pt-6">
-                    <h3 className="font-serif text-lg sm:text-xl lg:text-[1.4rem] font-semibold text-white leading-snug mb-2.5 group-hover:text-gold transition-colors duration-300 line-clamp-2 tracking-tight">
-                      {featuredBlogPosts[2].title}
-                    </h3>
-                    <p className="text-white/35 text-sm leading-relaxed line-clamp-2 mb-5">
-                      {featuredBlogPosts[2].excerpt}
-                    </p>
-
-                    <div className="flex items-center justify-between">
-                      <span className="text-white/25 text-xs tracking-wide">
-                        {featuredBlogPosts[2].readTime} min
-                      </span>
-                      <span className="flex items-center gap-1.5 text-gold/80 text-xs font-medium opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300">
-                        Lees meer <ArrowRightIcon className="w-3.5 h-3.5" />
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-              )}
-            </div>
-            )}
-          </div>
-        </AnimatedSection>
-
-        {/* Mobile: link to all articles */}
-        <div className="mt-10 text-center sm:hidden">
-          <Link
-            href="/blog"
-            className="inline-flex items-center gap-2 text-label text-charcoal"
-          >
-            Alle artikelen
-            <ArrowRightIcon className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-      </Section>}
 
     </>
   );

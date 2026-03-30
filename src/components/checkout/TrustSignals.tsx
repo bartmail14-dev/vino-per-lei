@@ -32,15 +32,8 @@ export function TrustSignals({ className, variant = "compact" }: TrustSignalsPro
         <div className="flex items-center gap-3 p-3 bg-warm-white rounded-lg">
           <ReturnIcon className="w-6 h-6 text-wine flex-shrink-0" />
           <div>
-            <p className="text-sm font-medium text-charcoal">Gratis retour</p>
-            <p className="text-xs text-grey">Binnen 14 dagen</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3 p-3 bg-warm-white rounded-lg">
-          <StarIcon className="w-6 h-6 text-gold flex-shrink-0" />
-          <div>
-            <p className="text-sm font-medium text-charcoal">Proefgarantie</p>
-            <p className="text-xs text-grey">100% tevredenheid</p>
+            <p className="text-sm font-medium text-charcoal">14 dagen bedenktijd</p>
+            <p className="text-xs text-grey">Ongeopende producten</p>
           </div>
         </div>
       </div>
@@ -60,10 +53,6 @@ export function TrustSignals({ className, variant = "compact" }: TrustSignalsPro
       <div className="flex items-center gap-2 text-sm text-grey">
         <ReturnIcon className="w-4 h-4 text-wine" />
         <span>14 dagen bedenktijd</span>
-      </div>
-      <div className="flex items-center gap-2 text-sm text-grey">
-        <StarIcon className="w-4 h-4 text-gold" />
-        <span>100% Proefgarantie</span>
       </div>
     </div>
   );

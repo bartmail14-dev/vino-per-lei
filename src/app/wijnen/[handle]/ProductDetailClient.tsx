@@ -176,7 +176,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <ShieldIcon className="w-5 h-5 text-wine flex-shrink-0" />
-                <span className="text-grey">Proefgarantie</span>
+                <span className="text-grey">Veilig betalen</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <ClockIcon className="w-5 h-5 text-wine flex-shrink-0" />
@@ -205,7 +205,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
           </div>
           <div className="flex flex-col items-center gap-1">
             <ShieldIcon className="w-5 h-5 text-wine" />
-            <span className="text-xs text-grey">Proefgarantie</span>
+            <span className="text-xs text-grey">Veilig betalen</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <ClockIcon className="w-5 h-5 text-wine" />

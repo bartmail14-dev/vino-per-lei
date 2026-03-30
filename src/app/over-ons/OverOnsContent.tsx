@@ -261,12 +261,10 @@ export function OverOnsContent({ pageBody, email, wineCount }: OverOnsContentPro
                 </h2>
                 <p className="text-grey leading-relaxed mb-8 text-center max-w-2xl mx-auto">
                   Elke fles die je bij ons bestelt wordt zorgvuldig verpakt en
-                  snel verzonden. Ben je niet tevreden? Dan krijg je zonder
-                  gedoe je geld terug.
+                  snel verzonden. Persoonlijk geselecteerd, met liefde geleverd.
                 </p>
-                <div className="grid sm:grid-cols-2 gap-6">
+                <div className="flex justify-center">
                   {[
-                    { number: "100%", label: "Proefgarantie" },
                     { number: `${wineCount || "?"}`, label: "Wijnen in de collectie" },
                   ].map((stat, i) => (
                     <AnimateOnScroll key={stat.label} variant="fadeUp" delay={i * 0.1}>

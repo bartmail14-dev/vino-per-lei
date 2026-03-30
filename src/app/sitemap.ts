@@ -1,13 +1,9 @@
 import type { MetadataRoute } from "next";
 import { getProducts } from "@/lib/shopify";
-import { getBlogArticles } from "@/lib/shopify-cms";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://vinoperlei.nl";
-  const [products, articles] = await Promise.all([
-    getProducts(50),
-    getBlogArticles(50),
-  ]);
+  const products = await getProducts(50);
 
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -27,18 +23,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/cadeaus`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.8,
     },
     {
       url: `${baseUrl}/contact`,
@@ -97,12 +81,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   }));
 
-  const blogPages: MetadataRoute.Sitemap = articles.map((article) => ({
-    url: `${baseUrl}/blog/${article.handle}`,
-    lastModified: new Date(article.publishedAt),
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }));
-
-  return [...staticPages, ...productPages, ...blogPages];
+  return [...staticPages, ...productPages];
 }

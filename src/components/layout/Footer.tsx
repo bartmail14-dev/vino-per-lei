@@ -146,7 +146,6 @@ const defaultFooterLinks = {
       { label: "Rode Wijn", href: "/wijnen?type=red" },
       { label: "Witte Wijn", href: "/wijnen?type=white" },
       { label: "Rosé", href: "/wijnen?type=rose" },
-      { label: "Cadeaus", href: "/cadeaus" },
     ],
   },
   service: {
@@ -162,7 +161,6 @@ const defaultFooterLinks = {
     title: "Over Ons",
     links: [
       { label: "Ons Verhaal", href: "/over-ons" },
-      { label: "Blog", href: "/blog" },
     ],
   },
 };
@@ -370,7 +368,6 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
             <div>
               <p className="text-label text-wine/80 mb-2 text-xs">Contact</p>
               <div className="space-y-1.5 text-sm text-wine/80">
-                {settings?.phone && <p>{settings.phone}</p>}
                 <p>{settings?.email || "info@vinoperlei.nl"}</p>
                 <p className="text-wine/80 text-xs">Ma-Vr {settings?.hoursWeekday || "09:00 - 17:00"}</p>
               </div>

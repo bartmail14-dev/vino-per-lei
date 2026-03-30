@@ -279,7 +279,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                   </div>
                   <div className="flex items-center gap-2">
                     <ShieldIcon className="w-4 h-4 text-wine" />
-                    <span>100% Proefgarantie</span>
+                    <span>Veilig betalen</span>
                   </div>
                 </div>
               </div>

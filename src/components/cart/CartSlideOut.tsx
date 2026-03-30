@@ -262,10 +262,6 @@ export function CartSlideOut() {
                   <div className="flex items-center justify-center gap-4 pt-2 text-xs text-grey">
                     <span className="flex items-center gap-1">
                       <CheckIcon className="w-3 h-3" />
-                      100% Proefgarantie
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <CheckIcon className="w-3 h-3" />
                       Veilig betalen
                     </span>
                   </div>

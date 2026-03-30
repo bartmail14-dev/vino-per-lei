@@ -60,44 +60,44 @@ const sections: Section[] = [
       {
         title: "Ga naar de Shopify Partners website",
         description:
-          "Open je browser en ga naar:\n\npartners.shopify.com\n\nDit is de officiële website van Shopify waar je gratis een beheerdersaccount kunt aanmaken. Je hebt hiervoor geen webshop of abonnement nodig — het is puur om toegang te krijgen tot het beheerpaneel van Vino per Lei.",
+          "Open je browser en ga naar:\n\npartners.shopify.com\n\nDit is de officiële website van Shopify waar je gratis een Partners-account kunt aanmaken. Dit account heb je nodig om toegang te krijgen tot het beheerpaneel van jouw webshop: Vino per Lei. Je hebt hier geen abonnement of betaling voor nodig.",
         screenshot: "/handleiding/toegang-stap1-partners-website.png",
       },
       {
         title: 'Klik op "Join now" (Aanmelden)',
         description:
-          "Je ziet rechtsboven een groene knop \"Join now\" (of \"Aanmelden\" als de pagina in het Nederlands staat). Klik hierop om te beginnen met het aanmaken van je account.",
+          "Je ziet rechtsboven een groene knop \"Join now\" (of \"Aanmelden\" als de pagina in het Nederlands staat). Klik hierop om te beginnen met het aanmaken van je Partners-account.",
         screenshot: "/handleiding/toegang-stap1-partners-website.png",
       },
       {
-        title: "Vul je gegevens in",
+        title: "Maak je Partners-account aan",
         description:
-          "Je wordt gevraagd om de volgende gegevens:\n\n1. E-mailadres — gebruik je zakelijke e-mail (bijv. vinoperlei@outlook.com)\n2. Wachtwoord — kies een sterk wachtwoord\n3. Voornaam en achternaam\n\nKlik daarna op \"Create account\" (Account aanmaken). Je krijgt mogelijk een verificatie-e-mail — klik op de link in die e-mail om je account te bevestigen.",
+          "Je wordt gevraagd om de volgende gegevens:\n\n1. E-mailadres — gebruik je zakelijke e-mail (bijv. vinoperlei@outlook.com)\n2. Wachtwoord — kies een sterk wachtwoord\n3. Voornaam en achternaam\n\nKlik daarna op \"Create account\" (Account aanmaken).\n\nBelangrijk: je krijgt een verificatie-e-mail. Klik op de link in die e-mail om je account te bevestigen. Controleer ook je spam-map als je de e-mail niet ziet.",
         screenshot: "/handleiding/toegang-stap2-aanmelden.png",
         tip: "Gebruik bij voorkeur hetzelfde e-mailadres als waarmee je straks bestellingen wilt ontvangen. Dit maakt het overzichtelijker.",
       },
       {
         title: "Log in op het Partners Dashboard",
         description:
-          "Na het aanmaken en verifiëren van je account log je in op partners.shopify.com. Je komt op het Partners Dashboard terecht. Dit is je startpagina van waaruit je de webshop kunt beheren.",
+          "Na het aanmaken en verifiëren van je account log je in op partners.shopify.com. Je komt op het Partners Dashboard terecht.\n\nLet op: je hebt nu een Partners-account, maar je bent nog NIET gekoppeld aan de Vino per Lei webshop. Dat doe je in de volgende stap.",
         screenshot: "/handleiding/toegang-stap4-inloggen.png",
       },
       {
-        title: "Vraag toegang aan tot de webshop",
+        title: "Koppel je account aan de Vino per Lei webshop",
         description:
-          "Nu ga je toegang aanvragen tot de Vino per Lei webshop. Volg deze stappen:\n\n1. Klik in het linkermenu op \"Stores\"\n2. Klik rechtsboven op \"Add store\"\n3. Kies \"Request access\" (Toegang aanvragen)\n4. Vul bij \"Store URL\" het volgende in:\n\nvino-per-lei-2.myshopify.com\n\n5. Voeg een kort bericht toe, bijv.: \"Ik ben Carla, de eigenaar van Vino per Lei\"\n6. Klik op \"Submit request\" (Verzoek versturen)",
+          "Dit is de belangrijkste stap — hier koppel je je Partners-account aan jouw webshop. Volg deze stappen precies:\n\n1. Klik in het linkermenu op \"Stores\"\n2. Klik rechtsboven op de knop \"Add store\"\n3. Kies de optie \"Request access\" (Toegang aanvragen)\n4. Je ziet nu een veld \"Store URL\" — vul hier exact het volgende in:\n\nvino-per-lei-2.myshopify.com\n\nDit is het adres van jouw Vino per Lei webshop in Shopify. Het is belangrijk dat je dit exact zo intypt, inclusief de \"-2\".\n\n5. Bij \"Bericht\" kun je bijv. schrijven: \"Ik ben Carla, de eigenaar van Vino per Lei\"\n6. Klik op \"Submit request\" (Verzoek versturen)\n\nJe verzoek wordt nu naar ons verstuurd. Wij keuren het goed en dan heb je volledige toegang tot het beheerpaneel.",
         screenshot: "/handleiding/toegang-stap4-dashboard.png",
-        tip: "Na het versturen krijgen wij automatisch een melding. We keuren je verzoek zo snel mogelijk goed — meestal binnen een paar uur.",
+        tip: "Let op: de store URL is vino-per-lei-2.myshopify.com (met een \"-2\" erachter). Dit is het interne Shopify-adres — de website zelf krijgt straks het domein vinoperlei.nl.",
       },
       {
         title: "Wacht op goedkeuring",
         description:
-          "Je ontvangt een e-mail van Shopify zodra je verzoek is goedgekeurd. Dit kan een paar uur duren. Je hoeft verder niets te doen — gewoon even afwachten.",
+          "Na het versturen van je verzoek krijgen wij automatisch een melding. We keuren je aanvraag zo snel mogelijk goed — meestal binnen een paar uur.\n\nJe ontvangt een e-mail van Shopify zodra je toegang is goedgekeurd. Je hoeft verder niets te doen — gewoon even afwachten.",
       },
       {
-        title: "Log in op het beheerpaneel",
+        title: "Log in op het beheerpaneel van Vino per Lei",
         description:
-          "Zodra je goedkeuring hebt ontvangen:\n\n1. Ga naar partners.shopify.com en log in\n2. Klik in het linkermenu op \"Stores\"\n3. Je ziet nu \"Vino per Lei\" in de lijst staan\n4. Klik op de naam van de store\n5. Klik op \"Log in to store\"\n\nJe bent nu in het Shopify beheerpaneel! Hier kun je alles beheren: producten, teksten, bestellingen, en meer.",
+          "Zodra je goedkeuring hebt ontvangen kun je inloggen:\n\n1. Ga naar partners.shopify.com en log in met je account\n2. Klik in het linkermenu op \"Stores\"\n3. Je ziet nu \"Vino per Lei\" in de lijst staan — dit bevestigt dat de koppeling is gelukt!\n4. Klik op de naam \"Vino per Lei\"\n5. Klik op \"Log in to store\"\n\nJe bent nu in het Shopify beheerpaneel van Vino per Lei! Hier kun je alles beheren: producten, teksten, bestellingen, en meer.\n\nTip: je kunt ook rechtstreeks naar het beheerpaneel gaan via:\nhttps://vino-per-lei-2.myshopify.com/admin",
         screenshot: "/handleiding/toegang-stap7-admin-panel.png",
         tip: "Sla deze link op als bladwijzer in je browser zodat je er snel bij kunt:\nhttps://vino-per-lei-2.myshopify.com/admin",
       },
@@ -114,6 +114,7 @@ const sections: Section[] = [
         title: "Ga naar Producten",
         description:
           'Log in op het Shopify beheerpaneel en klik in het linker menu op "Products". Je ziet hier een overzicht van al je wijnen met naam, prijs, voorraad en status.',
+        screenshot: "/handleiding/producten-overzicht.png",
         websiteScreenshot: "/handleiding/website-producten.png",
         websiteCaption: "Zo zien je producten eruit op de website — titel, prijs, foto en badge komen allemaal uit Shopify",
       },
@@ -129,6 +130,7 @@ const sections: Section[] = [
         title: "Productvelden invullen",
         description:
           "Vul de volgende velden in voor elk product:\n\nTitle — Naam van de wijn (bijv. \"Barolo DOCG 2019\")\nDescription — Beschrijving met smaakprofiel en verhaal\nMedia — Upload minimaal 1 foto (bij voorkeur 800x800px of groter)\nPricing — Verkoopprijs inclusief BTW\nInventory — Hoeveel flessen je op voorraad hebt\nProduct type — \"Rode wijn\", \"Witte wijn\", \"Rosé\" of \"Mousserende wijn\"\nTags — Voeg tags toe voor regio (bijv. \"piemonte\") en druif (bijv. \"nebbiolo\")\n\nKlik daarna op \"Save\" rechtsboven.",
+        screenshot: "/handleiding/product-velden.png",
       },
       {
         title: "Prijs of voorraad snel wijzigen",
@@ -149,12 +151,14 @@ const sections: Section[] = [
         title: "Ga naar Content",
         description:
           'Klik in het linker menu op "Content" en daarna op "Metaobjects". Hier staan alle aanpasbare teksten van de website, gegroepeerd per type.',
+        screenshot: "/handleiding/content-metaobjects.png",
       },
       {
         title: "Hero tekst aanpassen (de grote banner)",
         description:
           'Klik op "Homepage Hero" en open de entry genaamd "main". Hier kun je de volgende teksten aanpassen:\n\nSubtitel — de kleine tekst boven de titel\nTitel regel 1 — eerste regel van de grote titel\nTitel regel 2 — tweede regel (wordt in goud getoond)\nBeschrijving — de tekst onder de titel\nKnopteksten — de tekst op de twee knoppen\nKnoplinks — waar de knoppen naartoe linken',
-        websiteScreenshot: "/handleiding/website-announcement-bar.png",
+        screenshot: "/handleiding/homepage-hero.png",
+        websiteScreenshot: "/handleiding/website-hero.png",
         websiteCaption: "De hero-tekst is het eerste wat bezoekers zien — de grote banner met titel en knoppen",
         tip: "Wijzigingen zijn binnen 1 uur zichtbaar op de website.",
       },
@@ -162,12 +166,18 @@ const sections: Section[] = [
         title: "Announcement Bar (meldingsbalk bovenaan)",
         description:
           'De gekleurde balk helemaal bovenaan de website. Ga naar "Content" \u2192 "Metaobjects" \u2192 "Announcement Bar" \u2192 "main".\n\nMessage — de tekst die wordt getoond\nEnabled — aan/uit schakelaar\nLink — optioneel: waar de balk naartoe linkt als je erop klikt',
+        screenshot: "/handleiding/announcement-bar.png",
+        websiteScreenshot: "/handleiding/website-announcement-bar.png",
+        websiteCaption: "De meldingsbalk bovenaan de website — de tekst en link komen uit Shopify",
         tip: "Handig voor seizoensacties, kortingscodes of belangrijke mededelingen. Zet \"Enabled\" op uit als je de balk tijdelijk wilt verbergen.",
       },
       {
         title: "USP punten (vertrouwensbalk)",
         description:
           'De balk met vertrouwenspunten onder de hero (bijv. "Gratis verzending", "Veilig betalen"). Ga naar "Content" \u2192 "Metaobjects" \u2192 "USP Item".\n\nElke entry heeft een titel, subtitel, icoon en volgorde. Je kunt bestaande aanpassen of nieuwe toevoegen.',
+        screenshot: "/handleiding/usp-items.png",
+        websiteScreenshot: "/handleiding/website-usp-balk.png",
+        websiteCaption: "De USP-balk op de website — iconen en teksten komen uit Shopify",
       },
     ],
   },
@@ -182,6 +192,8 @@ const sections: Section[] = [
         title: "Reviews vinden in Shopify",
         description:
           'Ga naar "Content" \u2192 "Metaobjects" \u2192 "Testimonial". Hier staan de klantreviews die in het \"Reacties van de proeverij\"-blok op de homepage worden getoond.\n\nEr staan standaard 3 voorbeeldreviews klaar. Deze kun je aanpassen naar echte reacties zodra je die hebt.',
+        websiteScreenshot: "/handleiding/website-reviews.png",
+        websiteCaption: "De klantervaringen op de homepage — sterren, naam en wijn komen uit Shopify",
       },
       {
         title: "Een review toevoegen",
@@ -208,6 +220,8 @@ const sections: Section[] = [
         title: "Hoe werken de cijfers?",
         description:
           "Op de homepage staan 4 cijfers (bijv. \"19 Geselecteerde wijnen\", \"3 Italiaanse wijngebieden\", \"12+ Familieproducenten\"). Standaard worden het aantal wijnen en wijngebieden automatisch berekend op basis van je Shopify producten. De overige cijfers kun je zelf instellen.",
+        websiteScreenshot: "/handleiding/website-cijfers.png",
+        websiteCaption: "De cijfers op de homepage — 19 wijnen, 3 wijngebieden, 12+ producenten en < 48 uur levering",
         tip: "Zolang je geen \"Homepage Cijfer\" entries in Shopify aanmaakt, worden de automatisch berekende waarden getoond. Zodra je zelf entries maakt, worden die gebruikt.",
       },
       {
@@ -229,6 +243,7 @@ const sections: Section[] = [
         title: "FAQ items vinden",
         description:
           'Ga naar "Content" \u2192 "Metaobjects" \u2192 "FAQ Item". Je ziet hier alle veelgestelde vragen, gesorteerd op volgorde.',
+        screenshot: "/handleiding/faq-overzicht.png",
         websiteScreenshot: "/handleiding/website-faq.png",
         websiteCaption: "Zo zien de FAQ-vragen eruit op de website — elke vraag is een aparte entry in Shopify",
       },
@@ -251,6 +266,7 @@ const sections: Section[] = [
         title: "Category Blocks vinden",
         description:
           'Ga naar "Content" \u2192 "Metaobjects" \u2192 "Categorie Blok". Hier staan de categorieblokken die op de homepage worden getoond (Rode Wijn, Witte Wijn, Rosé, etc.).',
+        screenshot: "/handleiding/categorie-blokken.png",
         websiteScreenshot: "/handleiding/website-categorieen.png",
         websiteCaption: "De categorieblokken op de homepage — Rode Wijn, Witte Wijn, Rosé etc. komen uit Shopify",
       },
@@ -272,14 +288,16 @@ const sections: Section[] = [
         title: "Site Instellingen openen",
         description:
           'Ga naar "Content" \u2192 "Metaobjects" \u2192 "Site Instellingen" en open de entry genaamd "main". Hier staan al je bedrijfsgegevens.',
+        screenshot: "/handleiding/site-instellingen.png",
       },
       {
         title: "Bedrijfsgegevens aanpassen",
         description:
-          "De volgende gegevens verschijnen automatisch in de footer, op de contactpagina en in juridische teksten:\n\nBedrijfsnaam — \"Vino per Lei\"\nEigenaar — jouw naam\nTelefoon — je telefoonnummer (belangrijk: vul dit in!)\nE-mail — je e-mailadres\nStraat + huisnr — je adres\nPostcode en Plaats\nKvK-nummer en BTW-nummer\nOpeningstijden — voor de contactpagina\nSocial media URLs — Instagram, Facebook, Pinterest",
+          "De volgende gegevens verschijnen automatisch in de footer, op de contactpagina en in juridische teksten:\n\nBedrijfsnaam — \"Vino per Lei\"\nEigenaar — jouw naam\nE-mail — je e-mailadres\nStraat + huisnr — je adres\nPostcode en Plaats\nKvK-nummer en BTW-nummer\nOpeningstijden — voor de contactpagina\nSocial media URLs — Instagram, Facebook, Pinterest",
+        screenshot: "/handleiding/bedrijfsgegevens.png",
         websiteScreenshot: "/handleiding/website-bedrijfsgegevens.png",
         websiteCaption: "De contactgegevens en KvK/BTW-info in de footer worden automatisch overgenomen uit deze instellingen",
-        tip: "Vergeet niet je telefoonnummer in te vullen! Dit is belangrijk voor de contactpagina en de footer.",
+        tip: "Controleer of je KvK-nummer en BTW-nummer correct zijn — deze verschijnen in de footer.",
       },
       {
         title: "Verzenddrempel & kosten",
@@ -322,6 +340,8 @@ const sections: Section[] = [
         title: "Overzicht van alle pagina's",
         description:
           'Ga naar "Online Store" \u2192 "Pages" in het linkermenu. De website leest de inhoud van de volgende pagina\'s uit Shopify:\n\nprivacybeleid \u2014 Privacybeleid (AVG/GDPR)\nalgemene-voorwaarden \u2014 Algemene Voorwaarden\ncookiebeleid \u2014 Cookiebeleid met cookietabel\nover-ons \u2014 Het verhaal van Vino per Lei\nverzending-levering \u2014 Informatie over verzending\nretourbeleid \u2014 Retourvoorwaarden\n\nAls een pagina nog niet bestaat, wordt er automatisch een standaardtekst getoond.',
+        websiteScreenshot: "/handleiding/website-over-ons.png",
+        websiteCaption: "De Over Ons pagina — de tekst wordt uit Shopify Pages geladen",
         tip: "Je hoeft niet alle pagina's meteen aan te maken. De standaardteksten zijn juridisch correct en geschreven voor Vino per Lei.",
       },
       {
@@ -343,6 +363,7 @@ const sections: Section[] = [
         title: "Orders overzicht",
         description:
           'Klik in het linker menu op "Orders". Je ziet een overzicht van alle bestellingen met:\n\n\u2022 Ordernummer en datum\n\u2022 Naam en adres van de klant\n\u2022 Betaalstatus (betaald/openstaand)\n\u2022 Verzendstatus (niet verzonden/verzonden/afgeleverd)\n\u2022 Totaalbedrag',
+        screenshot: "/handleiding/orders-overzicht.png",
       },
       {
         title: "Bestelling inzien en verzenden",
@@ -637,7 +658,7 @@ export function HandleidingContent() {
                   "Homepage cijfers: statistieken zoals aantal wijnen en producenten",
                   "Blog: artikelen schrijven en publiceren",
                   "FAQ: veelgestelde vragen toevoegen en categoriseren",
-                  "Bedrijfsgegevens: telefoon, e-mail, adres, KvK, BTW, openingstijden",
+                  "Bedrijfsgegevens: e-mail, adres, KvK, BTW, openingstijden",
                   "Verzendkosten: gratis verzenddrempel en standaard tarief",
                   "Juridische pagina's: privacybeleid, voorwaarden, cookiebeleid",
                   "Over Ons pagina: jouw verhaal in eigen woorden",
@@ -679,15 +700,11 @@ export function HandleidingContent() {
               <div className="ml-7 space-y-3">
                 {[
                   {
-                    title: "1. Shopify Partners account aanmaken",
-                    description: "Dit is de eerste stap om toegang te krijgen tot het beheerpaneel. Maak een gratis account aan op partners.shopify.com — zie de sectie \"Toegang tot Shopify\" hierboven voor uitgebreide stap-voor-stap uitleg.",
+                    title: "1. Shopify Partners account aanmaken en koppelen",
+                    description: "Dit is de eerste stap om toegang te krijgen tot het beheerpaneel. Maak een gratis account aan op partners.shopify.com en koppel het aan de webshop (vino-per-lei-2.myshopify.com) — zie de sectie \"Toegang tot Shopify\" hierboven voor uitgebreide stap-voor-stap uitleg.",
                   },
                   {
-                    title: "2. Telefoonnummer invullen",
-                    description: "Zodra je toegang hebt: ga naar Content → Metaobjects → Site Instellingen → main, en vul je telefoonnummer in. Dit verschijnt op de contactpagina en in de footer.",
-                  },
-                  {
-                    title: "3. Domeinnaam vinoperlei.nl",
+                    title: "2. Domeinnaam vinoperlei.nl",
                     description: "Is deze al geregistreerd? Dan hebben we de inloggegevens van je domeinprovider nodig om de website te koppelen.",
                   },
                 ].map((item, i) => (

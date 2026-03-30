@@ -13,7 +13,6 @@ export async function HeaderWrapper() {
   return (
     <Header
       announcement={announcementData}
-      contactPhone={siteSettings.phone}
       contactEmail={siteSettings.email}
     />
   );

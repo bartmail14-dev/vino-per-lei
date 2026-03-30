@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 // --- Age-restricted paths ---
 // These routes require the `vpl_age_verified` cookie to be present.
 // If missing, the user is redirected to the homepage where the AgeGate component handles verification.
-const AGE_RESTRICTED_PATHS = ["/wijnen", "/checkout", "/cadeaus"];
+const AGE_RESTRICTED_PATHS = ["/wijnen", "/checkout"];
 
 function isAgeRestrictedPath(pathname: string): boolean {
   return AGE_RESTRICTED_PATHS.some(

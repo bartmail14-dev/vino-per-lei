@@ -4,11 +4,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { AnimateOnScroll, StaggerChildren, StaggerItem } from "@/components/ui/AnimateOnScroll";
 import { ContactForm } from "./ContactForm";
-import { Mail as MailIcon, Phone as PhoneIcon, MapPin as MapPinIcon, Clock as ClockIcon, ShieldCheck as ShieldCheckIcon, MessageCircle as MessageCircleIcon, Check } from "lucide-react";
+import { Mail as MailIcon, MapPin as MapPinIcon, Clock as ClockIcon, ShieldCheck as ShieldCheckIcon, MessageCircle as MessageCircleIcon, Check } from "lucide-react";
 
 interface ContactPageContentProps {
   email: string;
-  phone: string;
+  phone?: string;
   addressStreet: string;
   addressPostal: string;
   addressCity: string;
@@ -20,7 +20,6 @@ interface ContactPageContentProps {
 
 export function ContactPageContent({
   email,
-  phone,
   addressStreet,
   addressPostal,
   addressCity,
@@ -80,21 +79,6 @@ export function ContactPageContent({
                 <span className="text-sm text-wine group-hover:text-wine-dark transition-colors">
                   {email}
                 </span>
-              </div>
-            </a>
-          </StaggerItem>
-
-          <StaggerItem>
-            <a
-              href={`tel:${phone.replace(/\s/g, "")}`}
-              className="bg-white rounded-lg p-5 sm:p-6 shadow-lg border border-sand/50 flex items-start gap-4 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 group block"
-            >
-              <div className="w-11 h-11 rounded-full bg-wine/10 flex items-center justify-center flex-shrink-0 group-hover:bg-wine/20 transition-colors">
-                <PhoneIcon className="w-5 h-5 text-wine" />
-              </div>
-              <div>
-                <p className="font-semibold text-charcoal text-sm mb-1">Telefoon</p>
-                <span className="text-sm text-grey group-hover:text-charcoal transition-colors">{phone}</span>
               </div>
             </a>
           </StaggerItem>
@@ -197,7 +181,6 @@ export function ContactPageContent({
                 <ul className="space-y-3 text-sm text-grey">
                   {[
                     "Reactie binnen 1 werkdag",
-                    "100% proefgarantie",
                     "Veilig betalen via iDEAL",
                     `Gratis verzending vanaf €${freeShippingThreshold}`,
                   ].map((item) => (

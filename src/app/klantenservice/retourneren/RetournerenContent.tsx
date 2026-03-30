@@ -95,9 +95,9 @@ export function RetournerenContent({ pageBody, pageTitle }: RetournerenContentPr
               <ShieldCheck className="w-6 h-6 text-wine" strokeWidth={1.5} />
             </div>
             <div>
-              <p className="font-semibold text-charcoal text-sm">100% Proefgarantie</p>
+              <p className="font-semibold text-charcoal text-sm">14 dagen bedenktijd</p>
               <p className="text-xs text-grey mt-0.5">
-                Niet tevreden over een wijn? Wij lossen het altijd op — zonder gedoe.
+                Ongeopende producten kun je binnen 14 dagen retourneren.
               </p>
             </div>
           </div>
