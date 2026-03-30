@@ -1,99 +1,112 @@
 # Vino per Lei — Overdracht volgende sessie
 
-**Datum:** 26 maart 2026 (sessie 15)
-**Laatste sessie:** Screenshots handleiding + duplicate CMS entries opgeruimd + Vercel deploy.
+**Datum:** 30 maart 2026 (sessie 17)
+**Laatste sessie:** 4 producten inventory tracking afgerond via Playwright + Carla's feedback ontvangen.
 
 ---
 
 ## INSTRUCTIE VOLGENDE SESSIE
 
-> **PRIORITEIT 1: Inventory tracking AFMAKEN — nog 15 producten**
+> **PRIORITEIT 1: Inventory tracking AFMAKEN — nog 11 producten**
 >
-> 5 van 20 producten zijn KLAAR. De overige 15 moeten nog.
+> 9 van 20 producten zijn KLAAR. De overige 11 moeten nog.
+>
+> **LET OP: Refosco dal Peduncolo Rosso DOC** heeft tracking AAN maar voorraad = 0. Moet nog op 48 gezet worden.
 >
 > **Stappen:**
 > 1. Lees deze HANDOFF-VPL.md volledig door
 > 2. Sluit ALLE Chrome vensters
 > 3. Navigeer met Playwright MCP naar: `https://admin.shopify.com/store/vino-per-lei-2/products`
 > 4. Bart moet inloggen in Shopify Admin (Playwright kan dat niet automatisch)
-> 5. Per product (15 resterende): tracking aan + voorraad 48 + save
+> 5. Per product (11 resterende): tracking aan + voorraad 48 + save
 > 6. Na alle producten: build + test om te verifiëren dat badges werken
 > 7. Commit + push naar Vercel
 >
-> **PRIORITEIT 2: Handleiding screenshots overige secties**
-> - Sectie 1 "Toegang tot Shopify" is KLAAR (5 screenshots)
-> - Secties 2-12 hebben deels websiteScreenshots maar GEEN Shopify Admin screenshots
-> - Neem per sectie screenshots van de relevante Shopify Admin pagina's
-> - Voeg `screenshot` property toe aan de stappen in HandleidingContent.tsx
+> **TIP:** Gebruik `browser_run_code` met dit patroon per product:
+> ```js
+> // 1. Klik checkbox "Inventory not tracked"
+> // 2. Klik Available "0" via: page.locator('table').getByRole('row').last().getByRole('cell').nth(3).getByRole('button').click()
+> // 3. Klik New spinbutton, fill '48'
+> // 4. Save popup via #PolarisPortalsContainer
+> // 5. Save product via #AppFrameScrollable
+> ```
+> Let op: de "Next" knop kan vastlopen als er unsaved changes zijn. Altijd eerst save/discard.
 >
-> **PRIORITEIT 3: Functionele tests (als tijd over)**
+> **PRIORITEIT 2: Carla's feedback verwerken (code wijzigingen)**
+> Carla stuurde een mail met wensen. Verwerk deze in de code:
+>
+> 1. **Prijsfilter "onder €10" verwijderen** — uit FilterSidebar.tsx
+> 2. **Barolo → Barbera** in "authentieke Italiaanse wijnen" sectie op homepage (page.tsx)
+> 3. **Over Ons herschrijven**: 3e persoon → wij-vorm + toevoegen: "werkt voornamelijk met kleine wijnhuizen en op beperkte schaal met een importeur"
+> 4. **Pinterest link verwijderen** — Instagram behouden (Carla heeft al een account)
+> 5. **"Cadeaus" uit Shopify CMS verwijderen** — Content → Metaobjects → Categorie Blok
+> 6. **"Cadeaus" link uit Footer.tsx verwijderen** (hardcoded onder "Shop")
+>
+> **Al gedaan in eerdere sessies (controleer of compleet):**
+> - Cadeaus + Blog uit navigatie/footer/homepage/sitemap/middleware
+> - "Niet tevreden geld terug" / proefgarantie verwijderd
+> - Telefoonnummer verwijderd
+>
+> **WACHT OP CARLA:**
+> - Tekst "hoe het allemaal begon" — Carla levert aanvullende info aan
+>
+> **PRIORITEIT 3: Admin screenshots handleiding secties 2-12**
+> - Sectie 1 "Toegang tot Shopify" is KLAAR (5 admin screenshots)
+> - Website screenshots voor secties 2-12 zijn KLAAR (sessie 16)
+> - Wat ONTBREEKT: Shopify Admin screenshots voor stappen die admin-schermen tonen
+> - Bart moet ingelogd zijn in Shopify Admin, dan kan Playwright de admin pagina's screenshotten
+> - Zie "ONTBREKENDE ADMIN SCREENSHOTS" hieronder voor exacte lijst
+>
+> **PRIORITEIT 4: Functionele tests (als tijd over)**
 > - Age gate popup testen
 > - Checkout redirect (Shopify checkout)
 > - Zoekfunctionaliteit
 > - Mobile menu (hamburger)
 >
-> **PRIORITEIT 4: Overige TODO's**
-> - Placeholders invullen als Carla info heeft gegeven: GA4 code, telefoonnummer, Web3Forms key
-> - "Mail bij voorraad" koppelen aan email service (Klaviyo of vergelijkbaar)
+> **PRIORITEIT 5: Overige TODO's**
+> - GA4 tracking ID invullen
+> - Web3Forms key invullen voor contactformulier
+> - "Mail bij voorraad" koppelen aan email service
+> - Domein vinoperlei.nl koppelen aan Vercel + Google Search Console
 >
 > **LET OP:** NOOIT `next dev` draaien — crasht Claude Code. Gebruik altijd prod server.
 > **PLAYWRIGHT:** Sluit ALLE Chrome vensters voordat je Playwright MCP start.
 
 ---
 
-## WAT ER DEZE SESSIE IS GEDAAN (sessie 15)
+## WAT ER DEZE SESSIE IS GEDAAN (sessie 17)
 
-### 1. Screenshots handleiding sectie "Toegang tot Shopify"
-- 5 screenshots genomen met Playwright MCP van Shopify Partners + Admin:
-  - `toegang-stap1-partners-website.png` — partners.shopify.com homepage
-  - `toegang-stap2-aanmelden.png` — aanmeld/registratieformulier
-  - `toegang-stap4-inloggen.png` — account kiezen scherm
-  - `toegang-stap4-dashboard.png` — Partners organisatie keuze
-  - `toegang-stap7-admin-panel.png` — Shopify Admin beheerpaneel
-- Screenshots gekoppeld aan stappen in `HandleidingContent.tsx` via `screenshot` property
-- Stap 6 ("Wacht op goedkeuring") heeft bewust geen screenshot
-- **LET OP:** Screenshots tonen Bart Visser account — later eventueel vervangen
+### 1. Inventory tracking (4 producten afgerond)
+Via Playwright MCP in Shopify Admin:
+- **Pinot Grigio delle Venezie DOC** — tracking AAN, 48 stuks
+- **Montaribaldi Langhe Chardonnay** — tracking AAN, 48 stuks
+- **San Marzano Il Pumo Primitivo** — tracking AAN, 48 stuks
+- **Jo Primitivo Salento IGT** — tracking AAN, 48 stuks
 
-### 2. Duplicate CMS entries verwijderd
-- **USP Items:** 4 duplicaten verwijderd (hadden " 1" suffix, aangemaakt 10:36 am vandaag)
-  - Gratis Verzending 1, Gratis Retour 1, Expert Selectie 1, Veilig Betalen 1
-  - Nu 4 correcte entries over
-- **Categorie Blokken:** 5 duplicaten verwijderd (zelfde " 1" suffix patroon)
-  - Rode Wijn 1, Witte Wijn 1, Rose 1, Bubbels 1, Cadeaus 1
-  - Nu 5 correcte entries over
-- **Oorzaak:** Waarschijnlijk dubbel aangemaakt via Headless Setup app
-- **Fix is direct zichtbaar** — site haalt live data uit Shopify API, geen redeploy nodig
+### 2. Refosco dal Peduncolo Rosso DOC — DEELS
+- Tracking is AAN gezet maar voorraad bleef op 0 (script crashte)
+- Moet nog op 48 gezet worden
 
-### 3. Deploy
-- Commit `46a7a8f` — screenshots + HandleidingContent.tsx + Footer.tsx
-- Gepusht naar master → Vercel auto-deploy
-- Daarnaast `npx vercel --prod` gedraaid voor zekerheid
-- **Live op:** https://vino-per-lei.vercel.app
-
-### 4. SEO / Vindbaarheid check
-- Site is NIET geïndexeerd door Google (nog)
-- Robots.txt en metadata staan correct (`index: true, follow: true`)
-- **Probleem:** `metadataBase` en sitemap wijzen naar `vinoperlei.nl` — domein nog niet gekoppeld
-- **Nodig:** Domein koppelen + Google Search Console instellen + sitemap indienen
+### 3. Carla's feedback ontvangen (niet verwerkt)
+Mail van Carla met wensen — nog niet in code verwerkt. Zie PRIORITEIT 2.
 
 ---
 
 ## INVENTORY TRACKING STATUS
 
-### ✅ KLAAR (5 producten — tracking AAN + voorraad ingesteld)
-1. **Asolo Prosecco Superiore DOCG Extra Brut** — had al tracking (18 available, 24 on hand)
-2. **Prosecco Superiore Valdobbiadene DOCG** — tracking AAN, 48 stuks
-3. **Cerasuolo d'Abruzzo Rosé DOC** — tracking AAN, 48 stuks
-4. **Bardolino Chiaretto Rosé DOC** — tracking AAN, 48 stuks
-5. **Vermentino Toscana IGT** — tracking AAN, 48 stuks
+### KLAAR (9 producten — tracking AAN + voorraad ingesteld)
+1. **Asolo Prosecco Superiore DOCG Extra Brut** — 18 available, 24 on hand
+2. **Prosecco Superiore Valdobbiadene DOCG** — 48 stuks
+3. **Cerasuolo d'Abruzzo Rosé DOC** — 48 stuks
+4. **Bardolino Chiaretto Rosé DOC** — 48 stuks
+5. **Vermentino Toscana IGT** — 48 stuks
+6. **Pinot Grigio delle Venezie DOC** — 48 stuks (sessie 17)
+7. **Montaribaldi Langhe Chardonnay** — 48 stuks (sessie 17)
+8. **San Marzano Il Pumo Primitivo** — 48 stuks (sessie 17)
+9. **Jo Primitivo Salento IGT** — 48 stuks (sessie 17)
 
-### ⬜ NOG TE DOEN (15 producten)
-De volgorde in Shopify Admin (van boven naar beneden na Vermentino):
-6. Pinot Grigio delle Venezie DOC
-7. Montaribaldi Langhe Chardonnay
-8. San Marzano Il Pumo Primitivo
-9. Jo Primitivo Salento IGT
-10. Refosco dal Peduncolo Rosso DOC
+### NOG TE DOEN (11 producten)
+10. **Refosco dal Peduncolo Rosso DOC** — tracking AAN, voorraad = 0 (MOET 48 WORDEN)
 11. Teroldego Rotaliano DOC
 12. Tenuta Val d'Ombra 'Ombra Alta'
 13. Valpolicella Ripasso Superiore DOC
@@ -105,46 +118,51 @@ De volgorde in Shopify Admin (van boven naar beneden na Vermentino):
 19. Montaribaldi Barolo DOCG
 20. (check of er nog meer zijn)
 
-> **LET OP:** Productnamen en volgorde kunnen afwijken. Gebruik de Shopify Admin als bron van waarheid.
+### Exacte stappen per product (bewezen workflow)
+1. Open product (klik op naam of "Next" knop)
+2. Scroll naar "Inventory" sectie → checkbox "Inventory not tracked"
+3. Klik de checkbox → verandert naar "Inventory tracked"
+4. Inventory tabel verschijnt → klik op "0" bij Available
+5. Popup opent → klik op "New" spinbutton → type `48`
+6. Klik "Save" in inventory popup → toast "Quantity updated"
+7. Klik "Save" onderaan productpagina → toast "Product saved"
+8. Klik "Next" → volgende product
 
 ---
 
-## EXACTE STAPPEN PER PRODUCT (bewezen workflow sessie 14)
+## CARLA'S FEEDBACK (mail 30 maart 2026)
 
-Dit is de exacte flow die werkt — **geen varianten nodig**, alles zit direct op de productpagina:
-
-1. **Open product** (klik op productnaam of gebruik "Next" knop rechtsboven)
-2. **Scroll naar "Inventory" sectie** — je ziet `checkbox "Inventory not tracked"`
-3. **Klik de checkbox** → verandert naar `"Inventory tracked" [checked]`
-4. **Inventory tabel verschijnt** met Pastorielaan 56, alle waarden op 0
-5. **Klik op "0" bij Available** (4e kolom) → popup opent met "Adjust by" en "New" velden
-6. **Klik op "New" spinbutton** en type `48`
-7. **Klik "Save"** in de inventory popup → toast "Quantity updated"
-8. **Klik "Save"** onderaan de productpagina (of in de toolbar bovenaan) → toast "Product saved"
-9. **Klik "Next"** (→ pijltje rechtsboven) om naar het volgende product te gaan
-10. Herhaal stappen 2-9
-
-### Tips
-- De "Save" knop in de inventory popup zit in `#PolarisPortalsContainer`
-- De "Save" knop voor het product zit in `#AppFrameScrollable`
-- Na het aanvinken van tracking verschijnt ook "Sell when out of stock: Off" — dat is goed, laat staan
-- De "Next" knop ref verandert elke keer, gebruik altijd een verse snapshot
+Letterlijk uit haar mail:
+1. ~~Kopje cadeaus en blogs verwijderen~~ — code DONE (sessie 16), CMS nog niet
+2. **Zoeken op prijs onder de €10 verwijderen** — FilterSidebar.tsx
+3. **Onder "authentieke Italiaanse wijnen" de barolo vervangen door barbera** — page.tsx
+4. ~~Niet tevreden, geld terug verwijderen~~ — DONE (sessie 16)
+5. **"Over ons" herschrijven naar wij-vorm** + toevoeging kleine wijnhuizen + importeur
+6. ~~Telefoonnummer niet benoemen op de site~~ — DONE (sessie 16)
+7. **Tekst "hoe het allemaal begon"** — WACHT OP CARLA (levert info aan)
+8. **Instagram behouden, Pinterest verwijderen** — Footer.tsx
+9. ~~Blogs verwijderen~~ — DONE (sessie 16)
 
 ---
 
-## Na alle producten: Build + Test
+## ONTBREKENDE ADMIN SCREENSHOTS
 
-```bash
-cd /c/Users/BartVisser/Desktop/vino-per-lei
-npx --yes kill-port 3099
-npm run build && npx next start --port 3099 > /dev/null 2>&1 &
-```
+Deze screenshots kunnen ALLEEN gemaakt worden als Bart is ingelogd in Shopify Admin:
 
-Gebruik Playwright MCP om te verifiëren:
-- Open `http://localhost:3099/wijnen` → producten moeten "Op voorraad" badge tonen
-- Open een productdetail → "In Winkelmand" knop moet actief zijn
-- Test: wijzig in Shopify Admin één product naar voorraad 3 → moet "Nog 3 flessen" tonen
-- Test: wijzig naar voorraad 0 → moet "Uitverkocht" + "Mail bij voorraad" tonen
+| Sectie | Stap | Wat moet erin | Shopify URL |
+|---|---|---|---|
+| Producten | Stap 2 "Nieuw product" | Add product formulier | `/admin/products/new` |
+| Producten | Stap 4 "Prijs wijzigen" | Product edit met prijs/voorraad | `/admin/products/[id]` |
+| Klantervaringen | Stap 2 "Review toevoegen" | Testimonial → Add entry | `/admin/content/entries/testimonial` |
+| Klantervaringen | Stap 3 "Review bewerken" | Testimonial entry met Delete | `/admin/content/entries/testimonial/[id]` |
+| Homepage cijfers | Stap 2 "Cijfers instellen" | Homepage Cijfer entries | `/admin/content/entries/homepage_cijfer` |
+| FAQ | Stap 2 "Vraag toevoegen" | FAQ Item entry formulier | `/admin/content/entries/faq_item` |
+| Categorieën | Stap 2 "Categorie aanpassen" | Categorie Blok entry | `/admin/content/entries/categorie_blok` |
+| Instellingen | Stap 3 "Verzenddrempel" | Site Instellingen verzendvelden | `/admin/content/entries/site_instellingen` |
+| Blog | Stap 2 "Artikel schrijven" | Blog post editor | `/admin/articles/new` |
+| Juridisch | Stap 2 "Pagina bewerken" | Pages editor met handle | `/admin/pages` |
+| Bestellingen | Stap 2 "Verzenden" | Order detail met Fulfill knop | `/admin/orders/[id]` |
+| Verzending | Stap 1 "Tarieven" | Shipping and delivery settings | `/admin/settings/shipping` |
 
 ---
 
@@ -159,13 +177,26 @@ Gebruik Playwright MCP om te verifiëren:
 | **Shopify** | `vino-per-lei-2.myshopify.com` (CMS + products) |
 | **Shopify Admin** | `https://admin.shopify.com/store/vino-per-lei-2` |
 | **Klant** | Carla Daniels, Pastorielaan 56, 5504 CR Veldhoven |
-| **Laatste commit** | `46a7a8f` — screenshots handleiding + footer fix |
+| **Laatste commit** | `2a50695` — cadeaus/blog/proefgarantie verwijderd + screenshots handleiding |
+| **NIET gepusht** | Commit `2a50695` staat nog niet op master |
 
 ---
 
-## Gewijzigde bestanden (alles GECOMMIT)
+## Nog te doen voor livegang (volledig overzicht)
 
-Geen uncommitted changes na sessie 15.
+1. ⬜ **Inventory tracking AFMAKEN** — 11 resterende producten (incl. Refosco fix)
+2. ⬜ **Carla's feedback verwerken** — prijsfilter, barolo→barbera, over ons, pinterest
+3. ⬜ **"Cadeaus" uit Shopify CMS verwijderen**
+4. ⬜ **Admin screenshots handleiding** — 12 ontbrekende Shopify Admin screenshots
+5. ⬜ **Functionele tests** — age gate, checkout redirect, zoek, mobile menu
+6. ⬜ **GA4 tracking ID** invullen
+7. ⬜ **Web3Forms key** invullen voor contactformulier
+8. ⬜ **"Mail bij voorraad"** koppelen aan email service
+9. ⬜ **Domein vinoperlei.nl** koppelen aan Vercel + Google Search Console
+10. ⬜ **Push naar master** — commit `2a50695` nog niet gepusht
+11. ✅ ~~Cadeaus/blog/proefgarantie/telefoon verwijderd~~ — DONE (sessie 16)
+12. ✅ ~~Website screenshots handleiding~~ — DONE (sessie 16)
+13. ✅ ~~4 producten inventory tracking~~ — DONE (sessie 17)
 
 ---
 
@@ -178,8 +209,6 @@ Geen uncommitted changes na sessie 15.
 - **NOOIT AI/agents/tooling vermelden** in klant-zichtbare content
 - **Shopify API versie:** `2025-01`
 
----
-
 ## Design systeem quick reference
 
 | Element | Waarde |
@@ -191,19 +220,3 @@ Geen uncommitted changes na sessie 15.
 | Wine type rood | wine-red `#8B1A32` |
 | Serif | Playfair Display |
 | Sans | Inter |
-
----
-
-## Nog te doen voor livegang (volledig overzicht)
-
-1. ⬜ **Inventory tracking AFMAKEN** — 15 resterende producten, elk "Track quantity" AAN + voorraad 48
-2. ⬜ **Handleiding screenshots** — secties 2-12 nog Shopify Admin screenshots toevoegen
-3. ⬜ **Functionele tests** — age gate, checkout redirect, zoek, mobile menu
-4. ⬜ **GA4 tracking ID** invullen
-5. ⬜ **Telefoonnummer** invullen (040-XXX XXXX → echt nummer van Carla)
-6. ⬜ **Web3Forms key** invullen voor contactformulier
-7. ⬜ **"Mail bij voorraad"** koppelen aan email service (Klaviyo of vergelijkbaar)
-8. ⬜ **Domein vinoperlei.nl** koppelen aan Vercel + Google Search Console
-9. ✅ ~~Duplicate Shopify entries opruimen~~ — DONE (sessie 15)
-10. ✅ ~~Footer fix committen~~ — DONE (sessie 15)
-11. ✅ ~~Screenshots handleiding sectie 1~~ — DONE (sessie 15)

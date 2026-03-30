@@ -13,25 +13,25 @@ const fallbackValues = [
     Icon: WineGlassIcon,
     title: "Bewust klein, bewust goed",
     description:
-      "Geen eindeloze schappen. Elke fles is er omdat Carla hem zelf zou drinken. Valt een wijn tegen na een seizoen? Dan gaat hij eruit.",
+      "Geen eindeloze schappen. Elke fles is er omdat we hem zelf zouden drinken. Valt een wijn tegen na een seizoen? Dan gaat hij eruit.",
   },
   {
     Icon: HeartHandIcon,
     title: "Naam en gezicht",
     description:
-      "Bij elke wijn hoort een producent die Carla persoonlijk kent. Geen anonieme groothandel, maar families die je bij naam kunt noemen.",
+      "Bij elke wijn hoort een producent die we persoonlijk kennen. Geen anonieme groothandel, maar families die je bij naam kunt noemen.",
   },
   {
     Icon: LeafIcon,
     title: "Eerlijke prijzen",
     description:
-      "Zonder tussenpersonen importeren betekent: betere wijn voor minder geld. Wat je bij ons betaalt, gaat naar de producent en de kwaliteit in je glas.",
+      "Zonder tussenpersonen importeren betekent: betere wijn voor minder geld. Wat je bij ons betaalt, gaat naar de producent en de kwaliteit in je glas. We werken voornamelijk met kleine wijnhuizen en op beperkte schaal met een importeur.",
   },
   {
     Icon: TruckIcon,
     title: "Veldhoven – Italië, directe lijn",
     description:
-      "Van producent naar ons magazijn in Veldhoven, en dan naar jou. Geen omwegen via importeurs of distributeurs.",
+      "Van producent naar ons magazijn in Veldhoven, en dan naar jou. Geen onnodige omwegen.",
   },
 ];
 
@@ -40,19 +40,19 @@ const fallbackTimeline = [
     year: "Het Begin",
     title: "Een Barolo die alles veranderde",
     description:
-      "Carla dronk haar eerste serieuze Italiaanse wijn bij een klein restaurant in de Langhe. Een Barolo van een producent die drie hectare bezat en alles met de hand deed. Die fles kostte lokaal een fractie van wat je in Nederland betaalt. Dat verschil wilde ze oplossen.",
+      "Het begon met een eerste serieuze Italiaanse wijn bij een klein restaurant in de Langhe. Een Barolo van een producent die drie hectare bezat en alles met de hand deed. Die fles kostte lokaal een fractie van wat je in Nederland betaalt. Dat verschil wilden we oplossen.",
   },
   {
     year: "De Eerste Stap",
     title: "Zelf importeren, zonder tussenpersonen",
     description:
-      "Carla ging terug, proefde zich door tientallen kelders en koos alleen producenten die klein werken en hun eigen druiven verbouwen. Geen handelshuis ertussen, geen marge voor een importeur.",
+      "We gingen terug, proefden ons door tientallen kelders en kozen alleen producenten die klein werken en hun eigen druiven verbouwen. Geen handelshuis ertussen — we werken voornamelijk rechtstreeks met kleine wijnhuizen.",
   },
   {
     year: "Vandaag",
     title: "Rechtstreeks, zonder omwegen",
     description:
-      "Vanuit Veldhoven levert Carla nu rechtstreeks aan wijnliefhebbers in heel Nederland. Geen warehouse vol pallets, maar een selectie die ze bewust klein houdt. Als een wijn niet goed genoeg is om zelf te schenken, komt hij niet in het assortiment.",
+      "Vanuit Veldhoven leveren we nu rechtstreeks aan wijnliefhebbers in heel Nederland. Geen warehouse vol pallets, maar een selectie die we bewust klein houden. Als een wijn niet goed genoeg is om zelf te schenken, komt hij niet in het assortiment.",
   },
 ];
 
@@ -107,9 +107,10 @@ export function OverOnsContent({ pageBody, email, wineCount }: OverOnsContentPro
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-white/70 text-base sm:text-lg max-w-2xl leading-relaxed"
           >
-            Carla Daniels importeert Italiaanse wijn rechtstreeks van kleine
+            Wij importeren Italiaanse wijn rechtstreeks van kleine
             familieproducenten. Geen tussenpersonen, geen eindeloos assortiment.
-            Alleen wijnen die ze zelf zou schenken.
+            Alleen wijnen die we zelf zouden schenken. Wij werken voornamelijk
+            met kleine wijnhuizen en op beperkte schaal met een importeur.
           </motion.p>
         </div>
       </section>
@@ -221,7 +222,7 @@ export function OverOnsContent({ pageBody, email, wineCount }: OverOnsContentPro
                   {
                     Icon: StarIcon,
                     title: "Klein houden",
-                    text: "We groeien niet om te groeien. Een compacte selectie is genoeg als elke fles goed is. Groter worden betekent concessies doen, en dat doen we niet.",
+                    text: "We groeien niet om te groeien. Een compacte selectie is genoeg als elke fles goed is. Groter worden betekent concessies, en dat doen we niet.",
                   },
                   {
                     Icon: GlobeIcon,

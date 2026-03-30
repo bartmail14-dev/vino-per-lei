@@ -1,9 +1,9 @@
 # Vino per Lei — Claude Code Instructies
 
 ## EERSTE ACTIE VOLGENDE SESSIE
-**LEES `VOLGENDE-SESSIE.md` EERST** — bevat complete overdracht + screenshot-instructies.
+**LEES `VOLGENDE-SESSIE.md` EERST** — bevat complete overdracht + stappen.
 
-Prioriteit: gebruik Playwright MCP om alle ontbrekende handleiding-screenshots te maken met rode highlights/markeringen.
+Prioriteit: inventory tracking (15 producten) + "Cadeaus" uit CMS verwijderen + admin screenshots handleiding. Bart moet inloggen in Shopify Admin.
 
 ## Project
 - **Locatie**: `C:\Users\BartVisser\Desktop\vino-per-lei`

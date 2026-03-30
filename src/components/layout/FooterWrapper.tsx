@@ -11,9 +11,15 @@ export async function FooterWrapper() {
 
   const siteSettings = settings ?? DEFAULT_SITE_SETTINGS;
 
-  const shopLinks = shopMenu.map((item) => ({ title: item.title, url: item.url }));
+  // Filter out removed sections (Cadeaus, Blog) from CMS menus
+  const hiddenLinks = ["cadeaus", "blog"];
+  const shopLinks = shopMenu
+    .filter((item) => !hiddenLinks.some((h) => item.url.toLowerCase().includes(h) || item.title.toLowerCase() === h))
+    .map((item) => ({ title: item.title, url: item.url }));
   const serviceLinks = serviceMenu.map((item) => ({ title: item.title, url: item.url }));
-  const aboutLinks = aboutMenu.map((item) => ({ title: item.title, url: item.url }));
+  const aboutLinks = aboutMenu
+    .filter((item) => !hiddenLinks.some((h) => item.url.toLowerCase().includes(h) || item.title.toLowerCase() === h))
+    .map((item) => ({ title: item.title, url: item.url }));
 
   return (
     <Footer

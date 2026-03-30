@@ -270,7 +270,6 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
                 {[
                   { href: settings?.instagramUrl || "https://instagram.com/vinoperlei", Icon: InstagramIcon, label: "Instagram" },
                   { href: settings?.facebookUrl || "https://facebook.com/vinoperlei", Icon: FacebookIcon, label: "Facebook" },
-                  { href: settings?.pinterestUrl || "https://pinterest.com/vinoperlei", Icon: PinterestIcon, label: "Pinterest" },
                 ].map(({ href, Icon, label }) => (
                   <a
                     key={label}

@@ -9,14 +9,14 @@ export const revalidate = 3600; // 1 hour — static CMS content
 export const metadata: Metadata = {
   title: "Over Ons | Vino per Lei",
   description:
-    "Carla Daniels importeert Italiaanse wijnen rechtstreeks van familieproducenten in Piemonte, Veneto en Toscane.",
+    "Wij importeren Italiaanse wijnen rechtstreeks van familieproducenten in Piemonte, Veneto en Toscane. Voornamelijk kleine wijnhuizen, persoonlijk geselecteerd.",
   alternates: {
     canonical: "https://vinoperlei.nl/over-ons",
   },
   openGraph: {
     title: "Over Ons | Vino per Lei",
     description:
-      "Carla Daniels importeert Italiaanse wijnen rechtstreeks van familieproducenten in Piemonte, Veneto en Toscane.",
+      "Wij importeren Italiaanse wijnen rechtstreeks van familieproducenten in Piemonte, Veneto en Toscane. Voornamelijk kleine wijnhuizen, persoonlijk geselecteerd.",
     locale: "nl_NL",
     siteName: "Vino per Lei",
   },

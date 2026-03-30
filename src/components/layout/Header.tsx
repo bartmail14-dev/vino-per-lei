@@ -42,7 +42,6 @@ const wineCategories = {
     { label: "Aanbiedingen", href: "/wijnen?sale=true" },
   ],
   price: [
-    { label: "Tot €10", href: "/wijnen?prijs=0-10" },
     { label: "€10 - €20", href: "/wijnen?prijs=10-20" },
     { label: "€20 - €30", href: "/wijnen?prijs=20-30" },
     { label: "€30+", href: "/wijnen?prijs=30-999" },
