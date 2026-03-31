@@ -47,13 +47,9 @@ function setConsentCookie(value: string) {
   document.cookie = `${CONSENT_COOKIE}=${value}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax; Secure`;
 }
 
-function updateGtagConsent(categories: CookieCategories) {
-  if (typeof window !== "undefined" && window.gtag) {
-    window.gtag("consent", "update", {
-      analytics_storage: categories.analytics ? "granted" : "denied",
-      ad_storage: categories.marketing ? "granted" : "denied",
-    });
-  }
+function updateAnalyticsConsent(categories: CookieCategories) {
+  // PostHog consent is handled via the vpl:consent-changed event
+  // which PostHogProvider listens to
 }
 
 export function CookieConsent() {
@@ -89,7 +85,7 @@ export function CookieConsent() {
     const value = encodeCookieValue(categories);
     localStorage.setItem(CONSENT_KEY, value);
     setConsentCookie(value);
-    updateGtagConsent(categories);
+    updateAnalyticsConsent(categories);
     setVisible(false);
     window.dispatchEvent(new CustomEvent("vpl:consent-changed", { detail: value }));
   };
@@ -172,7 +168,7 @@ export function CookieConsent() {
                         />
                         <div>
                           <span className="text-sm font-medium text-charcoal">Analytisch</span>
-                          <p className="text-xs text-grey">Google Analytics — helpt ons de website te verbeteren</p>
+                          <p className="text-xs text-grey">Anonieme statistieken — helpt ons de website te verbeteren</p>
                         </div>
                       </label>
 

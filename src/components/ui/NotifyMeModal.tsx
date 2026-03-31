@@ -49,11 +49,13 @@ export function NotifyMeModal({ isOpen, onClose, productTitle }: NotifyMeModalPr
 
     setStatus("loading");
 
-    // Simulate API call — replace with actual backend integration
     try {
-      await new Promise((resolve) => setTimeout(resolve, 800));
-      // TODO: Send email to backend/Shopify/Klaviyo
-      // await fetch('/api/notify-me', { method: 'POST', body: JSON.stringify({ email, productTitle }) });
+      const res = await fetch("/api/notify-me", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, productTitle }),
+      });
+      if (!res.ok) throw new Error("Request failed");
       setStatus("success");
     } catch {
       setErrorMessage("Er ging iets mis. Probeer het opnieuw.");

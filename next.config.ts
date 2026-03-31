@@ -23,6 +23,14 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizeCss: true,
   },
+  async redirects() {
+    return [
+      { source: '/cadeaus', destination: '/wijnen', permanent: true },
+      { source: '/blog', destination: '/', permanent: true },
+      { source: '/blog/:slug', destination: '/', permanent: true },
+      { source: '/showcase', destination: '/', permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

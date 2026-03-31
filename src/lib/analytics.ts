@@ -1,24 +1,63 @@
-// Google Analytics 4 event helpers
-// Replace G-XXXXXXXXXX with your actual GA4 Measurement ID
+// PostHog analytics helpers
+// Requires NEXT_PUBLIC_POSTHOG_KEY env var
 
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-    dataLayer?: unknown[];
-  }
-}
+import posthog from "posthog-js";
+
+let initialized = false;
 
 function hasConsent(): boolean {
   if (typeof document === "undefined") return false;
   const match = document.cookie.match(/(?:^|;\s*)vpl_cookie_consent=([^;]*)/);
   if (!match) return false;
-  // Support legacy "all" value and new granular format
   return match[1] === "all" || match[1].includes("analytics");
 }
 
+export function initPostHog() {
+  if (initialized || typeof window === "undefined") return;
+  const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+  if (!key) return;
+
+  posthog.init(key, {
+    api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST || "https://eu.i.posthog.com",
+    person_profiles: "identified_only",
+    capture_pageview: false, // we handle this manually
+    persistence: hasConsent() ? "localStorage+cookie" : "memory",
+    loaded: (ph) => {
+      if (!hasConsent()) {
+        ph.opt_out_capturing();
+      }
+    },
+  });
+
+  initialized = true;
+}
+
+export function updatePostHogConsent(analyticsAllowed: boolean) {
+  if (!initialized) {
+    if (analyticsAllowed) {
+      initPostHog();
+      posthog.opt_in_capturing();
+      posthog.set_config({ persistence: "localStorage+cookie" });
+    }
+    return;
+  }
+  if (analyticsAllowed) {
+    posthog.opt_in_capturing();
+    posthog.set_config({ persistence: "localStorage+cookie" });
+  } else {
+    posthog.opt_out_capturing();
+  }
+}
+
 export function trackEvent(eventName: string, params?: Record<string, unknown>) {
-  if (typeof window !== "undefined" && window.gtag && hasConsent()) {
-    window.gtag("event", eventName, params);
+  if (initialized && hasConsent()) {
+    posthog.capture(eventName, params);
+  }
+}
+
+export function trackPageView(url: string) {
+  if (initialized && hasConsent()) {
+    posthog.capture("$pageview", { $current_url: url });
   }
 }
 
@@ -31,14 +70,9 @@ export function trackViewItem(product: {
   trackEvent("view_item", {
     currency: "EUR",
     value: product.price,
-    items: [
-      {
-        item_id: product.id,
-        item_name: product.title,
-        item_category: product.category,
-        price: product.price,
-      },
-    ],
+    item_id: product.id,
+    item_name: product.title,
+    item_category: product.category,
   });
 }
 
@@ -51,14 +85,9 @@ export function trackAddToCart(product: {
   trackEvent("add_to_cart", {
     currency: "EUR",
     value: product.price * product.quantity,
-    items: [
-      {
-        item_id: product.id,
-        item_name: product.title,
-        price: product.price,
-        quantity: product.quantity,
-      },
-    ],
+    item_id: product.id,
+    item_name: product.title,
+    quantity: product.quantity,
   });
 }
 
