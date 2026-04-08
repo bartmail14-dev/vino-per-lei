@@ -28,15 +28,21 @@ export async function GET(request: Request) {
       result = contactConfirmationEmail("Bart");
       break;
     case "notify-me":
-      result = notifyMeConfirmationEmail("Amarone della Valpolicella DOCG 2018");
+      result = notifyMeConfirmationEmail(
+        "Amarone della Valpolicella DOCG 2018",
+        "https://cdn.shopify.com/s/files/1/0958/7150/0615/files/amarone-valpolicella.png?v=1772204755&width=400&height=600&crop=center",
+        "amarone-della-valpolicella-2018"
+      );
       break;
     case "account-welcome":
       result = accountWelcomeEmail("Bart");
       break;
     case "stock-notification":
       result = stockNotificationEmail(
-        "Barolo Classico DOCG 2018",
-        "barolo-classico-2018"
+        "Montaribaldi Barolo DOCG 2019",
+        "montaribaldi-barolo-2019",
+        "https://cdn.shopify.com/s/files/1/0958/7150/0615/files/montaribaldi-barolo.png?v=1772204755&width=400&height=600&crop=center",
+        "€ 42,00"
       );
       break;
     default:

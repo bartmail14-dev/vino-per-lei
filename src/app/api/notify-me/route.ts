@@ -6,12 +6,14 @@ import { notifyMeConfirmationEmail } from "@/lib/email-templates";
 const schema = z.object({
   email: z.string().email(),
   productTitle: z.string().min(1).max(200),
+  productImageUrl: z.string().url().optional(),
+  productHandle: z.string().optional(),
 });
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { email, productTitle } = schema.parse(body);
+    const { email, productTitle, productImageUrl, productHandle } = schema.parse(body);
 
     if (!isMailgunConfigured()) {
       console.log(`[notify-me] ${email} wants notification for: ${productTitle}`);
@@ -29,7 +31,7 @@ export async function POST(request: Request) {
     }
 
     // Send confirmation to customer (non-blocking)
-    const confirmation = notifyMeConfirmationEmail(productTitle);
+    const confirmation = notifyMeConfirmationEmail(productTitle, productImageUrl, productHandle);
     sendMail({
       to: email,
       subject: confirmation.subject,
