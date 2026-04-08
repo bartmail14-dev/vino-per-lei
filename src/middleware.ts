@@ -186,7 +186,7 @@ export function middleware(request: NextRequest) {
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline'",
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https://cdn.shopify.com https://images.unsplash.com",
+      "img-src 'self' data: https://cdn.shopify.com https://images.unsplash.com https://vino-per-lei.vercel.app https://*.vinoperlei.nl",
       "font-src 'self'",
       "connect-src 'self' https://*.myshopify.com",
       "media-src 'self'",

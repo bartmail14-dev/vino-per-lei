@@ -482,7 +482,7 @@ export const DEFAULT_HERO: HeroContent = {
 };
 
 export const DEFAULT_ANNOUNCEMENT: AnnouncementBar = {
-  message: 'Welkom! Gebruik code WELKOM10 voor 10% korting op je eerste bestelling',
+  message: 'Gratis verzending vanaf €35 — Italiaanse wijnen rechtstreeks van de producent',
   enabled: true,
   link: '/wijnen',
 };
