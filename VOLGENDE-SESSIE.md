@@ -1,7 +1,7 @@
 # Vino per Lei — Volgende Sessie Instructies
 
 **Datum**: 8 april 2026 (na sessie 23)
-**Status**: Handleiding COMPLEET (annotaties + screenshots), Mailgun geïntegreerd
+**Status**: Handleiding COMPLEET, Mailgun code klaar, site technisch af
 
 ---
 
@@ -20,71 +20,58 @@ C:\Users\BartVisser\OneDrive - Blue Wire Media\Archief\Oude-Projecten\Vino-Per-L
 ### 1. Screenshot annotaties — COMPLEET
 - Alle 18 admin screenshots geannoteerd met rode cirkels + genummerde labels
 - Coördinaten van sessie 22 waren verkeerd — alle 18 visueel gecheckt en gecorrigeerd
-- `add-annotations.cjs` herschreven: schrijft nu naar Desktop temp-map (OneDrive lock workaround)
-- Visueel geverifieerd op live site via Playwright MCP — alle cirkels op juiste UI-elementen
-- **Commits**: `fa99d21` (annotaties) + `a4635ec` (Mailgun)
-- **Deployed** op Vercel ✓
+- Visueel geverifieerd op live site via Playwright MCP
+- **Commit**: `fa99d21`
 
-### 2. Web3Forms → Mailgun migratie — COMPLEET
-- Nieuwe `src/lib/mailgun.ts` — shared utility, EU region, FormData API
-- `src/app/api/contact/route.ts` — herschreven voor Mailgun
-- `src/app/api/notify-me/route.ts` — herschreven voor Mailgun
-- `src/app/privacy/page.tsx` — Web3Forms verwijderd, Mailgun toegevoegd
-- `.env.example` + `.env.local` — updated met Mailgun vars
-- **⚠ NIET WERKEND** — Mailgun env vars moeten nog op Vercel + domein moet geverifieerd
+### 2. Web3Forms → Mailgun migratie — CODE COMPLEET
+- `src/lib/mailgun.ts` — shared utility (EU region, FormData API)
+- Contact + notify-me routes herschreven, privacy pagina updated
+- **⚠ Nog niet actief** — Mailgun env vars + domein verificatie komen later
+- **Commit**: `a4635ec`
 
 ### 3. Carla's feedback — GECHECKT
-- ✅ **Barolo/Barbera**: Alle code-referenties gecontroleerd — alles correct. Geen mismatch gevonden. Vraag aan Carla welk specifiek product of tekst ze bedoelt.
-- ✅ **Over Ons wij-vorm**: Fallback content in `OverOnsContent.tsx` is al in wij-vorm. Als Carla eigen content via Shopify Pages heeft ingevuld, moet dat daar aangepast worden.
+- Barolo/Barbera: alle code correct, vraag Carla wat ze bedoelt
+- Over Ons wij-vorm: fallback al correct, CMS moet via Shopify Admin
 
 ---
 
-## PRIORITEIT 1: Mailgun activeren
+## VOLGENDE SESSIE: Klantervaring & communicatie
 
-### Stap 1: Mailgun account + domein
-1. Log in op https://app.mailgun.com (of maak account aan)
-2. Voeg domein toe: `mg.vinoperlei.nl` (sending domain)
-3. Voeg de DNS records toe die Mailgun geeft (SPF, DKIM, MX) bij de domeinregistrar
-4. Wacht op verificatie (kan paar minuten tot uren duren)
+### 1. Shopify klant login portaal
+- Klantaccounts activeren in Shopify Admin
+- Login/registratie flow op de website
+- Account pagina: ordergeschiedenis, adresgegevens
+- Integratie met de bestaande website (header "Inloggen" knop werkt al)
 
-### Stap 2: Vercel env vars instellen
-Ga naar Vercel dashboard → Project → Settings → Environment Variables:
-```
-MAILGUN_API_KEY=key-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-MAILGUN_DOMAIN=mg.vinoperlei.nl
-MAILGUN_REGION=eu
-CONTACT_EMAIL=info@vinoperlei.nl
-```
-Redeploy na instellen: `npx vercel --prod`
+### 2. Bevestigingsmails designen
+- Shopify email templates customizen (Shopify Admin → Settings → Notifications):
+  - Orderbevestiging
+  - Verzendbevestiging (met tracking)
+  - Account welkom
+  - Wachtwoord reset
+- Branding: Vino per Lei logo, kleuren, tone of voice
+- Taal: alles in het Nederlands
 
-### Stap 3: Test
-Stuur een testbericht via https://vino-per-lei.vercel.app/contact
+### 3. Nieuwsbrief opzetten
+- Nieuwsbrief aanmeldflow werkt al op de website (footer)
+- Backend koppeling: Mailgun mailing list of Shopify Email
+- Welkomstmail na aanmelding
+- Template voor periodieke nieuwsbrief (max 2x/maand, staat in footer)
+- Afmeldlink
 
----
-
-## PRIORITEIT 2: Domein vinoperlei.nl koppelen aan Vercel
-
-1. Ga naar Vercel dashboard → Project → Settings → Domains
-2. Voeg `vinoperlei.nl` en `www.vinoperlei.nl` toe
-3. Volg Vercel's DNS instructies bij de domeinregistrar
-4. Check of metadata `metadataBase` in `src/app/layout.tsx` al `https://vinoperlei.nl` is (ja, dat klopt)
-
----
-
-## PRIORITEIT 3: Inventory tracking (11 producten)
-
-Via Shopify Admin (https://admin.shopify.com/store/vino-per-lei-2):
-1. Ga naar Products
-2. Open elk product → scroll naar Inventory
-3. Zet "Track quantity" aan
-4. Vul voorraadaantal in
-5. Save
+### 4. Transactionele e-mails via Mailgun
+- Contactformulier (code klaar, env vars instellen)
+- Voorraadmelding ("Mail bij voorraad")
+- Eventueel: abandoned cart reminder
 
 ---
 
-## PRIORITEIT 4: Overige TODO's
+## LATER (technische setup)
 
+- [ ] Mailgun env vars op Vercel + domein `mg.vinoperlei.nl` verifiëren
+- [ ] Domein `vinoperlei.nl` koppelen aan Vercel
 - [ ] GA4 tracking ID instellen
+- [ ] Inventory tracking 11 producten (Shopify Admin)
 - [ ] Shopify API-token roteren (staat in git history)
 - [ ] Barolo/Barbera: vraag Carla wat ze precies bedoelt
 
@@ -99,11 +86,9 @@ Via Shopify Admin (https://admin.shopify.com/store/vino-per-lei-2):
 | **Vercel** | vino-per-lei.vercel.app (auto-deploy vanuit master) |
 | **Shopify Admin** | `https://admin.shopify.com/store/vino-per-lei-2` |
 | **Klant** | Carla Daniels |
-| **Laatste commit** | `a4635ec` — feat: replace Web3Forms with Mailgun |
-| **Handleiding** | `src/app/handleiding/HandleidingContent.tsx` |
-| **Screenshots** | `public/handleiding/` — alle 18 admin screenshots geannoteerd |
-| **Annotatie-script** | `add-annotations.cjs` (output naar Desktop temp-map) |
-| **E-mail** | `src/lib/mailgun.ts` — shared Mailgun utility |
+| **Laatste commit** | `5505ec9` — docs: update VOLGENDE-SESSIE.md |
+| **E-mail utility** | `src/lib/mailgun.ts` (Mailgun REST API, EU region) |
+| **Handleiding** | Alle 18 screenshots geannoteerd, live op Vercel |
 
 ## Belangrijke regels
 
@@ -111,6 +96,6 @@ Via Shopify Admin (https://admin.shopify.com/store/vino-per-lei-2):
 - **NOOIT blanket `taskkill //IM`** — alleen specifieke PIDs
 - **NOOIT AI/agents/tooling vermelden** in klant-zichtbare content
 - **Playwright:** Sluit ALLE Chrome vensters voordat je Playwright MCP start
-- **Build check:** `npm run build` of `npx tsc --noEmit` — NOOIT `next dev`
-- **OneDrive sync:** Bestanden staan in OneDrive, kan file locks geven. Workaround: schrijf naar Desktop/temp, dan kopiëren.
-- **Deploy**: `npx vercel --prod` (git push triggert auto-deploy, maar handmatig is sneller)
+- **Build check:** `npx tsc --noEmit` — NOOIT `next dev`
+- **OneDrive:** File locks workaround: schrijf naar Desktop/temp, dan kopiëren
+- **Deploy**: `npx vercel --prod`
