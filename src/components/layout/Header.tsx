@@ -84,7 +84,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
 
   const itemCount = useCartStore((state) => state.itemCount);
   const toggleCart = useCartStore((state) => state.toggleCart);
-  const { openLoginModal } = useAuthStore();
+  const { openLoginModal, isAuthenticated } = useAuthStore();
 
   // Handle scroll
   useEffect(() => {
@@ -324,14 +324,24 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                   )}
                 </AnimatePresence>
               </div>
-              {/* Account Button — opens "coming soon" modal */}
-              <button
-                onClick={() => openLoginModal()}
-                className="hidden lg:flex items-center gap-2 p-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-colors"
-                aria-label="Inloggen of registreren"
-              >
-                <UserIcon className="w-5 h-5" />
-              </button>
+              {/* Account Button — link to account page or open login modal */}
+              {isAuthenticated ? (
+                <a
+                  href="/account"
+                  className="hidden lg:flex items-center gap-2 p-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-colors"
+                  aria-label="Mijn account"
+                >
+                  <UserIcon className="w-5 h-5 text-wine" />
+                </a>
+              ) : (
+                <button
+                  onClick={() => openLoginModal()}
+                  className="hidden lg:flex items-center gap-2 p-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-colors"
+                  aria-label="Inloggen of registreren"
+                >
+                  <UserIcon className="w-5 h-5" />
+                </button>
+              )}
               <button
                 onClick={toggleCart}
                 className="relative p-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-colors"
@@ -664,18 +674,31 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
 
                 {/* Account Link */}
                 <div className="mt-8 pt-6 border-t border-sand/60">
-                  <button
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      openLoginModal();
-                    }}
-                    className="flex items-center gap-3 w-full py-3 px-4 text-[15px] font-medium text-wine bg-wine/5 hover:bg-wine/10 rounded-xl transition-colors"
-                  >
-                    <div className="w-9 h-9 rounded-full bg-wine/10 flex items-center justify-center">
-                      <UserIcon className="w-4 h-4 text-wine" />
-                    </div>
-                    Inloggen / Registreren
-                  </button>
+                  {isAuthenticated ? (
+                    <a
+                      href="/account"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex items-center gap-3 w-full py-3 px-4 text-[15px] font-medium text-wine bg-wine/5 hover:bg-wine/10 rounded-xl transition-colors"
+                    >
+                      <div className="w-9 h-9 rounded-full bg-wine/10 flex items-center justify-center">
+                        <UserIcon className="w-4 h-4 text-wine" />
+                      </div>
+                      Mijn account
+                    </a>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        openLoginModal();
+                      }}
+                      className="flex items-center gap-3 w-full py-3 px-4 text-[15px] font-medium text-wine bg-wine/5 hover:bg-wine/10 rounded-xl transition-colors"
+                    >
+                      <div className="w-9 h-9 rounded-full bg-wine/10 flex items-center justify-center">
+                        <UserIcon className="w-4 h-4 text-wine" />
+                      </div>
+                      Inloggen / Registreren
+                    </button>
+                  )}
                 </div>
 
                 {/* Contact Info */}

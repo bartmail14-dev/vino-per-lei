@@ -200,7 +200,13 @@ export function middleware(request: NextRequest) {
   );
 
   // --- Rate limiting for API form routes ---
-  if (pathname.startsWith("/api/contact") || pathname.startsWith("/api/newsletter")) {
+  if (
+    pathname.startsWith("/api/contact") ||
+    pathname.startsWith("/api/newsletter") ||
+    pathname.startsWith("/api/auth/login") ||
+    pathname.startsWith("/api/auth/register") ||
+    pathname.startsWith("/api/auth/recover")
+  ) {
     const { limited, response: rlResponse } = checkRateLimit(request, response);
     if (limited) return rlResponse;
     return rlResponse;

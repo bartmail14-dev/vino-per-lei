@@ -12,6 +12,7 @@ interface SendMailOptions {
   to?: string;
   subject: string;
   text: string;
+  html?: string;
   replyTo?: string;
   from?: string;
 }
@@ -25,6 +26,7 @@ export async function sendMail(options: SendMailOptions): Promise<boolean> {
     to = CONTACT_TO,
     subject,
     text,
+    html,
     replyTo,
     from = `Vino per Lei <noreply@${MAILGUN_DOMAIN}>`,
   } = options;
@@ -34,6 +36,7 @@ export async function sendMail(options: SendMailOptions): Promise<boolean> {
   form.append("to", to);
   form.append("subject", subject);
   form.append("text", text);
+  if (html) form.append("html", html);
   if (replyTo) form.append("h:Reply-To", replyTo);
 
   const res = await fetch(`${BASE_URL}/${MAILGUN_DOMAIN}/messages`, {

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod/v4";
+import { sendMail } from "@/lib/mailgun";
+import { newsletterWelcomeEmail } from "@/lib/email-templates";
 
 const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY ?? "";
 const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN ?? "";
@@ -79,6 +81,15 @@ export async function POST(request: Request) {
         { status: 500 },
       );
     }
+
+    // Send welcome email (non-blocking)
+    const welcome = newsletterWelcomeEmail();
+    sendMail({
+      to: email,
+      subject: welcome.subject,
+      text: welcome.text,
+      html: welcome.html,
+    }).catch((err) => console.error("[newsletter] Welcome email failed:", err));
 
     return NextResponse.json({ success: true });
   } catch (error) {

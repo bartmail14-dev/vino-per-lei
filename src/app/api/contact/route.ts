@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod/v4";
 import { isMailgunConfigured, sendMail } from "@/lib/mailgun";
+import { contactConfirmationEmail } from "@/lib/email-templates";
 
 const contactSchema = z.object({
   naam: z.string().min(2, "Naam is te kort").max(200, "Naam is te lang"),
@@ -67,6 +68,15 @@ export async function POST(request: Request) {
         { status: 500 },
       );
     }
+
+    // Send confirmation to sender (non-blocking)
+    const confirmation = contactConfirmationEmail(naam);
+    sendMail({
+      to: email,
+      subject: confirmation.subject,
+      text: confirmation.text,
+      html: confirmation.html,
+    }).catch((err) => console.error("[contact] Confirmation email failed:", err));
 
     return NextResponse.json({ success: true });
   } catch (error) {

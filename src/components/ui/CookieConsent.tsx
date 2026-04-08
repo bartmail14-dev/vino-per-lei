@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { Cookie, Shield, BarChart3, Megaphone, ChevronDown } from "lucide-react";
 
 const CONSENT_KEY = "vpl_cookie_consent";
 const CONSENT_COOKIE = "vpl_cookie_consent";
@@ -52,6 +53,39 @@ function updateAnalyticsConsent(categories: CookieCategories) {
   // which PostHogProvider listens to
 }
 
+function Toggle({
+  checked,
+  onChange,
+  disabled,
+}: {
+  checked: boolean;
+  onChange?: (v: boolean) => void;
+  disabled?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      disabled={disabled}
+      onClick={() => onChange?.(!checked)}
+      className={`relative inline-flex h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
+        disabled
+          ? "bg-wine/40 cursor-not-allowed"
+          : checked
+            ? "bg-wine cursor-pointer"
+            : "bg-sand cursor-pointer hover:bg-sand/80"
+      }`}
+    >
+      <span
+        className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm ring-0 transition-transform duration-200 translate-y-0.5 ${
+          checked ? "translate-x-[22px]" : "translate-x-0.5"
+        }`}
+      />
+    </button>
+  );
+}
+
 export function CookieConsent() {
   const [visible, setVisible] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
@@ -59,19 +93,16 @@ export function CookieConsent() {
   const [marketing, setMarketing] = useState(false);
 
   useEffect(() => {
-    // Small delay so it doesn't flash on page load
     const timer = setTimeout(() => {
       const consentLS = localStorage.getItem(CONSENT_KEY);
       const consentCookie = getConsentCategories();
       if (!consentLS && !consentCookie) {
         setVisible(true);
       } else if (consentLS && !consentCookie) {
-        // Sync: localStorage exists but cookie was cleared — re-set cookie
         setConsentCookie(consentLS);
       }
     }, 1500);
 
-    // Listen for reopen event (from "Cookie-instellingen" link)
     const handleReopen = () => setVisible(true);
     window.addEventListener("vpl:reopen-consent", handleReopen);
 
@@ -110,120 +141,118 @@ export function CookieConsent() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className="fixed bottom-0 left-0 right-0 z-[9990] p-4 sm:p-6"
+          className="fixed bottom-4 left-4 right-4 sm:bottom-6 sm:left-auto sm:right-6 z-[9990] sm:max-w-[420px]"
           role="region"
           aria-label="Cookie-instellingen"
         >
-          <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-xl border border-sand/80 p-5 sm:p-6">
-            <div className="flex flex-col gap-4">
-              {/* Text */}
-              <div>
-                <p className="text-sm text-charcoal font-semibold mb-1">
-                  Wij gebruiken cookies
-                </p>
-                <p className="text-sm text-grey leading-relaxed">
-                  Wij gebruiken cookies om je ervaring te verbeteren en onze
-                  website goed te laten functioneren.{" "}
+          <div className="bg-white rounded-2xl shadow-2xl border border-sand/60 overflow-hidden">
+            {/* Header bar */}
+            <div className="bg-wine/[0.03] px-5 py-4 flex items-center gap-3">
+              <div className="w-9 h-9 bg-wine/10 rounded-xl flex items-center justify-center shrink-0">
+                <Cookie className="w-4.5 h-4.5 text-wine" strokeWidth={1.5} />
+              </div>
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-charcoal">Cookies</p>
+                <p className="text-xs text-grey leading-snug">
+                  Voor een betere ervaring.{" "}
                   <Link
                     href="/cookies"
-                    className="text-wine underline underline-offset-2 hover:text-wine-dark transition-colors duration-150"
+                    className="text-wine hover:text-wine-dark transition-colors"
                   >
-                    Meer informatie
+                    Meer info
                   </Link>
                 </p>
               </div>
+            </div>
 
-              {/* Granular choices — expandable */}
-              <AnimatePresence>
-                {showDetails && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.2 }}
-                    className="overflow-hidden"
-                  >
-                    <div className="space-y-3 py-3 border-t border-sand/60">
-                      {/* Necessary — always on */}
-                      <label className="flex items-center gap-3 cursor-default">
-                        <input
-                          type="checkbox"
-                          checked
-                          disabled
-                          className="w-4 h-4 rounded border-sand accent-wine cursor-not-allowed"
-                        />
-                        <div>
-                          <span className="text-sm font-medium text-charcoal">Noodzakelijk</span>
-                          <p className="text-xs text-grey">Essentieel voor het functioneren van de website (altijd aan)</p>
-                        </div>
-                      </label>
+            {/* Details toggle */}
+            <div className="px-5">
+              <button
+                onClick={() => setShowDetails(!showDetails)}
+                className="w-full flex items-center justify-between py-3 text-xs font-medium text-grey hover:text-charcoal transition-colors"
+                type="button"
+              >
+                <span>Instellingen aanpassen</span>
+                <ChevronDown
+                  className={`w-3.5 h-3.5 transition-transform duration-200 ${showDetails ? "rotate-180" : ""}`}
+                />
+              </button>
+            </div>
 
-                      {/* Analytics */}
-                      <label className="flex items-center gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={analytics}
-                          onChange={(e) => setAnalytics(e.target.checked)}
-                          className="w-4 h-4 rounded border-sand accent-wine cursor-pointer"
-                        />
-                        <div>
-                          <span className="text-sm font-medium text-charcoal">Analytisch</span>
-                          <p className="text-xs text-grey">Anonieme statistieken — helpt ons de website te verbeteren</p>
-                        </div>
-                      </label>
-
-                      {/* Marketing */}
-                      <label className="flex items-center gap-3 cursor-pointer">
-                        <input
-                          type="checkbox"
-                          checked={marketing}
-                          onChange={(e) => setMarketing(e.target.checked)}
-                          className="w-4 h-4 rounded border-sand accent-wine cursor-pointer"
-                        />
-                        <div>
-                          <span className="text-sm font-medium text-charcoal">Marketing</span>
-                          <p className="text-xs text-grey">Nieuwsbrief tracking — meet het effect van onze e-mails</p>
-                        </div>
-                      </label>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Buttons */}
-              <div className="flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
-                <button
-                  onClick={() => setShowDetails(!showDetails)}
-                  className="text-sm text-wine underline underline-offset-2 hover:text-wine-dark transition-colors self-start"
-                  type="button"
+            {/* Granular choices */}
+            <AnimatePresence>
+              {showDetails && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
                 >
-                  {showDetails ? "Verberg instellingen" : "Cookie-instellingen"}
-                </button>
+                  <div className="px-5 pb-1 space-y-3">
+                    {/* Necessary */}
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <Shield className="w-4 h-4 text-wine/60 shrink-0" strokeWidth={1.5} />
+                        <div className="min-w-0">
+                          <p className="text-xs font-medium text-charcoal">Noodzakelijk</p>
+                          <p className="text-[10px] text-grey leading-tight">Altijd aan</p>
+                        </div>
+                      </div>
+                      <Toggle checked disabled />
+                    </div>
 
-                <div className="flex flex-col sm:flex-row gap-2">
-                  {showDetails ? (
-                    <button
-                      onClick={handleSaveChoices}
-                      className="h-11 min-h-[44px] px-5 text-sm font-semibold text-grey border border-sand rounded-lg hover:border-wine/30 hover:text-charcoal active:scale-[0.98] transition-all duration-200"
-                    >
-                      Keuze opslaan
-                    </button>
-                  ) : (
-                    <button
-                      onClick={handleNecessaryOnly}
-                      className="h-11 min-h-[44px] px-5 text-sm font-semibold text-grey border border-sand rounded-lg hover:border-wine/30 hover:text-charcoal active:scale-[0.98] transition-all duration-200"
-                    >
-                      Alleen noodzakelijk
-                    </button>
-                  )}
-                  <button
-                    onClick={handleAcceptAll}
-                    className="h-11 min-h-[44px] px-5 text-sm font-semibold text-white bg-wine rounded-lg hover:bg-wine-dark active:scale-[0.98] transition-all duration-200"
-                  >
-                    Alles accepteren
-                  </button>
-                </div>
-              </div>
+                    {/* Analytics */}
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <BarChart3 className="w-4 h-4 text-wine/60 shrink-0" strokeWidth={1.5} />
+                        <div className="min-w-0">
+                          <p className="text-xs font-medium text-charcoal">Analytisch</p>
+                          <p className="text-[10px] text-grey leading-tight">Anonieme statistieken</p>
+                        </div>
+                      </div>
+                      <Toggle checked={analytics} onChange={setAnalytics} />
+                    </div>
+
+                    {/* Marketing */}
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <Megaphone className="w-4 h-4 text-wine/60 shrink-0" strokeWidth={1.5} />
+                        <div className="min-w-0">
+                          <p className="text-xs font-medium text-charcoal">Marketing</p>
+                          <p className="text-[10px] text-grey leading-tight">Nieuwsbrief tracking</p>
+                        </div>
+                      </div>
+                      <Toggle checked={marketing} onChange={setMarketing} />
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Buttons */}
+            <div className="p-4 pt-3 flex gap-2">
+              {showDetails ? (
+                <button
+                  onClick={handleSaveChoices}
+                  className="flex-1 h-10 text-xs font-semibold text-charcoal bg-cream border border-sand rounded-xl hover:bg-sand/50 active:scale-[0.98] transition-all duration-150"
+                >
+                  Keuze opslaan
+                </button>
+              ) : (
+                <button
+                  onClick={handleNecessaryOnly}
+                  className="flex-1 h-10 text-xs font-semibold text-charcoal bg-cream border border-sand rounded-xl hover:bg-sand/50 active:scale-[0.98] transition-all duration-150"
+                >
+                  Alleen noodzakelijk
+                </button>
+              )}
+              <button
+                onClick={handleAcceptAll}
+                className="flex-1 h-10 text-xs font-semibold text-white bg-wine rounded-xl hover:bg-wine-dark active:scale-[0.98] transition-all duration-150"
+              >
+                Alles accepteren
+              </button>
             </div>
           </div>
         </motion.div>
