@@ -231,6 +231,7 @@ const sections: Section[] = [
         title: "Hoe werken de cijfers?",
         description:
           "Op de homepage staan 4 cijfers (bijv. \"19 Geselecteerde wijnen\", \"3 Italiaanse wijngebieden\", \"12+ Familieproducenten\"). Standaard worden het aantal wijnen en wijngebieden automatisch berekend op basis van je Shopify producten. De overige cijfers kun je zelf instellen.",
+        screenshot: "/handleiding/admin-homepage-cijfers.webp",
         websiteScreenshot: "/handleiding/website-cijfers.webp",
         websiteCaption: "De cijfers op de homepage — 19 wijnen, 3 wijngebieden, 12+ producenten en < 48 uur levering",
         tip: "Zolang je geen \"Homepage Cijfer\" entries in Shopify aanmaakt, worden de automatisch berekende waarden getoond. Zodra je zelf entries maakt, worden die gebruikt.",
