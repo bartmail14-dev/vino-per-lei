@@ -147,8 +147,7 @@ function PrivacyFallback() {
         <li><strong>Shopify</strong> &mdash; webshopplatform, betalingsverwerking en orderafhandeling</li>
         <li><strong>PostNL / DHL</strong> &mdash; bezorging van bestellingen</li>
         <li><strong>Vercel</strong> &mdash; hosting van de website</li>
-        <li><strong>Web3Forms</strong> &mdash; verwerking van contactformulieren</li>
-        <li><strong>Mailgun</strong> &mdash; verzending van transactionele e-mails en nieuwsbrieven</li>
+        <li><strong>Mailgun</strong> &mdash; verwerking en verzending van contactformulieren en notificaties</li>
         <li><strong>Google Analytics</strong> &mdash; websiteanalyse (alleen met jouw toestemming)</li>
       </ul>
       <p>

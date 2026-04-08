@@ -1,9 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { z } from "zod/v4";
-
-const WEB3FORMS_KEY = process.env.WEB3FORMS_ACCESS_KEY ?? "";
-const CONTACT_TO = process.env.CONTACT_EMAIL || "info@vinoperlei.nl";
+import { isMailgunConfigured, sendMail } from "@/lib/mailgun";
 
 const contactSchema = z.object({
   naam: z.string().min(2, "Naam is te kort").max(200, "Naam is te lang"),
@@ -43,37 +41,27 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true });
     }
 
-    if (!WEB3FORMS_KEY) {
-      console.warn(
-        "[contact] Web3Forms is niet geconfigureerd — WEB3FORMS_ACCESS_KEY ontbreekt. " +
-        "Maak een account op web3forms.com en stel de key in."
-      );
+    if (!isMailgunConfigured()) {
+      console.warn("[contact] Mailgun niet geconfigureerd — MAILGUN_API_KEY of MAILGUN_DOMAIN ontbreekt.");
       return NextResponse.json(
         { error: "E-mail service is nog niet geconfigureerd" },
         { status: 503 },
       );
     }
 
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        access_key: WEB3FORMS_KEY,
-        subject: `Vino per Lei — ${onderwerp}`,
-        from_name: naam,
-        replyto: email,
-        to: CONTACT_TO,
-        naam,
-        email,
-        onderwerp,
+    const ok = await sendMail({
+      subject: `Vino per Lei — ${onderwerp}`,
+      replyTo: email,
+      text: [
+        `Naam: ${naam}`,
+        `E-mail: ${email}`,
+        `Onderwerp: ${onderwerp}`,
+        "",
         bericht,
-      }),
+      ].join("\n"),
     });
 
-    const data = await response.json();
-
-    if (!response.ok || !data.success) {
-      console.error("Web3Forms send error:", data);
+    if (!ok) {
       return NextResponse.json(
         { error: "Verzending mislukt. Probeer het later opnieuw." },
         { status: 500 },
