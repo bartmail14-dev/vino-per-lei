@@ -32,7 +32,6 @@ export interface SiteSettings {
   btw: string;
   instagramUrl: string;
   facebookUrl: string;
-  pinterestUrl: string;
   hoursWeekday: string;
   hoursSaturday: string;
   hoursSunday: string;
@@ -194,7 +193,6 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     btw: f.btw || '',
     instagramUrl: f.instagram_url || '',
     facebookUrl: f.facebook_url || '',
-    pinterestUrl: f.pinterest_url || '',
     hoursWeekday: f.hours_weekday || '09:00 - 17:00',
     hoursSaturday: f.hours_saturday || 'Gesloten',
     hoursSunday: f.hours_sunday || 'Gesloten',
@@ -465,7 +463,6 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   btw: 'NL005360033B10',
   instagramUrl: 'https://instagram.com/vinoperlei',
   facebookUrl: 'https://facebook.com/vinoperlei',
-  pinterestUrl: 'https://pinterest.com/vinoperlei',
   hoursWeekday: '09:00 - 17:00',
   hoursSaturday: '10:00 - 14:00',
   hoursSunday: 'Gesloten',

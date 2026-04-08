@@ -24,7 +24,7 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
   const regionCounts: Record<string, number> = {};
   const typeCounts: Record<string, number> = {};
   const grapeCounts: Record<string, number> = {};
-  const priceBuckets = { "10-15": 0, "15-20": 0, "20-30": 0, "30-50": 0, "50+": 0 };
+  const priceBuckets = { "15-20": 0, "20-30": 0, "30-50": 0, "50+": 0 };
   const alcoholBuckets = { "light": 0, "medium": 0, "full": 0 };
 
   products.forEach((p) => {
@@ -33,8 +33,7 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
     p.grapeVarieties.forEach((g) => {
       grapeCounts[g] = (grapeCounts[g] || 0) + 1;
     });
-    if (p.price < 15) priceBuckets["10-15"]++;
-    else if (p.price < 20) priceBuckets["15-20"]++;
+    if (p.price < 20) priceBuckets["15-20"]++;
     else if (p.price < 30) priceBuckets["20-30"]++;
     else if (p.price < 50) priceBuckets["30-50"]++;
     else priceBuckets["50+"]++;
@@ -95,7 +94,6 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
   }
 
   const priceOptions = [
-    { value: "10-15", label: "€10 - €15", count: priceBuckets["10-15"] },
     { value: "15-20", label: "€15 - €20", count: priceBuckets["15-20"] },
     { value: "20-30", label: "€20 - €30", count: priceBuckets["20-30"] },
     { value: "30-50", label: "€30 - €50", count: priceBuckets["30-50"] },
@@ -241,7 +239,6 @@ export function WijnenContent({ products }: { products: Product[] }) {
       result = result.filter((p) => {
         const price = p.price;
         return activeFilters.price!.some((range) => {
-          if (range === "10-15") return price >= 10 && price < 15;
           if (range === "15-20") return price >= 15 && price < 20;
           if (range === "20-30") return price >= 20 && price < 30;
           if (range === "30-50") return price >= 30 && price < 50;

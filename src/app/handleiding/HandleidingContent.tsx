@@ -114,14 +114,15 @@ const sections: Section[] = [
         title: "Ga naar Producten",
         description:
           'Log in op het Shopify beheerpaneel en klik in het linker menu op "Products". Je ziet hier een overzicht van al je wijnen met naam, prijs, voorraad en status.',
-        screenshot: "/handleiding/producten-overzicht.webp",
-        websiteScreenshot: "/handleiding/website-producten.webp",
-        websiteCaption: "Zo zien je producten eruit op de website — titel, prijs, foto en badge komen allemaal uit Shopify",
+        screenshot: "/handleiding/admin-producten-overzicht.webp",
+        websiteScreenshot: "/handleiding/website-producten-grid.webp",
+        websiteCaption: "Zo zien je producten eruit op de website — het productgrid met filters en regio-kaart",
       },
       {
         title: "Nieuw product toevoegen",
         description:
           'Klik rechtsboven op de knop "Add product". Je krijgt een formulier te zien waar je alle gegevens van de wijn kunt invullen.',
+        screenshot: "/handleiding/admin-product-nieuw.webp",
         websiteScreenshot: "/handleiding/website-product-detail.webp",
         websiteCaption: "Dit is hoe een productpagina eruitziet — titel, beschrijving en foto worden direct overgenomen",
         tip: "Vul altijd een titel, beschrijving, prijs en minimaal 1 foto in. Zonder foto wordt het product niet goed getoond op de website.",
@@ -131,11 +132,16 @@ const sections: Section[] = [
         description:
           "Vul de volgende velden in voor elk product:\n\nTitle — Naam van de wijn (bijv. \"Barolo DOCG 2019\")\nDescription — Beschrijving met smaakprofiel en verhaal\nMedia — Upload minimaal 1 foto (bij voorkeur 800x800px of groter)\nPricing — Verkoopprijs inclusief BTW\nInventory — Hoeveel flessen je op voorraad hebt\nProduct type — \"Rode wijn\", \"Witte wijn\", \"Rosé\" of \"Mousserende wijn\"\nTags — Voeg tags toe voor regio (bijv. \"piemonte\") en druif (bijv. \"nebbiolo\")\n\nKlik daarna op \"Save\" rechtsboven.",
         screenshot: "/handleiding/product-velden.webp",
+        websiteScreenshot: "/handleiding/website-product-detail.webp",
+        websiteCaption: "Zo ziet een productpagina eruit — titel, beschrijving, prijs en foto worden direct overgenomen uit Shopify",
       },
       {
         title: "Prijs of voorraad snel wijzigen",
         description:
-          'Wil je alleen de prijs of voorraad aanpassen? Open het product, wijzig het gewenste veld en klik op "Save". Je hoeft niet alle velden opnieuw in te vullen.',
+          'Wil je alleen de prijs of voorraad aanpassen? Open het product, wijzig het gewenste veld en klik op "Save". Je hoeft niet alle velden opnieuw in te vullen.\n\nScroll naar beneden om de prijs- en voorraadvelden te vinden. Bij "Inventory" kun je de voorraad bijhouden — Shopify telt automatisch af bij elke bestelling.',
+        screenshot: "/handleiding/admin-product-prijs-voorraad.webp",
+        websiteScreenshot: "/handleiding/website-producten.webp",
+        websiteCaption: "De wijnenpagina toont altijd de actuele prijs — wijzigingen in Shopify worden automatisch overgenomen",
         tip: "De website wordt automatisch bijgewerkt. Het kan maximaal een paar minuten duren voordat de wijziging zichtbaar is.",
       },
     ],
@@ -151,13 +157,13 @@ const sections: Section[] = [
         title: "Ga naar Content",
         description:
           'Klik in het linker menu op "Content" en daarna op "Metaobjects". Hier staan alle aanpasbare teksten van de website, gegroepeerd per type.',
-        screenshot: "/handleiding/content-metaobjects.webp",
+        screenshot: "/handleiding/admin-content-metaobjects.webp",
       },
       {
         title: "Hero tekst aanpassen (de grote banner)",
         description:
           'Klik op "Homepage Hero" en open de entry genaamd "main". Hier kun je de volgende teksten aanpassen:\n\nSubtitel — de kleine tekst boven de titel\nTitel regel 1 — eerste regel van de grote titel\nTitel regel 2 — tweede regel (wordt in goud getoond)\nBeschrijving — de tekst onder de titel\nKnopteksten — de tekst op de twee knoppen\nKnoplinks — waar de knoppen naartoe linken',
-        screenshot: "/handleiding/homepage-hero.webp",
+        screenshot: "/handleiding/admin-homepage-hero-entry.webp",
         websiteScreenshot: "/handleiding/website-hero.webp",
         websiteCaption: "De hero-tekst is het eerste wat bezoekers zien — de grote banner met titel en knoppen",
         tip: "Wijzigingen zijn binnen 1 uur zichtbaar op de website.",
@@ -166,7 +172,7 @@ const sections: Section[] = [
         title: "Announcement Bar (meldingsbalk bovenaan)",
         description:
           'De gekleurde balk helemaal bovenaan de website. Ga naar "Content" \u2192 "Metaobjects" \u2192 "Announcement Bar" \u2192 "main".\n\nMessage — de tekst die wordt getoond\nEnabled — aan/uit schakelaar\nLink — optioneel: waar de balk naartoe linkt als je erop klikt',
-        screenshot: "/handleiding/announcement-bar.webp",
+        screenshot: "/handleiding/admin-announcement-bar-entry.webp",
         websiteScreenshot: "/handleiding/website-announcement-bar.webp",
         websiteCaption: "De meldingsbalk bovenaan de website — de tekst en link komen uit Shopify",
         tip: "Handig voor seizoensacties, kortingscodes of belangrijke mededelingen. Zet \"Enabled\" op uit als je de balk tijdelijk wilt verbergen.",
@@ -175,9 +181,9 @@ const sections: Section[] = [
         title: "USP punten (vertrouwensbalk)",
         description:
           'De balk met vertrouwenspunten onder de hero (bijv. "Gratis verzending", "Veilig betalen"). Ga naar "Content" \u2192 "Metaobjects" \u2192 "USP Item".\n\nElke entry heeft een titel, subtitel, icoon en volgorde. Je kunt bestaande aanpassen of nieuwe toevoegen.',
-        screenshot: "/handleiding/usp-items.webp",
-        websiteScreenshot: "/handleiding/website-usp-balk.webp",
-        websiteCaption: "De USP-balk op de website — iconen en teksten komen uit Shopify",
+        screenshot: "/handleiding/admin-usp-item-entry.webp",
+        websiteScreenshot: "/handleiding/website-kaart.webp",
+        websiteCaption: "De Italië-kaart sectie op de homepage — USP-balk, favorieten en wijngebieden in beeld",
       },
     ],
   },
@@ -192,6 +198,7 @@ const sections: Section[] = [
         title: "Reviews vinden in Shopify",
         description:
           'Ga naar "Content" \u2192 "Metaobjects" \u2192 "Testimonial". Hier staan de klantreviews die in het \"Reacties van de proeverij\"-blok op de homepage worden getoond.\n\nEr staan standaard 3 voorbeeldreviews klaar. Deze kun je aanpassen naar echte reacties zodra je die hebt.',
+        screenshot: "/handleiding/admin-testimonial-overzicht.webp",
         websiteScreenshot: "/handleiding/website-reviews.webp",
         websiteCaption: "De klantervaringen op de homepage — sterren, naam en wijn komen uit Shopify",
       },
@@ -199,12 +206,16 @@ const sections: Section[] = [
         title: "Een review toevoegen",
         description:
           'Klik rechtsboven op "Add entry" en vul de volgende velden in:\n\nNaam klant — bijv. "Marloes V." (gebruik alleen een voorletter van de achternaam voor privacy)\nReview tekst — wat de klant heeft gezegd\nSterren (1-5) — de beoordeling (5 = beste)\nWijn — welke wijn het betreft (bijv. "Barolo 2019")\nBron — waar de review vandaan komt (bijv. "Google Review", "Na aankoop", "Proeverij maart 2026")\nVolgorde — een nummer dat bepaalt in welke volgorde de reviews worden getoond (1 = eerste)\n\nKlik op "Save" om op te slaan.',
+        screenshot: "/handleiding/admin-testimonial-bewerken.webp",
+        websiteScreenshot: "/handleiding/website-reviews.webp",
+        websiteCaption: "Zo verschijnen reviews op de homepage — sterren, naam, wijn en bron worden direct overgenomen",
         tip: "Gebruik altijd echte reviews van echte klanten. Het vermelden van de bron (bijv. Google, na aankoop) maakt het geloofwaardiger.",
       },
       {
         title: "Een review bewerken of verwijderen",
         description:
           'Klik op een bestaande review om deze te openen en aan te passen. Om een review te verwijderen: open de review en klik onderaan op "Delete".\n\nDe website wordt automatisch bijgewerkt.',
+        screenshot: "/handleiding/admin-testimonial-bewerken.webp",
         tip: "Houd altijd minimaal 3 reviews actief. Dit geeft bezoekers meer vertrouwen.",
       },
     ],
@@ -228,6 +239,9 @@ const sections: Section[] = [
         title: "Cijfers zelf instellen",
         description:
           'Ga naar "Content" \u2192 "Metaobjects" \u2192 "Homepage Cijfer". Hier kun je entries aanmaken of bewerken.\n\nGetal — het nummer (bijv. "12")\nPrefix — optioneel: tekst voor het getal (bijv. "< " wordt dan "< 48")\nSuffix — optioneel: tekst na het getal (bijv. "+" wordt dan "12+")\nLabel — de beschrijving onder het getal (bijv. "Familieproducenten")\nVolgorde — welk cijfer eerst komt (1, 2, 3, 4)',
+        screenshot: "/handleiding/admin-homepage-cijfer-entry.webp",
+        websiteScreenshot: "/handleiding/website-cijfers.webp",
+        websiteCaption: "De cijfers op de homepage — elk getal, prefix/suffix en label komen uit de Shopify entries",
         tip: "Houd het bij 4 cijfers voor de beste weergave op zowel desktop als mobiel.",
       },
     ],
@@ -251,6 +265,9 @@ const sections: Section[] = [
         title: "Vraag bewerken of toevoegen",
         description:
           'Klik op een bestaande vraag om deze aan te passen, of klik op "Add entry" voor een nieuwe.\n\nCategorie — de groep (bijv. "Bestellen", "Verzending", "Retourneren")\nVraag — de veelgestelde vraag\nAntwoord — het antwoord op de vraag\nVolgorde — het nummer bepaalt de positie (1 = bovenaan)',
+        screenshot: "/handleiding/admin-faq-overzicht.webp",
+        websiteScreenshot: "/handleiding/website-faq-items.webp",
+        websiteCaption: "Zo zien de FAQ-vragen eruit op de website — elke vraag klapt open met het antwoord",
         tip: "Groepeer vragen per categorie (Bestellen, Betalen, Verzending, etc.). De website toont ze automatisch per groep.",
       },
     ],
@@ -274,6 +291,7 @@ const sections: Section[] = [
         title: "Categorie aanpassen",
         description:
           'Open een categorie om de naam of beschrijving te wijzigen.\n\nNaam — de titel van het blok\nBeschrijving — korte tekst onder de titel\nLink — waar het blok naartoe linkt (bijv. "/wijnen?type=red")\nIcoon type — bepaalt het icoon en de kleur (red, white, rose, sparkling, gift)\nVolgorde — de positie op de homepage',
+        screenshot: "/handleiding/admin-categorie-blok-entry.webp",
       },
     ],
   },
@@ -293,16 +311,19 @@ const sections: Section[] = [
       {
         title: "Bedrijfsgegevens aanpassen",
         description:
-          "De volgende gegevens verschijnen automatisch in de footer, op de contactpagina en in juridische teksten:\n\nBedrijfsnaam — \"Vino per Lei\"\nEigenaar — jouw naam\nE-mail — je e-mailadres\nStraat + huisnr — je adres\nPostcode en Plaats\nKvK-nummer en BTW-nummer\nOpeningstijden — voor de contactpagina\nSocial media URLs — Instagram, Facebook, Pinterest",
-        screenshot: "/handleiding/bedrijfsgegevens.webp",
-        websiteScreenshot: "/handleiding/website-bedrijfsgegevens.webp",
-        websiteCaption: "De contactgegevens en KvK/BTW-info in de footer worden automatisch overgenomen uit deze instellingen",
+          "De volgende gegevens verschijnen automatisch in de footer, op de contactpagina en in juridische teksten:\n\nBedrijfsnaam — \"Vino per Lei\"\nEigenaar — jouw naam\nE-mail — je e-mailadres\nStraat + huisnr — je adres\nPostcode en Plaats\nKvK-nummer en BTW-nummer\nOpeningstijden — voor de contactpagina\nSocial media URLs — Instagram, Facebook",
+        screenshot: "/handleiding/admin-site-instellingen-entry.webp",
+        websiteScreenshot: "/handleiding/website-footer.webp",
+        websiteCaption: "De volledige footer met contactgegevens, KvK/BTW-info en betaalmethodes — alles wordt overgenomen uit deze instellingen",
         tip: "Controleer of je KvK-nummer en BTW-nummer correct zijn — deze verschijnen in de footer.",
       },
       {
         title: "Verzenddrempel & kosten",
         description:
           'De velden "Gratis verzending drempel" en "Verzendkosten" bepalen wanneer klanten gratis verzending krijgen en wat de standaard verzendkosten zijn.\n\nMomenteel: gratis vanaf \u20AC35, anders \u20AC4,95.',
+        screenshot: "/handleiding/admin-site-instellingen.webp",
+        websiteScreenshot: "/handleiding/website-verzending.webp",
+        websiteCaption: "De verzendpagina toont automatisch de juiste drempel en kosten uit deze instellingen",
         tip: 'Pas je de drempel aan naar bijv. \u20AC50? Dan verandert dit automatisch overal op de website \u2014 in de winkelwagen, checkout, en de "Gratis verzending" teksten.',
       },
     ],
@@ -317,14 +338,18 @@ const sections: Section[] = [
       {
         title: "Blog overzicht",
         description:
-          'Ga naar "Online Store" \u2192 "Blog Posts" in het linkermenu. Hier staan alle gepubliceerde en concept-artikelen.\n\nDe nieuwste 3 artikelen worden automatisch op de homepage getoond in het "Achter het etiket" blok.',
-        websiteScreenshot: "/handleiding/website-blog.webp",
-        websiteCaption: "De blog op de website \u2014 titel, samenvatting en afbeelding komen uit Shopify",
+          'Ga naar "Online Store" \u2192 "Blog Posts" in het linkermenu. Hier staan alle gepubliceerde en concept-artikelen.\n\nDe nieuwste 3 artikelen worden automatisch op de homepage getoond in het "Achter het etiket" blok. Daaronder staat de nieuwsbrief-aanmelding.',
+        screenshot: "/handleiding/admin-blog-nieuw.webp",
+        websiteScreenshot: "/handleiding/website-nieuwsbrief.webp",
+        websiteCaption: "De blog en nieuwsbrief sectie op de website \u2014 artikelen en aanmeldformulier komen samen in beeld",
       },
       {
         title: "Nieuw artikel schrijven",
         description:
           'Klik op "Create blog post" en vul de velden in:\n\nTitle \u2014 een pakkende titel (bijv. "Barolo: de Koning der Wijnen")\nContent \u2014 schrijf je artikel in de teksteditor. Je kunt koppen, lijsten, afbeeldingen en links gebruiken.\nExcerpt \u2014 een korte samenvatting (1-2 zinnen, verschijnt op de homepage en blogpagina)\nFeatured Image \u2014 een mooie hoofdafbeelding\nTags \u2014 voeg tags toe (bijv. "piemonte", "wijnkennis") voor filtering\n\nZet de status op "Active" en klik op "Save" om te publiceren.',
+        screenshot: "/handleiding/admin-blog-nieuw.webp",
+        websiteScreenshot: "/handleiding/website-blog-pagina.webp",
+        websiteCaption: "De blogpagina op de website — alle gepubliceerde artikelen met afbeelding en samenvatting",
         tip: "Een goede afbeelding maakt een artikel veel aantrekkelijker. Gebruik minimaal 1200x630px voor een scherpe weergave op alle apparaten.",
       },
     ],
@@ -340,6 +365,7 @@ const sections: Section[] = [
         title: "Overzicht van alle pagina's",
         description:
           'Ga naar "Online Store" \u2192 "Pages" in het linkermenu. De website leest de inhoud van de volgende pagina\'s uit Shopify:\n\nprivacybeleid \u2014 Privacybeleid (AVG/GDPR)\nalgemene-voorwaarden \u2014 Algemene Voorwaarden\ncookiebeleid \u2014 Cookiebeleid met cookietabel\nover-ons \u2014 Het verhaal van Vino per Lei\nverzending-levering \u2014 Informatie over verzending\nretourbeleid \u2014 Retourvoorwaarden\n\nAls een pagina nog niet bestaat, wordt er automatisch een standaardtekst getoond.',
+        screenshot: "/handleiding/admin-paginas.webp",
         websiteScreenshot: "/handleiding/website-over-ons.webp",
         websiteCaption: "De Over Ons pagina — de tekst wordt uit Shopify Pages geladen",
         tip: "Je hoeft niet alle pagina's meteen aan te maken. De standaardteksten zijn juridisch correct en geschreven voor Vino per Lei.",
@@ -348,6 +374,9 @@ const sections: Section[] = [
         title: "Een pagina aanmaken of bewerken",
         description:
           'Klik op "Add page" om een nieuwe pagina te maken, of klik op een bestaande pagina om deze te bewerken.\n\nBelangrijk: de \"handle\" (de URL-naam) moet exact overeenkomen met de naam hierboven. Je vindt de handle onder \"Search engine listing\" \u2192 \"URL and handle\" onderaan het formulier.\n\nSchrijf de inhoud in de rich text editor \u2014 je kunt koppen, alinea\'s, lijsten, links en afbeeldingen gebruiken. Klik op "Save" als je klaar bent.',
+        screenshot: "/handleiding/admin-paginas.webp",
+        websiteScreenshot: "/handleiding/website-voorwaarden.webp",
+        websiteCaption: "Zo ziet een juridische pagina eruit op de website — de tekst wordt uit Shopify Pages geladen",
         tip: "Wijzigingen zijn binnen 1 uur zichtbaar op de website. Bij twijfel over juridische teksten: raadpleeg een jurist.",
       },
     ],
@@ -363,12 +392,13 @@ const sections: Section[] = [
         title: "Orders overzicht",
         description:
           'Klik in het linker menu op "Orders". Je ziet een overzicht van alle bestellingen met:\n\n\u2022 Ordernummer en datum\n\u2022 Naam en adres van de klant\n\u2022 Betaalstatus (betaald/openstaand)\n\u2022 Verzendstatus (niet verzonden/verzonden/afgeleverd)\n\u2022 Totaalbedrag',
-        screenshot: "/handleiding/orders-overzicht.webp",
+        screenshot: "/handleiding/admin-orders.webp",
       },
       {
         title: "Bestelling inzien en verzenden",
         description:
           "Klik op een bestelling om de details te bekijken. Je ziet welke producten zijn besteld, het afleveradres en de betaalstatus.\n\nWanneer je een bestelling hebt ingepakt en verzonden:\n1. Open de bestelling\n2. Klik op \"Fulfill items\" (of \"Verzenden\")\n3. Vul het Track & Trace nummer in (optioneel)\n4. Klik op \"Fulfill\" \u2014 de klant krijgt automatisch een e-mail",
+        screenshot: "/handleiding/admin-bestellingen.webp",
         tip: "Je hoeft betalingen niet handmatig te verwerken. Die worden automatisch afgehandeld via de checkout.",
       },
     ],
@@ -384,6 +414,9 @@ const sections: Section[] = [
         title: "Verzendtarieven in Shopify",
         description:
           'Ga naar "Settings" (tandwiel linksonder) \u2192 "Shipping and delivery". Hier kun je verzendtarieven en -zones instellen voor de checkout.\n\nDit zijn de tarieven die Shopify berekent bij het afrekenen. De website toont apart de gratis verzenddrempel en standaard verzendkosten die je instelt via Site Instellingen (zie die sectie hierboven).',
+        screenshot: "/handleiding/admin-verzending.webp",
+        websiteScreenshot: "/handleiding/website-verzending.webp",
+        websiteCaption: "De verzendpagina op de website — bezoekers zien hier de verzendvoorwaarden en levertijden",
         tip: "Zorg dat de tarieven in Shopify Shipping overeenkomen met wat je instelt in Site Instellingen. Beide moeten hetzelfde bedrag en dezelfde gratis-drempel gebruiken.",
       },
     ],
