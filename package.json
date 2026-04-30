@@ -27,7 +27,8 @@
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "zod": "^4.3.6",
-    "zustand": "^5.0.11"
+    "zustand": "^5.0.11",
+    "sharp": "^0.34.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -41,7 +42,6 @@
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "playwright": "^1.58.1",
-    "sharp": "^0.34.5",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"

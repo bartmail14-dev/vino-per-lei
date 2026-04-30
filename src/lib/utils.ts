@@ -83,35 +83,46 @@ export function optimizeShopifyImage(
 }
 
 /**
+ * Generate a background-removal API URL for a Shopify product image.
+ * The API route fetches the image, removes the background via flood-fill,
+ * and returns a transparent PNG cached for 1 year on Vercel CDN.
+ */
+export function removeBgUrl(shopifyUrl: string): string {
+  if (!shopifyUrl || !shopifyUrl.includes("cdn.shopify.com")) return shopifyUrl;
+  return `/api/remove-bg?url=${encodeURIComponent(shopifyUrl)}`;
+}
+
+/**
  * Preset image sizes for consistent wine bottle display.
- * Call these in components to get optimized Shopify CDN URLs.
+ * Product images are routed through /api/remove-bg for transparent backgrounds.
+ * Non-product images (OG) use Shopify CDN directly.
  */
 export const wineImagePresets = {
   /** ProductCard thumbnail (small grid) */
   card: (url: string) =>
-    optimizeShopifyImage(url, { width: 400, height: 600, crop: "center" }),
+    removeBgUrl(optimizeShopifyImage(url, { width: 400, height: 600, crop: "center" })),
 
   /** ProductCard large (hover/detail) */
   cardLarge: (url: string) =>
-    optimizeShopifyImage(url, { width: 600, height: 900, crop: "center" }),
+    removeBgUrl(optimizeShopifyImage(url, { width: 600, height: 900, crop: "center" })),
 
   /** Product detail hero image */
   hero: (url: string) =>
-    optimizeShopifyImage(url, { width: 800, height: 1200, crop: "center" }),
+    removeBgUrl(optimizeShopifyImage(url, { width: 800, height: 1200, crop: "center" })),
 
   /** Product detail thumbnail gallery */
   thumbnail: (url: string) =>
-    optimizeShopifyImage(url, { width: 120, height: 180, crop: "center" }),
+    removeBgUrl(optimizeShopifyImage(url, { width: 120, height: 180, crop: "center" })),
 
   /** Cart/checkout small preview */
   cart: (url: string) =>
-    optimizeShopifyImage(url, { width: 160, height: 240, crop: "center" }),
+    removeBgUrl(optimizeShopifyImage(url, { width: 160, height: 240, crop: "center" })),
 
-  /** OG image / social share */
+  /** OG image / social share — no bg removal (needs solid background for social) */
   og: (url: string) =>
     optimizeShopifyImage(url, { width: 1200, height: 630, crop: "center" }),
 
   /** Mobile card — smaller for faster LCP on mobile devices */
   cardMobile: (url: string) =>
-    optimizeShopifyImage(url, { width: 200, height: 300, crop: "center" }),
+    removeBgUrl(optimizeShopifyImage(url, { width: 200, height: 300, crop: "center" })),
 } as const;
