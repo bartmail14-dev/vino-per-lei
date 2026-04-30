@@ -10,7 +10,6 @@ import {
   FoodPairingGallery,
   WineDetailsAccordion,
   RegionSpotlight,
-  ReviewSection,
   ProductCarousel,
 } from "@/components/product";
 import { useCartStore } from "@/stores/cartStore";
@@ -255,13 +254,6 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
               </p>
             </div>
           </div>
-        </div>
-      </Section>
-
-      {/* Reviews */}
-      <Section background="warm" spacing="md" className="sm:py-12">
-        <div className="max-w-5xl mx-auto">
-          <ReviewSection product={product} />
         </div>
       </Section>
 
