@@ -3,8 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const runtime = "nodejs";
 export const maxDuration = 30;
 
-const WORKER_URL = process.env.BG_WORKER_URL || "https://unique-light-production-8e88.up.railway.app";
-const WORKER_KEY = process.env.BG_WORKER_KEY || "";
+const REMOVE_BG_API_KEY = process.env.REMOVE_BG_API_KEY || "";
 
 export async function GET(request: NextRequest) {
   const url = request.nextUrl.searchParams.get("url");
@@ -16,16 +15,32 @@ export async function GET(request: NextRequest) {
     );
   }
 
-  try {
-    // Proxy to Railway ONNX worker
-    const workerUrl = `${WORKER_URL}/remove-bg?url=${encodeURIComponent(url)}`;
-    const headers: Record<string, string> = {};
-    if (WORKER_KEY) headers["x-api-key"] = WORKER_KEY;
+  if (!REMOVE_BG_API_KEY) {
+    console.error("REMOVE_BG_API_KEY not configured, serving original image");
+    return proxyOriginal(url);
+  }
 
-    const response = await fetch(workerUrl, { headers });
+  try {
+    // Call remove.bg API with image URL
+    const response = await fetch("https://api.remove.bg/v1.0/removebg", {
+      method: "POST",
+      headers: {
+        "X-Api-Key": REMOVE_BG_API_KEY,
+        "Content-Type": "application/json",
+        Accept: "image/png",
+      },
+      body: JSON.stringify({
+        image_url: url,
+        size: "auto",
+        type: "product",
+        format: "png",
+        channels: "rgba",
+      }),
+    });
 
     if (!response.ok) {
-      throw new Error(`Worker returned ${response.status}`);
+      const errorText = await response.text();
+      throw new Error(`remove.bg API returned ${response.status}: ${errorText}`);
     }
 
     const buffer = Buffer.from(await response.arrayBuffer());
@@ -39,22 +54,25 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error("Background removal failed:", error);
+    return proxyOriginal(url);
+  }
+}
 
-    // Fallback: proxy original image without processing
-    try {
-      const fallback = await fetch(url);
-      const fallbackBuffer = Buffer.from(await fallback.arrayBuffer());
-      return new NextResponse(new Uint8Array(fallbackBuffer), {
-        headers: {
-          "Content-Type": fallback.headers.get("Content-Type") || "image/jpeg",
-          "Cache-Control": "public, max-age=3600",
-        },
-      });
-    } catch {
-      return NextResponse.json(
-        { error: "Image processing failed" },
-        { status: 500 }
-      );
-    }
+/** Fallback: proxy original image without processing */
+async function proxyOriginal(url: string) {
+  try {
+    const fallback = await fetch(url);
+    const fallbackBuffer = Buffer.from(await fallback.arrayBuffer());
+    return new NextResponse(new Uint8Array(fallbackBuffer), {
+      headers: {
+        "Content-Type": fallback.headers.get("Content-Type") || "image/jpeg",
+        "Cache-Control": "public, max-age=3600",
+      },
+    });
+  } catch {
+    return NextResponse.json(
+      { error: "Image processing failed" },
+      { status: 500 }
+    );
   }
 }

@@ -84,7 +84,7 @@ export function optimizeShopifyImage(
 
 /**
  * Generate a background-removal API URL for a Shopify product image.
- * Proxies through /api/remove-bg which forwards to Railway ONNX worker.
+ * Proxies through /api/remove-bg which calls the remove.bg API.
  */
 export function removeBgUrl(shopifyUrl: string): string {
   if (!shopifyUrl || !shopifyUrl.includes("cdn.shopify.com")) return shopifyUrl;
