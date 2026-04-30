@@ -1,0 +1,27 @@
+{
+  "name": "vpl-image-worker",
+  "version": "1.0.0",
+  "description": "ONNX U2Net background removal microservice for Vino per Lei",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "download-model": "node dist/download-model.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "onnxruntime-node": "^1.20.0",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

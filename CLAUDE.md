@@ -1,9 +1,9 @@
 # Vino per Lei — Claude Code Instructies
 
 ## EERSTE ACTIE VOLGENDE SESSIE
-**LEES `VOLGENDE-SESSIE.md` EERST** — bevat complete overdracht + stappen.
+**LEES `VOLGENDE-SESSIE.md` EERST** — bevat complete overdracht + copy-paste instructie.
 
-Prioriteit: inventory tracking (15 producten) + "Cadeaus" uit CMS verwijderen + admin screenshots handleiding. Bart moet inloggen in Shopify Admin.
+Prioriteit: FULL AUDIT — alle flows testen (auth, producten, responsive, checkout), visuele issues fixen, Shopify API versie updaten, Carla's feedback verwerken.
 
 ## Project
 - **Locatie**: `C:\Users\BartVisser\Desktop\vino-per-lei`

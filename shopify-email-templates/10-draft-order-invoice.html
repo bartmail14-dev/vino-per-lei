@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vino per Lei</title>
+  <!--[if mso]><noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript><![endif]-->
+</head>
+<body style="margin:0;padding:0;background-color:#f5f0e8;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
+  <div style="display:none;font-size:1px;color:#f5f0e8;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">Bekijk en betaal je bestelling bij Vino per Lei.</div>
+  <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background-color:#f5f0e8;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 1px 12px rgba(26,31,61,0.06);">
+          <!-- Header -->
+          <tr>
+            <td style="background-color:#1a1f3d;padding:32px 40px;text-align:center;">
+              <a href="https://vinoperlei.nl" style="display:inline-block;text-decoration:none;">
+                <img src="https://raw.githubusercontent.com/bartmail14-dev/vpl-assets/master/logo-white.png" alt="Vino per Lei" width="120" height="120" style="display:block;width:120px;height:120px;margin:0 auto;">
+              </a>
+            </td>
+          </tr>
+          <!-- Content -->
+          <tr>
+            <td style="padding:36px 40px;">
+              <h1 style="margin:0 0 16px;color:#1a1f3d;font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:400;line-height:1.3;">Factuur voor je bestelling</h1>
+              <p style="margin:0 0 14px;color:#1a1a1a;font-size:15px;line-height:1.7;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Hoi {{ customer.first_name | default: "daar" }},</p>
+              <p style="margin:0 0 14px;color:#1a1a1a;font-size:15px;line-height:1.7;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Hieronder vind je de factuur voor je bestelling bij Vino per Lei. Via de knop kun je de betaling direct afronden.</p>
+              <!-- Line items -->
+              {% for line in line_items %}
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:10px 0;border-bottom:1px solid #e8e0d5;">
+                <tr>
+                  <td style="padding:10px 0;color:#1a1a1a;font-size:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">{{ line.title }} <span style="color:#6b6b6b;">&times; {{ line.quantity }}</span></td>
+                  <td style="padding:10px 0;color:#1a1a1a;font-size:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;text-align:right;">{{ line.price | money }}</td>
+                </tr>
+              </table>
+              {% endfor %}
+              <!-- Totals -->
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:20px 0;">
+                <tr>
+                  <td style="background-color:#faf9f7;border-radius:8px;padding:20px 24px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                      <tr>
+                        <td style="color:#1a1a1a;font-size:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding:4px 0;">Subtotaal</td>
+                        <td style="color:#1a1a1a;font-size:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding:4px 0;text-align:right;">{{ subtotal_price | money }}</td>
+                      </tr>
+                      {% if shipping_price %}
+                      <tr>
+                        <td style="color:#1a1a1a;font-size:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding:4px 0;">Verzending</td>
+                        <td style="color:#1a1a1a;font-size:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding:4px 0;text-align:right;">{{ shipping_price | money }}</td>
+                      </tr>
+                      {% endif %}
+                      {% if tax_price and tax_price != 0 %}
+                      <tr>
+                        <td style="color:#1a1a1a;font-size:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding:4px 0;">BTW</td>
+                        <td style="color:#1a1a1a;font-size:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding:4px 0;text-align:right;">{{ tax_price | money }}</td>
+                      </tr>
+                      {% endif %}
+                      <tr>
+                        <td colspan="2" style="height:1px;background:#e8e0d5;padding:0;"></td>
+                      </tr>
+                      <tr>
+                        <td style="color:#1a1f3d;font-size:16px;font-weight:700;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding:8px 0 0;">Totaal</td>
+                        <td style="color:#1a1f3d;font-size:16px;font-weight:700;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;padding:8px 0 0;text-align:right;">{{ total_price | money }}</td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:28px 0;">
+                <tr>
+                  <td style="background-color:#c9a227;border-radius:8px;">
+                    <a href="{{ invoice_url }}" style="display:inline-block;padding:14px 32px;color:#1a1f3d;font-size:14px;font-weight:700;text-decoration:none;letter-spacing:0.5px;text-transform:uppercase;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Betaal nu</a>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:0 0 14px;color:#1a1a1a;font-size:15px;line-height:1.7;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Heb je vragen over deze factuur? Reageer dan op deze mail.</p>
+              <!-- Signature -->
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:24px 0;">
+                <tr><td style="height:1px;background:linear-gradient(90deg, #e8e0d5, rgba(201,162,39,0.25), #e8e0d5);"></td></tr>
+              </table>
+              <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td>
+                    <p style="margin:0 0 2px;color:#6b6b6b;font-size:13px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Met warme groet,</p>
+                    <p style="margin:0 0 2px;color:#1a1f3d;font-family:Georgia,'Times New Roman',serif;font-size:17px;font-style:italic;">Carla Daniels</p>
+                    <p style="margin:0;color:#c9a227;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Vino per Lei</p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- Footer -->
+          <tr>
+            <td style="background-color:#1a1f3d;padding:32px 40px;text-align:center;">
+              <img src="https://raw.githubusercontent.com/bartmail14-dev/vpl-assets/master/logo-white.png" alt="Vino per Lei" width="48" height="48" style="display:block;width:48px;height:48px;margin:0 auto 14px;">
+              <p style="margin:0 0 12px;color:rgba(255,255,255,0.9);font-family:Georgia,'Times New Roman',serif;font-size:14px;font-style:italic;">Italiaanse wijnen, rechtstreeks van de producent</p>
+              <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 16px;">
+                <tr>
+                  <td style="padding:0 10px;"><a href="https://vinoperlei.nl" style="color:#c9a227;font-size:13px;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">vinoperlei.nl</a></td>
+                  <td style="color:rgba(255,255,255,0.3);font-size:13px;">|</td>
+                  <td style="padding:0 10px;"><a href="https://instagram.com/vinoperlei" style="color:#c9a227;font-size:13px;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Instagram</a></td>
+                </tr>
+              </table>
+              <p style="margin:0;color:rgba(255,255,255,0.4);font-size:11px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">&copy; 2026 Vino per Lei &mdash; Alle rechten voorbehouden</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
