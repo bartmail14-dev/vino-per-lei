@@ -84,12 +84,14 @@ export function optimizeShopifyImage(
 
 /**
  * Generate a background-removal API URL for a Shopify product image.
- * The API route fetches the image, removes the background via flood-fill,
- * and returns a transparent PNG cached for 1 year on Vercel CDN.
+ *
+ * DISABLED: flood-fill approach creates stripe artifacts on glass wine bottles.
+ * TODO: Re-enable after upgrading to ONNX U2Net model on Railway.
+ * The API route and background-removal.ts are preserved for the upgrade.
  */
 export function removeBgUrl(shopifyUrl: string): string {
-  if (!shopifyUrl || !shopifyUrl.includes("cdn.shopify.com")) return shopifyUrl;
-  return `/api/remove-bg?url=${encodeURIComponent(shopifyUrl)}`;
+  // Bypass bg-removal — return original Shopify CDN URL
+  return shopifyUrl;
 }
 
 /**

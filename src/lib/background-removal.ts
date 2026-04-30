@@ -96,7 +96,7 @@ export async function removeBackground(
   }
 
   // 3. Feather mask edges with Gaussian blur for anti-aliasing
-  let alphaMask = await sharp(Buffer.from(bgMask), {
+  const alphaMask = await sharp(Buffer.from(bgMask), {
     raw: { width, height, channels: 1 },
   })
     .blur(feather > 0.3 ? feather : 0.3)

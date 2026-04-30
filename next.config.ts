@@ -15,7 +15,6 @@ const nextConfig: NextConfig = {
     localPatterns: [
       {
         pathname: '/api/remove-bg**',
-        search: '?url=*',
       },
     ],
     formats: ['image/avif', 'image/webp'],
