@@ -7,8 +7,6 @@ import { NotifyMeModal } from "@/components/ui/NotifyMeModal";
 import {
   HeroSection,
   StickyPurchaseBar,
-  EnhancedTasteProfile,
-  TastingExperience,
   FoodPairingGallery,
   WineDetailsAccordion,
   RegionSpotlight,
@@ -27,9 +25,10 @@ import { useShopConfig } from "@/components/providers";
 interface ProductDetailClientProps {
   product: Product;
   relatedProducts: Product[];
+  activeRegionSlugs?: string[];
 }
 
-export function ProductDetailClient({ product, relatedProducts }: ProductDetailClientProps) {
+export function ProductDetailClient({ product, relatedProducts, activeRegionSlugs }: ProductDetailClientProps) {
   const heroRef = useRef<HTMLElement>(null);
   const [quantity, setQuantity] = useState(1);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -222,22 +221,6 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
         </div>
       </div>
 
-      {/* Enhanced Taste Profile */}
-      {product.tasteProfile && (
-        <Section background="default" spacing="md" className="sm:py-12">
-          <div className="max-w-5xl mx-auto">
-            <EnhancedTasteProfile product={product} />
-          </div>
-        </Section>
-      )}
-
-      {/* Tasting Experience */}
-      <Section background="warm" spacing="md" className="sm:py-12">
-        <div className="max-w-5xl mx-auto">
-          <TastingExperience product={product} />
-        </div>
-      </Section>
-
       {/* Food Pairing Gallery */}
       <Section background="default" spacing="md" className="sm:py-12">
         <div className="max-w-5xl mx-auto">
@@ -248,7 +231,7 @@ export function ProductDetailClient({ product, relatedProducts }: ProductDetailC
       {/* Region Spotlight - Hide on small mobile to reduce page length */}
       <Section background="warm" spacing="md" className="hidden sm:block sm:py-12">
         <div className="max-w-6xl mx-auto">
-          <RegionSpotlight product={product} />
+          <RegionSpotlight product={product} activeRegionSlugs={activeRegionSlugs} />
         </div>
       </Section>
 

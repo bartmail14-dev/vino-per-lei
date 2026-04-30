@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { getRegionBySvgId } from "@/lib/region-utils";
 import ItalyMap from "@svg-maps/italy";
 
 // Type for SVG map location
@@ -173,6 +174,7 @@ export interface ItalyWineMapProps {
   interactive?: boolean;
   size?: "sm" | "md" | "lg" | "full";
   selectedRegion?: string | null; // slug of selected region
+  activeRegionSlugs?: string[]; // slugs of regions with products — overrides hardcoded active flags
 }
 
 export function ItalyWineMap({
@@ -181,15 +183,29 @@ export function ItalyWineMap({
   interactive = true,
   size = "md",
   selectedRegion = null,
+  activeRegionSlugs,
 }: ItalyWineMapProps) {
   const router = useRouter();
   const [hoveredRegion, setHoveredRegion] = useState<WineRegionData | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
+  // Determine if a region is active: use dynamic slugs if provided, otherwise hardcoded flag
+  const isRegionActive = useCallback(
+    (regionId: string): boolean => {
+      const region = wineRegionData[regionId];
+      if (!region) return false;
+      if (activeRegionSlugs) {
+        return activeRegionSlugs.includes(region.slug);
+      }
+      return region.active;
+    },
+    [activeRegionSlugs]
+  );
+
   const handleRegionClick = useCallback(
     (regionId: string) => {
       const region = wineRegionData[regionId];
-      if (!region || !region.active) return;
+      if (!region || !isRegionActive(regionId)) return;
 
       if (onRegionClick) {
         onRegionClick(region);
@@ -197,7 +213,7 @@ export function ItalyWineMap({
         router.push(`/wijnen?region=${region.slug}`);
       }
     },
-    [onRegionClick, router]
+    [onRegionClick, router, isRegionActive]
   );
 
   const handleMouseMove = useCallback(
@@ -226,10 +242,10 @@ export function ItalyWineMap({
 
   const getRegionFill = (regionId: string, isHovered: boolean) => {
     const region = wineRegionData[regionId];
-    const isActive = region?.active || false;
+    const active = isRegionActive(regionId);
     const isSelected = region?.slug === selectedRegion;
 
-    if (!isActive) return "#e8e0d5"; // Sand color for inactive southern regions (visible but muted)
+    if (!active) return "#e8e0d5"; // Sand color for inactive regions (visible but muted)
 
     if (isSelected) {
       return "url(#wine-region-gradient)"; // Wine gradient for selected
@@ -244,10 +260,10 @@ export function ItalyWineMap({
 
   const getRegionStroke = (regionId: string, isHovered: boolean) => {
     const region = wineRegionData[regionId];
-    const isActive = region?.active || false;
+    const active = isRegionActive(regionId);
     const isSelected = region?.slug === selectedRegion;
 
-    if (!isActive) return "#d4cfc5"; // Visible border for inactive
+    if (!active) return "#d4cfc5"; // Visible border for inactive
 
     if (isSelected) {
       return "#c9a227"; // Gold for selected
@@ -288,7 +304,7 @@ export function ItalyWineMap({
         {(ItalyMap.locations as MapLocation[]).map((location) => {
           const regionData = wineRegionData[location.id];
           const isHovered = hoveredRegion?.id === location.id;
-          const isActive = regionData?.active || false;
+          const isActive = isRegionActive(location.id);
 
           return (
             <motion.path
@@ -307,7 +323,8 @@ export function ItalyWineMap({
               transition={{ duration: 0.2, ease: "easeOut" }}
               onMouseEnter={() => {
                 if (interactive && regionData && isActive) {
-                  setHoveredRegion(regionData);
+                  // Ensure tooltip shows correct active state
+                  setHoveredRegion({ ...regionData, active: true });
                 }
               }}
               onMouseLeave={() => {

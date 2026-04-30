@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "email:test": "tsx scripts/send-email-previews.ts",
     "shopify:setup": "tsx scripts/shopify-setup.ts",
     "shopify:definitions": "tsx scripts/shopify-metafield-definitions.ts",
     "shopify:redirect-theme": "tsx scripts/shopify-redirect-theme.ts"

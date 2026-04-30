@@ -11,7 +11,7 @@ function getClient() {
     }
     _client = createStorefrontApiClient({
       storeDomain: domain,
-      apiVersion: '2025-01',
+      apiVersion: '2026-01',
       publicAccessToken: token,
     });
   }
@@ -196,8 +196,8 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     hoursWeekday: f.hours_weekday || '09:00 - 17:00',
     hoursSaturday: f.hours_saturday || 'Gesloten',
     hoursSunday: f.hours_sunday || 'Gesloten',
-    freeShippingThreshold: parseFloat(f.gratis_verzending_drempel) || 35,
-    shippingCost: parseFloat(f.verzendkosten) || 4.95,
+    freeShippingThreshold: parseFloat(f.gratis_verzending_drempel) || 100,
+    shippingCost: parseFloat(f.verzendkosten) || 7.95,
   }));
 }
 
@@ -466,8 +466,8 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   hoursWeekday: '09:00 - 17:00',
   hoursSaturday: '10:00 - 14:00',
   hoursSunday: 'Gesloten',
-  freeShippingThreshold: 35,
-  shippingCost: 4.95,
+  freeShippingThreshold: 100,
+  shippingCost: 7.95,
 };
 
 export const DEFAULT_HERO: HeroContent = {
@@ -482,7 +482,7 @@ export const DEFAULT_HERO: HeroContent = {
 };
 
 export const DEFAULT_ANNOUNCEMENT: AnnouncementBar = {
-  message: 'Gratis verzending vanaf €35 — Italiaanse wijnen rechtstreeks van de producent',
+  message: 'Gratis verzending vanaf €100 — Italiaanse wijnen rechtstreeks van de producent',
   enabled: true,
   link: '/wijnen',
 };
@@ -643,8 +643,8 @@ export interface ShopConfig {
 }
 
 const DEFAULT_SHOP_CONFIG: ShopConfig = {
-  freeShippingThreshold: 35,
-  shippingCost: 4.95,
+  freeShippingThreshold: 100,
+  shippingCost: 7.95,
 };
 
 export async function getShopConfig(): Promise<ShopConfig> {

@@ -6,7 +6,6 @@ import { Logo } from "@/components/ui/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { ChevronDownIcon } from "@/components/icons";
-import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
 import { reopenCookieConsent } from "@/components/ui/CookieConsent";
 import type { SiteSettings } from "@/lib/shopify-cms";
 
@@ -207,31 +206,6 @@ function AccordionSection({ title, children }: AccordionSectionProps) {
 export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: FooterProps) {
   return (
     <footer>
-      {/* Newsletter Section — Full bleed wine gradient */}
-      <div className="relative overflow-hidden bg-wine-gradient">
-        {/* Decorative glows */}
-        <div className="absolute -right-32 -top-32 w-96 h-96 rounded-full bg-gold/8 blur-[100px]" />
-        <div className="absolute -left-24 -bottom-24 w-72 h-72 rounded-full bg-gold/5 blur-[80px]" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div className="lg:shrink-0">
-              <h2 className="font-serif text-xl sm:text-2xl text-white mb-1 leading-tight">
-                Blijf op de hoogte
-              </h2>
-              <p className="text-white/50 text-sm max-w-sm leading-relaxed">
-                Nieuwe wijnen, seizoenstips en af en toe een aanbieding.
-              </p>
-            </div>
-            <NewsletterForm
-              variant="dark"
-              layout="inline"
-              className="max-w-lg w-full lg:flex-1"
-            />
-          </div>
-        </div>
-      </div>
-
       {/* Main Footer — Warm beige paper texture */}
       <div className="relative bg-[#f0e8da] overflow-hidden">
         {/* Paper texture overlay */}
@@ -372,8 +346,6 @@ export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: Footer
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 text-[11px] text-wine/60 leading-relaxed">
               <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                 <span>&copy; {new Date().getFullYear()} {settings?.companyName || "Vino per Lei"}</span>
-                <span className="hidden sm:inline">·</span>
-                <span>{settings?.addressStreet || "Pastorielaan 56"}, {settings?.addressPostal || "5504 CR"} {settings?.addressCity || "Veldhoven"}</span>
                 <span className="hidden sm:inline">·</span>
                 <span>KvK: {settings?.kvk || "98874977"}</span>
                 <span className="hidden sm:inline">·</span>

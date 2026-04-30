@@ -17,43 +17,43 @@ interface HeaderProps {
   announcement?: AnnouncementBar;
   contactPhone?: string;
   contactEmail?: string;
+  regionLinks?: { label: string; href: string }[]; // Dynamic from Shopify products
 }
 
-// Navigation data
-// TODO: Footer links also need updating to use /wijnen?type=X pattern
-const wineCategories = {
-  type: [
-    { label: "Rode Wijn", href: "/wijnen?type=red" },
-    { label: "Witte Wijn", href: "/wijnen?type=white" },
-    { label: "Rosé", href: "/wijnen?type=rose" },
-    { label: "Mousserende", href: "/wijnen?type=sparkling" },
-  ],
-  region: [
-    { label: "Piemonte", href: "/wijnen?region=piemonte" },
-    { label: "Veneto", href: "/wijnen?region=veneto" },
-    { label: "Toscana", href: "/wijnen?region=toscana" },
-    { label: "Puglia", href: "/wijnen?region=puglia" },
-    { label: "Trentino-Alto Adige", href: "/wijnen?region=alto-adige" },
-    { label: "Friuli", href: "/wijnen?region=friuli" },
-  ],
-  popular: [
-    { label: "Bestsellers", href: "/wijnen?sort=bestsellers" },
-    { label: "Nieuw", href: "/wijnen?sort=nieuw" },
-    { label: "Aanbiedingen", href: "/wijnen?sale=true" },
-  ],
-  price: [
-    { label: "€10 - €20", href: "/wijnen?prijs=10-20" },
-    { label: "€20 - €30", href: "/wijnen?prijs=20-30" },
-    { label: "€30+", href: "/wijnen?prijs=30-999" },
-  ],
-};
+// Static navigation data
+const wineTypeLinks = [
+  { label: "Rode Wijn", href: "/wijnen?type=red" },
+  { label: "Witte Wijn", href: "/wijnen?type=white" },
+  { label: "Rosé", href: "/wijnen?type=rose" },
+  { label: "Mousserende wijn", href: "/wijnen?type=sparkling" },
+];
+
+const popularLinks = [
+  { label: "Bestsellers", href: "/wijnen?sort=bestsellers" },
+  { label: "Nieuw", href: "/wijnen?sort=nieuw" },
+  { label: "Aanbiedingen", href: "/wijnen?sale=true" },
+];
+
+const priceLinks = [
+  { label: "€15 - €20", href: "/wijnen?prijs=15-20" },
+  { label: "€20 - €30", href: "/wijnen?prijs=20-30" },
+  { label: "€30+", href: "/wijnen?prijs=30-999" },
+];
 
 const mainNavItems = [
   { label: "Wijnen", href: "/wijnen", hasMegaMenu: true },
   { label: "Over Ons", href: "/over-ons" },
 ];
 
-export function Header({ announcement, contactPhone, contactEmail }: HeaderProps) {
+// Fallback region links if none provided (e.g. during build without products)
+const defaultRegionLinks = [
+  { label: "Piemonte", href: "/wijnen?region=piemonte" },
+  { label: "Veneto", href: "/wijnen?region=veneto" },
+  { label: "Toscana", href: "/wijnen?region=toscana" },
+];
+
+export function Header({ announcement, contactPhone, contactEmail, regionLinks }: HeaderProps) {
+  const activeRegionLinks = regionLinks && regionLinks.length > 0 ? regionLinks : defaultRegionLinks;
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
@@ -199,7 +199,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center relative">
               <p className="text-xs sm:text-sm text-center pr-8 tracking-wide">
-                {announcement?.message || "Gratis verzending vanaf €35 — Italiaanse wijnen rechtstreeks van de producent"}
+                {announcement?.message || "Gratis verzending vanaf €100 — Italiaanse wijnen rechtstreeks van de producent"}
               </p>
               <button
                 onClick={dismissAnnouncement}
@@ -377,7 +377,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                   <div>
                     <h3 className="text-label text-grey mb-4">Wijntype</h3>
                     <ul className="space-y-2">
-                      {wineCategories.type.map((item) => (
+                      {wineTypeLinks.map((item) => (
                         <li key={item.label}>
                           <Link
                             href={item.href}
@@ -405,7 +405,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                   <div>
                     <h3 className="text-label text-grey mb-4">Regio</h3>
                     <ul className="space-y-2">
-                      {wineCategories.region.map((item) => (
+                      {activeRegionLinks.map((item) => (
                         <li key={item.label}>
                           <Link
                             href={item.href}
@@ -423,7 +423,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                   <div>
                     <h3 className="text-label text-grey mb-4">Populair</h3>
                     <ul className="space-y-2 mb-6">
-                      {wineCategories.popular.map((item) => (
+                      {popularLinks.map((item) => (
                         <li key={item.label}>
                           <Link
                             href={item.href}
@@ -437,7 +437,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                     </ul>
                     <h3 className="text-label text-grey mb-4">Prijs</h3>
                     <ul className="space-y-2">
-                      {wineCategories.price.map((item) => (
+                      {priceLinks.map((item) => (
                         <li key={item.label}>
                           <Link
                             href={item.href}
@@ -572,7 +572,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                       Wijntype
                                     </h4>
                                     <ul className="space-y-0.5">
-                                      {wineCategories.type.map((subItem, i) => (
+                                      {wineTypeLinks.map((subItem, i) => (
                                         <motion.li
                                           key={subItem.label}
                                           initial={{ opacity: 0, x: -10 }}
@@ -598,7 +598,7 @@ export function Header({ announcement, contactPhone, contactEmail }: HeaderProps
                                       Regio
                                     </h4>
                                     <ul className="space-y-0.5">
-                                      {wineCategories.region
+                                      {activeRegionLinks
                                         .slice(0, 4)
                                         .map((subItem, i) => (
                                           <motion.li

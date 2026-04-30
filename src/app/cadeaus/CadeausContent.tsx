@@ -166,7 +166,7 @@ interface CadeausContentProps {
   freeShippingThreshold?: number;
 }
 
-export function CadeausContent({ children, freeShippingThreshold = 35 }: CadeausContentProps) {
+export function CadeausContent({ children, freeShippingThreshold = 100 }: CadeausContentProps) {
   return (
     <div className="bg-background">
       {/* Hero — Immersive */}

@@ -60,7 +60,7 @@ interface VerzendingContentProps {
   shippingCost?: number;
 }
 
-export function VerzendingContent({ pageBody, pageTitle, freeShippingThreshold = 35, shippingCost = 4.95 }: VerzendingContentProps) {
+export function VerzendingContent({ pageBody, pageTitle, freeShippingThreshold = 100, shippingCost = 7.95 }: VerzendingContentProps) {
   const formattedCost = `€${shippingCost.toFixed(2).replace(".", ",")}`;
   const shippingCosts = [
     { description: `Bestelling tot €${freeShippingThreshold}`, cost: formattedCost },

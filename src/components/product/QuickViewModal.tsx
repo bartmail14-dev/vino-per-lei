@@ -5,11 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { type Product } from "@/types";
-import { Badge, Rating, PriceDisplay, QuantitySelector, TasteProfile, redWineTasteProfile, whiteWineTasteProfile, roseTasteProfile } from "@/components/ui";
+import { Badge, Rating, PriceDisplay, QuantitySelector } from "@/components/ui";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
 import { cn, wineImagePresets } from "@/lib/utils";
-import type { TasteProfileItem } from "@/components/ui";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { CloseIcon, HeartIcon, EyeIcon, CartIcon, CheckIcon, TruckIcon, ShieldIcon, LoadingSpinner } from "@/components/icons";
 import { useShopConfig } from "@/components/providers";
@@ -56,35 +55,6 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
       onClose();
     }, 1000);
   };
-
-  // Build taste profile
-  const tasteProfileItems: TasteProfileItem[] = product?.tasteProfile
-    ? (() => {
-        const baseProfile =
-          product.wineType === "red"
-            ? redWineTasteProfile
-            : product.wineType === "rose"
-            ? roseTasteProfile
-            : whiteWineTasteProfile;
-
-        return baseProfile.map((item) => {
-          let value = 3;
-          if (item.leftLabel.toLowerCase().includes("droog")) {
-            value = product.tasteProfile?.drySweet || 3;
-          } else if (item.leftLabel.toLowerCase().includes("licht")) {
-            value = product.tasteProfile?.lightFull || 3;
-          } else if (
-            item.leftLabel.toLowerCase().includes("zacht") ||
-            item.leftLabel.toLowerCase().includes("fris")
-          ) {
-            value = product.tasteProfile?.softTannic || product.tasteProfile?.freshSoft || 3;
-          } else if (item.leftLabel.toLowerCase().includes("fruitig")) {
-            value = product.tasteProfile?.fruitySpicy || 3;
-          }
-          return { ...item, value };
-        });
-      })()
-    : [];
 
   if (!product) return null;
 
@@ -200,14 +170,6 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
 
                 {/* Description */}
                 <p className="text-grey mb-6 line-clamp-3">{product.description}</p>
-
-                {/* Taste Profile Mini */}
-                {tasteProfileItems.length > 0 && (
-                  <div className="mb-6 p-4 bg-warm-white rounded-lg">
-                    <h4 className="text-sm font-semibold mb-3">Smaakprofiel</h4>
-                    <TasteProfile items={tasteProfileItems.slice(0, 2)} className="space-y-2" />
-                  </div>
-                )}
 
                 {/* Quantity & Add to Cart */}
                 <div className="space-y-4">

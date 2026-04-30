@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Section } from "@/components/layout";
 import { getProductByHandle, getProducts } from "@/lib/shopify";
+import { getActiveRegionSlugsFromProducts } from "@/lib/region-utils";
 import { ProductDetailClient } from "./ProductDetailClient";
 
 export const revalidate = 300; // 5 min — product data from Shopify
+export const dynamicParams = true; // Allow new products without rebuild
 
 interface PageProps {
   params: Promise<{ handle: string }>;
@@ -200,7 +202,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ProductDetailClient product={product} relatedProducts={relatedProducts} />
+      <ProductDetailClient product={product} relatedProducts={relatedProducts} activeRegionSlugs={getActiveRegionSlugsFromProducts(allProducts)} />
     </>
   );
 }

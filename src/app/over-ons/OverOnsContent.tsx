@@ -38,9 +38,9 @@ const fallbackValues = [
 const fallbackTimeline = [
   {
     year: "Het Begin",
-    title: "Een Barolo die alles veranderde",
+    title: "Een Barbera die alles veranderde",
     description:
-      "Het begon met een eerste serieuze Italiaanse wijn bij een klein restaurant in de Langhe. Een Barolo van een producent die drie hectare bezat en alles met de hand deed. Die fles kostte lokaal een fractie van wat je in Nederland betaalt. Dat verschil wilden we oplossen.",
+      "Het begon met een eerste serieuze Italiaanse wijn bij een klein restaurant in de Langhe. Een Barbera van een producent die drie hectare bezat en alles met de hand deed. Die fles kostte lokaal een fractie van wat je in Nederland betaalt. Dat verschil wilden we oplossen.",
   },
   {
     year: "De Eerste Stap",

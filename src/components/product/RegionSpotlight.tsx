@@ -19,6 +19,7 @@ const ItalyWineMap = dynamic(
 interface RegionSpotlightProps {
   product: Product;
   className?: string;
+  activeRegionSlugs?: string[];
 }
 
 interface RegionInfo {
@@ -30,7 +31,7 @@ interface RegionInfo {
   famousWines: string[];
 }
 
-export function RegionSpotlight({ product, className }: RegionSpotlightProps) {
+export function RegionSpotlight({ product, className, activeRegionSlugs }: RegionSpotlightProps) {
   const regionInfo = getRegionInfo(product.region);
 
   return (
@@ -48,6 +49,7 @@ export function RegionSpotlight({ product, className }: RegionSpotlightProps) {
               <ItalyWineMap
                 size="md"
                 selectedRegion={regionInfo?.slug}
+                activeRegionSlugs={activeRegionSlugs}
               />
             </div>
           </motion.div>

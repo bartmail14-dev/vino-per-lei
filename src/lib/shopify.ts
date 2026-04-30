@@ -12,7 +12,7 @@ function getClient() {
     }
     _client = createStorefrontApiClient({
       storeDomain: domain,
-      apiVersion: '2025-01',
+      apiVersion: '2026-01',
       publicAccessToken: token,
     });
   }
@@ -145,7 +145,7 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
     wineType: normalizeWineType(mf(node.wineType as MetafieldNode | null) ?? 'red'),
     grapeVarieties,
     country: mf(node.country as MetafieldNode | null) ?? 'Italië',
-    region: mf(node.region as MetafieldNode | null) ?? '',
+    region: (mf(node.region as MetafieldNode | null) ?? '').trim(),
     vintage: (node.vintage as MetafieldNode | null)?.value
       ? (node.vintage as MetafieldNode).value === 'NV'
         ? 'NV'
@@ -306,7 +306,7 @@ export async function getInventoryData(): Promise<AdminInventoryData> {
   if (!domain || !adminToken) return {};
 
   try {
-    const res = await fetch(`https://${domain}/admin/api/2025-01/graphql.json`, {
+    const res = await fetch(`https://${domain}/admin/api/2026-01/graphql.json`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

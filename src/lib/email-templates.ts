@@ -22,6 +22,33 @@ const BRAND = {
   instagram: "https://instagram.com/vinoperlei",
 };
 
+export const SHOPIFY_NOTIFICATION_SUBJECTS_NL = {
+  orderConfirmation: "Bestelling bevestigd - {{ name }}",
+  orderEdited: "Je bestelling is bijgewerkt - {{ name }}",
+  orderCancelled: "Je bestelling is geannuleerd - {{ name }}",
+  refundCreated: "Terugbetaling verwerkt - {{ name }}",
+  draftOrderInvoice: "Factuur voor je bestelling bij Vino per Lei",
+  shippingConfirmation: "Je bestelling is onderweg - {{ fulfillment.tracking_company }}",
+  shippingUpdate: "Update over je verzending - {{ name }}",
+  outForDelivery: "Je bestelling wordt vandaag bezorgd - {{ name }}",
+  delivered: "Je bestelling is bezorgd - {{ name }}",
+  customerAccountInvite: "Activeer je account bij Vino per Lei",
+  customerAccountWelcome: "Welkom bij Vino per Lei",
+  customerPasswordReset: "Stel je wachtwoord opnieuw in",
+  abandonedCheckout: "Je winkelmand wacht nog op je",
+  posExchangeReceipt: "Je ruilbewijs van Vino per Lei",
+  giftCardCreated: "Je cadeaubon van Vino per Lei",
+} as const;
+
+export const EMAIL_LIVEGANG_TEST_SCENARIOS = [
+  "newsletter",
+  "contact",
+  "notify-me",
+  "account-welcome",
+  "stock-notification",
+  "abandoned-cart",
+] as const;
+
 // Thin gold line separator
 function goldLine(): string {
   return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:24px 0;">
@@ -217,7 +244,7 @@ Met warme groet,
 Carla Daniels
 Vino per Lei`;
 
-  return { subject: "Welkom bij de Vino per Lei nieuwsbrief 🍷", html, text };
+  return { subject: "Welkom bij de Vino per Lei nieuwsbrief", html, text };
 }
 
 export function contactConfirmationEmail(naam: string): { subject: string; html: string; text: string } {
@@ -361,5 +388,44 @@ Met warme groet,
 Carla Daniels
 Vino per Lei`;
 
-  return { subject: `${productTitle} is weer op voorraad! 🍷`, html, text };
+  return { subject: `${productTitle} is weer op voorraad`, html, text };
+}
+
+export function abandonedCartEmail(opts: {
+  firstName?: string;
+  checkoutUrl: string;
+  productTitle?: string;
+  productImageUrl?: string;
+}): { subject: string; html: string; text: string } {
+  const greeting = opts.firstName ? `Hoi ${opts.firstName}` : "Hoi";
+  const productTitle = opts.productTitle || "je selectie";
+
+  const html = emailWrapper(
+    `${heading(`${greeting}, je winkelmand staat nog klaar`)}
+     ${paragraph("Je was bezig met een bestelling bij Vino per Lei. We bewaren je winkelmand nog even, zodat je later rustig kunt afronden.")}
+     ${productCard({
+       title: productTitle,
+       imageUrl: opts.productImageUrl,
+       url: opts.checkoutUrl,
+       label: "Nog in je winkelmand",
+     })}
+     ${button("Rond je bestelling af", opts.checkoutUrl)}
+     ${paragraph(`Twijfel je nog over een wijn? Mail Carla via <a href="mailto:info@vinoperlei.nl" style="color:${BRAND.gold};text-decoration:none;font-weight:600;">info@vinoperlei.nl</a>, dan denkt ze met je mee.`)}
+     ${signature()}`,
+    "Je winkelmand bij Vino per Lei staat nog klaar"
+  );
+
+  const text = `${greeting}, je winkelmand staat nog klaar.
+
+Je was bezig met een bestelling bij Vino per Lei. We bewaren je winkelmand nog even, zodat je later rustig kunt afronden.
+
+Rond je bestelling af: ${opts.checkoutUrl}
+
+Twijfel je nog over een wijn? Mail Carla via info@vinoperlei.nl.
+
+Met warme groet,
+Carla Daniels
+Vino per Lei`;
+
+  return { subject: SHOPIFY_NOTIFICATION_SUBJECTS_NL.abandonedCheckout, html, text };
 }

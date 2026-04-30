@@ -14,7 +14,7 @@ import {
   type ActiveFilters,
 } from "@/components/filters";
 import { cn } from "@/lib/utils";
-import { wineRegions, getRegionBySlug } from "@/data/wineRegions";
+import { regionNameToSlug, slugToDisplayName, slugToRegionNames } from "@/lib/region-utils";
 import { FilterIcon, ChevronRightIcon } from "@/components/icons";
 import { LayoutGrid, List, Search, X } from "lucide-react";
 
@@ -47,19 +47,27 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
     }
   });
 
-  const regionFilterOptions = wineRegions
-    .filter((r) => r.active)
-    .map((r) => ({
-      value: r.slug,
-      label: r.displayName,
-      count: regionCounts[r.name] || regionCounts[r.displayName] || 0,
-    }));
+  // Build region filter options dynamically from actual products
+  const regionSlugCounts: Record<string, number> = {};
+  for (const [name, count] of Object.entries(regionCounts)) {
+    const slug = regionNameToSlug(name);
+    if (slug) {
+      regionSlugCounts[slug] = (regionSlugCounts[slug] || 0) + count;
+    }
+  }
+  const regionFilterOptions = Object.entries(regionSlugCounts)
+    .map(([slug, count]) => ({
+      value: slug,
+      label: slugToDisplayName(slug) || slug,
+      count,
+    }))
+    .sort((a, b) => a.label.localeCompare(b.label, "nl"));
 
   const typeLabels: Record<string, string> = {
     red: "Rode Wijn",
     white: "Witte Wijn",
     rose: "Rosé",
-    sparkling: "Mousserende",
+    sparkling: "Mousserende wijn",
   };
 
   const grapeOptions = Object.entries(grapeCounts)
@@ -126,21 +134,7 @@ const sortOptions = [
   { value: "rating", label: "Best beoordeeld" },
 ];
 
-// Map region slugs to product region names
-const regionSlugToName: Record<string, string> = {
-  piemonte: "Piemonte",
-  veneto: "Veneto",
-  puglia: "Puglia",
-  "alto-adige": "Alto Adige",
-  toscana: "Toscana",
-  friuli: "Friuli-Venezia Giulia",
-  "emilia-romagna": "Emilia-Romagna",
-  umbria: "Umbria",
-  lazio: "Lazio",
-  campania: "Campania",
-  sicilia: "Sicilia",
-  calabria: "Calabria",
-};
+// No hardcoded region map needed — slugToRegionNames handles all regions dynamically
 
 export function WijnenContent({ products }: { products: Product[] }) {
   const searchParams = useSearchParams();
@@ -187,8 +181,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
   const activeRegionName = useMemo(() => {
     if (activeFilters.region?.length === 1) {
       const slug = activeFilters.region[0];
-      const region = getRegionBySlug(slug);
-      return region?.displayName || regionSlugToName[slug] || null;
+      return slugToDisplayName(slug) || null;
     }
     return null;
   }, [activeFilters.region]);
@@ -212,8 +205,8 @@ export function WijnenContent({ products }: { products: Product[] }) {
       result = result.filter((p) => {
         if (!p.region) return false;
         return activeFilters.region!.some((slug) => {
-          const regionName = regionSlugToName[slug];
-          return p.region === regionName || p.region.toLowerCase() === slug.toLowerCase();
+          const regionNames = slugToRegionNames(slug);
+          return regionNames.some((name) => p.region === name) || p.region.toLowerCase() === slug.toLowerCase();
         });
       });
     }
@@ -373,8 +366,13 @@ export function WijnenContent({ products }: { products: Product[] }) {
               </>
             ) : (
               <>
-                {filteredProducts.length} wijnen uit Piemonte, Veneto en Toscane.
-                Allemaal persoonlijk geselecteerd en rechtstreeks geimporteerd.
+                {filteredProducts.length} wijnen uit {(() => {
+                  const regionNames = [...new Set(products.map(p => p.region).filter(Boolean))];
+                  if (regionNames.length === 0) return "Italië";
+                  if (regionNames.length === 1) return regionNames[0];
+                  return regionNames.slice(0, -1).join(", ") + " en " + regionNames[regionNames.length - 1];
+                })()}.
+                Allemaal persoonlijk geselecteerd en rechtstreeks geïmporteerd.
               </>
             )}
           </p>

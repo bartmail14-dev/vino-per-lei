@@ -125,7 +125,7 @@ function VoorwaardenFallback() {
       <h2>Artikel 8 &mdash; Levering</h2>
       <ol>
         <li>Levertijd bedraagt 1&ndash;3 werkdagen na ontvangst van betaling (Nederland). Voor Belgi&euml; geldt een levertijd van 2&ndash;3 werkdagen.</li>
-        <li>Gratis verzending bij bestellingen vanaf &euro;35 (Nederland).</li>
+        <li>Gratis verzending bij bestellingen vanaf &euro;100 (Nederland).</li>
         <li>Vino per Lei verzendt met PostNL. De klant ontvangt een track &amp; trace code per e-mail.</li>
         <li>Bij aflevering wordt door de bezorger om <strong>legitimatie</strong> gevraagd. Alleen personen van 18 jaar en ouder mogen de bestelling in ontvangst nemen.</li>
         <li>Indien niemand aanwezig is of geen geldig legitimatiebewijs kan tonen, wordt de bestelling niet afgeleverd en opnieuw aangeboden of retour gestuurd.</li>

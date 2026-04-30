@@ -8,7 +8,7 @@ export const revalidate = 300; // 5 min — product data from Shopify
 export const metadata: Metadata = {
   title: "Onze Wijnen | Vino per Lei",
   description:
-    "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Filter op regio, druif of prijs. Gratis verzending vanaf 35 euro.",
+    "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Filter op regio, druif of prijs. Gratis verzending vanaf 100 euro.",
   alternates: {
     canonical: "https://vinoperlei.nl/wijnen",
   },

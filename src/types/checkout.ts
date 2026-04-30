@@ -98,7 +98,7 @@ export interface OrderResult {
 
 // Shipping costs
 export const SHIPPING_COSTS: Record<ShippingMethod, number> = {
-  standard: 4.95,
+  standard: 7.95,
   temperature: 7.90,
   evening: 6.90,
 };

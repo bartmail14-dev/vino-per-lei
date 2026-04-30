@@ -8,8 +8,8 @@ export interface ShopConfig {
 }
 
 const DEFAULT_CONFIG: ShopConfig = {
-  freeShippingThreshold: 35,
-  shippingCost: 4.95,
+  freeShippingThreshold: 100,
+  shippingCost: 7.95,
 };
 
 const ShopConfigContext = createContext<ShopConfig>(DEFAULT_CONFIG);
