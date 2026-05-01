@@ -147,7 +147,7 @@ export function ProductCard({
         aria-label={`Bekijk ${product.title}`}
       >
         {/* Image Container */}
-        <div className="relative h-36 sm:h-48 mx-3 sm:mx-4 -mt-12 sm:-mt-20">
+        <div className="relative h-44 sm:h-48 mx-3 sm:mx-4 -mt-12 sm:-mt-20">
           {/* Background with grain */}
           <div className="absolute inset-0 bg-gradient-to-b from-champagne/60 via-cream to-white rounded-lg overflow-hidden">
             <div className="absolute inset-0 bg-grain opacity-[0.03]" />
@@ -197,7 +197,7 @@ export function ProductCard({
           {/* Product Image */}
           <div className="absolute inset-0 -top-8 sm:-top-16 flex items-center justify-center">
             {product.images[0] ? (
-              <div className="relative w-20 sm:w-36 h-40 sm:h-72">
+              <div className="relative w-24 sm:w-36 h-48 sm:h-72">
                 {!imageLoaded && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-10 h-28 sm:w-14 sm:h-44 rounded-lg bg-gradient-to-b from-sand/30 to-sand/10 animate-pulse" />
