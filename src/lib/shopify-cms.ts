@@ -482,7 +482,7 @@ export const DEFAULT_HERO: HeroContent = {
 };
 
 export const DEFAULT_ANNOUNCEMENT: AnnouncementBar = {
-  message: 'Gratis verzending vanaf €100 — Italiaanse wijnen rechtstreeks van de producent',
+  message: 'Italiaanse wijnen rechtstreeks van de producent',
   enabled: true,
   link: '/wijnen',
 };

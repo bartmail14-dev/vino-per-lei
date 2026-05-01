@@ -4,7 +4,6 @@ import {
   type CartState,
   type CartItem,
   type Product,
-  FREE_SHIPPING_THRESHOLD,
   SHIPPING_COST,
 } from "@/types";
 
@@ -14,7 +13,7 @@ const calculateTotals = (items: CartItem[]) => {
     (sum, item) => sum + item.product.price * item.quantity,
     0
   );
-  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : SHIPPING_COST;
+  const shipping = items.length > 0 ? SHIPPING_COST : 0;
   const total = subtotal + shipping;
 
   return { itemCount, subtotal, shipping, total };

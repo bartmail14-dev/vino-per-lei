@@ -61,7 +61,7 @@ export default async function CadeausPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
-    <CadeausContent freeShippingThreshold={shopConfig.freeShippingThreshold}>
+    <CadeausContent>
       {/* Gift-worthy Products */}
       {displayProducts.length > 0 && (
         <Section background="default" spacing="lg">

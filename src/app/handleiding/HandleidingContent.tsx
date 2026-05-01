@@ -180,7 +180,7 @@ const sections: Section[] = [
       {
         title: "USP punten (vertrouwensbalk)",
         description:
-          'De balk met vertrouwenspunten onder de hero (bijv. "Gratis verzending", "Veilig betalen"). Ga naar "Content" \u2192 "Metaobjects" \u2192 "USP Item".\n\nElke entry heeft een titel, subtitel, icoon en volgorde. Je kunt bestaande aanpassen of nieuwe toevoegen.',
+          'De balk met vertrouwenspunten onder de hero (bijv. "Snelle levering", "Veilig betalen"). Ga naar "Content" \u2192 "Metaobjects" \u2192 "USP Item".\n\nElke entry heeft een titel, subtitel, icoon en volgorde. Je kunt bestaande aanpassen of nieuwe toevoegen.',
         screenshot: "/handleiding/admin-usp-item-entry.webp",
         websiteScreenshot: "/handleiding/website-kaart.webp",
         websiteCaption: "De Italië-kaart sectie op de homepage — USP-balk, favorieten en wijngebieden in beeld",
@@ -319,13 +319,13 @@ const sections: Section[] = [
         tip: "Controleer of je KvK-nummer en BTW-nummer correct zijn — deze verschijnen in de footer.",
       },
       {
-        title: "Verzenddrempel & kosten",
+        title: "Verzendkosten",
         description:
-          'De velden "Gratis verzending drempel" en "Verzendkosten" bepalen wanneer klanten gratis verzending krijgen en wat de standaard verzendkosten zijn.\n\nMomenteel: gratis vanaf \u20AC35, anders \u20AC4,95.',
+          'Het veld "Verzendkosten" bepaalt wat de standaard verzendkosten zijn die klanten betalen.\n\nMomenteel: €7,95 per bestelling.',
         screenshot: "/handleiding/admin-site-instellingen.webp",
         websiteScreenshot: "/handleiding/website-verzending.webp",
-        websiteCaption: "De verzendpagina toont automatisch de juiste drempel en kosten uit deze instellingen",
-        tip: 'Pas je de drempel aan naar bijv. \u20AC50? Dan verandert dit automatisch overal op de website \u2014 in de winkelwagen, checkout, en de "Gratis verzending" teksten.',
+        websiteCaption: "De verzendpagina toont automatisch de juiste kosten uit deze instellingen",
+        tip: 'De verzendkosten worden automatisch overal op de website bijgewerkt — in de winkelwagen, checkout en op de verzendpagina.',
       },
     ],
   },
@@ -414,11 +414,11 @@ const sections: Section[] = [
       {
         title: "Verzendtarieven in Shopify",
         description:
-          'Ga naar "Settings" (tandwiel linksonder) \u2192 "Shipping and delivery". Hier kun je verzendtarieven en -zones instellen voor de checkout.\n\nDit zijn de tarieven die Shopify berekent bij het afrekenen. De website toont apart de gratis verzenddrempel en standaard verzendkosten die je instelt via Site Instellingen (zie die sectie hierboven).',
+          'Ga naar "Settings" (tandwiel linksonder) \u2192 "Shipping and delivery". Hier kun je verzendtarieven en -zones instellen voor de checkout.\n\nDit zijn de tarieven die Shopify berekent bij het afrekenen. De website toont de standaard verzendkosten die je instelt via Site Instellingen (zie die sectie hierboven).',
         screenshot: "/handleiding/admin-verzending.webp",
         websiteScreenshot: "/handleiding/website-verzending.webp",
         websiteCaption: "De verzendpagina op de website — bezoekers zien hier de verzendvoorwaarden en levertijden",
-        tip: "Zorg dat de tarieven in Shopify Shipping overeenkomen met wat je instelt in Site Instellingen. Beide moeten hetzelfde bedrag en dezelfde gratis-drempel gebruiken.",
+        tip: "Zorg dat de tarieven in Shopify Shipping overeenkomen met wat je instelt in Site Instellingen. Beide moeten hetzelfde verzendtarief gebruiken.",
       },
     ],
   },
@@ -693,7 +693,7 @@ export function HandleidingContent() {
                   "Blog: artikelen schrijven en publiceren",
                   "FAQ: veelgestelde vragen toevoegen en categoriseren",
                   "Bedrijfsgegevens: e-mail, adres, KvK, BTW, openingstijden",
-                  "Verzendkosten: gratis verzenddrempel en standaard tarief",
+                  "Verzendkosten: standaard verzendtarief instellen",
                   "Juridische pagina's: privacybeleid, voorwaarden, cookiebeleid",
                   "Over Ons pagina: jouw verhaal in eigen woorden",
                   "Bestellingen: orders inzien, verzenden en track & trace toevoegen",

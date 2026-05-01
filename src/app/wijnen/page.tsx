@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     title: "Onze Wijnen | Vino per Lei",
-    description: `Italiaanse wijnen uit ${regionList}. Filter op regio, druif of prijs. Gratis verzending vanaf 100 euro.`,
+    description: `Italiaanse wijnen uit ${regionList}. Filter op regio, druif of prijs. Rechtstreeks van familieproducenten.`,
     alternates: {
       canonical: "https://vinoperlei.nl/wijnen",
     },

@@ -7,10 +7,9 @@ import { useCartStore } from "@/stores/cartStore";
 import { useCheckoutStore } from "@/stores/checkoutStore";
 import { formatPrice, cn, wineImagePresets } from "@/lib/utils";
 import { GIFT_WRAPPING_COST } from "@/types/checkout";
-import { useShopConfig } from "@/components/providers";
 import { DiscountCode } from "./DiscountCode";
 import { TrustSignals } from "./TrustSignals";
-import { ChevronDownIcon, TruckIcon } from "@/components/icons";
+import { ChevronDownIcon } from "@/components/icons";
 
 interface OrderSummaryProps {
   className?: string;
@@ -19,15 +18,11 @@ interface OrderSummaryProps {
 export function OrderSummary({ className }: OrderSummaryProps) {
   const { items, subtotal } = useCartStore();
   const { shipping, gift, discountApplied } = useCheckoutStore();
-  const { freeShippingThreshold } = useShopConfig();
   const [isExpanded, setIsExpanded] = useState(true);
 
   // Calculate totals
   const giftCost = gift.wrapping ? GIFT_WRAPPING_COST : 0;
-  const shippingCost =
-    subtotal >= freeShippingThreshold && shipping.method === "standard"
-      ? 0
-      : shipping.cost;
+  const shippingCost = shipping.cost;
 
   const discountAmount = discountApplied
     ? discountApplied.type === "percentage"
@@ -36,12 +31,6 @@ export function OrderSummary({ className }: OrderSummaryProps) {
     : 0;
 
   const total = Math.max(0, subtotal + shippingCost + giftCost - discountAmount);
-
-  const freeShippingProgress = Math.min(
-    (subtotal / freeShippingThreshold) * 100,
-    100
-  );
-  const amountToFreeShipping = freeShippingThreshold - subtotal;
 
   return (
     <div
@@ -110,24 +99,6 @@ export function OrderSummary({ className }: OrderSummaryProps) {
             {/* Discount code */}
             <DiscountCode className="mb-4" />
 
-            {/* Free shipping progress */}
-            {subtotal < freeShippingThreshold && (
-              <div className="mb-4 p-3 bg-warm-white rounded-lg">
-                <div className="flex justify-between text-sm mb-2">
-                  <span className="text-grey">Nog {formatPrice(amountToFreeShipping)} voor gratis verzending</span>
-                  <TruckIcon className="w-4 h-4 text-wine" />
-                </div>
-                <div className="h-2 bg-sand rounded-full overflow-hidden">
-                  <motion.div
-                    className="h-full bg-wine rounded-full"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${freeShippingProgress}%` }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                  />
-                </div>
-              </div>
-            )}
-
             {/* Price breakdown */}
             <div className="space-y-2 text-sm border-t border-sand pt-4">
               <div className="flex justify-between">
@@ -152,11 +123,7 @@ export function OrderSummary({ className }: OrderSummaryProps) {
               <div className="flex justify-between">
                 <span className="text-grey">Verzending</span>
                 <span className="text-charcoal">
-                  {shippingCost === 0 ? (
-                    <span className="text-success">Gratis</span>
-                  ) : (
-                    formatPrice(shippingCost)
-                  )}
+                  {formatPrice(shippingCost)}
                 </span>
               </div>
 

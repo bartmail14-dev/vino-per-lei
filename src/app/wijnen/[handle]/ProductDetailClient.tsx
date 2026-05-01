@@ -19,7 +19,6 @@ import { cn } from "@/lib/utils";
 import { trackViewItem, trackAddToCart } from "@/lib/analytics";
 import { CheckIcon, HeartIcon, TruckIcon, ShieldIcon, ClockIcon } from "@/components/icons";
 import { AlertTriangle } from "lucide-react";
-import { useShopConfig } from "@/components/providers";
 
 interface ProductDetailClientProps {
   product: Product;
@@ -34,8 +33,6 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const [notifyOpen, setNotifyOpen] = useState(false);
-
-  const { freeShippingThreshold } = useShopConfig();
 
   // Track view_item on mount
   useEffect(() => {

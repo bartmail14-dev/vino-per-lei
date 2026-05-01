@@ -1,13 +1,11 @@
 "use client";
 
-import { useCheckoutStore, calculateShippingCost, calculateEstimatedDelivery } from "@/stores/checkoutStore";
-import { useCartStore } from "@/stores/cartStore";
+import { useCheckoutStore, calculateEstimatedDelivery } from "@/stores/checkoutStore";
 import { Button } from "@/components/ui";
 import { SHIPPING_COSTS, type ShippingMethod } from "@/types/checkout";
-import { useShopConfig } from "@/components/providers";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import { TruckIcon, ThermometerIcon, MoonIcon, ClockIcon, CheckIcon, SunIcon } from "@/components/icons";
+import { TruckIcon, ThermometerIcon, MoonIcon, ClockIcon, SunIcon } from "@/components/icons";
 
 interface ShippingSectionProps {
   onComplete: () => void;
@@ -45,47 +43,28 @@ const shippingOptions: {
 
 export function ShippingSection({ onComplete }: ShippingSectionProps) {
   const { shipping, setShipping } = useCheckoutStore();
-  const { subtotal } = useCartStore();
-  const { freeShippingThreshold } = useShopConfig();
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onComplete();
   };
 
   const handleMethodChange = (method: ShippingMethod) => {
-    const cost = calculateShippingCost(method, subtotal, freeShippingThreshold);
+    const cost = SHIPPING_COSTS[method];
     const estimatedDate = calculateEstimatedDelivery(method);
     setShipping({ method, cost, estimatedDate });
   };
 
   const getShippingPrice = (method: ShippingMethod): string => {
-    if (method === "standard" && subtotal >= freeShippingThreshold) {
-      return "Gratis";
-    }
     return formatPrice(SHIPPING_COSTS[method]);
   };
 
-  const isFreeShippingEligible = subtotal >= freeShippingThreshold;
-
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      {/* Free shipping banner */}
-      {isFreeShippingEligible && (
-        <div className="flex items-center gap-2 p-3 bg-success/10 border border-success/20 rounded-lg text-success">
-          <CheckIcon className="w-5 h-5 flex-shrink-0" />
-          <span className="text-sm font-medium">
-            Je komt in aanmerking voor gratis standaard verzending!
-          </span>
-        </div>
-      )}
-
       {/* Shipping options */}
       <div className="space-y-3">
         {shippingOptions.map((option) => {
           const isSelected = shipping.method === option.method;
           const price = getShippingPrice(option.method);
-          const isFree = price === "Gratis";
 
           return (
             <label
@@ -136,12 +115,7 @@ export function ShippingSection({ onComplete }: ShippingSectionProps) {
                     <span className="font-medium text-charcoal">
                       {option.title}
                     </span>
-                    <span
-                      className={cn(
-                        "font-semibold",
-                        isFree ? "text-success" : "text-charcoal"
-                      )}
-                    >
+                    <span className="font-semibold text-charcoal">
                       {price}
                     </span>
                   </div>

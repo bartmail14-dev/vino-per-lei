@@ -18,7 +18,7 @@ const nextConfig: NextConfig = {
       },
     ],
     formats: ['image/avif', 'image/webp'],
-    minimumCacheTTL: 60 * 60 * 24 * 30, // 30 days
+    minimumCacheTTL: 60 * 60 * 24 * 7, // 7 days
   },
   turbopack: {
     root: process.cwd(),

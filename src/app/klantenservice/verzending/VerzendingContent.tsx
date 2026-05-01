@@ -56,15 +56,13 @@ const features = [
 interface VerzendingContentProps {
   pageBody: string | null;
   pageTitle: string | null;
-  freeShippingThreshold?: number;
   shippingCost?: number;
 }
 
-export function VerzendingContent({ pageBody, pageTitle, freeShippingThreshold = 100, shippingCost = 7.95 }: VerzendingContentProps) {
+export function VerzendingContent({ pageBody, pageTitle, shippingCost = 7.95 }: VerzendingContentProps) {
   const formattedCost = `€${shippingCost.toFixed(2).replace(".", ",")}`;
   const shippingCosts = [
-    { description: `Bestelling tot €${freeShippingThreshold}`, cost: formattedCost },
-    { description: `Bestelling vanaf €${freeShippingThreshold}`, cost: "Gratis", highlight: true },
+    { description: "Standaard verzending (Nederland)", cost: formattedCost },
     { description: "Avondlevering", cost: "€2,50 toeslag" },
     { description: "België", cost: "€8,95" },
   ];
@@ -97,7 +95,7 @@ export function VerzendingContent({ pageBody, pageTitle, freeShippingThreshold =
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-white/60 max-w-lg"
           >
-            Jouw wijn, veilig en snel bezorgd. Gratis verzending vanaf €{freeShippingThreshold}.
+            Jouw wijn, veilig en snel bezorgd. Binnen 1-2 werkdagen in huis.
           </motion.p>
         </div>
       </section>
@@ -155,10 +153,10 @@ export function VerzendingContent({ pageBody, pageTitle, freeShippingThreshold =
                   key={item.description}
                   className={`flex items-center justify-between px-5 sm:px-6 py-4 ${
                     index < shippingCosts.length - 1 ? "border-b border-sand/50" : ""
-                  } ${item.highlight ? "bg-wine/5" : ""}`}
+                  }`}
                 >
                   <span className="text-charcoal text-sm">{item.description}</span>
-                  <span className={`font-semibold text-sm ${item.highlight ? "text-wine" : "text-charcoal"}`}>
+                  <span className="font-semibold text-sm text-charcoal">
                     {item.cost}
                   </span>
                 </div>

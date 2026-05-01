@@ -34,7 +34,6 @@ export default async function ContactPage() {
       hoursWeekday={settings.hoursWeekday}
       hoursSaturday={settings.hoursSaturday}
       hoursSunday={settings.hoursSunday}
-      freeShippingThreshold={settings.freeShippingThreshold}
     />
   );
 }

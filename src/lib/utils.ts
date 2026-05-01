@@ -88,7 +88,7 @@ export function optimizeShopifyImage(
  */
 export function removeBgUrl(shopifyUrl: string): string {
   if (!shopifyUrl || !shopifyUrl.includes("cdn.shopify.com")) return shopifyUrl;
-  return `/api/remove-bg?v=5&url=${encodeURIComponent(shopifyUrl)}`;
+  return `/api/remove-bg?v=6&url=${encodeURIComponent(shopifyUrl)}`;
 }
 
 /**

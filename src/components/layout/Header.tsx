@@ -199,7 +199,7 @@ export function Header({ announcement, contactPhone, contactEmail, regionLinks }
           >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-center relative">
               <p className="text-xs sm:text-sm text-center pr-8 tracking-wide">
-                {announcement?.message || "Gratis verzending vanaf €100 — Italiaanse wijnen rechtstreeks van de producent"}
+                {announcement?.message || "Italiaanse wijnen rechtstreeks van de producent"}
               </p>
               <button
                 onClick={dismissAnnouncement}

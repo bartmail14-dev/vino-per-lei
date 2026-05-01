@@ -10,7 +10,6 @@ import { Button, QuantitySelector } from "@/components/ui";
 import { formatPrice, wineImagePresets } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { CloseIcon, TrashIcon, ShoppingBagIcon, CheckIcon } from "@/components/icons";
-import { useShopConfig } from "@/components/providers";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
 export function CartSlideOut() {
@@ -25,7 +24,6 @@ export function CartSlideOut() {
   const removeItem = useCartStore((state) => state.removeItem);
 
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const { freeShippingThreshold, shippingCost } = useShopConfig();
 
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: closeCart });
 
@@ -40,14 +38,6 @@ export function CartSlideOut() {
       document.body.style.overflow = "";
     };
   }, [isOpen]);
-
-  const amountUntilFreeShipping = freeShippingThreshold - subtotal;
-  const freeShippingProgress = Math.min(
-    (subtotal / freeShippingThreshold) * 100,
-    100
-  );
-  const hasFreeShipping = subtotal >= freeShippingThreshold;
-  const effectiveShipping = hasFreeShipping ? 0 : shippingCost;
 
   return (
     <AnimatePresence>
@@ -187,34 +177,6 @@ export function CartSlideOut() {
 
                 {/* Footer */}
                 <div className="border-t border-sand px-6 py-4 space-y-4 bg-warm-white/50">
-                  {/* Free Shipping Progress */}
-                  <div className="bg-white rounded-lg p-3">
-                    {hasFreeShipping ? (
-                      <div className="flex items-center gap-2 text-sm text-success">
-                        <CheckIcon className="w-4 h-4" />
-                        <span>Gefeliciteerd! Je komt in aanmerking voor gratis verzending</span>
-                      </div>
-                    ) : (
-                      <>
-                        <p className="text-sm text-charcoal mb-2">
-                          Nog{" "}
-                          <span className="font-semibold">
-                            {formatPrice(amountUntilFreeShipping)}
-                          </span>{" "}
-                          voor gratis verzending
-                        </p>
-                        <div className="h-1.5 bg-sand rounded-full overflow-hidden">
-                          <motion.div
-                            className="h-full bg-wine rounded-full"
-                            initial={{ width: 0 }}
-                            animate={{ width: `${freeShippingProgress}%` }}
-                            transition={{ duration: 0.3 }}
-                          />
-                        </div>
-                      </>
-                    )}
-                  </div>
-
                   {/* Totals */}
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
@@ -223,9 +185,7 @@ export function CartSlideOut() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-grey">Verzending</span>
-                      <span className={cn(hasFreeShipping && "text-success")}>
-                        {hasFreeShipping ? "Gratis" : formatPrice(effectiveShipping)}
-                      </span>
+                      <span>{formatPrice(shipping)}</span>
                     </div>
                     <div className="flex justify-between pt-2 border-t border-sand text-base font-semibold">
                       <span>Totaal</span>

@@ -11,7 +11,6 @@ import { useWishlistStore } from "@/stores/wishlistStore";
 import { cn, wineImagePresets } from "@/lib/utils";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 import { CloseIcon, HeartIcon, EyeIcon, CartIcon, CheckIcon, TruckIcon, ShieldIcon, LoadingSpinner } from "@/components/icons";
-import { useShopConfig } from "@/components/providers";
 
 interface QuickViewModalProps {
   product: Product | null;
@@ -31,7 +30,6 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
     setViewerCount(Math.floor(Math.random() * 20) + 5);
   }, []);
 
-  const { freeShippingThreshold } = useShopConfig();
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: onClose });
 
   const addItem = useCartStore((state) => state.addItem);

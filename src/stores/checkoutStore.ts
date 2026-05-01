@@ -12,7 +12,6 @@ import type {
   ShippingMethod,
 } from "@/types/checkout";
 import { SHIPPING_COSTS } from "@/types/checkout";
-import { FREE_SHIPPING_THRESHOLD } from "@/types/cart";
 
 const initialContact: CheckoutContact = {
   email: "",
@@ -50,15 +49,10 @@ const initialPayment: CheckoutPayment = {
   ageVerified: false,
 };
 
-// Calculate shipping cost based on method and subtotal
+// Calculate shipping cost based on method
 export function calculateShippingCost(
   method: ShippingMethod,
-  subtotal: number,
-  freeShippingThreshold: number = FREE_SHIPPING_THRESHOLD
 ): number {
-  if (method === "standard" && subtotal >= freeShippingThreshold) {
-    return 0;
-  }
   return SHIPPING_COSTS[method];
 }
 

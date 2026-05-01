@@ -166,7 +166,7 @@ function VoorwaardenFallback() {
         <li>De ondernemer zal de grootst mogelijke zorgvuldigheid in acht nemen bij de uitvoering van bestellingen.</li>
         <li>Als plaats van levering geldt het adres dat de consument aan de ondernemer kenbaar heeft gemaakt.</li>
         <li>Levertijd bedraagt <strong>1&ndash;3 werkdagen</strong> na ontvangst van betaling (Nederland). Voor Belgi&euml; geldt 2&ndash;3 werkdagen. De uiterste leveringstermijn is 30 dagen, tenzij anders overeengekomen.</li>
-        <li>Gratis verzending bij bestellingen vanaf &euro;100 (Nederland).</li>
+        <li>Verzendkosten worden berekend bij het afrekenen en zijn afhankelijk van de gekozen verzendmethode.</li>
         <li>Verzending geschiedt via PostNL of een vergelijkbare bezorgdienst. De consument ontvangt een track &amp; trace code per e-mail.</li>
         <li>Het risico van beschadiging en/of vermissing van producten berust bij de ondernemer tot het moment van bezorging.</li>
         <li>Indien de bezorging vertraging ondervindt of niet kan worden uitgevoerd, ontvangt de consument hierover uiterlijk 30 dagen bericht. De consument heeft in dat geval het recht om de overeenkomst kosteloos te ontbinden.</li>
