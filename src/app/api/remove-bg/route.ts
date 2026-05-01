@@ -7,7 +7,7 @@ export const maxDuration = 30;
 // Uniform canvas: all bottles rendered to this size with padding
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 1200;
-const PADDING_PCT = 0.05; // 5% padding on each side
+const PADDING_PCT = 0.10; // 10% padding on each side
 
 // Flood-fill tolerance: how "white" a pixel needs to be to count as background
 const BG_TOLERANCE = 35; // 0-255, higher = more aggressive removal

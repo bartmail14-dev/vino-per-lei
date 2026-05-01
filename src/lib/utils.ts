@@ -88,7 +88,7 @@ export function optimizeShopifyImage(
  */
 export function removeBgUrl(shopifyUrl: string): string {
   if (!shopifyUrl || !shopifyUrl.includes("cdn.shopify.com")) return shopifyUrl;
-  return `/api/remove-bg?v=6&url=${encodeURIComponent(shopifyUrl)}`;
+  return `/api/remove-bg?v=8&url=${encodeURIComponent(shopifyUrl)}`;
 }
 
 /**
@@ -99,23 +99,23 @@ export function removeBgUrl(shopifyUrl: string): string {
 export const wineImagePresets = {
   /** ProductCard thumbnail (small grid) */
   card: (url: string) =>
-    removeBgUrl(optimizeShopifyImage(url, { width: 400, height: 600, crop: "center" })),
+    removeBgUrl(optimizeShopifyImage(url, { width: 400 })),
 
   /** ProductCard large (hover/detail) */
   cardLarge: (url: string) =>
-    removeBgUrl(optimizeShopifyImage(url, { width: 600, height: 900, crop: "center" })),
+    removeBgUrl(optimizeShopifyImage(url, { width: 600 })),
 
   /** Product detail hero image */
   hero: (url: string) =>
-    removeBgUrl(optimizeShopifyImage(url, { width: 800, height: 1200, crop: "center" })),
+    removeBgUrl(optimizeShopifyImage(url, { width: 800 })),
 
   /** Product detail thumbnail gallery */
   thumbnail: (url: string) =>
-    removeBgUrl(optimizeShopifyImage(url, { width: 120, height: 180, crop: "center" })),
+    removeBgUrl(optimizeShopifyImage(url, { width: 120 })),
 
   /** Cart/checkout small preview */
   cart: (url: string) =>
-    removeBgUrl(optimizeShopifyImage(url, { width: 160, height: 240, crop: "center" })),
+    removeBgUrl(optimizeShopifyImage(url, { width: 160 })),
 
   /** OG image / social share — no bg removal (needs solid background for social) */
   og: (url: string) =>
@@ -123,5 +123,5 @@ export const wineImagePresets = {
 
   /** Mobile card — smaller for faster LCP on mobile devices */
   cardMobile: (url: string) =>
-    removeBgUrl(optimizeShopifyImage(url, { width: 200, height: 300, crop: "center" })),
+    removeBgUrl(optimizeShopifyImage(url, { width: 200 })),
 } as const;
