@@ -13,6 +13,18 @@ import {
   CakeSlice,
   Grape,
 } from "lucide-react";
+
+/** Cheese wedge icon (not available in this lucide version) */
+function CheeseIcon({ className }: { className?: string }) {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
+      <path d="M2 19l10-7L22 5v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z" />
+      <circle cx="8" cy="17" r="1" />
+      <circle cx="14" cy="15" r="1" />
+      <circle cx="11" cy="12" r="1" />
+    </svg>
+  );
+}
 import type { Product } from "@/types";
 
 interface FoodPairingGalleryProps {
@@ -183,8 +195,8 @@ const PAIRING_ICON_MAP: Record<string, React.ComponentType<{ className?: string 
   "gegrild vlees": Beef,
   vlees: Beef,
   steak: Beef,
-  "gerijpte kaas": Grape,
-  kaas: Grape,
+  "gerijpte kaas": CheeseIcon,
+  kaas: CheeseIcon,
   vis: Fish,
   zeevruchten: Fish,
   salade: Salad,

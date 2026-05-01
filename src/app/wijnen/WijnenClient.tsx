@@ -444,30 +444,31 @@ export function WijnenContent({ products }: { products: Product[] }) {
               {/* Right side controls */}
               <div className="flex items-center gap-3">
                 {/* View mode toggle */}
-                <div className="hidden sm:flex items-center border border-sand rounded-lg overflow-hidden shadow-sm">
+                <div className="hidden sm:flex items-center border border-sand rounded-lg shadow-sm">
                   <button
                     onClick={() => setViewMode("grid")}
                     className={cn(
-                      "p-2 transition-all duration-200",
+                      "p-2.5 transition-all duration-200 rounded-l-lg",
                       viewMode === "grid"
                         ? "bg-gradient-to-br from-wine to-[#2d3454] text-white"
-                        : "hover:text-gold text-grey"
+                        : "hover:text-gold text-grey hover:bg-sand/20"
                     )}
                     aria-label="Grid weergave"
                   >
-                    <LayoutGrid className="w-3.5 h-3.5" strokeWidth={1.5} />
+                    <LayoutGrid className="w-4 h-4" strokeWidth={1.5} />
                   </button>
+                  <div className="w-px h-5 bg-sand" />
                   <button
                     onClick={() => setViewMode("list")}
                     className={cn(
-                      "p-2 transition-all duration-200",
+                      "p-2.5 transition-all duration-200 rounded-r-lg",
                       viewMode === "list"
                         ? "bg-gradient-to-br from-wine to-[#2d3454] text-white"
-                        : "hover:text-gold text-grey"
+                        : "hover:text-gold text-grey hover:bg-sand/20"
                     )}
                     aria-label="Lijst weergave"
                   >
-                    <List className="w-3.5 h-3.5" strokeWidth={1.5} />
+                    <List className="w-4 h-4" strokeWidth={1.5} />
                   </button>
                 </div>
 
