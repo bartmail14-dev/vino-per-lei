@@ -41,13 +41,15 @@ export default async function Home() {
     getHomeStats(),
   ]);
 
-  // Filter out "gratis verzending" USP items from CMS
+  // Filter out false claims from CMS USP items
   const uspItems = rawUspItems
-    .filter((u) => !u.title.toLowerCase().includes("gratis verzending"))
+    .filter((u) => {
+      const t = u.title.toLowerCase();
+      return !t.includes("gratis verzending") && !t.includes("gratis retour");
+    })
     .map((u) => ({
       ...u,
-      // Also clean subtitle in case of leftover references
-      subtitle: u.subtitle.replace(/gratis verzending/gi, "").trim(),
+      subtitle: u.subtitle.replace(/gratis (verzending|retour)/gi, "").trim(),
     }));
   const featured = allProducts.filter((p) => p.isFeatured);
   const featuredProducts = featured.length > 0 ? featured.slice(0, 4) : allProducts.slice(0, 4);
@@ -131,13 +133,13 @@ export default async function Home() {
           ============================================= */}
       <Section background="default" spacing="none" className="relative -mt-16 sm:-mt-20 z-10">
         <AnimatedUSPBar>
-          <div className="bg-white rounded-lg sm:rounded-2xl shadow-xl shadow-charcoal/5 border border-sand/40 px-4 sm:px-8 py-5 sm:py-6">
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-0">
+          <div className="max-w-xl mx-auto bg-white rounded-lg sm:rounded-2xl shadow-xl shadow-charcoal/5 border border-sand/40 px-4 sm:px-8 py-5 sm:py-6">
+            <div className="flex items-center justify-center gap-6 sm:gap-10">
               {uspItems.map((usp, i) => {
                 const IconComp = uspIconMap[usp.iconName] || TruckIcon;
                 const isLast = i === uspItems.length - 1;
                 return (
-                  <div key={usp.title} className={`flex items-center gap-3 justify-center ${!isLast ? "sm:border-r sm:border-sand/60" : ""}`}>
+                  <div key={usp.title} className={`flex items-center gap-3 ${!isLast ? "sm:border-r sm:border-sand/60 sm:pr-10" : ""}`}>
                     <div className="w-10 h-10 rounded-full bg-wine/5 flex items-center justify-center flex-shrink-0">
                       <IconComp className="w-5 h-5 text-wine" />
                     </div>
