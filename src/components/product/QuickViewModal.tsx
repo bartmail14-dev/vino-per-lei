@@ -234,15 +234,9 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                 </div>
 
                 {/* Trust signals */}
-                <div className="mt-6 pt-6 border-t border-sand grid grid-cols-2 gap-3 text-sm text-grey">
-                  <div className="flex items-center gap-2">
-                    <TruckIcon className="w-4 h-4 text-wine" />
-                    <span>Gratis vanaf €{freeShippingThreshold}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <ShieldIcon className="w-4 h-4 text-wine" />
-                    <span>Veilig betalen</span>
-                  </div>
+                <div className="mt-6 pt-6 border-t border-sand flex items-center gap-2 text-sm text-grey">
+                  <ShieldIcon className="w-4 h-4 text-wine" />
+                  <span>Veilig betalen</span>
                 </div>
               </div>
             </div>

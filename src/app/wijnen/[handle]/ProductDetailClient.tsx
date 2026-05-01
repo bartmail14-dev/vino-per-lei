@@ -167,11 +167,7 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
             </div>
 
             {/* Trust Signals */}
-            <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-sand/50">
-              <div className="flex items-center gap-2 text-sm">
-                <TruckIcon className="w-5 h-5 text-wine flex-shrink-0" />
-                <span className="text-grey">Gratis vanaf €{freeShippingThreshold}</span>
-              </div>
+            <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-sand/50">
               <div className="flex items-center gap-2 text-sm">
                 <ShieldIcon className="w-5 h-5 text-wine flex-shrink-0" />
                 <span className="text-grey">Veilig betalen</span>
@@ -197,10 +193,6 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
       {/* Trust Signals - Mobile only (above fold) */}
       <div className="sm:hidden px-4 py-3 bg-champagne/30">
         <div className="flex justify-around text-center">
-          <div className="flex flex-col items-center gap-1">
-            <TruckIcon className="w-5 h-5 text-wine" />
-            <span className="text-xs text-grey">Gratis €{freeShippingThreshold}+</span>
-          </div>
           <div className="flex flex-col items-center gap-1">
             <ShieldIcon className="w-5 h-5 text-wine" />
             <span className="text-xs text-grey">Veilig betalen</span>
