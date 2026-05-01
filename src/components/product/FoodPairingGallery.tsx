@@ -12,6 +12,8 @@ import {
   Salad,
   CakeSlice,
   Grape,
+  Shell,
+  Shrimp,
 } from "lucide-react";
 
 /** Cheese wedge icon (not available in this lucide version) */
@@ -198,14 +200,17 @@ const PAIRING_ICON_MAP: Record<string, React.ComponentType<{ className?: string 
   "gerijpte kaas": CheeseIcon,
   kaas: CheeseIcon,
   vis: Fish,
-  zeevruchten: Fish,
+  zeevruchten: Shrimp,
   salade: Salad,
   antipasti: UtensilsCrossed,
   "lichte pasta": UtensilsCrossed,
   "gegrilde groenten": Salad,
   groenten: Salad,
   aperitief: Wine,
-  oesters: Fish,
+  oesters: Shell,
+  garnalen: Shrimp,
+  mosselen: Shell,
+  kreeft: Shrimp,
   desserts: CakeSlice,
   dessert: CakeSlice,
 };

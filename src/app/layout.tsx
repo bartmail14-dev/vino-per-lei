@@ -5,7 +5,7 @@ import { HeaderWrapper, FooterWrapper } from "@/components/layout";
 import { AgeGate } from "@/components/ui";
 import { CartSlideOut } from "@/components/cart";
 import { LoginModal } from "@/components/auth";
-import { SmoothScrollProvider, ShopConfigProvider, PostHogProvider } from "@/components/providers";
+import { SmoothScrollProvider, ShopConfigProvider, PostHogProvider, GoogleAnalytics } from "@/components/providers";
 import { CookieConsent } from "@/components/ui/CookieConsent";
 import { ExitIntentModal } from "@/components/ui/ExitIntentModal";
 import { getShopConfig } from "@/lib/shopify-cms";
@@ -60,6 +60,9 @@ export const metadata: Metadata = {
     follow: true,
     noarchive: true,
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+  },
 };
 
 export const viewport: Viewport = {
@@ -87,6 +90,7 @@ export default async function RootLayout({
         <ShopConfigProvider config={shopConfig}>
           <SmoothScrollProvider>
             <PostHogProvider />
+            <GoogleAnalytics />
             <AgeGate />
             <HeaderWrapper />
             <main id="main-content" className="flex-1">{children}</main>
