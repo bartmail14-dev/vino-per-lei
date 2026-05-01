@@ -53,6 +53,20 @@ const features = [
   },
 ];
 
+/**
+ * Strip "gratis verzending" claims from CMS HTML body.
+ * These were added in Shopify but are no longer valid.
+ */
+function stripFreeShippingClaims(html: string): string {
+  return html
+    // Remove list items containing "gratis verzending" (case-insensitive)
+    .replace(/<li[^>]*>(?:[^<]|<(?!\/li))*[Gg]ratis\s+verzending(?:[^<]|<(?!\/li))*<\/li>/gi, "")
+    // Remove lines with "gratis vanaf"
+    .replace(/<li[^>]*>(?:[^<]|<(?!\/li))*gratis\s+vanaf(?:[^<]|<(?!\/li))*<\/li>/gi, "")
+    // Remove standalone paragraphs/spans with only "gratis verzending" text
+    .replace(/<(p|span|strong|b)[^>]*>\s*[^<]*[Gg]ratis\s+verzending[^<]*<\/\1>/gi, "");
+}
+
 interface VerzendingContentProps {
   pageBody: string | null;
   pageTitle: string | null;
@@ -60,6 +74,7 @@ interface VerzendingContentProps {
 }
 
 export function VerzendingContent({ pageBody, pageTitle, shippingCost = 7.95 }: VerzendingContentProps) {
+  const cleanedBody = pageBody ? stripFreeShippingClaims(pageBody) : null;
   const formattedCost = `€${shippingCost.toFixed(2).replace(".", ",")}`;
   const shippingCosts = [
     { description: "Standaard verzending (Nederland)", cost: formattedCost },
@@ -132,11 +147,11 @@ export function VerzendingContent({ pageBody, pageTitle, shippingCost = 7.95 }: 
 
       <div className="max-w-4xl mx-auto px-4">
         {/* CMS Content */}
-        {pageBody && (
+        {cleanedBody && (
           <AnimateOnScroll variant="fadeUp">
             <div
               className="prose prose-lg max-w-none text-grey prose-headings:font-serif prose-headings:text-charcoal prose-headings:font-semibold prose-h2:text-2xl prose-h2:mb-4 prose-h2:mt-10 prose-h3:text-xl prose-h3:mb-3 prose-a:text-wine prose-a:underline hover:prose-a:text-wine-dark prose-strong:text-charcoal prose-li:text-grey prose-ul:space-y-1 prose-ol:space-y-2 mb-16"
-              dangerouslySetInnerHTML={{ __html: sanitizeHtml(pageBody) }}
+              dangerouslySetInnerHTML={{ __html: sanitizeHtml(cleanedBody) }}
             />
           </AnimateOnScroll>
         )}
@@ -163,7 +178,7 @@ export function VerzendingContent({ pageBody, pageTitle, shippingCost = 7.95 }: 
               ))}
             </div>
             <p className="text-xs text-grey mt-3">
-              * Verzending naar Nederland en Belgi\u00EB. Voor andere landen neem contact op.
+              * Verzending naar Nederland en België. Voor andere landen neem contact op.
             </p>
           </div>
         </AnimateOnScroll>
@@ -229,9 +244,9 @@ export function VerzendingContent({ pageBody, pageTitle, shippingCost = 7.95 }: 
                 </p>
               </div>
               <div>
-                <h3 className="font-semibold text-charcoal text-sm mb-2">Belgi\u00EB</h3>
+                <h3 className="font-semibold text-charcoal text-sm mb-2">België</h3>
                 <p className="text-sm text-grey leading-relaxed">
-                  Levering in Belgi\u00EB duurt 2-3 werkdagen. Je ontvangt altijd een track &
+                  Levering in België duurt 2-3 werkdagen. Je ontvangt altijd een track &
                   trace code zodat je je pakket kunt volgen.
                 </p>
               </div>

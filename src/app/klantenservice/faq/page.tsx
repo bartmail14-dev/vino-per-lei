@@ -24,9 +24,20 @@ export const metadata: Metadata = {
 export default async function FAQPage() {
   const faqItems = await getFAQItems();
 
+  // Strip "gratis verzending" claims from FAQ answers (CMS data)
+  const cleanedFaqItems = faqItems.map((item) => ({
+    ...item,
+    answer: item.answer
+      .replace(/Bij bestellingen vanaf [€\u20AC]?\d+[\s,]*is verzending gratis\.?\s*/gi, "")
+      .replace(/\s*\(?\s*gratis vanaf [€\u20AC]?\d+[.,]?\d*\s*\)?\.?\s*/gi, "")
+      .replace(/\.\s*\./g, ".") // clean up double periods
+      .replace(/\s{2,}/g, " ") // clean up double spaces
+      .trim(),
+  }));
+
   // Group by category
   const categoryMap = new Map<string, { question: string; answer: string }[]>();
-  for (const item of faqItems) {
+  for (const item of cleanedFaqItems) {
     const existing = categoryMap.get(item.category) ?? [];
     existing.push({ question: item.question, answer: item.answer });
     categoryMap.set(item.category, existing);

@@ -34,12 +34,21 @@ const uspIconMap: Record<string, React.ComponentType<{ className?: string }>> = 
 };
 
 export default async function Home() {
-  const [allProducts, heroRaw, uspItems, cmsStats] = await Promise.all([
+  const [allProducts, heroRaw, rawUspItems, cmsStats] = await Promise.all([
     getProducts(),
     getHeroContent(),
     getUSPItems(),
     getHomeStats(),
   ]);
+
+  // Filter out "gratis verzending" USP items from CMS
+  const uspItems = rawUspItems
+    .filter((u) => !u.title.toLowerCase().includes("gratis verzending"))
+    .map((u) => ({
+      ...u,
+      // Also clean subtitle in case of leftover references
+      subtitle: u.subtitle.replace(/gratis verzending/gi, "").trim(),
+    }));
   const featured = allProducts.filter((p) => p.isFeatured);
   const featuredProducts = featured.length > 0 ? featured.slice(0, 4) : allProducts.slice(0, 4);
   const hero = heroRaw ?? DEFAULT_HERO;
