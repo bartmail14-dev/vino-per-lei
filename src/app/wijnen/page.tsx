@@ -1,9 +1,12 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { Suspense } from "react";
 import { getProducts } from "@/lib/shopify";
+import { getUiCopy } from "@/lib/shopify-cms";
+import { formatUiCopy, type UiCopyMap } from "@/lib/ui-copy";
 import { WijnenContent, WijnenLoading } from "./WijnenClient";
 
-export const revalidate = 300; // 5 min — product data from Shopify
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 function getUniqueRegions(products: { region?: string }[]): string[] {
   const regions = new Set<string>();
@@ -13,29 +16,30 @@ function getUniqueRegions(products: { region?: string }[]): string[] {
   return Array.from(regions).sort();
 }
 
-function formatRegionList(regions: string[]): string {
-  if (regions.length === 0) return "Italië";
+function formatRegionList(regions: string[], uiCopy: UiCopyMap): string {
+  if (regions.length === 0) return formatUiCopy(uiCopy, "collection.region.default_country");
   if (regions.length === 1) return regions[0];
-  return regions.slice(0, -1).join(", ") + " en " + regions[regions.length - 1];
+  return regions.slice(0, -1).join(", ") + formatUiCopy(uiCopy, "collection.region.joiner") + regions[regions.length - 1];
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const products = await getProducts();
-  const regionList = formatRegionList(getUniqueRegions(products));
+  const [products, uiCopy] = await Promise.all([getProducts(), getUiCopy()]);
+  const regionList = formatRegionList(getUniqueRegions(products), uiCopy);
+  const title = formatUiCopy(uiCopy, "collection.meta.title");
+  const description = formatUiCopy(uiCopy, "collection.meta.description", { regions: regionList });
 
   return {
-    title: "Onze Wijnen | Vino per Lei",
-    description: `Italiaanse wijnen uit ${regionList}. Filter op regio, druif of prijs. Rechtstreeks van familieproducenten.`,
+    title,
+    description,
     alternates: {
       canonical: "https://vinoperlei.nl/wijnen",
     },
     openGraph: {
-      title: "Onze Wijnen | Vino per Lei",
-      description:
-        "Italiaanse wijnen rechtstreeks van familieproducenten. Filter op regio, druif of prijs.",
+      title,
+      description: formatUiCopy(uiCopy, "collection.meta.og_description"),
       type: "website",
       locale: "nl_NL",
-      siteName: "Vino per Lei",
+      siteName: formatUiCopy(uiCopy, "site.name"),
     },
   };
 }

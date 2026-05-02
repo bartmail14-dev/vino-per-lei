@@ -6,6 +6,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { Section } from "@/components/layout";
 import { Select, Button } from "@/components/ui";
 import { ProductCard, QuickViewModal } from "@/components/product";
+import { useUiCopy } from "@/components/providers";
 import { type Product } from "@/types";
 import {
   FilterSidebar,
@@ -18,8 +19,10 @@ import { regionNameToSlug, slugToDisplayName, slugToRegionNames } from "@/lib/re
 import { FilterIcon, ChevronRightIcon } from "@/components/icons";
 import { LayoutGrid, List, Search, X } from "lucide-react";
 
+type Translate = (key: string, variables?: Record<string, string | number | boolean | null | undefined>) => string;
+
 // Build filter groups dynamically from actual products
-function buildFilterGroups(products: Product[]): FilterGroup[] {
+function buildFilterGroups(products: Product[], t: Translate): FilterGroup[] {
   // Region counts
   const regionCounts: Record<string, number> = {};
   const typeCounts: Record<string, number> = {};
@@ -49,25 +52,27 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
 
   // Build region filter options dynamically from actual products
   const regionSlugCounts: Record<string, number> = {};
+  const regionSlugLabels: Record<string, string> = {};
   for (const [name, count] of Object.entries(regionCounts)) {
     const slug = regionNameToSlug(name);
     if (slug) {
       regionSlugCounts[slug] = (regionSlugCounts[slug] || 0) + count;
+      regionSlugLabels[slug] = regionSlugLabels[slug] || name;
     }
   }
   const regionFilterOptions = Object.entries(regionSlugCounts)
     .map(([slug, count]) => ({
       value: slug,
-      label: slugToDisplayName(slug) || slug,
+      label: regionSlugLabels[slug] || slugToDisplayName(slug) || slug,
       count,
     }))
     .sort((a, b) => a.label.localeCompare(b.label, "nl"));
 
   const typeLabels: Record<string, string> = {
-    red: "Rode Wijn",
-    white: "Witte Wijn",
-    rose: "Rosé",
-    sparkling: "Mousserende wijn",
+    red: t("product.wine_type.red_full"),
+    white: t("product.wine_type.white_full"),
+    rose: t("product.wine_type.rose_full"),
+    sparkling: t("product.wine_type.sparkling_full"),
   };
 
   const grapeOptions = Object.entries(grapeCounts)
@@ -86,39 +91,39 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
 
   const activeRegionOptions = regionFilterOptions.filter(o => (o.count ?? 0) > 0);
   if (activeRegionOptions.length > 0) {
-    groups.push({ id: "region", label: "Regio", options: activeRegionOptions });
+    groups.push({ id: "region", label: t("collection.filter.group.region"), options: activeRegionOptions });
   }
 
   const typeOptions = (["red", "white", "rose", "sparkling"] as const)
-    .map((t) => ({ value: t, label: typeLabels[t], count: typeCounts[t] || 0 }))
+    .map((type) => ({ value: type, label: typeLabels[type], count: typeCounts[type] || 0 }))
     .filter(o => o.count > 0);
   if (typeOptions.length > 0) {
-    groups.push({ id: "wineType", label: "Wijntype", options: typeOptions });
+    groups.push({ id: "wineType", label: t("collection.filter.group.wine_type"), options: typeOptions });
   }
 
   const activeGrapeOptions = grapeOptions.filter(o => (o.count ?? 0) > 0);
   if (activeGrapeOptions.length > 0) {
-    groups.push({ id: "grape", label: "Druivenras", options: activeGrapeOptions });
+    groups.push({ id: "grape", label: t("collection.filter.group.grape"), options: activeGrapeOptions });
   }
 
   const priceOptions = [
-    { value: "15-20", label: "€15 - €20", count: priceBuckets["15-20"] },
-    { value: "20-30", label: "€20 - €30", count: priceBuckets["20-30"] },
-    { value: "30-50", label: "€30 - €50", count: priceBuckets["30-50"] },
-    { value: "50+", label: "€50+", count: priceBuckets["50+"] },
+    { value: "15-20", label: t("collection.price.15_20"), count: priceBuckets["15-20"] },
+    { value: "20-30", label: t("collection.price.20_30"), count: priceBuckets["20-30"] },
+    { value: "30-50", label: t("collection.price.30_50"), count: priceBuckets["30-50"] },
+    { value: "50+", label: t("collection.price.50_plus"), count: priceBuckets["50+"] },
   ].filter(o => o.count > 0);
   if (priceOptions.length > 0) {
-    groups.push({ id: "price", label: "Prijs", options: priceOptions });
+    groups.push({ id: "price", label: t("collection.filter.group.price"), options: priceOptions });
   }
 
   if (hasAlcoholData) {
     const alcoholOptions = [
-      { value: "light", label: "Licht (< 12%)", count: alcoholBuckets["light"] },
-      { value: "medium", label: "Medium (12-14%)", count: alcoholBuckets["medium"] },
-      { value: "full", label: "Vol (14%+)", count: alcoholBuckets["full"] },
+      { value: "light", label: t("collection.alcohol.light"), count: alcoholBuckets["light"] },
+      { value: "medium", label: t("collection.alcohol.medium"), count: alcoholBuckets["medium"] },
+      { value: "full", label: t("collection.alcohol.full"), count: alcoholBuckets["full"] },
     ].filter(o => o.count > 0);
     if (alcoholOptions.length > 0) {
-      groups.push({ id: "alcohol", label: "Alcoholpercentage", options: alcoholOptions });
+      groups.push({ id: "alcohol", label: t("collection.filter.group.alcohol"), options: alcoholOptions });
     }
   }
 
@@ -126,23 +131,28 @@ function buildFilterGroups(products: Product[]): FilterGroup[] {
 }
 
 const sortOptions = [
-  { value: "popular", label: "Populair" },
-  { value: "price-asc", label: "Prijs laag-hoog" },
-  { value: "price-desc", label: "Prijs hoog-laag" },
-  { value: "newest", label: "Nieuwste" },
-  { value: "name-asc", label: "Naam A-Z" },
-  { value: "rating", label: "Best beoordeeld" },
+  { value: "popular", label: "collection.sort.popular" },
+  { value: "price-asc", label: "collection.sort.price_asc" },
+  { value: "price-desc", label: "collection.sort.price_desc" },
+  { value: "newest", label: "collection.sort.newest" },
+  { value: "name-asc", label: "collection.sort.name_asc" },
+  { value: "rating", label: "collection.sort.rating" },
 ];
 
 // No hardcoded region map needed — slugToRegionNames handles all regions dynamically
 
 export function WijnenContent({ products }: { products: Product[] }) {
+  const t = useUiCopy();
   const searchParams = useSearchParams();
   const router = useRouter();
   const regionParam = searchParams.get("region");
   const typeParam = searchParams.get("type");
 
-  const filterGroups = useMemo(() => buildFilterGroups(products), [products]);
+  const filterGroups = useMemo(() => buildFilterGroups(products, t), [products, t]);
+  const translatedSortOptions = useMemo(
+    () => sortOptions.map((option) => ({ ...option, label: t(option.label) })),
+    [t]
+  );
 
   // Initialize filters from URL params
   const initialFilters: ActiveFilters = useMemo(() => {
@@ -206,7 +216,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
         if (!p.region) return false;
         return activeFilters.region!.some((slug) => {
           const regionNames = slugToRegionNames(slug);
-          return regionNames.some((name) => p.region === name) || p.region.toLowerCase() === slug.toLowerCase();
+          return regionNames.some((name) => p.region === name) || regionNameToSlug(p.region) === slug;
         });
       });
     }
@@ -327,6 +337,13 @@ export function WijnenContent({ products }: { products: Product[] }) {
   };
 
   const totalActiveFilters = Object.values(activeFilters).flat().length;
+  const regionNames = [...new Set(products.map((p) => p.region).filter(Boolean))];
+  const regionSummary =
+    regionNames.length === 0
+      ? t("collection.region.default_country")
+      : regionNames.length === 1
+        ? regionNames[0]
+        : regionNames.slice(0, -1).join(", ") + t("collection.region.joiner") + regionNames[regionNames.length - 1];
 
   return (
     <>
@@ -335,19 +352,19 @@ export function WijnenContent({ products }: { products: Product[] }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <nav className="flex items-center gap-2 text-sm">
             <Link href="/" className="text-grey hover:text-wine">
-              Home
+              {t("collection.breadcrumb.home")}
             </Link>
             <ChevronRightIcon className="w-4 h-4 text-grey" />
             {activeRegionName ? (
               <>
                 <Link href="/wijnen" className="text-grey hover:text-wine">
-                  Wijnen
+                  {t("collection.breadcrumb.wines")}
                 </Link>
                 <ChevronRightIcon className="w-4 h-4 text-grey" />
                 <span className="text-charcoal font-medium">{activeRegionName}</span>
               </>
             ) : (
-              <span className="text-charcoal font-medium">Wijnen</span>
+              <span className="text-charcoal font-medium">{t("collection.breadcrumb.wines")}</span>
             )}
           </nav>
         </div>
@@ -357,22 +374,16 @@ export function WijnenContent({ products }: { products: Product[] }) {
       <Section background="warm" spacing="md">
         <div className="text-center">
           <h1 className="text-h1 mb-3">
-            {activeRegionName ? `Wijnen uit ${activeRegionName}` : "Onze Wijnen"}
+            {activeRegionName ? t("collection.heading.region", { region: activeRegionName }) : t("collection.heading.default")}
           </h1>
           <p className="text-body-lg text-grey max-w-2xl mx-auto">
             {activeRegionName ? (
               <>
-                {filteredProducts.length} wijnen uit {activeRegionName}, rechtstreeks van de producent.
+                {t("collection.summary.region", { count: filteredProducts.length, region: activeRegionName })}
               </>
             ) : (
               <>
-                {filteredProducts.length} wijnen uit {(() => {
-                  const regionNames = [...new Set(products.map(p => p.region).filter(Boolean))];
-                  if (regionNames.length === 0) return "Italië";
-                  if (regionNames.length === 1) return regionNames[0];
-                  return regionNames.slice(0, -1).join(", ") + " en " + regionNames[regionNames.length - 1];
-                })()}.
-                Allemaal persoonlijk geselecteerd en rechtstreeks geïmporteerd.
+                {t("collection.summary.default", { count: filteredProducts.length, regions: regionSummary })}
               </>
             )}
           </p>
@@ -402,15 +413,15 @@ export function WijnenContent({ products }: { products: Product[] }) {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Zoek op wijn, regio of druivenras..."
+                placeholder={t("collection.search.placeholder_full")}
                 className="w-full pl-11 pr-11 py-3 border border-sand rounded-xl text-sm text-charcoal placeholder:text-grey/50 placeholder:italic focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold transition-all duration-200 bg-white shadow-sm"
-                aria-label="Zoek wijnen"
+                aria-label={t("collection.search.label")}
               />
               {searchQuery && (
                 <button
                   onClick={() => setSearchQuery("")}
                   className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gold/10 rounded-full transition-colors"
-                  aria-label="Wis zoekopdracht"
+                  aria-label={t("collection.search.clear")}
                 >
                   <X className="w-4 h-4 text-gold" strokeWidth={1.5} />
                 </button>
@@ -426,7 +437,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                 className="lg:hidden border border-gold/40 shadow-sm uppercase tracking-wide text-xs"
               >
                 <FilterIcon className="w-4 h-4 mr-2 text-gold" />
-                Filters
+                {t("collection.filters.label")}
                 {totalActiveFilters > 0 && (
                   <span className="ml-2 bg-gold text-white text-xs px-1.5 py-0.5 rounded-full font-medium">
                     {totalActiveFilters}
@@ -438,7 +449,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
               <p className="text-sm text-grey flex items-center gap-2">
                 <span className="font-serif font-semibold text-gold text-base">{filteredProducts.length}</span>
                 <span className="text-grey/40">|</span>
-                <span>wijnen</span>
+                <span>{t("collection.results.wines")}</span>
               </p>
 
               {/* Right side controls */}
@@ -453,7 +464,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                         ? "bg-gradient-to-br from-wine to-[#2d3454] text-white"
                         : "hover:text-gold text-grey hover:bg-sand/20"
                     )}
-                    aria-label="Grid weergave"
+                    aria-label={t("collection.view.grid")}
                   >
                     <LayoutGrid className="w-4 h-4" strokeWidth={1.5} />
                   </button>
@@ -466,7 +477,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                         ? "bg-gradient-to-br from-wine to-[#2d3454] text-white"
                         : "hover:text-gold text-grey hover:bg-sand/20"
                     )}
-                    aria-label="Lijst weergave"
+                    aria-label={t("collection.view.list")}
                   >
                     <List className="w-4 h-4" strokeWidth={1.5} />
                   </button>
@@ -474,7 +485,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
 
                 {/* Sort */}
                 <Select
-                  options={sortOptions}
+                  options={translatedSortOptions}
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
                   className="w-48"
@@ -515,12 +526,12 @@ export function WijnenContent({ products }: { products: Product[] }) {
                 <div className="w-16 h-16 bg-champagne border border-gold/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <FilterIcon className="w-8 h-8 text-gold" />
                 </div>
-                <h3 className="font-serif text-xl text-charcoal mb-2">Geen wijnen gevonden</h3>
+                <h3 className="font-serif text-xl text-charcoal mb-2">{t("collection.empty.title")}</h3>
                 <p className="text-grey/70 mb-6">
-                  Probeer andere filters of bekijk al onze wijnen.
+                  {t("collection.empty.description")}
                 </p>
                 <Button variant="gold" onClick={handleClearAll}>
-                  Wis alle filters
+                  {t("collection.filters.clear_all")}
                 </Button>
               </div>
             )}
@@ -530,7 +541,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
               <div className="mt-12">
                 <div className="border-t border-sand/60 mb-6" />
                 <p className="text-sm text-grey text-center">
-                  Toont <span className="font-serif font-semibold text-gold">{filteredProducts.length}</span> van <span className="font-serif font-semibold text-gold">{products.length}</span> wijnen
+                  {t("collection.pagination.summary", { shown: filteredProducts.length, total: products.length })}
                 </p>
               </div>
             )}
@@ -541,12 +552,9 @@ export function WijnenContent({ products }: { products: Product[] }) {
       {/* SEO Content */}
       <Section background="warm" spacing="md">
         <div className="max-w-3xl">
-          <h2 className="text-h3 mb-4">Authentieke Italiaanse Wijnen</h2>
+          <h2 className="text-h3 mb-4">{t("collection.seo.title")}</h2>
           <p className="text-grey">
-            Bij Vino per Lei selecteren we elke wijn met persoonlijke proefingen en expertise. Onze collectie
-            bestaat uitsluitend uit echte Italiaanse wijnen van gerenommeerde
-            familiewijngaarden. Van karaktervolle Barbera uit Piemonte tot elegante Valpolicella
-            uit Veneto — wij brengen het beste van Italië naar jouw tafel.
+            {t("collection.seo.body")}
           </p>
         </div>
       </Section>
@@ -563,22 +571,24 @@ export function WijnenContent({ products }: { products: Product[] }) {
 
 // Loading fallback for Suspense
 export function WijnenLoading() {
+  const t = useUiCopy();
+
   return (
     <>
       <div className="bg-warm-white border-b border-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <nav className="flex items-center gap-2 text-sm">
-            <span className="text-grey">Home</span>
+            <span className="text-grey">{t("collection.breadcrumb.home")}</span>
             <span className="text-grey">/</span>
-            <span className="text-charcoal font-medium">Wijnen</span>
+            <span className="text-charcoal font-medium">{t("collection.breadcrumb.wines")}</span>
           </nav>
         </div>
       </div>
       <Section background="warm" spacing="md">
         <div className="text-center">
-          <h1 className="text-h1 mb-3">Onze Wijnen</h1>
+          <h1 className="text-h1 mb-3">{t("collection.heading.default")}</h1>
           <p className="text-body-lg text-grey max-w-2xl mx-auto">
-            Laden...
+            {t("collection.loading")}
           </p>
         </div>
       </Section>

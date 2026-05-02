@@ -1,25 +1,18 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { ShopifyPageContent } from "@/components/cms/ShopifyPageContent";
 import { getPage } from "@/lib/shopify-cms";
-import { RetournerenContent } from "./RetournerenContent";
 
-export const revalidate = 3600; // 1 hour — static CMS content
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export const metadata: Metadata = {
-  title: "Retourbeleid | Vino per Lei",
-  description:
-    "Informatie over retourneren bij Vino per Lei. 14 dagen bedenktijd op ongeopende producten.",
-  openGraph: {
-    title: "Retourbeleid | Vino per Lei",
-    description:
-      "Informatie over retourneren bij Vino per Lei. 14 dagen bedenktijd op ongeopende producten.",
-    type: "website",
-    locale: "nl_NL",
-    siteName: "Vino per Lei",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPage("retourbeleid");
+  return page?.title ? { title: page.title } : {};
+}
 
 export default async function RetournerenPage() {
   const page = await getPage("retourbeleid");
-
-  return <RetournerenContent pageBody={page?.body ?? null} pageTitle={page?.title ?? null} />;
+  if (!page?.body) notFound();
+  return <ShopifyPageContent title={page.title} body={page.body} updatedAt={page.updatedAt} />;
 }

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useUiCopy } from "@/components/providers";
 
 interface TocItem {
   id: string;
@@ -35,6 +36,7 @@ export function TableOfContents() {
   const headingsExtracted = useRef(false);
   const [activeId, setActiveId] = useState<string>("");
   const [visible, setVisible] = useState(false);
+  const t = useUiCopy();
 
   // Extract headings from article content after initial render
   useEffect(() => {
@@ -112,7 +114,7 @@ export function TableOfContents() {
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 16 }}
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          aria-label="Inhoudsopgave"
+          aria-label={t("blog.article.toc")}
           className="hidden xl:block fixed right-6 2xl:right-10 top-1/2 -translate-y-1/2 z-30 w-[200px] print:hidden"
         >
           {/* Vertical progress track */}

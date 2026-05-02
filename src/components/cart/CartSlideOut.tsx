@@ -8,7 +8,7 @@ import { useCartStore } from "@/stores/cartStore";
 import { getShopifyCartUrl } from "@/lib/shopify";
 import { Button, QuantitySelector } from "@/components/ui";
 import { formatPrice, wineImagePresets } from "@/lib/utils";
-import { cn } from "@/lib/utils";
+import { getOrderIncrement, getOrderMaximum, getOrderMinimum, getOrderUnitText, getPriceUnitText } from "@/lib/order-rules";
 import { CloseIcon, TrashIcon, ShoppingBagIcon, CheckIcon } from "@/components/icons";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
@@ -143,6 +143,9 @@ export function CartSlideOut() {
                           )}
                           <p className="text-sm font-semibold mt-2">
                             {formatPrice(item.product.price)}
+                            {getPriceUnitText(item.product) && (
+                              <span className="font-normal text-grey"> {getPriceUnitText(item.product)}</span>
+                            )}
                             {item.quantity > 1 && (
                               <span className="font-normal text-grey">
                                 {" "}
@@ -151,14 +154,20 @@ export function CartSlideOut() {
                               </span>
                             )}
                           </p>
+                          {getOrderUnitText(item.product) && (
+                            <p className="text-xs text-grey mt-1">
+                              Per {getOrderUnitText(item.product)}
+                            </p>
+                          )}
 
                           {/* Quantity & Remove */}
                           <div className="flex items-center justify-between mt-3">
                             <QuantitySelector
                               value={item.quantity}
                               onChange={(q) => updateQuantity(item.id, q)}
-                              min={1}
-                              max={99}
+                              min={getOrderMinimum(item.product)}
+                              max={getOrderMaximum(item.product)}
+                              step={getOrderIncrement(item.product)}
                               size="sm"
                             />
                             <button

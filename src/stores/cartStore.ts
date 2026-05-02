@@ -6,6 +6,7 @@ import {
   type Product,
   SHIPPING_COST,
 } from "@/types";
+import { clampOrderQuantity } from "@/lib/order-rules";
 
 const calculateTotals = (items: CartItem[]) => {
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
@@ -34,7 +35,7 @@ export const useCartStore = create<CartState>()(
       setHydrated: () => set({ isHydrated: true }),
 
       addItem: (product: Product, quantity: number = 1) => {
-        quantity = Math.max(1, Math.min(99, quantity));
+        quantity = clampOrderQuantity(product, quantity);
         set((state) => {
           const existingItem = state.items.find(
             (item) => item.product.id === product.id
@@ -45,7 +46,7 @@ export const useCartStore = create<CartState>()(
           if (existingItem) {
             newItems = state.items.map((item) =>
               item.product.id === product.id
-                ? { ...item, quantity: item.quantity + quantity }
+                ? { ...item, quantity: clampOrderQuantity(product, item.quantity + quantity) }
                 : item
             );
           } else {
@@ -76,14 +77,19 @@ export const useCartStore = create<CartState>()(
       },
 
       updateQuantity: (itemId: string, quantity: number) => {
+        const item = get().items.find((i) => i.id === itemId);
+        if (!item) return;
+
         if (quantity < 1) {
           get().removeItem(itemId);
           return;
         }
 
+        const normalizedQuantity = clampOrderQuantity(item.product, quantity);
+
         set((state) => {
           const newItems = state.items.map((item) =>
-            item.id === itemId ? { ...item, quantity } : item
+            item.id === itemId ? { ...item, quantity: normalizedQuantity } : item
           );
           return {
             items: newItems,

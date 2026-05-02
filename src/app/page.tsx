@@ -2,9 +2,10 @@ import Link from "next/link";
 import { Section } from "@/components/layout";
 import { ProductCard } from "@/components/product";
 import { getProducts } from "@/lib/shopify";
-import dynamic from "next/dynamic";
+import { formatUiCopy } from "@/lib/ui-copy";
+import nextDynamic from "next/dynamic";
 import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, StarIcon, ShieldIcon } from "@/components/icons";
-import { getHeroContent, getUSPItems, getHomeStats, DEFAULT_HERO } from "@/lib/shopify-cms";
+import { getHeroContent, getUSPItems, getHomeStats, getUiCopy } from "@/lib/shopify-cms";
 import { getActiveRegionSlugsFromProducts, slugToDisplayName } from "@/lib/region-utils";
 import {
   AnimatedSection,
@@ -18,10 +19,11 @@ import {
   OverlapTransition,
 } from "@/components/home/HomeAnimations";
 
-export const revalidate = 60; // 1 min — align with blog pages for fresh content
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 // Lazy load the map component (below-fold)
-const ItalyWineMap = dynamic(() => import("@/components/map").then(mod => mod.ItalyWineMap), {
+const ItalyWineMap = nextDynamic(() => import("@/components/map").then(mod => mod.ItalyWineMap), {
   loading: () => <div className="h-[400px] bg-sand/30 rounded-lg animate-pulse" />,
 });
 
@@ -34,11 +36,12 @@ const uspIconMap: Record<string, React.ComponentType<{ className?: string }>> = 
 };
 
 export default async function Home() {
-  const [allProducts, heroRaw, rawUspItems, cmsStats] = await Promise.all([
+  const [allProducts, heroRaw, rawUspItems, cmsStats, uiCopy] = await Promise.all([
     getProducts(),
     getHeroContent(),
     getUSPItems(),
     getHomeStats(),
+    getUiCopy(),
   ]);
 
   // Filter out false claims from CMS USP items
@@ -53,25 +56,20 @@ export default async function Home() {
     }));
   const featured = allProducts.filter((p) => p.isFeatured);
   const featuredProducts = featured.length > 0 ? featured.slice(0, 4) : allProducts.slice(0, 4);
-  const hero = heroRaw ?? DEFAULT_HERO;
-  const uniqueRegions = new Set(allProducts.map((p) => p.region).filter(Boolean));
+  const hero = heroRaw;
   const activeRegionSlugs = getActiveRegionSlugsFromProducts(allProducts);
-  const homeStats = cmsStats.length > 0 ? cmsStats : [
-    { value: String(allProducts.length), prefix: "", suffix: "", label: "Geselecteerde wijnen", sortOrder: 0 },
-    { value: String(uniqueRegions.size || 3), prefix: "", suffix: "", label: "Italiaanse wijngebieden", sortOrder: 1 },
-    { value: "12", prefix: "", suffix: "+", label: "Familieproducenten", sortOrder: 2 },
-    { value: "48", prefix: "< ", suffix: "", label: "Uur levering", sortOrder: 3 },
-  ];
+  const homeStats = cmsStats;
+  const copy = (key: string, variables?: Record<string, string | number>) =>
+    formatUiCopy(uiCopy, key, variables);
 
   // JSON-LD: Organization schema
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "Vino per Lei",
+    name: copy("site.name"),
     url: "https://vinoperlei.nl",
     logo: "https://vinoperlei.nl/logo.png",
-    description:
-      "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
+    description: copy("home.org.description"),
     sameAs: [],
   };
 
@@ -89,35 +87,35 @@ export default async function Home() {
           <div className="max-w-3xl text-center">
             {/* Eyebrow */}
             <p className="text-label text-gold mb-4 sm:mb-6 animate-fade-in animation-delay-300">
-              {hero.subtitle}
+              {hero?.subtitle}
             </p>
 
             {/* Headline — bigger, bolder, with gold glow */}
             <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-5 sm:mb-8 leading-[1.05] animate-fade-in-up animation-delay-400 text-shadow-hero">
-              {hero.titleLine1}
+              {hero?.titleLine1}
               <br />
-              <span className="text-gold text-shadow-gold">{hero.titleLine2}</span>
+              <span className="text-gold text-shadow-gold">{hero?.titleLine2}</span>
             </h1>
 
             {/* Subtext */}
             <p className="text-sm sm:text-lg lg:text-xl text-white/80 mb-8 sm:mb-12 leading-relaxed animate-fade-in animation-delay-500 max-w-2xl mx-auto text-shadow-sm">
-              {hero.description}
+              {hero?.description}
             </p>
 
             {/* CTA Buttons — premium styling */}
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 justify-center animate-fade-in-up animation-delay-600">
               <Link
-                href={hero.ctaPrimaryLink}
+                href={hero?.ctaPrimaryLink || "/wijnen"}
                 className="group inline-flex items-center justify-center h-13 sm:h-14 px-10 sm:px-12 bg-gold text-wine-dark font-bold uppercase tracking-wider text-xs sm:text-sm rounded-sm hover:bg-gold-light transition-all duration-300 shadow-lg shadow-gold/20 hover:shadow-xl hover:shadow-gold/30"
               >
-                {hero.ctaPrimaryText}
+                {hero?.ctaPrimaryText}
                 <ChevronRightIcon className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
-                href={hero.ctaSecondaryLink}
+                href={hero?.ctaSecondaryLink || "/over-ons"}
                 className="group inline-flex items-center justify-center h-13 sm:h-14 px-8 sm:px-10 border border-white/40 text-white text-button uppercase rounded-sm hover:bg-white/10 hover:border-white/60 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-white/10 hover:scale-[1.02]"
               >
-                {hero.ctaSecondaryText}
+                {hero?.ctaSecondaryText}
                 <ChevronRightIcon className="w-4 h-4 ml-2 opacity-60 transition-all group-hover:opacity-100 group-hover:translate-x-1" />
               </Link>
             </div>
@@ -162,19 +160,19 @@ export default async function Home() {
         <AnimatedSection variant="fadeUp">
           <div className="flex items-start sm:items-end justify-between mb-8 sm:mb-14">
             <div>
-              <p className="text-label text-wine/40 mb-2">Door Carla gekozen</p>
+              <p className="text-label text-wine/40 mb-2">{copy("home.featured.eyebrow")}</p>
               <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight">
-                Onze Favorieten
+                {copy("home.featured.title")}
               </h2>
               <p className="text-grey text-sm sm:text-base mt-2 max-w-md">
-                Persoonlijk geselecteerd door Carla.
+                {copy("home.featured.subtitle")}
               </p>
             </div>
             <Link
               href="/wijnen"
               className="group flex items-center gap-2 text-wine font-medium text-sm hover:text-wine-dark transition-colors"
             >
-              Alle wijnen
+              {copy("home.featured.view_all")}
               <ChevronRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </Link>
           </div>
@@ -196,12 +194,16 @@ export default async function Home() {
       <Section background="dark" spacing="xl" className="overflow-hidden">
         <div className="grid lg:grid-cols-2 gap-10 sm:gap-16 items-center">
           <AnimatedSection variant="fadeLeft" className="order-2 lg:order-1">
-            <p className="text-label text-gold/60 mb-3">{activeRegionSlugs.length === 1 ? "Een wijngebied" : `${activeRegionSlugs.length} wijngebieden`}</p>
+            <p className="text-label text-gold/60 mb-3">
+              {activeRegionSlugs.length === 1
+                ? copy("home.regions.count_singular")
+                : copy("home.regions.count_plural", { count: activeRegionSlugs.length })}
+            </p>
             <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold text-white mb-4 sm:mb-6 leading-tight">
-              Rechtstreeks<br className="hidden sm:block" /> uit Italië
+              {copy("home.regions.title_line_1")}<br className="hidden sm:block" /> {copy("home.regions.title_line_2")}
             </h2>
             <p className="text-sm sm:text-base text-white/50 mb-8 sm:mb-10 leading-relaxed max-w-lg">
-              Elke wijn komt rechtstreeks van de producent. Ontdek de regio&apos;s waar onze wijnen vandaan komen.
+              {copy("home.regions.body")}
             </p>
             <div className="flex flex-wrap gap-2.5 sm:gap-3">
               {activeRegionSlugs.map((slug) => {

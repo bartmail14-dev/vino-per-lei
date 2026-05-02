@@ -1,24 +1,23 @@
-import { createStorefrontApiClient } from '@shopify/storefront-api-client';
+import { createStorefrontApiClient } from "@shopify/storefront-api-client";
+import type { UiCopyMap } from "@/lib/ui-copy";
 
-// Lazy-init: avoid throwing at module evaluation when env vars are missing (e.g. build without .env)
 let _client: ReturnType<typeof createStorefrontApiClient> | null = null;
+
 function getClient() {
   if (!_client) {
     const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
     const token = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
     if (!domain || !token) {
-      throw new Error('Missing Shopify env vars: NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN and NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN must be set');
+      throw new Error("Missing Shopify env vars: NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN and NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN must be set");
     }
     _client = createStorefrontApiClient({
       storeDomain: domain,
-      apiVersion: '2026-01',
+      apiVersion: "2026-01",
       publicAccessToken: token,
     });
   }
   return _client;
 }
-
-// --- Types ---
 
 export interface SiteSettings {
   companyName: string;
@@ -120,17 +119,52 @@ export interface MenuItem {
   items: MenuItem[];
 }
 
-// --- Helpers ---
+export interface ShopifyMenu {
+  title: string;
+  items: MenuItem[];
+}
+
+export interface TestimonialCMS {
+  name: string;
+  text: string;
+  rating: number;
+  wine: string;
+  attribution: string;
+  sortOrder: number;
+}
+
+export interface HomeStatCMS {
+  value: string;
+  prefix: string;
+  suffix: string;
+  label: string;
+  sortOrder: number;
+}
+
+export interface ShopConfig {
+  freeShippingThreshold: number;
+  shippingCost: number;
+}
+
+export interface UiCopyItem {
+  key: string;
+  value: string;
+  group: string;
+  description: string;
+}
 
 function parseFields(fields: Array<{ key: string; value: string }>): Record<string, string> {
   const map: Record<string, string> = {};
-  for (const f of fields) {
-    map[f.key] = f.value;
+  for (const field of fields) {
+    map[field.key] = field.value;
   }
   return map;
 }
 
-// --- Metaobject Queries ---
+function parseNumber(value: string | undefined): number {
+  const parsed = Number.parseFloat(value ?? "");
+  return Number.isFinite(parsed) ? parsed : 0;
+}
 
 async function getMetaobject<T>(
   type: string,
@@ -138,13 +172,16 @@ async function getMetaobject<T>(
   mapper: (fields: Record<string, string>) => T
 ): Promise<T | null> {
   try {
-    const { data } = await getClient().request(`
+    const { data } = await getClient().request(
+      `
       query getMetaobject($handle: MetaobjectHandleInput!) {
         metaobject(handle: $handle) {
           fields { key value }
         }
       }
-    `, { variables: { handle: { type, handle } } });
+    `,
+      { variables: { handle: { type, handle } } }
+    );
     if (!data?.metaobject) return null;
     return mapper(parseFields(data.metaobject.fields));
   } catch (error) {
@@ -158,131 +195,166 @@ async function getMetaobjects<T>(
   mapper: (fields: Record<string, string>, handle: string) => T
 ): Promise<T[]> {
   try {
-    const { data } = await getClient().request(`
-      query getMetaobjects($type: String!) {
-        metaobjects(type: $type, first: 100) {
-          nodes {
-            handle
-            fields { key value }
+    const nodes: Array<{ handle: string; fields: Array<{ key: string; value: string }> }> = [];
+    let after: string | null = null;
+
+    do {
+      const response = await getClient().request(
+        `
+        query getMetaobjects($type: String!, $after: String) {
+          metaobjects(type: $type, first: 250, after: $after) {
+            nodes {
+              handle
+              fields { key value }
+            }
+            pageInfo {
+              hasNextPage
+              endCursor
+            }
           }
         }
-      }
-    `, { variables: { type } });
-    return (data?.metaobjects?.nodes ?? []).map(
-      (node: { handle: string; fields: Array<{ key: string; value: string }> }) =>
-        mapper(parseFields(node.fields), node.handle)
-    );
+      `,
+        { variables: { type, after } }
+      );
+      const data = response.data as
+        | {
+            metaobjects?: {
+              nodes?: Array<{ handle: string; fields: Array<{ key: string; value: string }> }>;
+              pageInfo?: { hasNextPage?: boolean; endCursor?: string | null };
+            };
+          }
+        | undefined;
+      nodes.push(...(data?.metaobjects?.nodes ?? []));
+      after = data?.metaobjects?.pageInfo?.hasNextPage
+        ? data.metaobjects.pageInfo.endCursor ?? null
+        : null;
+    } while (after);
+
+    return nodes.map((node) => mapper(parseFields(node.fields), node.handle));
   } catch (error) {
     console.error(`Failed to fetch metaobjects ${type}:`, error);
     return [];
   }
 }
 
-// --- Public API ---
-
 export async function getSiteSettings(): Promise<SiteSettings | null> {
-  return getMetaobject('site_settings', 'main', (f) => ({
-    companyName: f.company_name || 'Vino per Lei',
-    ownerName: f.owner_name || '',
-    phone: f.phone || '',
-    email: f.email || 'info@vinoperlei.nl',
-    addressStreet: f.address_street || '',
-    addressPostal: f.address_postal || '',
-    addressCity: f.address_city || '',
-    kvk: f.kvk || '',
-    btw: f.btw || '',
-    instagramUrl: f.instagram_url || '',
-    facebookUrl: f.facebook_url || '',
-    hoursWeekday: f.hours_weekday || '09:00 - 17:00',
-    hoursSaturday: f.hours_saturday || 'Gesloten',
-    hoursSunday: f.hours_sunday || 'Gesloten',
-    freeShippingThreshold: parseFloat(f.gratis_verzending_drempel) || 100,
-    shippingCost: parseFloat(f.verzendkosten) || 7.95,
+  return getMetaobject("site_settings", "main", (f) => ({
+    companyName: f.company_name || "",
+    ownerName: f.owner_name || "",
+    phone: f.phone || "",
+    email: f.email || "",
+    addressStreet: f.address_street || "",
+    addressPostal: f.address_postal || "",
+    addressCity: f.address_city || "",
+    kvk: f.kvk || "",
+    btw: f.btw || "",
+    instagramUrl: f.instagram_url || "",
+    facebookUrl: f.facebook_url || "",
+    hoursWeekday: f.hours_weekday || "",
+    hoursSaturday: f.hours_saturday || "",
+    hoursSunday: f.hours_sunday || "",
+    freeShippingThreshold: parseNumber(f.gratis_verzending_drempel),
+    shippingCost: parseNumber(f.verzendkosten),
   }));
 }
 
 export async function getHeroContent(): Promise<HeroContent | null> {
-  return getMetaobject('homepage_hero', 'main', (f) => ({
-    subtitle: f.subtitle || '',
-    titleLine1: f.title_line_1 || '',
-    titleLine2: f.title_line_2 || '',
-    description: f.description || '',
-    ctaPrimaryText: f.cta_primary_text || '',
-    ctaPrimaryLink: f.cta_primary_link || '/wijnen',
-    ctaSecondaryText: f.cta_secondary_text || '',
-    ctaSecondaryLink: f.cta_secondary_link || '/over-ons',
+  return getMetaobject("homepage_hero", "main", (f) => ({
+    subtitle: f.subtitle || "",
+    titleLine1: f.title_line_1 || "",
+    titleLine2: f.title_line_2 || "",
+    description: f.description || "",
+    ctaPrimaryText: f.cta_primary_text || "",
+    ctaPrimaryLink: f.cta_primary_link || "",
+    ctaSecondaryText: f.cta_secondary_text || "",
+    ctaSecondaryLink: f.cta_secondary_link || "",
   }));
 }
 
 export async function getAnnouncementBar(): Promise<AnnouncementBar | null> {
-  return getMetaobject('announcement_bar', 'main', (f) => ({
-    message: f.message || '',
-    enabled: f.enabled === 'true',
-    link: f.link || '',
+  return getMetaobject("announcement_bar", "main", (f) => ({
+    message: f.message || "",
+    enabled: f.enabled === "true",
+    link: f.link || "",
   }));
 }
 
+export async function getUiCopy(): Promise<UiCopyMap> {
+  const items = await getMetaobjects<UiCopyItem>("ui_copy", (f, handle) => ({
+    key: f.key || handle,
+    value: f.value || "",
+    group: f.group || "",
+    description: f.description || "",
+  }));
+
+  return Object.fromEntries(items.filter((item) => item.key).map((item) => [item.key, item.value]));
+}
+
 export async function getUSPItems(): Promise<USPItem[]> {
-  const items = await getMetaobjects<USPItem>('usp_item', (f) => ({
-    title: f.title || '',
-    subtitle: f.subtitle || '',
-    iconName: f.icon_name || 'truck',
-    sortOrder: parseInt(f.sort_order || '0'),
+  const items = await getMetaobjects<USPItem>("usp_item", (f) => ({
+    title: f.title || "",
+    subtitle: f.subtitle || "",
+    iconName: f.icon_name || "",
+    sortOrder: Number.parseInt(f.sort_order || "0", 10),
   }));
   return items.sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
 export async function getFAQItems(): Promise<FAQItem[]> {
-  const items = await getMetaobjects<FAQItem>('faq_item', (f) => ({
-    category: f.category || '',
-    question: f.question || '',
-    answer: f.answer || '',
-    sortOrder: parseInt(f.sort_order || '0'),
+  const items = await getMetaobjects<FAQItem>("faq_item", (f) => ({
+    category: f.category || "",
+    question: f.question || "",
+    answer: f.answer || "",
+    sortOrder: Number.parseInt(f.sort_order || "0", 10),
   }));
   return items.sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
 export async function getWineRegions(): Promise<WineRegionCMS[]> {
-  return getMetaobjects<WineRegionCMS>('wine_region', (f, handle) => {
+  return getMetaobjects<WineRegionCMS>("wine_region", (f, handle) => {
     let famousWines: string[] = [];
-    try { famousWines = JSON.parse(f.famous_wines || '[]'); } catch { /* ignore */ }
+    try {
+      famousWines = JSON.parse(f.famous_wines || "[]");
+    } catch {
+      famousWines = [];
+    }
     return {
       id: handle,
-      name: f.name || '',
-      displayName: f.display_name || f.name || '',
+      name: f.name || "",
+      displayName: f.display_name || f.name || "",
       slug: f.slug || handle,
-      description: f.description || '',
+      description: f.description || "",
       famousWines,
-      area: f.area || 'north',
-      active: f.active !== 'false',
+      area: f.area || "",
+      active: f.active !== "false",
     };
   });
 }
 
-const DEFAULT_CATEGORIES: CategoryBlock[] = [
-  { name: "Rode Wijn", description: "Krachtig & vol", href: "/wijnen?type=red", iconType: "red", sortOrder: 0 },
-  { name: "Witte Wijn", description: "Fris & elegant", href: "/wijnen?type=white", iconType: "white", sortOrder: 1 },
-  { name: "Rosé", description: "Zacht & fruitig", href: "/wijnen?type=rose", iconType: "rose", sortOrder: 2 },
-  { name: "Mousserende Wijn", description: "Feestelijk & sprankelend", href: "/wijnen?type=sparkling", iconType: "sparkling", sortOrder: 3 },
-];
-
 export async function getCategoryBlocks(): Promise<CategoryBlock[]> {
-  const items = await getMetaobjects<CategoryBlock>('category_block', (f) => ({
-    name: f.name || '',
-    description: f.description || '',
-    href: f.href || '/wijnen',
-    iconType: f.icon_type || 'red',
-    sortOrder: parseInt(f.sort_order || '0'),
+  const items = await getMetaobjects<CategoryBlock>("category_block", (f) => ({
+    name: f.name || "",
+    description: f.description || "",
+    href: f.href || "",
+    iconType: f.icon_type || "",
+    sortOrder: Number.parseInt(f.sort_order || "0", 10),
   }));
-  const sorted = items.sort((a, b) => a.sortOrder - b.sortOrder);
-  return sorted.length > 0 ? sorted : DEFAULT_CATEGORIES;
+  return items.sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
-// --- Shopify Pages ---
+async function getPageMetaobject(handle: string): Promise<ShopifyPage | null> {
+  return getMetaobject<ShopifyPage>("page_content", handle, (f) => ({
+    title: f.title || "",
+    body: f.body || "",
+    bodySummary: f.body_summary || "",
+    updatedAt: f.updated_at || "",
+  }));
+}
 
 export async function getPage(handle: string): Promise<ShopifyPage | null> {
   try {
-    const { data } = await getClient().request(`
+    const { data } = await getClient().request(
+      `
       query getPage($handle: String!) {
         pageByHandle(handle: $handle) {
           title
@@ -291,16 +363,15 @@ export async function getPage(handle: string): Promise<ShopifyPage | null> {
           updatedAt
         }
       }
-    `, { variables: { handle } });
-    if (!data?.pageByHandle) return null;
-    return data.pageByHandle;
+    `,
+      { variables: { handle } }
+    );
+    return data?.pageByHandle ?? getPageMetaobject(handle);
   } catch (error) {
     console.error(`Failed to fetch page "${handle}":`, error);
-    return null;
+    return getPageMetaobject(handle);
   }
 }
-
-// --- Blog ---
 
 const ARTICLE_FIELDS = `
   title
@@ -315,24 +386,24 @@ const ARTICLE_FIELDS = `
 `;
 
 function estimateReadingTime(html: string): number {
-  const text = html.replace(/<[^>]*>/g, '');
+  const text = html.replace(/<[^>]*>/g, "");
   const words = text.split(/\s+/).filter(Boolean).length;
   return Math.max(1, Math.ceil(words / 200));
 }
 
 function mapArticle(node: Record<string, unknown>): BlogArticle {
-  const contentHtml = (node.contentHtml as string) || '';
+  const contentHtml = (node.contentHtml as string) || "";
   const authorV2Raw = node.authorV2 as { name?: string; bio?: string } | null | undefined;
   const seoRaw = node.seo as { title?: string; description?: string } | null;
   return {
-    title: (node.title as string) || '',
-    handle: (node.handle as string) || '',
+    title: (node.title as string) || "",
+    handle: (node.handle as string) || "",
     contentHtml,
-    excerpt: (node.excerpt as string) || '',
-    publishedAt: (node.publishedAt as string) || '',
-    image: node.image as BlogArticle['image'],
+    excerpt: (node.excerpt as string) || "",
+    publishedAt: (node.publishedAt as string) || "",
+    image: node.image as BlogArticle["image"],
     tags: (node.tags as string[]) || [],
-    authorV2: authorV2Raw?.name ? { name: authorV2Raw.name, bio: authorV2Raw.bio ?? '' } : null,
+    authorV2: authorV2Raw?.name ? { name: authorV2Raw.name, bio: authorV2Raw.bio ?? "" } : null,
     seo: { title: seoRaw?.title || null, description: seoRaw?.description || null },
     readingTimeMinutes: estimateReadingTime(contentHtml),
   };
@@ -340,7 +411,8 @@ function mapArticle(node: Record<string, unknown>): BlogArticle {
 
 export async function getBlogArticles(first: number = 20): Promise<BlogArticle[]> {
   try {
-    const response = await getClient().request(`
+    const response = await getClient().request(
+      `
       query getBlogArticles($first: Int!) {
         blogs(first: 10) {
           nodes {
@@ -350,10 +422,12 @@ export async function getBlogArticles(first: number = 20): Promise<BlogArticle[]
           }
         }
       }
-    `, { variables: { first } });
+    `,
+      { variables: { first } }
+    );
     const { data, errors } = response as { data: typeof response.data; errors?: Array<{ message: string }> };
     if (errors?.length) {
-      console.error('[getBlogArticles] Shopify GraphQL errors:', JSON.stringify(errors, null, 2));
+      console.error("[getBlogArticles] Shopify GraphQL errors:", JSON.stringify(errors, null, 2));
     }
     const allArticles: BlogArticle[] = [];
     for (const blog of data?.blogs?.nodes ?? []) {
@@ -361,19 +435,19 @@ export async function getBlogArticles(first: number = 20): Promise<BlogArticle[]
         allArticles.push(mapArticle(node));
       }
     }
-    allArticles.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-    if (allArticles.length > 0) return allArticles.slice(0, first);
-    console.warn('[getBlogArticles] No articles from Shopify, using defaults');
-    return DEFAULT_BLOG_ARTICLES.slice(0, first);
+    return allArticles
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+      .slice(0, first);
   } catch (error) {
-    console.error('[getBlogArticles] Failed to fetch blog articles:', error instanceof Error ? error.message : error);
-    return DEFAULT_BLOG_ARTICLES.slice(0, first);
+    console.error("[getBlogArticles] Failed to fetch blog articles:", error instanceof Error ? error.message : error);
+    return [];
   }
 }
 
 export async function getBlogArticlesByTag(tag: string, first: number = 20): Promise<BlogArticle[]> {
   try {
-    const { data } = await getClient().request(`
+    const { data } = await getClient().request(
+      `
       query getBlogArticlesByTag($first: Int!, $query: String!) {
         blogs(first: 10) {
           nodes {
@@ -383,14 +457,18 @@ export async function getBlogArticlesByTag(tag: string, first: number = 20): Pro
           }
         }
       }
-    `, { variables: { first, query: `tag:${tag}` } });
+    `,
+      { variables: { first, query: `tag:${tag}` } }
+    );
     const allArticles: BlogArticle[] = [];
     for (const blog of data?.blogs?.nodes ?? []) {
       for (const node of blog?.articles?.nodes ?? []) {
         allArticles.push(mapArticle(node));
       }
     }
-    return allArticles.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()).slice(0, first);
+    return allArticles
+      .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime())
+      .slice(0, first);
   } catch (error) {
     console.error(`[getBlogArticlesByTag] Failed to fetch articles by tag "${tag}":`, error instanceof Error ? error.message : error);
     return [];
@@ -399,34 +477,35 @@ export async function getBlogArticlesByTag(tag: string, first: number = 20): Pro
 
 export async function getBlogArticleByHandle(handle: string): Promise<BlogArticle | null> {
   try {
-    // Search across all blogs for the article
     const allArticles = await getBlogArticles(50);
-    const found = allArticles.find((a) => a.handle === handle);
-    if (found) return found;
-    return DEFAULT_BLOG_ARTICLES.find((a) => a.handle === handle) ?? null;
+    return allArticles.find((article) => article.handle === handle) ?? null;
   } catch (error) {
     console.error(`Failed to fetch article "${handle}":`, error);
-    return DEFAULT_BLOG_ARTICLES.find((a) => a.handle === handle) ?? null;
+    return null;
   }
 }
 
-/** Get unique tags from all articles for category filtering */
 export async function getBlogTags(): Promise<string[]> {
   const articles = await getBlogArticles(50);
   const tagSet = new Set<string>();
-  for (const a of articles) {
-    for (const t of a.tags) tagSet.add(t);
+  for (const article of articles) {
+    for (const tag of article.tags) tagSet.add(tag);
   }
   return Array.from(tagSet).sort();
 }
 
-// --- Menus ---
-
 export async function getMenu(handle: string): Promise<MenuItem[]> {
+  const menu = await getMenuWithTitle(handle);
+  return menu?.items ?? [];
+}
+
+export async function getMenuWithTitle(handle: string): Promise<ShopifyMenu | null> {
   try {
-    const { data } = await getClient().request(`
+    const { data } = await getClient().request(
+      `
       query getMenu($handle: String!) {
         menu(handle: $handle) {
+          title
           items {
             title
             url
@@ -441,217 +520,43 @@ export async function getMenu(handle: string): Promise<MenuItem[]> {
           }
         }
       }
-    `, { variables: { handle } });
-    return data?.menu?.items ?? [];
+    `,
+      { variables: { handle } }
+    );
+    return data?.menu ?? null;
   } catch (error) {
     console.error(`Failed to fetch menu "${handle}":`, error);
-    return [];
+    return null;
   }
 }
 
-// --- Defaults (fallbacks when Shopify CMS not yet populated) ---
-
-export const DEFAULT_SITE_SETTINGS: SiteSettings = {
-  companyName: 'Vino per Lei',
-  ownerName: 'Carla Daniels',
-  phone: '', // Telefoonnummer bewust niet getoond
-  email: 'info@vinoperlei.nl',
-  addressStreet: 'Pastorielaan 56',
-  addressPostal: '5504 CR',
-  addressCity: 'Veldhoven',
-  kvk: '98874977',
-  btw: 'NL005360033B10',
-  instagramUrl: 'https://instagram.com/vinoperlei',
-  facebookUrl: 'https://facebook.com/vinoperlei',
-  hoursWeekday: '09:00 - 17:00',
-  hoursSaturday: '10:00 - 14:00',
-  hoursSunday: 'Gesloten',
-  freeShippingThreshold: 100,
-  shippingCost: 7.95,
-};
-
-export const DEFAULT_HERO: HeroContent = {
-  subtitle: 'Kleine producenten, grote wijnen',
-  titleLine1: 'Italiaanse wijn',
-  titleLine2: 'zonder omwegen',
-  description: 'Rechtstreeks van familiewijngaarden in Piemonte, Veneto en Toscane. Persoonlijk geproefd en geïmporteerd door Carla.',
-  ctaPrimaryText: 'Bekijk de collectie',
-  ctaPrimaryLink: '/wijnen',
-  ctaSecondaryText: 'Over Vino per Lei',
-  ctaSecondaryLink: '/over-ons',
-};
-
-export const DEFAULT_ANNOUNCEMENT: AnnouncementBar = {
-  message: 'Italiaanse wijnen rechtstreeks van de producent',
-  enabled: true,
-  link: '/wijnen',
-};
-
-export const DEFAULT_BLOG_ARTICLES: BlogArticle[] = [
-  {
-    title: 'Barolo: De Koning der Italiaanse Wijnen',
-    handle: 'barolo-de-koning-der-italiaanse-wijnen',
-    contentHtml: '<p>Ontdek waarom Barolo uit Piemonte al eeuwenlang de kroon draagt. Van de Nebbiolo-druif tot de kenmerkende tannines — alles over deze iconische wijn.</p>',
-    excerpt: 'Ontdek waarom Barolo uit Piemonte al eeuwenlang de kroon draagt. Van de Nebbiolo-druif tot de kenmerkende tannines — alles over deze iconische wijn.',
-    publishedAt: '2026-03-15T12:00:00Z',
-    image: null,
-    tags: ['wijnkennis', 'piemonte'],
-    authorV2: { name: 'Carla Daniels', bio: '' },
-    seo: { title: 'Barolo: De Koning der Italiaanse Wijnen', description: 'Ontdek waarom Barolo uit Piemonte al eeuwenlang de kroon draagt.' },
-    readingTimeMinutes: 5,
-  },
-  {
-    title: 'Toscana: De Ultieme Wijngids',
-    handle: 'toscana-de-ultieme-wijngids',
-    contentHtml: '<p>Van Chianti Classico tot Brunello di Montalcino — een reis door de wijnheuvels van Toscane. Leer welke wijnen je moet proeven en waarom.</p>',
-    excerpt: 'Van Chianti Classico tot Brunello di Montalcino — een reis door de wijnheuvels van Toscane. Leer welke wijnen je moet proeven en waarom.',
-    publishedAt: '2026-03-08T12:00:00Z',
-    image: null,
-    tags: ['regiogids', 'toscana'],
-    authorV2: { name: 'Carla Daniels', bio: '' },
-    seo: { title: 'Toscana: De Ultieme Wijngids', description: 'Een reis door de wijnheuvels van Toscane.' },
-    readingTimeMinutes: 7,
-  },
-  {
-    title: 'Het Geheim van Amarone',
-    handle: 'het-geheim-van-amarone',
-    contentHtml: '<p>Hoe gedroogde druiven de meest intense wijn van de Veneto creëren. De appassimento-methode uitgelegd voor liefhebbers.</p>',
-    excerpt: 'Hoe gedroogde druiven de meest intense wijn van de Veneto creëren. De appassimento-methode uitgelegd voor liefhebbers.',
-    publishedAt: '2026-02-20T12:00:00Z',
-    image: null,
-    tags: ['wijnkennis', 'veneto'],
-    authorV2: { name: 'Carla Daniels', bio: '' },
-    seo: { title: 'Het Geheim van Amarone', description: 'De appassimento-methode uitgelegd voor liefhebbers.' },
-    readingTimeMinutes: 4,
-  },
-  {
-    title: 'Prosecco vs. Champagne: De Verschillen',
-    handle: 'prosecco-vs-champagne-de-verschillen',
-    contentHtml: '<p>Twee bubbels, twee werelden. Waarom Prosecco uit Valdobbiadene een eigen karakter heeft en wanneer je welke kiest.</p>',
-    excerpt: 'Twee bubbels, twee werelden. Waarom Prosecco uit Valdobbiadene een eigen karakter heeft en wanneer je welke kiest.',
-    publishedAt: '2026-02-12T12:00:00Z',
-    image: null,
-    tags: ['tips'],
-    authorV2: { name: 'Carla Daniels', bio: '' },
-    seo: { title: 'Prosecco vs. Champagne', description: 'Waarom Prosecco uit Valdobbiadene een eigen karakter heeft.' },
-    readingTimeMinutes: 3,
-  },
-  {
-    title: 'Piemonte: Meer dan Alleen Barolo',
-    handle: 'piemonte-meer-dan-barolo',
-    contentHtml: '<p>Barbera, Nebbiolo, Dolcetto — de andere schatten van Piemonte. Een gids voor de veelzijdigste wijnregio van Noord-Italië.</p>',
-    excerpt: 'Barbera, Nebbiolo, Dolcetto — de andere schatten van Piemonte. Een gids voor de veelzijdigste wijnregio van Noord-Italië.',
-    publishedAt: '2026-02-05T12:00:00Z',
-    image: null,
-    tags: ['regiogids', 'piemonte'],
-    authorV2: { name: 'Carla Daniels', bio: '' },
-    seo: { title: 'Piemonte: Meer dan Alleen Barolo', description: 'De andere schatten van Piemonte.' },
-    readingTimeMinutes: 6,
-  },
-  {
-    title: 'Wijn & Spijs: De Perfecte Italiaanse Match',
-    handle: 'italiaanse-wijn-en-spijs-combinaties',
-    contentHtml: '<p>Van Amarone bij ossobuco tot Vermentino bij zeevruchten. De gouden regels van Italiaans combineren.</p>',
-    excerpt: 'Van Amarone bij ossobuco tot Vermentino bij zeevruchten. De gouden regels van Italiaans combineren.',
-    publishedAt: '2026-01-28T12:00:00Z',
-    image: null,
-    tags: ['tips'],
-    authorV2: { name: 'Carla Daniels', bio: '' },
-    seo: { title: 'Wijn & Spijs Combinaties', description: 'De gouden regels van Italiaans combineren.' },
-    readingTimeMinutes: 5,
-  },
-];
-
-// --- Testimonials (CMS-driven with fallbacks) ---
-
-export interface TestimonialCMS {
-  name: string;
-  text: string;
-  rating: number;
-  wine: string;
-  attribution: string;
-  sortOrder: number;
-}
-
 export async function getTestimonials(): Promise<TestimonialCMS[]> {
-  const items = await getMetaobjects<TestimonialCMS>('testimonial', (f) => ({
-    name: f.name || '',
-    text: f.text || '',
-    rating: parseInt(f.rating || '5'),
-    wine: f.wine || '',
-    attribution: f.attribution || '',
-    sortOrder: parseInt(f.sort_order || '0'),
+  const items = await getMetaobjects<TestimonialCMS>("testimonial", (f) => ({
+    name: f.name || "",
+    text: f.text || "",
+    rating: Number.parseInt(f.rating || "0", 10),
+    wine: f.wine || "",
+    attribution: f.attribution || "",
+    sortOrder: Number.parseInt(f.sort_order || "0", 10),
   }));
-  const sorted = items.filter((t) => t.name && t.text).sort((a, b) => a.sortOrder - b.sortOrder);
-  return sorted.length > 0 ? sorted : DEFAULT_TESTIMONIALS;
-}
-
-export const DEFAULT_TESTIMONIALS: TestimonialCMS[] = [
-  {
-    name: 'Marloes V.',
-    text: 'Prachtige selectie! De Barolo was een absolute hit op ons feestje. Wordt nu vaste klant.',
-    rating: 5,
-    wine: 'Montaribaldi Barolo',
-    attribution: 'Proeverij, maart 2026',
-    sortOrder: 0,
-  },
-  {
-    name: 'Peter de G.',
-    text: 'Snelle levering en mooi verpakt. De Amarone overtrof mijn verwachtingen — geweldige prijs-kwaliteit.',
-    rating: 5,
-    wine: 'Amarone della Valpolicella',
-    attribution: 'Proeverij, maart 2026',
-    sortOrder: 1,
-  },
-  {
-    name: 'Sandra K.',
-    text: 'Al drie keer besteld en altijd tevreden. De wijnbeschrijvingen kloppen precies. Aanrader!',
-    rating: 5,
-    wine: 'Valpolicella Ripasso',
-    attribution: 'Proeverij, maart 2026',
-    sortOrder: 2,
-  },
-];
-
-// --- Homepage Stats (CMS-driven with fallbacks) ---
-
-export interface HomeStatCMS {
-  value: string;
-  prefix: string;
-  suffix: string;
-  label: string;
-  sortOrder: number;
+  return items.filter((testimonial) => testimonial.name && testimonial.text).sort((a, b) => a.sortOrder - b.sortOrder);
 }
 
 export async function getHomeStats(): Promise<HomeStatCMS[]> {
-  const items = await getMetaobjects<HomeStatCMS>('homepage_stat', (f) => ({
-    value: f.value || '0',
-    prefix: f.prefix || '',
-    suffix: f.suffix || '',
-    label: f.label || '',
-    sortOrder: parseInt(f.sort_order || '0'),
+  const items = await getMetaobjects<HomeStatCMS>("homepage_stat", (f) => ({
+    value: f.value || "0",
+    prefix: f.prefix || "",
+    suffix: f.suffix || "",
+    label: f.label || "",
+    sortOrder: Number.parseInt(f.sort_order || "0", 10),
   }));
-  const sorted = items.filter((s) => s.label).sort((a, b) => a.sortOrder - b.sortOrder);
-  return sorted.length > 0 ? sorted : [];
+  return items.filter((stat) => stat.label).sort((a, b) => a.sortOrder - b.sortOrder);
 }
-
-// --- Shop Config (shipping settings, CMS-driven with fallbacks) ---
-
-export interface ShopConfig {
-  freeShippingThreshold: number;
-  shippingCost: number;
-}
-
-const DEFAULT_SHOP_CONFIG: ShopConfig = {
-  freeShippingThreshold: 100,
-  shippingCost: 7.95,
-};
 
 export async function getShopConfig(): Promise<ShopConfig> {
   const settings = await getSiteSettings();
-  if (!settings) return DEFAULT_SHOP_CONFIG;
   return {
-    freeShippingThreshold: settings.freeShippingThreshold,
-    shippingCost: settings.shippingCost,
+    freeShippingThreshold: settings?.freeShippingThreshold ?? 0,
+    shippingCost: settings?.shippingCost ?? 0,
   };
 }

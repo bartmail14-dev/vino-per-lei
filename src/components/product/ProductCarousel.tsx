@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ProductCard } from "./ProductCard";
+import { useUiCopy } from "@/components/providers";
 import { cn } from "@/lib/utils";
 import { ChevronLeftIcon, ChevronRightIcon, ArrowRightIcon } from "@/components/icons";
 import type { Product } from "@/types";
@@ -19,12 +20,13 @@ interface ProductCarouselProps {
 
 export function ProductCarousel({
   products,
-  title = "Ook interessant",
+  title,
   subtitle,
   showViewAll = true,
   viewAllHref = "/wijnen",
   className,
 }: ProductCarouselProps) {
+  const t = useUiCopy();
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -55,7 +57,7 @@ export function ProductCarousel({
       <div className="flex items-end justify-between mb-4 sm:mb-8">
         <div>
           <h2 className="font-serif text-lg sm:text-2xl lg:text-3xl font-semibold text-charcoal">
-            {title}
+            {title ?? t("product.related.title")}
           </h2>
           {subtitle && (
             <p className="text-grey text-sm sm:text-base mt-0.5 sm:mt-1">{subtitle}</p>
@@ -74,7 +76,7 @@ export function ProductCarousel({
                   ? "bg-wine text-white hover:bg-wine-dark"
                   : "bg-sand/50 text-grey cursor-not-allowed"
               )}
-              aria-label="Vorige producten"
+              aria-label={t("product.carousel.previous")}
             >
               <ChevronLeftIcon className="w-5 h-5" />
             </button>
@@ -87,7 +89,7 @@ export function ProductCarousel({
                   ? "bg-wine text-white hover:bg-wine-dark"
                   : "bg-sand/50 text-grey cursor-not-allowed"
               )}
-              aria-label="Volgende producten"
+              aria-label={t("product.carousel.next")}
             >
               <ChevronRightIcon className="w-5 h-5" />
             </button>
@@ -99,7 +101,7 @@ export function ProductCarousel({
               href={viewAllHref}
               className="hidden sm:flex items-center gap-1 text-wine font-medium hover:underline"
             >
-              Alle wijnen
+              {t("collection.breadcrumb.wines")}
               <ArrowRightIcon className="w-4 h-4" />
             </Link>
           )}
@@ -154,7 +156,7 @@ export function ProductCarousel({
             href={viewAllHref}
             className="inline-flex items-center gap-2 text-wine font-medium hover:underline"
           >
-            Bekijk alle wijnen
+            {t("product.not_found.back_to_wines")}
             <ArrowRightIcon className="w-4 h-4" />
           </Link>
         </div>

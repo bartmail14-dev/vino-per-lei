@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn } from "lucide-react";
+import { useUiCopy } from "@/components/providers";
 
 /**
  * ImageLightbox — fullscreen image viewer for article images
@@ -12,6 +13,7 @@ import { X, ZoomIn } from "lucide-react";
 export function ImageLightbox() {
   const [src, setSrc] = useState<string | null>(null);
   const [alt, setAlt] = useState("");
+  const t = useUiCopy();
 
   const close = useCallback(() => setSrc(null), []);
 
@@ -60,13 +62,13 @@ export function ImageLightbox() {
           onClick={close}
           role="dialog"
           aria-modal="true"
-          aria-label="Afbeelding vergroten"
+          aria-label={t("blog.article.image_zoom")}
         >
           {/* Close button */}
           <button
             onClick={close}
             className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white/80 hover:bg-white/20 hover:text-white transition-all duration-200"
-            aria-label="Sluiten"
+            aria-label={t("common.close")}
           >
             <X className="w-5 h-5" />
           </button>

@@ -1,32 +1,20 @@
-import { getSiteSettings, getMenu, DEFAULT_SITE_SETTINGS } from "@/lib/shopify-cms";
+import { getMenuWithTitle, getSiteSettings, type ShopifyMenu } from "@/lib/shopify-cms";
 import { Footer } from "./Footer";
 
 export async function FooterWrapper() {
   const [settings, shopMenu, serviceMenu, aboutMenu] = await Promise.all([
     getSiteSettings(),
-    getMenu("footer-shop"),
-    getMenu("footer-service"),
-    getMenu("footer-about"),
+    getMenuWithTitle("footer-shop"),
+    getMenuWithTitle("footer-service"),
+    getMenuWithTitle("footer-about"),
   ]);
 
-  const siteSettings = settings ?? DEFAULT_SITE_SETTINGS;
+  const footerSections = [shopMenu, serviceMenu, aboutMenu]
+    .filter((menu): menu is ShopifyMenu => Boolean(menu && menu.items.length > 0))
+    .map((menu) => ({
+      title: menu.title,
+      links: menu.items.map((item) => ({ title: item.title, url: item.url })),
+    }));
 
-  // Filter out removed sections (Cadeaus, Blog) from CMS menus
-  const hiddenLinks = ["cadeaus", "blog"];
-  const shopLinks = shopMenu
-    .filter((item) => !hiddenLinks.some((h) => item.url.toLowerCase().includes(h) || item.title.toLowerCase() === h))
-    .map((item) => ({ title: item.title, url: item.url }));
-  const serviceLinks = serviceMenu.map((item) => ({ title: item.title, url: item.url }));
-  const aboutLinks = aboutMenu
-    .filter((item) => !hiddenLinks.some((h) => item.url.toLowerCase().includes(h) || item.title.toLowerCase() === h))
-    .map((item) => ({ title: item.title, url: item.url }));
-
-  return (
-    <Footer
-      settings={siteSettings}
-      shopLinks={shopLinks}
-      serviceLinks={serviceLinks}
-      aboutLinks={aboutLinks}
-    />
-  );
+  return <Footer settings={settings ?? undefined} sections={footerSections} />;
 }

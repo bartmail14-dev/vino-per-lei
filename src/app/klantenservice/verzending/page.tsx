@@ -1,34 +1,18 @@
 import type { Metadata } from "next";
-import { getPage, getShopConfig } from "@/lib/shopify-cms";
-import { VerzendingContent } from "./VerzendingContent";
+import { notFound } from "next/navigation";
+import { ShopifyPageContent } from "@/components/cms/ShopifyPageContent";
+import { getPage } from "@/lib/shopify-cms";
 
-export const revalidate = 3600; // 1 hour — static CMS content
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export const metadata: Metadata = {
-  title: "Verzending & Levering | Vino per Lei",
-  description:
-    "Informatie over verzending en levering bij Vino per Lei. Zorgvuldig verpakt en temperatuurgecontroleerd.",
-  openGraph: {
-    title: "Verzending & Levering | Vino per Lei",
-    description:
-      "Informatie over verzending en levering bij Vino per Lei. Zorgvuldig verpakt en temperatuurgecontroleerd.",
-    type: "website",
-    locale: "nl_NL",
-    siteName: "Vino per Lei",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPage("verzending-levering");
+  return page?.title ? { title: page.title } : {};
+}
 
 export default async function VerzendingPage() {
-  const [page, shopConfig] = await Promise.all([
-    getPage("verzending-levering"),
-    getShopConfig(),
-  ]);
-
-  return (
-    <VerzendingContent
-      pageBody={page?.body ?? null}
-      pageTitle={page?.title ?? null}
-      shippingCost={shopConfig.shippingCost}
-    />
-  );
+  const page = await getPage("verzending-levering");
+  if (!page?.body) notFound();
+  return <ShopifyPageContent title={page.title} body={page.body} updatedAt={page.updatedAt} />;
 }

@@ -8,9 +8,12 @@ import { type Product } from "@/types";
 import { Badge, Rating, PriceDisplay, QuantitySelector } from "@/components/ui";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
+import { useAuthStore } from "@/stores/authStore";
+import { useUiCopy } from "@/components/providers";
 import { cn, wineImagePresets } from "@/lib/utils";
+import { getOrderIncrement, getOrderMaximum, getOrderMinimum, getOrderUnitText, getPriceUnitText } from "@/lib/order-rules";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
-import { CloseIcon, HeartIcon, EyeIcon, CartIcon, CheckIcon, TruckIcon, ShieldIcon, LoadingSpinner } from "@/components/icons";
+import { CloseIcon, HeartIcon, EyeIcon, CartIcon, CheckIcon, ShieldIcon, LoadingSpinner } from "@/components/icons";
 
 interface QuickViewModalProps {
   product: Product | null;
@@ -19,6 +22,7 @@ interface QuickViewModalProps {
 }
 
 export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps) {
+  const t = useUiCopy();
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
@@ -34,9 +38,10 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
 
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
-  const isInWishlist = useWishlistStore((state) =>
+  const rawIsInWishlist = useWishlistStore((state) =>
     product ? state.isInWishlist(product.id) : false
   );
+  const { isAuthenticated, openLoginModal } = useAuthStore();
 
   const handleAddToCart = async () => {
     if (!product || isAdding || !product.inStock) return;
@@ -44,7 +49,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
     setIsAdding(true);
     await new Promise((resolve) => setTimeout(resolve, 400));
 
-    addItem(product, quantity);
+    addItem(product, Math.max(quantity, getOrderMinimum(product)));
     setIsAdding(false);
     setJustAdded(true);
 
@@ -57,6 +62,21 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
   if (!product) return null;
 
   const isOnSale = product.originalPrice && product.originalPrice > product.price;
+  const orderMinimum = getOrderMinimum(product);
+  const orderIncrement = getOrderIncrement(product);
+  const orderMaximum = getOrderMaximum(product);
+  const orderUnitText = getOrderUnitText(product);
+  const priceUnitText = getPriceUnitText(product);
+  const selectedQuantity = Math.max(quantity, orderMinimum);
+  const isInWishlist = isAuthenticated && rawIsInWishlist;
+
+  const handleToggleWishlist = () => {
+    if (!isAuthenticated) {
+      openLoginModal(() => toggleWishlist(product));
+      return;
+    }
+    toggleWishlist(product);
+  };
 
   return (
     <AnimatePresence>
@@ -81,13 +101,13 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
             className="fixed inset-4 md:inset-auto md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:w-full md:max-w-4xl md:max-h-[85vh] bg-white rounded-2xl shadow-2xl z-50 overflow-hidden"
             role="dialog"
             aria-modal="true"
-            aria-label={`Snel bekijken: ${product.title}`}
+            aria-label={t("product.quick_view.aria", { title: product.title })}
           >
             {/* Close button */}
             <button
               onClick={onClose}
               className="absolute top-4 right-4 z-10 p-2 min-w-[44px] min-h-[44px] flex items-center justify-center rounded-full bg-white/90 hover:bg-white shadow-md transition-all hover:scale-110"
-              aria-label="Sluiten"
+              aria-label={t("common.close")}
             >
               <CloseIcon className="w-5 h-5" />
             </button>
@@ -97,16 +117,16 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
               <div className="relative bg-gradient-to-b from-warm-white to-sand/30 p-8 flex items-center justify-center min-h-[300px] md:min-h-full">
                 {/* Badges */}
                 <div className="absolute top-4 left-4 flex flex-col gap-2">
-                  {product.isNew && <Badge variant="new">Nieuw</Badge>}
-                  {isOnSale && <Badge variant="sale">Sale</Badge>}
+                  {product.isNew && <Badge variant="new">{t("product.badge.new")}</Badge>}
+                  {isOnSale && <Badge variant="sale">{t("product.badge.sale")}</Badge>}
                   {product.hasAward && (
-                    <Badge variant="award">{product.awardText || "Award"}</Badge>
+                    <Badge variant="award">{product.awardText || t("product.badge.award")}</Badge>
                   )}
                 </div>
 
                 {/* Wishlist */}
                 <button
-                  onClick={() => toggleWishlist(product)}
+                  onClick={handleToggleWishlist}
                   className={cn(
                     "absolute top-4 right-4 p-2 rounded-full transition-all",
                     "bg-white/80 hover:bg-white shadow-sm hover:shadow-md hover:scale-110",
@@ -154,7 +174,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                 {/* Social Proof */}
                 <div className="flex items-center gap-2 text-sm text-grey mb-4">
                   <EyeIcon className="w-4 h-4" />
-                  <span>{viewerCount} mensen bekijken dit nu</span>
+                  <span>{t("product.viewer_count", { count: viewerCount })}</span>
                 </div>
 
                 {/* Price */}
@@ -164,6 +184,9 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                     originalPrice={product.originalPrice}
                     size="lg"
                   />
+                  {priceUnitText && (
+                    <p className="text-sm text-grey mt-1">{priceUnitText}</p>
+                  )}
                 </div>
 
                 {/* Description */}
@@ -173,18 +196,22 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                 <div className="space-y-4">
                   <div className="flex items-center gap-4">
                     <div>
-                      <p className="text-sm text-grey mb-1">Aantal</p>
+                      <p className="text-sm text-grey mb-1">{t("product.quantity.label")}</p>
                       <QuantitySelector
-                        value={quantity}
+                        value={selectedQuantity}
                         onChange={setQuantity}
-                        min={1}
-                        max={product.stockQuantity || 99}
+                        min={orderMinimum}
+                        max={orderMaximum}
+                        step={orderIncrement}
                       />
+                      {orderUnitText && (
+                        <p className="text-xs text-grey mt-1">{t("product.order.per_prefix")} {orderUnitText}</p>
+                      )}
                     </div>
                     <div className="flex-1">
-                      <p className="text-sm text-grey mb-1">Totaal</p>
+                      <p className="text-sm text-grey mb-1">{t("product.total")}</p>
                       <p className="text-xl font-semibold text-charcoal">
-                        €{(product.price * quantity).toFixed(2).replace(".", ",")}
+                        €{(product.price * selectedQuantity).toFixed(2).replace(".", ",")}
                       </p>
                     </div>
                   </div>
@@ -206,18 +233,18 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                       ) : justAdded ? (
                         <>
                           <CheckIcon className="w-5 h-5" />
-                          Toegevoegd!
+                          {t("product.added_exclamation")}
                         </>
                       ) : (
                         <>
                           <CartIcon className="w-5 h-5" />
-                          Toevoegen aan winkelmand
+                          {t("product.add_to_cart_full")}
                         </>
                       )}
                     </button>
                   ) : (
                     <button className="w-full h-14 rounded-lg font-semibold border-2 border-wine text-wine hover:bg-wine hover:text-white transition-colors">
-                      Mail mij bij voorraad
+                      {t("product.notify_stock_full")}
                     </button>
                   )}
 
@@ -227,14 +254,14 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                     className="block text-center text-wine font-medium hover:underline"
                     onClick={onClose}
                   >
-                    Bekijk alle details →
+                    {t("product.full_details")}
                   </Link>
                 </div>
 
                 {/* Trust signals */}
                 <div className="mt-6 pt-6 border-t border-sand flex items-center gap-2 text-sm text-grey">
                   <ShieldIcon className="w-4 h-4 text-wine" />
-                  <span>Veilig betalen</span>
+                  <span>{t("product.secure_payment")}</span>
                 </div>
               </div>
             </div>

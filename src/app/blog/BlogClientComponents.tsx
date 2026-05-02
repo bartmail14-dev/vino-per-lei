@@ -8,6 +8,7 @@ import { Clock, ArrowRight, Wine, Mail } from "lucide-react";
 import type { BlogArticle } from "@/lib/shopify-cms";
 import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
 import { getTagLabel } from "@/lib/tag-utils";
+import { useUiCopy } from "@/components/providers";
 
 /* ════════════════════════════════════════════
    Icons — Lucide re-exports with original names
@@ -55,6 +56,7 @@ export function formatDate(date: string) {
 
 export function FeaturedHero({ article }: { article: BlogArticle }) {
   const ref = useRef<HTMLDivElement>(null);
+  const t = useUiCopy();
 
   // Manual scroll-based parallax — avoids Framer Motion useScroll({ target })
   // which crashes during hydration ("Target ref is defined but no element was found")
@@ -75,7 +77,7 @@ export function FeaturedHero({ article }: { article: BlogArticle }) {
     onScroll();
     return () => window.removeEventListener("scroll", onScroll);
   }, [imageY, overlayOpacity]);
-  const category = getTagLabel(article.tags[0] || "Wijn");
+  const category = getTagLabel(article.tags[0] || t("product.wine_type.default"));
   const hasImage = !!article.image;
 
   if (hasImage) {
@@ -125,7 +127,7 @@ export function FeaturedHero({ article }: { article: BlogArticle }) {
               className="flex items-center gap-3 mb-5 sm:mb-7"
             >
               <span className="text-label text-gold tracking-[0.25em]">
-                Uitgelicht
+                {t("blog.featured")}
               </span>
               <div className="h-[1px] w-16 bg-gradient-to-r from-gold/40 to-transparent" />
               <span className="text-label text-gold/50 tracking-[0.2em]">
@@ -176,13 +178,13 @@ export function FeaturedHero({ article }: { article: BlogArticle }) {
 
               <span className="text-white/20 text-[11px] flex items-center gap-1.5 tracking-wide">
                 <ClockIcon className="w-3 h-3" />
-                {article.readingTimeMinutes} min leestijd
+                {t("blog.reading_time", { minutes: article.readingTimeMinutes })}
               </span>
 
               {/* Circular CTA button */}
               <div className="hidden sm:flex items-center gap-4 ml-auto">
                 <span className="text-gold/50 text-[13px] font-medium group-hover:text-gold transition-colors duration-500 tracking-[0.08em] uppercase">
-                  Lees het verhaal
+                  {t("blog.read_story")}
                 </span>
                 <div className="w-12 h-12 rounded-full border border-gold/20 flex items-center justify-center group-hover:bg-gold/10 group-hover:border-gold/40 group-hover:scale-105 transition-all duration-500">
                   <ArrowIcon className="w-4 h-4 text-gold/50 group-hover:text-gold group-hover:translate-x-0.5 transition-all duration-500" />
@@ -258,7 +260,7 @@ export function FeaturedHero({ article }: { article: BlogArticle }) {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="flex items-center gap-3 mb-7"
           >
-            <span className="text-label text-gold tracking-[0.25em]">Uitgelicht</span>
+            <span className="text-label text-gold tracking-[0.25em]">{t("blog.featured")}</span>
             <div className="h-[1px] w-16 bg-gradient-to-r from-gold/40 to-transparent" />
             <span className="text-label text-gold/50 tracking-[0.2em]">{category}</span>
           </motion.div>
@@ -302,12 +304,12 @@ export function FeaturedHero({ article }: { article: BlogArticle }) {
             )}
             <span className="text-white/20 text-[11px] flex items-center gap-1.5 tracking-wide">
               <ClockIcon className="w-3 h-3" />
-              {article.readingTimeMinutes} min leestijd
+              {t("blog.reading_time", { minutes: article.readingTimeMinutes })}
             </span>
             {/* Circular CTA */}
             <div className="hidden sm:flex items-center gap-4 ml-auto">
               <span className="text-gold/50 text-[13px] font-medium group-hover:text-gold transition-colors duration-500 tracking-[0.08em] uppercase">
-                Lees het verhaal
+                {t("blog.read_story")}
               </span>
               <div className="w-12 h-12 rounded-full border border-gold/20 flex items-center justify-center group-hover:bg-gold/10 group-hover:border-gold/40 group-hover:scale-105 transition-all duration-500">
                 <ArrowIcon className="w-4 h-4 text-gold/50 group-hover:text-gold group-hover:translate-x-0.5 transition-all duration-500" />
@@ -331,7 +333,8 @@ export function ArticleCard({
   article: BlogArticle;
   size?: "large" | "default" | "horizontal";
 }) {
-  const category = getTagLabel(article.tags[0] || "Wijn");
+  const t = useUiCopy();
+  const category = getTagLabel(article.tags[0] || t("product.wine_type.default"));
   const hasImage = !!article.image;
 
   const isLarge = size === "large";
@@ -406,7 +409,7 @@ export function ArticleCard({
               <div className="absolute bottom-0 left-0 right-0 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
                 <div className="bg-gradient-to-t from-wine/90 via-wine/70 to-transparent px-5 py-5 pt-10 flex items-center justify-between">
                   <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-white/80">
-                    Lees het verhaal
+                    {t("blog.read_story")}
                   </span>
                   <div className="w-8 h-8 rounded-full border border-gold/25 bg-gold/10 flex items-center justify-center">
                     <ArrowIcon className="w-3.5 h-3.5 text-gold" />
@@ -476,7 +479,7 @@ export function ArticleCard({
           {!hasImage && !isLarge && (
             <div className="flex items-center gap-2 mb-3 text-[11px] text-grey/60 tracking-wide">
               <ClockIcon className="w-3 h-3" />
-              <span>{article.readingTimeMinutes} min leestijd</span>
+              <span>{t("blog.reading_time", { minutes: article.readingTimeMinutes })}</span>
             </div>
           )}
 
@@ -532,7 +535,7 @@ export function ArticleCard({
             <span className={`flex items-center gap-1 ml-auto font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-1 group-hover:translate-x-0 flex-shrink-0 tracking-[0.08em] uppercase ${
               isLarge ? "text-gold" : "text-wine"
             }`}>
-              Lees <ArrowIcon className="w-3 h-3" />
+              {t("blog.read_short")} <ArrowIcon className="w-3 h-3" />
             </span>
           </div>
         </div>
@@ -548,6 +551,7 @@ export function ArticleCard({
 export function InlineNewsletterCTA() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+  const t = useUiCopy();
 
   return (
     <motion.div
@@ -586,14 +590,14 @@ export function InlineNewsletterCTA() {
               </div>
               <div className="h-[1px] w-10 bg-gradient-to-r from-gold/25 to-transparent" />
               <span className="text-[10px] font-semibold uppercase text-gold/40 tracking-[0.25em]">
-                Newsletter
+                {t("blog.newsletter.label")}
               </span>
             </div>
             <h3 className="font-serif text-2xl sm:text-[1.875rem] lg:text-[2rem] font-semibold text-white mb-3.5 leading-[1.08] tracking-[-0.015em]">
-              Mis geen enkel verhaal
+              {t("blog.newsletter.title")}
             </h3>
             <p className="text-white/30 text-[13px] sm:text-sm max-w-md leading-relaxed font-light tracking-wide">
-              Wijnverhalen, tips en exclusieve aanbiedingen. Maximaal 2x per maand, altijd opzegbaar.
+              {t("blog.newsletter.body")}
             </p>
           </div>
 
@@ -620,6 +624,8 @@ export function LoadMoreButton({
   visibleCount: number;
   onLoadMore: () => void;
 }) {
+  const t = useUiCopy();
+  const remaining = allArticles - visibleCount;
   if (visibleCount >= allArticles) return null;
 
   return (
@@ -635,12 +641,12 @@ export function LoadMoreButton({
 
       <button
         onClick={onLoadMore}
-        aria-label={`Meer verhalen laden, ${allArticles - visibleCount} resterend`}
+        aria-label={t("blog.load_more.aria", { count: remaining })}
         className="group relative px-9 py-3.5 min-h-[44px] rounded-full text-[13px] font-semibold transition-all duration-500 flex items-center gap-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 bg-white border border-wine/10 text-wine tracking-[0.08em] uppercase hover:bg-wine hover:text-white hover:border-wine hover:shadow-xl hover:shadow-wine/10"
       >
-        <span>Meer verhalen</span>
+        <span>{t("blog.load_more.label")}</span>
         <span className="text-[10px] text-grey/50 group-hover:text-white/40 transition-colors tabular-nums tracking-normal font-normal normal-case">
-          {allArticles - visibleCount} resterend
+          {t("blog.load_more.remaining", { count: remaining })}
         </span>
       </button>
     </div>
@@ -842,6 +848,8 @@ export function BlogSkeleton() {
    ════════════════════════════════════════════ */
 
 export function EmptyState({ message, activeTag }: { message?: string; activeTag?: string }) {
+  const t = useUiCopy();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -872,14 +880,14 @@ export function EmptyState({ message, activeTag }: { message?: string; activeTag
       </div>
 
       <h3 className="font-serif text-xl sm:text-2xl font-semibold text-charcoal mb-3.5 tracking-[-0.015em]">
-        {activeTag ? "Geen artikelen gevonden" : "Binnenkort meer verhalen"}
+        {activeTag ? t("blog.empty.filtered_title") : t("blog.empty.default_title")}
       </h3>
 
       <p className="text-grey text-sm sm:text-[15px] max-w-md mx-auto leading-relaxed mb-9 font-light tracking-wide">
         {message ||
           (activeTag
-            ? `Er zijn nog geen verhalen voor "${activeTag}". Probeer een andere categorie.`
-            : "We werken aan mooie verhalen over Italiaanse wijnen. Kom snel terug!")}
+            ? t("blog.empty.filtered_body", { tag: activeTag })
+            : t("blog.empty.default_body"))}
       </p>
 
       {activeTag && (
@@ -887,7 +895,7 @@ export function EmptyState({ message, activeTag }: { message?: string; activeTag
           href="/blog"
           className="inline-flex items-center gap-2.5 text-wine text-[13px] font-semibold uppercase tracking-[0.08em] hover:gap-3 transition-all duration-300 group px-6 py-3 rounded-full border border-wine/15 hover:bg-wine hover:text-white"
         >
-          Bekijk alle verhalen
+          {t("blog.empty.view_all")}
           <ArrowIcon className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
         </Link>
       )}
@@ -895,7 +903,7 @@ export function EmptyState({ message, activeTag }: { message?: string; activeTag
       {!activeTag && (
         <div className="flex items-center justify-center gap-5 mt-6">
           <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-gold/20" />
-          <span className="text-tagline text-grey/35 text-sm tracking-wide">In vino veritas</span>
+          <span className="text-tagline text-grey/35 text-sm tracking-wide">{t("blog.empty.tagline")}</span>
           <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-gold/20" />
         </div>
       )}

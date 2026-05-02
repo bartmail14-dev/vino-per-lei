@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { motion, useSpring, AnimatePresence } from "framer-motion";
+import { useUiCopy } from "@/components/providers";
 
 function subscribePrefersReducedMotion(callback: () => void) {
   const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -20,6 +21,7 @@ function getServerSnapshotPrefersReducedMotion() {
 export function ReadingProgress() {
   const [progress, setProgress] = useState(0);
   const [pastHero, setPastHero] = useState(false);
+  const t = useUiCopy();
   const prefersReducedMotion = useSyncExternalStore(
     subscribePrefersReducedMotion,
     getSnapshotPrefersReducedMotion,
@@ -50,7 +52,7 @@ export function ReadingProgress() {
       aria-valuenow={Math.round(progress * 100)}
       aria-valuemin={0}
       aria-valuemax={100}
-      aria-label="Leesvoortgang"
+      aria-label={t("blog.reading_progress")}
     >
       <AnimatePresence>
         {pastHero && (

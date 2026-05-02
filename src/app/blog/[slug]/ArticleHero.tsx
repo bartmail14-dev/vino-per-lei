@@ -4,6 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useUiCopy } from "@/components/providers";
 
 interface ArticleHeroProps {
   title: string;
@@ -27,6 +28,7 @@ function formatDate(date: string) {
 export function ArticleHero(props: ArticleHeroProps) {
   const { title, tags, authorName, publishedAt, readingTimeMinutes, image } = props;
   const heroRef = useRef<HTMLDivElement>(null);
+  const t = useUiCopy();
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -39,7 +41,7 @@ export function ArticleHero(props: ArticleHeroProps) {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const contentY = useTransform(scrollYProgress, [0, 0.5], ["0%", "-4%"]);
 
-  const category = tags[0] || "Wijn";
+  const category = tags[0] || t("product.wine_type.default");
 
   return (
     <header ref={heroRef} className="relative min-h-[50vh] sm:min-h-[65vh] lg:min-h-[75vh] flex items-end overflow-hidden">
@@ -106,7 +108,7 @@ export function ArticleHero(props: ArticleHeroProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          aria-label="Terug naar blog"
+          aria-label={t("blog.article.back_aria")}
           className="mb-10 sm:mb-14"
         >
           <Link
@@ -117,7 +119,7 @@ export function ArticleHero(props: ArticleHeroProps) {
               <line x1="19" y1="12" x2="5" y2="12" />
               <polyline points="12 19 5 12 12 5" />
             </svg>
-            Alle verhalen
+            {t("blog.article.all_stories")}
           </Link>
         </motion.nav>
 
@@ -161,8 +163,8 @@ export function ArticleHero(props: ArticleHeroProps) {
 
           <span className="w-0.5 h-0.5 rounded-full bg-white/30" aria-hidden="true" />
 
-          <span aria-label={`${readingTimeMinutes} minuten leestijd`}>
-            {readingTimeMinutes} min leestijd
+          <span aria-label={t("blog.article.reading_time_aria", { minutes: readingTimeMinutes })}>
+            {t("blog.reading_time", { minutes: readingTimeMinutes })}
           </span>
         </motion.div>
       </motion.div>

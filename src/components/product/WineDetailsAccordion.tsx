@@ -1,8 +1,9 @@
-"use client";
+﻿"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useUiCopy } from "@/components/providers";
 import { ChevronDownIcon, CheckIcon } from "@/components/icons";
 import { ClipboardList, Warehouse, GrapeIcon, UserCircle } from "lucide-react";
 import type { Product } from "@/types";
@@ -20,6 +21,7 @@ interface AccordionItem {
 }
 
 export function WineDetailsAccordion({ product, className }: WineDetailsAccordionProps) {
+  const t = useUiCopy();
   const [openItems, setOpenItems] = useState<string[]>(["technical"]);
 
   const toggleItem = (id: string) => {
@@ -28,24 +30,27 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
     );
   };
 
-  const items: AccordionItem[] = [
+  const rawItems: AccordionItem[] = [
     {
       id: "technical",
-      title: "Technische Details",
+      title: t("product.details.title"),
       icon: ClipboardList,
       content: (
         <div className="grid sm:grid-cols-2 gap-x-8 gap-y-4">
           {[
-            { label: "Druivenras", value: product.grapeVarieties.join(", ") },
-            { label: "Land", value: product.country },
-            { label: "Regio", value: product.region },
-            { label: "Jaargang", value: product.vintage === "NV" ? "Non-Vintage" : product.vintage },
-            { label: "Alcoholpercentage", value: product.alcoholPercentage || "Zie etiket" },
-            { label: "Inhoud", value: "750ml" },
-            { label: "Wijnstijl", value: getWineStyleLabel(product.wineType) },
-            { label: "Sluiting", value: "Natuurkurk" },
-            { label: "Allergenen", value: "Bevat sulfieten (SO₂)" },
-          ].map((detail) => (
+            { label: t("product.details.grape"), value: product.grapeVarieties.join(", ") },
+            { label: t("product.details.country"), value: product.country },
+            { label: t("product.details.region"), value: product.region },
+            {
+              label: t("product.details.vintage"),
+              value: product.vintage === t("product.details.vintage_code_non_vintage") ? t("product.details.non_vintage") : product.vintage,
+            },
+            { label: t("product.alcohol_percentage.label"), value: product.alcoholPercentage },
+            { label: t("product.bottle_volume.label"), value: product.bottleVolume },
+            { label: t("product.wine_style.label"), value: getWineStyleLabel(product.wineType, t) },
+            { label: t("product.closure.label"), value: product.closure },
+            { label: t("product.allergens.label"), value: product.allergens },
+          ].filter((detail) => detail.value).map((detail) => (
             <div key={detail.label} className="flex justify-between py-2 border-b border-sand/50">
               <span className="text-grey">{detail.label}</span>
               <span className="font-medium text-charcoal">{detail.value}</span>
@@ -54,74 +59,61 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
         </div>
       ),
     },
-    // Vinification — show real metafield data, or placeholder
+    // Vinification â€” show real metafield data, or placeholder
     {
       id: "vinification",
-      title: "Vinificatie",
+      title: t("product.vinification.title"),
       icon: GrapeIcon,
       content: (
         <div className="space-y-3 text-charcoal">
-          {product.vinification ? (
-            <p className="text-sm leading-relaxed">{product.vinification}</p>
-          ) : (
-            <div className="bg-champagne/20 rounded-lg p-4">
-              <p className="text-sm text-grey italic">Informatie over het vinificatieproces volgt binnenkort.</p>
-            </div>
-          )}
+          {product.vinification ? (<p className="text-sm leading-relaxed">{product.vinification}</p>) : null}
         </div>
       ),
     },
     {
       id: "storage",
-      title: "Opslag & Drinkadvies",
+      title: t("product.storage.title"),
       icon: CellarIcon,
       content: (
         <div className="space-y-4 text-charcoal">
           <div className="bg-champagne/30 rounded-lg p-4">
             <h4 className="font-semibold text-wine mb-2 flex items-center gap-2">
               <Warehouse className="w-5 h-5" strokeWidth={1.5} />
-              Bewaren
+              {t("product.storage.keep")}
             </h4>
             <ul className="space-y-2 text-sm">
-              <li className="flex items-start gap-2">
-                <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                Horizontaal bewaren
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                Temperatuur: 12-14°C
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                Luchtvochtigheid: 70%
-              </li>
-              <li className="flex items-start gap-2">
-                <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
-                Donker en trillingsvrij
-              </li>
+              {product.storageAdvice?.map((advice) => (
+                <li key={advice} className="flex items-start gap-2">
+                  <CheckIcon className="w-4 h-4 text-success mt-0.5 flex-shrink-0" />
+                  {advice}
+                </li>
+              ))}
             </ul>
           </div>
         </div>
       ),
     },
-    // Producer section — show real metafield data, or placeholder
+    // Producer section â€” show real metafield data, or placeholder
     {
       id: "producer",
-      title: "Producent",
+      title: t("product.producer.title"),
       icon: UserCircle,
       content: (
         <div className="space-y-3 text-charcoal">
-          {product.producerStory ? (
-            <p className="text-sm leading-relaxed">{product.producerStory}</p>
-          ) : (
-            <div className="bg-champagne/20 rounded-lg p-4">
-              <p className="text-sm text-grey italic">Informatie over de producent volgt binnenkort.</p>
-            </div>
-          )}
+          {product.producerStory ? (<p className="text-sm leading-relaxed">{product.producerStory}</p>) : null}
         </div>
       ),
     },
   ];
+
+  const items = rawItems.filter((item) => {
+    if (item.id === "vinification") return Boolean(product.vinification);
+    if (item.id === "storage") return Boolean(product.storageAdvice?.length);
+    if (item.id === "producer") return Boolean(product.producerStory);
+    return true;
+  });
+
+  if (items.length === 0) return null;
 
   return (
     <div className={cn("bg-white rounded-lg sm:rounded-2xl border border-sand/50 overflow-hidden", className)}>
@@ -165,13 +157,13 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
 }
 
 // Helper
-function getWineStyleLabel(wineType: string): string {
+function getWineStyleLabel(wineType: string, t: (key: string) => string): string {
   switch (wineType) {
-    case "red": return "Rode wijn";
-    case "white": return "Witte wijn";
-    case "rose": return "Rosé";
-    case "sparkling": return "Mousserende wijn";
-    default: return "Wijn";
+    case "red": return t("product.wine_type.red_full");
+    case "white": return t("product.wine_type.white_full");
+    case "rose": return t("product.wine_type.rose_full");
+    case "sparkling": return t("product.wine_type.sparkling_full");
+    default: return t("product.wine_type.default");
   }
 }
 

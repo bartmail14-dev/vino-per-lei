@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { AnimateOnScroll } from "@/components/ui/AnimateOnScroll";
+import { useUiCopy } from "@/components/providers";
 import { FAQAccordion } from "./FAQAccordion";
 import { Search as SearchIcon, ShoppingCart, CreditCard, Truck, RotateCcw, HelpCircle } from "lucide-react";
 
@@ -38,6 +39,7 @@ const defaultStyle = {
 };
 
 export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) {
+  const t = useUiCopy();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
@@ -81,7 +83,7 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
             transition={{ duration: 0.6 }}
             className="text-label text-gold/60 mb-4"
           >
-            Klantenservice
+            {t("faq.breadcrumb.service")}
           </motion.p>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -89,7 +91,7 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
             transition={{ duration: 0.7, delay: 0.1 }}
             className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold text-white mb-4 leading-[1.15]"
           >
-            Veelgestelde Vragen
+            {t("faq.title")}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -97,9 +99,9 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-white/60 max-w-lg mx-auto mb-8"
           >
-            Vind snel antwoord op je vraag. Staat je vraag er niet bij?{" "}
+            {t("faq.intro.prefix")}{" "}
             <Link href="/contact" className="text-gold hover:text-gold/80 underline">
-              Neem contact op
+              {t("faq.contact_link")}
             </Link>
             .
           </motion.p>
@@ -114,7 +116,7 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
             <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
             <input
               type="text"
-              placeholder="Zoek een vraag..."
+              placeholder={t("faq.search.placeholder")}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full h-12 pl-12 pr-4 rounded-lg bg-white/10 border border-white/20 text-white placeholder:text-white/40 focus:bg-white/15 focus:border-gold/50 focus:outline-none transition-all"
@@ -135,7 +137,7 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
                   : "bg-warm-white text-charcoal hover:bg-wine/10"
               }`}
             >
-              Alle
+              {t("faq.filter.all")}
             </button>
             {faqCategories.map((cat) => {
               const style = categoryStyles[cat.title] ?? defaultStyle;
@@ -159,8 +161,11 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
         {/* Search results count */}
         {searchQuery.trim() && (
           <p className="text-sm text-grey mb-6">
-            {totalResults} {totalResults === 1 ? "resultaat" : "resultaten"} gevonden
-            {activeCategory && ` in "${activeCategory}"`}
+            {t("faq.results.found", {
+              count: totalResults,
+              resultLabel: totalResults === 1 ? t("faq.results.singular") : t("faq.results.plural"),
+            })}
+            {activeCategory && ` ${t("faq.results.in_category", { category: activeCategory })}`}
           </p>
         )}
 
@@ -202,11 +207,11 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
         ) : (
           <div className="bg-warm-white rounded-lg p-8 text-center border border-sand/50">
             <SearchIcon className="w-10 h-10 text-grey/30 mx-auto mb-3" />
-            <p className="text-charcoal font-semibold mb-1">Geen resultaten gevonden</p>
+            <p className="text-charcoal font-semibold mb-1">{t("faq.empty.title")}</p>
             <p className="text-grey text-sm">
-              Probeer een andere zoekterm of{" "}
+              {t("faq.empty.description")}{" "}
               <Link href="/contact" className="text-wine underline hover:text-wine-dark">
-                neem contact op
+                {t("faq.contact_link").toLowerCase()}
               </Link>
               .
             </p>
@@ -220,16 +225,16 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
             <div className="absolute bottom-0 left-0 w-16 h-16 bg-white/3 rounded-tr-[40px]" />
             <div className="relative">
               <h2 className="font-serif text-xl sm:text-2xl font-semibold text-white mb-3">
-                Vraag niet gevonden?
+                {t("faq.cta.title")}
               </h2>
               <p className="text-white/70 mb-6 max-w-md mx-auto text-sm">
-                Carla helpt je persoonlijk verder.
+                {t("faq.cta.body")}
               </p>
               <Link
                 href="/contact"
                 className="inline-flex items-center justify-center h-12 px-8 bg-white text-wine text-button uppercase rounded hover:bg-white/90 transition-colors"
               >
-                Stuur Carla een bericht
+                {t("faq.cta.button")}
               </Link>
             </div>
           </div>
@@ -241,7 +246,7 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
             href="/klantenservice"
             className="text-sm text-wine hover:text-wine-dark transition-colors"
           >
-            &larr; Terug naar Klantenservice
+            &larr; {t("faq.back_to_service")}
           </Link>
         </div>
       </div>

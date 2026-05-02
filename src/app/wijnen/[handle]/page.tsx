@@ -1,11 +1,14 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import Link from "next/link";
 import { Section } from "@/components/layout";
 import { getProductByHandle, getProducts } from "@/lib/shopify";
+import { getUiCopy } from "@/lib/shopify-cms";
 import { getActiveRegionSlugsFromProducts } from "@/lib/region-utils";
+import { formatUiCopy, type UiCopyMap } from "@/lib/ui-copy";
 import { ProductDetailClient } from "./ProductDetailClient";
 
-export const revalidate = 300; // 5 min — product data from Shopify
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 export const dynamicParams = true; // Allow new products without rebuild
 
 interface PageProps {
@@ -19,29 +22,27 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { handle } = await params;
-  const product = await getProductByHandle(handle);
+  const [product, uiCopy] = await Promise.all([getProductByHandle(handle), getUiCopy()]);
+  const siteName = formatUiCopy(uiCopy, "site.name");
 
   if (!product) {
     return {
-      title: "Product niet gevonden | Vino per Lei",
+      title: formatUiCopy(uiCopy, "product.not_found.meta_title"),
     };
   }
 
-  const wineTypeNL =
-    product.wineType === "red"
-      ? "Rode Wijn"
-      : product.wineType === "white"
-        ? "Witte Wijn"
-        : product.wineType === "rose"
-          ? "Rosé"
-          : product.wineType === "sparkling"
-            ? "Mousserende Wijn"
-            : "Wijn";
+  const wineTypeNL = getWineTypeLabel(product.wineType, uiCopy);
 
-  const title = `${product.title} | ${wineTypeNL} | Vino per Lei`;
+  const title = formatUiCopy(uiCopy, "product.meta.title", { title: product.title, wineType: wineTypeNL });
   const description =
     product.description ||
-    `${product.title} — ${wineTypeNL} uit ${product.region}, ${product.country}. ${product.grapeVarieties.join(", ")}. Bestel nu bij Vino per Lei.`;
+    formatUiCopy(uiCopy, "product.meta.description", {
+      title: product.title,
+      wineType: wineTypeNL,
+      region: product.region,
+      country: product.country,
+      grapes: product.grapeVarieties.join(", "),
+    });
 
   return {
     title,
@@ -54,7 +55,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       type: "website",
       locale: "nl_NL",
-      siteName: "Vino per Lei",
+      siteName,
       images: product.images[0]
         ? [
             {
@@ -69,23 +70,23 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function ProductDetailPage({ params }: PageProps) {
   const { handle } = await params;
-  const product = await getProductByHandle(handle);
+  const [product, uiCopy] = await Promise.all([getProductByHandle(handle), getUiCopy()]);
 
   if (!product) {
     return (
       <Section background="default" spacing="xl">
         <div className="text-center py-16">
           <h1 className="font-serif text-3xl font-semibold mb-4">
-            Product niet gevonden
+            {formatUiCopy(uiCopy, "product.not_found.title")}
           </h1>
           <p className="text-grey mb-6">
-            De wijn die je zoekt bestaat niet of is niet meer beschikbaar.
+            {formatUiCopy(uiCopy, "product.not_found.body")}
           </p>
           <Link
             href="/wijnen"
             className="inline-flex items-center justify-center text-button uppercase h-12 px-8 text-sm rounded bg-wine text-white hover:bg-wine-dark transition-colors"
           >
-            Bekijk alle wijnen
+            {formatUiCopy(uiCopy, "product.not_found.back_to_wines")}
           </Link>
         </div>
       </Section>
@@ -109,13 +110,13 @@ export default async function ProductDetailPage({ params }: PageProps) {
       {
         "@type": "ListItem",
         position: 1,
-        name: "Home",
+        name: formatUiCopy(uiCopy, "collection.breadcrumb.home"),
         item: "https://vinoperlei.nl",
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Wijnen",
+        name: formatUiCopy(uiCopy, "collection.breadcrumb.wines"),
         item: "https://vinoperlei.nl/wijnen",
       },
       {
@@ -136,7 +137,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
     image: product.images.map((img) => img.url),
     brand: {
       "@type": "Brand",
-      name: "Vino per Lei",
+      name: formatUiCopy(uiCopy, "site.name"),
     },
     offers: {
       "@type": "Offer",
@@ -147,7 +148,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
         : "https://schema.org/OutOfStock",
       seller: {
         "@type": "Organization",
-        name: "Vino per Lei",
+          name: formatUiCopy(uiCopy, "site.name"),
       },
     },
     ...(product.rating && {
@@ -162,29 +163,29 @@ export default async function ProductDetailPage({ params }: PageProps) {
     additionalProperty: [
       {
         "@type": "PropertyValue",
-        name: "Wijntype",
+        name: formatUiCopy(uiCopy, "collection.filter.group.wine_type"),
         value: product.wineType,
       },
       {
         "@type": "PropertyValue",
-        name: "Regio",
+        name: formatUiCopy(uiCopy, "product.details.region"),
         value: product.region,
       },
       {
         "@type": "PropertyValue",
-        name: "Land",
+        name: formatUiCopy(uiCopy, "product.details.country"),
         value: product.country,
       },
       {
         "@type": "PropertyValue",
-        name: "Druivenras",
+        name: formatUiCopy(uiCopy, "product.details.grape"),
         value: product.grapeVarieties.join(", "),
       },
       ...(product.vintage !== "NV"
         ? [
             {
               "@type": "PropertyValue",
-              name: "Jaargang",
+              name: formatUiCopy(uiCopy, "product.details.vintage"),
               value: String(product.vintage),
             },
           ]
@@ -205,4 +206,19 @@ export default async function ProductDetailPage({ params }: PageProps) {
       <ProductDetailClient product={product} relatedProducts={relatedProducts} activeRegionSlugs={getActiveRegionSlugsFromProducts(allProducts)} />
     </>
   );
+}
+
+function getWineTypeLabel(wineType: string, uiCopy: UiCopyMap): string {
+  switch (wineType) {
+    case "red":
+      return formatUiCopy(uiCopy, "product.wine_type.red_full");
+    case "white":
+      return formatUiCopy(uiCopy, "product.wine_type.white_full");
+    case "rose":
+      return formatUiCopy(uiCopy, "product.wine_type.rose_full");
+    case "sparkling":
+      return formatUiCopy(uiCopy, "product.wine_type.sparkling_full");
+    default:
+      return formatUiCopy(uiCopy, "product.wine_type.default");
+  }
 }

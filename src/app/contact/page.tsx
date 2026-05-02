@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getSiteSettings, DEFAULT_SITE_SETTINGS } from "@/lib/shopify-cms";
+import { getSiteSettings } from "@/lib/shopify-cms";
 import { ContactPageContent } from "./ContactPageContent";
 
 export const revalidate = 3600; // 1 hour — static CMS content
@@ -22,18 +22,18 @@ export const metadata: Metadata = {
 };
 
 export default async function ContactPage() {
-  const settings = (await getSiteSettings()) ?? DEFAULT_SITE_SETTINGS;
+  const settings = await getSiteSettings();
 
   return (
     <ContactPageContent
-      email={settings.email}
-      phone={settings.phone}
-      addressStreet={settings.addressStreet}
-      addressPostal={settings.addressPostal}
-      addressCity={settings.addressCity}
-      hoursWeekday={settings.hoursWeekday}
-      hoursSaturday={settings.hoursSaturday}
-      hoursSunday={settings.hoursSunday}
+      email={settings?.email ?? ""}
+      phone={settings?.phone ?? ""}
+      addressStreet={settings?.addressStreet ?? ""}
+      addressPostal={settings?.addressPostal ?? ""}
+      addressCity={settings?.addressCity ?? ""}
+      hoursWeekday={settings?.hoursWeekday ?? ""}
+      hoursSaturday={settings?.hoursSaturday ?? ""}
+      hoursSunday={settings?.hoursSunday ?? ""}
     />
   );
 }

@@ -1,0 +1,4324 @@
+{
+  "generatedAt": "2026-05-02T19:36:22.889Z",
+  "scannedFiles": 117,
+  "totalStrings": 392,
+  "highRiskStrings": 0,
+  "byRisk": {
+    "p2-account-ui": 48,
+    "allowed-ui": 31,
+    "p2-ui-or-technical-copy": 219,
+    "p2-checkout-ui": 94
+  },
+  "fileSources": [
+    {
+      "file": "src/app/account/page.tsx",
+      "sourceUsage": [],
+      "stringCount": 26,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/api/auth/login/route.ts",
+      "sourceUsage": [],
+      "stringCount": 2,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/api/auth/recover/route.ts",
+      "sourceUsage": [],
+      "stringCount": 2,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/api/auth/register/route.ts",
+      "sourceUsage": [],
+      "stringCount": 2,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/api/contact/route.ts",
+      "sourceUsage": [],
+      "stringCount": 4,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/api/email-preview/route.ts",
+      "sourceUsage": [],
+      "stringCount": 6,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/api/newsletter/route.ts",
+      "sourceUsage": [],
+      "stringCount": 5,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/api/notify-me/route.ts",
+      "sourceUsage": [],
+      "stringCount": 3,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/api/remove-bg/route.ts",
+      "sourceUsage": [
+        "fallback"
+      ],
+      "stringCount": 6,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/api/revalidate/route.ts",
+      "sourceUsage": [],
+      "stringCount": 5,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/BlogAnimations.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/BlogBottomNewsletter.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/BlogCategoryFilter.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/BlogClientComponents.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/page.tsx",
+      "sourceUsage": [
+        "getBlogArticles",
+        "getUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/ReadingProgress.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/[slug]/ArticleHero.tsx",
+      "sourceUsage": [
+        "useUiCopy",
+        "fallback"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/[slug]/FloatingShareBar.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/[slug]/ImageLightbox.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/[slug]/NewsletterCTA.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/[slug]/page.tsx",
+      "sourceUsage": [
+        "getBlogArticles",
+        "getBlogArticleByHandle",
+        "getUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/[slug]/ShareButtons.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/blog/[slug]/TableOfContents.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/cadeaus/page.tsx",
+      "sourceUsage": [
+        "getPage"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/checkout/layout.tsx",
+      "sourceUsage": [],
+      "stringCount": 11,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/checkout/page.tsx",
+      "sourceUsage": [],
+      "stringCount": 1,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/checkout/success/layout.tsx",
+      "sourceUsage": [],
+      "stringCount": 2,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/checkout/success/page.tsx",
+      "sourceUsage": [
+        "fallback"
+      ],
+      "stringCount": 13,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/contact/ContactForm.tsx",
+      "sourceUsage": [],
+      "stringCount": 18,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/contact/ContactPageContent.tsx",
+      "sourceUsage": [],
+      "stringCount": 19,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/contact/page.tsx",
+      "sourceUsage": [
+        "getSiteSettings"
+      ],
+      "stringCount": 5,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/cookies/page.tsx",
+      "sourceUsage": [
+        "getPage"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/error.tsx",
+      "sourceUsage": [],
+      "stringCount": 5,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/handleiding/page.tsx",
+      "sourceUsage": [
+        "getPage"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/klantenservice/faq/FAQContent.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/klantenservice/faq/page.tsx",
+      "sourceUsage": [
+        "getFAQItems",
+        "getUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/klantenservice/page.tsx",
+      "sourceUsage": [
+        "getPage"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/klantenservice/retourneren/page.tsx",
+      "sourceUsage": [
+        "getPage"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/klantenservice/verzending/page.tsx",
+      "sourceUsage": [
+        "getPage"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/layout.tsx",
+      "sourceUsage": [
+        "getShopConfig",
+        "getUiCopy"
+      ],
+      "stringCount": 15,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/not-found.tsx",
+      "sourceUsage": [],
+      "stringCount": 5,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/over-ons/page.tsx",
+      "sourceUsage": [
+        "getPage"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/page.tsx",
+      "sourceUsage": [
+        "getProducts",
+        "getHeroContent",
+        "getUSPItems",
+        "getHomeStats",
+        "getUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/privacy/page.tsx",
+      "sourceUsage": [
+        "getPage"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/robots.ts",
+      "sourceUsage": [],
+      "stringCount": 3,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/sitemap.ts",
+      "sourceUsage": [
+        "getProducts"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/voorwaarden/page.tsx",
+      "sourceUsage": [
+        "getPage"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/wijnen/page.tsx",
+      "sourceUsage": [
+        "getProducts",
+        "getUiCopy",
+        "fallback"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/wijnen/WijnenClient.tsx",
+      "sourceUsage": [
+        "useUiCopy",
+        "fallback"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/wijnen/[handle]/page.tsx",
+      "sourceUsage": [
+        "getProducts",
+        "getProductByHandle",
+        "getUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/wijnen/[handle]/ProductDetailClient.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/auth/LoginModal.tsx",
+      "sourceUsage": [],
+      "stringCount": 33,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/cart/CartSlideOut.tsx",
+      "sourceUsage": [],
+      "stringCount": 19,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/checkout/AccordionSection.tsx",
+      "sourceUsage": [],
+      "stringCount": 1,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/checkout/ContactSection.tsx",
+      "sourceUsage": [],
+      "stringCount": 6,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/checkout/DeliverySection.tsx",
+      "sourceUsage": [],
+      "stringCount": 13,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/checkout/DiscountCode.tsx",
+      "sourceUsage": [],
+      "stringCount": 4,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/checkout/GiftSection.tsx",
+      "sourceUsage": [],
+      "stringCount": 12,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/checkout/OrderSummary.tsx",
+      "sourceUsage": [],
+      "stringCount": 8,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/checkout/PaymentSection.tsx",
+      "sourceUsage": [],
+      "stringCount": 8,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/checkout/ShippingSection.tsx",
+      "sourceUsage": [],
+      "stringCount": 12,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/checkout/TrustSignals.tsx",
+      "sourceUsage": [],
+      "stringCount": 8,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/cms/ShopifyPageContent.tsx",
+      "sourceUsage": [],
+      "stringCount": 1,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/filters/FilterSidebar.tsx",
+      "sourceUsage": [],
+      "stringCount": 15,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/home/HomeAnimations.tsx",
+      "sourceUsage": [],
+      "stringCount": 4,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/layout/Footer.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/layout/FooterWrapper.tsx",
+      "sourceUsage": [
+        "getSiteSettings",
+        "getMenu"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/layout/Header.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/layout/HeaderWrapper.tsx",
+      "sourceUsage": [
+        "getSiteSettings",
+        "getAnnouncementBar",
+        "getMenu"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/newsletter/NewsletterForm.tsx",
+      "sourceUsage": [],
+      "stringCount": 16,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/product/FoodPairingGallery.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/product/HeroSection.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/product/ProductCard.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/product/ProductCarousel.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/product/QuickViewModal.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/product/RegionSpotlight.tsx",
+      "sourceUsage": [],
+      "stringCount": 1,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/product/StickyPurchaseBar.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/product/WineDetailsAccordion.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/providers/GoogleAnalytics.tsx",
+      "sourceUsage": [
+        "fallback"
+      ],
+      "stringCount": 2,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/providers/index.ts",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/providers/ShopConfigProvider.tsx",
+      "sourceUsage": [
+        "DEFAULT_"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/providers/UiCopyProvider.tsx",
+      "sourceUsage": [
+        "useUiCopy"
+      ],
+      "stringCount": 0,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/ui/AgeGate.tsx",
+      "sourceUsage": [],
+      "stringCount": 7,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/ui/Badge.tsx",
+      "sourceUsage": [],
+      "stringCount": 1,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/ui/Button.tsx",
+      "sourceUsage": [],
+      "stringCount": 2,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/ui/CookieConsent.tsx",
+      "sourceUsage": [],
+      "stringCount": 13,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/ui/ExitIntentModal.tsx",
+      "sourceUsage": [],
+      "stringCount": 7,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/ui/NotifyMeModal.tsx",
+      "sourceUsage": [],
+      "stringCount": 13,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/ui/QuantitySelector.tsx",
+      "sourceUsage": [],
+      "stringCount": 3,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/ui/Rating.tsx",
+      "sourceUsage": [],
+      "stringCount": 2,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/components/ui/TasteProfile.tsx",
+      "sourceUsage": [],
+      "stringCount": 22,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/lib/shopify-cms.ts",
+      "sourceUsage": [
+        "getSiteSettings",
+        "getHeroContent",
+        "getAnnouncementBar",
+        "getUSPItems",
+        "getFAQItems",
+        "getWineRegions",
+        "getCategoryBlocks",
+        "getPage",
+        "getBlogArticles",
+        "getBlogArticleByHandle",
+        "getMenu",
+        "getHomeStats",
+        "getTestimonials",
+        "getShopConfig",
+        "getUiCopy"
+      ],
+      "stringCount": 1,
+      "highRiskCount": 0
+    }
+  ],
+  "byFile": {
+    "src/app/account/page.tsx": [
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 48,
+        "column": 19,
+        "type": "string",
+        "text": "Betaald",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 49,
+        "column": 22,
+        "type": "string",
+        "text": "In afwachting",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 50,
+        "column": 23,
+        "type": "string",
+        "text": "Terugbetaald",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 51,
+        "column": 24,
+        "type": "string",
+        "text": "Verzonden",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 52,
+        "column": 26,
+        "type": "string",
+        "text": "In verwerking",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 53,
+        "column": 34,
+        "type": "string",
+        "text": "Deels verzonden",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 63,
+        "column": 47,
+        "type": "jsxText",
+        "text": "Je hebt nog geen bestellingen geplaatst.",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 68,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Ontdek onze wijnen",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 88,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Bestelling #",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 144,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Bekijk bestelstatus",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 160,
+        "column": 42,
+        "type": "jsxText",
+        "text": "Je hebt nog geen adressen opgeslagen.",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 162,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Adressen worden automatisch opgeslagen bij je eerste bestelling.",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 179,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Standaard adres",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 202,
+        "column": 56,
+        "type": "jsxText",
+        "text": "Accountgegevens",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 205,
+        "column": 41,
+        "type": "jsxText",
+        "text": "Naam",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 218,
+        "column": 56,
+        "type": "jsxText",
+        "text": "Wachtwoord wijzigen",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 220,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Je kunt je wachtwoord resetten via e-mail.",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 228,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Wachtwoord resetten",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 238,
+        "column": 9,
+        "type": "jsxText",
+        "text": "Uitloggen",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 245,
+        "column": 26,
+        "type": "string",
+        "text": "Bestellingen",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 246,
+        "column": 29,
+        "type": "string",
+        "text": "Adressen",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 247,
+        "column": 27,
+        "type": "string",
+        "text": "Profiel",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 302,
+        "column": 41,
+        "type": "jsxText",
+        "text": "Je moet ingelogd zijn om deze pagina te bekijken.",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 307,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Inloggen",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 324,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Welkom",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/account/page.tsx",
+        "line": 380,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Bekijk onze collectie",
+        "risk": "p2-account-ui",
+        "context": ""
+      }
+    ],
+    "src/app/api/auth/login/route.ts": [
+      {
+        "file": "src/app/api/auth/login/route.ts",
+        "line": 28,
+        "column": 11,
+        "type": "string",
+        "text": "E-mailadres of wachtwoord is onjuist",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ConditionalExpression"
+      },
+      {
+        "file": "src/app/api/auth/login/route.ts",
+        "line": 48,
+        "column": 16,
+        "type": "string",
+        "text": "Er ging iets mis. Probeer het later opnieuw.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/api/auth/recover/route.ts": [
+      {
+        "file": "src/app/api/auth/recover/route.ts",
+        "line": 25,
+        "column": 16,
+        "type": "string",
+        "text": "Als er een account bestaat met dit e-mailadres, ontvang je een e-mail met instructies.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/auth/recover/route.ts",
+        "line": 32,
+        "column": 16,
+        "type": "string",
+        "text": "Als er een account bestaat met dit e-mailadres, ontvang je een e-mail met instructies.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/api/auth/register/route.ts": [
+      {
+        "file": "src/app/api/auth/register/route.ts",
+        "line": 33,
+        "column": 11,
+        "type": "string",
+        "text": "Er bestaat al een account met dit e-mailadres",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ConditionalExpression"
+      },
+      {
+        "file": "src/app/api/auth/register/route.ts",
+        "line": 68,
+        "column": 16,
+        "type": "string",
+        "text": "Er ging iets mis. Probeer het later opnieuw.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/api/contact/route.ts": [
+      {
+        "file": "src/app/api/contact/route.ts",
+        "line": 26,
+        "column": 18,
+        "type": "string",
+        "text": "Ongeldige sessie. Herlaad de pagina en probeer opnieuw.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/contact/route.ts",
+        "line": 48,
+        "column": 18,
+        "type": "string",
+        "text": "E-mail service is nog niet geconfigureerd",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/contact/route.ts",
+        "line": 67,
+        "column": 18,
+        "type": "string",
+        "text": "Verzending mislukt. Probeer het later opnieuw.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/contact/route.ts",
+        "line": 85,
+        "column": 16,
+        "type": "string",
+        "text": "Er ging iets mis",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/api/email-preview/route.ts": [
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 27,
+        "column": 39,
+        "type": "string",
+        "text": "Unauthorized",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 68,
+        "column": 20,
+        "type": "string",
+        "text": "Carla",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 70,
+        "column": 23,
+        "type": "string",
+        "text": "Montaribaldi Barolo DOCG 2019",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 78,
+        "column": 18,
+        "type": "string",
+        "text": "Unknown template",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 88,
+        "column": 23,
+        "type": "string",
+        "text": "text/html; charset=utf-8",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 89,
+        "column": 23,
+        "type": "string",
+        "text": "noindex, nofollow",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/api/newsletter/route.ts": [
+      {
+        "file": "src/app/api/newsletter/route.ts",
+        "line": 34,
+        "column": 18,
+        "type": "string",
+        "text": "Ongeldige sessie. Herlaad de pagina en probeer opnieuw.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/newsletter/route.ts",
+        "line": 54,
+        "column": 18,
+        "type": "string",
+        "text": "E-mail service is nog niet geconfigureerd",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/newsletter/route.ts",
+        "line": 66,
+        "column": 27,
+        "type": "string",
+        "text": "application/x-www-form-urlencoded",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/newsletter/route.ts",
+        "line": 80,
+        "column": 18,
+        "type": "string",
+        "text": "Aanmelding mislukt. Probeer het later opnieuw.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/newsletter/route.ts",
+        "line": 98,
+        "column": 16,
+        "type": "string",
+        "text": "Er ging iets mis",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/api/notify-me/route.ts": [
+      {
+        "file": "src/app/api/notify-me/route.ts",
+        "line": 30,
+        "column": 41,
+        "type": "string",
+        "text": "Failed to send",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/notify-me/route.ts",
+        "line": 45,
+        "column": 41,
+        "type": "string",
+        "text": "Invalid input",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/notify-me/route.ts",
+        "line": 47,
+        "column": 39,
+        "type": "string",
+        "text": "Server error",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/api/remove-bg/route.ts": [
+      {
+        "file": "src/app/api/remove-bg/route.ts",
+        "line": 21,
+        "column": 16,
+        "type": "string",
+        "text": "Missing or invalid Shopify image URL",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/remove-bg/route.ts",
+        "line": 42,
+        "column": 25,
+        "type": "string",
+        "text": "image/png",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/remove-bg/route.ts",
+        "line": 43,
+        "column": 26,
+        "type": "string",
+        "text": "public, max-age=31536000, immutable",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/remove-bg/route.ts",
+        "line": 44,
+        "column": 30,
+        "type": "string",
+        "text": "public, max-age=31536000, immutable",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/remove-bg/route.ts",
+        "line": 289,
+        "column": 26,
+        "type": "string",
+        "text": "public, max-age=300",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/remove-bg/route.ts",
+        "line": 294,
+        "column": 16,
+        "type": "string",
+        "text": "Image processing failed",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/api/revalidate/route.ts": [
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 28,
+        "column": 39,
+        "type": "string",
+        "text": "Unauthorized",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 40,
+        "column": 41,
+        "type": "string",
+        "text": "Invalid HMAC",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 67,
+        "column": 25,
+        "type": "string",
+        "text": "/wijnen",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 67,
+        "column": 36,
+        "type": "string",
+        "text": "/wijnen/[handle]",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 78,
+        "column": 16,
+        "type": "string",
+        "text": "Revalidation failed",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/checkout/layout.tsx": [
+      {
+        "file": "src/app/checkout/layout.tsx",
+        "line": 6,
+        "column": 10,
+        "type": "string",
+        "text": "Afrekenen | Vino per Lei",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/checkout/layout.tsx",
+        "line": 7,
+        "column": 16,
+        "type": "string",
+        "text": "Rond je bestelling af bij Vino per Lei. Veilig betalen met iDEAL, creditcard of PayPal.",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/checkout/layout.tsx",
+        "line": 25,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Vino per Lei",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/layout.tsx",
+        "line": 29,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Veilig afrekenen",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/layout.tsx",
+        "line": 43,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Algemene voorwaarden",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/layout.tsx",
+        "line": 46,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Privacy",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/layout.tsx",
+        "line": 49,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Contact",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/layout.tsx",
+        "line": 54,
+        "column": 41,
+        "type": "jsxText",
+        "text": "Betaalmethodes:",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/layout.tsx",
+        "line": 82,
+        "column": 9,
+        "type": "jsxText",
+        "text": "iDEAL",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/layout.tsx",
+        "line": 101,
+        "column": 9,
+        "type": "jsxText",
+        "text": "VISA",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/layout.tsx",
+        "line": 129,
+        "column": 9,
+        "type": "jsxText",
+        "text": "PayPal",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      }
+    ],
+    "src/app/checkout/page.tsx": [
+      {
+        "file": "src/app/checkout/page.tsx",
+        "line": 42,
+        "column": 42,
+        "type": "jsxText",
+        "text": "Doorsturen naar betaling...",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      }
+    ],
+    "src/app/checkout/success/layout.tsx": [
+      {
+        "file": "src/app/checkout/success/layout.tsx",
+        "line": 4,
+        "column": 10,
+        "type": "string",
+        "text": "Bestelling geslaagd | Vino per Lei",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/checkout/success/layout.tsx",
+        "line": 5,
+        "column": 16,
+        "type": "string",
+        "text": "Je bestelling bij Vino per Lei is succesvol geplaatst. Je ontvangt een bevestigingsmail.",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/checkout/success/page.tsx": [
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 93,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Bedankt voor je bestelling!",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 99,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Bestelnummer:",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 109,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Wat gebeurt er nu?",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 117,
+        "column": 46,
+        "type": "jsxText",
+        "text": "Bevestigingsmail",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 119,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Je ontvangt een bevestiging op",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 128,
+        "column": 46,
+        "type": "jsxText",
+        "text": "Verzending",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 130,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Je bestelling wordt binnen 24 uur verzonden",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 139,
+        "column": 46,
+        "type": "jsxText",
+        "text": "Levering",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 141,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Verwachte bezorging:",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 153,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Verder winkelen",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 158,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Naar homepagina",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 174,
+        "column": 11,
+        "type": "jsxText",
+        "text": "🍷",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/checkout/success/page.tsx",
+        "line": 176,
+        "column": 47,
+        "type": "jsxText",
+        "text": "Proost op je nieuwe wijnen!",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      }
+    ],
+    "src/app/contact/ContactForm.tsx": [
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 89,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Bedankt voor je bericht! Wij nemen zo snel mogelijk contact met je op.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 120,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Naam *",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 131,
+        "column": 15,
+        "type": "attr:placeholder",
+        "text": "Je naam",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 142,
+        "column": 15,
+        "type": "jsxText",
+        "text": "E-mailadres *",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 153,
+        "column": 15,
+        "type": "attr:placeholder",
+        "text": "je@email.nl",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 166,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Onderwerp *",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 177,
+        "column": 30,
+        "type": "jsxText",
+        "text": "Kies een onderwerp",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 178,
+        "column": 40,
+        "type": "jsxText",
+        "text": "Vraag over mijn bestelling",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 179,
+        "column": 37,
+        "type": "jsxText",
+        "text": "Vraag over een product",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 180,
+        "column": 40,
+        "type": "jsxText",
+        "text": "Verzending & Levering",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 181,
+        "column": 36,
+        "type": "jsxText",
+        "text": "Retourneren",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 182,
+        "column": 40,
+        "type": "jsxText",
+        "text": "Wijnadvies",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 183,
+        "column": 38,
+        "type": "jsxText",
+        "text": "Zakelijk / Horeca",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 184,
+        "column": 36,
+        "type": "jsxText",
+        "text": "Overig",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 196,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Bericht *",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 207,
+        "column": 13,
+        "type": "attr:placeholder",
+        "text": "Hoe kunnen wij je helpen?",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 219,
+        "column": 27,
+        "type": "string",
+        "text": "Verzenden...",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ConditionalExpression"
+      },
+      {
+        "file": "src/app/contact/ContactForm.tsx",
+        "line": 219,
+        "column": 44,
+        "type": "string",
+        "text": "Verstuur Bericht",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ConditionalExpression"
+      }
+    ],
+    "src/app/contact/ContactPageContent.tsx": [
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 42,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Contact",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 50,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Stel je vraag aan Carla",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 58,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Wijnadvies, vragen over je bestelling of een cadeau samenstellen? Carla beantwoordt alles persoonlijk.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 90,
+        "column": 73,
+        "type": "jsxText",
+        "text": "Adres",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 107,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Stuur ons een bericht",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 110,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Vul het formulier in en we reageren binnen 1 werkdag.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 126,
+        "column": 21,
+        "type": "jsxText",
+        "text": "Openingstijden",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 131,
+        "column": 49,
+        "type": "jsxText",
+        "text": "Maandag - Vrijdag",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 135,
+        "column": 49,
+        "type": "jsxText",
+        "text": "Zaterdag",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 139,
+        "column": 49,
+        "type": "jsxText",
+        "text": "Zondag",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 144,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Online bestellen kan 24/7. E-mails worden binnen 1 werkdag beantwoord.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 156,
+        "column": 21,
+        "type": "jsxText",
+        "text": "Snel antwoord nodig?",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 159,
+        "column": 21,
+        "type": "jsxText",
+        "text": "Bekijk eerst onze veelgestelde vragen — misschien staat het antwoord er al bij.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 166,
+        "column": 21,
+        "type": "jsxText",
+        "text": "Bekijk FAQ &rarr;",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 177,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Vertrouwenssignalen",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 181,
+        "column": 21,
+        "type": "string",
+        "text": "Reactie binnen 1 werkdag",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 182,
+        "column": 21,
+        "type": "string",
+        "text": "Veilig betalen via iDEAL",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 183,
+        "column": 21,
+        "type": "string",
+        "text": "Snelle levering: 1-2 werkdagen",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/contact/ContactPageContent.tsx",
+        "line": 215,
+        "column": 13,
+        "type": "jsxText",
+        "text": "&larr; Terug naar de homepage",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/app/contact/page.tsx": [
+      {
+        "file": "src/app/contact/page.tsx",
+        "line": 8,
+        "column": 10,
+        "type": "string",
+        "text": "Contact | Vino per Lei",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/contact/page.tsx",
+        "line": 10,
+        "column": 5,
+        "type": "string",
+        "text": "Neem contact op met Vino per Lei. Wij helpen je graag met vragen over onze wijnen, bestellingen of wijnadvies.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/contact/page.tsx",
+        "line": 15,
+        "column": 12,
+        "type": "string",
+        "text": "Contact | Vino per Lei",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/contact/page.tsx",
+        "line": 17,
+        "column": 7,
+        "type": "string",
+        "text": "Neem contact op met Vino per Lei. Wij helpen je graag met vragen over onze wijnen, bestellingen of wijnadvies.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/contact/page.tsx",
+        "line": 20,
+        "column": 15,
+        "type": "string",
+        "text": "Vino per Lei",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/error.tsx": [
+      {
+        "file": "src/app/error.tsx",
+        "line": 30,
+        "column": 50,
+        "type": "jsxText",
+        "text": "Er ging iets mis",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/error.tsx",
+        "line": 32,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Oeps, een kurk klem...",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/error.tsx",
+        "line": 35,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Er is een onverwachte fout opgetreden. Probeer het opnieuw of ga terug naar de homepage. Als het probleem aanhoudt, neem dan contact met ons op.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/error.tsx",
+        "line": 45,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Probeer Opnieuw",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/error.tsx",
+        "line": 51,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Naar Homepage",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/app/layout.tsx": [
+      {
+        "file": "src/app/layout.tsx",
+        "line": 30,
+        "column": 10,
+        "type": "string",
+        "text": "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 32,
+        "column": 5,
+        "type": "string",
+        "text": "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 33,
+        "column": 14,
+        "type": "string",
+        "text": "Italiaanse wijn",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 33,
+        "column": 33,
+        "type": "string",
+        "text": "Barolo",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 33,
+        "column": 43,
+        "type": "string",
+        "text": "Amarone",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 33,
+        "column": 54,
+        "type": "string",
+        "text": "Chianti",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 33,
+        "column": 65,
+        "type": "string",
+        "text": "Prosecco",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 33,
+        "column": 77,
+        "type": "string",
+        "text": "wijn cadeau",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 34,
+        "column": 21,
+        "type": "string",
+        "text": "Vino per Lei",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 36,
+        "column": 12,
+        "type": "string",
+        "text": "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 37,
+        "column": 18,
+        "type": "string",
+        "text": "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Persoonlijk geselecteerd, rechtstreeks geïmporteerd.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 40,
+        "column": 15,
+        "type": "string",
+        "text": "Vino per Lei",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 47,
+        "column": 14,
+        "type": "string",
+        "text": "Vino per Lei — Italiaanse wijnen rechtstreeks van de producent",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 53,
+        "column": 12,
+        "type": "string",
+        "text": "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/layout.tsx",
+        "line": 55,
+        "column": 7,
+        "type": "string",
+        "text": "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/app/not-found.tsx": [
+      {
+        "file": "src/app/not-found.tsx",
+        "line": 27,
+        "column": 50,
+        "type": "jsxText",
+        "text": "Pagina niet gevonden",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/app/not-found.tsx",
+        "line": 29,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Deze fles is leeg...",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/not-found.tsx",
+        "line": 32,
+        "column": 11,
+        "type": "jsxText",
+        "text": "De pagina die je zoekt bestaat niet of is verplaatst. Maar geen zorgen — er zijn nog genoeg prachtige wijnen te ontdekken.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/not-found.tsx",
+        "line": 41,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Terug naar Home",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/app/not-found.tsx",
+        "line": 47,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Bekijk Wijnen",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/app/robots.ts": [
+      {
+        "file": "src/app/robots.ts",
+        "line": 8,
+        "column": 18,
+        "type": "string",
+        "text": "/checkout/",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/robots.ts",
+        "line": 8,
+        "column": 32,
+        "type": "string",
+        "text": "/offerte/",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/robots.ts",
+        "line": 8,
+        "column": 45,
+        "type": "string",
+        "text": "/account/",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      }
+    ],
+    "src/components/auth/LoginModal.tsx": [
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 45,
+        "column": 13,
+        "type": "attr:placeholder",
+        "text": "jouw@email.nl",
+        "risk": "p2-account-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 52,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Wachtwoord",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 64,
+        "column": 13,
+        "type": "attr:placeholder",
+        "text": "Wachtwoord",
+        "risk": "allowed-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 70,
+        "column": 40,
+        "type": "string",
+        "text": "Wachtwoord verbergen",
+        "risk": "p2-account-ui",
+        "context": "ConditionalExpression"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 70,
+        "column": 65,
+        "type": "string",
+        "text": "Wachtwoord tonen",
+        "risk": "p2-account-ui",
+        "context": "ConditionalExpression"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 89,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Inloggen...",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 102,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Wachtwoord vergeten?",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 109,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Account aanmaken",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 134,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Voornaam",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 144,
+        "column": 13,
+        "type": "attr:placeholder",
+        "text": "Voornaam",
+        "risk": "allowed-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 149,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Achternaam",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 159,
+        "column": 13,
+        "type": "attr:placeholder",
+        "text": "Achternaam",
+        "risk": "allowed-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 178,
+        "column": 13,
+        "type": "attr:placeholder",
+        "text": "jouw@email.nl",
+        "risk": "p2-account-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 185,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Wachtwoord",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 198,
+        "column": 13,
+        "type": "attr:placeholder",
+        "text": "Minimaal 8 tekens",
+        "risk": "p2-account-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 204,
+        "column": 40,
+        "type": "string",
+        "text": "Wachtwoord verbergen",
+        "risk": "p2-account-ui",
+        "context": "ConditionalExpression"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 204,
+        "column": 65,
+        "type": "string",
+        "text": "Wachtwoord tonen",
+        "risk": "p2-account-ui",
+        "context": "ConditionalExpression"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 209,
+        "column": 47,
+        "type": "jsxText",
+        "text": "Minimaal 8 tekens",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 224,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Account aanmaken...",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 232,
+        "column": 9,
+        "type": "jsxText",
+        "text": "Heb je al een account?",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 238,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Inloggen",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 262,
+        "column": 9,
+        "type": "jsxText",
+        "text": "Terug naar inloggen",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 266,
+        "column": 9,
+        "type": "jsxText",
+        "text": "Voer je e-mailadres in en we sturen je een link om je wachtwoord te resetten.",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 283,
+        "column": 13,
+        "type": "attr:placeholder",
+        "text": "jouw@email.nl",
+        "risk": "p2-account-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 300,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Versturen...",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 319,
+        "column": 9,
+        "type": "jsxText",
+        "text": "Als er een account bestaat met dit e-mailadres, ontvang je binnen enkele minuten een e-mail met instructies om je wachtwoord te resetten.",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 322,
+        "column": 9,
+        "type": "jsxText",
+        "text": "Controleer ook je spam-map.",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 328,
+        "column": 9,
+        "type": "jsxText",
+        "text": "Terug naar inloggen",
+        "risk": "p2-account-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 335,
+        "column": 10,
+        "type": "string",
+        "text": "Inloggen",
+        "risk": "allowed-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 336,
+        "column": 13,
+        "type": "string",
+        "text": "Account aanmaken",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 337,
+        "column": 12,
+        "type": "string",
+        "text": "Wachtwoord resetten",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 338,
+        "column": 19,
+        "type": "string",
+        "text": "E-mail verstuurd",
+        "risk": "p2-account-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/auth/LoginModal.tsx",
+        "line": 401,
+        "column": 19,
+        "type": "attr:aria-label",
+        "text": "Sluiten",
+        "risk": "p2-account-ui",
+        "context": "aria-label"
+      }
+    ],
+    "src/components/cart/CartSlideOut.tsx": [
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 67,
+        "column": 13,
+        "type": "attr:aria-label",
+        "text": "Winkelmand",
+        "risk": "allowed-ui",
+        "context": "aria-label"
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 72,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Winkelmand",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 80,
+        "column": 17,
+        "type": "attr:aria-label",
+        "text": "Sluit winkelmand",
+        "risk": "allowed-ui",
+        "context": "aria-label"
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 92,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Je winkelmand is leeg",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 95,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Bekijk onze Italiaanse wijnen en kies je favoriet.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 98,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Bekijk onze wijnen",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 159,
+        "column": 31,
+        "type": "jsxText",
+        "text": "Per",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 192,
+        "column": 51,
+        "type": "jsxText",
+        "text": "Subtotaal",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 196,
+        "column": 51,
+        "type": "jsxText",
+        "text": "Verzending",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 200,
+        "column": 29,
+        "type": "jsxText",
+        "text": "Totaal",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 220,
+        "column": 38,
+        "type": "string",
+        "text": "Doorsturen naar betaling...",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ConditionalExpression"
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 220,
+        "column": 70,
+        "type": "string",
+        "text": "Afrekenen",
+        "risk": "allowed-ui",
+        "context": "ConditionalExpression"
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 228,
+        "column": 21,
+        "type": "jsxText",
+        "text": "Verder winkelen",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 235,
+        "column": 23,
+        "type": "jsxText",
+        "text": "Veilig betalen",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 245,
+        "column": 25,
+        "type": "jsxText",
+        "text": "iDEAL",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 250,
+        "column": 25,
+        "type": "jsxText",
+        "text": "Visa",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 255,
+        "column": 25,
+        "type": "jsxText",
+        "text": "MC",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 260,
+        "column": 25,
+        "type": "jsxText",
+        "text": "PayPal",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/cart/CartSlideOut.tsx",
+        "line": 266,
+        "column": 23,
+        "type": "jsxText",
+        "text": "SSL Beveiligd — Veilige verbinding",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/components/checkout/AccordionSection.tsx": [
+      {
+        "file": "src/components/checkout/AccordionSection.tsx",
+        "line": 79,
+        "column": 59,
+        "type": "jsxText",
+        "text": "Wijzigen",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      }
+    ],
+    "src/components/checkout/ContactSection.tsx": [
+      {
+        "file": "src/components/checkout/ContactSection.tsx",
+        "line": 47,
+        "column": 9,
+        "type": "attr:placeholder",
+        "text": "jouw@email.nl",
+        "risk": "p2-checkout-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/checkout/ContactSection.tsx",
+        "line": 53,
+        "column": 9,
+        "type": "attr:label",
+        "text": "Telefoonnummer (optioneel)",
+        "risk": "p2-checkout-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/ContactSection.tsx",
+        "line": 58,
+        "column": 9,
+        "type": "attr:placeholder",
+        "text": "+31 6 12345678",
+        "risk": "p2-checkout-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/checkout/ContactSection.tsx",
+        "line": 59,
+        "column": 9,
+        "type": "attr:hint",
+        "text": "Voor bezorgberichten",
+        "risk": "p2-checkout-ui",
+        "context": "hint"
+      },
+      {
+        "file": "src/components/checkout/ContactSection.tsx",
+        "line": 64,
+        "column": 9,
+        "type": "attr:label",
+        "text": "Ja, ik wil de nieuwsbrief ontvangen met exclusieve aanbiedingen",
+        "risk": "p2-checkout-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/ContactSection.tsx",
+        "line": 71,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Doorgaan naar bezorgadres",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      }
+    ],
+    "src/components/checkout/DeliverySection.tsx": [
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 55,
+        "column": 9,
+        "type": "attr:label",
+        "text": "Straatnaam",
+        "risk": "allowed-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 62,
+        "column": 9,
+        "type": "attr:placeholder",
+        "text": "Hoofdstraat",
+        "risk": "p2-checkout-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 69,
+        "column": 11,
+        "type": "attr:label",
+        "text": "Huisnummer",
+        "risk": "allowed-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 79,
+        "column": 11,
+        "type": "attr:label",
+        "text": "Toevoeging (optioneel)",
+        "risk": "p2-checkout-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 82,
+        "column": 11,
+        "type": "attr:placeholder",
+        "text": "A, bis, etc.",
+        "risk": "p2-checkout-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 89,
+        "column": 11,
+        "type": "attr:label",
+        "text": "Postcode",
+        "risk": "allowed-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 93,
+        "column": 11,
+        "type": "attr:placeholder",
+        "text": "1234 AB",
+        "risk": "p2-checkout-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 100,
+        "column": 11,
+        "type": "attr:label",
+        "text": "Plaats",
+        "risk": "allowed-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 107,
+        "column": 11,
+        "type": "attr:placeholder",
+        "text": "Amsterdam",
+        "risk": "p2-checkout-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 116,
+        "column": 37,
+        "type": "jsxText",
+        "text": "🇳🇱",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 117,
+        "column": 51,
+        "type": "jsxText",
+        "text": "Nederland",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 120,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Momenteel verzenden we alleen binnen Nederland",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/DeliverySection.tsx",
+        "line": 131,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Doorgaan naar cadeau-opties",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      }
+    ],
+    "src/components/checkout/DiscountCode.tsx": [
+      {
+        "file": "src/components/checkout/DiscountCode.tsx",
+        "line": 75,
+        "column": 65,
+        "type": "jsxText",
+        "text": "korting)",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/DiscountCode.tsx",
+        "line": 81,
+        "column": 11,
+        "type": "attr:aria-label",
+        "text": "Verwijder kortingscode",
+        "risk": "allowed-ui",
+        "context": "aria-label"
+      },
+      {
+        "file": "src/components/checkout/DiscountCode.tsx",
+        "line": 97,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Kortingscode toevoegen",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/DiscountCode.tsx",
+        "line": 127,
+        "column": 21,
+        "type": "attr:placeholder",
+        "text": "Voer code in",
+        "risk": "p2-checkout-ui",
+        "context": "placeholder"
+      }
+    ],
+    "src/components/checkout/GiftSection.tsx": [
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 26,
+        "column": 9,
+        "type": "attr:label",
+        "text": "Dit is een cadeau",
+        "risk": "p2-checkout-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 49,
+        "column": 23,
+        "type": "jsxText",
+        "text": "Geschenkverpakking",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 56,
+        "column": 21,
+        "type": "jsxText",
+        "text": "Prachtige wijnverpakking met strik",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 59,
+        "column": 21,
+        "type": "attr:label",
+        "text": "Voeg geschenkverpakking toe",
+        "risk": "p2-checkout-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 69,
+        "column": 15,
+        "type": "attr:label",
+        "text": "Naam ontvanger (optioneel)",
+        "risk": "p2-checkout-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 72,
+        "column": 15,
+        "type": "attr:placeholder",
+        "text": "Voor wie is dit cadeau?",
+        "risk": "p2-checkout-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 79,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Persoonlijk bericht (optioneel)",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 84,
+        "column": 17,
+        "type": "attr:placeholder",
+        "text": "Schrijf een persoonlijk bericht...",
+        "risk": "p2-checkout-ui",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 90,
+        "column": 38,
+        "type": "jsxText",
+        "text": "/200 tekens",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 96,
+        "column": 15,
+        "type": "attr:label",
+        "text": "Verberg prijzen op de pakbon",
+        "risk": "p2-checkout-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 107,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Sla deze stap over als dit geen cadeau is.",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/GiftSection.tsx",
+        "line": 113,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Doorgaan naar verzendmethode",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      }
+    ],
+    "src/components/checkout/OrderSummary.tsx": [
+      {
+        "file": "src/components/checkout/OrderSummary.tsx",
+        "line": 47,
+        "column": 58,
+        "type": "jsxText",
+        "text": "Bestelling",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/OrderSummary.tsx",
+        "line": 105,
+        "column": 45,
+        "type": "jsxText",
+        "text": "Subtotaal",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/OrderSummary.tsx",
+        "line": 111,
+        "column": 25,
+        "type": "jsxText",
+        "text": "Korting (",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/OrderSummary.tsx",
+        "line": 118,
+        "column": 47,
+        "type": "jsxText",
+        "text": "Geschenkverpakking",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/OrderSummary.tsx",
+        "line": 124,
+        "column": 45,
+        "type": "jsxText",
+        "text": "Verzending",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/OrderSummary.tsx",
+        "line": 131,
+        "column": 23,
+        "type": "jsxText",
+        "text": "Totaal",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/OrderSummary.tsx",
+        "line": 135,
+        "column": 53,
+        "type": "jsxText",
+        "text": "Inclusief BTW",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/OrderSummary.tsx",
+        "line": 147,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Totaal",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      }
+    ],
+    "src/components/checkout/PaymentSection.tsx": [
+      {
+        "file": "src/components/checkout/PaymentSection.tsx",
+        "line": 52,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Leeftijdsverificatie",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/PaymentSection.tsx",
+        "line": 55,
+        "column": 15,
+        "type": "attr:label",
+        "text": "Ik bevestig dat ik 18 jaar of ouder ben",
+        "risk": "p2-checkout-ui",
+        "context": "label"
+      },
+      {
+        "file": "src/components/checkout/PaymentSection.tsx",
+        "line": 74,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Betaalmethode kiezen",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/PaymentSection.tsx",
+        "line": 77,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Je wordt doorgestuurd naar de beveiligde Shopify checkout waar je kunt betalen met iDEAL, creditcard, PayPal en meer.",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/PaymentSection.tsx",
+        "line": 97,
+        "column": 27,
+        "type": "string",
+        "text": "Doorsturen naar betaling...",
+        "risk": "p2-checkout-ui",
+        "context": "ConditionalExpression"
+      },
+      {
+        "file": "src/components/checkout/PaymentSection.tsx",
+        "line": 97,
+        "column": 59,
+        "type": "string",
+        "text": "Afrekenen via Shopify",
+        "risk": "p2-checkout-ui",
+        "context": "ConditionalExpression"
+      },
+      {
+        "file": "src/components/checkout/PaymentSection.tsx",
+        "line": 100,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Door te bestellen ga je akkoord met onze",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/PaymentSection.tsx",
+        "line": 102,
+        "column": 13,
+        "type": "jsxText",
+        "text": "algemene voorwaarden",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      }
+    ],
+    "src/components/checkout/ShippingSection.tsx": [
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 23,
+        "column": 12,
+        "type": "string",
+        "text": "Standaard verzending",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 24,
+        "column": 18,
+        "type": "string",
+        "text": "Bezorging door PostNL",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 25,
+        "column": 19,
+        "type": "string",
+        "text": "1-2 werkdagen",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 31,
+        "column": 18,
+        "type": "string",
+        "text": "Gekoelde verzending voor optimale kwaliteit",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 32,
+        "column": 19,
+        "type": "string",
+        "text": "1-2 werkdagen",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 37,
+        "column": 12,
+        "type": "string",
+        "text": "Avondlevering",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 38,
+        "column": 18,
+        "type": "string",
+        "text": "Bezorging tussen 18:00 - 22:00",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 39,
+        "column": 19,
+        "type": "string",
+        "text": "Volgende werkdag",
+        "risk": "p2-checkout-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 138,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Geschatte bezorging:",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 151,
+        "column": 62,
+        "type": "jsxText",
+        "text": "Zomertip",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 153,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Overweeg temperatuur-gecontroleerde verzending voor optimale wijnkwaliteit bij warm weer.",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/ShippingSection.tsx",
+        "line": 162,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Doorgaan naar betaling",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      }
+    ],
+    "src/components/checkout/TrustSignals.tsx": [
+      {
+        "file": "src/components/checkout/TrustSignals.tsx",
+        "line": 18,
+        "column": 62,
+        "type": "jsxText",
+        "text": "Veilig betalen",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/TrustSignals.tsx",
+        "line": 25,
+        "column": 62,
+        "type": "jsxText",
+        "text": "Snelle levering",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/TrustSignals.tsx",
+        "line": 26,
+        "column": 46,
+        "type": "jsxText",
+        "text": "1-2 werkdagen",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/TrustSignals.tsx",
+        "line": 32,
+        "column": 62,
+        "type": "jsxText",
+        "text": "14 dagen bedenktijd",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/TrustSignals.tsx",
+        "line": 33,
+        "column": 46,
+        "type": "jsxText",
+        "text": "Ongeopende producten",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/TrustSignals.tsx",
+        "line": 44,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Veilig betalen met SSL",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/TrustSignals.tsx",
+        "line": 48,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Snelle levering: 1-2 werkdagen",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/checkout/TrustSignals.tsx",
+        "line": 52,
+        "column": 15,
+        "type": "jsxText",
+        "text": "14 dagen bedenktijd",
+        "risk": "p2-checkout-ui",
+        "context": ""
+      }
+    ],
+    "src/components/cms/ShopifyPageContent.tsx": [
+      {
+        "file": "src/components/cms/ShopifyPageContent.tsx",
+        "line": 34,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Home",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/components/filters/FilterSidebar.tsx": [
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 125,
+        "column": 23,
+        "type": "jsxText",
+        "text": "Toon minder",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 199,
+        "column": 32,
+        "type": "string",
+        "text": "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E\")",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 203,
+        "column": 13,
+        "type": "attr:aria-label",
+        "text": "Filters",
+        "risk": "allowed-ui",
+        "context": "aria-label"
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 208,
+        "column": 77,
+        "type": "jsxText",
+        "text": "Filters",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 218,
+        "column": 17,
+        "type": "attr:aria-label",
+        "text": "Sluit filters",
+        "risk": "allowed-ui",
+        "context": "aria-label"
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 228,
+        "column": 104,
+        "type": "jsxText",
+        "text": "Ontdek per Regio",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 244,
+        "column": 21,
+        "type": "jsxText",
+        "text": "Wis regio filter",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 269,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Wissen (",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 272,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Toon resultaten",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 288,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Filters",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 309,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Wis alles",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 319,
+        "column": 98,
+        "type": "jsxText",
+        "text": "Ontdek per Regio",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 335,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Wis regio filter",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 400,
+        "column": 73,
+        "type": "jsxText",
+        "text": "Actief:",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/filters/FilterSidebar.tsx",
+        "line": 422,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Wis alles",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/components/home/HomeAnimations.tsx": [
+      {
+        "file": "src/components/home/HomeAnimations.tsx",
+        "line": 264,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Elke fles vertelt het verhaal van een familie, een streek en een traditie die generaties overspant.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/home/HomeAnimations.tsx",
+        "line": 268,
+        "column": 75,
+        "type": "jsxText",
+        "text": "Carla Daniels",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/home/HomeAnimations.tsx",
+        "line": 317,
+        "column": 92,
+        "type": "jsxText",
+        "text": "Scroll",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/home/HomeAnimations.tsx",
+        "line": 332,
+        "column": 90,
+        "type": "jsxText",
+        "text": "Scroll",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/components/newsletter/NewsletterForm.tsx": [
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 148,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Welkom!",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 152,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Je ontvangt binnenkort je eerste wijnverhaal.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 159,
+        "column": 13,
+        "type": "attr:aria-label",
+        "text": "Nieuwsbrief aanmelding",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "aria-label"
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 192,
+        "column": 34,
+        "type": "string",
+        "text": "blur(6px)",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 203,
+        "column": 17,
+        "type": "attr:placeholder",
+        "text": "je@email.nl",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 232,
+        "column": 33,
+        "type": "string",
+        "text": "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%)",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 240,
+        "column": 33,
+        "type": "string",
+        "text": "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%)",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 252,
+        "column": 29,
+        "type": "jsxText",
+        "text": "Even geduld...",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 275,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Ik ga akkoord met het ontvangen van de nieuwsbrief en het",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 283,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Geef toestemming om je aan te melden.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 300,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Vul een geldig e-mailadres in.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 310,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Geen spam. Maximaal 2x per maand. Altijd opzegbaar.",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 325,
+        "column": 15,
+        "type": "string",
+        "text": "MV",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 325,
+        "column": 21,
+        "type": "string",
+        "text": "Pd",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 325,
+        "column": 27,
+        "type": "string",
+        "text": "SK",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/components/newsletter/NewsletterForm.tsx",
+        "line": 337,
+        "column": 11,
+        "type": "jsxText",
+        "text": "500+ wijnliefhebbers gingen je voor",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/components/product/RegionSpotlight.tsx": [
+      {
+        "file": "src/components/product/RegionSpotlight.tsx",
+        "line": 53,
+        "column": 76,
+        "type": "jsxText",
+        "text": "Regio",
+        "risk": "allowed-ui",
+        "context": ""
+      }
+    ],
+    "src/components/providers/GoogleAnalytics.tsx": [
+      {
+        "file": "src/components/providers/GoogleAnalytics.tsx",
+        "line": 55,
+        "column": 9,
+        "type": "attr:strategy",
+        "text": "afterInteractive",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "strategy"
+      },
+      {
+        "file": "src/components/providers/GoogleAnalytics.tsx",
+        "line": 57,
+        "column": 29,
+        "type": "attr:strategy",
+        "text": "afterInteractive",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "strategy"
+      }
+    ],
+    "src/components/ui/AgeGate.tsx": [
+      {
+        "file": "src/components/ui/AgeGate.tsx",
+        "line": 49,
+        "column": 88,
+        "type": "string",
+        "text": "Lax",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/AgeGate.tsx",
+        "line": 123,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Ben je 18 jaar of ouder?",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/AgeGate.tsx",
+        "line": 131,
+        "column": 15,
+        "type": "jsxText",
+        "text": "Je moet 18+ zijn om deze website te bezoeken",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/AgeGate.tsx",
+        "line": 152,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Ja, ik ben 18+",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/AgeGate.tsx",
+        "line": 166,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Nee, ik ben jonger",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/AgeGate.tsx",
+        "line": 178,
+        "column": 13,
+        "type": "jsxText",
+        "text": "Door verder te gaan bevestig je dat je 18 jaar of ouder bent en accepteer je onze",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/AgeGate.tsx",
+        "line": 185,
+        "column": 15,
+        "type": "jsxText",
+        "text": "gebruiksvoorwaarden",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/components/ui/Badge.tsx": [
+      {
+        "file": "src/components/ui/Badge.tsx",
+        "line": 56,
+        "column": 7,
+        "type": "jsxText",
+        "text": "Je bespaart",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/components/ui/Button.tsx": [
+      {
+        "file": "src/components/ui/Button.tsx",
+        "line": 29,
+        "column": 7,
+        "type": "string",
+        "text": "inline-flex items-center justify-center text-button uppercase rounded-md transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-wine focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-50",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "VariableDeclaration"
+      },
+      {
+        "file": "src/components/ui/Button.tsx",
+        "line": 86,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Even geduld...",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/components/ui/CookieConsent.tsx": [
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 156,
+        "column": 68,
+        "type": "jsxText",
+        "text": "Cookies",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 158,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Voor een betere ervaring.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 163,
+        "column": 21,
+        "type": "jsxText",
+        "text": "Meer info",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 176,
+        "column": 23,
+        "type": "jsxText",
+        "text": "Instellingen aanpassen",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 199,
+        "column": 76,
+        "type": "jsxText",
+        "text": "Noodzakelijk",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 200,
+        "column": 78,
+        "type": "jsxText",
+        "text": "Altijd aan",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 211,
+        "column": 76,
+        "type": "jsxText",
+        "text": "Analytisch",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 212,
+        "column": 78,
+        "type": "jsxText",
+        "text": "Anonieme statistieken",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 223,
+        "column": 76,
+        "type": "jsxText",
+        "text": "Marketing",
+        "risk": "allowed-ui",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 224,
+        "column": 78,
+        "type": "jsxText",
+        "text": "Nieuwsbrief tracking",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 241,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Keuze opslaan",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 248,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Alleen noodzakelijk",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/CookieConsent.tsx",
+        "line": 255,
+        "column": 17,
+        "type": "jsxText",
+        "text": "Alles accepteren",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/components/ui/ExitIntentModal.tsx": [
+      {
+        "file": "src/components/ui/ExitIntentModal.tsx",
+        "line": 93,
+        "column": 13,
+        "type": "attr:aria-label",
+        "text": "Je hebt nog wijnen in je mandje",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "aria-label"
+      },
+      {
+        "file": "src/components/ui/ExitIntentModal.tsx",
+        "line": 99,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Wacht even",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/ExitIntentModal.tsx",
+        "line": 102,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Je hebt nog wijnen",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/ExitIntentModal.tsx",
+        "line": 102,
+        "column": 43,
+        "type": "jsxText",
+        "text": "in je mandje",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/ExitIntentModal.tsx",
+        "line": 141,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Bekijk winkelmand",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/ExitIntentModal.tsx",
+        "line": 149,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Ik ga verder met rondkijken",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/ExitIntentModal.tsx",
+        "line": 159,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Niet meer tonen",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/components/ui/NotifyMeModal.tsx": [
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 88,
+        "column": 13,
+        "type": "attr:aria-label",
+        "text": "Melding bij voorraad",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "aria-label"
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 96,
+        "column": 19,
+        "type": "attr:aria-label",
+        "text": "Sluiten",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "aria-label"
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 103,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Tijdelijk uitverkocht",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 106,
+        "column": 19,
+        "type": "jsxText",
+        "text": "Mail bij voorraad",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 119,
+        "column": 80,
+        "type": "jsxText",
+        "text": "Je staat op de lijst!",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 121,
+        "column": 23,
+        "type": "jsxText",
+        "text": "We mailen je zodra de",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 121,
+        "column": 111,
+        "type": "jsxText",
+        "text": "weer op voorraad is.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 127,
+        "column": 23,
+        "type": "jsxText",
+        "text": "Sluiten",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 133,
+        "column": 23,
+        "type": "jsxText",
+        "text": "Laat je e-mailadres achter en we sturen je een bericht zodra de",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 135,
+        "column": 23,
+        "type": "jsxText",
+        "text": "weer beschikbaar is.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 148,
+        "column": 27,
+        "type": "attr:placeholder",
+        "text": "je@email.nl",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "placeholder"
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 169,
+        "column": 29,
+        "type": "jsxText",
+        "text": "Even geduld...",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      },
+      {
+        "file": "src/components/ui/NotifyMeModal.tsx",
+        "line": 178,
+        "column": 23,
+        "type": "jsxText",
+        "text": "We sturen maximaal 1 e-mail. Geen spam, beloofd.",
+        "risk": "p2-ui-or-technical-copy",
+        "context": ""
+      }
+    ],
+    "src/components/ui/QuantitySelector.tsx": [
+      {
+        "file": "src/components/ui/QuantitySelector.tsx",
+        "line": 88,
+        "column": 9,
+        "type": "attr:aria-label",
+        "text": "Verminder aantal",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "aria-label"
+      },
+      {
+        "file": "src/components/ui/QuantitySelector.tsx",
+        "line": 111,
+        "column": 9,
+        "type": "attr:aria-label",
+        "text": "Aantal",
+        "risk": "allowed-ui",
+        "context": "aria-label"
+      },
+      {
+        "file": "src/components/ui/QuantitySelector.tsx",
+        "line": 127,
+        "column": 9,
+        "type": "attr:aria-label",
+        "text": "Verhoog aantal",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "aria-label"
+      }
+    ],
+    "src/components/ui/Rating.tsx": [
+      {
+        "file": "src/components/ui/Rating.tsx",
+        "line": 76,
+        "column": 54,
+        "type": "attr:stopColor",
+        "text": "var(--gold)",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "stopColor"
+      },
+      {
+        "file": "src/components/ui/Rating.tsx",
+        "line": 77,
+        "column": 54,
+        "type": "attr:stopColor",
+        "text": "var(--sand)",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "stopColor"
+      }
+    ],
+    "src/components/ui/TasteProfile.tsx": [
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 53,
+        "column": 16,
+        "type": "string",
+        "text": "Droog",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 53,
+        "column": 37,
+        "type": "string",
+        "text": "Zoet",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 54,
+        "column": 16,
+        "type": "string",
+        "text": "Licht",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 54,
+        "column": 37,
+        "type": "string",
+        "text": "Vol",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 55,
+        "column": 16,
+        "type": "string",
+        "text": "Zacht",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 55,
+        "column": 37,
+        "type": "string",
+        "text": "Tanninrijk",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 56,
+        "column": 16,
+        "type": "string",
+        "text": "Fruitig",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 56,
+        "column": 39,
+        "type": "string",
+        "text": "Kruidig",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 60,
+        "column": 16,
+        "type": "string",
+        "text": "Droog",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 60,
+        "column": 37,
+        "type": "string",
+        "text": "Zoet",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 61,
+        "column": 16,
+        "type": "string",
+        "text": "Licht",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 61,
+        "column": 37,
+        "type": "string",
+        "text": "Vol",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 62,
+        "column": 16,
+        "type": "string",
+        "text": "Fris",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 62,
+        "column": 36,
+        "type": "string",
+        "text": "Zacht",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 63,
+        "column": 16,
+        "type": "string",
+        "text": "Fruitig",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 63,
+        "column": 39,
+        "type": "string",
+        "text": "Bloemig",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 67,
+        "column": 16,
+        "type": "string",
+        "text": "Droog",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 67,
+        "column": 37,
+        "type": "string",
+        "text": "Zoet",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 68,
+        "column": 16,
+        "type": "string",
+        "text": "Licht",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 68,
+        "column": 37,
+        "type": "string",
+        "text": "Vol",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 69,
+        "column": 16,
+        "type": "string",
+        "text": "Fris",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/ui/TasteProfile.tsx",
+        "line": 69,
+        "column": 36,
+        "type": "string",
+        "text": "Zacht",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
+    "src/lib/shopify-cms.ts": [
+      {
+        "file": "src/lib/shopify-cms.ts",
+        "line": 376,
+        "column": 24,
+        "type": "string",
+        "text": "title handle contentHtml excerpt publishedAt image { url altText } tags authorV2 { name } seo { title description }",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "VariableDeclaration"
+      }
+    ]
+  }
+}

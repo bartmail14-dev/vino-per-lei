@@ -1,4 +1,4 @@
-export interface Product {
+﻿export interface Product {
   id: string;
   handle: string;
   title: string;
@@ -17,13 +17,18 @@ export interface Product {
   // Pricing
   price: number;
   originalPrice?: number;
+  priceUnitLabel?: string;
+  orderMinimum?: number;
+  orderIncrement?: number;
+  orderUnitLabel?: string;
+  orderUnitSize?: number;
 
   // Taste profile (1-6 scale)
   tasteProfile?: {
     drySweet: number;
     lightFull: number;
     softTannic?: number; // for red wines
-    freshSoft?: number; // for white/rosé
+    freshSoft?: number; // for white/rosÃ©
     fruitySpicy?: number;
   };
 
@@ -46,9 +51,16 @@ export interface Product {
 
   // Metafield-driven content
   foodPairing?: string[];          // from custom.food_pairing JSON array
-  servingTemperature?: string;     // from custom.serving_temperature e.g. "16-18°C"
+  servingTemperature?: string;     // from custom.serving_temperature e.g. "16-18Â°C"
+  decantTime?: string;             // from custom.decant_time
+  decantNote?: string;             // from custom.decant_note
   alcoholPercentage?: string;      // from custom.alcohol_percentage e.g. "13.5%"
+  bottleVolume?: string;           // from custom.bottle_volume
+  closure?: string;                // from custom.closure
+  allergens?: string;              // from custom.allergens
+  legalNotice?: string;            // from custom.legal_notice
   vinification?: string;           // from custom.vinification
+  storageAdvice?: string[];        // from custom.storage_advice
   producerStory?: string;          // from custom.producer_story
 
   // Shopify

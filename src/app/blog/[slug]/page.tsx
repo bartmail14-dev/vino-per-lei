@@ -5,8 +5,10 @@ import type { Metadata } from "next";
 import {
   getBlogArticleByHandle,
   getBlogArticles,
+  getUiCopy,
 } from "@/lib/shopify-cms";
 import type { BlogArticle } from "@/lib/shopify-cms";
+import { formatUiCopy, type UiCopyMap } from "@/lib/ui-copy";
 import { sanitizeHtml } from "@/lib/sanitize";
 import {
   BlogFadeIn,
@@ -36,14 +38,15 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = await getBlogArticleByHandle(slug);
+  const [article, uiCopy] = await Promise.all([getBlogArticleByHandle(slug), getUiCopy()]);
+  const siteName = formatUiCopy(uiCopy, "site.name");
 
   if (!article) {
-    return { title: "Artikel niet gevonden | Vino per Lei" };
+    return { title: formatUiCopy(uiCopy, "blog.article.not_found_meta") };
   }
 
   return {
-    title: article.seo.title || `${article.title} | Vino per Lei`,
+    title: article.seo.title || formatUiCopy(uiCopy, "blog.article.meta_title", { title: article.title, site: siteName }),
     description: article.seo.description || article.excerpt || undefined,
     alternates: {
       canonical: `https://vinoperlei.nl/blog/${slug}`,
@@ -54,7 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: "article",
       publishedTime: article.publishedAt,
       locale: "nl_NL",
-      siteName: "Vino per Lei",
+      siteName,
       ...(article.image && { images: [{ url: article.image.url }] }),
       ...(article.tags.length > 0 && { tags: article.tags }),
     },
@@ -90,8 +93,8 @@ function formatDate(date: string) {
 }
 
 /* Related Article Card — 3:2 aspect ratio, category as text, subtle hover */
-function RelatedCard({ article }: { article: BlogArticle }) {
-  const category = article.tags[0] || "Wijn";
+function RelatedCard({ article, uiCopy }: { article: BlogArticle; uiCopy: UiCopyMap }) {
+  const category = article.tags[0] || formatUiCopy(uiCopy, "product.wine_type.default");
   const hasImage = !!article.image;
 
   return (
@@ -133,7 +136,7 @@ function RelatedCard({ article }: { article: BlogArticle }) {
           )}
           <div className="flex items-center gap-2.5 text-[12px] text-grey/45 mt-auto pt-4 border-t border-sand/25">
             <ClockIcon className="w-3 h-3" />
-            <span>{article.readingTimeMinutes} min</span>
+            <span>{formatUiCopy(uiCopy, "blog.article.reading_time_short", { minutes: article.readingTimeMinutes })}</span>
             <span className="w-0.5 h-0.5 rounded-full bg-grey/25" aria-hidden="true" />
             <time dateTime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
           </div>
@@ -146,10 +149,13 @@ function RelatedCard({ article }: { article: BlogArticle }) {
 /* Article Page */
 export default async function BlogArticlePage({ params }: Props) {
   const { slug } = await params;
-  const [article, allArticles] = await Promise.all([
+  const [article, allArticles, uiCopy] = await Promise.all([
     getBlogArticleByHandle(slug),
     getBlogArticles(10),
+    getUiCopy(),
   ]);
+  const copy = (key: string, variables?: Record<string, string | number>) =>
+    formatUiCopy(uiCopy, key, variables);
 
   if (!article) {
     notFound();
@@ -165,7 +171,7 @@ export default async function BlogArticlePage({ params }: Props) {
       ? related
       : allArticles.filter((a) => a.handle !== article.handle).slice(0, 3);
 
-  const authorName = article.authorV2?.name || "Vino per Lei";
+  const authorName = article.authorV2?.name || copy("site.name");
   const authorInitials = authorName
     .split(" ")
     .map((w) => w[0])
@@ -185,7 +191,7 @@ export default async function BlogArticlePage({ params }: Props) {
     },
     publisher: {
       "@type": "Organization",
-      name: "Vino per Lei",
+      name: copy("site.name"),
       url: "https://vinoperlei.nl",
       logo: {
         "@type": "ImageObject",
@@ -209,13 +215,13 @@ export default async function BlogArticlePage({ params }: Props) {
       {
         "@type": "ListItem",
         position: 1,
-        name: "Home",
+        name: copy("collection.breadcrumb.home"),
         item: "https://vinoperlei.nl",
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Blog",
+        name: copy("blog.breadcrumb"),
         item: "https://vinoperlei.nl/blog",
       },
       {
@@ -296,7 +302,7 @@ export default async function BlogArticlePage({ params }: Props) {
                   </div>
                   <div className="min-w-0">
                     <p className="text-[11px] text-grey/40 mb-0.5">
-                      Geschreven door
+                      {copy("blog.article.author_label")}
                     </p>
                     <p className="font-medium text-charcoal text-sm leading-tight">
                       {article.authorV2.name}
@@ -314,7 +320,7 @@ export default async function BlogArticlePage({ params }: Props) {
       {/* Related articles */}
       {relatedFinal.length > 0 && (
         <aside
-          aria-label="Gerelateerde artikelen"
+          aria-label={copy("blog.article.related_aria")}
           className="bg-warm-white border-t border-sand/25"
         >
           <div className="max-w-5xl mx-auto px-5 sm:px-8 py-16 sm:py-20">
@@ -322,14 +328,14 @@ export default async function BlogArticlePage({ params }: Props) {
               <div className="flex items-end justify-between mb-10 sm:mb-12">
                 <div>
                   <h2 className="font-serif text-2xl sm:text-3xl font-semibold text-charcoal">
-                    Lees ook
+                    {copy("blog.article.related_title")}
                   </h2>
                 </div>
                 <Link
                   href="/blog"
                   className="hidden sm:flex items-center gap-2 text-grey/60 hover:text-wine font-medium text-sm transition-colors group min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-lg"
                 >
-                  Alle verhalen
+                  {copy("blog.article.all_stories")}
                   <ArrowIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
@@ -343,7 +349,7 @@ export default async function BlogArticlePage({ params }: Props) {
                     key={a.handle}
                     className="min-w-[280px] max-w-[320px] flex-shrink-0 snap-start"
                   >
-                    <RelatedCard article={a} />
+                    <RelatedCard article={a} uiCopy={uiCopy} />
                   </BlogStaggerItem>
                 ))}
               </BlogStagger>
@@ -353,7 +359,7 @@ export default async function BlogArticlePage({ params }: Props) {
             <BlogStagger className="hidden sm:grid gap-6 lg:gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {relatedFinal.map((a) => (
                 <BlogStaggerItem key={a.handle}>
-                  <RelatedCard article={a} />
+                  <RelatedCard article={a} uiCopy={uiCopy} />
                 </BlogStaggerItem>
               ))}
             </BlogStagger>
@@ -363,7 +369,7 @@ export default async function BlogArticlePage({ params }: Props) {
                 href="/blog"
                 className="inline-flex items-center gap-2 text-grey/60 font-medium text-sm min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-lg"
               >
-                Alle verhalen <ArrowIcon className="w-4 h-4" />
+                {copy("blog.article.all_stories")} <ArrowIcon className="w-4 h-4" />
               </Link>
             </div>
           </div>
@@ -372,7 +378,7 @@ export default async function BlogArticlePage({ params }: Props) {
 
       {/* Bottom navigation */}
       <nav
-        aria-label="Artikelnavigatie"
+        aria-label={copy("blog.article.navigation_aria")}
         className="max-w-5xl mx-auto px-5 sm:px-8 py-8 sm:py-10 border-t border-sand/25"
       >
         <div className="flex items-center justify-between">
@@ -393,13 +399,13 @@ export default async function BlogArticlePage({ params }: Props) {
               <line x1="19" y1="12" x2="5" y2="12" />
               <polyline points="12 19 5 12 12 5" />
             </svg>
-            Alle verhalen
+            {copy("blog.article.all_stories")}
           </Link>
           <Link
             href="/wijnen"
             className="text-sm text-grey/50 hover:text-wine transition-colors group inline-flex items-center gap-2 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 rounded-lg px-2 -mx-2"
           >
-            Bekijk onze wijnen
+            {copy("blog.article.view_wines")}
             <ArrowIcon className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
           </Link>
         </div>

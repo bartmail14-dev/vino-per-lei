@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button, PriceDisplay, QuantitySelector } from "@/components/ui";
+import { useUiCopy } from "@/components/providers";
 import { cn, wineImagePresets } from "@/lib/utils";
+import { getOrderIncrement, getOrderMaximum, getOrderMinimum, getOrderUnitText, getPriceUnitText } from "@/lib/order-rules";
 import { CheckIcon, CheckCircleIcon } from "@/components/icons";
 import type { Product } from "@/types";
 
@@ -27,6 +29,7 @@ export function StickyPurchaseBar({
   justAdded,
   heroRef,
 }: StickyPurchaseBarProps) {
+  const t = useUiCopy();
   const [isVisible, setIsVisible] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
 
@@ -51,6 +54,11 @@ export function StickyPurchaseBar({
 
   const isOnSale = product.originalPrice && product.originalPrice > product.price;
   const savings = isOnSale ? product.originalPrice! - product.price : 0;
+  const orderMinimum = getOrderMinimum(product);
+  const orderIncrement = getOrderIncrement(product);
+  const orderMaximum = getOrderMaximum(product);
+  const orderUnitText = getOrderUnitText(product);
+  const priceUnitText = getPriceUnitText(product);
 
   return (
     <>
@@ -94,7 +102,7 @@ export function StickyPurchaseBar({
                       </h2>
                       <div className="flex items-center gap-2 text-xs text-grey">
                         {product.vintage && (
-                          <span>{product.vintage === "NV" ? "NV" : product.vintage}</span>
+                          <span>{product.vintage === t("product.details.vintage_code_non_vintage") ? t("product.details.vintage_code_non_vintage") : product.vintage}</span>
                         )}
                         {product.region && (
                           <>
@@ -114,9 +122,12 @@ export function StickyPurchaseBar({
                         originalPrice={product.originalPrice}
                         size="md"
                       />
+                      {priceUnitText && (
+                        <p className="text-xs text-grey">{priceUnitText}</p>
+                      )}
                       {isOnSale && (
                         <p className="text-xs text-success font-medium">
-                          Bespaar €{savings.toFixed(2).replace(".", ",")}
+                          {t("product.savings", { amount: savings.toFixed(2).replace(".", ",") })}
                         </p>
                       )}
                     </div>
@@ -128,18 +139,19 @@ export function StickyPurchaseBar({
                     {product.inStock ? (
                       <span className="flex items-center gap-1.5 text-sm text-success">
                         <CheckCircleIcon className="w-4 h-4" />
-                        Op voorraad
+                        {t("product.stock.in_stock")}
                       </span>
                     ) : (
-                      <span className="text-sm text-error font-medium">Uitverkocht</span>
+                      <span className="text-sm text-error font-medium">{t("product.stock.out_of_stock")}</span>
                     )}
 
                     {/* Quantity */}
                     <QuantitySelector
                       value={quantity}
                       onChange={onQuantityChange}
-                      min={1}
-                      max={product.stockQuantity || 99}
+                      min={orderMinimum}
+                      max={orderMaximum}
+                      step={orderIncrement}
                       disabled={!product.inStock}
                     />
 
@@ -165,7 +177,7 @@ export function StickyPurchaseBar({
                               className="flex items-center"
                             >
                               <CheckIcon className="w-4 h-4 mr-2" />
-                              Toegevoegd!
+                              {t("product.added_exclamation")}
                             </motion.span>
                           ) : (
                             <motion.span
@@ -174,14 +186,14 @@ export function StickyPurchaseBar({
                               animate={{ opacity: 1, y: 0 }}
                               exit={{ opacity: 0, y: -10 }}
                             >
-                              In Winkelmand
+                              {t("product.in_cart")}
                             </motion.span>
                           )}
                         </AnimatePresence>
                       </Button>
                     ) : (
                       <Button variant="secondary" className="min-w-[180px]">
-                        Mail bij voorraad
+                        {t("product.notify_stock")}
                       </Button>
                     )}
                   </div>
@@ -204,20 +216,23 @@ export function StickyPurchaseBar({
                   originalPrice={product.originalPrice}
                   size="md"
                 />
+                {priceUnitText && (
+                  <p className="text-xs text-grey mt-0.5">{priceUnitText}</p>
+                )}
                 {isOnSale && (
                   <p className="text-xs text-success font-medium mt-0.5">
-                    Bespaar €{savings.toFixed(2).replace(".", ",")}
+                    {t("product.savings", { amount: savings.toFixed(2).replace(".", ",") })}
                   </p>
                 )}
               </div>
               {product.inStock ? (
                 <span className="flex items-center gap-1 text-xs text-success font-medium bg-success/10 px-2 py-0.5 rounded-full">
                   <CheckCircleIcon className="w-3 h-3" />
-                  Op voorraad
+                  {t("product.stock.in_stock")}
                 </span>
               ) : (
                 <span className="text-xs text-error font-medium bg-error/10 px-2 py-0.5 rounded-full">
-                  Uitverkocht
+                  {t("product.stock.out_of_stock")}
                 </span>
               )}
             </div>
@@ -230,8 +245,9 @@ export function StickyPurchaseBar({
                   <QuantitySelector
                     value={quantity}
                     onChange={onQuantityChange}
-                    min={1}
-                    max={product.stockQuantity || 99}
+                    min={orderMinimum}
+                    max={orderMaximum}
+                    step={orderIncrement}
                     size="sm"
                   />
                 </div>
@@ -260,7 +276,7 @@ export function StickyPurchaseBar({
                         className="flex items-center"
                       >
                         <CheckIcon className="w-5 h-5 mr-2" />
-                        Toegevoegd!
+                        {t("product.added_exclamation")}
                       </motion.span>
                     ) : (
                       <motion.span
@@ -269,17 +285,22 @@ export function StickyPurchaseBar({
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                       >
-                        In Winkelmand
+                        {t("product.in_cart")}
                       </motion.span>
                     )}
                   </AnimatePresence>
                 </Button>
               ) : (
                 <Button variant="secondary" size="lg" className="flex-1 min-h-[48px]">
-                  Mail bij voorraad
+                  {t("product.notify_stock")}
                 </Button>
               )}
             </div>
+            {orderUnitText && product.inStock && (
+              <p className="text-[11px] text-grey mt-2 text-center">
+                {t("product.order.per_unit", { unit: orderUnitText })}
+              </p>
+            )}
           </div>
           {/* Safe area padding for iOS */}
           <div className="h-[env(safe-area-inset-bottom)]" />

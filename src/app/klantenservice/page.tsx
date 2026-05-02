@@ -1,22 +1,18 @@
 import type { Metadata } from "next";
-import { KlantenserviceContent } from "./KlantenserviceContent";
+import { notFound } from "next/navigation";
+import { ShopifyPageContent } from "@/components/cms/ShopifyPageContent";
+import { getPage } from "@/lib/shopify-cms";
 
-export const revalidate = 3600; // 1 hour — static CMS content
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-export const metadata: Metadata = {
-  title: "Klantenservice | Vino per Lei",
-  description:
-    "Hoe kunnen wij je helpen? Vind informatie over verzending, retourneren, veelgestelde vragen en meer.",
-  openGraph: {
-    title: "Klantenservice | Vino per Lei",
-    description:
-      "Hoe kunnen wij je helpen? Vind informatie over verzending, retourneren, veelgestelde vragen en meer.",
-    type: "website",
-    locale: "nl_NL",
-    siteName: "Vino per Lei",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPage("klantenservice");
+  return page?.title ? { title: page.title } : {};
+}
 
-export default function KlantenservicePage() {
-  return <KlantenserviceContent />;
+export default async function KlantenservicePage() {
+  const page = await getPage("klantenservice");
+  if (!page?.body) notFound();
+  return <ShopifyPageContent title={page.title} body={page.body} updatedAt={page.updatedAt} />;
 }

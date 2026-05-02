@@ -7,6 +7,7 @@ export interface QuantitySelectorProps {
   onChange: (value: number) => void;
   min?: number;
   max?: number;
+  step?: number;
   disabled?: boolean;
   size?: "sm" | "md";
   className?: string;
@@ -17,6 +18,7 @@ export function QuantitySelector({
   onChange,
   min = 1,
   max = 99,
+  step = 1,
   disabled = false,
   size = "md",
   className,
@@ -35,22 +37,28 @@ export function QuantitySelector({
   };
 
   const classes = sizeClasses[size];
+  const safeStep = Math.max(1, Math.floor(step));
+
   const handleDecrement = () => {
     if (value > min) {
-      onChange(value - 1);
+      onChange(Math.max(min, value - safeStep));
     }
   };
 
   const handleIncrement = () => {
     if (value < max) {
-      onChange(value + 1);
+      onChange(Math.min(max, value + safeStep));
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(e.target.value, 10);
     if (!isNaN(newValue) && newValue >= min && newValue <= max) {
-      onChange(newValue);
+      const alignedValue =
+        safeStep <= 1
+          ? newValue
+          : min + Math.round((newValue - min) / safeStep) * safeStep;
+      onChange(Math.max(min, Math.min(max, alignedValue)));
     }
   };
 
@@ -91,6 +99,7 @@ export function QuantitySelector({
         disabled={disabled}
         min={min}
         max={max}
+        step={safeStep}
         className={cn(
           classes.input,
           "text-center font-semibold tabular-nums",

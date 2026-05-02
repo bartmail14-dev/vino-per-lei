@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Badge, Rating } from "@/components/ui";
+import { useUiCopy } from "@/components/providers";
 import { cn, wineImagePresets } from "@/lib/utils";
 import { ChevronRightIcon, AwardIcon, GrapeIcon } from "@/components/icons";
 import { ZoomIn, ChevronLeft, ChevronRight as ChevronRightSmall, MapPin, Star } from "lucide-react";
@@ -17,6 +18,7 @@ interface HeroSectionProps {
 }
 
 export function HeroSection({ product, selectedImageIndex, onImageSelect }: HeroSectionProps) {
+  const t = useUiCopy();
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
 
@@ -54,11 +56,11 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
         {/* Breadcrumb */}
         <nav className="hidden sm:flex items-center gap-2 text-sm mb-6 lg:mb-8">
           <Link href="/" className="text-grey hover:text-wine transition-colors">
-            Home
+            {t("collection.breadcrumb.home")}
           </Link>
           <ChevronRightIcon className="w-4 h-4 text-grey" />
           <Link href="/wijnen" className="text-grey hover:text-wine transition-colors">
-            Wijnen
+            {t("collection.breadcrumb.wines")}
           </Link>
           <ChevronRightIcon className="w-4 h-4 text-grey" />
           <span className="text-charcoal font-medium line-clamp-1">
@@ -88,9 +90,9 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
             >
               {/* Badges */}
               <div className="absolute top-3 left-3 sm:top-4 sm:left-4 z-10 flex flex-col gap-2">
-                {product.isNew && <Badge variant="new">Nieuw</Badge>}
+                {product.isNew && <Badge variant="new">{t("product.badge.new")}</Badge>}
                 {isOnSale && <Badge variant="sale">-{savingsPercentage}%</Badge>}
-                {!product.inStock && <Badge variant="soldout">Uitverkocht</Badge>}
+                {!product.inStock && <Badge variant="soldout">{t("product.badge.soldout")}</Badge>}
               </div>
 
               {/* Award Badge - positioned prominently */}
@@ -104,7 +106,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
                   <div className="bg-gradient-to-br from-gold via-gold-light to-gold text-charcoal px-3 py-1.5 sm:px-4 sm:py-2 rounded-lg shadow-lg">
                     <div className="flex items-center gap-1.5 sm:gap-2">
                       <AwardIcon className="w-4 h-4 sm:w-5 sm:h-5" />
-                      <span className="font-semibold text-xs sm:text-sm">{product.awardText || "Award Winner"}</span>
+                      <span className="font-semibold text-xs sm:text-sm">{product.awardText || t("product.badge.award")}</span>
                     </div>
                   </div>
                 </motion.div>
@@ -126,7 +128,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
                   className="absolute bottom-3 left-3 sm:bottom-4 sm:left-4 z-10 bg-white/80 backdrop-blur-sm text-charcoal text-xs px-2.5 py-1 rounded-full flex items-center gap-1.5"
                 >
                   <ZoomIn className="w-3.5 h-3.5" strokeWidth={1.5} />
-                  <span className="hidden sm:inline">Klik om in te zoomen</span>
+                  <span className="hidden sm:inline">{t("product.image.zoom_hint")}</span>
                 </motion.div>
               )}
 
@@ -170,14 +172,14 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
                   <button
                     onClick={(e) => { e.stopPropagation(); handlePrevImage(); }}
                     className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center hover:bg-white hover:shadow-lg transition-all opacity-0 sm:group-hover:opacity-100 sm:opacity-0 active:opacity-100"
-                    aria-label="Vorige afbeelding"
+                    aria-label={t("product.image.previous")}
                   >
                     <ChevronLeft className="w-5 h-5 text-charcoal" strokeWidth={1.5} />
                   </button>
                   <button
                     onClick={(e) => { e.stopPropagation(); handleNextImage(); }}
                     className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center hover:bg-white hover:shadow-lg transition-all opacity-0 sm:group-hover:opacity-100 sm:opacity-0 active:opacity-100"
-                    aria-label="Volgende afbeelding"
+                    aria-label={t("product.image.next")}
                   >
                     <ChevronRightSmall className="w-5 h-5 text-charcoal" strokeWidth={1.5} />
                   </button>
@@ -250,7 +252,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
             {/* Curated by Carla badge */}
             <div className="flex items-center gap-1.5 mb-3">
               <svg viewBox="0 0 16 16" className="w-3.5 h-3.5 text-gold" fill="currentColor"><path d="M8 0l2 5h5l-4 3.5 1.5 5L8 10.5 3.5 13.5 5 8.5 1 5h5z"/></svg>
-              <span className="text-sm text-wine/70 italic">Persoonlijk geselecteerd door Carla</span>
+              <span className="text-sm text-wine/70 italic">{t("product.curated_by")}</span>
             </div>
 
             {/* Vintage & Region */}
@@ -258,7 +260,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
               {product.vintage && (
                 <>
                   <span className="text-xl sm:text-2xl font-medium text-charcoal font-serif">
-                    {product.vintage === "NV" ? "Non-Vintage" : product.vintage}
+                    {product.vintage === t("product.details.vintage_code_non_vintage") ? t("product.details.non_vintage") : product.vintage}
                   </span>
                   <span className="w-1 h-1 rounded-full bg-sand" />
                 </>
@@ -289,7 +291,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
                 />
                 {product.reviewCount && (
                   <span className="text-sm text-grey">
-                    {product.reviewCount} reviews
+                    {product.reviewCount} {t("product.reviews")}
                   </span>
                 )}
               </motion.div>
@@ -329,10 +331,10 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
                   product.wineType === "sparkling" && "bg-champagne border border-gold"
                 )} />
                 <span className="text-sm font-medium text-charcoal">
-                  {product.wineType === "red" && "Rode Wijn"}
-                  {product.wineType === "white" && "Witte Wijn"}
-                  {product.wineType === "rose" && "Rose"}
-                  {product.wineType === "sparkling" && "Mousserende Wijn"}
+                  {product.wineType === "red" && t("product.wine_type.red_full")}
+                  {product.wineType === "white" && t("product.wine_type.white_full")}
+                  {product.wineType === "rose" && t("product.wine_type.rose_full")}
+                  {product.wineType === "sparkling" && t("product.wine_type.sparkling_full")}
                 </span>
               </div>
               {/* Alcohol and volume can be added when available in product data */}

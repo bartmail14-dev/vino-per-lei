@@ -1,0 +1,407 @@
+{
+  "generatedAt": "2026-05-02T18:03:03.072Z",
+  "baseUrl": "http://localhost:3099",
+  "passed": 57,
+  "failed": 0,
+  "results": [
+    {
+      "status": "passed",
+      "group": "homepage-hero",
+      "route": "/",
+      "source": "homepage_hero/main",
+      "marker": "VPLHOME01 subtitle"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-hero",
+      "route": "/",
+      "source": "homepage_hero/main",
+      "marker": "VPLHOME02 titel een"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-hero",
+      "route": "/",
+      "source": "homepage_hero/main",
+      "marker": "VPLHOME03 titel twee"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-hero",
+      "route": "/",
+      "source": "homepage_hero/main",
+      "marker": "VPLHOME04 beschrijving"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-hero",
+      "route": "/",
+      "source": "homepage_hero/main",
+      "marker": "VPLHOME05 knop"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-hero",
+      "route": "/",
+      "source": "homepage_hero/main",
+      "marker": "VPLHOME06 tweede knop"
+    },
+    {
+      "status": "passed",
+      "group": "usp-1",
+      "route": "/",
+      "source": "usp_item/gratis-verzending",
+      "marker": "VPLUSP1A titel"
+    },
+    {
+      "status": "passed",
+      "group": "usp-1",
+      "route": "/",
+      "source": "usp_item/gratis-verzending",
+      "marker": "VPLUSP1B subtitel"
+    },
+    {
+      "status": "passed",
+      "group": "usp-2",
+      "route": "/",
+      "source": "usp_item/gratis-retour",
+      "marker": "VPLUSP2A titel"
+    },
+    {
+      "status": "passed",
+      "group": "usp-2",
+      "route": "/",
+      "source": "usp_item/gratis-retour",
+      "marker": "VPLUSP2B subtitel"
+    },
+    {
+      "status": "passed",
+      "group": "usp-3",
+      "route": "/",
+      "source": "usp_item/expert-selectie",
+      "marker": "VPLUSP3A titel"
+    },
+    {
+      "status": "passed",
+      "group": "usp-3",
+      "route": "/",
+      "source": "usp_item/expert-selectie",
+      "marker": "VPLUSP3B subtitel"
+    },
+    {
+      "status": "passed",
+      "group": "usp-4",
+      "route": "/",
+      "source": "usp_item/veilig-betalen",
+      "marker": "VPLUSP4A titel"
+    },
+    {
+      "status": "passed",
+      "group": "usp-4",
+      "route": "/",
+      "source": "usp_item/veilig-betalen",
+      "marker": "VPLUSP4B subtitel"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-stat-1",
+      "route": "/",
+      "source": "homepage_stat/wijnen",
+      "marker": "911"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-stat-1",
+      "route": "/",
+      "source": "homepage_stat/wijnen",
+      "marker": "VPLSTAT1 label"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-stat-2",
+      "route": "/",
+      "source": "homepage_stat/regio",
+      "marker": "912"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-stat-2",
+      "route": "/",
+      "source": "homepage_stat/regio",
+      "marker": "VPLSTAT2 label"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-stat-3",
+      "route": "/",
+      "source": "homepage_stat/producenten",
+      "marker": "913"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-stat-3",
+      "route": "/",
+      "source": "homepage_stat/producenten",
+      "marker": "VPLSTAT3 label"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-stat-4",
+      "route": "/",
+      "source": "homepage_stat/levering",
+      "marker": "914"
+    },
+    {
+      "status": "passed",
+      "group": "homepage-stat-4",
+      "route": "/",
+      "source": "homepage_stat/levering",
+      "marker": "VPLSTAT4 label"
+    },
+    {
+      "status": "passed",
+      "group": "faq-1",
+      "route": "/klantenservice/faq",
+      "source": "faq_item/bestellen-1",
+      "marker": "VPLFAQ1A vraag"
+    },
+    {
+      "status": "passed",
+      "group": "faq-1",
+      "route": "/klantenservice/faq",
+      "source": "faq_item/bestellen-1",
+      "marker": "VPLFAQ1B antwoord"
+    },
+    {
+      "status": "passed",
+      "group": "faq-2",
+      "route": "/klantenservice/faq",
+      "source": "faq_item/bestellen-1-1",
+      "marker": "VPLFAQ2A vraag"
+    },
+    {
+      "status": "passed",
+      "group": "faq-2",
+      "route": "/klantenservice/faq",
+      "source": "faq_item/bestellen-1-1",
+      "marker": "VPLFAQ2B antwoord"
+    },
+    {
+      "status": "passed",
+      "group": "faq-3",
+      "route": "/klantenservice/faq",
+      "source": "faq_item/bestellen-2",
+      "marker": "VPLFAQ3A vraag"
+    },
+    {
+      "status": "passed",
+      "group": "faq-3",
+      "route": "/klantenservice/faq",
+      "source": "faq_item/bestellen-2",
+      "marker": "VPLFAQ3B antwoord"
+    },
+    {
+      "status": "passed",
+      "group": "faq-4",
+      "route": "/klantenservice/faq",
+      "source": "faq_item/bestellen-2-1",
+      "marker": "VPLFAQ4A vraag"
+    },
+    {
+      "status": "passed",
+      "group": "faq-4",
+      "route": "/klantenservice/faq",
+      "source": "faq_item/bestellen-2-1",
+      "marker": "VPLFAQ4B antwoord"
+    },
+    {
+      "status": "passed",
+      "group": "page-content-klantenservice",
+      "route": "/klantenservice",
+      "source": "page_content/klantenservice",
+      "marker": "VPLPAGE01 titel"
+    },
+    {
+      "status": "passed",
+      "group": "page-content-klantenservice",
+      "route": "/klantenservice",
+      "source": "page_content/klantenservice",
+      "marker": "VPLPAGE01"
+    },
+    {
+      "status": "passed",
+      "group": "page-content-handleiding",
+      "route": "/handleiding",
+      "source": "page_content/handleiding",
+      "marker": "VPLPAGE03 titel"
+    },
+    {
+      "status": "passed",
+      "group": "page-content-handleiding",
+      "route": "/handleiding",
+      "source": "page_content/handleiding",
+      "marker": "VPLPAGE03"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP01"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP02"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP03"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP04"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP05"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP06"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP07"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP09"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP10"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP11"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP12"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP13"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP14"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP16"
+    },
+    {
+      "status": "passed",
+      "group": "product-metafields-gavi",
+      "route": "/wijnen/gavi",
+      "source": "Product/Gavi custom metafields",
+      "marker": "VPLPDP17"
+    },
+    {
+      "status": "passed",
+      "group": "ui-copy-home-featured-title",
+      "route": "/",
+      "source": "ui_copy/home-featured-title",
+      "marker": "VPLUI01 favorieten"
+    },
+    {
+      "status": "passed",
+      "group": "ui-copy-home-regions-body",
+      "route": "/",
+      "source": "ui_copy/home-regions-body",
+      "marker": "VPLUI02 regio body"
+    },
+    {
+      "status": "passed",
+      "group": "ui-copy-collection-heading-default",
+      "route": "/wijnen",
+      "source": "ui_copy/collection-heading-default",
+      "marker": "VPLUI03 collectie"
+    },
+    {
+      "status": "passed",
+      "group": "ui-copy-collection-seo-title",
+      "route": "/wijnen",
+      "source": "ui_copy/collection-seo-title",
+      "marker": "VPLUI04 seo titel"
+    },
+    {
+      "status": "passed",
+      "group": "ui-copy-faq-title",
+      "route": "/klantenservice/faq",
+      "source": "ui_copy/faq-title",
+      "marker": "VPLUI05 faq titel"
+    },
+    {
+      "status": "passed",
+      "group": "ui-copy-faq-cta-title",
+      "route": "/klantenservice/faq",
+      "source": "ui_copy/faq-cta-title",
+      "marker": "VPLUI06 faq cta"
+    },
+    {
+      "status": "passed",
+      "group": "ui-copy-blog-title",
+      "route": "/blog",
+      "source": "ui_copy/blog-title",
+      "marker": "VPLUI07 blog titel"
+    },
+    {
+      "status": "passed",
+      "group": "ui-copy-blog-intro",
+      "route": "/blog",
+      "source": "ui_copy/blog-intro",
+      "marker": "VPLUI08 blog intro"
+    }
+  ]
+}

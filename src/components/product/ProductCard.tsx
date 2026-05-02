@@ -9,7 +9,10 @@ import { Badge, Rating, PriceDisplay } from "@/components/ui";
 import { NotifyMeModal } from "@/components/ui/NotifyMeModal";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
+import { useAuthStore } from "@/stores/authStore";
+import { useUiCopy } from "@/components/providers";
 import { cn, wineImagePresets } from "@/lib/utils";
+import { getOrderMinimum, getOrderUnitText, getPriceUnitText } from "@/lib/order-rules";
 import { trackAddToCart } from "@/lib/analytics";
 import { WineBottleIcon, CheckIcon, HeartIcon, LoadingSpinner, EyeIcon } from "@/components/icons";
 
@@ -26,6 +29,7 @@ export function ProductCard({
   className,
   onQuickView,
 }: ProductCardProps) {
+  const t = useUiCopy();
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
@@ -35,7 +39,9 @@ export function ProductCard({
 
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
-  const isInWishlist = useWishlistStore((state) => state.isInWishlist(product.id));
+  const rawIsInWishlist = useWishlistStore((state) => state.isInWishlist(product.id));
+  const { isAuthenticated, openLoginModal } = useAuthStore();
+  const isInWishlist = isAuthenticated && rawIsInWishlist;
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -46,8 +52,9 @@ export function ProductCard({
     setIsAdding(true);
     await new Promise((resolve) => setTimeout(resolve, 300));
 
-    addItem(product);
-    trackAddToCart({ title: product.title, id: product.id, price: product.price, quantity: 1 });
+    const quantity = getOrderMinimum(product);
+    addItem(product, quantity);
+    trackAddToCart({ title: product.title, id: product.id, price: product.price, quantity });
     setIsAdding(false);
     setJustAdded(true);
 
@@ -57,6 +64,10 @@ export function ProductCard({
   const handleToggleWishlist = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
+    if (!isAuthenticated) {
+      openLoginModal(() => toggleWishlist(product));
+      return;
+    }
     toggleWishlist(product);
   };
 
@@ -70,15 +81,17 @@ export function ProductCard({
   const discountPercentage = isOnSale
     ? Math.round(((product.originalPrice! - product.price) / product.originalPrice!) * 100)
     : 0;
+  const orderUnitText = getOrderUnitText(product);
+  const priceUnitText = getPriceUnitText(product);
 
   const wineTypeLabel =
     product.wineType === "red"
-      ? "Rood"
+      ? t("product.wine_type.red")
       : product.wineType === "white"
-        ? "Wit"
+        ? t("product.wine_type.white")
         : product.wineType === "rose"
-          ? "Rosé"
-          : "Bubbels";
+          ? t("product.wine_type.rose")
+          : t("product.wine_type.sparkling");
 
   return (
     <motion.article
@@ -111,7 +124,7 @@ export function ProductCard({
         )}
         whileHover={{ scale: 1.15 }}
         whileTap={{ scale: 0.9 }}
-        aria-label={isInWishlist ? "Verwijder uit verlanglijst" : "Toevoegen aan verlanglijst"}
+        aria-label={isInWishlist ? t("product.wishlist.remove") : t("product.wishlist.add")}
       >
         <HeartIcon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" filled={isInWishlist} aria-hidden="true" />
       </motion.button>
@@ -134,7 +147,7 @@ export function ProductCard({
             >
               <span className="flex items-center gap-1.5">
                 <EyeIcon className="w-3.5 h-3.5" />
-                Bekijk
+                {t("product.view")}
               </span>
             </motion.button>
           )}
@@ -144,7 +157,7 @@ export function ProductCard({
       <Link
         href={`/wijnen/${product.handle}`}
         className="block"
-        aria-label={`Bekijk ${product.title}`}
+        aria-label={t("product.view_aria", { title: product.title })}
       >
         {/* Image Container */}
         <div className="relative h-44 sm:h-48 mx-3 sm:mx-4 -mt-12 sm:-mt-20">
@@ -163,17 +176,22 @@ export function ProductCard({
           {/* Badges */}
           <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 flex flex-col gap-1 sm:gap-1.5">
             {product.isNew && (
-              <Badge variant="new">Nieuw</Badge>
+              <Badge variant="new">{t("product.badge.new")}</Badge>
             )}
             {isOnSale && (
               <Badge variant="sale">-{discountPercentage}%</Badge>
             )}
-            {!product.inStock && <Badge variant="soldout">Uitverkocht</Badge>}
+            {!product.inStock && <Badge variant="soldout">{t("product.badge.soldout")}</Badge>}
             {product.inStock && product.stockQuantity != null && product.stockQuantity > 0 && product.stockQuantity <= 5 && (
-              <Badge variant="lowstock">Nog {product.stockQuantity} {product.stockQuantity === 1 ? "fles" : "flessen"}</Badge>
+              <Badge variant="lowstock">
+                {t("product.badge.low_stock", {
+                  count: product.stockQuantity,
+                  unit: product.stockQuantity === 1 ? t("product.unit.bottle_singular") : t("product.unit.bottle_plural"),
+                })}
+              </Badge>
             )}
             {product.hasAward && (
-              <Badge variant="award">{product.awardText || "Award"}</Badge>
+              <Badge variant="award">{product.awardText || t("product.badge.award")}</Badge>
             )}
           </div>
 
@@ -245,7 +263,7 @@ export function ProductCard({
           {/* Region line — editorial small-caps */}
           <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-grey/60 font-medium mb-1 sm:mb-1.5 truncate">
             {product.region}
-            {product.vintage && product.vintage !== "NV" && (
+            {product.vintage && product.vintage !== t("product.details.vintage_code_non_vintage") && (
               <span className="text-gold/50 ml-1.5">
                 &middot; {product.vintage}
               </span>
@@ -273,6 +291,9 @@ export function ProductCard({
               currentPrice={product.price}
               originalPrice={product.originalPrice}
             />
+            {priceUnitText && (
+              <p className="text-[10px] sm:text-xs text-grey mt-0.5">{priceUnitText}</p>
+            )}
           </div>
         </div>
       </Link>
@@ -315,7 +336,7 @@ export function ProductCard({
                   className="relative z-10 flex items-center justify-center"
                 >
                   <CheckIcon className="w-3.5 h-3.5 mr-1.5" />
-                  Toegevoegd
+                  {t("product.added")}
                 </motion.span>
               ) : (
                 <motion.span
@@ -325,7 +346,7 @@ export function ProductCard({
                   exit={{ opacity: 0 }}
                   className="relative z-10 flex items-center justify-center"
                 >
-                  + Winkelmand
+                  {t("product.add_to_cart_short")}
                 </motion.span>
               )}
             </AnimatePresence>
@@ -335,10 +356,15 @@ export function ProductCard({
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setNotifyOpen(true); }}
             className="w-full h-9 sm:h-11 rounded-lg text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] border border-wine/20 text-wine/60 bg-transparent hover:bg-wine hover:text-white hover:border-wine transition-all duration-300"
           >
-            Mail bij voorraad
+            {t("product.notify_stock")}
           </button>
         )}
       </div>
+      {orderUnitText && product.inStock && (
+        <p className="px-3 sm:px-5 pb-3 -mt-1 text-[10px] sm:text-xs text-grey text-center">
+          {t("product.order.per_unit", { unit: orderUnitText })}
+        </p>
+      )}
 
       {/* Notify Me Modal */}
       <NotifyMeModal

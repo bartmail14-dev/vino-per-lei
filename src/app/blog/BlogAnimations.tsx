@@ -17,6 +17,7 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { ArrowRight, ChevronUp, Check } from "lucide-react";
+import { useUiCopy } from "@/components/providers";
 
 /* ══════════════════════════════════════════════
    Shared easing & reduced-motion
@@ -443,6 +444,7 @@ export function ReadingProgressEnhanced({
 }: {
   readingTimeMinutes?: number;
 }) {
+  const t = useUiCopy();
   const reduced = useAccessibleMotion();
   const [progress, setProgress] = useState(0);
   const scaleX = useSpring(0, {
@@ -492,7 +494,7 @@ export function ReadingProgressEnhanced({
             {minutesLeft !== null && minutesLeft > 0 && (
               <>
                 <span className="w-px h-3 bg-gold/20" />
-                <span className="text-gold/60">{minutesLeft} min resterend</span>
+                <span className="text-gold/60">{t("blog.reading_remaining", { minutes: minutesLeft })}</span>
               </>
             )}
           </motion.div>
@@ -649,11 +651,12 @@ export function InputGlow({
 
 export function CheckmarkAnimation({ show }: { show: boolean }) {
   const reduced = useAccessibleMotion();
+  const t = useUiCopy();
   if (reduced && show) {
     return (
       <div className="flex items-center gap-2 text-gold font-medium">
         <Check className="w-5 h-5" strokeWidth={2.5} />
-        <span>Welkom!</span>
+        <span>{t("blog.newsletter.welcome")}</span>
       </div>
     );
   }
@@ -683,7 +686,7 @@ export function CheckmarkAnimation({ show }: { show: boolean }) {
               transition={{ duration: 0.5, delay: 0.2, ease: EASE_PREMIUM }}
             />
           </motion.svg>
-          <span>Welkom!</span>
+          <span>{t("blog.newsletter.welcome")}</span>
         </motion.div>
       )}
     </AnimatePresence>
@@ -696,6 +699,7 @@ export function CheckmarkAnimation({ show }: { show: boolean }) {
 
 export function ScrollToTop() {
   const reduced = useAccessibleMotion();
+  const t = useUiCopy();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -722,7 +726,7 @@ export function ScrollToTop() {
           whileHover={reduced ? {} : { scale: 1.1 }}
           whileTap={reduced ? {} : { scale: 0.95 }}
           onClick={scrollToTop}
-          aria-label="Scroll naar boven"
+          aria-label={t("blog.scroll_top")}
           className="fixed bottom-24 xl:bottom-8 right-5 xl:right-8 z-40 w-12 h-12 rounded-full bg-gold text-wine-dark shadow-lg shadow-gold/25 flex items-center justify-center hover:bg-gold-light transition-colors print:hidden border border-gold-light/30 cursor-pointer"
         >
           <ChevronUp className="w-5 h-5" strokeWidth={2.5} />

@@ -5,6 +5,7 @@ import { useCallback, useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { LayoutGrid } from "lucide-react";
 import { getTagLabel } from "@/lib/tag-utils";
+import { useUiCopy } from "@/components/providers";
 
 interface BlogCategoryFilterProps {
   tags: string[];
@@ -16,6 +17,7 @@ interface BlogCategoryFilterProps {
 export function BlogCategoryFilter({ tags, tagCounts, totalCount }: BlogCategoryFilterProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const t = useUiCopy();
   const activeTag = searchParams.get("tag");
   const scrollRef = useRef<HTMLDivElement>(null);
   const [showLeftFade, setShowLeftFade] = useState(false);
@@ -50,7 +52,7 @@ export function BlogCategoryFilter({ tags, tagCounts, totalCount }: BlogCategory
   const allTags = [null, ...tags];
 
   return (
-    <nav aria-label="Artikelcategorieen" className="relative">
+    <nav aria-label={t("blog.categories_aria")} className="relative">
       {/* Left fade */}
       {showLeftFade && (
         <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none sm:hidden" aria-hidden="true" />
@@ -64,12 +66,12 @@ export function BlogCategoryFilter({ tags, tagCounts, totalCount }: BlogCategory
       <div
         ref={scrollRef}
         role="tablist"
-        aria-label="Filter op categorie"
+        aria-label={t("blog.filter_aria")}
         className="flex items-center gap-2 overflow-x-auto scrollbar-hide pb-1 -mx-5 px-5 sm:mx-0 sm:px-0 sm:flex-wrap sm:gap-2.5 snap-x snap-mandatory sm:snap-none"
       >
         {allTags.map((tag) => {
           const isActive = tag === null ? !activeTag : activeTag === tag;
-          const label = tag === null ? "Alle artikelen" : getTagLabel(tag);
+          const label = tag === null ? t("blog.all_articles") : getTagLabel(tag);
           const count = tag === null ? totalCount : tagCounts?.[tag];
 
           return (
@@ -77,7 +79,7 @@ export function BlogCategoryFilter({ tags, tagCounts, totalCount }: BlogCategory
               key={tag ?? "__all"}
               role="tab"
               aria-selected={isActive}
-              aria-label={`Filter: ${label}`}
+              aria-label={t("blog.filter_button_aria", { label })}
               onClick={() => handleClick(tag)}
               className="relative min-h-[44px] px-4 sm:px-5 py-2.5 sm:py-2.5 rounded-full text-sm font-medium whitespace-nowrap flex-shrink-0 snap-start focus:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
             >

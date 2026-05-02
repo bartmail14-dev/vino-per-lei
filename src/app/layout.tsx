@@ -5,10 +5,13 @@ import { HeaderWrapper, FooterWrapper } from "@/components/layout";
 import { AgeGate } from "@/components/ui";
 import { CartSlideOut } from "@/components/cart";
 import { LoginModal } from "@/components/auth";
-import { SmoothScrollProvider, ShopConfigProvider, PostHogProvider, GoogleAnalytics } from "@/components/providers";
+import { SmoothScrollProvider, ShopConfigProvider, UiCopyProvider, PostHogProvider, GoogleAnalytics } from "@/components/providers";
 import { CookieConsent } from "@/components/ui/CookieConsent";
 import { ExitIntentModal } from "@/components/ui/ExitIntentModal";
-import { getShopConfig } from "@/lib/shopify-cms";
+import { getShopConfig, getUiCopy } from "@/lib/shopify-cms";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const inter = Inter({
   variable: "--font-inter",
@@ -76,7 +79,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const shopConfig = await getShopConfig();
+  const [shopConfig, uiCopy] = await Promise.all([getShopConfig(), getUiCopy()]);
 
   return (
     <html lang="nl" className={`${inter.variable} ${playfair.variable}`}>
@@ -85,22 +88,24 @@ export default async function RootLayout({
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[10000] focus:bg-white focus:text-[#1a1f3d] focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:font-medium"
         >
-          Ga naar inhoud
+          {uiCopy["global.skip_to_content"] ?? ""}
         </a>
-        <ShopConfigProvider config={shopConfig}>
-          <SmoothScrollProvider>
-            <PostHogProvider />
-            <GoogleAnalytics />
-            <AgeGate />
-            <HeaderWrapper />
-            <main id="main-content" className="flex-1">{children}</main>
-            <FooterWrapper />
-            <CookieConsent />
-            <CartSlideOut />
-            <LoginModal />
-            <ExitIntentModal />
-          </SmoothScrollProvider>
-        </ShopConfigProvider>
+        <UiCopyProvider copy={uiCopy}>
+          <ShopConfigProvider config={shopConfig}>
+            <SmoothScrollProvider>
+              <PostHogProvider />
+              <GoogleAnalytics />
+              <AgeGate />
+              <HeaderWrapper />
+              <main id="main-content" className="flex-1">{children}</main>
+              <FooterWrapper />
+              <CookieConsent />
+              <CartSlideOut />
+              <LoginModal />
+              <ExitIntentModal />
+            </SmoothScrollProvider>
+          </ShopConfigProvider>
+        </UiCopyProvider>
       </body>
     </html>
   );

@@ -1,29 +1,31 @@
 "use client";
 
 import { useState } from "react";
+import type { ReactNode } from "react";
 import Link from "next/link";
-import { Logo } from "@/components/ui/Logo";
-import { motion, AnimatePresence } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDownIcon } from "@/components/icons";
+import { Logo } from "@/components/ui/Logo";
 import { reopenCookieConsent } from "@/components/ui/CookieConsent";
+import { cn } from "@/lib/utils";
+import { useUiCopy } from "@/components/providers";
 import type { SiteSettings } from "@/lib/shopify-cms";
-
-// --- Props ---
 
 interface FooterLinkItem {
   title: string;
   url: string;
 }
 
-interface FooterProps {
-  settings?: SiteSettings;
-  shopLinks?: FooterLinkItem[];
-  serviceLinks?: FooterLinkItem[];
-  aboutLinks?: FooterLinkItem[];
+interface FooterSection {
+  title: string;
+  links: FooterLinkItem[];
 }
 
-// Brand Icons (custom — Lucide doesn't include brand logos)
+interface FooterProps {
+  settings?: SiteSettings;
+  sections?: FooterSection[];
+}
+
 function InstagramIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -40,128 +42,16 @@ function FacebookIcon({ className }: { className?: string }) {
   );
 }
 
-// Proper SVG Payment Icons
-function IdealIcon() {
-  return (
-    <div className="h-8 px-3 bg-white rounded-md flex items-center justify-center shadow-sm border border-sand/50">
-      <svg viewBox="0 0 40 16" className="h-3.5">
-        <text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="13" fill="#CC0066">iDEAL</text>
-      </svg>
-    </div>
-  );
-}
-
-function MastercardIcon() {
-  return (
-    <div className="h-8 px-2.5 bg-white rounded-md flex items-center justify-center shadow-sm border border-sand/50">
-      <svg viewBox="0 0 32 20" className="h-5">
-        <circle cx="11" cy="10" r="8" fill="#EB001B" />
-        <circle cx="21" cy="10" r="8" fill="#F79E1B" />
-        <path d="M16 4.5a8 8 0 010 11 8 8 0 000-11z" fill="#FF5F00" />
-      </svg>
-    </div>
-  );
-}
-
-function VisaIcon() {
-  return (
-    <div className="h-8 px-3 bg-white rounded-md flex items-center justify-center shadow-sm border border-sand/50">
-      <svg viewBox="0 0 40 16" className="h-3">
-        <text x="0" y="14" fontFamily="Arial" fontWeight="bold" fontSize="15" fill="#1A1F71" fontStyle="italic">VISA</text>
-      </svg>
-    </div>
-  );
-}
-
-function PaypalIcon() {
-  return (
-    <div className="h-8 px-2.5 bg-white rounded-md flex items-center justify-center shadow-sm border border-sand/50">
-      <svg viewBox="0 0 44 16" className="h-3.5">
-        <text x="0" y="13" fontFamily="Arial" fontWeight="bold" fontSize="12">
-          <tspan fill="#003087">Pay</tspan>
-          <tspan fill="#009CDE">Pal</tspan>
-        </text>
-      </svg>
-    </div>
-  );
-}
-
-function BancontactIcon() {
-  return (
-    <div className="h-8 px-2.5 bg-white rounded-md flex items-center justify-center shadow-sm border border-sand/50">
-      <svg viewBox="0 0 20 20" className="h-4">
-        <circle cx="10" cy="10" r="9" fill="#005498" />
-        <circle cx="7" cy="10" r="4" fill="#FFD800" opacity="0.9" />
-        <circle cx="13" cy="10" r="4" fill="#005498" stroke="#FFD800" strokeWidth="0.5" />
-      </svg>
-    </div>
-  );
-}
-
-// Trust badge icons
-function AgeVerifyIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <text x="7" y="16" fontSize="9" fontWeight="bold" fill="currentColor" stroke="none">18</text>
-    </svg>
-  );
-}
-
-function SecureIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5">
-      <rect x="3" y="11" width="18" height="11" rx="2" />
-      <path d="M7 11V7a5 5 0 0110 0v4" />
-      <circle cx="12" cy="16" r="1" fill="currentColor" />
-    </svg>
-  );
-}
-
-// Convert absolute Shopify URLs to relative paths
 function toRelativeUrl(url: string): string {
   try {
     const parsed = new URL(url);
     return parsed.pathname + parsed.search + parsed.hash;
   } catch {
-    return url; // already relative
+    return url || "/";
   }
 }
 
-// Hardcoded fallback footer links (used when CMS menu props are empty)
-const defaultFooterLinks = {
-  shop: {
-    title: "Shop",
-    links: [
-      { label: "Alle Wijnen", href: "/wijnen" },
-      { label: "Rode Wijn", href: "/wijnen?type=red" },
-      { label: "Witte Wijn", href: "/wijnen?type=white" },
-      { label: "Rosé", href: "/wijnen?type=rose" },
-    ],
-  },
-  service: {
-    title: "Klantenservice",
-    links: [
-      { label: "Verzending & Levering", href: "/klantenservice/verzending" },
-      { label: "Retourneren", href: "/klantenservice/retourneren" },
-      { label: "Veelgestelde Vragen", href: "/klantenservice/faq" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  about: {
-    title: "Over Ons",
-    links: [
-      { label: "Ons Verhaal", href: "/over-ons" },
-    ],
-  },
-};
-
-interface AccordionSectionProps {
-  title: string;
-  children: React.ReactNode;
-}
-
-function AccordionSection({ title, children }: AccordionSectionProps) {
+function AccordionSection({ title, children }: { title: string; children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -171,17 +61,9 @@ function AccordionSection({ title, children }: AccordionSectionProps) {
         className="flex items-center justify-between w-full py-4 lg:cursor-default lg:pointer-events-none"
         aria-expanded={isOpen}
       >
-        <h3 className="text-label text-wine/80">
-          {title}
-        </h3>
-        <ChevronDownIcon
-          className={cn(
-            "w-5 h-5 text-wine/70 transition-transform duration-200 lg:hidden",
-            isOpen && "rotate-180"
-          )}
-        />
+        <h3 className="text-label text-wine/80">{title}</h3>
+        <ChevronDownIcon className={cn("w-5 h-5 text-wine/70 transition-transform duration-200 lg:hidden", isOpen && "rotate-180")} />
       </button>
-      {/* Mobile: accordion behavior */}
       <div className="lg:hidden">
         <AnimatePresence initial={false}>
           {isOpen && (
@@ -197,177 +79,88 @@ function AccordionSection({ title, children }: AccordionSectionProps) {
           )}
         </AnimatePresence>
       </div>
-      {/* Desktop: always visible */}
       <div className="hidden lg:block pt-2">{children}</div>
     </div>
   );
 }
 
-export function Footer({ settings, shopLinks, serviceLinks, aboutLinks }: FooterProps) {
-  return (
-    <footer>
-      {/* Main Footer — Warm beige paper texture */}
-      <div className="relative bg-[#f0e8da] overflow-hidden">
-        {/* Paper texture overlay */}
-        <div
-          className="absolute inset-0 opacity-[0.35] mix-blend-multiply pointer-events-none bg-grain"
-          style={{
-            backgroundSize: "200px 200px",
-          }}
-        />
-        {/* Subtle warm gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#ede4d4]/60 via-transparent to-[#e5dbc8]/40 pointer-events-none" />
-        {/* Decorative wine stain ring — top right */}
-        <div className="absolute -right-16 -top-16 w-64 h-64 rounded-full border-[3px] border-wine/[0.04] pointer-events-none" />
-        <div className="absolute -right-12 -top-12 w-56 h-56 rounded-full border border-wine/[0.03] pointer-events-none" />
+export function Footer({ settings, sections = [] }: FooterProps) {
+  const t = useUiCopy();
+  const socialLinks = [
+    settings?.instagramUrl ? { href: settings.instagramUrl, Icon: InstagramIcon, label: t("footer.social.instagram") } : null,
+    settings?.facebookUrl ? { href: settings.facebookUrl, Icon: FacebookIcon, label: t("footer.social.facebook") } : null,
+  ].filter(Boolean) as Array<{ href: string; Icon: typeof InstagramIcon; label: string }>;
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
-          {/* Top section: Logo + tagline + links */}
-          <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 lg:gap-10 mb-8">
-            <div className="lg:max-w-xs">
-              <Link href="/" className="inline-block mb-3 group">
-                <Logo variant="full" color="#1a1f3d" className="h-16 sm:h-20 w-auto transition-transform duration-500 group-hover:scale-[1.02]" />
-              </Link>
-              <p className="text-wine/80 text-sm leading-relaxed max-w-sm">
-                Italiaanse wijnen, rechtstreeks van de producent.
-              </p>
-              {/* Social Links */}
+  return (
+    <footer className="relative bg-[#f0e8da] overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.35] mix-blend-multiply pointer-events-none bg-grain" style={{ backgroundSize: "200px 200px" }} />
+      <div className="absolute inset-0 bg-gradient-to-b from-[#ede4d4]/60 via-transparent to-[#e5dbc8]/40 pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
+        <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6 lg:gap-10 mb-8">
+          <div className="lg:max-w-xs">
+            <Link href="/" className="inline-block mb-3 group">
+              <Logo variant="full" color="#1a1f3d" className="h-16 sm:h-20 w-auto transition-transform duration-500 group-hover:scale-[1.02]" />
+            </Link>
+            {socialLinks.length > 0 && (
               <div className="flex gap-1 mt-3">
-                {[
-                  { href: settings?.instagramUrl || "https://instagram.com/vinoperlei", Icon: InstagramIcon, label: "Instagram" },
-                  { href: settings?.facebookUrl || "https://facebook.com/vinoperlei", Icon: FacebookIcon, label: "Facebook" },
-                ].map(({ href, Icon, label }) => (
+                {socialLinks.map(({ href, Icon, label }) => (
                   <a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center text-wine/80 hover:text-wine/90 hover:bg-wine/5 rounded-lg transition-all duration-200"
-                    aria-label={`Volg ons op ${label}`}
+                    aria-label={t("footer.social.follow_on", { platform: label })}
                   >
                     <Icon className="w-5 h-5" />
                   </a>
                 ))}
               </div>
-            </div>
+            )}
+          </div>
 
-            {/* Link Columns */}
+          {sections.length > 0 && (
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-12 flex-1 lg:max-w-xl">
-              {(() => {
-                const sections = [
-                  {
-                    key: "shop",
-                    title: defaultFooterLinks.shop.title,
-                    links: shopLinks && shopLinks.length > 0
-                      ? shopLinks.map((l) => ({ label: l.title, href: toRelativeUrl(l.url) }))
-                      : defaultFooterLinks.shop.links,
-                  },
-                  {
-                    key: "service",
-                    title: defaultFooterLinks.service.title,
-                    links: serviceLinks && serviceLinks.length > 0
-                      ? serviceLinks.map((l) => ({ label: l.title, href: toRelativeUrl(l.url) }))
-                      : defaultFooterLinks.service.links,
-                  },
-                  {
-                    key: "about",
-                    title: defaultFooterLinks.about.title,
-                    links: aboutLinks && aboutLinks.length > 0
-                      ? aboutLinks.map((l) => ({ label: l.title, href: toRelativeUrl(l.url) }))
-                      : defaultFooterLinks.about.links,
-                  },
-                ];
-                return sections.map((section) => (
-                  <AccordionSection key={section.key} title={section.title}>
-                    <ul className="space-y-1.5">
-                      {section.links.map((link) => (
-                        <li key={link.href}>
-                          <Link
-                            href={link.href}
-                            className="text-sm text-wine/80 hover:text-wine transition-colors duration-200"
-                          >
-                            {link.label}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </AccordionSection>
-                ));
-              })()}
+              {sections.map((section) => (
+                <AccordionSection key={section.title} title={section.title}>
+                  <ul className="space-y-1.5">
+                    {section.links.map((link) => (
+                      <li key={`${section.title}-${link.url}`}>
+                        <Link href={toRelativeUrl(link.url)} className="text-sm text-wine/80 hover:text-wine transition-colors duration-200">
+                          {link.title}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </AccordionSection>
+              ))}
             </div>
-          </div>
-
-          {/* Divider */}
-          <div className="h-px bg-gradient-to-r from-transparent via-wine/10 to-transparent mb-6" />
-
-          {/* Trust & Payment Row */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            {/* Payment Methods */}
-            <div>
-              <p className="text-label text-wine/80 mb-2 text-xs">Betaalmethodes</p>
-              <div className="flex flex-wrap items-center gap-2">
-                <IdealIcon />
-                <MastercardIcon />
-                <VisaIcon />
-                <PaypalIcon />
-                <BancontactIcon />
-              </div>
-            </div>
-
-            {/* Trust Badges */}
-            <div>
-              <p className="text-label text-wine/80 mb-2 text-xs">Vertrouwd</p>
-              <div className="flex flex-wrap items-center gap-4">
-                <div className="flex items-center gap-2 text-wine/80">
-                  <AgeVerifyIcon />
-                  <span className="text-xs">NIX18</span>
-                </div>
-                <div className="flex items-center gap-2 text-wine/80">
-                  <SecureIcon />
-                  <span className="text-xs">SSL Beveiligd</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Contact info */}
-            <div>
-              <p className="text-label text-wine/80 mb-2 text-xs">Contact</p>
-              <div className="space-y-1.5 text-sm text-wine/80">
-                <p>{settings?.email || "info@vinoperlei.nl"}</p>
-                <p className="text-wine/80 text-xs">Ma-Vr {settings?.hoursWeekday || "09:00 - 17:00"}</p>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
 
-        {/* Bottom Bar — Company details + legal combined */}
-        <div className="relative border-t border-wine/[0.06]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 text-[11px] text-wine/60 leading-relaxed">
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                <span>&copy; {new Date().getFullYear()} {settings?.companyName || "Vino per Lei"}</span>
-                <span className="hidden sm:inline">·</span>
-                <span>KvK: {settings?.kvk || "98874977"}</span>
-                <span className="hidden sm:inline">·</span>
-                <span>BTW: {settings?.btw || "NL005360033B10"}</span>
-              </div>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-wine/60">
-                <span>Prijzen incl. BTW</span>
-                <span>·</span>
-                <Link href="/voorwaarden" className="hover:text-wine/80 transition-colors">Voorwaarden</Link>
-                <Link href="/privacy" className="hover:text-wine/80 transition-colors">Privacy</Link>
-                <Link href="/cookies" className="hover:text-wine/80 transition-colors">Cookies</Link>
-                <button onClick={reopenCookieConsent} className="hover:text-wine/80 transition-colors cursor-pointer">Cookie-instellingen</button>
-              </div>
+        {(settings?.email || settings?.hoursWeekday) && (
+          <>
+            <div className="h-px bg-gradient-to-r from-transparent via-wine/10 to-transparent mb-6" />
+            <div className="text-sm text-wine/80 space-y-1.5">
+              {settings.email && <p>{settings.email}</p>}
+              {settings.hoursWeekday && <p className="text-xs">{settings.hoursWeekday}</p>}
             </div>
-            <div className="flex items-center gap-2.5 mt-3 px-4 py-2.5 bg-wine/[0.06] border border-wine/15 rounded-lg">
-              <svg viewBox="0 0 24 24" className="w-4 h-4 text-wine/70 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                <path d="M12 9v4m0 4h.01M12 2L2 22h20L12 2z" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              <p className="text-xs sm:text-sm text-wine/70 leading-snug font-medium">
-                Het is verboden alcoholhoudende dranken te verkopen aan personen onder de 18 jaar. Bij levering wordt om legitimatie gevraagd.
-              </p>
+          </>
+        )}
+      </div>
+
+      <div className="relative border-t border-wine/[0.06]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2 text-[11px] text-wine/60 leading-relaxed">
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              {settings?.companyName && <span>&copy; {new Date().getFullYear()} {settings.companyName}</span>}
+              {settings?.kvk && <span>{t("footer.legal.kvk_prefix")} {settings.kvk}</span>}
+              {settings?.btw && <span>{t("footer.legal.btw_prefix")} {settings.btw}</span>}
             </div>
+            <button onClick={reopenCookieConsent} className="self-start lg:self-auto hover:text-wine/80 transition-colors cursor-pointer">
+              {t("footer.cookie_settings")}
+            </button>
           </div>
         </div>
       </div>

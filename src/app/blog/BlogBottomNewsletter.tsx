@@ -3,8 +3,11 @@
 import { BlogFadeIn } from "./BlogAnimations";
 import { WineGlassIcon, GrapeIcon } from "./BlogClientComponents";
 import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
+import { useUiCopy } from "@/components/providers";
 
 export function BlogBottomNewsletter() {
+  const t = useUiCopy();
+
   return (
     <BlogFadeIn>
       <div className="bg-dark-bg relative overflow-hidden">
@@ -22,10 +25,10 @@ export function BlogBottomNewsletter() {
           </div>
 
           <h2 className="font-serif text-2xl sm:text-[1.875rem] font-semibold text-white mb-3.5 leading-[1.1] tracking-[-0.015em]">
-            Mis geen enkel verhaal
+            {t("blog.newsletter.title")}
           </h2>
           <p className="text-white/30 text-[13px] sm:text-sm mb-9 max-w-md mx-auto leading-relaxed font-light tracking-wide">
-            Ontvang onze nieuwste wijnverhalen, tips en exclusieve aanbiedingen rechtstreeks in je inbox.
+            {t("blog.bottom_newsletter.body")}
           </p>
 
           <NewsletterForm variant="dark" layout="stacked" className="max-w-md mx-auto" />

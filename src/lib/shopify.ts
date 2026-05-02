@@ -58,9 +58,21 @@ const PRODUCT_FIELDS = `
   tasteFreshSoft: metafield(namespace: "custom", key: "taste_fresh_soft") { value }
   foodPairing: metafield(namespace: "custom", key: "food_pairing") { value }
   servingTemperature: metafield(namespace: "custom", key: "serving_temperature") { value }
+  decantTime: metafield(namespace: "custom", key: "decant_time") { value }
+  decantNote: metafield(namespace: "custom", key: "decant_note") { value }
   alcoholPercentage: metafield(namespace: "custom", key: "alcohol_percentage") { value }
+  bottleVolume: metafield(namespace: "custom", key: "bottle_volume") { value }
+  closure: metafield(namespace: "custom", key: "closure") { value }
+  allergens: metafield(namespace: "custom", key: "allergens") { value }
+  legalNotice: metafield(namespace: "custom", key: "legal_notice") { value }
   vinification: metafield(namespace: "custom", key: "vinification") { value }
+  storageAdvice: metafield(namespace: "custom", key: "storage_advice") { value }
   producerStory: metafield(namespace: "custom", key: "producer_story") { value }
+  priceUnitLabel: metafield(namespace: "custom", key: "price_unit_label") { value }
+  orderMinimum: metafield(namespace: "custom", key: "order_minimum") { value }
+  orderIncrement: metafield(namespace: "custom", key: "order_increment") { value }
+  orderUnitLabel: metafield(namespace: "custom", key: "order_unit_label") { value }
+  orderUnitSize: metafield(namespace: "custom", key: "order_unit_size") { value }
 `;
 
 // --- Types ---
@@ -98,6 +110,24 @@ function parseFoodPairing(value: string | null | undefined): string[] | undefine
     // Could be comma-separated string
     if (value.includes(',')) return value.split(',').map((s: string) => s.trim()).filter(Boolean);
     if (value.trim()) return [value.trim()];
+  }
+  return undefined;
+}
+
+function parseTextList(value: string | null | undefined): string[] | undefined {
+  if (!value) return undefined;
+  try {
+    const parsed = JSON.parse(value);
+    if (Array.isArray(parsed)) {
+      const list = parsed.map(String).map((item) => item.trim()).filter(Boolean);
+      return list.length > 0 ? list : undefined;
+    }
+  } catch {
+    const list = value
+      .split(/\r?\n|;/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+    return list.length > 0 ? list : undefined;
   }
   return undefined;
 }
@@ -153,6 +183,17 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
       : 'NV',
     price,
     originalPrice: compareAt > price ? compareAt : undefined,
+    priceUnitLabel: mf(node.priceUnitLabel as MetafieldNode | null) ?? undefined,
+    orderMinimum: (node.orderMinimum as MetafieldNode | null)?.value
+      ? parseInt((node.orderMinimum as MetafieldNode).value)
+      : undefined,
+    orderIncrement: (node.orderIncrement as MetafieldNode | null)?.value
+      ? parseInt((node.orderIncrement as MetafieldNode).value)
+      : undefined,
+    orderUnitLabel: mf(node.orderUnitLabel as MetafieldNode | null) ?? undefined,
+    orderUnitSize: (node.orderUnitSize as MetafieldNode | null)?.value
+      ? parseInt((node.orderUnitSize as MetafieldNode).value)
+      : undefined,
     tasteProfile: {
       drySweet: parseInt(mf(node.tasteDrySweet as MetafieldNode | null) ?? '3'),
       lightFull: parseInt(mf(node.tasteLightFull as MetafieldNode | null) ?? '3'),
@@ -180,8 +221,15 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
     // Metafield-driven content
     foodPairing: parseFoodPairing((node.foodPairing as MetafieldNode | null)?.value),
     servingTemperature: mf(node.servingTemperature as MetafieldNode | null) ?? undefined,
+    decantTime: mf(node.decantTime as MetafieldNode | null) ?? undefined,
+    decantNote: mf(node.decantNote as MetafieldNode | null) ?? undefined,
     alcoholPercentage: mf(node.alcoholPercentage as MetafieldNode | null) ?? undefined,
+    bottleVolume: mf(node.bottleVolume as MetafieldNode | null) ?? undefined,
+    closure: mf(node.closure as MetafieldNode | null) ?? undefined,
+    allergens: mf(node.allergens as MetafieldNode | null) ?? undefined,
+    legalNotice: mf(node.legalNotice as MetafieldNode | null) ?? undefined,
     vinification: mf(node.vinification as MetafieldNode | null) ?? undefined,
+    storageAdvice: parseTextList((node.storageAdvice as MetafieldNode | null)?.value),
     producerStory: mf(node.producerStory as MetafieldNode | null) ?? undefined,
     variants: node.variants?.edges?.map((e) => ({
       id: e.node.id,

@@ -1,28 +1,33 @@
 import type { Metadata } from "next";
-import { getFAQItems } from "@/lib/shopify-cms";
+import { getFAQItems, getUiCopy } from "@/lib/shopify-cms";
+import { formatUiCopy } from "@/lib/ui-copy";
 import { FAQContent } from "./FAQContent";
 
 export const revalidate = 3600; // 1 hour — static CMS content
 
-export const metadata: Metadata = {
-  title: "Veelgestelde Vragen | Vino per Lei",
-  description:
-    "Antwoorden op veelgestelde vragen over bestellen, betalen, verzenden en retourneren bij Vino per Lei.",
-  alternates: {
-    canonical: "https://vinoperlei.nl/klantenservice/faq",
-  },
-  openGraph: {
-    title: "Veelgestelde Vragen | Vino per Lei",
-    description:
-      "Antwoorden op veelgestelde vragen over bestellen, betalen, verzenden en retourneren bij Vino per Lei.",
-    type: "website",
-    locale: "nl_NL",
-    siteName: "Vino per Lei",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const uiCopy = await getUiCopy();
+  const title = formatUiCopy(uiCopy, "faq.meta.title");
+  const description = formatUiCopy(uiCopy, "faq.meta.description");
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: "https://vinoperlei.nl/klantenservice/faq",
+    },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      locale: "nl_NL",
+      siteName: formatUiCopy(uiCopy, "site.name"),
+    },
+  };
+}
 
 export default async function FAQPage() {
-  const faqItems = await getFAQItems();
+  const [faqItems, uiCopy] = await Promise.all([getFAQItems(), getUiCopy()]);
 
   // Strip "gratis verzending" claims from FAQ answers (CMS data)
   const cleanedFaqItems = faqItems.map((item) => ({
@@ -70,19 +75,19 @@ export default async function FAQPage() {
       {
         "@type": "ListItem",
         position: 1,
-        name: "Home",
+        name: formatUiCopy(uiCopy, "collection.breadcrumb.home"),
         item: "https://vinoperlei.nl",
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Klantenservice",
+        name: formatUiCopy(uiCopy, "faq.breadcrumb.service"),
         item: "https://vinoperlei.nl/klantenservice",
       },
       {
         "@type": "ListItem",
         position: 3,
-        name: "Veelgestelde Vragen",
+        name: formatUiCopy(uiCopy, "faq.title"),
         item: "https://vinoperlei.nl/klantenservice/faq",
       },
     ],

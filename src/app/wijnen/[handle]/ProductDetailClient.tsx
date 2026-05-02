@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect } from "react";
 import { Section } from "@/components/layout";
@@ -14,10 +14,13 @@ import {
 } from "@/components/product";
 import { useCartStore } from "@/stores/cartStore";
 import { useWishlistStore } from "@/stores/wishlistStore";
+import { useAuthStore } from "@/stores/authStore";
+import { useUiCopy } from "@/components/providers";
 import { type Product } from "@/types";
 import { cn } from "@/lib/utils";
+import { getOrderIncrement, getOrderMaximum, getOrderMinimum, getOrderUnitText, getPriceUnitText } from "@/lib/order-rules";
 import { trackViewItem, trackAddToCart } from "@/lib/analytics";
-import { CheckIcon, HeartIcon, TruckIcon, ShieldIcon, ClockIcon } from "@/components/icons";
+import { CheckIcon, HeartIcon, ShieldIcon, ClockIcon } from "@/components/icons";
 import { AlertTriangle } from "lucide-react";
 
 interface ProductDetailClientProps {
@@ -27,8 +30,9 @@ interface ProductDetailClientProps {
 }
 
 export function ProductDetailClient({ product, relatedProducts, activeRegionSlugs }: ProductDetailClientProps) {
+  const t = useUiCopy();
   const heroRef = useRef<HTMLElement>(null);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(() => getOrderMinimum(product));
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
@@ -38,9 +42,14 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
   useEffect(() => {
     trackViewItem({ title: product.title, id: product.id, price: product.price, category: product.wineType });
   }, [product.title, product.id, product.price, product.wineType]);
+  useEffect(() => {
+    setQuantity(getOrderMinimum(product));
+  }, [product]);
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
-  const isInWishlist = useWishlistStore((state) => state.isInWishlist(product.id));
+  const rawIsInWishlist = useWishlistStore((state) => state.isInWishlist(product.id));
+  const { isAuthenticated, openLoginModal } = useAuthStore();
+  const isInWishlist = isAuthenticated && rawIsInWishlist;
 
   const handleAddToCart = async () => {
     if (isAdding || !product.inStock) return;
@@ -55,6 +64,10 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
   };
 
   const handleToggleWishlist = () => {
+    if (!isAuthenticated) {
+      openLoginModal(() => toggleWishlist(product));
+      return;
+    }
     toggleWishlist(product);
   };
 
@@ -63,6 +76,12 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
   const savingsPercentage = isOnSale
     ? Math.round((savings / product.originalPrice!) * 100)
     : 0;
+  const orderMinimum = getOrderMinimum(product);
+  const orderIncrement = getOrderIncrement(product);
+  const orderMaximum = getOrderMaximum(product);
+  const orderUnitText = getOrderUnitText(product);
+  const priceUnitText = getPriceUnitText(product);
+  const allergenText = [product.allergens, product.legalNotice].filter(Boolean).join(" ");
 
   return (
     <>
@@ -99,6 +118,9 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
                   size="lg"
                   showSavings={!!isOnSale}
                 />
+                {priceUnitText && (
+                  <p className="text-sm text-grey mt-1">{priceUnitText}</p>
+                )}
                 {isOnSale && (
                   <div className="mt-2">
                     <SavingsBadge amount={savings} percentage={savingsPercentage} />
@@ -108,14 +130,18 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
 
               {/* Quantity */}
               <div>
-                <p className="text-sm text-grey mb-2">Aantal</p>
+                <p className="text-sm text-grey mb-2">{t("product.quantity.label")}</p>
                 <QuantitySelector
                   value={quantity}
                   onChange={setQuantity}
-                  min={1}
-                  max={product.stockQuantity || 99}
+                  min={orderMinimum}
+                  max={orderMaximum}
+                  step={orderIncrement}
                   disabled={!product.inStock}
                 />
+                {orderUnitText && (
+                  <p className="text-xs text-grey mt-1">{t("product.order.per_prefix")} {orderUnitText}</p>
+                )}
               </div>
 
               {/* Add to Cart */}
@@ -133,15 +159,15 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
                     {justAdded ? (
                       <>
                         <CheckIcon className="w-5 h-5 mr-2" />
-                        Toegevoegd!
+                        {t("product.added_exclamation")}
                       </>
                     ) : (
-                      "In Winkelmand"
+                      t("product.in_cart")
                     )}
                   </Button>
                 ) : (
                   <Button variant="secondary" size="lg" fullWidth onClick={() => setNotifyOpen(true)}>
-                    Mail bij voorraad
+                    {t("product.notify_stock")}
                   </Button>
                 )}
               </div>
@@ -158,7 +184,7 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
                   )}
                 >
                   <HeartIcon className="w-5 h-5" filled={isInWishlist} />
-                  {isInWishlist ? "In Verlanglijst" : "Verlanglijst"}
+                  {isInWishlist ? t("product.wishlist.in") : t("product.wishlist.label")}
                 </button>
               </div>
             </div>
@@ -167,21 +193,21 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
             <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-sand/50">
               <div className="flex items-center gap-2 text-sm">
                 <ShieldIcon className="w-5 h-5 text-wine flex-shrink-0" />
-                <span className="text-grey">Veilig betalen</span>
+                <span className="text-grey">{t("product.secure_payment")}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <ClockIcon className="w-5 h-5 text-wine flex-shrink-0" />
-                <span className="text-grey">1-2 werkdagen</span>
+                <span className="text-grey">{t("product.delivery.desktop")}</span>
               </div>
             </div>
 
-            {/* Allergeninformatie — EU LMIV 1169/2011 */}
+            {/* Allergeninformatie â€” EU LMIV 1169/2011 */}
             <div className="bg-gold/5 border border-gold/20 rounded-lg p-4 mt-4">
               <div className="flex items-center gap-2 mb-1">
                 <AlertTriangle className="w-4 h-4 text-gold" strokeWidth={1.5} />
-                <h4 className="font-semibold text-sm text-wine/80">Allergeninformatie</h4>
+                <h4 className="font-semibold text-sm text-wine/80">{t("product.allergen_info")}</h4>
               </div>
-              <p className="text-sm text-wine/60">Bevat sulfieten (SO₂). Kan sporen van ei-eiwitten en melkeiwitten bevatten (gebruikt bij het klaren van wijn).</p>
+              <p className="text-sm text-wine/60">{allergenText}</p>
             </div>
           </div>
         </div>
@@ -192,20 +218,20 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
         <div className="flex justify-around text-center">
           <div className="flex flex-col items-center gap-1">
             <ShieldIcon className="w-5 h-5 text-wine" />
-            <span className="text-xs text-grey">Veilig betalen</span>
+            <span className="text-xs text-grey">{t("product.secure_payment")}</span>
           </div>
           <div className="flex flex-col items-center gap-1">
             <ClockIcon className="w-5 h-5 text-wine" />
-            <span className="text-xs text-grey">1-2 dagen</span>
+            <span className="text-xs text-grey">{t("product.delivery.mobile")}</span>
           </div>
         </div>
-        {/* Allergeninformatie — EU LMIV 1169/2011 */}
+        {/* Allergeninformatie â€” EU LMIV 1169/2011 */}
         <div className="mt-2 mx-4 p-3 bg-gold/5 border border-gold/20 rounded-lg">
           <div className="flex items-center gap-1.5 mb-0.5">
             <AlertTriangle className="w-4 h-4 text-gold flex-shrink-0" strokeWidth={1.5} />
-            <span className="font-semibold text-xs text-wine/80">Allergeninformatie</span>
+            <span className="font-semibold text-xs text-wine/80">{t("product.allergen_info")}</span>
           </div>
-          <p className="text-xs text-wine/60">Bevat sulfieten (SO₂). Kan sporen van ei-eiwitten en melkeiwitten bevatten.</p>
+          <p className="text-xs text-wine/60">{allergenText}</p>
         </div>
       </div>
 
@@ -228,19 +254,17 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-4 sm:mb-8">
             <h2 className="font-serif text-xl sm:text-2xl lg:text-3xl font-semibold text-charcoal">
-              Alle Details
+              {t("product.all_details")}
             </h2>
           </div>
           <WineDetailsAccordion product={product} />
 
-          {/* Allergeninformatie — EU LMIV 1169/2011 */}
+          {/* Allergeninformatie â€” EU LMIV 1169/2011 */}
           <div className="mt-6 p-4 bg-gold/5 border border-gold/20 rounded-lg flex items-start gap-3">
             <AlertTriangle className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" strokeWidth={1.5} />
             <div>
-              <p className="text-sm font-medium text-wine/80">Allergeninformatie</p>
-              <p className="text-sm text-wine/60 mt-0.5">
-                Bevat sulfieten (SO₂). Kan sporen van ei-eiwitten en melkeiwitten bevatten (gebruikt bij het klaren van wijn). Alcoholhoudende drank. Niet geschikt voor personen onder de 18 jaar.
-              </p>
+              <p className="text-sm font-medium text-wine/80">{t("product.allergen_info")}</p>
+              <p className="text-sm text-wine/60 mt-0.5">{allergenText}</p>
             </div>
           </div>
         </div>
@@ -251,8 +275,8 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
         <Section background="default" spacing="md" className="sm:py-12">
           <ProductCarousel
             products={relatedProducts}
-            title="Ook interessant"
-            subtitle={`Meer ${product.wineType === "red" ? "rode wijnen" : product.wineType === "white" ? "witte wijnen" : "wijnen"}`}
+            title={t("product.related.title")}
+            subtitle={product.wineType === "red" ? t("product.related.more_red") : product.wineType === "white" ? t("product.related.more_white") : t("product.related.more_default")}
             viewAllHref={`/wijnen?type=${product.wineType}`}
           />
         </Section>
