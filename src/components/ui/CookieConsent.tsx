@@ -142,7 +142,7 @@ export function CookieConsent() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className="fixed bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-auto z-[9990] sm:max-w-[420px]"
+          className="fixed bottom-28 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-auto z-[9990] sm:max-w-[420px]"
           role="region"
           aria-label="Cookie-instellingen"
         >
