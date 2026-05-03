@@ -12,6 +12,21 @@ import { getOrderIncrement, getOrderMaximum, getOrderMinimum, getOrderUnitText, 
 import { CloseIcon, TrashIcon, ShoppingBagIcon, CheckIcon } from "@/components/icons";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
 
+function useIsMobileCart() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 639px)");
+    const update = () => setIsMobile(mediaQuery.matches);
+
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
+  return isMobile;
+}
+
 export function CartSlideOut() {
   const isOpen = useCartStore((state) => state.isOpen);
   const closeCart = useCartStore((state) => state.closeCart);
@@ -24,6 +39,7 @@ export function CartSlideOut() {
   const removeItem = useCartStore((state) => state.removeItem);
 
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const isMobileCart = useIsMobileCart();
 
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: closeCart });
 
@@ -57,17 +73,21 @@ export function CartSlideOut() {
           {/* Panel */}
           <motion.div
             ref={focusTrapRef}
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            initial={isMobileCart ? { y: "100%" } : { x: "100%" }}
+            animate={isMobileCart ? { y: 0 } : { x: 0 }}
+            exit={isMobileCart ? { y: "100%" } : { x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-white z-[101] flex flex-col shadow-2xl"
+            className="fixed inset-x-0 bottom-0 top-auto max-h-[92dvh] w-full rounded-t-3xl bg-white z-[101] flex flex-col shadow-2xl sm:top-0 sm:right-0 sm:left-auto sm:bottom-0 sm:max-h-none sm:max-w-md sm:rounded-none"
             role="dialog"
             aria-modal="true"
             aria-label="Winkelmand"
           >
+            <div className="flex justify-center pt-3 sm:hidden" aria-hidden="true">
+              <div className="h-1 w-11 rounded-full bg-sand" />
+            </div>
+
             {/* Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-sand">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-sand sm:px-6 sm:py-4">
               <h2 className="font-serif text-xl font-semibold">
                 Winkelmand
                 {itemCount > 0 && (
@@ -86,7 +106,7 @@ export function CartSlideOut() {
             {/* Content */}
             {items.length === 0 ? (
               /* Empty State */
-              <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
+              <div className="flex-1 flex flex-col items-center justify-center px-4 text-center sm:px-6">
                 <ShoppingBagIcon className="w-16 h-16 text-sand mb-4" />
                 <h3 className="font-serif text-lg mb-2">
                   Je winkelmand is leeg
@@ -101,21 +121,21 @@ export function CartSlideOut() {
             ) : (
               <>
                 {/* Cart Items */}
-                <div className="flex-1 overflow-y-auto px-6 py-4">
+                <div className="flex-1 overflow-y-auto px-4 py-4 sm:px-6">
                   <ul className="space-y-4">
                     {items.map((item) => (
                       <li
                         key={item.id}
-                        className="flex gap-4 pb-4 border-b border-sand last:border-0"
+                        className="flex gap-3 pb-4 border-b border-sand last:border-0 sm:gap-4"
                       >
                         {/* Product Image */}
-                        <div className="relative w-20 h-24 bg-warm-white rounded overflow-hidden flex-shrink-0">
+                        <div className="relative w-16 h-20 bg-warm-white rounded-lg overflow-hidden flex-shrink-0 sm:w-20 sm:h-24">
                           {item.product.images[0] ? (
                             <Image
                               src={wineImagePresets.cart(item.product.images[0].url)}
                               alt={item.product.title}
                               fill
-                              sizes="80px"
+                              sizes="(max-width: 640px) 64px, 80px"
                               className="object-contain p-2"
                             />
                           ) : (
@@ -130,7 +150,7 @@ export function CartSlideOut() {
                           <Link
                             href={`/wijnen/${item.product.handle}`}
                             onClick={closeCart}
-                            className="font-serif text-sm font-medium text-charcoal hover:text-wine line-clamp-1"
+                            className="font-serif text-sm font-medium text-charcoal hover:text-wine line-clamp-2 sm:line-clamp-1"
                           >
                             {item.product.title}
                           </Link>
@@ -185,7 +205,7 @@ export function CartSlideOut() {
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-sand px-6 py-4 space-y-4 bg-warm-white/50">
+                <div className="border-t border-sand bg-warm-white/50 px-4 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] space-y-4 sm:px-6 sm:pb-4">
                   {/* Totals */}
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">

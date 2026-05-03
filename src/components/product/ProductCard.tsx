@@ -96,12 +96,12 @@ export function ProductCard({
   return (
     <motion.article
       className={cn(
-        "group relative bg-white rounded-2xl",
+        "group relative bg-white rounded-xl sm:rounded-2xl",
         "border border-sand/50",
         "transition-all duration-500 ease-out",
-        "hover:shadow-[0_24px_48px_-12px_rgba(26,31,61,0.12)]",
-        "hover:-translate-y-2",
-        "overflow-visible mt-16 sm:mt-28",
+        "sm:hover:shadow-[0_24px_48px_-12px_rgba(26,31,61,0.12)]",
+        "sm:hover:-translate-y-2",
+        "overflow-visible mt-10 min-[430px]:mt-14 sm:mt-28",
         className
       )}
       onMouseEnter={() => setIsHovering(true)}
@@ -160,7 +160,7 @@ export function ProductCard({
         aria-label={t("product.view_aria", { title: product.title })}
       >
         {/* Image Container */}
-        <div className="relative h-44 sm:h-48 mx-3 sm:mx-4 -mt-12 sm:-mt-20">
+        <div className="relative h-40 min-[430px]:h-44 sm:h-48 mx-3 sm:mx-4 -mt-9 min-[430px]:-mt-12 sm:-mt-20">
           {/* Background with grain */}
           <div className="absolute inset-0 bg-gradient-to-b from-champagne/60 via-cream to-white rounded-lg overflow-hidden">
             <div className="absolute inset-0 bg-grain opacity-[0.03]" />
@@ -213,9 +213,9 @@ export function ProductCard({
           </div>
 
           {/* Product Image */}
-          <div className="absolute inset-0 -top-8 sm:-top-16 flex items-center justify-center">
+          <div className="absolute inset-0 -top-6 min-[430px]:-top-8 sm:-top-16 flex items-center justify-center">
             {product.images[0] ? (
-              <div className="relative w-24 sm:w-36 h-48 sm:h-72">
+              <div className="relative w-24 min-[430px]:w-28 sm:w-36 h-44 min-[430px]:h-52 sm:h-72">
                 {!imageLoaded && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-10 h-28 sm:w-14 sm:h-44 rounded-lg bg-gradient-to-b from-sand/30 to-sand/10 animate-pulse" />
@@ -234,7 +234,7 @@ export function ProductCard({
                     src={wineImagePresets.card(product.images[0].url)}
                     alt={product.images[0].altText || product.title}
                     fill
-                    sizes="(max-width: 640px) 96px, 176px"
+                    sizes="(max-width: 430px) 96px, (max-width: 640px) 112px, 176px"
                     priority={priority}
                     onLoad={handleImageLoad}
                     className={cn(
@@ -270,7 +270,7 @@ export function ProductCard({
             )}
           </p>
 
-          <h3 className="font-serif text-[13px] sm:text-base font-semibold text-charcoal leading-snug line-clamp-2 group-hover:text-wine transition-colors duration-300 mb-1.5 sm:mb-2">
+          <h3 className="font-serif text-[15px] min-[430px]:text-[13px] sm:text-base font-semibold text-charcoal leading-snug line-clamp-2 group-hover:text-wine transition-colors duration-300 mb-1.5 sm:mb-2">
             {product.title}
           </h3>
 

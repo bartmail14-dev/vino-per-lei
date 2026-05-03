@@ -157,7 +157,7 @@ export function Header({ announcement, contactEmail, mainMenu = [] }: HeaderProp
 
       <div className="border-b border-sand">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-24 lg:h-32 relative">
+          <div className="flex items-center justify-between h-20 sm:h-24 lg:h-32 relative">
             <button
               onClick={() => setIsMobileMenuOpen(true)}
               className="lg:hidden p-2 -ml-2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:opacity-60 transition-opacity"
@@ -167,7 +167,7 @@ export function Header({ announcement, contactEmail, mainMenu = [] }: HeaderProp
             </button>
 
             <Link href="/" className="flex-shrink-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 group">
-              <Logo variant="full" color="#1a1f3d" className="h-20 sm:h-24 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
+              <Logo variant="full" color="#1a1f3d" className="h-16 sm:h-20 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
             </Link>
 
             <nav className="hidden lg:flex items-center gap-8">

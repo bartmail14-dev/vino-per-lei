@@ -456,7 +456,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
       </Section>
 
       {/* Main Content */}
-      <Section background="default" spacing="lg">
+      <Section background="default" spacing="none" className="py-8 sm:py-16 lg:py-24">
         <div className="flex gap-8">
           {/* Filter Sidebar */}
           <FilterSidebar
@@ -494,12 +494,12 @@ export function WijnenContent({ products }: { products: Product[] }) {
             </div>
 
             {/* Toolbar */}
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+            <div className="sticky top-20 z-30 -mx-4 mb-6 flex flex-wrap items-center justify-between gap-3 border-y border-sand/50 bg-background/95 px-4 py-3 shadow-sm backdrop-blur lg:static lg:top-auto lg:mx-0 lg:border-0 lg:bg-transparent lg:px-0 lg:py-0 lg:shadow-none">
               {/* Mobile filter button */}
               <Button
                 variant="ghost"
                 onClick={() => setIsMobileFilterOpen(true)}
-                className="lg:hidden border border-gold/40 shadow-sm uppercase tracking-wide text-xs"
+                className="h-11 rounded-xl border border-gold/40 bg-white px-4 text-xs uppercase tracking-wide shadow-sm lg:hidden"
               >
                 <FilterIcon className="w-4 h-4 mr-2 text-gold" />
                 {t("collection.filters.label")}
@@ -553,7 +553,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                   options={translatedSortOptions}
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-48"
+                  className="w-40 sm:w-48"
                 />
               </div>
             </div>
@@ -572,7 +572,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                 className={cn(
                   "grid",
                   viewMode === "grid"
-                    ? "grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4"
+                    ? "grid-cols-1 gap-5 min-[430px]:grid-cols-2 min-[430px]:gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4"
                     : "grid-cols-1 gap-6"
                 )}
               >

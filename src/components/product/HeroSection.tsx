@@ -48,10 +48,6 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-wine/5 via-champagne/20 to-cream" />
 
-      {/* Decorative elements */}
-      <div className="absolute top-20 right-10 w-80 h-80 bg-gold/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-10 left-10 w-56 h-56 bg-wine/5 rounded-full blur-3xl" />
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-16">
         {/* Breadcrumb */}
         <nav className="hidden sm:flex items-center gap-2 text-sm mb-6 lg:mb-8">

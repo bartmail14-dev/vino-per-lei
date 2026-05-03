@@ -191,11 +191,11 @@ export function FilterSidebar({
           {/* Panel */}
           <motion.div
             ref={focusTrapRef}
-            initial={{ x: "-100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 260 }}
-            className="fixed top-0 left-0 bottom-0 w-full max-w-sm bg-cream z-50 overflow-y-auto lg:hidden shadow-[0_0_60px_rgba(26,31,61,0.15)]"
+            className="fixed inset-x-0 bottom-0 top-auto max-h-[92dvh] w-full rounded-t-3xl bg-cream z-50 overflow-y-auto lg:hidden shadow-[0_0_60px_rgba(26,31,61,0.15)]"
             style={{
               backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E\")",
             }}
@@ -204,7 +204,11 @@ export function FilterSidebar({
             aria-label="Filters"
           >
             {/* Header — wine gradient */}
-            <div className="sticky top-0 bg-wine-gradient px-5 py-4 flex items-center justify-between z-10 shadow-[0_2px_12px_rgba(26,31,61,0.2)]">
+            <div className="sticky top-0 z-10 bg-wine-gradient px-5 pb-4 pt-3 shadow-[0_2px_12px_rgba(26,31,61,0.2)]">
+              <div className="flex justify-center pb-3" aria-hidden="true">
+                <div className="h-1 w-11 rounded-full bg-white/35" />
+              </div>
+              <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <h2 className="font-serif text-xl font-semibold text-white">Filters</h2>
                 {totalActiveFilters > 0 && (
@@ -220,10 +224,11 @@ export function FilterSidebar({
               >
                 <CloseIcon className="w-4 h-4 text-white" strokeWidth={2} />
               </button>
+              </div>
             </div>
 
             {/* Filters */}
-            <div className="px-5 pb-28">
+            <div className="px-5 pb-32">
               {/* Italy Map Filter - Mobile */}
               <div className="py-5 border-b border-sand/40">
                 <p className="text-xs text-grey uppercase tracking-widest mb-3 font-medium font-serif">Ontdek per Regio</p>
@@ -261,7 +266,7 @@ export function FilterSidebar({
             </div>
 
             {/* Footer */}
-            <div className="fixed bottom-0 left-0 right-0 max-w-sm bg-cream/95 backdrop-blur-md border-t border-sand/50 p-4 flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+            <div className="fixed bottom-0 left-0 right-0 bg-cream/95 backdrop-blur-md border-t border-sand/50 p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] flex gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
               <Button
                 variant="secondary"
                 onClick={onClearAll}

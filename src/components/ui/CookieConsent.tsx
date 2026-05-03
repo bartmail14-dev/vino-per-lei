@@ -2,8 +2,10 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Cookie, Shield, BarChart3, Megaphone, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const CONSENT_KEY = "vpl_cookie_consent";
 const CONSENT_COOKIE = "vpl_cookie_consent";
@@ -92,6 +94,8 @@ export function CookieConsent() {
   const [showDetails, setShowDetails] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
+  const pathname = usePathname();
+  const needsPurchaseBarOffset = pathname?.startsWith("/wijnen/") ?? false;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -142,7 +146,10 @@ export function CookieConsent() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
-          className="fixed bottom-28 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-auto z-[9990] sm:max-w-[420px]"
+          className={cn(
+            "fixed left-3 right-3 z-[9990] sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-[420px]",
+            needsPurchaseBarOffset ? "bottom-28" : "bottom-4"
+          )}
           role="region"
           aria-label="Cookie-instellingen"
         >
