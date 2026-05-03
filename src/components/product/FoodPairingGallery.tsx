@@ -7,8 +7,8 @@ import { useUiCopy } from "@/components/providers";
 import {
   Wine,
   Thermometer,
-  UtensilsCrossed,
 } from "lucide-react";
+import { getIconForFoodPairing, type FoodPairingIcon } from "@/components/icons/FoodPairingIcons";
 import type { Product } from "@/types";
 
 interface FoodPairingGalleryProps {
@@ -18,7 +18,7 @@ interface FoodPairingGalleryProps {
 
 interface FoodPairing {
   name: string;
-  icon: React.ComponentType<{ className?: string }>;
+  icon: FoodPairingIcon;
   description: string;
 }
 
@@ -87,7 +87,7 @@ export function FoodPairingGallery({ product, className }: FoodPairingGalleryPro
                     ? "bg-wine text-white scale-110"
                     : "bg-champagne/40 text-wine"
                 )}>
-                  <pairing.icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                  <pairing.icon className="w-5 h-5 sm:w-6 sm:h-6" weight="duotone" />
                 </div>
 
                 <h3 className="font-medium text-charcoal text-xs sm:text-sm mb-0.5">
@@ -158,10 +158,6 @@ export function FoodPairingGallery({ product, className }: FoodPairingGalleryPro
   );
 }
 
-function getIconForPairing(): React.ComponentType<{ className?: string }> {
-  return UtensilsCrossed;
-}
-
 /**
  * Use real metafield data when available (custom.food_pairing).
  */
@@ -173,7 +169,7 @@ function getFoodPairingsForProduct(product: Product): { pairings: FoodPairing[];
   return {
     pairings: product.foodPairing.map((name) => ({
       name,
-      icon: getIconForPairing(),
+      icon: getIconForFoodPairing(name),
       description: "",
     })),
     isFallback: false,

@@ -20,6 +20,7 @@
     "shopify:redirect-theme": "tsx scripts/shopify-redirect-theme.ts"
   },
   "dependencies": {
+    "@phosphor-icons/react": "^2.1.10",
     "@shopify/storefront-api-client": "^1.0.9",
     "@svg-maps/italy": "^2.0.0",
     "canvas-confetti": "^1.9.4",
