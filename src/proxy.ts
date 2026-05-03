@@ -64,7 +64,7 @@ const RATE_LIMIT_SECRET = (() => {
   const envSecret = process.env.RATE_LIMIT_SECRET;
   if (envSecret) return envSecret;
   console.warn(
-    "[middleware] RATE_LIMIT_SECRET env var is not set. Using a random per-instance fallback. " +
+    "[proxy] RATE_LIMIT_SECRET env var is not set. Using a random per-instance fallback. " +
     "Set RATE_LIMIT_SECRET for consistent cookie signing across instances."
   );
   return crypto.randomUUID();
@@ -139,7 +139,7 @@ function checkRateLimit(
   return { limited: false, response };
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // --- Age verification gate (server-side) ---

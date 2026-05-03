@@ -1,6 +1,7 @@
 import { createWriteStream, existsSync, mkdirSync } from "node:fs";
 import { pipeline } from "node:stream/promises";
 import { Readable } from "node:stream";
+import type { ReadableStream as NodeReadableStream } from "node:stream/web";
 
 const MODEL_DIR = "models";
 const MODEL_PATH = `${MODEL_DIR}/isnet-general-use.onnx`;
@@ -24,7 +25,7 @@ async function downloadModel() {
   }
 
   const fileStream = createWriteStream(MODEL_PATH);
-  await pipeline(Readable.fromWeb(response.body as any), fileStream);
+  await pipeline(Readable.fromWeb(response.body as NodeReadableStream<Uint8Array>), fileStream);
 
   console.log(`Model downloaded to ${MODEL_PATH}`);
 }

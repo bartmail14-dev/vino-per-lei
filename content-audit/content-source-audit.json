@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-05-03T15:03:51.593Z",
+  "generatedAt": "2026-05-03T18:51:09.612Z",
   "scannedFiles": 117,
-  "totalStrings": 390,
+  "totalStrings": 391,
   "highRiskStrings": 0,
   "byRisk": {
     "p2-account-ui": 48,
     "allowed-ui": 31,
-    "p2-ui-or-technical-copy": 217,
+    "p2-ui-or-technical-copy": 218,
     "p2-checkout-ui": 94
   },
   "fileSources": [
@@ -503,6 +503,7 @@
     {
       "file": "src/components/layout/Header.tsx",
       "sourceUsage": [
+        "getMenu",
         "useUiCopy"
       ],
       "stringCount": 0,
@@ -691,7 +692,7 @@
         "getShopConfig",
         "getUiCopy"
       ],
-      "stringCount": 1,
+      "stringCount": 2,
       "highRiskCount": 0
     }
   ],
@@ -699,7 +700,7 @@
     "src/app/account/page.tsx": [
       {
         "file": "src/app/account/page.tsx",
-        "line": 48,
+        "line": 50,
         "column": 19,
         "type": "string",
         "text": "Betaald",
@@ -708,7 +709,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 49,
+        "line": 51,
         "column": 22,
         "type": "string",
         "text": "In afwachting",
@@ -717,7 +718,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 50,
+        "line": 52,
         "column": 23,
         "type": "string",
         "text": "Terugbetaald",
@@ -726,7 +727,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 51,
+        "line": 53,
         "column": 24,
         "type": "string",
         "text": "Verzonden",
@@ -735,7 +736,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 52,
+        "line": 54,
         "column": 26,
         "type": "string",
         "text": "In verwerking",
@@ -744,7 +745,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 53,
+        "line": 55,
         "column": 34,
         "type": "string",
         "text": "Deels verzonden",
@@ -753,7 +754,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 63,
+        "line": 65,
         "column": 47,
         "type": "jsxText",
         "text": "Je hebt nog geen bestellingen geplaatst.",
@@ -762,7 +763,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 68,
+        "line": 70,
         "column": 11,
         "type": "jsxText",
         "text": "Ontdek onze wijnen",
@@ -771,7 +772,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 88,
+        "line": 90,
         "column": 19,
         "type": "jsxText",
         "text": "Bestelling #",
@@ -780,7 +781,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 144,
+        "line": 146,
         "column": 17,
         "type": "jsxText",
         "text": "Bekijk bestelstatus",
@@ -789,7 +790,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 160,
+        "line": 162,
         "column": 42,
         "type": "jsxText",
         "text": "Je hebt nog geen adressen opgeslagen.",
@@ -798,7 +799,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 162,
+        "line": 164,
         "column": 11,
         "type": "jsxText",
         "text": "Adressen worden automatisch opgeslagen bij je eerste bestelling.",
@@ -807,7 +808,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 179,
+        "line": 181,
         "column": 17,
         "type": "jsxText",
         "text": "Standaard adres",
@@ -816,7 +817,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 202,
+        "line": 204,
         "column": 56,
         "type": "jsxText",
         "text": "Accountgegevens",
@@ -825,7 +826,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 205,
+        "line": 207,
         "column": 41,
         "type": "jsxText",
         "text": "Naam",
@@ -834,7 +835,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 218,
+        "line": 220,
         "column": 56,
         "type": "jsxText",
         "text": "Wachtwoord wijzigen",
@@ -843,7 +844,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 220,
+        "line": 222,
         "column": 11,
         "type": "jsxText",
         "text": "Je kunt je wachtwoord resetten via e-mail.",
@@ -852,7 +853,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 228,
+        "line": 230,
         "column": 11,
         "type": "jsxText",
         "text": "Wachtwoord resetten",
@@ -861,7 +862,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 238,
+        "line": 240,
         "column": 9,
         "type": "jsxText",
         "text": "Uitloggen",
@@ -870,7 +871,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 245,
+        "line": 247,
         "column": 26,
         "type": "string",
         "text": "Bestellingen",
@@ -879,7 +880,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 246,
+        "line": 248,
         "column": 29,
         "type": "string",
         "text": "Adressen",
@@ -888,7 +889,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 247,
+        "line": 249,
         "column": 27,
         "type": "string",
         "text": "Profiel",
@@ -897,7 +898,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 302,
+        "line": 304,
         "column": 41,
         "type": "jsxText",
         "text": "Je moet ingelogd zijn om deze pagina te bekijken.",
@@ -906,7 +907,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 307,
+        "line": 309,
         "column": 13,
         "type": "jsxText",
         "text": "Inloggen",
@@ -915,7 +916,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 324,
+        "line": 326,
         "column": 13,
         "type": "jsxText",
         "text": "Welkom",
@@ -924,7 +925,7 @@
       },
       {
         "file": "src/app/account/page.tsx",
-        "line": 380,
+        "line": 382,
         "column": 17,
         "type": "jsxText",
         "text": "Bekijk onze collectie",
@@ -3449,7 +3450,7 @@
     "src/components/home/HomeAnimations.tsx": [
       {
         "file": "src/components/home/HomeAnimations.tsx",
-        "line": 327,
+        "line": 334,
         "column": 92,
         "type": "jsxText",
         "text": "Scroll",
@@ -3458,7 +3459,7 @@
       },
       {
         "file": "src/components/home/HomeAnimations.tsx",
-        "line": 342,
+        "line": 349,
         "column": 90,
         "type": "jsxText",
         "text": "Scroll",
@@ -4294,12 +4295,21 @@
     "src/lib/shopify-cms.ts": [
       {
         "file": "src/lib/shopify-cms.ts",
-        "line": 379,
+        "line": 381,
         "column": 24,
         "type": "string",
         "text": "title handle contentHtml excerpt publishedAt image { url altText } tags authorV2 { name } seo { title description }",
         "risk": "p2-ui-or-technical-copy",
         "context": "VariableDeclaration"
+      },
+      {
+        "file": "src/lib/shopify-cms.ts",
+        "line": 554,
+        "column": 39,
+        "type": "string",
+        "text": "/wijnen",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ReturnStatement"
       }
     ]
   }

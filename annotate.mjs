@@ -1,8 +1,6 @@
 // Annotate handleiding screenshots with red circles, arrows, and numbered labels
 // Run: node annotate.mjs (requires Playwright to be running via MCP)
 
-const BASE = 'https://vino-per-lei.vercel.app/handleiding';
-
 // Each entry: [filename, viewBox "w h", annotations[]]
 // Annotation types: rect(x,y,w,h), circle(cx,cy,r), arrow(x1,y1,x2,y2), label(x,y,num)
 export const annotations = {

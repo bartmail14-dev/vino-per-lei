@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useAuthStore } from "@/stores/authStore";
@@ -61,12 +63,12 @@ function OrdersTab({ orders }: { orders: ShopifyOrder[] }) {
       <div className="text-center py-12">
         <Wine className="w-12 h-12 text-sand mx-auto mb-4" strokeWidth={1} />
         <p className="text-grey text-sm mb-4">Je hebt nog geen bestellingen geplaatst.</p>
-        <a
+        <Link
           href="/wijnen"
           className="inline-flex items-center gap-2 px-6 py-3 bg-wine text-white rounded-lg text-sm font-medium uppercase tracking-wide hover:bg-wine-dark transition-colors"
         >
           Ontdek onze wijnen
-        </a>
+        </Link>
       </div>
     );
   }
@@ -109,7 +111,7 @@ function OrdersTab({ orders }: { orders: ShopifyOrder[] }) {
               {order.lineItems.edges.map(({ node: item }, i) => (
                 <div key={i} className="flex items-center gap-3">
                   {item.variant?.image?.url ? (
-                    <img
+                    <Image
                       src={item.variant.image.url}
                       alt={item.variant.image.altText ?? item.title}
                       className="w-12 h-12 object-cover rounded-lg bg-cream"
@@ -370,7 +372,7 @@ export default function AccountPage() {
 
         {/* Quick link */}
         <div className="mt-12 border border-sand rounded-xl p-5">
-          <a
+          <Link
             href="/wijnen"
             className="flex items-center justify-between group"
           >
@@ -381,7 +383,7 @@ export default function AccountPage() {
               </span>
             </div>
             <ChevronRight className="w-4 h-4 text-grey group-hover:text-wine transition-colors" />
-          </a>
+          </Link>
         </div>
       </div>
     </section>

@@ -3,7 +3,6 @@ import path from "node:path";
 import ts from "typescript";
 
 const root = process.cwd();
-const srcRoot = path.join(root, "src");
 const outputDir = path.join(root, "content-audit");
 const baselinePath = path.join(outputDir, "content-source-baseline.json");
 

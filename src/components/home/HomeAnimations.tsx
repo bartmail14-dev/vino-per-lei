@@ -125,21 +125,28 @@ export function AnimatedCounter({
   useEffect(() => {
     if (!isInView || hasAnimated.current) return;
     hasAnimated.current = true;
-    // Reset to 0 and animate up to target on client
-    setCount(0);
     let start = 0;
+    let timer: ReturnType<typeof setInterval> | null = null;
     const end = target;
     const increment = end / (duration * 60); // ~60fps
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) {
-        setCount(end);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 1000 / 60);
-    return () => clearInterval(timer);
+
+    const frame = requestAnimationFrame(() => {
+      setCount(0);
+      timer = setInterval(() => {
+        start += increment;
+        if (start >= end) {
+          setCount(end);
+          if (timer) clearInterval(timer);
+        } else {
+          setCount(Math.floor(start));
+        }
+      }, 1000 / 60);
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+      if (timer) clearInterval(timer);
+    };
   }, [isInView, target, duration]);
 
   return (
