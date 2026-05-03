@@ -232,14 +232,14 @@ export function FilterSidebar({
               {/* Italy Map Filter - Mobile */}
               <div className="py-5 border-b border-sand/40">
                 <p className="text-xs text-grey uppercase tracking-widest mb-3 font-medium font-serif">Ontdek per Regio</p>
-                <div className="bg-champagne/30 rounded-xl p-3">
+                <div className="bg-champagne/30 rounded-2xl p-2.5 shadow-inner ring-1 ring-gold/10">
                   <ItalyWineMap
-                    size="full"
+                    size="sm"
                     onRegionClick={handleMapRegionClick}
                     selectedRegion={selectedRegion}
                     activeRegionSlugs={activeRegionSlugs}
                     regionLabels={regionLabels}
-                    className="mx-auto max-w-[280px]"
+                    className="mx-auto max-w-[190px] sm:max-w-[240px]"
                   />
                 </div>
                 {selectedRegion && (

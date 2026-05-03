@@ -96,12 +96,13 @@ export function ProductCard({
   return (
     <motion.article
       className={cn(
-        "group relative bg-white rounded-xl sm:rounded-2xl",
-        "border border-sand/50",
+        "group relative bg-white/95 rounded-xl sm:rounded-2xl",
+        "border border-sand/60 shadow-[0_16px_42px_-32px_rgba(26,31,61,0.45)]",
         "transition-all duration-500 ease-out",
         "sm:hover:shadow-[0_24px_48px_-12px_rgba(26,31,61,0.12)]",
         "sm:hover:-translate-y-2",
         "overflow-visible mt-10 min-[430px]:mt-14 sm:mt-28",
+        "before:absolute before:inset-x-5 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-gold/45 before:to-transparent before:content-['']",
         className
       )}
       onMouseEnter={() => setIsHovering(true)}
@@ -162,8 +163,11 @@ export function ProductCard({
         {/* Image Container */}
         <div className="relative h-40 min-[430px]:h-44 sm:h-48 mx-3 sm:mx-4 -mt-9 min-[430px]:-mt-12 sm:-mt-20">
           {/* Background with grain */}
-          <div className="absolute inset-0 bg-gradient-to-b from-champagne/60 via-cream to-white rounded-lg overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-b from-champagne/70 via-cream to-white rounded-xl overflow-hidden ring-1 ring-gold/10">
             <div className="absolute inset-0 bg-grain opacity-[0.03]" />
+            <div className="absolute inset-x-8 bottom-6 h-px bg-gradient-to-r from-transparent via-wine/18 to-transparent" />
+            <div className="absolute inset-x-10 bottom-5 h-3 rounded-full bg-wine/8 blur-md" />
+            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/90 to-transparent" />
             {/* Shine sweep on hover */}
             <motion.div
               className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -skew-x-12 pointer-events-none z-[5]"
@@ -305,13 +309,13 @@ export function ProductCard({
             onClick={handleAddToCart}
             disabled={isAdding}
             className={cn(
-              "relative w-full h-9 sm:h-11 rounded-lg text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] cursor-pointer",
+              "relative w-full h-10 sm:h-11 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] cursor-pointer",
               "overflow-hidden transition-all duration-300",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2",
               "disabled:pointer-events-none disabled:opacity-50",
               justAdded
                 ? "bg-success text-white border border-success"
-                : "bg-wine/[0.04] text-wine border border-wine/20 hover:bg-wine hover:text-white hover:border-wine"
+                : "bg-gradient-to-r from-wine/[0.03] via-white to-gold/[0.05] text-wine border border-wine/20 hover:bg-wine hover:text-white hover:border-wine"
             )}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
@@ -354,7 +358,7 @@ export function ProductCard({
         ) : (
           <button
             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setNotifyOpen(true); }}
-            className="w-full h-9 sm:h-11 rounded-lg text-[10px] sm:text-xs font-semibold uppercase tracking-[0.12em] border border-wine/20 text-wine/60 bg-transparent hover:bg-wine hover:text-white hover:border-wine transition-all duration-300"
+            className="w-full h-10 sm:h-11 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] border border-wine/20 text-wine/60 bg-transparent hover:bg-wine hover:text-white hover:border-wine transition-all duration-300"
           >
             {t("product.notify_stock")}
           </button>

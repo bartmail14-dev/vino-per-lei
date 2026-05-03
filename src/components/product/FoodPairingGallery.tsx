@@ -56,14 +56,14 @@ export function FoodPairingGallery({ product, className }: FoodPairingGalleryPro
 
       {/* Food Cards Grid */}
       {pairings.length > 0 && (
-        <div className="grid grid-cols-3 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-4 mb-8 sm:mb-12">
+        <div className="-mx-4 mb-8 flex snap-x gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:grid sm:grid-cols-3 sm:gap-4 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-6 sm:mb-12">
           {pairings.map((pairing, index) => (
             <motion.div
               key={pairing.name}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.08 }}
-              className="group"
+              className="group min-w-[118px] snap-start sm:min-w-0"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
@@ -74,18 +74,18 @@ export function FoodPairingGallery({ product, className }: FoodPairingGalleryPro
                 }}
                 transition={{ duration: 0.3 }}
                 className={cn(
-                  "bg-white rounded-xl sm:rounded-2xl p-3 sm:p-5 text-center",
-                  "shadow-sm border border-sand/30",
+                  "bg-white rounded-2xl p-3.5 sm:p-5 text-center",
+                  "shadow-[0_16px_34px_-28px_rgba(26,31,61,0.55)] border border-sand/40",
                   "transition-shadow duration-300",
                   hoveredIndex === index && "shadow-xl shadow-wine/8 border-wine/15"
                 )}
               >
                 {/* Icon with background */}
                 <div className={cn(
-                  "w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-2.5 sm:mb-3 rounded-full flex items-center justify-center transition-all duration-300",
+                  "w-12 h-12 sm:w-14 sm:h-14 mx-auto mb-2.5 sm:mb-3 rounded-full flex items-center justify-center transition-all duration-300 ring-1 ring-gold/15",
                   hoveredIndex === index
                     ? "bg-wine text-white scale-110"
-                    : "bg-champagne/40 text-wine"
+                    : "bg-gradient-to-br from-champagne/60 to-white text-wine"
                 )}>
                   <pairing.icon className="w-5 h-5 sm:w-6 sm:h-6" weight="duotone" />
                 </div>

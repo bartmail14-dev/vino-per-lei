@@ -494,12 +494,12 @@ export function WijnenContent({ products }: { products: Product[] }) {
             </div>
 
             {/* Toolbar */}
-            <div className="sticky top-20 z-30 -mx-4 mb-6 flex flex-wrap items-center justify-between gap-3 border-y border-sand/50 bg-background/95 px-4 py-3 shadow-sm backdrop-blur lg:static lg:top-auto lg:mx-0 lg:border-0 lg:bg-transparent lg:px-0 lg:py-0 lg:shadow-none">
+            <div className="sticky top-20 z-30 -mx-2 mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-sand/70 bg-white/90 p-2 shadow-[0_18px_44px_-32px_rgba(26,31,61,0.55)] backdrop-blur lg:static lg:top-auto lg:mx-0 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
               {/* Mobile filter button */}
               <Button
                 variant="ghost"
                 onClick={() => setIsMobileFilterOpen(true)}
-                className="h-11 rounded-xl border border-gold/40 bg-white px-4 text-xs uppercase tracking-wide shadow-sm lg:hidden"
+                className="h-12 rounded-xl border border-gold/50 bg-champagne/30 px-4 text-xs uppercase tracking-[0.14em] shadow-sm lg:hidden"
               >
                 <FilterIcon className="w-4 h-4 mr-2 text-gold" />
                 {t("collection.filters.label")}
@@ -511,8 +511,8 @@ export function WijnenContent({ products }: { products: Product[] }) {
               </Button>
 
               {/* Results count */}
-              <p className="text-sm text-grey flex items-center gap-2">
-                <span className="font-serif font-semibold text-gold text-base">{filteredProducts.length}</span>
+              <p className="flex items-center gap-2 rounded-full bg-cream/70 px-3 py-2 text-sm text-grey">
+                <span className="font-serif font-semibold text-gold text-base leading-none">{filteredProducts.length}</span>
                 <span className="text-grey/40">|</span>
                 <span>{t("collection.results.wines")}</span>
               </p>
@@ -553,7 +553,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                   options={translatedSortOptions}
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="w-40 sm:w-48"
+                  className="h-12 w-full rounded-xl border-sand/80 bg-white min-[430px]:w-40 sm:w-48"
                 />
               </div>
             </div>

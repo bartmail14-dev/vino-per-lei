@@ -334,14 +334,14 @@ export function Header({ announcement, contactEmail, mainMenu = [] }: HeaderProp
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 260 }}
-              className="fixed top-0 left-0 bottom-0 w-full max-w-sm bg-cream z-50 overflow-y-auto lg:hidden shadow-2xl"
+              className="fixed top-0 left-0 bottom-0 w-[88vw] max-w-sm rounded-r-3xl bg-cream z-50 overflow-y-auto lg:hidden shadow-2xl"
               role="dialog"
               aria-modal="true"
               aria-label={t("header.menu.dialog_label")}
             >
-              <div className="bg-wine-gradient px-5 pt-6 pb-5">
+              <div className="bg-wine-gradient px-5 pt-6 pb-6 rounded-br-[2rem]">
                 <div className="flex items-center justify-between mb-4">
-                  <Logo variant="icon" color="#ffffff" className="h-10 w-auto opacity-90" />
+                  <Logo variant="icon" color="#ffffff" className="h-12 w-auto opacity-95" />
                   <button
                     onClick={() => setIsMobileMenuOpen(false)}
                     className="w-10 h-10 flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full transition-colors"
