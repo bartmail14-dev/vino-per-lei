@@ -31,6 +31,10 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       { source: '/cadeaus', destination: '/wijnen', permanent: true },
+      { source: '/collections', destination: '/wijnen', permanent: true },
+      { source: '/collections/all', destination: '/wijnen', permanent: true },
+      { source: '/collections/:path*', destination: '/wijnen', permanent: true },
+      { source: '/pages/contact', destination: '/contact', permanent: true },
       { source: '/blog', destination: '/', permanent: true },
       { source: '/blog/:slug', destination: '/', permanent: true },
       { source: '/showcase', destination: '/', permanent: true },

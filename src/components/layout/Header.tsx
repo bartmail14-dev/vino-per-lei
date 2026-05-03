@@ -30,6 +30,11 @@ function toRelativeUrl(url: string): string {
   }
 }
 
+function getMenuItemLabel(item: MenuItem, t: ReturnType<typeof useUiCopy>): string {
+  if (item.type === "CATALOG") return t("header.menu.catalog_label") || item.title;
+  return item.title;
+}
+
 function hasChildren(item: MenuItem): boolean {
   return Array.isArray(item.items) && item.items.length > 0;
 }
@@ -167,6 +172,7 @@ export function Header({ announcement, contactEmail, mainMenu = [] }: HeaderProp
 
             <nav className="hidden lg:flex items-center gap-8">
               {visibleMenu.map((item) => {
+                const label = getMenuItemLabel(item, t);
                 const expanded = openDesktopMenu === item.title;
                 const children = item.items ?? [];
                 return (
@@ -188,12 +194,12 @@ export function Header({ announcement, contactEmail, mainMenu = [] }: HeaderProp
                           expanded && "text-wine"
                         )}
                       >
-                        {item.title}
+                        {label}
                         <ChevronDownIcon className={cn("w-3.5 h-3.5 transition-transform duration-200", expanded && "rotate-180")} />
                       </button>
                     ) : (
                       <Link href={toRelativeUrl(item.url)} className="py-2 text-nav uppercase text-charcoal hover:text-wine transition-colors">
-                        {item.title}
+                        {label}
                       </Link>
                     )}
 
@@ -349,6 +355,7 @@ export function Header({ announcement, contactEmail, mainMenu = [] }: HeaderProp
               <nav className="px-5 pt-6 pb-32">
                 <ul className="space-y-0.5">
                   {visibleMenu.map((item, index) => {
+                    const label = getMenuItemLabel(item, t);
                     const expanded = mobileSubmenu === item.title;
                     return (
                       <motion.li
@@ -366,7 +373,7 @@ export function Header({ announcement, contactEmail, mainMenu = [] }: HeaderProp
                                 expanded ? "text-wine bg-wine/5" : "text-charcoal hover:text-wine hover:bg-wine/5"
                               )}
                             >
-                              {item.title}
+                              {label}
                               <motion.div animate={{ rotate: expanded ? 90 : 0 }} transition={{ duration: 0.2 }}>
                                 <ChevronRightIcon className={cn("w-4 h-4 transition-colors", expanded ? "text-gold" : "text-grey")} />
                               </motion.div>
@@ -418,7 +425,7 @@ export function Header({ announcement, contactEmail, mainMenu = [] }: HeaderProp
                             onClick={() => setIsMobileMenuOpen(false)}
                             className="block py-3.5 text-[17px] font-medium tracking-wide text-charcoal hover:text-wine hover:bg-wine/5 transition-colors rounded-lg px-3 -mx-3"
                           >
-                            {item.title}
+                            {label}
                           </Link>
                         )}
                       </motion.li>

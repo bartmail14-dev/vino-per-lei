@@ -116,6 +116,8 @@ export interface ShopifyPage {
 export interface MenuItem {
   title: string;
   url: string;
+  type?: string;
+  resourceId?: string | null;
   items: MenuItem[];
 }
 
@@ -499,7 +501,7 @@ export async function getBlogTags(): Promise<string[]> {
 
 export async function getMenu(handle: string): Promise<MenuItem[]> {
   const menu = await getMenuWithTitle(handle);
-  return menu?.items ?? [];
+  return menu?.items.map(normalizeMenuItem) ?? [];
 }
 
 export async function getMenuWithTitle(handle: string): Promise<ShopifyMenu | null> {
@@ -511,13 +513,19 @@ export async function getMenuWithTitle(handle: string): Promise<ShopifyMenu | nu
           title
           items {
             title
+            type
             url
+            resourceId
             items {
               title
+              type
               url
+              resourceId
               items {
                 title
+                type
                 url
+                resourceId
               }
             }
           }
@@ -531,6 +539,51 @@ export async function getMenuWithTitle(handle: string): Promise<ShopifyMenu | nu
     console.error(`Failed to fetch menu "${handle}":`, error);
     return null;
   }
+}
+
+function normalizeMenuItem(item: MenuItem): MenuItem {
+  return {
+    ...item,
+    url: normalizeMenuUrl(item),
+    items: item.items?.map(normalizeMenuItem) ?? [],
+  };
+}
+
+function normalizeMenuUrl(item: MenuItem): string {
+  if (item.type === "FRONTPAGE") return "/";
+  if (item.type === "CATALOG") return "/wijnen";
+
+  const rawUrl = item.url || "/";
+  let pathname = rawUrl;
+  let search = "";
+  let hash = "";
+
+  try {
+    const parsed = new URL(rawUrl);
+    pathname = parsed.pathname;
+    search = parsed.search;
+    hash = parsed.hash;
+  } catch {
+    const hashIndex = pathname.indexOf("#");
+    if (hashIndex >= 0) {
+      hash = pathname.slice(hashIndex);
+      pathname = pathname.slice(0, hashIndex);
+    }
+    const searchIndex = pathname.indexOf("?");
+    if (searchIndex >= 0) {
+      search = pathname.slice(searchIndex);
+      pathname = pathname.slice(0, searchIndex);
+    }
+  }
+
+  if (pathname === "/collections/all" || pathname === "/collections") return `/wijnen${search}${hash}`;
+  if (pathname.startsWith("/collections/")) return `/wijnen${search}${hash}`;
+  if (pathname.startsWith("/products/")) return `/wijnen/${pathname.split("/").filter(Boolean).at(-1) ?? ""}${search}${hash}`;
+  if (pathname.startsWith("/pages/")) return `/${pathname.replace(/^\/pages\//, "")}${search}${hash}`;
+  if (pathname === "/blogs/news") return `/blog${search}${hash}`;
+  if (pathname.startsWith("/blogs/news/")) return `/blog/${pathname.split("/").filter(Boolean).at(-1) ?? ""}${search}${hash}`;
+
+  return `${pathname}${search}${hash}` || "/";
 }
 
 export async function getTestimonials(): Promise<TestimonialCMS[]> {
