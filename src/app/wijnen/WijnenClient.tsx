@@ -11,6 +11,7 @@ import { type Product } from "@/types";
 import {
   FilterSidebar,
   ActiveFilterTags,
+  type FilterOption,
   type FilterGroup,
   type ActiveFilters,
 } from "@/components/filters";
@@ -21,13 +22,92 @@ import { LayoutGrid, List, Search, X } from "lucide-react";
 
 type Translate = (key: string, variables?: Record<string, string | number | boolean | null | undefined>) => string;
 
+const PRICE_BUCKET_SIZE = 5;
+const PRICE_OPEN_ENDED_MIN = 50;
+
+function priceRangeValue(min: number, max: number | null): string {
+  return max === null ? `${min}+` : `${min}-${max}`;
+}
+
+function priceRangeLabel(min: number, max: number | null, t: Translate): string {
+  const copyKey = max === null
+    ? `collection.price.${min}_plus`
+    : `collection.price.${min}_${max}`;
+  const copyLabel = t(copyKey);
+
+  if (copyLabel && copyLabel !== copyKey) {
+    return copyLabel;
+  }
+
+  return max === null ? `€ ${min}+` : `€ ${min} - € ${max}`;
+}
+
+function matchesPriceRange(price: number, range: string): boolean {
+  const closedRange = range.match(/^(\d+)-(\d+)$/);
+  if (closedRange) {
+    const [, min, max] = closedRange;
+    return price >= Number(min) && price < Number(max);
+  }
+
+  const openRange = range.match(/^(\d+)\+$/);
+  if (openRange) {
+    return price >= Number(openRange[1]);
+  }
+
+  return true;
+}
+
+function buildPriceOptions(products: Product[], t: Translate): FilterOption[] {
+  const prices = products
+    .map((product) => product.price)
+    .filter((price): price is number => Number.isFinite(price) && price >= 0);
+
+  if (prices.length === 0) return [];
+
+  const minPrice = Math.min(...prices);
+  const maxPrice = Math.max(...prices);
+  const firstBucketMin = Math.floor(minPrice / PRICE_BUCKET_SIZE) * PRICE_BUCKET_SIZE;
+  const lastClosedBucketMax = Math.min(
+    PRICE_OPEN_ENDED_MIN,
+    Math.max(
+      firstBucketMin + PRICE_BUCKET_SIZE,
+      Math.ceil(Math.min(maxPrice, PRICE_OPEN_ENDED_MIN) / PRICE_BUCKET_SIZE) * PRICE_BUCKET_SIZE
+    )
+  );
+
+  const options: FilterOption[] = [];
+
+  for (let min = firstBucketMin; min < lastClosedBucketMax; min += PRICE_BUCKET_SIZE) {
+    const max = min + PRICE_BUCKET_SIZE;
+    const count = prices.filter((price) => price >= min && price < max).length;
+
+    if (count > 0) {
+      options.push({
+        value: priceRangeValue(min, max),
+        label: priceRangeLabel(min, max, t),
+        count,
+      });
+    }
+  }
+
+  const openEndedCount = prices.filter((price) => price >= PRICE_OPEN_ENDED_MIN).length;
+  if (openEndedCount > 0) {
+    options.push({
+      value: priceRangeValue(PRICE_OPEN_ENDED_MIN, null),
+      label: priceRangeLabel(PRICE_OPEN_ENDED_MIN, null, t),
+      count: openEndedCount,
+    });
+  }
+
+  return options;
+}
+
 // Build filter groups dynamically from actual products
 function buildFilterGroups(products: Product[], t: Translate): FilterGroup[] {
   // Region counts
   const regionCounts: Record<string, number> = {};
   const typeCounts: Record<string, number> = {};
   const grapeCounts: Record<string, number> = {};
-  const priceBuckets = { "15-20": 0, "20-30": 0, "30-50": 0, "50+": 0 };
   const alcoholBuckets = { "light": 0, "medium": 0, "full": 0 };
 
   products.forEach((p) => {
@@ -36,10 +116,6 @@ function buildFilterGroups(products: Product[], t: Translate): FilterGroup[] {
     p.grapeVarieties.forEach((g) => {
       grapeCounts[g] = (grapeCounts[g] || 0) + 1;
     });
-    if (p.price < 20) priceBuckets["15-20"]++;
-    else if (p.price < 30) priceBuckets["20-30"]++;
-    else if (p.price < 50) priceBuckets["30-50"]++;
-    else priceBuckets["50+"]++;
 
     // Alcohol percentage filter
     const abv = parseFloat(p.alcoholPercentage?.replace('%', '').replace(',', '.') || '0');
@@ -106,12 +182,7 @@ function buildFilterGroups(products: Product[], t: Translate): FilterGroup[] {
     groups.push({ id: "grape", label: t("collection.filter.group.grape"), options: activeGrapeOptions });
   }
 
-  const priceOptions = [
-    { value: "15-20", label: t("collection.price.15_20"), count: priceBuckets["15-20"] },
-    { value: "20-30", label: t("collection.price.20_30"), count: priceBuckets["20-30"] },
-    { value: "30-50", label: t("collection.price.30_50"), count: priceBuckets["30-50"] },
-    { value: "50+", label: t("collection.price.50_plus"), count: priceBuckets["50+"] },
-  ].filter(o => o.count > 0);
+  const priceOptions = buildPriceOptions(products, t);
   if (priceOptions.length > 0) {
     groups.push({ id: "price", label: t("collection.filter.group.price"), options: priceOptions });
   }
@@ -241,14 +312,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
     if (activeFilters.price?.length) {
       result = result.filter((p) => {
         const price = p.price;
-        return activeFilters.price!.some((range) => {
-          if (range === "15-20") return price >= 15 && price < 20;
-          if (range === "20-30") return price >= 20 && price < 30;
-          if (range === "30-50") return price >= 30 && price < 50;
-          if (range === "30+") return price >= 30; // backwards compat
-          if (range === "50+") return price >= 50;
-          return true;
-        });
+        return activeFilters.price!.some((range) => matchesPriceRange(price, range));
       });
     }
 
