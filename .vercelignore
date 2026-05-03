@@ -1,1 +1,2 @@
-image-worker/
+src/middleware.ts
+.tmp-mobile-dev.*
