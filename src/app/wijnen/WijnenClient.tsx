@@ -39,7 +39,8 @@ function priceRangeLabel(min: number, max: number | null, t: Translate): string 
     return copyLabel;
   }
 
-  return max === null ? `€ ${min}+` : `€ ${min} - € ${max}`;
+  const euro = "\u20ac";
+  return max === null ? `${euro} ${min}+` : `${euro} ${min} - ${euro} ${max}`;
 }
 
 function matchesPriceRange(price: number, range: string): boolean {
