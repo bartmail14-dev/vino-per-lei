@@ -237,10 +237,18 @@ export function TestimonialCard({ name, text, rating, wine, attribution }: Testi
 // ============================================
 // Overlapping Transition Section — bridges dark → light
 // ============================================
-export function OverlapTransition() {
+export function OverlapTransition({
+  quote,
+  attribution,
+}: {
+  quote?: string;
+  attribution?: string;
+}) {
   const reduced = useAccessibleMotion();
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
+
+  if (!quote?.trim()) return null;
 
   return (
     <div className="relative z-10 -mt-14 sm:-mt-20 mb-0 pointer-events-none">
@@ -261,13 +269,15 @@ export function OverlapTransition() {
           </div>
 
           <p className="relative font-serif text-lg sm:text-xl lg:text-2xl text-charcoal leading-relaxed italic max-w-2xl mx-auto mb-4">
-            Elke fles vertelt het verhaal van een familie, een streek en een traditie die generaties overspant.
+            {quote}
           </p>
-          <div className="flex items-center justify-center gap-3">
-            <div className="h-px w-8 bg-gold/40" />
-            <p className="text-sm font-medium text-wine/70 tracking-wide">Carla Daniels</p>
-            <div className="h-px w-8 bg-gold/40" />
-          </div>
+          {attribution?.trim() && (
+            <div className="flex items-center justify-center gap-3">
+              <div className="h-px w-8 bg-gold/40" />
+              <p className="text-sm font-medium text-wine/70 tracking-wide">{attribution}</p>
+              <div className="h-px w-8 bg-gold/40" />
+            </div>
+          )}
         </motion.div>
       </div>
     </div>

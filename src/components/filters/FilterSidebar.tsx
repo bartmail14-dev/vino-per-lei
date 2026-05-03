@@ -159,6 +159,7 @@ export function FilterSidebar({
   // Derive active region slugs from the region filter group (only regions with products)
   const regionGroup = filters.find((f) => f.id === "region");
   const activeRegionSlugs = regionGroup?.options.map((o) => o.value);
+  const regionLabels = Object.fromEntries(regionGroup?.options.map((o) => [o.value, o.label]) ?? []);
 
   // Handle map region click
   const handleMapRegionClick = (region: WineRegionData) => {
@@ -232,6 +233,7 @@ export function FilterSidebar({
                     onRegionClick={handleMapRegionClick}
                     selectedRegion={selectedRegion}
                     activeRegionSlugs={activeRegionSlugs}
+                    regionLabels={regionLabels}
                     className="mx-auto max-w-[280px]"
                   />
                 </div>
@@ -323,6 +325,7 @@ export function FilterSidebar({
               onRegionClick={handleMapRegionClick}
               selectedRegion={selectedRegion}
               activeRegionSlugs={activeRegionSlugs}
+              regionLabels={regionLabels}
               className="mx-auto"
             />
           </div>

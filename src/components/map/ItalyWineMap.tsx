@@ -5,6 +5,7 @@ import type { MouseEvent } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import ItalyMap from "@svg-maps/italy";
+import { canonicalRegionSlug, slugToDisplayName } from "@/lib/region-utils";
 import { cn } from "@/lib/utils";
 
 interface MapLocation {
@@ -26,11 +27,11 @@ const svgRegionSlugs: Record<string, string> = {
   lombardy: "lombardia",
   "trentino-south-tyrol": "alto-adige",
   veneto: "veneto",
-  "friuli-venezia-giulia": "friuli-venezia-giulia",
+  "friuli-venezia-giulia": "friuli",
   "emilia-romagna": "emilia-romagna",
   tuscany: "toscana",
   liguria: "liguria",
-  "aosta-valley": "valle-d-aosta",
+  "aosta-valley": "valle-daosta",
   umbria: "umbria",
   marche: "marche",
   lazio: "lazio",
@@ -51,16 +52,22 @@ export interface ItalyWineMapProps {
   size?: "sm" | "md" | "lg" | "full";
   selectedRegion?: string | null;
   activeRegionSlugs?: string[];
+  regionLabels?: Record<string, string>;
 }
 
-function toRegionData(location: MapLocation, activeRegionSlugs?: string[]): WineRegionData {
-  const slug = svgRegionSlugs[location.id] ?? location.id;
+function toRegionData(
+  location: MapLocation,
+  activeRegionSlugs?: string[],
+  regionLabels?: Record<string, string>
+): WineRegionData {
+  const slug = canonicalRegionSlug(svgRegionSlugs[location.id] ?? location.id);
+  const activeSlugs = activeRegionSlugs?.map(canonicalRegionSlug);
   return {
     id: location.id,
-    displayName: location.name,
+    displayName: regionLabels?.[slug] || slugToDisplayName(slug) || location.name,
     slug,
     famousWines: [],
-    active: activeRegionSlugs ? activeRegionSlugs.includes(slug) : false,
+    active: activeSlugs ? activeSlugs.includes(slug) : false,
   };
 }
 
@@ -71,19 +78,21 @@ export function ItalyWineMap({
   size = "md",
   selectedRegion = null,
   activeRegionSlugs,
+  regionLabels,
 }: ItalyWineMapProps) {
   const router = useRouter();
   const [hoveredRegion, setHoveredRegion] = useState<WineRegionData | null>(null);
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const selectedRegionSlug = selectedRegion ? canonicalRegionSlug(selectedRegion) : null;
 
   const isRegionActive = useCallback(
-    (location: MapLocation): boolean => toRegionData(location, activeRegionSlugs).active,
-    [activeRegionSlugs]
+    (location: MapLocation): boolean => toRegionData(location, activeRegionSlugs, regionLabels).active,
+    [activeRegionSlugs, regionLabels]
   );
 
   const handleRegionClick = useCallback(
     (location: MapLocation) => {
-      const region = toRegionData(location, activeRegionSlugs);
+      const region = toRegionData(location, activeRegionSlugs, regionLabels);
       if (!region.active) return;
 
       if (onRegionClick) {
@@ -92,12 +101,12 @@ export function ItalyWineMap({
         router.push(`/wijnen?region=${region.slug}`);
       }
     },
-    [activeRegionSlugs, onRegionClick, router]
+    [activeRegionSlugs, onRegionClick, regionLabels, router]
   );
 
   const handleMouseMove = useCallback(
     (event: MouseEvent<SVGPathElement>, location: MapLocation) => {
-      const region = toRegionData(location, activeRegionSlugs);
+      const region = toRegionData(location, activeRegionSlugs, regionLabels);
       if (!region.active) return;
 
       const rect = event.currentTarget.ownerSVGElement?.getBoundingClientRect();
@@ -109,7 +118,7 @@ export function ItalyWineMap({
       }
       setHoveredRegion(region);
     },
-    [activeRegionSlugs]
+    [activeRegionSlugs, regionLabels]
   );
 
   const sizes = {
@@ -120,16 +129,16 @@ export function ItalyWineMap({
   };
 
   const getRegionFill = (location: MapLocation, isHovered: boolean) => {
-    const region = toRegionData(location, activeRegionSlugs);
-    const isSelected = region.slug === selectedRegion;
+    const region = toRegionData(location, activeRegionSlugs, regionLabels);
+    const isSelected = region.slug === selectedRegionSlug;
     if (!region.active) return "#e8e0d5";
     if (isSelected || isHovered) return "url(#wine-region-gradient)";
     return "#f5e6c8";
   };
 
   const getRegionStroke = (location: MapLocation, isHovered: boolean) => {
-    const region = toRegionData(location, activeRegionSlugs);
-    const isSelected = region.slug === selectedRegion;
+    const region = toRegionData(location, activeRegionSlugs, regionLabels);
+    const isSelected = region.slug === selectedRegionSlug;
     if (!region.active) return "#d4cfc5";
     if (isSelected || isHovered) return "#c9a227";
     return "#1a1f3d";
@@ -151,7 +160,7 @@ export function ItalyWineMap({
         </defs>
 
         {(ItalyMap.locations as MapLocation[]).map((location) => {
-          const region = toRegionData(location, activeRegionSlugs);
+          const region = toRegionData(location, activeRegionSlugs, regionLabels);
           const isHovered = hoveredRegion?.id === location.id;
           const isActive = isRegionActive(location);
 

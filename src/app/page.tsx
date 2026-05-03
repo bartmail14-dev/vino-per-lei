@@ -6,7 +6,7 @@ import { formatUiCopy } from "@/lib/ui-copy";
 import nextDynamic from "next/dynamic";
 import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, StarIcon, ShieldIcon } from "@/components/icons";
 import { getHeroContent, getUSPItems, getHomeStats, getUiCopy } from "@/lib/shopify-cms";
-import { getActiveRegionSlugsFromProducts, slugToDisplayName } from "@/lib/region-utils";
+import { getActiveRegionSlugsFromProducts, getRegionLabelsFromProducts, slugToDisplayName } from "@/lib/region-utils";
 import {
   AnimatedSection,
   AnimatedStagger,
@@ -58,9 +58,11 @@ export default async function Home() {
   const featuredProducts = featured.length > 0 ? featured.slice(0, 4) : allProducts.slice(0, 4);
   const hero = heroRaw;
   const activeRegionSlugs = getActiveRegionSlugsFromProducts(allProducts);
+  const regionLabels = getRegionLabelsFromProducts(allProducts);
   const homeStats = cmsStats;
   const copy = (key: string, variables?: Record<string, string | number>) =>
     formatUiCopy(uiCopy, key, variables);
+  const optionalCopy = (key: string) => uiCopy[key]?.trim() ?? "";
 
   // JSON-LD: Organization schema
   const organizationJsonLd = {
@@ -222,7 +224,7 @@ export default async function Home() {
           </AnimatedSection>
           <AnimatedSection variant="fadeRight" delay={0.2} className="flex justify-center order-1 lg:order-2">
             <div className="scale-[0.6] sm:scale-75 lg:scale-100 origin-center -my-6 sm:-my-4 lg:my-0 opacity-80">
-              <ItalyWineMap size="lg" activeRegionSlugs={activeRegionSlugs} />
+              <ItalyWineMap size="lg" activeRegionSlugs={activeRegionSlugs} regionLabels={regionLabels} />
             </div>
           </AnimatedSection>
         </div>
@@ -231,7 +233,7 @@ export default async function Home() {
       {/* =============================================
           OVERLAP TRANSITION — Quote bridge dark → warm
           ============================================= */}
-      <OverlapTransition />
+      <OverlapTransition quote={optionalCopy("home.story.quote")} attribution={optionalCopy("home.story.attribution")} />
 
       {/* =============================================
           STATS — Numbers bar

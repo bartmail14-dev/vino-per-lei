@@ -352,6 +352,9 @@ async function getPageMetaobject(handle: string): Promise<ShopifyPage | null> {
 }
 
 export async function getPage(handle: string): Promise<ShopifyPage | null> {
+  const metaobjectPage = await getPageMetaobject(handle);
+  if (metaobjectPage) return metaobjectPage;
+
   try {
     const { data } = await getClient().request(
       `
@@ -366,10 +369,10 @@ export async function getPage(handle: string): Promise<ShopifyPage | null> {
     `,
       { variables: { handle } }
     );
-    return data?.pageByHandle ?? getPageMetaobject(handle);
+    return data?.pageByHandle ?? null;
   } catch (error) {
     console.error(`Failed to fetch page "${handle}":`, error);
-    return getPageMetaobject(handle);
+    return null;
   }
 }
 

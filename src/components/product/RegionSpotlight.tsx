@@ -4,6 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import { ArrowRightIcon, MapPinIcon } from "@/components/icons";
+import { regionNameToSlug } from "@/lib/region-utils";
 import { cn } from "@/lib/utils";
 import type { Product } from "@/types";
 
@@ -18,14 +19,11 @@ interface RegionSpotlightProps {
   activeRegionSlugs?: string[];
 }
 
-function regionSlug(region: string): string {
-  return region.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
-}
-
 export function RegionSpotlight({ product, className, activeRegionSlugs }: RegionSpotlightProps) {
   if (!product.region) return null;
 
-  const slug = regionSlug(product.region);
+  const slug = regionNameToSlug(product.region);
+  if (!slug) return null;
 
   return (
     <div className={cn("bg-gradient-to-br from-wine/5 via-champagne/20 to-cream rounded-2xl overflow-hidden", className)}>
@@ -38,7 +36,12 @@ export function RegionSpotlight({ product, className, activeRegionSlugs }: Regio
             className="order-2 lg:order-1"
           >
             <div className="bg-white/50 backdrop-blur-sm rounded-lg p-4 shadow-lg">
-              <ItalyWineMap size="md" selectedRegion={slug} activeRegionSlugs={activeRegionSlugs} />
+              <ItalyWineMap
+                size="md"
+                selectedRegion={slug}
+                activeRegionSlugs={activeRegionSlugs}
+                regionLabels={{ [slug]: product.region }}
+              />
             </div>
           </motion.div>
 
