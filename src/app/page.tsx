@@ -85,37 +85,40 @@ export default async function Home() {
           HERO — Full-viewport parallax with layered gradients
           ============================================= */}
       <HeroParallax>
-        <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-center">
-          <div className="max-w-3xl text-center">
+        <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
+          <div className="max-w-4xl text-left pt-10 sm:pt-16">
             {/* Eyebrow */}
-            <p className="text-label text-gold mb-4 sm:mb-6 animate-fade-in animation-delay-300">
-              {hero?.subtitle}
-            </p>
+            <div className="mb-5 sm:mb-7 animate-fade-in animation-delay-300">
+              <p className="inline-flex items-center gap-3 text-label text-gold">
+                <span className="h-px w-8 bg-gold/70" aria-hidden="true" />
+                {hero?.subtitle}
+              </p>
+            </div>
 
             {/* Headline — bigger, bolder, with gold glow */}
-            <h1 className="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-5 sm:mb-8 leading-[1.05] animate-fade-in-up animation-delay-400 text-shadow-hero">
+            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-5 sm:mb-8 leading-[0.96] animate-fade-in-up animation-delay-400 text-shadow-hero max-w-4xl">
               {hero?.titleLine1}
               <br />
               <span className="text-gold text-shadow-gold">{hero?.titleLine2}</span>
             </h1>
 
             {/* Subtext */}
-            <p className="text-sm sm:text-lg lg:text-xl text-white/80 mb-8 sm:mb-12 leading-relaxed animate-fade-in animation-delay-500 max-w-2xl mx-auto text-shadow-sm">
+            <p className="text-base sm:text-lg lg:text-xl text-white/82 mb-8 sm:mb-10 leading-relaxed animate-fade-in animation-delay-500 max-w-2xl text-shadow-sm">
               {hero?.description}
             </p>
 
             {/* CTA Buttons — premium styling */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 justify-center animate-fade-in-up animation-delay-600">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 animate-fade-in-up animation-delay-600">
               <Link
                 href={hero?.ctaPrimaryLink || "/wijnen"}
-                className="group inline-flex items-center justify-center h-13 sm:h-14 px-10 sm:px-12 bg-gold text-wine-dark font-bold uppercase tracking-wider text-xs sm:text-sm rounded-sm hover:bg-gold-light transition-all duration-300 shadow-lg shadow-gold/20 hover:shadow-xl hover:shadow-gold/30"
+                className="group inline-flex items-center justify-center h-13 sm:h-14 px-10 sm:px-12 bg-gold text-wine-dark font-bold uppercase tracking-wider text-xs sm:text-sm rounded-full hover:bg-gold-light transition-all duration-300 shadow-lg shadow-gold/20 hover:shadow-xl hover:shadow-gold/30"
               >
                 {hero?.ctaPrimaryText}
                 <ChevronRightIcon className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
               </Link>
               <Link
                 href={hero?.ctaSecondaryLink || "/over-ons"}
-                className="group inline-flex items-center justify-center h-13 sm:h-14 px-8 sm:px-10 border border-white/40 text-white text-button uppercase rounded-sm hover:bg-white/10 hover:border-white/60 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-white/10 hover:scale-[1.02]"
+                className="group inline-flex items-center justify-center h-13 sm:h-14 px-8 sm:px-10 border border-white/45 text-white text-button uppercase rounded-full hover:bg-white/10 hover:border-white/70 backdrop-blur-sm transition-all duration-300 hover:shadow-lg hover:shadow-white/10 hover:scale-[1.02]"
               >
                 {hero?.ctaSecondaryText}
                 <ChevronRightIcon className="w-4 h-4 ml-2 opacity-60 transition-all group-hover:opacity-100 group-hover:translate-x-1" />
@@ -131,21 +134,24 @@ export default async function Home() {
       {/* =============================================
           USP BAR — Elevated trust signals
           ============================================= */}
-      <Section background="default" spacing="none" className="relative -mt-16 sm:-mt-20 z-10">
+      <Section background="default" spacing="none" className="relative -mt-24 sm:-mt-28 z-10">
         <AnimatedUSPBar>
-          <div className="max-w-xl mx-auto bg-white rounded-lg sm:rounded-2xl shadow-xl shadow-charcoal/5 border border-sand/40 px-4 sm:px-8 py-5 sm:py-6">
-            <div className="flex items-center justify-center gap-6 sm:gap-10">
-              {uspItems.map((usp, i) => {
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+              {uspItems.map((usp) => {
                 const IconComp = uspIconMap[usp.iconName] || TruckIcon;
-                const isLast = i === uspItems.length - 1;
                 return (
-                  <div key={usp.title} className={`flex items-center gap-3 ${!isLast ? "sm:border-r sm:border-sand/60 sm:pr-10" : ""}`}>
-                    <div className="w-10 h-10 rounded-full bg-wine/5 flex items-center justify-center flex-shrink-0">
+                  <div
+                    key={usp.title}
+                    className="group relative overflow-hidden rounded-2xl border border-sand/50 bg-white/96 px-5 py-5 shadow-[0_24px_60px_-36px_rgba(26,31,61,0.45)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/35 hover:shadow-[0_28px_70px_-34px_rgba(26,31,61,0.55)]"
+                  >
+                    <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" aria-hidden="true" />
+                    <div className="mb-4 w-11 h-11 rounded-full bg-champagne/60 ring-1 ring-gold/15 flex items-center justify-center flex-shrink-0 transition-colors group-hover:bg-gold/12">
                       <IconComp className="w-5 h-5 text-wine" />
                     </div>
                     <div>
-                      <p className="font-semibold text-charcoal text-sm leading-tight">{usp.title}</p>
-                      <p className="text-xs text-grey leading-tight">{usp.subtitle}</p>
+                      <p className="font-serif font-semibold text-charcoal text-base leading-tight">{usp.title}</p>
+                      <p className="mt-1.5 text-sm text-grey leading-relaxed">{usp.subtitle}</p>
                     </div>
                   </div>
                 );

@@ -65,7 +65,7 @@ export function HeroParallax({ children }: { children: ReactNode }) {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, reduced ? 1 : 0]);
 
   return (
-    <div ref={ref} className="relative h-[80vh] sm:h-[90vh] min-h-[560px] sm:min-h-[640px] max-h-[1000px] overflow-hidden">
+    <div ref={ref} className="relative h-[86vh] sm:h-[92vh] min-h-[620px] sm:min-h-[680px] max-h-[1040px] overflow-hidden">
       {/* Parallax video layer */}
       <motion.div className="absolute inset-0" style={{ y: videoY }}>
         <video
@@ -83,10 +83,9 @@ export function HeroParallax({ children }: { children: ReactNode }) {
       </motion.div>
 
       {/* Multi-layer gradient overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/15 to-black/50" />
-      <div className="absolute inset-0 bg-gradient-to-r from-wine/15 via-transparent to-transparent" />
-      {/* Subtle gold radial glow */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_40%,rgba(201,162,39,0.08),transparent_60%)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/12 to-[#111526]/72" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#111526]/80 via-[#111526]/36 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-background via-background/40 to-transparent" />
 
       {/* Parallax content layer */}
       <motion.div
@@ -97,7 +96,7 @@ export function HeroParallax({ children }: { children: ReactNode }) {
       </motion.div>
 
       {/* Bottom fade to next section */}
-      <div className="absolute bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-background/40 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold/35 to-transparent" />
     </div>
   );
 }

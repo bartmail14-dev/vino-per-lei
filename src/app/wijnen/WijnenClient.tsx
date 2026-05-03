@@ -213,6 +213,99 @@ const sortOptions = [
 
 // No hardcoded region map needed — slugToRegionNames handles all regions dynamically
 
+function normalizeFilters(filters: ActiveFilters): ActiveFilters {
+  return Object.fromEntries(
+    Object.entries(filters).filter(([, values]) => values.length > 0)
+  );
+}
+
+function cloneFilters(filters: ActiveFilters): ActiveFilters {
+  return Object.fromEntries(
+    Object.entries(filters).map(([groupId, values]) => [groupId, [...values]])
+  );
+}
+
+function filterAndSortProducts(
+  products: Product[],
+  activeFilters: ActiveFilters,
+  searchQuery: string,
+  sortBy: string
+): Product[] {
+  let result = [...products];
+
+  if (searchQuery.trim()) {
+    const query = searchQuery.toLowerCase().trim();
+    result = result.filter((p) =>
+      p.title.toLowerCase().includes(query) ||
+      p.region?.toLowerCase().includes(query) ||
+      p.grapeVarieties?.some((g) => g.toLowerCase().includes(query))
+    );
+  }
+
+  if (activeFilters.region?.length) {
+    result = result.filter((p) => {
+      if (!p.region) return false;
+      return activeFilters.region!.some((slug) => {
+        const regionNames = slugToRegionNames(slug);
+        return regionNames.some((name) => p.region === name) || regionNameToSlug(p.region) === slug;
+      });
+    });
+  }
+
+  if (activeFilters.wineType?.length) {
+    result = result.filter((p) => activeFilters.wineType!.includes(p.wineType));
+  }
+
+  if (activeFilters.grape?.length) {
+    result = result.filter((p) =>
+      p.grapeVarieties?.some((g) =>
+        activeFilters.grape!.includes(g.toLowerCase().replace(/\s+/g, "-"))
+      )
+    );
+  }
+
+  if (activeFilters.price?.length) {
+    result = result.filter((p) =>
+      activeFilters.price!.some((range) => matchesPriceRange(p.price, range))
+    );
+  }
+
+  if (activeFilters.alcohol?.length) {
+    result = result.filter((p) => {
+      const abv = parseFloat(p.alcoholPercentage?.replace('%', '').replace(',', '.') || '0');
+      if (abv === 0) return false;
+      return activeFilters.alcohol!.some((range) => {
+        if (range === "light") return abv < 12;
+        if (range === "medium") return abv >= 12 && abv < 14;
+        if (range === "full") return abv >= 14;
+        return true;
+      });
+    });
+  }
+
+  switch (sortBy) {
+    case "price-asc":
+      result.sort((a, b) => a.price - b.price);
+      break;
+    case "price-desc":
+      result.sort((a, b) => b.price - a.price);
+      break;
+    case "newest":
+      result.sort((a) => (a.isNew ? -1 : 1));
+      break;
+    case "name-asc":
+      result.sort((a, b) => a.title.localeCompare(b.title, "nl"));
+      break;
+    case "rating":
+      result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
+      break;
+    default:
+      result.sort((a, b) => (b.reviewCount || 0) - (a.reviewCount || 0));
+  }
+
+  return result;
+}
+
 export function WijnenContent({ products }: { products: Product[] }) {
   const t = useUiCopy();
   const searchParams = useSearchParams();
@@ -242,6 +335,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
   const [sortBy, setSortBy] = useState("popular");
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+  const [mobileDraftFilters, setMobileDraftFilters] = useState<ActiveFilters>(() => cloneFilters(initialFilters));
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
@@ -270,91 +364,22 @@ export function WijnenContent({ products }: { products: Product[] }) {
 
   // Filter and sort products
   const filteredProducts = useMemo(() => {
-    let result = [...products];
-
-    // Apply search query
-    if (searchQuery.trim()) {
-      const query = searchQuery.toLowerCase().trim();
-      result = result.filter((p) =>
-        p.title.toLowerCase().includes(query) ||
-        p.region?.toLowerCase().includes(query) ||
-        p.grapeVarieties?.some((g) => g.toLowerCase().includes(query))
-      );
-    }
-
-    // Apply region filter
-    if (activeFilters.region?.length) {
-      result = result.filter((p) => {
-        if (!p.region) return false;
-        return activeFilters.region!.some((slug) => {
-          const regionNames = slugToRegionNames(slug);
-          return regionNames.some((name) => p.region === name) || regionNameToSlug(p.region) === slug;
-        });
-      });
-    }
-
-    // Apply wine type filter
-    if (activeFilters.wineType?.length) {
-      result = result.filter((p) =>
-        activeFilters.wineType!.includes(p.wineType)
-      );
-    }
-
-    // Apply grape filter
-    if (activeFilters.grape?.length) {
-      result = result.filter((p) =>
-        p.grapeVarieties?.some((g) =>
-          activeFilters.grape!.includes(g.toLowerCase().replace(/\s+/g, "-"))
-        )
-      );
-    }
-
-    // Apply price filter
-    if (activeFilters.price?.length) {
-      result = result.filter((p) => {
-        const price = p.price;
-        return activeFilters.price!.some((range) => matchesPriceRange(price, range));
-      });
-    }
-
-    // Apply alcohol filter
-    if (activeFilters.alcohol?.length) {
-      result = result.filter((p) => {
-        const abv = parseFloat(p.alcoholPercentage?.replace('%', '').replace(',', '.') || '0');
-        if (abv === 0) return false; // no data = exclude
-        return activeFilters.alcohol!.some((range) => {
-          if (range === "light") return abv < 12;
-          if (range === "medium") return abv >= 12 && abv < 14;
-          if (range === "full") return abv >= 14;
-          return true;
-        });
-      });
-    }
-
-    // Sort
-    switch (sortBy) {
-      case "price-asc":
-        result.sort((a, b) => a.price - b.price);
-        break;
-      case "price-desc":
-        result.sort((a, b) => b.price - a.price);
-        break;
-      case "newest":
-        result.sort((a) => (a.isNew ? -1 : 1));
-        break;
-      case "name-asc":
-        result.sort((a, b) => a.title.localeCompare(b.title, "nl"));
-        break;
-      case "rating":
-        result.sort((a, b) => (b.rating || 0) - (a.rating || 0));
-        break;
-      default:
-        // Popular - keep original order or sort by reviews
-        result.sort((a, b) => (b.reviewCount || 0) - (a.reviewCount || 0));
-    }
-
-    return result;
+    return filterAndSortProducts(products, activeFilters, searchQuery, sortBy);
   }, [activeFilters, sortBy, searchQuery, products]);
+
+  const mobileDraftResultCount = useMemo(
+    () => filterAndSortProducts(products, mobileDraftFilters, searchQuery, sortBy).length,
+    [mobileDraftFilters, products, searchQuery, sortBy]
+  );
+
+  const pushRegionUrlForFilters = (filters: ActiveFilters) => {
+    const newRegion = filters.region?.[0];
+    if (newRegion) {
+      router.push(`/wijnen?region=${encodeURIComponent(newRegion)}`, { scroll: false });
+    } else {
+      router.push("/wijnen", { scroll: false });
+    }
+  };
 
   const handleFilterChange = (
     groupId: string,
@@ -363,22 +388,42 @@ export function WijnenContent({ products }: { products: Product[] }) {
   ) => {
     setActiveFilters((prev) => {
       const current = prev[groupId] || [];
-      const newFilters = checked
+      const newFilters = normalizeFilters(checked
         ? { ...prev, [groupId]: [...current, value] }
-        : { ...prev, [groupId]: current.filter((v) => v !== value) };
+        : { ...prev, [groupId]: current.filter((v) => v !== value) });
 
       // Update URL when region filter changes
       if (groupId === "region") {
-        const newRegion = newFilters.region?.[0];
-        if (newRegion) {
-          router.push(`/wijnen?region=${newRegion}`, { scroll: false });
-        } else {
-          router.push("/wijnen", { scroll: false });
-        }
+        pushRegionUrlForFilters(newFilters);
       }
 
       return newFilters;
     });
+  };
+
+  const handleMobileFilterChange = (
+    groupId: string,
+    value: string,
+    checked: boolean
+  ) => {
+    setMobileDraftFilters((prev) => {
+      const current = prev[groupId] || [];
+      return normalizeFilters(checked
+        ? { ...prev, [groupId]: [...current, value] }
+        : { ...prev, [groupId]: current.filter((v) => v !== value) });
+    });
+  };
+
+  const openMobileFilters = () => {
+    setMobileDraftFilters(cloneFilters(activeFilters));
+    setIsMobileFilterOpen(true);
+  };
+
+  const applyMobileFilters = () => {
+    const nextFilters = normalizeFilters(mobileDraftFilters);
+    setActiveFilters(nextFilters);
+    pushRegionUrlForFilters(nextFilters);
+    setIsMobileFilterOpen(false);
   };
 
   const handleClearAll = () => {
@@ -461,12 +506,14 @@ export function WijnenContent({ products }: { products: Product[] }) {
           {/* Filter Sidebar */}
           <FilterSidebar
             filters={filterGroups}
-            activeFilters={activeFilters}
-            onFilterChange={handleFilterChange}
-            onClearAll={handleClearAll}
+            activeFilters={isMobileFilterOpen ? mobileDraftFilters : activeFilters}
+            onFilterChange={isMobileFilterOpen ? handleMobileFilterChange : handleFilterChange}
+            onClearAll={isMobileFilterOpen ? () => setMobileDraftFilters({}) : handleClearAll}
             onClearGroup={handleClearGroup}
             isOpen={isMobileFilterOpen}
             onClose={() => setIsMobileFilterOpen(false)}
+            onApply={applyMobileFilters}
+            applyLabel={t("collection.pagination.summary", { shown: mobileDraftResultCount, total: products.length })}
           />
 
           {/* Products */}
@@ -498,7 +545,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
               {/* Mobile filter button */}
               <Button
                 variant="ghost"
-                onClick={() => setIsMobileFilterOpen(true)}
+                onClick={openMobileFilters}
                 className="h-12 rounded-xl border border-gold/50 bg-champagne/30 px-4 text-xs uppercase tracking-[0.14em] shadow-sm lg:hidden"
               >
                 <FilterIcon className="w-4 h-4 mr-2 text-gold" />

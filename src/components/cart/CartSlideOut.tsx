@@ -11,6 +11,7 @@ import { formatPrice, wineImagePresets } from "@/lib/utils";
 import { getOrderIncrement, getOrderMaximum, getOrderMinimum, getOrderUnitText, getPriceUnitText } from "@/lib/order-rules";
 import { CloseIcon, TrashIcon, ShoppingBagIcon, CheckIcon } from "@/components/icons";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useShopConfig, useUiCopy } from "@/components/providers";
 
 function useIsMobileCart() {
   const [isMobile, setIsMobile] = useState(false);
@@ -34,12 +35,26 @@ export function CartSlideOut() {
   const itemCount = useCartStore((state) => state.itemCount);
   const subtotal = useCartStore((state) => state.subtotal);
   const shipping = useCartStore((state) => state.shipping);
-  const total = useCartStore((state) => state.total);
   const updateQuantity = useCartStore((state) => state.updateQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
 
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const isMobileCart = useIsMobileCart();
+  const t = useUiCopy();
+  const { freeShippingThreshold, shippingCost } = useShopConfig();
+  const configuredShipping =
+    items.length === 0
+      ? 0
+      : shippingCost > 0
+        ? freeShippingThreshold > 0 && subtotal >= freeShippingThreshold
+          ? 0
+          : shippingCost
+        : shipping;
+  const configuredTotal = subtotal + configuredShipping;
+  const freeShippingProgress =
+    freeShippingThreshold > 0
+      ? Math.min(100, Math.max(0, (subtotal / freeShippingThreshold) * 100))
+      : 0;
 
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: closeCart });
 
@@ -80,7 +95,7 @@ export function CartSlideOut() {
             className="fixed inset-x-0 bottom-0 top-auto max-h-[92dvh] w-full rounded-t-3xl bg-white z-[101] flex flex-col shadow-2xl sm:top-0 sm:right-0 sm:left-auto sm:bottom-0 sm:max-h-none sm:max-w-md sm:rounded-none"
             role="dialog"
             aria-modal="true"
-            aria-label="Winkelmand"
+            aria-label={t("cart.title")}
           >
             <div className="flex justify-center pt-3 sm:hidden" aria-hidden="true">
               <div className="h-1 w-11 rounded-full bg-sand" />
@@ -89,7 +104,7 @@ export function CartSlideOut() {
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-sand sm:px-6 sm:py-4">
               <h2 className="font-serif text-xl font-semibold">
-                Winkelmand
+                {t("cart.title")}
                 {itemCount > 0 && (
                   <span className="text-grey font-normal"> ({itemCount})</span>
                 )}
@@ -97,7 +112,7 @@ export function CartSlideOut() {
               <button
                 onClick={closeCart}
                 className="p-2 -mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-sand/50 rounded-md transition-colors"
-                aria-label="Sluit winkelmand"
+                aria-label={t("common.close")}
               >
                 <CloseIcon className="w-5 h-5" />
               </button>
@@ -109,7 +124,7 @@ export function CartSlideOut() {
               <div className="flex-1 flex flex-col items-center justify-center px-4 text-center sm:px-6">
                 <ShoppingBagIcon className="w-16 h-16 text-sand mb-4" />
                 <h3 className="font-serif text-lg mb-2">
-                  Je winkelmand is leeg
+                  {t("cart.empty.title")}
                 </h3>
                 <p className="text-sm text-grey mb-6">
                   Bekijk onze Italiaanse wijnen en kies je favoriet.
@@ -193,7 +208,7 @@ export function CartSlideOut() {
                             <button
                               onClick={() => removeItem(item.id)}
                               className="p-1.5 text-grey hover:text-error transition-colors"
-                              aria-label={`Verwijder ${item.product.title}`}
+                              aria-label={`${t("cart.remove")} ${item.product.title}`}
                             >
                               <TrashIcon className="w-4 h-4" />
                             </button>
@@ -206,19 +221,34 @@ export function CartSlideOut() {
 
                 {/* Footer */}
                 <div className="border-t border-sand bg-warm-white/50 px-4 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] space-y-4 sm:px-6 sm:pb-4">
+                  {freeShippingThreshold > 0 && (
+                    <div className="rounded-2xl border border-gold/15 bg-white px-3 py-3 shadow-sm">
+                      <div className="mb-2 flex items-center justify-between gap-3 text-xs text-grey">
+                        <span className="font-medium text-charcoal">{t("cart.shipping")}</span>
+                        <span>{formatPrice(Math.min(subtotal, freeShippingThreshold))} / {formatPrice(freeShippingThreshold)}</span>
+                      </div>
+                      <div className="h-1.5 overflow-hidden rounded-full bg-sand/60">
+                        <div
+                          className="h-full rounded-full bg-gold transition-[width] duration-500"
+                          style={{ width: `${freeShippingProgress}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
                   {/* Totals */}
                   <div className="space-y-2 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-grey">Subtotaal</span>
+                      <span className="text-grey">{t("cart.subtotal")}</span>
                       <span>{formatPrice(subtotal)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-grey">Verzending</span>
-                      <span>{formatPrice(shipping)}</span>
+                      <span className="text-grey">{t("cart.shipping")}</span>
+                      <span>{formatPrice(configuredShipping)}</span>
                     </div>
                     <div className="flex justify-between pt-2 border-t border-sand text-base font-semibold">
-                      <span>Totaal</span>
-                      <span>{formatPrice(total)}</span>
+                      <span>{t("cart.total")}</span>
+                      <span>{formatPrice(configuredTotal)}</span>
                     </div>
                   </div>
 
@@ -227,6 +257,7 @@ export function CartSlideOut() {
                     variant="primary"
                     fullWidth
                     size="lg"
+                    className="cart-checkout-button"
                     disabled={isCheckingOut}
                     onClick={() => {
                       setIsCheckingOut(true);
@@ -237,7 +268,7 @@ export function CartSlideOut() {
                       window.location.href = getShopifyCartUrl(lineItems);
                     }}
                   >
-                    {isCheckingOut ? "Doorsturen naar betaling..." : "Afrekenen"}
+                    {isCheckingOut ? t("common.loading") : t("cart.checkout")}
                   </Button>
 
                   {/* Continue Shopping */}
@@ -252,7 +283,7 @@ export function CartSlideOut() {
                   <div className="flex items-center justify-center gap-4 pt-2 text-xs text-grey">
                     <span className="flex items-center gap-1">
                       <CheckIcon className="w-3 h-3" />
-                      Veilig betalen
+                      {t("product.secure_payment")}
                     </span>
                   </div>
 

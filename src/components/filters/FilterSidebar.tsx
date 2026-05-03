@@ -7,6 +7,7 @@ import { Checkbox, Button } from "@/components/ui";
 import { ItalyWineMap, type WineRegionData } from "@/components/map";
 import { ChevronDown as ChevronDownIcon, X as CloseIcon, RotateCcw as FilterResetIcon } from "lucide-react";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
+import { useUiCopy } from "@/components/providers";
 
 export interface FilterOption {
   value: string;
@@ -31,6 +32,8 @@ export interface FilterSidebarProps {
   onFilterChange: (groupId: string, value: string, checked: boolean) => void;
   onClearAll: () => void;
   onClearGroup: (groupId: string) => void;
+  onApply?: () => void;
+  applyLabel?: string;
   isOpen?: boolean;
   onClose?: () => void;
   className?: string;
@@ -145,10 +148,13 @@ export function FilterSidebar({
   onClearAll,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   onClearGroup,
+  onApply,
+  applyLabel,
   isOpen = true,
   onClose,
   className,
 }: FilterSidebarProps) {
+  const t = useUiCopy();
   const totalActiveFilters = Object.values(activeFilters).flat().length;
 
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: onClose });
@@ -201,7 +207,7 @@ export function FilterSidebar({
             }}
             role="dialog"
             aria-modal="true"
-            aria-label="Filters"
+            aria-label={t("collection.filters.label")}
           >
             {/* Header — wine gradient */}
             <div className="sticky top-0 z-10 bg-wine-gradient px-5 pb-4 pt-3 shadow-[0_2px_12px_rgba(26,31,61,0.2)]">
@@ -210,7 +216,7 @@ export function FilterSidebar({
               </div>
               <div className="flex items-center justify-between">
               <div className="flex items-center gap-2.5">
-                <h2 className="font-serif text-xl font-semibold text-white">Filters</h2>
+                <h2 className="font-serif text-xl font-semibold text-white">{t("collection.filters.label")}</h2>
                 {totalActiveFilters > 0 && (
                   <span className="inline-flex items-center justify-center text-xs bg-gold/20 text-gold min-w-[22px] h-[22px] px-1.5 rounded-full font-bold border border-gold/30">
                     {totalActiveFilters}
@@ -220,7 +226,7 @@ export function FilterSidebar({
               <button
                 onClick={onClose}
                 className="w-9 h-9 min-w-[44px] min-h-[44px] flex items-center justify-center bg-white/10 hover:bg-white/20 rounded-full transition-colors"
-                aria-label="Sluit filters"
+                aria-label={t("common.close")}
               >
                 <CloseIcon className="w-4 h-4 text-white" strokeWidth={2} />
               </button>
@@ -231,7 +237,7 @@ export function FilterSidebar({
             <div className="px-5 pb-32">
               {/* Italy Map Filter - Mobile */}
               <div className="py-5 border-b border-sand/40">
-                <p className="text-xs text-grey uppercase tracking-widest mb-3 font-medium font-serif">Ontdek per Regio</p>
+                <p className="text-xs text-grey uppercase tracking-widest mb-3 font-medium font-serif">{t("collection.filter.group.region")}</p>
                 <div className="bg-champagne/30 rounded-2xl p-2.5 shadow-inner ring-1 ring-gold/10">
                   <ItalyWineMap
                     size="sm"
@@ -248,7 +254,7 @@ export function FilterSidebar({
                     className="mt-3 text-xs text-gold hover:text-gold-light font-medium w-full text-center flex items-center justify-center gap-1 hover:underline underline-offset-2 transition-all"
                   >
                     <FilterResetIcon className="w-3 h-3" strokeWidth={1.5} />
-                    Wis regio filter
+                    {t("collection.filters.clear_all")}
                   </button>
                 )}
               </div>
@@ -273,10 +279,10 @@ export function FilterSidebar({
                 disabled={totalActiveFilters === 0}
                 className="flex-1 !bg-transparent !border-sand !text-charcoal hover:!border-wine/30 hover:!text-wine"
               >
-                Wissen ({totalActiveFilters})
+                {t("collection.filters.clear_all")} ({totalActiveFilters})
               </Button>
-              <Button variant="primary" onClick={onClose} className="flex-1 !bg-[image:var(--wine-gradient)] hover:!bg-[image:var(--wine-gradient-hover)]">
-                Toon resultaten
+              <Button variant="primary" onClick={onApply ?? onClose} className="flex-1 !bg-[image:var(--wine-gradient)] hover:!bg-[image:var(--wine-gradient-hover)]">
+                {applyLabel || t("collection.pagination.summary", { shown: totalActiveFilters, total: totalActiveFilters })}
               </Button>
             </div>
           </motion.div>
@@ -292,7 +298,7 @@ export function FilterSidebar({
         {/* Header with clear all */}
         <div className="flex items-center justify-between mb-1">
           <h2 className="font-serif text-lg font-semibold text-charcoal flex items-center gap-2">
-            Filters
+            {t("collection.filters.label")}
             {totalActiveFilters > 0 && (
               <motion.span
                 initial={{ scale: 0 }}
@@ -313,7 +319,7 @@ export function FilterSidebar({
                 className="text-sm text-gold hover:text-gold-light font-medium flex items-center gap-1 transition-colors hover:underline underline-offset-2"
               >
                 <FilterResetIcon className="w-3.5 h-3.5" strokeWidth={1.5} />
-                Wis alles
+                {t("collection.filters.clear_all")}
               </motion.button>
             )}
           </AnimatePresence>
@@ -323,7 +329,7 @@ export function FilterSidebar({
 
         {/* Italy Map Filter */}
         <div className="border-t border-sand/40 py-4">
-          <p className="text-xs text-grey uppercase tracking-widest mb-3 font-medium font-serif">Ontdek per Regio</p>
+          <p className="text-xs text-grey uppercase tracking-widest mb-3 font-medium font-serif">{t("collection.filter.group.region")}</p>
           <div className="bg-champagne/25 rounded-xl p-3">
             <ItalyWineMap
               size="full"
@@ -340,7 +346,7 @@ export function FilterSidebar({
               className="mt-3 text-xs text-gold hover:text-gold-light font-medium w-full text-center flex items-center justify-center gap-1 transition-colors hover:underline underline-offset-2"
             >
               <FilterResetIcon className="w-3 h-3" strokeWidth={1.5} />
-              Wis regio filter
+              {t("collection.filters.clear_all")}
             </button>
           )}
         </div>
@@ -384,6 +390,7 @@ export function ActiveFilterTags({
   onRemove,
   onClearAll,
 }: ActiveFilterTagsProps) {
+  const t = useUiCopy();
   const allActive = Object.entries(activeFilters).flatMap(([groupId, values]) =>
     values.map((value) => {
       const group = filterGroups.find((g) => g.id === groupId);
@@ -405,7 +412,7 @@ export function ActiveFilterTags({
       animate={{ opacity: 1, y: 0 }}
       className="flex flex-wrap items-center gap-2 mb-6"
     >
-      <span className="text-sm text-grey font-serif italic font-medium">Actief:</span>
+      <span className="text-sm text-grey font-serif italic font-medium">{t("collection.filters.label")}:</span>
       <AnimatePresence>
         {allActive.map((filter) => (
           <motion.button
@@ -427,7 +434,7 @@ export function ActiveFilterTags({
           onClick={onClearAll}
           className="text-sm text-gold hover:text-gold-light font-medium underline underline-offset-2 transition-colors"
         >
-          Wis alles
+          {t("collection.filters.clear_all")}
         </button>
       )}
     </motion.div>
