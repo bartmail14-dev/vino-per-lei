@@ -7,11 +7,13 @@ import { getShopifyCartUrl } from "@/lib/shopify";
 import { paymentSchema, validateSection } from "@/lib/validation";
 import { Checkbox, Button } from "@/components/ui";
 import { Wine } from "lucide-react";
+import { useUiCopy } from "@/components/providers";
 
 // Payment method selection is handled by Shopify hosted checkout.
 // We only need age verification before redirecting.
 
 export function PaymentSection() {
+  const t = useUiCopy();
   const { payment, setPayment, errors, setError, clearError } =
     useCheckoutStore();
   const items = useCartStore((state) => state.items);
@@ -49,10 +51,10 @@ export function PaymentSection() {
           <Wine className="w-6 h-6 text-wine flex-shrink-0 mt-0.5" strokeWidth={1.5} />
           <div className="flex-1">
             <p className="font-medium text-charcoal mb-2">
-              Leeftijdsverificatie
+              {t("checkout.payment.age_title")}
             </p>
             <Checkbox
-              label="Ik bevestig dat ik 18 jaar of ouder ben"
+              label={t("checkout.payment.age_confirm")}
               checked={payment.ageVerified}
               onChange={(e) => {
                 setPayment({ ageVerified: e.target.checked });
@@ -71,10 +73,10 @@ export function PaymentSection() {
       {/* Payment info */}
       <div className="p-4 bg-warm-white rounded-lg border border-sand">
         <p className="text-sm text-charcoal mb-2 font-medium">
-          Betaalmethode kiezen
+          {t("checkout.payment.method_title")}
         </p>
         <p className="text-sm text-grey">
-          Je wordt doorgestuurd naar de beveiligde Shopify checkout waar je kunt betalen met iDEAL, creditcard, PayPal en meer.
+          {t("checkout.payment.method_description")}
         </p>
       </div>
 
@@ -94,12 +96,12 @@ export function PaymentSection() {
           isLoading={isSubmitting}
           disabled={!payment.ageVerified}
         >
-          {isSubmitting ? "Doorsturen naar betaling..." : "Afrekenen via Shopify"}
+          {isSubmitting ? t("checkout.payment.submitting") : t("checkout.payment.submit")}
         </Button>
         <p className="text-xs text-grey text-center mt-3">
-          Door te bestellen ga je akkoord met onze{" "}
+          {t("checkout.payment.terms_prefix")}{" "}
           <a href="/voorwaarden" className="text-wine hover:underline">
-            algemene voorwaarden
+            {t("checkout.payment.terms_link")}
           </a>
         </p>
       </div>

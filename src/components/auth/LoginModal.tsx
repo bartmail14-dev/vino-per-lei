@@ -32,7 +32,7 @@ function LoginForm() {
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label htmlFor="login-email" className="block text-sm font-medium text-charcoal mb-1">
-          E-mailadres
+          {t("auth.email_label")}
         </label>
         <div className="relative">
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-grey" strokeWidth={1.5} />
@@ -51,7 +51,7 @@ function LoginForm() {
 
       <div>
         <label htmlFor="login-password" className="block text-sm font-medium text-charcoal mb-1">
-          Wachtwoord
+          {t("auth.password_label")}
         </label>
         <div className="relative">
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-grey" strokeWidth={1.5} />
@@ -63,7 +63,7 @@ function LoginForm() {
             required
             autoComplete="current-password"
             className="w-full pl-10 pr-12 py-3 border border-sand rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-wine/20 focus:border-wine transition-colors"
-            placeholder="Wachtwoord"
+            placeholder={t("auth.password_label")}
           />
           <button
             type="button"
@@ -101,7 +101,7 @@ function LoginForm() {
           onClick={() => setAuthView("recover")}
           className="text-wine hover:text-wine-dark transition-colors"
         >
-          Wachtwoord vergeten?
+          {t("auth.forgot_password")}
         </button>
         <button
           type="button"
@@ -134,7 +134,7 @@ function RegisterForm() {
       <div className="grid grid-cols-2 gap-3">
         <div>
           <label htmlFor="reg-firstname" className="block text-sm font-medium text-charcoal mb-1">
-            Voornaam
+            {t("auth.firstname_label")}
           </label>
           <input
             id="reg-firstname"
@@ -144,12 +144,12 @@ function RegisterForm() {
             required
             autoComplete="given-name"
             className="w-full px-4 py-3 border border-sand rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-wine/20 focus:border-wine transition-colors"
-            placeholder="Voornaam"
+            placeholder={t("auth.firstname_label")}
           />
         </div>
         <div>
           <label htmlFor="reg-lastname" className="block text-sm font-medium text-charcoal mb-1">
-            Achternaam
+            {t("auth.lastname_label")}
           </label>
           <input
             id="reg-lastname"
@@ -159,14 +159,14 @@ function RegisterForm() {
             required
             autoComplete="family-name"
             className="w-full px-4 py-3 border border-sand rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-wine/20 focus:border-wine transition-colors"
-            placeholder="Achternaam"
+            placeholder={t("auth.lastname_label")}
           />
         </div>
       </div>
 
       <div>
         <label htmlFor="reg-email" className="block text-sm font-medium text-charcoal mb-1">
-          E-mailadres
+          {t("auth.email_label")}
         </label>
         <div className="relative">
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-grey" strokeWidth={1.5} />
@@ -185,7 +185,7 @@ function RegisterForm() {
 
       <div>
         <label htmlFor="reg-password" className="block text-sm font-medium text-charcoal mb-1">
-          Wachtwoord
+          {t("auth.password_label")}
         </label>
         <div className="relative">
           <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-grey" strokeWidth={1.5} />
@@ -246,6 +246,7 @@ function RegisterForm() {
 }
 
 function RecoverForm() {
+  const t = useUiCopy();
   const { recoverPassword, isLoading, authError, setAuthView } = useAuthStore();
   const [email, setEmail] = useState("");
 
@@ -262,16 +263,16 @@ function RecoverForm() {
         className="flex items-center gap-1 text-sm text-grey hover:text-charcoal transition-colors mb-2"
       >
         <ArrowLeft className="w-4 h-4" />
-        Terug naar inloggen
+        {t("auth.back_to_login")}
       </button>
 
       <p className="text-sm text-grey leading-relaxed">
-        Voer je e-mailadres in en we sturen je een link om je wachtwoord te resetten.
+        {t("auth.recover_description")}
       </p>
 
       <div>
         <label htmlFor="recover-email" className="block text-sm font-medium text-charcoal mb-1">
-          E-mailadres
+          {t("auth.email_label")}
         </label>
         <div className="relative">
           <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-grey" strokeWidth={1.5} />
@@ -300,10 +301,10 @@ function RecoverForm() {
         {isLoading ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" />
-            Versturen...
+            {t("auth.recover_submitting")}
           </>
         ) : (
-          "Verstuur reset link"
+          t("auth.recover_submit")
         )}
       </button>
     </form>
@@ -311,6 +312,7 @@ function RecoverForm() {
 }
 
 function RecoverSentView() {
+  const t = useUiCopy();
   const { setAuthView } = useAuthStore();
 
   return (
@@ -319,29 +321,30 @@ function RecoverSentView() {
         <CheckCircle2 className="w-8 h-8 text-green-600" />
       </div>
       <p className="text-sm text-grey leading-relaxed">
-        Als er een account bestaat met dit e-mailadres, ontvang je binnen enkele minuten een e-mail met instructies om je wachtwoord te resetten.
+        {t("auth.recover_sent_message")}
       </p>
       <p className="text-sm text-grey">
-        Controleer ook je spam-map.
+        {t("auth.recover_check_spam")}
       </p>
       <button
         onClick={() => setAuthView("login")}
         className="w-full py-3 bg-wine text-white rounded-lg text-button uppercase hover:bg-wine-dark active:scale-[0.98] transition-all duration-200"
       >
-        Terug naar inloggen
+        {t("auth.back_to_login")}
       </button>
     </div>
   );
 }
 
-const TITLES: Record<string, string> = {
-  login: "Inloggen",
-  register: "Account aanmaken",
-  recover: "Wachtwoord resetten",
-  "recover-sent": "E-mail verstuurd",
+const TITLE_KEYS: Record<string, string> = {
+  login: "auth.title_login",
+  register: "auth.title_register",
+  recover: "auth.title_recover",
+  "recover-sent": "auth.title_recover_sent",
 };
 
 export function LoginModal() {
+  const t = useUiCopy();
   const { showLoginModal, closeLoginModal, authView } = useAuthStore();
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -393,7 +396,7 @@ export function LoginModal() {
               onClick={(e) => e.stopPropagation()}
               role="dialog"
               aria-modal="true"
-              aria-label={TITLES[authView] ?? "Account"}
+              aria-label={TITLE_KEYS[authView] ? t(TITLE_KEYS[authView]) : "Account"}
             >
               {/* Header */}
               <div className="relative bg-wine/5 p-6 text-center">
@@ -411,7 +414,7 @@ export function LoginModal() {
                 </div>
 
                 <h2 className="font-serif text-xl font-semibold text-charcoal">
-                  {TITLES[authView] ?? "Account"}
+                  {TITLE_KEYS[authView] ? t(TITLE_KEYS[authView]) : "Account"}
                 </h2>
               </div>
 

@@ -17,6 +17,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import type { ShopifyOrder, ShopifyAddress } from "@/lib/shopify-customer";
+import { useUiCopy } from "@/components/providers";
 
 type Tab = "orders" | "addresses" | "profile";
 
@@ -45,29 +46,34 @@ function formatPrice(amount: string, currency: string): string {
   }).format(parseFloat(amount));
 }
 
-function statusLabel(status: string): { text: string; color: string } {
-  const map: Record<string, { text: string; color: string }> = {
-    PAID: { text: "Betaald", color: "bg-green-100 text-green-800" },
-    PENDING: { text: "In afwachting", color: "bg-yellow-100 text-yellow-800" },
-    REFUNDED: { text: "Terugbetaald", color: "bg-grey-100 text-grey-800" },
-    FULFILLED: { text: "Verzonden", color: "bg-green-100 text-green-800" },
-    UNFULFILLED: { text: "In verwerking", color: "bg-blue-100 text-blue-800" },
-    PARTIALLY_FULFILLED: { text: "Deels verzonden", color: "bg-yellow-100 text-yellow-800" },
-  };
-  return map[status] ?? { text: status, color: "bg-gray-100 text-gray-800" };
-}
+const STATUS_KEYS: Record<string, { key: string; color: string }> = {
+  PAID: { key: "account.status_paid", color: "bg-green-100 text-green-800" },
+  PENDING: { key: "account.status_pending", color: "bg-yellow-100 text-yellow-800" },
+  REFUNDED: { key: "account.status_refunded", color: "bg-grey-100 text-grey-800" },
+  FULFILLED: { key: "account.status_fulfilled", color: "bg-green-100 text-green-800" },
+  UNFULFILLED: { key: "account.status_unfulfilled", color: "bg-blue-100 text-blue-800" },
+  PARTIALLY_FULFILLED: { key: "account.status_partially_fulfilled", color: "bg-yellow-100 text-yellow-800" },
+};
 
 function OrdersTab({ orders }: { orders: ShopifyOrder[] }) {
+  const t = useUiCopy();
+
+  function statusLabel(status: string): { text: string; color: string } {
+    const entry = STATUS_KEYS[status];
+    if (entry) return { text: t(entry.key), color: entry.color };
+    return { text: status, color: "bg-gray-100 text-gray-800" };
+  }
+
   if (orders.length === 0) {
     return (
       <div className="text-center py-12">
         <Wine className="w-12 h-12 text-sand mx-auto mb-4" strokeWidth={1} />
-        <p className="text-grey text-sm mb-4">Je hebt nog geen bestellingen geplaatst.</p>
+        <p className="text-grey text-sm mb-4">{t("account.no_orders")}</p>
         <Link
           href="/wijnen"
           className="inline-flex items-center gap-2 px-6 py-3 bg-wine text-white rounded-lg text-sm font-medium uppercase tracking-wide hover:bg-wine-dark transition-colors"
         >
-          Ontdek onze wijnen
+          {t("account.browse_wines")}
         </Link>
       </div>
     );
@@ -87,7 +93,7 @@ function OrdersTab({ orders }: { orders: ShopifyOrder[] }) {
             <div className="flex items-start justify-between mb-3">
               <div>
                 <p className="font-medium text-charcoal">
-                  Bestelling #{order.orderNumber}
+                  {t("account.order_prefix")} #{order.orderNumber}
                 </p>
                 <p className="text-sm text-grey">{formatDate(order.processedAt)}</p>
               </div>
@@ -143,7 +149,7 @@ function OrdersTab({ orders }: { orders: ShopifyOrder[] }) {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-sm text-wine hover:text-wine-dark transition-colors"
               >
-                Bekijk bestelstatus
+                {t("account.view_status")}
                 <ExternalLink className="w-3.5 h-3.5" />
               </a>
             )}
@@ -155,13 +161,15 @@ function OrdersTab({ orders }: { orders: ShopifyOrder[] }) {
 }
 
 function AddressesTab({ addresses, defaultAddress }: { addresses: ShopifyAddress[]; defaultAddress: ShopifyAddress | null }) {
+  const t = useUiCopy();
+
   if (addresses.length === 0) {
     return (
       <div className="text-center py-12">
         <MapPin className="w-12 h-12 text-sand mx-auto mb-4" strokeWidth={1} />
-        <p className="text-grey text-sm">Je hebt nog geen adressen opgeslagen.</p>
+        <p className="text-grey text-sm">{t("account.no_addresses")}</p>
         <p className="text-grey text-xs mt-2">
-          Adressen worden automatisch opgeslagen bij je eerste bestelling.
+          {t("account.addresses_hint")}
         </p>
       </div>
     );
@@ -178,7 +186,7 @@ function AddressesTab({ addresses, defaultAddress }: { addresses: ShopifyAddress
           >
             {isDefault && (
               <span className="text-xs font-medium text-wine uppercase tracking-wide mb-2 block">
-                Standaard adres
+                {t("account.default_address")}
               </span>
             )}
             <p className="text-sm text-charcoal font-medium">
@@ -198,28 +206,30 @@ function AddressesTab({ addresses, defaultAddress }: { addresses: ShopifyAddress
 }
 
 function ProfileTab({ customer, onLogout }: { customer: CustomerData; onLogout: () => void }) {
+  const t = useUiCopy();
+
   return (
     <div className="space-y-6">
       <div className="border border-sand rounded-xl p-5">
-        <h3 className="font-medium text-charcoal mb-3">Accountgegevens</h3>
+        <h3 className="font-medium text-charcoal mb-3">{t("account.profile_title")}</h3>
         <div className="space-y-2 text-sm">
           <div className="flex justify-between">
-            <span className="text-grey">Naam</span>
+            <span className="text-grey">{t("account.profile_name")}</span>
             <span className="text-charcoal">
               {[customer.firstName, customer.lastName].filter(Boolean).join(" ") || "—"}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-grey">E-mail</span>
+            <span className="text-grey">{t("account.profile_email")}</span>
             <span className="text-charcoal">{customer.email}</span>
           </div>
         </div>
       </div>
 
       <div className="border border-sand rounded-xl p-5">
-        <h3 className="font-medium text-charcoal mb-3">Wachtwoord wijzigen</h3>
+        <h3 className="font-medium text-charcoal mb-3">{t("account.change_password_title")}</h3>
         <p className="text-sm text-grey mb-3">
-          Je kunt je wachtwoord resetten via e-mail.
+          {t("account.change_password_desc")}
         </p>
         <a
           href={`https://${process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/account/reset`}
@@ -227,7 +237,7 @@ function ProfileTab({ customer, onLogout }: { customer: CustomerData; onLogout: 
           rel="noopener noreferrer"
           className="inline-flex items-center gap-1 text-sm text-wine hover:text-wine-dark transition-colors"
         >
-          Wachtwoord resetten
+          {t("account.reset_password")}
           <ExternalLink className="w-3.5 h-3.5" />
         </a>
       </div>
@@ -237,19 +247,20 @@ function ProfileTab({ customer, onLogout }: { customer: CustomerData; onLogout: 
         className="flex items-center gap-2 text-sm text-red-600 hover:text-red-700 transition-colors"
       >
         <LogOut className="w-4 h-4" />
-        Uitloggen
+        {t("account.logout")}
       </button>
     </div>
   );
 }
 
-const TABS: { id: Tab; label: string; icon: typeof Package }[] = [
-  { id: "orders", label: "Bestellingen", icon: Package },
-  { id: "addresses", label: "Adressen", icon: MapPin },
-  { id: "profile", label: "Profiel", icon: User },
+const TAB_KEYS: { id: Tab; key: string; icon: typeof Package }[] = [
+  { id: "orders", key: "account.tab_orders", icon: Package },
+  { id: "addresses", key: "account.tab_addresses", icon: MapPin },
+  { id: "profile", key: "account.tab_profile", icon: User },
 ];
 
 export default function AccountPage() {
+  const t = useUiCopy();
   const { user, isAuthenticated, isHydrated, logout, openLoginModal } = useAuthStore();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<Tab>("orders");
@@ -301,12 +312,12 @@ export default function AccountPage() {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
         <div className="text-center">
-          <p className="text-grey mb-4">Je moet ingelogd zijn om deze pagina te bekijken.</p>
+          <p className="text-grey mb-4">{t("account.login_required")}</p>
           <button
             onClick={() => openLoginModal()}
             className="px-6 py-3 bg-wine text-white rounded-lg text-sm font-medium uppercase tracking-wide hover:bg-wine-dark transition-colors"
           >
-            Inloggen
+            {t("account.login_button")}
           </button>
         </div>
       </div>
@@ -323,14 +334,14 @@ export default function AccountPage() {
           className="mb-8"
         >
           <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-charcoal mb-2">
-            Welkom{user?.firstName ? `, ${user.firstName}` : ""}
+            {t("account.welcome")}{user?.firstName ? `, ${user.firstName}` : ""}
           </h1>
           <p className="text-grey">{user?.email}</p>
         </motion.div>
 
         {/* Tabs */}
         <div className="flex gap-1 mb-8 border-b border-sand overflow-x-auto">
-          {TABS.map(({ id, label, icon: Icon }) => (
+          {TAB_KEYS.map(({ id, key, icon: Icon }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id)}
@@ -341,7 +352,7 @@ export default function AccountPage() {
               }`}
             >
               <Icon className="w-4 h-4" strokeWidth={1.5} />
-              {label}
+              {t(key)}
               {id === "orders" && customerData.orders.length > 0 && (
                 <span className="bg-wine/10 text-wine text-xs px-1.5 py-0.5 rounded-full">
                   {customerData.orders.length}
@@ -379,7 +390,7 @@ export default function AccountPage() {
             <div className="flex items-center gap-3">
               <Wine className="w-5 h-5 text-wine" strokeWidth={1.5} />
               <span className="text-sm font-medium text-charcoal group-hover:text-wine transition-colors">
-                Bekijk onze collectie
+                {t("account.browse_collection")}
               </span>
             </div>
             <ChevronRight className="w-4 h-4 text-grey group-hover:text-wine transition-colors" />
