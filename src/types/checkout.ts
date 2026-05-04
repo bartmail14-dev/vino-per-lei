@@ -24,7 +24,7 @@ export interface CheckoutGift {
   hidePrices: boolean;
 }
 
-export type ShippingMethod = "standard" | "temperature" | "evening";
+export type ShippingMethod = "standard" | "temperature";
 
 export interface CheckoutShipping {
   method: ShippingMethod;
@@ -100,7 +100,6 @@ export interface OrderResult {
 export const SHIPPING_COSTS: Record<ShippingMethod, number> = {
   standard: 7.95,
   temperature: 7.90,
-  evening: 6.90,
 };
 
 // Re-export from cart to avoid duplication

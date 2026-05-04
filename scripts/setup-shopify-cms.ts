@@ -248,8 +248,8 @@ async function seedContent() {
     { key: 'hours_weekday', value: '09:00 - 17:00' },
     { key: 'hours_saturday', value: '10:00 - 14:00' },
     { key: 'hours_sunday', value: 'Gesloten' },
-    { key: 'gratis_verzending_drempel', value: '35' },
-    { key: 'verzendkosten', value: '4.95' },
+    { key: 'gratis_verzending_drempel', value: '100' },
+    { key: 'verzendkosten', value: '7.95' },
   ]);
 
   // Hero
@@ -276,7 +276,7 @@ async function seedContent() {
   // USP Items
   console.log('Seeding usp_items...');
   const usps = [
-    { handle: 'gratis-verzending', title: 'Gratis verzending', subtitle: 'vanaf €35', icon_name: 'truck', sort_order: '1' },
+    { handle: 'gratis-verzending', title: 'Gratis verzending', subtitle: 'vanaf €100', icon_name: 'truck', sort_order: '1' },
     { handle: 'gratis-retour', title: 'Gratis retour', subtitle: '14 dagen', icon_name: 'refresh', sort_order: '2' },
     { handle: 'expert-selectie', title: 'Expert selectie', subtitle: 'Handgeplukt in Italië', icon_name: 'star', sort_order: '3' },
     { handle: 'veilig-betalen', title: 'Veilig betalen', subtitle: 'iDEAL & creditcard', icon_name: 'shield', sort_order: '4' },
@@ -378,8 +378,8 @@ async function seedContent() {
     { handle: 'bestellen-3', category: 'Bestellen', question: 'Is het mogelijk om als cadeau te bestellen?', answer: 'Ja! Bij het afrekenen kun je aangeven dat het om een cadeau gaat. We voegen dan geen factuur toe aan het pakket. Je kunt ook een persoonlijk bericht toevoegen.', sort_order: '3' },
     { handle: 'betalen-1', category: 'Betalen', question: 'Welke betaalmethodes accepteren jullie?', answer: 'Wij accepteren iDEAL, creditcard (Visa en Mastercard), PayPal en Bancontact. Alle betalingen worden veilig verwerkt via een SSL-beveiligde verbinding.', sort_order: '4' },
     { handle: 'betalen-2', category: 'Betalen', question: 'Is betalen bij Vino per Lei veilig?', answer: 'Absoluut. Onze website is volledig SSL-beveiligd en betalingen worden verwerkt door gecertificeerde betalingsproviders. Wij slaan zelf geen betalingsgegevens op.', sort_order: '5' },
-    { handle: 'verzending-1', category: 'Verzending', question: 'Wat zijn de verzendkosten?', answer: 'Standaard verzending kost €4,95. Bij bestellingen vanaf €35 is verzending gratis. Avondlevering kost €7,95. Verzending naar België kost €8,95 (gratis vanaf €75).', sort_order: '6' },
-    { handle: 'verzending-2', category: 'Verzending', question: 'Hoe lang duurt de levering?', answer: 'Bestellingen die voor 14:00 worden geplaatst, worden dezelfde dag verzonden. De levertijd is 1-2 werkdagen voor Nederland en 2-3 werkdagen voor België.', sort_order: '7' },
+    { handle: 'verzending-1', category: 'Verzending', question: 'Wat zijn de verzendkosten?', answer: 'Standaard verzending kost €7,95. Bij bestellingen vanaf €100 is verzending gratis.', sort_order: '6' },
+    { handle: 'verzending-2', category: 'Verzending', question: 'Hoe lang duurt de levering?', answer: 'Bestellingen worden zorgvuldig verpakt en doorgaans binnen 1-2 werkdagen geleverd binnen Nederland.', sort_order: '7' },
     { handle: 'verzending-3', category: 'Verzending', question: 'Hoe worden de flessen verpakt?', answer: 'Elke fles wordt zorgvuldig verpakt in speciale wijnverpakkingen die beschermen tegen breuk. Bij extreme temperaturen nemen wij extra maatregelen om de kwaliteit te waarborgen.', sort_order: '8' },
     { handle: 'verzending-4', category: 'Verzending', question: 'Kan ik mijn bestelling volgen?', answer: 'Ja, zodra je bestelling is verzonden ontvang je een Track & Trace code per e-mail waarmee je de bezorging live kunt volgen.', sort_order: '9' },
     { handle: 'retourneren-1', category: 'Retourneren', question: 'Kan ik mijn bestelling retourneren?', answer: 'Ja, je hebt 14 dagen bedenktijd na ontvangst. De flessen moeten ongeopend en in goede staat zijn. Geopende flessen kunnen helaas niet worden geretourneerd. Zie ons retourbeleid voor de volledige voorwaarden.', sort_order: '10' },
@@ -427,7 +427,7 @@ async function createPages() {
     {
       handle: 'verzending',
       title: 'Verzending & Levering',
-      body_html: `<h2>Verzendopties</h2><ul><li><strong>Standaard verzending:</strong> €4,95 — Levertijd 1-2 werkdagen, Track & Trace inbegrepen</li><li><strong>Gratis verzending:</strong> Bij bestellingen vanaf €35,00</li><li><strong>Avondlevering:</strong> €7,95 — Bezorging tussen 18:00-22:00, bestel voor 14:00</li><li><strong>Verzending België:</strong> €8,95 — Levertijd 2-3 werkdagen, gratis vanaf €75,00</li></ul><h2>Zorgvuldige verpakking</h2><p>Wijn is kwetsbaar — daarom besteden wij extra aandacht aan de verpakking:</p><ul><li><strong>Speciale wijnverpakkingen:</strong> elke fles wordt individueel beschermd</li><li><strong>Temperatuurgecontroleerd:</strong> bij extreme warmte of kou nemen wij extra maatregelen</li><li><strong>Duurzaam:</strong> onze verpakkingsmaterialen zijn recyclebaar</li></ul><h2>Verzendgebied</h2><p>Wij verzenden naar geheel Nederland (inclusief Waddeneilanden) en geheel België.</p><h2>Leeftijdscontrole bij levering</h2><p>De bezorger kan bij aflevering om een geldig legitimatiebewijs vragen. Als de ontvanger niet kan aantonen 18 jaar of ouder te zijn, wordt het pakket niet afgegeven.</p><h2>Niet thuis bij bezorging?</h2><p>De bezorger laat een bericht achter en het pakket wordt aangeboden bij een afhaalpunt of de volgende werkdag opnieuw bezorgd.</p>`,
+      body_html: `<h2>Verzendopties</h2><ul><li><strong>Standaard verzending:</strong> €7,95 - Levertijd 1-2 werkdagen, Track & Trace inbegrepen</li><li><strong>Gratis verzending:</strong> Bij bestellingen vanaf €100,00</li></ul><h2>Zorgvuldige verpakking</h2><p>Wijn is kwetsbaar - daarom besteden wij extra aandacht aan de verpakking:</p><ul><li><strong>Speciale wijnverpakkingen:</strong> elke fles wordt individueel beschermd</li><li><strong>Temperatuurgecontroleerd:</strong> bij extreme warmte of kou nemen wij extra maatregelen</li><li><strong>Duurzaam:</strong> onze verpakkingsmaterialen zijn recyclebaar</li></ul><h2>Verzendgebied</h2><p>Wij verzenden naar geheel Nederland, inclusief de Waddeneilanden.</p><h2>Leeftijdscontrole bij levering</h2><p>De bezorger kan bij aflevering om een geldig legitimatiebewijs vragen. Als de ontvanger niet kan aantonen 18 jaar of ouder te zijn, wordt het pakket niet afgegeven.</p><h2>Niet thuis bij bezorging?</h2><p>De bezorger laat een bericht achter en het pakket wordt aangeboden bij een afhaalpunt of de volgende werkdag opnieuw bezorgd.</p>`,
     },
     {
       handle: 'retourneren',

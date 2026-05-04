@@ -58,11 +58,12 @@ export function calculateShippingCost(
 
 // Calculate estimated delivery date
 export function calculateEstimatedDelivery(method: ShippingMethod): string {
+  void method;
   const now = new Date();
   const deliveryDate = new Date(now);
 
   // Add business days based on method
-  const daysToAdd = method === "evening" ? 1 : 2;
+  const daysToAdd = 2;
   let addedDays = 0;
 
   while (addedDays < daysToAdd) {

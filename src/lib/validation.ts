@@ -62,7 +62,7 @@ export const giftSchema = z.object({
 
 // Shipping validation
 export const shippingSchema = z.object({
-  method: z.enum(["standard", "temperature", "evening"], {
+  method: z.enum(["standard", "temperature"], {
     message: "Selecteer een verzendmethode",
   }),
 });

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui";
 import { SHIPPING_COSTS, type ShippingMethod } from "@/types/checkout";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import { TruckIcon, ThermometerIcon, MoonIcon, ClockIcon, SunIcon } from "@/components/icons";
+import { TruckIcon, ThermometerIcon, ClockIcon, SunIcon } from "@/components/icons";
 
 interface ShippingSectionProps {
   onComplete: () => void;
@@ -31,13 +31,6 @@ const shippingOptions: {
     description: "Gekoelde verzending voor optimale kwaliteit",
     deliveryTime: "1-2 werkdagen",
     icon: <ThermometerIcon className="w-6 h-6" />,
-  },
-  {
-    method: "evening",
-    title: "Avondlevering",
-    description: "Bezorging tussen 18:00 - 22:00",
-    deliveryTime: "Volgende werkdag",
-    icon: <MoonIcon className="w-6 h-6" />,
   },
 ];
 
