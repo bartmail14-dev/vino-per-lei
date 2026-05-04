@@ -11,7 +11,6 @@ import type {
   OrderResult,
   ShippingMethod,
 } from "@/types/checkout";
-import { SHIPPING_COSTS } from "@/types/checkout";
 
 const initialContact: CheckoutContact = {
   email: "",
@@ -40,7 +39,7 @@ const initialGift: CheckoutGift = {
 const initialShipping: CheckoutShipping = {
   method: "standard",
   estimatedDate: "",
-  cost: SHIPPING_COSTS.standard,
+  cost: 0,
 };
 
 const initialPayment: CheckoutPayment = {
@@ -49,11 +48,13 @@ const initialPayment: CheckoutPayment = {
   ageVerified: false,
 };
 
-// Calculate shipping cost based on method
+// Calculate shipping cost based on method — costs come from ShopConfig context
 export function calculateShippingCost(
   method: ShippingMethod,
+  shippingCost: number,
+  shippingCostTemperature: number,
 ): number {
-  return SHIPPING_COSTS[method];
+  return method === "temperature" ? shippingCostTemperature : shippingCost;
 }
 
 // Calculate estimated delivery date

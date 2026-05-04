@@ -4,7 +4,10 @@
  * All emails use inline styles for maximum email client compatibility.
  */
 
-const BRAND = {
+import { getSiteSettings } from "@/lib/shopify-cms";
+
+// Static color constants — never change
+const COLORS = {
   navy: "#1a1f3d",
   navyLight: "#2d3454",
   gold: "#c9a227",
@@ -16,11 +19,42 @@ const BRAND = {
   charcoal: "#1a1a1a",
   grey: "#6b6b6b",
   greyLight: "#a3a3a3",
+} as const;
+
+interface EmailBrand {
+  logoUrl: string;
+  siteUrl: string;
+  siteName: string;
+  ownerName: string;
+  instagram: string;
+  seoDescription: string;
+}
+
+// Fallbacks for when CMS is unreachable
+const FALLBACK_BRAND: EmailBrand = {
   logoUrl: "https://vino-per-lei.vercel.app/logo.png",
   siteUrl: "https://vinoperlei.nl",
   siteName: "Vino per Lei",
+  ownerName: "Carla Daniels",
   instagram: "https://instagram.com/vinoperlei",
+  seoDescription: "Italiaanse wijnen, rechtstreeks van de producent",
 };
+
+export async function getEmailBrand(): Promise<EmailBrand> {
+  const settings = await getSiteSettings();
+  if (!settings) return FALLBACK_BRAND;
+  return {
+    logoUrl: settings.logoUrl || FALLBACK_BRAND.logoUrl,
+    siteUrl: settings.siteUrl || FALLBACK_BRAND.siteUrl,
+    siteName: settings.companyName || FALLBACK_BRAND.siteName,
+    ownerName: settings.ownerName || FALLBACK_BRAND.ownerName,
+    instagram: settings.instagramUrl || FALLBACK_BRAND.instagram,
+    seoDescription: settings.seoDescription || FALLBACK_BRAND.seoDescription,
+  };
+}
+
+// Legacy alias for internal use — kept as shorthand
+const BRAND = COLORS;
 
 export const SHOPIFY_NOTIFICATION_SUBJECTS_NL = {
   orderConfirmation: "Bestelling bevestigd - {{ name }}",
@@ -59,51 +93,51 @@ function goldLine(): string {
 }
 
 // Clean header matching website navbar style
-function headerBlock(): string {
+function headerBlock(brand: EmailBrand): string {
   return `<!-- Header -->
   <tr>
     <td style="background-color:${BRAND.navy};padding:32px 40px;text-align:center;">
-      <a href="${BRAND.siteUrl}" style="display:inline-block;text-decoration:none;">
-        <img src="${BRAND.logoUrl}" alt="${BRAND.siteName}" width="120" height="120" style="display:block;width:120px;height:120px;margin:0 auto;">
+      <a href="${brand.siteUrl}" style="display:inline-block;text-decoration:none;">
+        <img src="${brand.logoUrl}" alt="${brand.siteName}" width="120" height="120" style="display:block;width:120px;height:120px;margin:0 auto;">
       </a>
     </td>
   </tr>`;
 }
 
 // Footer matching website footer
-function footerBlock(): string {
+function footerBlock(brand: EmailBrand): string {
   return `<!-- Footer -->
   <tr>
     <td style="background-color:${BRAND.navy};padding:32px 40px;text-align:center;">
-      <img src="${BRAND.logoUrl}" alt="${BRAND.siteName}" width="48" height="48" style="display:block;width:48px;height:48px;margin:0 auto 14px;">
+      <img src="${brand.logoUrl}" alt="${brand.siteName}" width="48" height="48" style="display:block;width:48px;height:48px;margin:0 auto 14px;">
       <p style="margin:0 0 12px;color:rgba(255,255,255,0.9);font-family:Georgia,'Times New Roman',serif;font-size:14px;font-style:italic;">
-        Italiaanse wijnen, rechtstreeks van de producent
+        ${brand.seoDescription}
       </p>
       <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 16px;">
         <tr>
           <td style="padding:0 10px;">
-            <a href="${BRAND.siteUrl}" style="color:${BRAND.gold};font-size:13px;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">vinoperlei.nl</a>
+            <a href="${brand.siteUrl}" style="color:${BRAND.gold};font-size:13px;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">vinoperlei.nl</a>
           </td>
           <td style="color:rgba(255,255,255,0.3);font-size:13px;">|</td>
           <td style="padding:0 10px;">
-            <a href="${BRAND.instagram}" style="color:${BRAND.gold};font-size:13px;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Instagram</a>
+            <a href="${brand.instagram}" style="color:${BRAND.gold};font-size:13px;text-decoration:none;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Instagram</a>
           </td>
         </tr>
       </table>
       <p style="margin:0;color:rgba(255,255,255,0.4);font-size:11px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-        &copy; ${new Date().getFullYear()} ${BRAND.siteName} &mdash; Alle rechten voorbehouden
+        &copy; ${new Date().getFullYear()} ${brand.siteName} &mdash; Alle rechten voorbehouden
       </p>
     </td>
   </tr>`;
 }
 
-function emailWrapper(content: string, preheader?: string): string {
+function emailWrapper(brand: EmailBrand, content: string, preheader?: string): string {
   return `<!DOCTYPE html>
 <html lang="nl">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${BRAND.siteName}</title>
+  <title>${brand.siteName}</title>
   <!--[if mso]><noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript><![endif]-->
 </head>
 <body style="margin:0;padding:0;background-color:${BRAND.warmWhite};font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;">
@@ -112,14 +146,14 @@ function emailWrapper(content: string, preheader?: string): string {
     <tr>
       <td align="center" style="padding:32px 16px;">
         <table role="presentation" cellpadding="0" cellspacing="0" width="600" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 1px 12px rgba(26,31,61,0.06);">
-          ${headerBlock()}
+          ${headerBlock(brand)}
           <!-- Content -->
           <tr>
             <td style="padding:36px 40px;">
               ${content}
             </td>
           </tr>
-          ${footerBlock()}
+          ${footerBlock(brand)}
         </table>
       </td>
     </tr>
@@ -160,14 +194,14 @@ function paragraph(text: string): string {
   return `<p style="margin:0 0 14px;color:${BRAND.charcoal};font-size:15px;line-height:1.7;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">${text}</p>`;
 }
 
-function signature(): string {
+function signature(brand: EmailBrand): string {
   return `${goldLine()}
   <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
     <tr>
       <td>
         <p style="margin:0 0 2px;color:${BRAND.grey};font-size:13px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Met warme groet,</p>
-        <p style="margin:0 0 2px;color:${BRAND.navy};font-family:Georgia,'Times New Roman',serif;font-size:17px;font-style:italic;">Carla Daniels</p>
-        <p style="margin:0;color:${BRAND.gold};font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">Vino per Lei</p>
+        <p style="margin:0 0 2px;color:${BRAND.navy};font-family:Georgia,'Times New Roman',serif;font-size:17px;font-style:italic;">${brand.ownerName}</p>
+        <p style="margin:0;color:${BRAND.gold};font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">${brand.siteName}</p>
       </td>
     </tr>
   </table>`;
@@ -213,8 +247,10 @@ function infoBox(content: string): string {
 
 // --- Templates ---
 
-export function newsletterWelcomeEmail(): { subject: string; html: string; text: string } {
+export async function newsletterWelcomeEmail(): Promise<{ subject: string; html: string; text: string }> {
+  const brand = await getEmailBrand();
   const html = emailWrapper(
+    brand,
     `${heading("Welkom bij Vino per Lei")}
      ${paragraph("Wat fijn dat je erbij bent! Vanaf nu ben je als eerste op de hoogte van nieuwe wijnen, seizoensaanbiedingen en exclusieve proeverijen.")}
      ${infoBox(`
@@ -225,32 +261,34 @@ export function newsletterWelcomeEmail(): { subject: string; html: string; text:
        </table>
      `)}
      ${paragraph("Benieuwd wat we in huis hebben? Ontdek onze collectie en vind jouw perfecte wijn.")}
-     ${button("Bekijk collectie", `${BRAND.siteUrl}/wijnen`)}
-     ${signature()}`,
-    "Welkom bij de Vino per Lei nieuwsbrief — ontdek Italiaanse wijnen"
+     ${button("Bekijk collectie", `${brand.siteUrl}/wijnen`)}
+     ${signature(brand)}`,
+    "Welkom bij de Vino per Lei nieuwsbrief -- ontdek Italiaanse wijnen"
   );
 
-  const text = `Welkom bij Vino per Lei!
+  const text = `Welkom bij ${brand.siteName}!
 
 Wat fijn dat je erbij bent! Vanaf nu ben je als eerste op de hoogte van nieuwe wijnen, seizoensaanbiedingen en exclusieve proeverijen.
 
 - Maximaal twee keer per maand
-- Handgeselecteerde wijnen uit Italië
+- Handgeselecteerde wijnen uit Italie
 - Geen spam, alleen de mooiste ontdekkingen
 
-Bekijk collectie: ${BRAND.siteUrl}/wijnen
+Bekijk collectie: ${brand.siteUrl}/wijnen
 
 Met warme groet,
-Carla Daniels
-Vino per Lei`;
+${brand.ownerName}
+${brand.siteName}`;
 
   return { subject: "Welkom bij de Vino per Lei nieuwsbrief", html, text };
 }
 
-export function contactConfirmationEmail(naam: string): { subject: string; html: string; text: string } {
+export async function contactConfirmationEmail(naam: string): Promise<{ subject: string; html: string; text: string }> {
+  const brand = await getEmailBrand();
   const html = emailWrapper(
+    brand,
     `${heading(`Bedankt voor je bericht, ${naam}`)}
-     ${paragraph("We hebben je bericht in goede orde ontvangen en nemen zo snel mogelijk contact met je op — meestal binnen 1&ndash;2 werkdagen.")}
+     ${paragraph("We hebben je bericht in goede orde ontvangen en nemen zo snel mogelijk contact met je op -- meestal binnen 1&ndash;2 werkdagen.")}
      ${infoBox(`
        <p style="margin:0;color:${BRAND.charcoal};font-size:14px;line-height:1.6;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
          Dringende vraag? Neem direct contact op via<br>
@@ -258,38 +296,40 @@ export function contactConfirmationEmail(naam: string): { subject: string; html:
        </p>
      `)}
      ${paragraph("In de tussentijd nodigen we je uit om onze collectie te ontdekken.")}
-     ${button("Bekijk onze wijnen", `${BRAND.siteUrl}/wijnen`)}
-     ${signature()}`,
-    `Bedankt voor je bericht, ${naam} — we reageren zo snel mogelijk`
+     ${button("Bekijk onze wijnen", `${brand.siteUrl}/wijnen`)}
+     ${signature(brand)}`,
+    `Bedankt voor je bericht, ${naam} -- we reageren zo snel mogelijk`
   );
 
   const text = `Bedankt voor je bericht, ${naam}!
 
-We hebben je bericht in goede orde ontvangen. We nemen zo snel mogelijk contact met je op — meestal binnen 1-2 werkdagen.
+We hebben je bericht in goede orde ontvangen. We nemen zo snel mogelijk contact met je op -- meestal binnen 1-2 werkdagen.
 
 Dringende vraag? Mail ons via info@vinoperlei.nl
 
 Met warme groet,
-Carla Daniels
-Vino per Lei`;
+${brand.ownerName}
+${brand.siteName}`;
 
-  return { subject: "Bedankt voor je bericht — Vino per Lei", html, text };
+  return { subject: `Bedankt voor je bericht -- ${brand.siteName}`, html, text };
 }
 
-export function notifyMeConfirmationEmail(
+export async function notifyMeConfirmationEmail(
   productTitle: string,
   productImageUrl?: string,
   productHandle?: string
-): {
+): Promise<{
   subject: string;
   html: string;
   text: string;
-} {
+}> {
+  const brand = await getEmailBrand();
   const productUrl = productHandle
-    ? `${BRAND.siteUrl}/wijnen/${productHandle}`
-    : `${BRAND.siteUrl}/wijnen`;
+    ? `${brand.siteUrl}/wijnen/${productHandle}`
+    : `${brand.siteUrl}/wijnen`;
 
   const html = emailWrapper(
+    brand,
     `${heading("We houden je op de hoogte")}
      ${paragraph(`Je ontvangt een e-mail zodra deze wijn weer beschikbaar is.`)}
      ${productCard({
@@ -299,8 +339,8 @@ export function notifyMeConfirmationEmail(
        label: "Voorraadmelding actief",
      })}
      ${paragraph("In de tussentijd hebben we nog meer prachtige wijnen in onze collectie.")}
-     ${buttonOutline("Ontdek meer wijnen", `${BRAND.siteUrl}/wijnen`)}
-     ${signature()}`,
+     ${buttonOutline("Ontdek meer wijnen", `${brand.siteUrl}/wijnen`)}
+     ${signature(brand)}`,
     `We laten je weten wanneer ${productTitle} weer beschikbaar is`
   );
 
@@ -308,23 +348,25 @@ export function notifyMeConfirmationEmail(
 
 Je ontvangt een e-mail zodra "${productTitle}" weer beschikbaar is.
 
-Ontdek meer wijnen: ${BRAND.siteUrl}/wijnen
+Ontdek meer wijnen: ${brand.siteUrl}/wijnen
 
 Met warme groet,
-Carla Daniels
-Vino per Lei`;
+${brand.ownerName}
+${brand.siteName}`;
 
-  return { subject: `Voorraadmelding: ${productTitle} — Vino per Lei`, html, text };
+  return { subject: `Voorraadmelding: ${productTitle} -- ${brand.siteName}`, html, text };
 }
 
-export function accountWelcomeEmail(firstName: string): {
+export async function accountWelcomeEmail(firstName: string): Promise<{
   subject: string;
   html: string;
   text: string;
-} {
+}> {
+  const brand = await getEmailBrand();
   const html = emailWrapper(
+    brand,
     `${heading(`Welkom, ${firstName}`)}
-     ${paragraph("Je account bij Vino per Lei is aangemaakt. Vanaf nu wordt wijn kopen nog makkelijker.")}
+     ${paragraph(`Je account bij ${brand.siteName} is aangemaakt. Vanaf nu wordt wijn kopen nog makkelijker.`)}
      ${infoBox(`
        <table role="presentation" cellpadding="0" cellspacing="0" width="100%">
          <tr><td style="padding:4px 0;color:${BRAND.charcoal};font-size:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><span style="color:${BRAND.gold};margin-right:8px;">&#10003;</span> Bestellingen bekijken en volgen</td></tr>
@@ -332,38 +374,40 @@ export function accountWelcomeEmail(firstName: string): {
          <tr><td style="padding:4px 0;color:${BRAND.charcoal};font-size:14px;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;"><span style="color:${BRAND.gold};margin-right:8px;">&#10003;</span> Verlanglijstje synchroniseren</td></tr>
        </table>
      `)}
-     ${button("Ga naar mijn account", `${BRAND.siteUrl}/account`)}
-     ${signature()}`,
-    `Welkom bij Vino per Lei, ${firstName} — je account is klaar`
+     ${button("Ga naar mijn account", `${brand.siteUrl}/account`)}
+     ${signature(brand)}`,
+    `Welkom bij ${brand.siteName}, ${firstName} -- je account is klaar`
   );
 
   const text = `Welkom, ${firstName}!
 
-Je account bij Vino per Lei is aangemaakt. Met je account kun je:
+Je account bij ${brand.siteName} is aangemaakt. Met je account kun je:
 - Bestellingen bekijken en volgen
 - Adressen beheren voor sneller afrekenen
 - Verlanglijstje synchroniseren
 
-Ga naar je account: ${BRAND.siteUrl}/account
+Ga naar je account: ${brand.siteUrl}/account
 
 Met warme groet,
-Carla Daniels
-Vino per Lei`;
+${brand.ownerName}
+${brand.siteName}`;
 
-  return { subject: `Welkom bij Vino per Lei, ${firstName}!`, html, text };
+  return { subject: `Welkom bij ${brand.siteName}, ${firstName}!`, html, text };
 }
 
-export function stockNotificationEmail(
+export async function stockNotificationEmail(
   productTitle: string,
   productHandle: string,
   productImageUrl?: string,
   productPrice?: string
-): { subject: string; html: string; text: string } {
-  const productUrl = `${BRAND.siteUrl}/wijnen/${productHandle}`;
+): Promise<{ subject: string; html: string; text: string }> {
+  const brand = await getEmailBrand();
+  const productUrl = `${brand.siteUrl}/wijnen/${productHandle}`;
 
   const html = emailWrapper(
+    brand,
     `${heading("Goed nieuws!")}
-     ${paragraph("De wijn waar je op wachtte is weer beschikbaar. Bestel snel — onze Italiaanse wijnen zijn vaak snel uitverkocht.")}
+     ${paragraph("De wijn waar je op wachtte is weer beschikbaar. Bestel snel -- onze Italiaanse wijnen zijn vaak snel uitverkocht.")}
      ${productCard({
        title: productTitle,
        imageUrl: productImageUrl,
@@ -372,9 +416,9 @@ export function stockNotificationEmail(
        label: "Weer op voorraad",
      })}
      ${button("Nu bestellen", productUrl)}
-     ${paragraph(`Of <a href="${BRAND.siteUrl}/wijnen" style="color:${BRAND.gold};text-decoration:none;font-weight:600;">bekijk alle wijnen</a> in onze collectie.`)}
-     ${signature()}`,
-    `${productTitle} is weer op voorraad bij Vino per Lei — bestel nu`
+     ${paragraph(`Of <a href="${brand.siteUrl}/wijnen" style="color:${BRAND.gold};text-decoration:none;font-weight:600;">bekijk alle wijnen</a> in onze collectie.`)}
+     ${signature(brand)}`,
+    `${productTitle} is weer op voorraad bij ${brand.siteName} -- bestel nu`
   );
 
   const text = `Goed nieuws!
@@ -385,24 +429,26 @@ ${productPrice ? `Prijs: ${productPrice}` : ""}
 Bekijk en bestel: ${productUrl}
 
 Met warme groet,
-Carla Daniels
-Vino per Lei`;
+${brand.ownerName}
+${brand.siteName}`;
 
   return { subject: `${productTitle} is weer op voorraad`, html, text };
 }
 
-export function abandonedCartEmail(opts: {
+export async function abandonedCartEmail(opts: {
   firstName?: string;
   checkoutUrl: string;
   productTitle?: string;
   productImageUrl?: string;
-}): { subject: string; html: string; text: string } {
+}): Promise<{ subject: string; html: string; text: string }> {
+  const brand = await getEmailBrand();
   const greeting = opts.firstName ? `Hoi ${opts.firstName}` : "Hoi";
   const productTitle = opts.productTitle || "je selectie";
 
   const html = emailWrapper(
+    brand,
     `${heading(`${greeting}, je winkelmand staat nog klaar`)}
-     ${paragraph("Je was bezig met een bestelling bij Vino per Lei. We bewaren je winkelmand nog even, zodat je later rustig kunt afronden.")}
+     ${paragraph(`Je was bezig met een bestelling bij ${brand.siteName}. We bewaren je winkelmand nog even, zodat je later rustig kunt afronden.`)}
      ${productCard({
        title: productTitle,
        imageUrl: opts.productImageUrl,
@@ -410,22 +456,22 @@ export function abandonedCartEmail(opts: {
        label: "Nog in je winkelmand",
      })}
      ${button("Rond je bestelling af", opts.checkoutUrl)}
-     ${paragraph(`Twijfel je nog over een wijn? Mail Carla via <a href="mailto:info@vinoperlei.nl" style="color:${BRAND.gold};text-decoration:none;font-weight:600;">info@vinoperlei.nl</a>, dan denkt ze met je mee.`)}
-     ${signature()}`,
-    "Je winkelmand bij Vino per Lei staat nog klaar"
+     ${paragraph(`Twijfel je nog over een wijn? Mail ${brand.ownerName} via <a href="mailto:info@vinoperlei.nl" style="color:${BRAND.gold};text-decoration:none;font-weight:600;">info@vinoperlei.nl</a>, dan denkt ze met je mee.`)}
+     ${signature(brand)}`,
+    `Je winkelmand bij ${brand.siteName} staat nog klaar`
   );
 
   const text = `${greeting}, je winkelmand staat nog klaar.
 
-Je was bezig met een bestelling bij Vino per Lei. We bewaren je winkelmand nog even, zodat je later rustig kunt afronden.
+Je was bezig met een bestelling bij ${brand.siteName}. We bewaren je winkelmand nog even, zodat je later rustig kunt afronden.
 
 Rond je bestelling af: ${opts.checkoutUrl}
 
-Twijfel je nog over een wijn? Mail Carla via info@vinoperlei.nl.
+Twijfel je nog over een wijn? Mail ${brand.ownerName} via info@vinoperlei.nl.
 
 Met warme groet,
-Carla Daniels
-Vino per Lei`;
+${brand.ownerName}
+${brand.siteName}`;
 
   return { subject: SHOPIFY_NOTIFICATION_SUBJECTS_NL.abandonedCheckout, html, text };
 }

@@ -201,7 +201,8 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
               </div>
             </div>
 
-            {/* Allergeninformatie â€” EU LMIV 1169/2011 */}
+            {/* Allergeninformatie — EU LMIV 1169/2011 */}
+            {allergenText && (
             <div className="bg-gold/5 border border-gold/20 rounded-lg p-4 mt-4">
               <div className="flex items-center gap-2 mb-1">
                 <AlertTriangle className="w-4 h-4 text-gold" strokeWidth={1.5} />
@@ -209,6 +210,7 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
               </div>
               <p className="text-sm text-wine/60">{allergenText}</p>
             </div>
+            )}
           </div>
         </div>
       </Section>
@@ -225,7 +227,8 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
             <span className="text-xs text-grey">{t("product.delivery.mobile")}</span>
           </div>
         </div>
-        {/* Allergeninformatie â€” EU LMIV 1169/2011 */}
+        {/* Allergeninformatie — EU LMIV 1169/2011 */}
+        {allergenText && (
         <div className="mt-2 mx-4 p-3 bg-gold/5 border border-gold/20 rounded-lg">
           <div className="flex items-center gap-1.5 mb-0.5">
             <AlertTriangle className="w-4 h-4 text-gold flex-shrink-0" strokeWidth={1.5} />
@@ -233,6 +236,7 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
           </div>
           <p className="text-xs text-wine/60">{allergenText}</p>
         </div>
+        )}
       </div>
 
       {/* Food Pairing Gallery */}
@@ -259,7 +263,8 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
           </div>
           <WineDetailsAccordion product={product} />
 
-          {/* Allergeninformatie â€” EU LMIV 1169/2011 */}
+          {/* Allergeninformatie — EU LMIV 1169/2011 */}
+          {allergenText && (
           <div className="mt-6 p-4 bg-gold/5 border border-gold/20 rounded-lg flex items-start gap-3">
             <AlertTriangle className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" strokeWidth={1.5} />
             <div>
@@ -267,6 +272,7 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
               <p className="text-sm text-wine/60 mt-0.5">{allergenText}</p>
             </div>
           </div>
+          )}
         </div>
       </Section>
 

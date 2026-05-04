@@ -5,12 +5,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCheckoutStore } from "@/stores/checkoutStore";
 import { cn } from "@/lib/utils";
 import { TagIcon, ChevronDownIcon, CloseIcon, LoadingSpinner } from "@/components/icons";
+import { useUiCopy } from "@/components/providers";
 
 interface DiscountCodeProps {
   className?: string;
 }
 
 export function DiscountCode({ className }: DiscountCodeProps) {
+  const t = useUiCopy();
   const [isOpen, setIsOpen] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [isApplying, setIsApplying] = useState(false);
@@ -22,7 +24,7 @@ export function DiscountCode({ className }: DiscountCodeProps) {
 
   const handleApply = async () => {
     if (!inputValue.trim()) {
-      setLocalError("Voer een kortingscode in");
+      setLocalError(t("checkout.discount.placeholder"));
       return;
     }
 
@@ -35,11 +37,11 @@ export function DiscountCode({ className }: DiscountCodeProps) {
     setIsApplying(false);
 
     if (success) {
-      setSuccessMessage("Kortingscode toegepast!");
+      setSuccessMessage(t("checkout.discount.applied"));
       setInputValue("");
       setTimeout(() => setSuccessMessage(null), 2000);
     } else {
-      setLocalError(errors.discountCode || "Ongeldige kortingscode");
+      setLocalError(errors.discountCode || t("checkout.discount.invalid"));
     }
   };
 
@@ -94,7 +96,7 @@ export function DiscountCode({ className }: DiscountCodeProps) {
         className="flex items-center gap-2 text-sm text-wine hover:text-wine-dark transition-colors"
       >
         <TagIcon className="w-4 h-4" />
-        <span>Kortingscode toevoegen</span>
+        <span>{t("checkout.discount.add")}</span>
         <motion.span
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
@@ -124,7 +126,7 @@ export function DiscountCode({ className }: DiscountCodeProps) {
                       setLocalError(null);
                     }}
                     onKeyDown={handleKeyDown}
-                    placeholder="Voer code in"
+                    placeholder={t("checkout.discount.input")}
                     className={cn(
                       "w-full h-10 px-3 border rounded text-sm uppercase",
                       "focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-transparent",
@@ -148,7 +150,7 @@ export function DiscountCode({ className }: DiscountCodeProps) {
                   {isApplying ? (
                     <LoadingSpinner className="w-4 h-4" />
                   ) : (
-                    "Toepassen"
+                    t("checkout.discount.apply")
                   )}
                 </button>
               </div>

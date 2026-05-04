@@ -261,10 +261,12 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
                   <span className="w-1 h-1 rounded-full bg-sand" />
                 </>
               )}
+              {(product.region || product.country) && (
               <span className="flex items-center gap-1.5">
                 <MapPin className="w-3.5 h-3.5 text-wine/60" strokeWidth={1.5} />
                 {[product.region, product.country].filter(Boolean).join(', ')}
               </span>
+              )}
             </div>
 
             {/* Rating - More prominent */}

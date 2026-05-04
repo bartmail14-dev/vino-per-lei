@@ -14,41 +14,52 @@ const recipients = (process.env.EMAIL_TEST_RECIPIENTS ?? "")
   .map((value) => value.trim())
   .filter(Boolean);
 
-const templates = [
-  { key: "newsletter", build: () => newsletterWelcomeEmail() },
-  { key: "contact", build: () => contactConfirmationEmail("Carla") },
-  {
-    key: "notify-me",
-    build: () =>
-      notifyMeConfirmationEmail(
-        "Amarone della Valpolicella DOCG 2018",
-        "https://vino-per-lei.vercel.app/images/products/amarone-della-valpolicella-2018.png",
-        "amarone-della-valpolicella-2018"
-      ),
-  },
-  { key: "account-welcome", build: () => accountWelcomeEmail("Carla") },
-  {
-    key: "stock-notification",
-    build: () =>
-      stockNotificationEmail(
-        "Montaribaldi Barolo DOCG 2019",
-        "montaribaldi-barolo-2019",
-        "https://vino-per-lei.vercel.app/images/products/montaribaldi-barolo-2019.png",
-        "€ 42,00"
-      ),
-  },
-  {
-    key: "abandoned-cart",
-    build: () =>
-      abandonedCartEmail({
-        firstName: "Carla",
-        checkoutUrl: "https://vinoperlei.nl/wijnen",
-        productTitle: "Montaribaldi Barolo DOCG 2019",
-        productImageUrl:
-          "https://vino-per-lei.vercel.app/images/products/montaribaldi-barolo-2019.png",
-      }),
-  },
-] as const;
+import { getProducts } from "../src/lib/shopify";
+import { getSiteSettings } from "../src/lib/shopify-cms";
+import { formatPrice } from "../src/lib/utils";
+
+async function getTemplates() {
+  const [products, settings] = await Promise.all([getProducts(3), getSiteSettings()]);
+  const p0 = products[0];
+  const p1 = products[1] ?? p0;
+  const ownerName = settings?.ownerName || "Carla";
+  const siteUrl = settings?.siteUrl || "https://vinoperlei.nl";
+
+  return [
+    { key: "newsletter", build: () => newsletterWelcomeEmail() },
+    { key: "contact", build: () => contactConfirmationEmail(ownerName) },
+    {
+      key: "notify-me",
+      build: () =>
+        notifyMeConfirmationEmail(
+          p0?.title ?? "Wijn",
+          p0?.images?.[0]?.url ?? "",
+          p0?.handle ?? ""
+        ),
+    },
+    { key: "account-welcome", build: () => accountWelcomeEmail(ownerName) },
+    {
+      key: "stock-notification",
+      build: () =>
+        stockNotificationEmail(
+          p1?.title ?? "Wijn",
+          p1?.handle ?? "",
+          p1?.images?.[0]?.url ?? "",
+          p1 ? formatPrice(p1.price) : "€ 0,00"
+        ),
+    },
+    {
+      key: "abandoned-cart",
+      build: () =>
+        abandonedCartEmail({
+          firstName: ownerName,
+          checkoutUrl: siteUrl + "/wijnen",
+          productTitle: p1?.title ?? "Wijn",
+          productImageUrl: p1?.images?.[0]?.url ?? "",
+        }),
+    },
+  ];
+}
 
 async function main() {
   if (recipients.length === 0) {
@@ -61,9 +72,10 @@ async function main() {
     process.exit(1);
   }
 
+  const templates = await getTemplates();
   for (const recipient of recipients) {
     for (const template of templates) {
-      const email = template.build();
+      const email = await template.build();
       const ok = await sendMail({
         to: recipient,
         subject: `[TEST ${template.key}] ${email.subject}`,

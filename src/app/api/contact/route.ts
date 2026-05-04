@@ -70,7 +70,7 @@ export async function POST(request: Request) {
     }
 
     // Send confirmation to sender (non-blocking)
-    const confirmation = contactConfirmationEmail(naam);
+    const confirmation = await contactConfirmationEmail(naam);
     sendMail({
       to: email,
       subject: confirmation.subject,

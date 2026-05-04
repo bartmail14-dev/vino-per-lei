@@ -8,7 +8,7 @@ import { LoginModal } from "@/components/auth";
 import { SmoothScrollProvider, ShopConfigProvider, UiCopyProvider, PostHogProvider, GoogleAnalytics } from "@/components/providers";
 import { CookieConsent } from "@/components/ui/CookieConsent";
 import { ExitIntentModal } from "@/components/ui/ExitIntentModal";
-import { getShopConfig, getUiCopy } from "@/lib/shopify-cms";
+import { getShopConfig, getUiCopy, getSiteSettings } from "@/lib/shopify-cms";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -25,48 +25,57 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL("https://vinoperlei.nl"),
-  title: "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
-  description:
-    "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
-  keywords: ["Italiaanse wijn", "Barolo", "Amarone", "Chianti", "Prosecco", "wijn cadeau", "wijnimport"],
-  authors: [{ name: "Vino per Lei" }],
-  openGraph: {
+const FALLBACK_DESCRIPTION = "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.";
+const FALLBACK_KEYWORDS = ["Italiaanse wijn", "Barolo", "Amarone", "Chianti", "Prosecco", "wijn cadeau", "wijnimport"];
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  const description = settings?.seoDescription || FALLBACK_DESCRIPTION;
+  const keywords = settings?.seoKeywords
+    ? settings.seoKeywords.split(",").map((k) => k.trim()).filter(Boolean)
+    : FALLBACK_KEYWORDS;
+
+  return {
+    metadataBase: new URL("https://vinoperlei.nl"),
     title: "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
-    description: "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Persoonlijk geselecteerd, rechtstreeks geïmporteerd.",
-    type: "website",
-    locale: "nl_NL",
-    siteName: "Vino per Lei",
-    url: "https://vinoperlei.nl",
-    images: [
-      {
-        url: "/hero-banner.webp",
-        width: 1200,
-        height: 630,
-        alt: "Vino per Lei — Italiaanse wijnen rechtstreeks van de producent",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
-    description:
-      "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
-  },
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    noarchive: true,
-  },
-  verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
-  },
-};
+    description,
+    keywords,
+    authors: [{ name: "Vino per Lei" }],
+    openGraph: {
+      title: "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
+      description,
+      type: "website",
+      locale: "nl_NL",
+      siteName: "Vino per Lei",
+      url: "https://vinoperlei.nl",
+      images: [
+        {
+          url: "/hero-banner.webp",
+          width: 1200,
+          height: 630,
+          alt: "Vino per Lei -- Italiaanse wijnen rechtstreeks van de producent",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
+      description,
+    },
+    icons: {
+      icon: "/logo.png",
+      apple: "/logo.png",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      noarchive: true,
+    },
+    verification: {
+      google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || undefined,
+    },
+  };
+}
 
 export const viewport: Viewport = {
   width: "device-width",

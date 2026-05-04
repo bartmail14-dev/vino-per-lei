@@ -52,6 +52,7 @@ function FilterAccordion({
   onFilterChange,
   defaultOpen = true,
 }: FilterAccordionProps) {
+  const t = useUiCopy();
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [showAll, setShowAll] = useState(false);
 
@@ -125,7 +126,7 @@ function FilterAccordion({
                   className="text-sm text-gold hover:text-gold-light font-medium mt-2 ml-1 flex items-center gap-1 transition-colors"
                 >
                   {showAll ? (
-                    <>Toon minder</>
+                    <>{t("filter.show_less")}</>
                   ) : (
                     <>
                       <span>+</span> {group.options.length - 6} meer

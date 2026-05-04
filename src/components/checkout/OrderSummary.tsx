@@ -6,22 +6,25 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/stores/cartStore";
 import { useCheckoutStore } from "@/stores/checkoutStore";
 import { formatPrice, cn, wineImagePresets } from "@/lib/utils";
-import { GIFT_WRAPPING_COST } from "@/types/checkout";
 import { DiscountCode } from "./DiscountCode";
 import { TrustSignals } from "./TrustSignals";
 import { ChevronDownIcon } from "@/components/icons";
+import { useUiCopy } from "@/components/providers";
+import { useShopConfig } from "@/components/providers/ShopConfigProvider";
 
 interface OrderSummaryProps {
   className?: string;
 }
 
 export function OrderSummary({ className }: OrderSummaryProps) {
+  const t = useUiCopy();
   const { items, subtotal } = useCartStore();
   const { shipping, gift, discountApplied } = useCheckoutStore();
+  const { giftWrappingCost } = useShopConfig();
   const [isExpanded, setIsExpanded] = useState(true);
 
   // Calculate totals
-  const giftCost = gift.wrapping ? GIFT_WRAPPING_COST : 0;
+  const giftCost = gift.wrapping ? giftWrappingCost : 0;
   const shippingCost = shipping.cost;
 
   const discountAmount = discountApplied
@@ -44,7 +47,7 @@ export function OrderSummary({ className }: OrderSummaryProps) {
         onClick={() => setIsExpanded(!isExpanded)}
         className="w-full flex items-center justify-between mb-4 lg:cursor-default"
       >
-        <h2 className="font-serif text-xl font-semibold">Bestelling</h2>
+        <h2 className="font-serif text-xl font-semibold">{t("checkout.order_title")}</h2>
         <div className="flex items-center gap-2">
           <span className="text-sm text-grey">{items.length} artikelen</span>
           <ChevronDownIcon
@@ -102,7 +105,7 @@ export function OrderSummary({ className }: OrderSummaryProps) {
             {/* Price breakdown */}
             <div className="space-y-2 text-sm border-t border-sand pt-4">
               <div className="flex justify-between">
-                <span className="text-grey">Subtotaal</span>
+                <span className="text-grey">{t("checkout.subtotal")}</span>
                 <span className="text-charcoal">{formatPrice(subtotal)}</span>
               </div>
 
@@ -115,24 +118,24 @@ export function OrderSummary({ className }: OrderSummaryProps) {
 
               {gift.wrapping && (
                 <div className="flex justify-between">
-                  <span className="text-grey">Geschenkverpakking</span>
+                  <span className="text-grey">{t("checkout.gift_wrapping")}</span>
                   <span className="text-charcoal">{formatPrice(giftCost)}</span>
                 </div>
               )}
 
               <div className="flex justify-between">
-                <span className="text-grey">Verzending</span>
+                <span className="text-grey">{t("checkout.shipping")}</span>
                 <span className="text-charcoal">
                   {formatPrice(shippingCost)}
                 </span>
               </div>
 
               <div className="flex justify-between pt-2 border-t border-sand text-base font-semibold">
-                <span>Totaal</span>
+                <span>{t("checkout.total")}</span>
                 <span className="text-wine">{formatPrice(total)}</span>
               </div>
 
-              <p className="text-xs text-grey pt-1">Inclusief BTW</p>
+              <p className="text-xs text-grey pt-1">{t("checkout.incl_btw")}</p>
             </div>
 
             {/* Trust signals */}
@@ -144,7 +147,7 @@ export function OrderSummary({ className }: OrderSummaryProps) {
       {/* Mobile collapsed view - always show total */}
       {!isExpanded && (
         <div className="lg:hidden flex justify-between font-semibold">
-          <span>Totaal</span>
+          <span>{t("checkout.total")}</span>
           <span className="text-wine">{formatPrice(total)}</span>
         </div>
       )}

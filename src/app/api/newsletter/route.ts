@@ -83,7 +83,7 @@ export async function POST(request: Request) {
     }
 
     // Send welcome email (non-blocking)
-    const welcome = newsletterWelcomeEmail();
+    const welcome = await newsletterWelcomeEmail();
     sendMail({
       to: email,
       subject: welcome.subject,

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCartStore } from "@/stores/cartStore";
 import { formatPrice } from "@/lib/utils";
+import { useUiCopy } from "@/components/providers";
 
 const SESSION_KEY = "vpl_exit_intent_shown";
 
@@ -14,6 +15,7 @@ export function ExitIntentModal() {
   const subtotal = useCartStore((state) => state.subtotal);
   const openCart = useCartStore((state) => state.openCart);
   const isHydrated = useCartStore((state) => state.isHydrated);
+  const t = useUiCopy();
 
   const handleOpen = useCallback(() => {
     if (
@@ -96,10 +98,10 @@ export function ExitIntentModal() {
               {/* Header — wine gradient */}
               <div className="bg-[linear-gradient(135deg,#1a1f3d_0%,#2d1b3d_50%,#1a1f3d_100%)] px-6 py-5 text-center">
                 <p className="text-gold/70 text-xs uppercase tracking-[0.2em] font-medium mb-1">
-                  Wacht even
+                  {t("exit.title_pre")}
                 </p>
                 <h2 className="font-serif text-xl sm:text-2xl font-semibold text-white leading-snug">
-                  Je hebt nog wijnen<br />in je mandje
+                  {t("exit.title")}
                 </h2>
               </div>
 
@@ -109,7 +111,7 @@ export function ExitIntentModal() {
                 <div className="bg-white rounded-xl border border-sand/50 p-4 mb-4">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm text-grey">
-                      {itemCount} {itemCount === 1 ? "fles" : "flessen"}
+                      {itemCount} {itemCount === 1 ? t("exit.bottle_singular") : t("exit.bottle_plural")}
                     </span>
                     <span className="font-serif font-semibold text-charcoal">
                       {formatPrice(subtotal)}
@@ -138,7 +140,7 @@ export function ExitIntentModal() {
                   onClick={handleGoToCart}
                   className="w-full h-12 min-h-[44px] bg-gold hover:bg-gold/90 text-wine-dark font-bold uppercase tracking-wider text-sm rounded-lg transition-all duration-200 shadow-md shadow-gold/20 hover:shadow-lg hover:shadow-gold/30 active:scale-[0.98]"
                 >
-                  Bekijk winkelmand
+                  {t("exit.view_cart")}
                 </button>
 
                 {/* Dismiss */}
@@ -146,7 +148,7 @@ export function ExitIntentModal() {
                   onClick={handleDismiss}
                   className="w-full mt-3 h-10 min-h-[44px] text-sm text-grey hover:text-charcoal transition-colors"
                 >
-                  Ik ga verder met rondkijken
+                  {t("exit.continue")}
                 </button>
               </div>
 
@@ -156,7 +158,7 @@ export function ExitIntentModal() {
                   onClick={handleDontShowAgain}
                   className="w-full text-xs text-grey/50 hover:text-grey transition-colors underline underline-offset-2"
                 >
-                  Niet meer tonen
+                  {t("exit.dont_show")}
                 </button>
               </div>
             </div>

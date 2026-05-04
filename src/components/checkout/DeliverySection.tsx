@@ -4,12 +4,14 @@ import { useCheckoutStore } from "@/stores/checkoutStore";
 import { addressSchema, validateSection } from "@/lib/validation";
 import { Input, Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
+import { useUiCopy } from "@/components/providers";
 
 interface DeliverySectionProps {
   onComplete: () => void;
 }
 
 export function DeliverySection({ onComplete }: DeliverySectionProps) {
+  const t = useUiCopy();
   const { address, setAddress, errors, setError, clearError } = useCheckoutStore();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -52,7 +54,7 @@ export function DeliverySection({ onComplete }: DeliverySectionProps) {
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Street and house number */}
       <Input
-        label="Straatnaam"
+        label={t("checkout.delivery.street")}
         value={address.street}
         onChange={(e) => {
           setAddress({ street: e.target.value });
@@ -66,7 +68,7 @@ export function DeliverySection({ onComplete }: DeliverySectionProps) {
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="Huisnummer"
+          label={t("checkout.delivery.house_number")}
           value={address.houseNumber}
           onChange={handleHouseNumberChange}
           error={errors["address.houseNumber"]}
@@ -76,7 +78,7 @@ export function DeliverySection({ onComplete }: DeliverySectionProps) {
         />
 
         <Input
-          label="Toevoeging (optioneel)"
+          label={t("checkout.delivery.addition")}
           value={address.addition}
           onChange={(e) => setAddress({ addition: e.target.value })}
           placeholder="A, bis, etc."
@@ -86,7 +88,7 @@ export function DeliverySection({ onComplete }: DeliverySectionProps) {
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="Postcode"
+          label={t("checkout.delivery.postcode")}
           value={address.postcode}
           onChange={handlePostcodeChange}
           error={errors["address.postcode"]}
@@ -97,7 +99,7 @@ export function DeliverySection({ onComplete }: DeliverySectionProps) {
         />
 
         <Input
-          label="Plaats"
+          label={t("checkout.delivery.city")}
           value={address.city}
           onChange={(e) => {
             setAddress({ city: e.target.value });
@@ -114,10 +116,10 @@ export function DeliverySection({ onComplete }: DeliverySectionProps) {
       <div className={cn("p-3 bg-warm-white rounded-lg")}>
         <div className="flex items-center gap-2">
           <span className="text-lg">🇳🇱</span>
-          <span className="text-sm text-charcoal">Nederland</span>
+          <span className="text-sm text-charcoal">{t("checkout.delivery.country")}</span>
         </div>
         <p className="text-xs text-grey mt-1">
-          Momenteel verzenden we alleen binnen Nederland
+          {t("checkout.delivery.country_note")}
         </p>
       </div>
 
@@ -128,7 +130,7 @@ export function DeliverySection({ onComplete }: DeliverySectionProps) {
           fullWidth
           disabled={!hasRequiredFields}
         >
-          Doorgaan naar cadeau-opties
+          {t("checkout.delivery.continue")}
         </Button>
       </div>
     </form>

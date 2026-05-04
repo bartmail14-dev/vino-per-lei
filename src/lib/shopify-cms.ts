@@ -36,6 +36,12 @@ export interface SiteSettings {
   hoursSunday: string;
   freeShippingThreshold: number;
   shippingCost: number;
+  shippingCostTemperature: number;
+  giftWrappingCost: number;
+  siteUrl: string;
+  logoUrl: string;
+  seoDescription: string;
+  seoKeywords: string;
 }
 
 export interface HeroContent {
@@ -146,6 +152,8 @@ export interface HomeStatCMS {
 export interface ShopConfig {
   freeShippingThreshold: number;
   shippingCost: number;
+  shippingCostTemperature: number;
+  giftWrappingCost: number;
 }
 
 export interface UiCopyItem {
@@ -257,6 +265,12 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     hoursSunday: f.hours_sunday || "",
     freeShippingThreshold: parseNumber(f.gratis_verzending_drempel),
     shippingCost: parseNumber(f.verzendkosten),
+    shippingCostTemperature: parseNumber(f.shipping_cost_temperature),
+    giftWrappingCost: parseNumber(f.gift_wrapping_cost),
+    siteUrl: f.site_url || "",
+    logoUrl: f.logo_url || "",
+    seoDescription: f.seo_description || "",
+    seoKeywords: f.seo_keywords || "",
   }));
 }
 
@@ -614,5 +628,7 @@ export async function getShopConfig(): Promise<ShopConfig> {
   return {
     freeShippingThreshold: settings?.freeShippingThreshold ?? 0,
     shippingCost: settings?.shippingCost ?? 0,
+    shippingCostTemperature: settings?.shippingCostTemperature ?? 0,
+    giftWrappingCost: settings?.giftWrappingCost ?? 0,
   };
 }

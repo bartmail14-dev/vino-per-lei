@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { CheckIcon, ChevronDownIcon } from "@/components/icons";
+import { useUiCopy } from "@/components/providers";
 
 interface AccordionSectionProps {
   id: string;
@@ -27,6 +28,7 @@ export function AccordionSection({
   onEdit,
   children,
 }: AccordionSectionProps) {
+  const t = useUiCopy();
   return (
     <div
       className={cn(
@@ -76,7 +78,7 @@ export function AccordionSection({
 
         {/* Edit button for completed sections */}
         {isCompleted && !isActive && (
-          <span className="text-sm text-wine font-medium">Wijzigen</span>
+          <span className="text-sm text-wine font-medium">{t("checkout.section.edit")}</span>
         )}
 
         {/* Chevron */}

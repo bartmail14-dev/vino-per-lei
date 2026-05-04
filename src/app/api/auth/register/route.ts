@@ -52,7 +52,7 @@ export async function POST(request: Request) {
 
     // Send welcome email (non-blocking)
     if (isMailgunConfigured()) {
-      const template = accountWelcomeEmail(firstName);
+      const template = await accountWelcomeEmail(firstName);
       sendMail({
         to: email,
         subject: template.subject,

@@ -7,6 +7,7 @@ import { ArrowRightIcon, MapPinIcon } from "@/components/icons";
 import { regionNameToSlug } from "@/lib/region-utils";
 import { cn } from "@/lib/utils";
 import type { Product } from "@/types";
+import { useUiCopy } from "@/components/providers";
 
 const ItalyWineMap = dynamic(
   () => import("@/components/map").then((mod) => mod.ItalyWineMap),
@@ -20,6 +21,7 @@ interface RegionSpotlightProps {
 }
 
 export function RegionSpotlight({ product, className, activeRegionSlugs }: RegionSpotlightProps) {
+  const t = useUiCopy();
   if (!product.region) return null;
 
   const slug = regionNameToSlug(product.region);
@@ -53,7 +55,7 @@ export function RegionSpotlight({ product, className, activeRegionSlugs }: Regio
           >
             <div className="flex items-center gap-2 mb-4">
               <MapPinIcon className="w-5 h-5 text-wine" />
-              <span className="text-sm text-grey uppercase tracking-wider">Regio</span>
+              <span className="text-sm text-grey uppercase tracking-wider">{t("region.label")}</span>
             </div>
 
             <h2 className="font-serif text-3xl sm:text-4xl font-semibold text-charcoal mb-6">

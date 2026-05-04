@@ -9,6 +9,8 @@ import {
   EMAIL_LIVEGANG_TEST_SCENARIOS,
   SHOPIFY_NOTIFICATION_SUBJECTS_NL,
 } from "@/lib/email-templates";
+import { getProducts } from "@/lib/shopify";
+import { formatPrice } from "@/lib/utils";
 
 /**
  * Email template preview route.
@@ -36,40 +38,44 @@ export async function GET(request: Request) {
     });
   }
 
+  // Fetch real products from Shopify for preview data
+  const products = await getProducts(3);
+  const p0 = products[0];
+  const p1 = products[1] ?? products[0];
+
   let result: { subject: string; html: string; text: string };
 
   switch (template) {
     case "newsletter":
-      result = newsletterWelcomeEmail();
+      result = await newsletterWelcomeEmail();
       break;
     case "contact":
-      result = contactConfirmationEmail("Bart");
+      result = await contactConfirmationEmail("Bart");
       break;
     case "notify-me":
-      result = notifyMeConfirmationEmail(
-        "Amarone della Valpolicella DOCG 2018",
-        "https://cdn.shopify.com/s/files/1/0958/7150/0615/files/amarone-valpolicella.png?v=1772204755&width=400&height=600&crop=center",
-        "amarone-della-valpolicella-2018"
+      result = await notifyMeConfirmationEmail(
+        p0.title,
+        p0.images[0]?.url ?? "",
+        p0.handle
       );
       break;
     case "account-welcome":
-      result = accountWelcomeEmail("Bart");
+      result = await accountWelcomeEmail("Bart");
       break;
     case "stock-notification":
-      result = stockNotificationEmail(
-        "Montaribaldi Barolo DOCG 2019",
-        "montaribaldi-barolo-2019",
-        "https://cdn.shopify.com/s/files/1/0958/7150/0615/files/montaribaldi-barolo.png?v=1772204755&width=400&height=600&crop=center",
-        "€ 42,00"
+      result = await stockNotificationEmail(
+        p1.title,
+        p1.handle,
+        p1.images[0]?.url ?? "",
+        formatPrice(p1.price)
       );
       break;
     case "abandoned-cart":
-      result = abandonedCartEmail({
+      result = await abandonedCartEmail({
         firstName: "Carla",
         checkoutUrl: "https://vinoperlei.nl/wijnen",
-        productTitle: "Montaribaldi Barolo DOCG 2019",
-        productImageUrl:
-          "https://cdn.shopify.com/s/files/1/0958/7150/0615/files/montaribaldi-barolo.png?v=1772204755&width=400&height=600&crop=center",
+        productTitle: p1.title,
+        productImageUrl: p1.images[0]?.url ?? "",
       });
       break;
     default:

@@ -14,8 +14,10 @@ import {
   Loader2,
   CheckCircle2,
 } from "lucide-react";
+import { useUiCopy } from "@/components/providers";
 
 function LoginForm() {
+  const t = useUiCopy();
   const { login, isLoading, authError, setAuthView } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -86,10 +88,10 @@ function LoginForm() {
         {isLoading ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" />
-            Inloggen...
+            {t("auth.login")}...
           </>
         ) : (
-          "Inloggen"
+          t("auth.login")
         )}
       </button>
 
@@ -106,7 +108,7 @@ function LoginForm() {
           onClick={() => setAuthView("register")}
           className="text-wine font-medium hover:text-wine-dark transition-colors"
         >
-          Account aanmaken
+          {t("auth.register")}
         </button>
       </div>
     </form>
@@ -114,6 +116,7 @@ function LoginForm() {
 }
 
 function RegisterForm() {
+  const t = useUiCopy();
   const { register, isLoading, authError, setAuthView } = useAuthStore();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -195,7 +198,7 @@ function RegisterForm() {
             minLength={8}
             autoComplete="new-password"
             className="w-full pl-10 pr-12 py-3 border border-sand rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-wine/20 focus:border-wine transition-colors"
-            placeholder="Minimaal 8 tekens"
+            placeholder={t("auth.password_min")}
           />
           <button
             type="button"
@@ -206,7 +209,7 @@ function RegisterForm() {
             {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
           </button>
         </div>
-        <p className="mt-1 text-xs text-grey">Minimaal 8 tekens</p>
+        <p className="mt-1 text-xs text-grey">{t("auth.password_min")}</p>
       </div>
 
       {authError && (
@@ -221,21 +224,21 @@ function RegisterForm() {
         {isLoading ? (
           <>
             <Loader2 className="w-4 h-4 animate-spin" />
-            Account aanmaken...
+            {t("auth.register")}...
           </>
         ) : (
-          "Account aanmaken"
+          t("auth.register")
         )}
       </button>
 
       <p className="text-center text-sm text-grey">
-        Heb je al een account?{" "}
+        {t("auth.has_account")}{" "}
         <button
           type="button"
           onClick={() => setAuthView("login")}
           className="text-wine font-medium hover:text-wine-dark transition-colors"
         >
-          Inloggen
+          {t("auth.login")}
         </button>
       </p>
     </form>

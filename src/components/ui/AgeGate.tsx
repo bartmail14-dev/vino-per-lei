@@ -5,6 +5,7 @@ import { Logo } from "@/components/ui/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import Cookies from "js-cookie";
 import { cn } from "@/lib/utils";
+import { useUiCopy } from "@/components/providers";
 
 const COOKIE_NAME = "vpl_age_verified";
 const COOKIE_EXPIRY = 30; // days
@@ -14,6 +15,7 @@ export interface AgeGateProps {
 }
 
 export function AgeGate({ onVerified }: AgeGateProps) {
+  const t = useUiCopy();
   // State: null = not checked yet, true = show gate, false = verified
   const [gateState, setGateState] = useState<boolean | null>(null);
   const [isExiting, setIsExiting] = useState(false);
@@ -120,7 +122,7 @@ export function AgeGate({ onVerified }: AgeGateProps) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.5 }}
             >
-              Ben je 18 jaar of ouder?
+              {t("agegate.title")}
             </motion.h2>
             <motion.p
               className="text-sm text-white/50 mb-10 max-w-xs"
@@ -128,7 +130,7 @@ export function AgeGate({ onVerified }: AgeGateProps) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.55, duration: 0.5 }}
             >
-              Je moet 18+ zijn om deze website te bezoeken
+              {t("agegate.subtitle")}
             </motion.p>
 
             {/* Buttons */}
@@ -149,7 +151,7 @@ export function AgeGate({ onVerified }: AgeGateProps) {
                   "focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2 focus:ring-offset-transparent"
                 )}
               >
-                Ja, ik ben 18+
+                {t("agegate.confirm")}
               </button>
 
               <button
@@ -163,7 +165,7 @@ export function AgeGate({ onVerified }: AgeGateProps) {
                   "focus:outline-none focus:ring-2 focus:ring-white/30"
                 )}
               >
-                Nee, ik ben jonger
+                {t("agegate.deny")}
               </button>
             </motion.div>
           </motion.div>
@@ -175,16 +177,7 @@ export function AgeGate({ onVerified }: AgeGateProps) {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 0.5 }}
           >
-            Door verder te gaan bevestig je dat je 18 jaar of ouder bent en
-            accepteer je onze{" "}
-            <a
-              href="/voorwaarden"
-              className="underline hover:text-white/50 transition-colors"
-              onClick={(e) => e.stopPropagation()}
-            >
-              gebruiksvoorwaarden
-            </a>
-            .
+            {t("agegate.legal")}
           </motion.p>
         </motion.div>
       )}

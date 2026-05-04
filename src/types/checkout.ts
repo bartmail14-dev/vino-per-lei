@@ -96,16 +96,6 @@ export interface OrderResult {
   redirectUrl?: string;
 }
 
-// Shipping costs
-export const SHIPPING_COSTS: Record<ShippingMethod, number> = {
-  standard: 7.95,
-  temperature: 7.90,
-};
-
-// Re-export from cart to avoid duplication
-// FREE_SHIPPING_THRESHOLD is defined in cart.ts
-export const GIFT_WRAPPING_COST = 2.95;
-
 // iDEAL banks
 export const IDEAL_BANKS = [
   { value: "abn_amro", label: "ABN AMRO" },

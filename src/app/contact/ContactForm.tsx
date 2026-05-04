@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { z } from "zod";
+import { useUiCopy } from "@/components/providers";
 
 /** Read the CSRF token from the vpl_csrf cookie (set by middleware, SameSite=Lax). */
 function getCsrfToken(): string {
@@ -17,6 +18,7 @@ const contactSchema = z.object({
 });
 
 export function ContactForm() {
+  const t = useUiCopy();
   const [formData, setFormData] = useState({
     naam: "",
     email: "",
@@ -86,8 +88,10 @@ export function ContactForm() {
       {isSuccess && (
         <div className="mb-6 bg-success/10 border border-success/20 rounded-lg p-4">
           <p className="text-success font-semibold text-sm">
-            Bedankt voor je bericht! Wij nemen zo snel mogelijk contact met je
-            op.
+            {t("contact.success")}
+          </p>
+          <p className="text-success/80 text-sm mt-1">
+            {t("contact.success_desc")}
           </p>
         </div>
       )}
@@ -117,7 +121,7 @@ export function ContactForm() {
               htmlFor="naam"
               className="block text-sm font-semibold text-charcoal mb-2"
             >
-              Naam *
+              {t("contact.name_label")} *
             </label>
             <input
               type="text"
@@ -139,7 +143,7 @@ export function ContactForm() {
               htmlFor="email"
               className="block text-sm font-semibold text-charcoal mb-2"
             >
-              E-mailadres *
+              {t("contact.email_label")} *
             </label>
             <input
               type="email"
@@ -163,7 +167,7 @@ export function ContactForm() {
             htmlFor="onderwerp"
             className="block text-sm font-semibold text-charcoal mb-2"
           >
-            Onderwerp *
+            {t("contact.subject_label")} *
           </label>
           <select
             id="onderwerp"
@@ -174,14 +178,14 @@ export function ContactForm() {
             }
             className="w-full h-12 px-4 rounded-lg border border-sand bg-white text-charcoal focus:border-gold/30 focus:ring-1 focus:ring-gold/50 outline-none transition-colors"
           >
-            <option value="">Kies een onderwerp</option>
-            <option value="bestelling">Vraag over mijn bestelling</option>
+            <option value="">{t("contact.subject_label")}</option>
+            <option value="bestelling">{t("contact.subject.order")}</option>
             <option value="product">Vraag over een product</option>
             <option value="verzending">Verzending & Levering</option>
             <option value="retour">Retourneren</option>
-            <option value="wijnadvies">Wijnadvies</option>
-            <option value="zakelijk">Zakelijk / Horeca</option>
-            <option value="overig">Overig</option>
+            <option value="wijnadvies">{t("contact.subject.advice")}</option>
+            <option value="zakelijk">{t("contact.subject.business")}</option>
+            <option value="overig">{t("contact.subject.other")}</option>
           </select>
           {validationErrors.onderwerp && (
             <p className="text-red-500 text-xs mt-1">{validationErrors.onderwerp}</p>
@@ -193,7 +197,7 @@ export function ContactForm() {
             htmlFor="bericht"
             className="block text-sm font-semibold text-charcoal mb-2"
           >
-            Bericht *
+            {t("contact.message_label")} *
           </label>
           <textarea
             id="bericht"
@@ -216,7 +220,7 @@ export function ContactForm() {
           disabled={isSubmitting}
           className="inline-flex items-center justify-center h-12 px-8 bg-wine text-white text-button uppercase rounded hover:bg-wine-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isSubmitting ? "Verzenden..." : "Verstuur Bericht"}
+          {isSubmitting ? "Verzenden..." : t("contact.submit")}
         </button>
       </form>
     </>

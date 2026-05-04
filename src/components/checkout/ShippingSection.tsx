@@ -1,54 +1,58 @@
 "use client";
 
-import { useCheckoutStore, calculateEstimatedDelivery } from "@/stores/checkoutStore";
+import { useCheckoutStore, calculateEstimatedDelivery, calculateShippingCost } from "@/stores/checkoutStore";
 import { Button } from "@/components/ui";
-import { SHIPPING_COSTS, type ShippingMethod } from "@/types/checkout";
+import type { ShippingMethod } from "@/types/checkout";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { TruckIcon, ThermometerIcon, ClockIcon, SunIcon } from "@/components/icons";
+import { useUiCopy } from "@/components/providers";
+import { useShopConfig } from "@/components/providers/ShopConfigProvider";
 
 interface ShippingSectionProps {
   onComplete: () => void;
 }
 
-const shippingOptions: {
-  method: ShippingMethod;
-  title: string;
-  description: string;
-  deliveryTime: string;
-  icon: React.ReactNode;
-}[] = [
-  {
-    method: "standard",
-    title: "Standaard verzending",
-    description: "Bezorging door PostNL",
-    deliveryTime: "1-2 werkdagen",
-    icon: <TruckIcon className="w-6 h-6" />,
-  },
-  {
-    method: "temperature",
-    title: "Temperatuur-gecontroleerd",
-    description: "Gekoelde verzending voor optimale kwaliteit",
-    deliveryTime: "1-2 werkdagen",
-    icon: <ThermometerIcon className="w-6 h-6" />,
-  },
-];
-
 export function ShippingSection({ onComplete }: ShippingSectionProps) {
+  const t = useUiCopy();
   const { shipping, setShipping } = useCheckoutStore();
+  const { shippingCost, shippingCostTemperature } = useShopConfig();
+
+  const shippingOptions: {
+    method: ShippingMethod;
+    title: string;
+    description: string;
+    deliveryTime: string;
+    icon: React.ReactNode;
+  }[] = [
+    {
+      method: "standard",
+      title: t("checkout.shipping.standard_title"),
+      description: t("checkout.shipping.standard_desc"),
+      deliveryTime: t("checkout.shipping.standard_time"),
+      icon: <TruckIcon className="w-6 h-6" />,
+    },
+    {
+      method: "temperature",
+      title: t("checkout.shipping.temp_title"),
+      description: t("checkout.shipping.temp_desc"),
+      deliveryTime: t("checkout.shipping.temp_time"),
+      icon: <ThermometerIcon className="w-6 h-6" />,
+    },
+  ];
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onComplete();
   };
 
   const handleMethodChange = (method: ShippingMethod) => {
-    const cost = SHIPPING_COSTS[method];
+    const cost = calculateShippingCost(method, shippingCost, shippingCostTemperature);
     const estimatedDate = calculateEstimatedDelivery(method);
     setShipping({ method, cost, estimatedDate });
   };
 
   const getShippingPrice = (method: ShippingMethod): string => {
-    return formatPrice(SHIPPING_COSTS[method]);
+    return formatPrice(calculateShippingCost(method, shippingCost, shippingCostTemperature));
   };
 
   return (
@@ -128,7 +132,7 @@ export function ShippingSection({ onComplete }: ShippingSectionProps) {
       {shipping.estimatedDate && (
         <div className="p-3 bg-warm-white rounded-lg">
           <p className="text-sm text-grey">
-            Geschatte bezorging:{" "}
+            {t("checkout.shipping.estimated")}{" "}
             <span className="font-medium text-charcoal">
               {shipping.estimatedDate}
             </span>
@@ -141,10 +145,9 @@ export function ShippingSection({ onComplete }: ShippingSectionProps) {
         <div className="flex items-start gap-2 p-3 bg-warning/10 border border-warning/20 rounded-lg">
           <SunIcon className="w-5 h-5 text-warning flex-shrink-0 mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-charcoal">Zomertip</p>
+            <p className="text-sm font-medium text-charcoal">{t("checkout.shipping.summer_title")}</p>
             <p className="text-xs text-grey">
-              Overweeg temperatuur-gecontroleerde verzending voor optimale
-              wijnkwaliteit bij warm weer.
+              {t("checkout.shipping.summer_text")}
             </p>
           </div>
         </div>
@@ -152,7 +155,7 @@ export function ShippingSection({ onComplete }: ShippingSectionProps) {
 
       <div className="pt-2">
         <Button type="submit" variant="primary" fullWidth>
-          Doorgaan naar betaling
+          {t("checkout.shipping.continue")}
         </Button>
       </div>
     </form>

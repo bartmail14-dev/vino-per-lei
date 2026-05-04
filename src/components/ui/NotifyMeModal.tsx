@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useUiCopy } from "@/components/providers";
 
 interface NotifyMeModalProps {
   isOpen: boolean;
@@ -14,6 +15,7 @@ export function NotifyMeModal({ isOpen, onClose, productTitle }: NotifyMeModalPr
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const t = useUiCopy();
 
   useEffect(() => {
     if (isOpen) {
@@ -100,10 +102,10 @@ export function NotifyMeModal({ isOpen, onClose, productTitle }: NotifyMeModalPr
                   </svg>
                 </button>
                 <p className="text-gold/70 text-xs uppercase tracking-[0.2em] font-medium mb-1">
-                  Tijdelijk uitverkocht
+                  {t("notify.title")}
                 </p>
                 <h2 className="font-serif text-lg sm:text-xl font-semibold text-white leading-snug">
-                  Mail bij voorraad
+                  {t("notify.cta")}
                 </h2>
               </div>
 
@@ -116,9 +118,9 @@ export function NotifyMeModal({ isOpen, onClose, productTitle }: NotifyMeModalPr
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                       </svg>
                     </div>
-                    <p className="font-serif font-semibold text-charcoal mb-1">Je staat op de lijst!</p>
+                    <p className="font-serif font-semibold text-charcoal mb-1">{t("notify.success")}</p>
                     <p className="text-sm text-grey leading-relaxed">
-                      We mailen je zodra de <span className="font-medium text-charcoal">{productTitle}</span> weer op voorraad is.
+                      {t("notify.success_desc")}
                     </p>
                     <button
                       onClick={onClose}
@@ -166,16 +168,16 @@ export function NotifyMeModal({ isOpen, onClose, productTitle }: NotifyMeModalPr
                               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                             </svg>
-                            Even geduld...
+                            {t("notify.submit")}...
                           </span>
                         ) : (
-                          "Houd me op de hoogte"
+                          t("notify.submit")
                         )}
                       </button>
                     </form>
 
                     <p className="text-[11px] text-grey/50 text-center mt-3">
-                      We sturen maximaal 1 e-mail. Geen spam, beloofd.
+                      {t("notify.disclaimer")}
                     </p>
                   </>
                 )}

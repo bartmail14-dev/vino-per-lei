@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Cookie, Shield, BarChart3, Megaphone, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUiCopy } from "@/components/providers";
 
 const CONSENT_KEY = "vpl_cookie_consent";
 const CONSENT_COOKIE = "vpl_cookie_consent";
@@ -94,6 +95,7 @@ export function CookieConsent() {
   const [showDetails, setShowDetails] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
+  const t = useUiCopy();
   const pathname = usePathname();
   const needsPurchaseBarOffset = pathname?.startsWith("/wijnen/") ?? false;
 
@@ -160,9 +162,9 @@ export function CookieConsent() {
                 <Cookie className="w-4.5 h-4.5 text-wine" strokeWidth={1.5} />
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-charcoal">Cookies</p>
+                <p className="text-sm font-semibold text-charcoal">{t("cookie.title")}</p>
                 <p className="text-xs text-grey leading-snug">
-                  Voor een betere ervaring.{" "}
+                  {t("cookie.description")}{" "}
                   <Link
                     href="/cookies"
                     className="text-wine hover:text-wine-dark transition-colors"
@@ -180,7 +182,7 @@ export function CookieConsent() {
                 className="w-full flex items-center justify-between py-3 text-xs font-medium text-grey hover:text-charcoal transition-colors"
                 type="button"
               >
-                <span>Instellingen aanpassen</span>
+                <span>{t("cookie.settings_button")}</span>
                 <ChevronDown
                   className={`w-3.5 h-3.5 transition-transform duration-200 ${showDetails ? "rotate-180" : ""}`}
                 />
@@ -203,8 +205,8 @@ export function CookieConsent() {
                       <div className="flex items-center gap-2.5 min-w-0">
                         <Shield className="w-4 h-4 text-wine/60 shrink-0" strokeWidth={1.5} />
                         <div className="min-w-0">
-                          <p className="text-xs font-medium text-charcoal">Noodzakelijk</p>
-                          <p className="text-[10px] text-grey leading-tight">Altijd aan</p>
+                          <p className="text-xs font-medium text-charcoal">{t("cookie.necessary_title")}</p>
+                          <p className="text-[10px] text-grey leading-tight">{t("cookie.necessary_desc")}</p>
                         </div>
                       </div>
                       <Toggle checked disabled />
@@ -215,8 +217,8 @@ export function CookieConsent() {
                       <div className="flex items-center gap-2.5 min-w-0">
                         <BarChart3 className="w-4 h-4 text-wine/60 shrink-0" strokeWidth={1.5} />
                         <div className="min-w-0">
-                          <p className="text-xs font-medium text-charcoal">Analytisch</p>
-                          <p className="text-[10px] text-grey leading-tight">Anonieme statistieken</p>
+                          <p className="text-xs font-medium text-charcoal">{t("cookie.analytics_title")}</p>
+                          <p className="text-[10px] text-grey leading-tight">{t("cookie.analytics_desc")}</p>
                         </div>
                       </div>
                       <Toggle checked={analytics} onChange={setAnalytics} />
@@ -227,8 +229,8 @@ export function CookieConsent() {
                       <div className="flex items-center gap-2.5 min-w-0">
                         <Megaphone className="w-4 h-4 text-wine/60 shrink-0" strokeWidth={1.5} />
                         <div className="min-w-0">
-                          <p className="text-xs font-medium text-charcoal">Marketing</p>
-                          <p className="text-[10px] text-grey leading-tight">Nieuwsbrief tracking</p>
+                          <p className="text-xs font-medium text-charcoal">{t("cookie.marketing_title")}</p>
+                          <p className="text-[10px] text-grey leading-tight">{t("cookie.marketing_desc")}</p>
                         </div>
                       </div>
                       <Toggle checked={marketing} onChange={setMarketing} />
@@ -245,21 +247,21 @@ export function CookieConsent() {
                   onClick={handleSaveChoices}
                   className="flex-1 h-10 text-xs font-semibold text-charcoal bg-cream border border-sand rounded-xl hover:bg-sand/50 active:scale-[0.98] transition-all duration-150"
                 >
-                  Keuze opslaan
+                  {t("cookie.save")}
                 </button>
               ) : (
                 <button
                   onClick={handleNecessaryOnly}
                   className="flex-1 h-10 text-xs font-semibold text-charcoal bg-cream border border-sand rounded-xl hover:bg-sand/50 active:scale-[0.98] transition-all duration-150"
                 >
-                  Alleen noodzakelijk
+                  {t("cookie.necessary_only")}
                 </button>
               )}
               <button
                 onClick={handleAcceptAll}
                 className="flex-1 h-10 text-xs font-semibold text-white bg-wine rounded-xl hover:bg-wine-dark active:scale-[0.98] transition-all duration-150"
               >
-                Alles accepteren
+                {t("cookie.accept_all")}
               </button>
             </div>
           </div>

@@ -127,10 +127,10 @@ export function CartSlideOut() {
                   {t("cart.empty.title")}
                 </h3>
                 <p className="text-sm text-grey mb-6">
-                  Bekijk onze Italiaanse wijnen en kies je favoriet.
+                  {t("cart.empty.text")}
                 </p>
                 <Button onClick={closeCart} variant="primary">
-                  Bekijk onze wijnen
+                  {t("cart.empty.cta")}
                 </Button>
               </div>
             ) : (
@@ -276,7 +276,7 @@ export function CartSlideOut() {
                     onClick={closeCart}
                     className="w-full text-center text-sm text-wine hover:underline"
                   >
-                    Verder winkelen
+                    {t("cart.continue_shopping")}
                   </button>
 
                   {/* Trust Signals */}
@@ -314,7 +314,7 @@ export function CartSlideOut() {
                     {/* SSL Badge */}
                     <div className="flex items-center justify-center gap-1.5 mt-2 text-[10px] text-grey/70">
                       <svg viewBox="0 0 16 16" className="w-3.5 h-3.5" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.2"/><path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
-                      SSL Beveiligd — Veilige verbinding
+                      {t("cart.ssl_badge")}
                     </div>
                   </div>
                 </div>

@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     }
 
     // Send confirmation to customer (non-blocking)
-    const confirmation = notifyMeConfirmationEmail(productTitle, productImageUrl, productHandle);
+    const confirmation = await notifyMeConfirmationEmail(productTitle, productImageUrl, productHandle);
     sendMail({
       to: email,
       subject: confirmation.subject,
