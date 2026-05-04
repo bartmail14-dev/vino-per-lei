@@ -174,7 +174,7 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
     collection: mf(node.collectionName as MetafieldNode | null) ?? undefined,
     wineType: normalizeWineType(mf(node.wineType as MetafieldNode | null) ?? 'red'),
     grapeVarieties,
-    country: mf(node.country as MetafieldNode | null) ?? 'Italië',
+    country: mf(node.country as MetafieldNode | null) ?? '',
     region: (mf(node.region as MetafieldNode | null) ?? '').trim(),
     vintage: (node.vintage as MetafieldNode | null)?.value
       ? (node.vintage as MetafieldNode).value === 'NV'
@@ -194,19 +194,21 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
     orderUnitSize: (node.orderUnitSize as MetafieldNode | null)?.value
       ? parseInt((node.orderUnitSize as MetafieldNode).value)
       : undefined,
-    tasteProfile: {
-      drySweet: parseInt(mf(node.tasteDrySweet as MetafieldNode | null) ?? '3'),
-      lightFull: parseInt(mf(node.tasteLightFull as MetafieldNode | null) ?? '3'),
-      ...((node.tasteSoftTannic as MetafieldNode | null)?.value
-        ? { softTannic: parseInt((node.tasteSoftTannic as MetafieldNode).value) }
-        : {}),
-      ...((node.tasteFreshSoft as MetafieldNode | null)?.value
-        ? { freshSoft: parseInt((node.tasteFreshSoft as MetafieldNode).value) }
-        : {}),
-      ...((node.tasteFruitySpicy as MetafieldNode | null)?.value
-        ? { fruitySpicy: parseInt((node.tasteFruitySpicy as MetafieldNode).value) }
-        : {}),
-    },
+    tasteProfile: (node.tasteDrySweet as MetafieldNode | null)?.value
+      ? {
+          drySweet: parseInt((node.tasteDrySweet as MetafieldNode).value),
+          lightFull: parseInt(mf(node.tasteLightFull as MetafieldNode | null) ?? '3'),
+          ...((node.tasteSoftTannic as MetafieldNode | null)?.value
+            ? { softTannic: parseInt((node.tasteSoftTannic as MetafieldNode).value) }
+            : {}),
+          ...((node.tasteFreshSoft as MetafieldNode | null)?.value
+            ? { freshSoft: parseInt((node.tasteFreshSoft as MetafieldNode).value) }
+            : {}),
+          ...((node.tasteFruitySpicy as MetafieldNode | null)?.value
+            ? { fruitySpicy: parseInt((node.tasteFruitySpicy as MetafieldNode).value) }
+            : {}),
+        }
+      : undefined,
     images,
     rating: (node.rating as MetafieldNode | null)?.value ? parseFloat((node.rating as MetafieldNode).value) : undefined,
     reviewCount: (node.reviewCount as MetafieldNode | null)?.value

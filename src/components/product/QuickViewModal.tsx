@@ -161,7 +161,7 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                 {/* Vintage & Region */}
                 <p className="text-grey mb-3">
                   {product.vintage && `${product.vintage} · `}
-                  {product.region}, {product.country}
+                  {[product.region, product.country].filter(Boolean).join(', ')}
                 </p>
 
                 {/* Rating */}
