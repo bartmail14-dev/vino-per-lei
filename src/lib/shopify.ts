@@ -197,7 +197,7 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
     tasteProfile: (node.tasteDrySweet as MetafieldNode | null)?.value
       ? {
           drySweet: parseInt((node.tasteDrySweet as MetafieldNode).value),
-          lightFull: parseInt(mf(node.tasteLightFull as MetafieldNode | null) ?? '3'),
+          lightFull: parseInt((node.tasteLightFull as MetafieldNode | null)?.value ?? '0'),
           ...((node.tasteSoftTannic as MetafieldNode | null)?.value
             ? { softTannic: parseInt((node.tasteSoftTannic as MetafieldNode).value) }
             : {}),
