@@ -139,12 +139,11 @@ export function Footer({ settings, sections = [] }: FooterProps) {
           )}
         </div>
 
-        {(settings?.email || settings?.hoursWeekday) && (
+        {settings?.email && (
           <>
             <div className="h-px bg-gradient-to-r from-transparent via-wine/10 to-transparent mb-6" />
-            <div className="text-sm text-wine/80 space-y-1.5">
-              {settings.email && <p>{settings.email}</p>}
-              {settings.hoursWeekday && <p className="text-xs">{settings.hoursWeekday}</p>}
+            <div className="text-sm text-wine/80">
+              <p>{settings.email}</p>
             </div>
           </>
         )}

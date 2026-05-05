@@ -7,7 +7,6 @@ const TAG_LABELS: Record<string, string> = {
   wijnkennis: "Wijnkennis",
   "food-pairing": "Food Pairing",
   seizoenen: "Seizoenen",
-  cadeau: "Cadeau",
   // Regio's
   piemonte: "Piemonte",
   toscana: "Toscana",

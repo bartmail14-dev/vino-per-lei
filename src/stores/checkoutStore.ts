@@ -213,7 +213,6 @@ export const useCheckoutStore = create<CheckoutState>()(
         const sections: CheckoutSection[] = [
           "contact",
           "delivery",
-          "gift",
           "shipping",
           "payment",
         ];
@@ -235,7 +234,6 @@ export const useCheckoutStore = create<CheckoutState>()(
     {
       name: "vino-per-lei-checkout",
       partialize: (state) => ({
-        gift: state.gift,
         shipping: state.shipping,
         discountCode: state.discountCode,
         discountApplied: state.discountApplied,

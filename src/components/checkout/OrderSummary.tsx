@@ -10,7 +10,6 @@ import { DiscountCode } from "./DiscountCode";
 import { TrustSignals } from "./TrustSignals";
 import { ChevronDownIcon } from "@/components/icons";
 import { useUiCopy } from "@/components/providers";
-import { useShopConfig } from "@/components/providers/ShopConfigProvider";
 
 interface OrderSummaryProps {
   className?: string;
@@ -19,12 +18,10 @@ interface OrderSummaryProps {
 export function OrderSummary({ className }: OrderSummaryProps) {
   const t = useUiCopy();
   const { items, subtotal } = useCartStore();
-  const { shipping, gift, discountApplied } = useCheckoutStore();
-  const { giftWrappingCost } = useShopConfig();
+  const { shipping, discountApplied } = useCheckoutStore();
   const [isExpanded, setIsExpanded] = useState(true);
 
   // Calculate totals
-  const giftCost = gift.wrapping ? giftWrappingCost : 0;
   const shippingCost = shipping.cost;
 
   const discountAmount = discountApplied
@@ -33,7 +30,7 @@ export function OrderSummary({ className }: OrderSummaryProps) {
       : discountApplied.amount
     : 0;
 
-  const total = Math.max(0, subtotal + shippingCost + giftCost - discountAmount);
+  const total = Math.max(0, subtotal + shippingCost - discountAmount);
 
   return (
     <div
@@ -113,13 +110,6 @@ export function OrderSummary({ className }: OrderSummaryProps) {
                 <div className="flex justify-between text-success">
                   <span>Korting ({discountApplied.code})</span>
                   <span>-{formatPrice(discountAmount)}</span>
-                </div>
-              )}
-
-              {gift.wrapping && (
-                <div className="flex justify-between">
-                  <span className="text-grey">{t("checkout.gift_wrapping")}</span>
-                  <span className="text-charcoal">{formatPrice(giftCost)}</span>
                 </div>
               )}
 

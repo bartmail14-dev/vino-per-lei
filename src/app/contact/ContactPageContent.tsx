@@ -4,14 +4,11 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { AnimateOnScroll, StaggerChildren, StaggerItem } from "@/components/ui/AnimateOnScroll";
 import { ContactForm } from "./ContactForm";
-import { Mail as MailIcon, MapPin as MapPinIcon, Clock as ClockIcon, ShieldCheck as ShieldCheckIcon, MessageCircle as MessageCircleIcon, Check } from "lucide-react";
+import { Mail as MailIcon, Clock as ClockIcon, ShieldCheck as ShieldCheckIcon, MessageCircle as MessageCircleIcon, Check } from "lucide-react";
 
 interface ContactPageContentProps {
   email: string;
   phone?: string;
-  addressStreet: string;
-  addressPostal: string;
-  addressCity: string;
   hoursWeekday: string;
   hoursSaturday: string;
   hoursSunday: string;
@@ -19,9 +16,6 @@ interface ContactPageContentProps {
 
 export function ContactPageContent({
   email,
-  addressStreet,
-  addressPostal,
-  addressCity,
   hoursWeekday,
   hoursSaturday,
   hoursSunday,
@@ -55,8 +49,7 @@ export function ContactPageContent({
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-white/60 max-w-lg text-sm sm:text-base leading-relaxed"
           >
-            Wijnadvies, vragen over je bestelling of een cadeau samenstellen?
-            Carla beantwoordt alles persoonlijk.
+            Wijnadvies of vragen over je bestelling? Carla beantwoordt alles persoonlijk.
           </motion.p>
         </div>
       </div>
@@ -81,19 +74,6 @@ export function ContactPageContent({
             </a>
           </StaggerItem>
 
-          <StaggerItem>
-            <div className="bg-white rounded-lg p-5 sm:p-6 shadow-lg border border-sand/50 flex items-start gap-4">
-              <div className="w-11 h-11 rounded-full bg-wine/10 flex items-center justify-center flex-shrink-0">
-                <MapPinIcon className="w-5 h-5 text-wine" />
-              </div>
-              <div>
-                <p className="font-semibold text-charcoal text-sm mb-1">Adres</p>
-                <p className="text-sm text-grey">
-                  {addressStreet}, {addressPostal} {addressCity}
-                </p>
-              </div>
-            </div>
-          </StaggerItem>
         </StaggerChildren>
       </div>
 
@@ -192,19 +172,6 @@ export function ContactPageContent({
             </AnimateOnScroll>
           </div>
         </div>
-
-        {/* Map placeholder */}
-        <AnimateOnScroll variant="fadeUp" delay={0.1}>
-          <div className="mt-12 sm:mt-16 rounded-2xl overflow-hidden border border-sand/50">
-            <div className="bg-cream h-48 sm:h-64 flex items-center justify-center">
-              <div className="text-center">
-                <MapPinIcon className="w-10 h-10 text-wine/30 mx-auto mb-3" />
-                <p className="text-charcoal font-serif text-lg font-semibold">{addressStreet}</p>
-                <p className="text-grey text-sm">{addressPostal} {addressCity}</p>
-              </div>
-            </div>
-          </div>
-        </AnimateOnScroll>
 
         {/* Back link */}
         <div className="mt-12 pt-8 border-t border-sand">

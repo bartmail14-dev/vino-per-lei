@@ -28,9 +28,6 @@ export default async function ContactPage() {
     <ContactPageContent
       email={settings?.email ?? ""}
       phone={settings?.phone ?? ""}
-      addressStreet={settings?.addressStreet ?? ""}
-      addressPostal={settings?.addressPostal ?? ""}
-      addressCity={settings?.addressCity ?? ""}
       hoursWeekday={settings?.hoursWeekday ?? ""}
       hoursSaturday={settings?.hoursSaturday ?? ""}
       hoursSunday={settings?.hoursSunday ?? ""}

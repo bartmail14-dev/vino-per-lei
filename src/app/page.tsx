@@ -5,7 +5,7 @@ import { getProducts } from "@/lib/shopify";
 import { formatUiCopy } from "@/lib/ui-copy";
 import nextDynamic from "next/dynamic";
 import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, StarIcon, ShieldIcon } from "@/components/icons";
-import { getHeroContent, getUSPItems, getHomeStats, getUiCopy } from "@/lib/shopify-cms";
+import { getHeroContent, getUSPItems, getUiCopy } from "@/lib/shopify-cms";
 import { getActiveRegionSlugsFromProducts, getRegionLabelsFromProducts, slugToDisplayName } from "@/lib/region-utils";
 import {
   AnimatedSection,
@@ -36,11 +36,10 @@ const uspIconMap: Record<string, React.ComponentType<{ className?: string }>> = 
 };
 
 export default async function Home() {
-  const [allProducts, heroRaw, rawUspItems, cmsStats, uiCopy] = await Promise.all([
+  const [allProducts, heroRaw, rawUspItems, uiCopy] = await Promise.all([
     getProducts(),
     getHeroContent(),
     getUSPItems(),
-    getHomeStats(),
     getUiCopy(),
   ]);
 
@@ -59,7 +58,17 @@ export default async function Home() {
   const hero = heroRaw;
   const activeRegionSlugs = getActiveRegionSlugsFromProducts(allProducts);
   const regionLabels = getRegionLabelsFromProducts(allProducts);
-  const homeStats = cmsStats;
+
+  // Dynamic stats from product data
+  const redCount = allProducts.filter(p => p.wineType === "red").length;
+  const whiteCount = allProducts.filter(p => p.wineType === "white").length;
+  const sparklingCount = allProducts.filter(p => p.wineType === "sparkling" || p.wineType === "rose").length;
+  const dynamicStats: Array<{value: string; prefix: string; suffix: string; label: string}> = [
+    { value: String(allProducts.length), prefix: "", suffix: "", label: "Geselecteerde wijnen" },
+    { value: String(activeRegionSlugs.length), prefix: "", suffix: "", label: "Wijngebieden" },
+    { value: String(redCount), prefix: "", suffix: "", label: "Rode wijnen" },
+    { value: String(whiteCount + sparklingCount), prefix: "", suffix: "", label: "Witte & mousserende wijnen" },
+  ];
   const copy = (key: string, variables?: Record<string, string | number>) =>
     formatUiCopy(uiCopy, key, variables);
   const optionalCopy = (key: string) => uiCopy[key]?.trim() ?? "";
@@ -247,7 +256,7 @@ export default async function Home() {
       <Section background="warm" spacing="xl" className="pt-24 sm:pt-32">
         <AnimatedSection variant="fadeUp">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 text-center">
-            {homeStats.map((stat) => (
+            {dynamicStats.map((stat) => (
               <div key={stat.label}>
                 <p className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-wine leading-none mb-1.5 tabular-nums">
                   <AnimatedCounter target={parseInt(stat.value) || 0} suffix={stat.suffix} prefix={stat.prefix} />

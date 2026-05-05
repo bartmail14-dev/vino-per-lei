@@ -101,7 +101,7 @@ export function ProductCard({
         "transition-all duration-500 ease-out",
         "sm:hover:shadow-[0_24px_48px_-12px_rgba(26,31,61,0.12)]",
         "sm:hover:-translate-y-2",
-        "overflow-visible mt-10 min-[430px]:mt-14 sm:mt-28",
+        "overflow-visible mt-10 min-[430px]:mt-14 sm:mt-28 flex flex-col",
         "before:absolute before:inset-x-5 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-gold/45 before:to-transparent before:content-['']",
         className
       )}
@@ -157,7 +157,7 @@ export function ProductCard({
 
       <Link
         href={`/wijnen/${product.handle}`}
-        className="block"
+        className="block flex-1"
         aria-label={t("product.view_aria", { title: product.title })}
       >
         {/* Image Container */}

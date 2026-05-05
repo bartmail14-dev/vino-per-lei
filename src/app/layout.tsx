@@ -26,7 +26,7 @@ const playfair = Playfair_Display({
 });
 
 const FALLBACK_DESCRIPTION = "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.";
-const FALLBACK_KEYWORDS = ["Italiaanse wijn", "Barolo", "Amarone", "Chianti", "Prosecco", "wijn cadeau", "wijnimport"];
+const FALLBACK_KEYWORDS = ["Italiaanse wijn", "Barolo", "Amarone", "Chianti", "Prosecco", "wijnimport"];
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
