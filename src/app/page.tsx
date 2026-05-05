@@ -59,15 +59,30 @@ export default async function Home() {
   const activeRegionSlugs = getActiveRegionSlugsFromProducts(allProducts);
   const regionLabels = getRegionLabelsFromProducts(allProducts);
 
-  // Dynamic stats from product data
-  const redCount = allProducts.filter(p => p.wineType === "red").length;
-  const whiteCount = allProducts.filter(p => p.wineType === "white").length;
-  const sparklingCount = allProducts.filter(p => p.wineType === "sparkling" || p.wineType === "rose").length;
+  // Dynamic stats from product data — auto-generates per wine type
+  const wineTypeLabels: Record<string, string> = {
+    red: "Rode wijnen",
+    white: "Witte wijnen",
+    rose: "Rosé wijnen",
+    sparkling: "Mousserende wijnen",
+  };
+  const wineTypeCounts = allProducts.reduce<Record<string, number>>((acc, p) => {
+    acc[p.wineType] = (acc[p.wineType] || 0) + 1;
+    return acc;
+  }, {});
+  const wineTypeStats = Object.entries(wineTypeCounts)
+    .filter(([, count]) => count > 0)
+    .sort(([a], [b]) => (Object.keys(wineTypeLabels).indexOf(a) - Object.keys(wineTypeLabels).indexOf(b)))
+    .map(([type, count]) => ({
+      value: String(count),
+      prefix: "",
+      suffix: "",
+      label: wineTypeLabels[type] || type,
+    }));
   const dynamicStats: Array<{value: string; prefix: string; suffix: string; label: string}> = [
     { value: String(allProducts.length), prefix: "", suffix: "", label: "Geselecteerde wijnen" },
     { value: String(activeRegionSlugs.length), prefix: "", suffix: "", label: "Wijngebieden" },
-    { value: String(redCount), prefix: "", suffix: "", label: "Rode wijnen" },
-    { value: String(whiteCount + sparklingCount), prefix: "", suffix: "", label: "Witte & mousserende wijnen" },
+    ...wineTypeStats,
   ];
   const copy = (key: string, variables?: Record<string, string | number>) =>
     formatUiCopy(uiCopy, key, variables);
