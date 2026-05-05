@@ -30,5 +30,5 @@ export interface CartState extends Cart {
   toggleCart: () => void;
 }
 
-export const FREE_SHIPPING_THRESHOLD = 100;
+export const FREE_SHIPPING_THRESHOLD = 0; // No free shipping — always €7,95
 export const SHIPPING_COST = 7.95;

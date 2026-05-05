@@ -29,14 +29,23 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function FAQPage() {
   const [faqItems, uiCopy] = await Promise.all([getFAQItems(), getUiCopy()]);
 
-  // Strip "gratis verzending" claims and cadeau-related items from FAQ (CMS data)
+  // Strip incorrect shipping claims and cadeau-related items from FAQ (CMS data)
+  // Shipping policy: ALWAYS €7,95, Netherlands only, no free shipping threshold
   const cleanedFaqItems = faqItems
     .filter((item) => !item.question.toLowerCase().includes("cadeau"))
     .map((item) => ({
       ...item,
       answer: item.answer
+        // Remove any "gratis verzending" claims
         .replace(/Bij bestellingen vanaf [€\u20AC]?\d+[\s,]*is verzending gratis\.?\s*/gi, "")
         .replace(/\s*\(?\s*gratis vanaf [€\u20AC]?\d+[.,]?\d*\s*\)?\.?\s*/gi, "")
+        .replace(/gratis verzending[^.]*\.?\s*/gi, "")
+        // Replace variable shipping costs with fixed €7,95
+        .replace(/verzendkosten(?:\s+bedragen|\s+zijn)?\s+[€\u20AC]?\d+[.,]?\d*\s*/gi, "verzendkosten bedragen €7,95 ")
+        .replace(/[€\u20AC]\s*\d+[.,]\d{2}\s*verzendkosten/gi, "€7,95 verzendkosten")
+        // Replace any mention of international shipping / Belgium / Germany with NL-only
+        .replace(/(?:we|wij)\s+leveren\s+(?:ook\s+)?(?:in|naar)\s+(?:Belgi[eë]|Duitsland|heel Europa|het buitenland)[^.]*\.?\s*/gi, "")
+        .replace(/internationale?\s+(?:verzending|levering)[^.]*\.?\s*/gi, "")
         .replace(/\.\s*\./g, ".") // clean up double periods
         .replace(/\s{2,}/g, " ") // clean up double spaces
         .trim(),
