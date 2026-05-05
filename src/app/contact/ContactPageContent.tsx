@@ -81,17 +81,15 @@ export function ContactPageContent({
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <AnimateOnScroll variant="fadeUp">
-              <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-sand/50">
-                <h2 className="font-serif text-xl sm:text-2xl font-semibold text-charcoal mb-2">
-                  Stuur ons een bericht
-                </h2>
-                <p className="text-grey text-sm mb-6">
-                  Vul het formulier in en we reageren binnen 1 werkdag.
-                </p>
-                <ContactForm />
-              </div>
-            </AnimateOnScroll>
+            <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-sand/50">
+              <h2 className="font-serif text-xl sm:text-2xl font-semibold text-charcoal mb-2">
+                Stuur ons een bericht
+              </h2>
+              <p className="text-grey text-sm mb-6">
+                Vul het formulier in en we reageren binnen 1 werkdag.
+              </p>
+              <ContactForm />
+            </div>
           </div>
 
           {/* Sidebar */}

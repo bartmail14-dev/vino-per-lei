@@ -19,7 +19,9 @@ export async function FooterWrapper() {
     .filter((menu): menu is ShopifyMenu => Boolean(menu && menu.items.length > 0))
     .map((menu) => ({
       title: footerTitleMap[menu.title] ?? menu.title,
-      links: menu.items.map((item) => ({ title: item.title, url: item.url })),
+      links: menu.items
+        .filter((item) => !item.url.includes("/cadeaus"))
+        .map((item) => ({ title: item.title, url: item.url })),
     }));
 
   return <Footer settings={settings ?? undefined} sections={footerSections} />;
