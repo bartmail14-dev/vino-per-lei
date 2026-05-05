@@ -1,12 +1,13 @@
 {
-  "generatedAt": "2026-05-05T17:39:08.855Z",
-  "highRiskStrings": 6,
+  "generatedAt": "2026-05-05T20:56:16.434Z",
+  "highRiskStrings": 7,
   "byRisk": {
-    "p2-ui-or-technical-copy": 156,
+    "p2-ui-or-technical-copy": 158,
     "p2-checkout-ui": 36,
     "allowed-ui": 5,
     "p1-homepage-content": 5,
     "p2-account-ui": 10,
+    "p1-footer-content": 1,
     "p1-product-ui-content": 1
   },
   "signatures": {
@@ -15,6 +16,7 @@
     "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fMousserende wijnen": 1,
     "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fGeselecteerde wijnen": 1,
     "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fWijngebieden": 1,
+    "p1-footer-content\u001fsrc/components/layout/Footer.tsx\u001fjsxText\u001fMailen kan altijd — we reageren binnen 1 werkdag": 1,
     "p1-product-ui-content\u001fsrc/components/product/WineDetailsAccordion.tsx\u001fstring\u001fVerkoopeenheid": 1
   }
 }

@@ -20,7 +20,7 @@ export async function FooterWrapper() {
     .map((menu) => ({
       title: footerTitleMap[menu.title] ?? menu.title,
       links: menu.items
-        .filter((item) => !item.url.includes("/cadeaus"))
+        .filter((item) => !item.url.includes("/cadeaus") && !item.url.includes("/blog"))
         .map((item) => ({ title: item.title, url: item.url })),
     }));
 
