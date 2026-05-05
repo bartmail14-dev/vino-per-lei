@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-05-05T20:56:16.434Z",
-  "highRiskStrings": 7,
+  "generatedAt": "2026-05-05T22:15:48.949Z",
+  "highRiskStrings": 9,
   "byRisk": {
     "p2-ui-or-technical-copy": 158,
     "p2-checkout-ui": 36,
@@ -8,7 +8,7 @@
     "p1-homepage-content": 5,
     "p2-account-ui": 10,
     "p1-footer-content": 1,
-    "p1-product-ui-content": 1
+    "p1-product-ui-content": 3
   },
   "signatures": {
     "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fRode wijnen": 1,
@@ -17,6 +17,8 @@
     "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fGeselecteerde wijnen": 1,
     "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fWijngebieden": 1,
     "p1-footer-content\u001fsrc/components/layout/Footer.tsx\u001fjsxText\u001fMailen kan altijd — we reageren binnen 1 werkdag": 1,
+    "p1-product-ui-content\u001fsrc/components/product/WineDetailsAccordion.tsx\u001fstring\u001fServeertemperatuur": 1,
+    "p1-product-ui-content\u001fsrc/components/product/WineDetailsAccordion.tsx\u001fstring\u001fDecanteertijd": 1,
     "p1-product-ui-content\u001fsrc/components/product/WineDetailsAccordion.tsx\u001fstring\u001fVerkoopeenheid": 1
   }
 }

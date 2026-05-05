@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-05-05T20:56:19.512Z",
+  "generatedAt": "2026-05-05T22:15:48.945Z",
   "scannedFiles": 115,
-  "totalStrings": 216,
-  "highRiskStrings": 7,
+  "totalStrings": 218,
+  "highRiskStrings": 9,
   "byRisk": {
     "p2-ui-or-technical-copy": 158,
     "p2-checkout-ui": 36,
@@ -10,7 +10,7 @@
     "p1-homepage-content": 5,
     "p2-account-ui": 10,
     "p1-footer-content": 1,
-    "p1-product-ui-content": 1
+    "p1-product-ui-content": 3
   },
   "fileSources": [
     {
@@ -606,8 +606,8 @@
       "sourceUsage": [
         "useUiCopy"
       ],
-      "stringCount": 1,
-      "highRiskCount": 1
+      "stringCount": 3,
+      "highRiskCount": 3
     },
     {
       "file": "src/components/providers/GoogleAnalytics.tsx",
@@ -2344,7 +2344,25 @@
     "src/components/product/WineDetailsAccordion.tsx": [
       {
         "file": "src/components/product/WineDetailsAccordion.tsx",
+        "line": 51,
+        "column": 22,
+        "type": "string",
+        "text": "Serveertemperatuur",
+        "risk": "p1-product-ui-content",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/product/WineDetailsAccordion.tsx",
         "line": 52,
+        "column": 22,
+        "type": "string",
+        "text": "Decanteertijd",
+        "risk": "p1-product-ui-content",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/components/product/WineDetailsAccordion.tsx",
+        "line": 54,
         "column": 22,
         "type": "string",
         "text": "Verkoopeenheid",
