@@ -6,14 +6,12 @@ export interface ShopConfig {
   freeShippingThreshold: number;
   shippingCost: number;
   shippingCostTemperature: number;
-  giftWrappingCost: number;
 }
 
 const DEFAULT_CONFIG: ShopConfig = {
   freeShippingThreshold: 0,
   shippingCost: 0,
   shippingCostTemperature: 0,
-  giftWrappingCost: 0,
 };
 
 const ShopConfigContext = createContext<ShopConfig>(DEFAULT_CONFIG);

@@ -16,14 +16,6 @@ export interface CheckoutAddress {
   isManualEntry: boolean;
 }
 
-export interface CheckoutGift {
-  isGift: boolean;
-  wrapping: boolean;
-  recipientName: string;
-  message: string;
-  hidePrices: boolean;
-}
-
 export type ShippingMethod = "standard" | "temperature";
 
 export interface CheckoutShipping {
@@ -47,13 +39,12 @@ export interface DiscountCode {
   minOrderValue?: number;
 }
 
-export type CheckoutSection = "contact" | "delivery" | "gift" | "shipping" | "payment";
+export type CheckoutSection = "contact" | "delivery" | "shipping" | "payment";
 
 export interface CheckoutState {
   // Form data
   contact: CheckoutContact;
   address: CheckoutAddress;
-  gift: CheckoutGift;
   shipping: CheckoutShipping;
   payment: CheckoutPayment;
 
@@ -70,7 +61,6 @@ export interface CheckoutState {
   // Actions
   setContact: (data: Partial<CheckoutContact>) => void;
   setAddress: (data: Partial<CheckoutAddress>) => void;
-  setGift: (data: Partial<CheckoutGift>) => void;
   setShipping: (data: Partial<CheckoutShipping>) => void;
   setPayment: (data: Partial<CheckoutPayment>) => void;
   setActiveSection: (section: CheckoutSection) => void;

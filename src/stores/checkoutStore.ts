@@ -4,7 +4,6 @@ import type {
   CheckoutState,
   CheckoutContact,
   CheckoutAddress,
-  CheckoutGift,
   CheckoutShipping,
   CheckoutPayment,
   CheckoutSection,
@@ -26,14 +25,6 @@ const initialAddress: CheckoutAddress = {
   city: "",
   country: "NL",
   isManualEntry: false,
-};
-
-const initialGift: CheckoutGift = {
-  isGift: false,
-  wrapping: false,
-  recipientName: "",
-  message: "",
-  hidePrices: false,
 };
 
 const initialShipping: CheckoutShipping = {
@@ -89,7 +80,6 @@ export const useCheckoutStore = create<CheckoutState>()(
       // Initial state
       contact: initialContact,
       address: initialAddress,
-      gift: initialGift,
       shipping: initialShipping,
       payment: initialPayment,
 
@@ -110,11 +100,6 @@ export const useCheckoutStore = create<CheckoutState>()(
       setAddress: (data) =>
         set((state) => ({
           address: { ...state.address, ...data },
-        })),
-
-      setGift: (data) =>
-        set((state) => ({
-          gift: { ...state.gift, ...data },
         })),
 
       setShipping: (data) =>
@@ -196,7 +181,6 @@ export const useCheckoutStore = create<CheckoutState>()(
         set({
           contact: initialContact,
           address: initialAddress,
-          gift: initialGift,
           shipping: initialShipping,
           payment: initialPayment,
           discountCode: "",

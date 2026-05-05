@@ -144,6 +144,7 @@ export function Footer({ settings, sections = [] }: FooterProps) {
             <div className="h-px bg-gradient-to-r from-transparent via-wine/10 to-transparent mb-6" />
             <div className="text-sm text-wine/80">
               <p>{settings.email}</p>
+              <p className="text-wine/50 text-xs mt-1">Mailen kan altijd — we reageren binnen 1 werkdag</p>
             </div>
           </>
         )}

@@ -43,23 +43,6 @@ export const addressSchema = z.object({
   isManualEntry: z.boolean(),
 });
 
-// Gift options validation
-export const giftSchema = z.object({
-  isGift: z.boolean(),
-  wrapping: z.boolean(),
-  recipientName: z
-    .string()
-    .max(100, "Naam mag maximaal 100 tekens zijn")
-    .optional()
-    .or(z.literal("")),
-  message: z
-    .string()
-    .max(200, "Bericht mag maximaal 200 tekens zijn")
-    .optional()
-    .or(z.literal("")),
-  hidePrices: z.boolean(),
-});
-
 // Shipping validation
 export const shippingSchema = z.object({
   method: z.enum(["standard", "temperature"], {
@@ -82,7 +65,6 @@ export const paymentSchema = z.object({
 export const checkoutSchema = z.object({
   contact: contactSchema,
   address: addressSchema,
-  gift: giftSchema,
   shipping: shippingSchema,
   payment: paymentSchema,
 });
@@ -90,7 +72,6 @@ export const checkoutSchema = z.object({
 // Type inference
 export type ContactFormData = z.infer<typeof contactSchema>;
 export type AddressFormData = z.infer<typeof addressSchema>;
-export type GiftFormData = z.infer<typeof giftSchema>;
 export type ShippingFormData = z.infer<typeof shippingSchema>;
 export type PaymentFormData = z.infer<typeof paymentSchema>;
 export type CheckoutFormData = z.infer<typeof checkoutSchema>;

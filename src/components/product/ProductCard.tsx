@@ -101,7 +101,7 @@ export function ProductCard({
         "transition-all duration-500 ease-out",
         "sm:hover:shadow-[0_24px_48px_-12px_rgba(26,31,61,0.12)]",
         "sm:hover:-translate-y-2",
-        "overflow-visible mt-10 min-[430px]:mt-14 sm:mt-28 flex flex-col",
+        "overflow-visible mt-10 min-[430px]:mt-14 sm:mt-28 flex flex-col h-full",
         "before:absolute before:inset-x-5 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-gold/45 before:to-transparent before:content-['']",
         className
       )}
@@ -366,11 +366,13 @@ export function ProductCard({
           </button>
         )}
       </div>
-      {orderUnitText && product.inStock && (
-        <p className="px-3 sm:px-5 pb-3 -mt-1 text-[10px] sm:text-xs text-grey text-center">
-          {t("product.order.per_unit", { unit: orderUnitText })}
-        </p>
-      )}
+      <div className="min-h-[20px]">
+        {orderUnitText && product.inStock && (
+          <p className="px-3 sm:px-5 pb-3 -mt-1 text-[10px] sm:text-xs text-grey text-center">
+            {t("product.order.per_unit", { unit: orderUnitText })}
+          </p>
+        )}
+      </div>
 
       {/* Notify Me Modal */}
       <NotifyMeModal

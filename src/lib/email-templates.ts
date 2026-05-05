@@ -71,7 +71,6 @@ export const SHOPIFY_NOTIFICATION_SUBJECTS_NL = {
   customerPasswordReset: "Stel je wachtwoord opnieuw in",
   abandonedCheckout: "Je winkelmand wacht nog op je",
   posExchangeReceipt: "Je ruilbewijs van Vino per Lei",
-  giftCardCreated: "Je cadeaubon van Vino per Lei",
 } as const;
 
 export const EMAIL_LIVEGANG_TEST_SCENARIOS = [

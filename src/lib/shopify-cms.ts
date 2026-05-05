@@ -37,7 +37,6 @@ export interface SiteSettings {
   freeShippingThreshold: number;
   shippingCost: number;
   shippingCostTemperature: number;
-  giftWrappingCost: number;
   siteUrl: string;
   logoUrl: string;
   seoDescription: string;
@@ -153,7 +152,6 @@ export interface ShopConfig {
   freeShippingThreshold: number;
   shippingCost: number;
   shippingCostTemperature: number;
-  giftWrappingCost: number;
 }
 
 export interface UiCopyItem {
@@ -266,7 +264,6 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     freeShippingThreshold: parseNumber(f.gratis_verzending_drempel),
     shippingCost: parseNumber(f.verzendkosten),
     shippingCostTemperature: parseNumber(f.shipping_cost_temperature),
-    giftWrappingCost: parseNumber(f.gift_wrapping_cost),
     siteUrl: f.site_url || "",
     logoUrl: f.logo_url || "",
     seoDescription: f.seo_description || "",
@@ -629,6 +626,5 @@ export async function getShopConfig(): Promise<ShopConfig> {
     freeShippingThreshold: settings?.freeShippingThreshold ?? 0,
     shippingCost: settings?.shippingCost ?? 0,
     shippingCostTemperature: settings?.shippingCostTemperature ?? 0,
-    giftWrappingCost: settings?.giftWrappingCost ?? 0,
   };
 }

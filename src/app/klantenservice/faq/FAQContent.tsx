@@ -125,7 +125,7 @@ export function FAQContent({ faqCategories }: { faqCategories: FAQCategory[] }) 
         </div>
       </section>
 
-      <div className="max-w-4xl mx-auto px-4 py-10 sm:py-16">
+      <div className="max-w-4xl mx-auto px-4 py-10 sm:py-16 min-h-[60vh]">
         {/* Category filter pills */}
         {faqCategories.length > 1 && (
           <div className="flex flex-wrap gap-2 mb-8">
