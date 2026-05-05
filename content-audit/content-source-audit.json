@@ -1,14 +1,15 @@
 {
-  "generatedAt": "2026-05-05T17:23:58.207Z",
+  "generatedAt": "2026-05-05T17:39:08.850Z",
   "scannedFiles": 115,
-  "totalStrings": 212,
-  "highRiskStrings": 5,
+  "totalStrings": 213,
+  "highRiskStrings": 6,
   "byRisk": {
     "p2-ui-or-technical-copy": 156,
     "p2-checkout-ui": 36,
     "allowed-ui": 5,
     "p1-homepage-content": 5,
-    "p2-account-ui": 10
+    "p2-account-ui": 10,
+    "p1-product-ui-content": 1
   },
   "fileSources": [
     {
@@ -604,8 +605,8 @@
       "sourceUsage": [
         "useUiCopy"
       ],
-      "stringCount": 0,
-      "highRiskCount": 0
+      "stringCount": 1,
+      "highRiskCount": 1
     },
     {
       "file": "src/components/providers/GoogleAnalytics.tsx",
@@ -2308,6 +2309,17 @@
         "text": "500+ wijnliefhebbers gingen je voor",
         "risk": "p2-ui-or-technical-copy",
         "context": ""
+      }
+    ],
+    "src/components/product/WineDetailsAccordion.tsx": [
+      {
+        "file": "src/components/product/WineDetailsAccordion.tsx",
+        "line": 52,
+        "column": 22,
+        "type": "string",
+        "text": "Verkoopeenheid",
+        "risk": "p1-product-ui-content",
+        "context": "PropertyAssignment"
       }
     ],
     "src/components/providers/GoogleAnalytics.tsx": [

@@ -118,8 +118,10 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
                   size="lg"
                   showSavings={!!isOnSale}
                 />
-                {priceUnitText && (
-                  <p className="text-sm text-grey mt-1">{priceUnitText}</p>
+                {(priceUnitText || product.purchaseUnit) && (
+                  <p className="text-sm text-grey mt-1">
+                    {priceUnitText ?? `per ${product.purchaseUnit?.toLowerCase()}`}
+                  </p>
                 )}
                 {isOnSale && (
                   <div className="mt-2">

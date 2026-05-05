@@ -49,6 +49,7 @@ export function WineDetailsAccordion({ product, className }: WineDetailsAccordio
             { label: t("product.bottle_volume.label"), value: product.bottleVolume },
             { label: t("product.wine_style.label"), value: getWineStyleLabel(product.wineType, t) },
             { label: t("product.closure.label"), value: product.closure },
+            { label: "Verkoopeenheid", value: product.purchaseUnit },
             { label: t("product.allergens.label"), value: product.allergens },
           ].filter((detail) => detail.value).map((detail) => (
             <div key={detail.label} className="flex justify-between py-2 border-b border-sand/50">

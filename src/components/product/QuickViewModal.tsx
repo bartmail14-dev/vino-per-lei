@@ -184,8 +184,10 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                     originalPrice={product.originalPrice}
                     size="lg"
                   />
-                  {priceUnitText && (
-                    <p className="text-sm text-grey mt-1">{priceUnitText}</p>
+                  {(priceUnitText || product.purchaseUnit) && (
+                    <p className="text-sm text-grey mt-1">
+                      {priceUnitText ?? `per ${product.purchaseUnit?.toLowerCase()}`}
+                    </p>
                   )}
                 </div>
 

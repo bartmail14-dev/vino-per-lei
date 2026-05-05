@@ -295,8 +295,10 @@ export function ProductCard({
               currentPrice={product.price}
               originalPrice={product.originalPrice}
             />
-            {priceUnitText && (
-              <p className="text-[10px] sm:text-xs text-grey mt-0.5">{priceUnitText}</p>
+            {(priceUnitText || product.purchaseUnit) && (
+              <p className="text-[10px] sm:text-xs text-grey mt-0.5">
+                {priceUnitText ?? `per ${product.purchaseUnit?.toLowerCase()}`}
+              </p>
             )}
           </div>
         </div>

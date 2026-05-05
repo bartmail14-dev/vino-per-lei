@@ -122,8 +122,10 @@ export function StickyPurchaseBar({
                         originalPrice={product.originalPrice}
                         size="md"
                       />
-                      {priceUnitText && (
-                        <p className="text-xs text-grey">{priceUnitText}</p>
+                      {(priceUnitText || product.purchaseUnit) && (
+                        <p className="text-xs text-grey">
+                          {priceUnitText ?? `per ${product.purchaseUnit?.toLowerCase()}`}
+                        </p>
                       )}
                       {isOnSale && (
                         <p className="text-xs text-success font-medium">
@@ -216,8 +218,10 @@ export function StickyPurchaseBar({
                   originalPrice={product.originalPrice}
                   size="md"
                 />
-                {priceUnitText && (
-                  <p className="text-xs text-grey mt-0.5">{priceUnitText}</p>
+                {(priceUnitText || product.purchaseUnit) && (
+                  <p className="text-xs text-grey mt-0.5">
+                    {priceUnitText ?? `per ${product.purchaseUnit?.toLowerCase()}`}
+                  </p>
                 )}
                 {isOnSale && (
                   <p className="text-xs text-success font-medium mt-0.5">

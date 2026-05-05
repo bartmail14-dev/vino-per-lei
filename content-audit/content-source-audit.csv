@@ -168,6 +168,7 @@ p2-ui-or-technical-copy,src/components/newsletter/NewsletterForm.tsx,327,string,
 p2-ui-or-technical-copy,src/components/newsletter/NewsletterForm.tsx,327,string,"Pd"
 p2-ui-or-technical-copy,src/components/newsletter/NewsletterForm.tsx,327,string,"SK"
 p2-ui-or-technical-copy,src/components/newsletter/NewsletterForm.tsx,339,jsxText,"500+ wijnliefhebbers gingen je voor"
+p1-product-ui-content,src/components/product/WineDetailsAccordion.tsx,52,string,"Verkoopeenheid"
 p2-ui-or-technical-copy,src/components/providers/GoogleAnalytics.tsx,55,attr:strategy,"afterInteractive"
 p2-ui-or-technical-copy,src/components/providers/GoogleAnalytics.tsx,57,attr:strategy,"afterInteractive"
 p2-ui-or-technical-copy,src/components/ui/AgeGate.tsx,54,string,"Lax"

@@ -22,6 +22,7 @@
   orderIncrement?: number;
   orderUnitLabel?: string;
   orderUnitSize?: number;
+  purchaseUnit?: 'Fles' | 'Doos';  // from custom.verkoopeenheid
 
   // Taste profile (1-6 scale)
   tasteProfile?: {

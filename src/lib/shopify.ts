@@ -73,6 +73,7 @@ const PRODUCT_FIELDS = `
   orderIncrement: metafield(namespace: "custom", key: "order_increment") { value }
   orderUnitLabel: metafield(namespace: "custom", key: "order_unit_label") { value }
   orderUnitSize: metafield(namespace: "custom", key: "order_unit_size") { value }
+  purchaseUnit: metafield(namespace: "custom", key: "verkoopeenheid") { value }
 `;
 
 // --- Types ---
@@ -193,6 +194,9 @@ function mapShopifyProduct(node: ShopifyProductNode): Product {
     orderUnitLabel: mf(node.orderUnitLabel as MetafieldNode | null) ?? undefined,
     orderUnitSize: (node.orderUnitSize as MetafieldNode | null)?.value
       ? parseInt((node.orderUnitSize as MetafieldNode).value)
+      : undefined,
+    purchaseUnit: (mf(node.purchaseUnit as MetafieldNode | null) === 'Fles' || mf(node.purchaseUnit as MetafieldNode | null) === 'Doos')
+      ? mf(node.purchaseUnit as MetafieldNode | null) as 'Fles' | 'Doos'
       : undefined,
     tasteProfile: (node.tasteDrySweet as MetafieldNode | null)?.value
       ? {
