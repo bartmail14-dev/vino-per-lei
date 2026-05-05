@@ -31,20 +31,21 @@ export async function sendMail(options: SendMailOptions): Promise<boolean> {
     from = `Vino per Lei <noreply@${MAILGUN_DOMAIN}>`,
   } = options;
 
-  const form = new FormData();
-  form.append("from", from);
-  form.append("to", to);
-  form.append("subject", subject);
-  form.append("text", text);
-  if (html) form.append("html", html);
-  if (replyTo) form.append("h:Reply-To", replyTo);
+  const params = new URLSearchParams();
+  params.append("from", from);
+  params.append("to", to);
+  params.append("subject", subject);
+  params.append("text", text);
+  if (html) params.append("html", html);
+  if (replyTo) params.append("h:Reply-To", replyTo);
 
   const res = await fetch(`${BASE_URL}/${MAILGUN_DOMAIN}/messages`, {
     method: "POST",
     headers: {
-      Authorization: `Basic ${btoa(`api:${MAILGUN_API_KEY}`)}`,
+      Authorization: `Basic ${Buffer.from(`api:${MAILGUN_API_KEY}`).toString("base64")}`,
+      "Content-Type": "application/x-www-form-urlencoded",
     },
-    body: form,
+    body: params.toString(),
   });
 
   if (!res.ok) {
