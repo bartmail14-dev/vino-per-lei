@@ -1,11 +1,11 @@
 {
   "generatedAt": "2026-05-05T17:04:23.452Z",
-  "highRiskStrings": 5,
+  "highRiskStrings": 6,
   "byRisk": {
     "p2-ui-or-technical-copy": 156,
     "p2-checkout-ui": 36,
     "allowed-ui": 5,
-    "p1-homepage-content": 5,
+    "p1-homepage-content": 6,
     "p2-account-ui": 10
   },
   "signatures": {
@@ -13,6 +13,7 @@
     "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fWitte wijnen": 1,
     "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fMousserende wijnen": 1,
     "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fGeselecteerde wijnen": 1,
-    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fWijngebieden": 1
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fWijngebieden": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fRosé wijnen": 1
   }
 }

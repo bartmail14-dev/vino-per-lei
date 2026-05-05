@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-05-05T15:14:59.520Z",
+  "generatedAt": "2026-05-05T17:23:58.207Z",
   "scannedFiles": 115,
-  "totalStrings": 210,
-  "highRiskStrings": 4,
+  "totalStrings": 212,
+  "highRiskStrings": 5,
   "byRisk": {
     "p2-ui-or-technical-copy": 156,
     "p2-checkout-ui": 36,
-    "allowed-ui": 4,
-    "p1-homepage-content": 4,
+    "allowed-ui": 5,
+    "p1-homepage-content": 5,
     "p2-account-ui": 10
   },
   "fileSources": [
@@ -329,8 +329,8 @@
         "getUSPItems",
         "getUiCopy"
       ],
-      "stringCount": 4,
-      "highRiskCount": 4
+      "stringCount": 6,
+      "highRiskCount": 5
     },
     {
       "file": "src/app/privacy/page.tsx",
@@ -1395,8 +1395,8 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 87,
-        "column": 19,
+        "line": 86,
+        "column": 17,
         "type": "jsxText",
         "text": "Stuur ons een bericht",
         "risk": "p2-ui-or-technical-copy",
@@ -1404,8 +1404,8 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 90,
-        "column": 19,
+        "line": 89,
+        "column": 17,
         "type": "jsxText",
         "text": "Vul het formulier in en we reageren binnen 1 werkdag.",
         "risk": "p2-ui-or-technical-copy",
@@ -1413,7 +1413,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 106,
+        "line": 104,
         "column": 21,
         "type": "jsxText",
         "text": "Openingstijden",
@@ -1422,7 +1422,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 111,
+        "line": 109,
         "column": 49,
         "type": "jsxText",
         "text": "Maandag - Vrijdag",
@@ -1431,7 +1431,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 115,
+        "line": 113,
         "column": 49,
         "type": "jsxText",
         "text": "Zaterdag",
@@ -1440,7 +1440,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 119,
+        "line": 117,
         "column": 49,
         "type": "jsxText",
         "text": "Zondag",
@@ -1449,7 +1449,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 124,
+        "line": 122,
         "column": 19,
         "type": "jsxText",
         "text": "Online bestellen kan 24/7. E-mails worden binnen 1 werkdag beantwoord.",
@@ -1458,7 +1458,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 136,
+        "line": 134,
         "column": 21,
         "type": "jsxText",
         "text": "Snel antwoord nodig?",
@@ -1467,7 +1467,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 139,
+        "line": 137,
         "column": 21,
         "type": "jsxText",
         "text": "Bekijk eerst onze veelgestelde vragen — misschien staat het antwoord er al bij.",
@@ -1476,7 +1476,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 146,
+        "line": 144,
         "column": 21,
         "type": "jsxText",
         "text": "Bekijk FAQ &rarr;",
@@ -1485,7 +1485,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 157,
+        "line": 155,
         "column": 19,
         "type": "jsxText",
         "text": "Vertrouwenssignalen",
@@ -1494,7 +1494,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 161,
+        "line": 159,
         "column": 21,
         "type": "string",
         "text": "Reactie binnen 1 werkdag",
@@ -1503,7 +1503,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 162,
+        "line": 160,
         "column": 21,
         "type": "string",
         "text": "Veilig betalen via iDEAL",
@@ -1512,7 +1512,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 163,
+        "line": 161,
         "column": 21,
         "type": "string",
         "text": "Snelle levering: 1-2 werkdagen",
@@ -1521,7 +1521,7 @@
       },
       {
         "file": "src/app/contact/ContactPageContent.tsx",
-        "line": 182,
+        "line": 180,
         "column": 13,
         "type": "jsxText",
         "text": "&larr; Terug naar de homepage",
@@ -1783,7 +1783,43 @@
     "src/app/page.tsx": [
       {
         "file": "src/app/page.tsx",
-        "line": 67,
+        "line": 56,
+        "column": 10,
+        "type": "string",
+        "text": "Rode wijnen",
+        "risk": "p1-homepage-content",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 57,
+        "column": 12,
+        "type": "string",
+        "text": "Witte wijnen",
+        "risk": "p1-homepage-content",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 58,
+        "column": 11,
+        "type": "string",
+        "text": "Rosé wijnen",
+        "risk": "allowed-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 59,
+        "column": 16,
+        "type": "string",
+        "text": "Mousserende wijnen",
+        "risk": "p1-homepage-content",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 75,
         "column": 73,
         "type": "string",
         "text": "Geselecteerde wijnen",
@@ -1792,28 +1828,10 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 68,
+        "line": 76,
         "column": 79,
         "type": "string",
         "text": "Wijngebieden",
-        "risk": "p1-homepage-content",
-        "context": "PropertyAssignment"
-      },
-      {
-        "file": "src/app/page.tsx",
-        "line": 69,
-        "column": 63,
-        "type": "string",
-        "text": "Rode wijnen",
-        "risk": "p1-homepage-content",
-        "context": "PropertyAssignment"
-      },
-      {
-        "file": "src/app/page.tsx",
-        "line": 70,
-        "column": 82,
-        "type": "string",
-        "text": "Witte & mousserende wijnen",
         "risk": "p1-homepage-content",
         "context": "PropertyAssignment"
       }
@@ -2315,7 +2333,7 @@
     "src/components/ui/AgeGate.tsx": [
       {
         "file": "src/components/ui/AgeGate.tsx",
-        "line": 51,
+        "line": 54,
         "column": 88,
         "type": "string",
         "text": "Lax",

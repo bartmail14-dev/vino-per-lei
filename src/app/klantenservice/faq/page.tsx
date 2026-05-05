@@ -29,20 +29,26 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function FAQPage() {
   const [faqItems, uiCopy] = await Promise.all([getFAQItems(), getUiCopy()]);
 
-  // Strip "gratis verzending" claims from FAQ answers (CMS data)
-  const cleanedFaqItems = faqItems.map((item) => ({
-    ...item,
-    answer: item.answer
-      .replace(/Bij bestellingen vanaf [€\u20AC]?\d+[\s,]*is verzending gratis\.?\s*/gi, "")
-      .replace(/\s*\(?\s*gratis vanaf [€\u20AC]?\d+[.,]?\d*\s*\)?\.?\s*/gi, "")
-      .replace(/\.\s*\./g, ".") // clean up double periods
-      .replace(/\s{2,}/g, " ") // clean up double spaces
-      .trim(),
-  }));
+  // Strip "gratis verzending" claims and cadeau-related items from FAQ (CMS data)
+  const cleanedFaqItems = faqItems
+    .filter((item) => !item.question.toLowerCase().includes("cadeau"))
+    .map((item) => ({
+      ...item,
+      answer: item.answer
+        .replace(/Bij bestellingen vanaf [€\u20AC]?\d+[\s,]*is verzending gratis\.?\s*/gi, "")
+        .replace(/\s*\(?\s*gratis vanaf [€\u20AC]?\d+[.,]?\d*\s*\)?\.?\s*/gi, "")
+        .replace(/\.\s*\./g, ".") // clean up double periods
+        .replace(/\s{2,}/g, " ") // clean up double spaces
+        .trim(),
+    }));
 
-  // Group by category
+  // Group by category, deduplicating by question text
   const categoryMap = new Map<string, { question: string; answer: string }[]>();
+  const seenQuestions = new Set<string>();
   for (const item of cleanedFaqItems) {
+    const key = `${item.category}::${item.question}`;
+    if (seenQuestions.has(key)) continue;
+    seenQuestions.add(key);
     const existing = categoryMap.get(item.category) ?? [];
     existing.push({ question: item.question, answer: item.answer });
     categoryMap.set(item.category, existing);

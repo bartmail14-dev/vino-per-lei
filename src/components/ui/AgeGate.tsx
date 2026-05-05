@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Logo } from "@/components/ui/Logo";
 import { motion, AnimatePresence } from "framer-motion";
 import Cookies from "js-cookie";
@@ -16,6 +17,8 @@ export interface AgeGateProps {
 
 export function AgeGate({ onVerified }: AgeGateProps) {
   const t = useUiCopy();
+  const searchParams = useSearchParams();
+  const router = useRouter();
   // State: null = not checked yet, true = show gate, false = verified
   const [gateState, setGateState] = useState<boolean | null>(null);
   const [isExiting, setIsExiting] = useState(false);
@@ -50,11 +53,15 @@ export function AgeGate({ onVerified }: AgeGateProps) {
     setIsExiting(true);
     Cookies.set(COOKIE_NAME, "true", { expires: COOKIE_EXPIRY, secure: true, sameSite: "Lax" });
 
-    // Wait for exit animation
+    // Wait for exit animation, then redirect to return_to if present
     setTimeout(() => {
       setGateState(false);
       document.body.style.overflow = "";
       onVerified?.();
+      const returnTo = searchParams.get("return_to");
+      if (returnTo && returnTo.startsWith("/")) {
+        router.push(returnTo);
+      }
     }, 400);
   };
 

@@ -43,16 +43,8 @@ export default async function Home() {
     getUiCopy(),
   ]);
 
-  // Filter out false claims from CMS USP items
-  const uspItems = rawUspItems
-    .filter((u) => {
-      const t = u.title.toLowerCase();
-      return !t.includes("gratis verzending") && !t.includes("gratis retour");
-    })
-    .map((u) => ({
-      ...u,
-      subtitle: u.subtitle.replace(/gratis (verzending|retour)/gi, "").trim(),
-    }));
+  // USP items come directly from Shopify CMS (metaobjects)
+  const uspItems = rawUspItems;
   const featured = allProducts.filter((p) => p.isFeatured);
   const featuredProducts = featured.length > 0 ? featured.slice(0, 4) : allProducts.slice(0, 4);
   const hero = heroRaw;
@@ -161,7 +153,7 @@ export default async function Home() {
       <Section background="default" spacing="none" className="relative -mt-24 sm:-mt-28 z-10">
         <AnimatedUSPBar>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+            <div className={`grid grid-cols-1 sm:grid-cols-2 ${uspItems.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"} gap-3 sm:gap-4`}>
               {uspItems.map((usp) => {
                 const IconComp = uspIconMap[usp.iconName] || TruckIcon;
                 return (

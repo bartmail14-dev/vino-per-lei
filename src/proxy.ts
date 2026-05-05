@@ -151,6 +151,7 @@ export function proxy(request: NextRequest) {
       const url = request.nextUrl.clone();
       url.pathname = "/";
       url.searchParams.set("age_required", "1");
+      url.searchParams.set("return_to", pathname);
       return NextResponse.redirect(url);
     }
   }
