@@ -150,7 +150,7 @@ export default async function Home() {
       {/* =============================================
           USP BAR — Elevated trust signals
           ============================================= */}
-      <Section background="default" spacing="none" className="relative -mt-14 sm:-mt-24 lg:-mt-28 z-10">
+      <Section background="default" spacing="none" className="relative -mt-14 sm:-mt-24 lg:-mt-28 z-10 !bg-transparent">
         <AnimatedUSPBar>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className={`grid grid-cols-1 sm:grid-cols-2 ${uspItems.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"} gap-3 sm:gap-4`}>
