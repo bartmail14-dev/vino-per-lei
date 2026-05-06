@@ -101,7 +101,7 @@ export function ProductCard({
         "transition-all duration-500 ease-out",
         "sm:hover:shadow-[0_24px_48px_-12px_rgba(26,31,61,0.12)]",
         "sm:hover:-translate-y-2",
-        "overflow-visible mt-10 min-[430px]:mt-14 sm:mt-28 flex flex-col h-full",
+        "overflow-visible mt-12 min-[430px]:mt-16 sm:mt-28 flex flex-col",
         "before:absolute before:inset-x-5 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-gold/45 before:to-transparent before:content-['']",
         className
       )}
@@ -157,11 +157,11 @@ export function ProductCard({
 
       <Link
         href={`/wijnen/${product.handle}`}
-        className="block flex-1"
+        className="block"
         aria-label={t("product.view_aria", { title: product.title })}
       >
         {/* Image Container */}
-        <div className="relative h-40 min-[430px]:h-44 sm:h-48 mx-3 sm:mx-4 -mt-9 min-[430px]:-mt-12 sm:-mt-20">
+        <div className="relative h-44 min-[430px]:h-48 sm:h-56 mx-3 sm:mx-4 -mt-10 min-[430px]:-mt-14 sm:-mt-22">
           {/* Background with grain */}
           <div className="absolute inset-0 bg-gradient-to-b from-champagne/70 via-cream to-white rounded-xl overflow-hidden ring-1 ring-gold/10">
             <div className="absolute inset-0 bg-grain opacity-[0.03]" />
@@ -217,9 +217,9 @@ export function ProductCard({
           </div>
 
           {/* Product Image */}
-          <div className="absolute inset-0 -top-6 min-[430px]:-top-8 sm:-top-16 flex items-center justify-center">
+          <div className="absolute inset-0 -top-8 min-[430px]:-top-10 sm:-top-16 flex items-center justify-center">
             {product.images[0] ? (
-              <div className="relative w-24 min-[430px]:w-28 sm:w-36 h-44 min-[430px]:h-52 sm:h-72">
+              <div className="relative w-28 min-[430px]:w-32 sm:w-40 h-48 min-[430px]:h-56 sm:h-76">
                 {!imageLoaded && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-10 h-28 sm:w-14 sm:h-44 rounded-lg bg-gradient-to-b from-sand/30 to-sand/10 animate-pulse" />
@@ -238,7 +238,7 @@ export function ProductCard({
                     src={wineImagePresets.card(product.images[0].url)}
                     alt={product.images[0].altText || product.title}
                     fill
-                    sizes="(max-width: 430px) 96px, (max-width: 640px) 112px, 176px"
+                    sizes="(max-width: 430px) 128px, (max-width: 640px) 144px, 176px"
                     priority={priority}
                     onLoad={handleImageLoad}
                     className={cn(
@@ -258,7 +258,7 @@ export function ProductCard({
         </div>
 
         {/* Gold divider */}
-        <div className="mx-4 sm:mx-5 mt-2 sm:mt-3 mb-2 sm:mb-3">
+        <div className="mx-4 sm:mx-5 mt-1.5 sm:mt-2 mb-1.5 sm:mb-2">
           <div className="h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
         </div>
 
@@ -280,7 +280,7 @@ export function ProductCard({
 
           {/* Rating */}
           {product.rating && (
-            <div className="mb-2 sm:mb-2.5">
+            <div className="mb-1 sm:mb-1.5">
               <Rating
                 rating={product.rating}
                 reviewCount={product.reviewCount}
@@ -290,7 +290,7 @@ export function ProductCard({
           )}
 
           {/* Price */}
-          <div className="mb-2.5 sm:mb-3">
+          <div className="mb-1.5 sm:mb-2">
             <PriceDisplay
               currentPrice={product.price}
               originalPrice={product.originalPrice}
@@ -299,6 +299,29 @@ export function ProductCard({
               <p className="text-[10px] sm:text-xs text-grey mt-0.5">
                 {priceUnitText ?? `per ${product.purchaseUnit?.toLowerCase()}`}
               </p>
+            )}
+          </div>
+
+          {/* Wine Details */}
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[9px] sm:text-[10px] text-grey/70">
+            {product.grapeVarieties.length > 0 && (
+              <span className="truncate max-w-[120px] sm:max-w-[140px]">
+                {product.grapeVarieties.slice(0, 2).join(", ")}
+              </span>
+            )}
+            {product.grapeVarieties.length > 0 && product.alcoholPercentage && (
+              <span className="text-gold/40">&middot;</span>
+            )}
+            {product.alcoholPercentage && (
+              <span>{product.alcoholPercentage}</span>
+            )}
+            {product.foodPairing && product.foodPairing.length > 0 && (
+              <>
+                <span className="text-gold/40">&middot;</span>
+                <span className="truncate max-w-[100px] sm:max-w-[120px]">
+                  {product.foodPairing.slice(0, 2).join(", ")}
+                </span>
+              </>
             )}
           </div>
         </div>

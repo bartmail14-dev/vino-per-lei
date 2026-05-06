@@ -128,7 +128,7 @@ export function ProductCarousel({
         <div
           ref={carouselRef}
           onScroll={checkScrollPosition}
-          className="flex gap-3 sm:gap-4 lg:gap-6 overflow-x-auto scroll-smooth pb-4 scrollbar-hide"
+          className="flex items-start gap-3 sm:gap-4 lg:gap-6 overflow-x-auto scroll-smooth pb-4 scrollbar-hide"
           style={{
             scrollSnapType: "x mandatory",
             WebkitOverflowScrolling: "touch",
@@ -140,7 +140,7 @@ export function ProductCarousel({
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: index * 0.1 }}
-              className="flex-shrink-0 w-[180px] sm:w-[240px] lg:w-[280px]"
+              className="flex-shrink-0 w-[220px] sm:w-[260px] lg:w-[300px]"
               style={{ scrollSnapAlign: "start" }}
             >
               <ProductCard product={product} />

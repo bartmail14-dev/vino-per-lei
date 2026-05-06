@@ -85,7 +85,7 @@ export function HeroParallax({ children }: { children: ReactNode }) {
       {/* Multi-layer gradient overlay for depth */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/12 to-[#111526]/72" />
       <div className="absolute inset-0 bg-gradient-to-r from-[#111526]/80 via-[#111526]/36 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-background via-background/40 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
 
       {/* Parallax content layer */}
       <motion.div
