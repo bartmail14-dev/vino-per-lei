@@ -159,7 +159,7 @@ export default async function Home() {
                 return (
                   <div
                     key={usp.title}
-                    className="group relative overflow-hidden rounded-2xl border border-sand/50 bg-white/96 px-5 py-5 shadow-[0_24px_60px_-36px_rgba(26,31,61,0.45)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/35 hover:shadow-[0_28px_70px_-34px_rgba(26,31,61,0.55)]"
+                    className="group relative overflow-hidden rounded-2xl border border-sand/50 bg-white px-5 py-5 shadow-[0_24px_60px_-36px_rgba(26,31,61,0.45)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/35 hover:shadow-[0_28px_70px_-34px_rgba(26,31,61,0.55)]"
                   >
                     <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" aria-hidden="true" />
                     <div className="mb-4 w-11 h-11 rounded-full bg-champagne/60 ring-1 ring-gold/15 flex items-center justify-center flex-shrink-0 transition-colors group-hover:bg-gold/12">

@@ -101,7 +101,7 @@ export function ProductCard({
         "transition-all duration-500 ease-out",
         "sm:hover:shadow-[0_24px_48px_-12px_rgba(26,31,61,0.12)]",
         "sm:hover:-translate-y-2",
-        "overflow-visible mt-12 min-[430px]:mt-16 sm:mt-28 flex flex-col",
+        "overflow-visible mt-14 min-[430px]:mt-18 sm:mt-32 flex flex-col",
         "before:absolute before:inset-x-5 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-gold/45 before:to-transparent before:content-['']",
         className
       )}
@@ -157,11 +157,11 @@ export function ProductCard({
 
       <Link
         href={`/wijnen/${product.handle}`}
-        className="block"
+        className="flex flex-col flex-1"
         aria-label={t("product.view_aria", { title: product.title })}
       >
         {/* Image Container */}
-        <div className="relative h-44 min-[430px]:h-48 sm:h-56 mx-3 sm:mx-4 -mt-10 min-[430px]:-mt-14 sm:-mt-22">
+        <div className="relative h-52 min-[430px]:h-56 sm:h-68 mx-3 sm:mx-4 -mt-10 min-[430px]:-mt-14 sm:-mt-22">
           {/* Background with grain */}
           <div className="absolute inset-0 bg-gradient-to-b from-champagne/70 via-cream to-white rounded-xl overflow-hidden ring-1 ring-gold/10">
             <div className="absolute inset-0 bg-grain opacity-[0.03]" />
@@ -200,13 +200,13 @@ export function ProductCard({
           </div>
 
           {/* Wine Type Pill */}
-          <div className="absolute bottom-2 right-2 sm:bottom-3 sm:right-3 z-10">
+          <div className="absolute bottom-2.5 right-2.5 sm:bottom-3.5 sm:right-3.5 z-10">
             <div className={cn(
-              "flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white/90 backdrop-blur-sm",
-              "text-[10px] sm:text-[11px] font-medium text-charcoal/70 tracking-wide"
+              "flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/92 backdrop-blur-sm shadow-sm",
+              "text-[11px] sm:text-xs font-semibold text-charcoal/80 tracking-wide"
             )}>
               <div className={cn(
-                "w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full",
+                "w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full",
                 product.wineType === "red" && "bg-wine-red",
                 product.wineType === "white" && "bg-gold",
                 product.wineType === "rose" && "bg-coral",
@@ -219,7 +219,7 @@ export function ProductCard({
           {/* Product Image */}
           <div className="absolute inset-0 -top-8 min-[430px]:-top-10 sm:-top-16 flex items-center justify-center">
             {product.images[0] ? (
-              <div className="relative w-28 min-[430px]:w-32 sm:w-40 h-48 min-[430px]:h-56 sm:h-76">
+              <div className="relative w-40 min-[430px]:w-44 sm:w-56 h-64 min-[430px]:h-72 sm:h-96">
                 {!imageLoaded && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-10 h-28 sm:w-14 sm:h-44 rounded-lg bg-gradient-to-b from-sand/30 to-sand/10 animate-pulse" />
@@ -238,7 +238,7 @@ export function ProductCard({
                     src={wineImagePresets.card(product.images[0].url)}
                     alt={product.images[0].altText || product.title}
                     fill
-                    sizes="(max-width: 430px) 128px, (max-width: 640px) 144px, 176px"
+                    sizes="(max-width: 430px) 176px, (max-width: 640px) 192px, 240px"
                     priority={priority}
                     onLoad={handleImageLoad}
                     className={cn(
@@ -263,7 +263,7 @@ export function ProductCard({
         </div>
 
         {/* Content */}
-        <div className="px-3 sm:px-5 pb-1">
+        <div className="px-3 sm:px-5 pb-1 flex-1">
           {/* Region line — editorial small-caps */}
           <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-grey/60 font-medium mb-1 sm:mb-1.5 truncate">
             {product.region}
@@ -274,7 +274,7 @@ export function ProductCard({
             )}
           </p>
 
-          <h3 className="font-serif text-[15px] min-[430px]:text-[13px] sm:text-base font-semibold text-charcoal leading-snug line-clamp-2 group-hover:text-wine transition-colors duration-300 mb-1.5 sm:mb-2">
+          <h3 className="font-serif text-[15px] min-[430px]:text-[13px] sm:text-base font-semibold text-charcoal leading-snug line-clamp-2 min-h-[2.5em] group-hover:text-wine transition-colors duration-300 mb-1.5 sm:mb-2">
             {product.title}
           </h3>
 
@@ -303,25 +303,21 @@ export function ProductCard({
           </div>
 
           {/* Wine Details */}
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[9px] sm:text-[10px] text-grey/70">
+          <div className="flex items-center gap-1.5 min-h-[26px] sm:min-h-[28px] overflow-hidden">
             {product.grapeVarieties.length > 0 && (
-              <span className="truncate max-w-[120px] sm:max-w-[140px]">
+              <span className="shrink-0 inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-[130px] sm:max-w-[160px]">
                 {product.grapeVarieties.slice(0, 2).join(", ")}
               </span>
             )}
-            {product.grapeVarieties.length > 0 && product.alcoholPercentage && (
-              <span className="text-gold/40">&middot;</span>
-            )}
-            {product.alcoholPercentage && (
-              <span>{product.alcoholPercentage}</span>
+            {product.alcoholPercentage && !product.alcoholPercentage.toLowerCase().includes("etiket") && (
+              <span className="shrink-0 inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium whitespace-nowrap">
+                {product.alcoholPercentage}
+              </span>
             )}
             {product.foodPairing && product.foodPairing.length > 0 && (
-              <>
-                <span className="text-gold/40">&middot;</span>
-                <span className="truncate max-w-[100px] sm:max-w-[120px]">
-                  {product.foodPairing.slice(0, 2).join(", ")}
-                </span>
-              </>
+              <span className="shrink-0 inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px] sm:max-w-[150px]">
+                {product.foodPairing.slice(0, 2).join(", ")}
+              </span>
             )}
           </div>
         </div>
@@ -340,7 +336,7 @@ export function ProductCard({
               "disabled:pointer-events-none disabled:opacity-50",
               justAdded
                 ? "bg-success text-white border border-success"
-                : "bg-gradient-to-r from-wine/[0.03] via-white to-gold/[0.05] text-wine border border-wine/20 hover:bg-wine hover:text-white hover:border-wine"
+                : "bg-wine text-white border border-wine hover:bg-wine-dark hover:border-wine-dark"
             )}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}

@@ -183,7 +183,7 @@ const entries = [
   ["collection.alcohol.full", "Vol (14%+)", "collection", "Alcoholfilter vol"],
 
   ["home.org.description", "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.", "home", "Structured data omschrijving homepage"],
-  ["home.featured.eyebrow", "Door Carla gekozen", "home", "Eyebrow bij uitgelichte producten"],
+  ["home.featured.eyebrow", "Onze selectie", "home", "Eyebrow bij uitgelichte producten"],
   ["home.featured.title", "Onze Favorieten", "home", "Titel uitgelichte producten"],
   ["home.featured.subtitle", "Persoonlijk geselecteerd door Carla.", "home", "Subtitle uitgelichte producten"],
   ["home.featured.view_all", "Alle wijnen", "home", "Link naar collectie vanuit homepage"],
