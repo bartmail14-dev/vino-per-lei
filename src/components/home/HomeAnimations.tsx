@@ -78,7 +78,7 @@ export function HeroParallax({ children }: { children: ReactNode }) {
           aria-hidden="true"
           className="absolute inset-0 w-full h-[120%] object-cover"
         >
-          <source src="/hero-video.mp4" type="video/mp4" />
+          <source src="/hero-video.mp4?v=3" type="video/mp4" />
         </video>
       </motion.div>
 
