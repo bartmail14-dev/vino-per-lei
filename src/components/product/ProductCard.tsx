@@ -303,19 +303,19 @@ export function ProductCard({
           </div>
 
           {/* Wine Details */}
-          <div className="flex items-center gap-1.5 min-h-[26px] sm:min-h-[28px] overflow-hidden">
+          <div className="flex flex-wrap items-center gap-1.5 min-h-[26px] sm:min-h-[28px]">
             {product.grapeVarieties.length > 0 && (
-              <span className="shrink-0 inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-[130px] sm:max-w-[160px]">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium">
                 {product.grapeVarieties.slice(0, 2).join(", ")}
               </span>
             )}
             {product.alcoholPercentage && !product.alcoholPercentage.toLowerCase().includes("etiket") && (
-              <span className="shrink-0 inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium whitespace-nowrap">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium">
                 {product.alcoholPercentage}
               </span>
             )}
             {product.foodPairing && product.foodPairing.length > 0 && (
-              <span className="shrink-0 inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px] sm:max-w-[150px]">
+              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium">
                 {product.foodPairing.slice(0, 2).join(", ")}
               </span>
             )}
