@@ -468,6 +468,15 @@ textarea:focus-visible,
   animation: shimmer 1.5s infinite;
 }
 
+/* Cart button liquid-fill shimmer */
+@keyframes btnShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-btn-shimmer {
+  animation: btnShimmer 1.8s ease-in-out infinite;
+}
+
 /* Text shadow for hero readability */
 .text-shadow-hero {
   text-shadow: 0 4px 16px rgba(0, 0, 0, 0.6), 0 2px 4px rgba(0, 0, 0, 0.4);

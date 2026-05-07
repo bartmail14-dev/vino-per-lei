@@ -302,20 +302,23 @@ export function ProductCard({
             )}
           </div>
 
-          {/* Wine Details */}
-          <div className="flex flex-wrap items-center gap-1.5 min-h-[26px] sm:min-h-[28px]">
+          {/* Wine Details — premium pills */}
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 min-h-[26px] sm:min-h-[28px] mb-3 sm:mb-4">
             {product.grapeVarieties.length > 0 && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-b from-white to-sand/30 border border-sand/60 shadow-[0_1px_3px_rgba(0,0,0,0.04)] text-[10px] sm:text-[11px] text-charcoal/70 font-medium">
+                <svg className="w-3 h-3 text-wine/40 shrink-0" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5c-1.5 0-3 1-3.5 2.5-.3.8-.5 2-.5 3 0 2.5 1.8 4.5 4 4.5s4-2 4-4.5c0-1-.2-2.2-.5-3C11 2.5 9.5 1.5 8 1.5zM8 14c-.3 0-.5.2-.5.5v1a.5.5 0 001 0v-1c0-.3-.2-.5-.5-.5z"/></svg>
                 {product.grapeVarieties.slice(0, 2).join(", ")}
               </span>
             )}
             {product.alcoholPercentage && !product.alcoholPercentage.toLowerCase().includes("etiket") && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-b from-white to-sand/30 border border-sand/60 shadow-[0_1px_3px_rgba(0,0,0,0.04)] text-[10px] sm:text-[11px] text-charcoal/70 font-medium">
+                <svg className="w-3 h-3 text-gold/60 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.5l2 1.5"/></svg>
                 {product.alcoholPercentage}
               </span>
             )}
             {product.foodPairing && product.foodPairing.length > 0 && (
-              <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-sand/40 text-[10px] sm:text-[11px] text-charcoal/60 font-medium">
+              <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-gradient-to-b from-white to-sand/30 border border-sand/60 shadow-[0_1px_3px_rgba(0,0,0,0.04)] text-[10px] sm:text-[11px] text-charcoal/70 font-medium">
+                <svg className="w-3 h-3 text-wine/40 shrink-0" viewBox="0 0 16 16" fill="currentColor"><path d="M6 1v5c0 1.1-.9 2-2 2H3c-1.1 0-2-.9-2-2V1m2 6v8m-2 0h4M11.5 1L10 5.5c-.2.6.3 1.2.9 1.2h3.2c.6 0 1.1-.6.9-1.2L13.5 1m-1 5.7V15m-2 0h4"/></svg>
                 {product.foodPairing.slice(0, 2).join(", ")}
               </span>
             )}
@@ -330,17 +333,25 @@ export function ProductCard({
             onClick={handleAddToCart}
             disabled={isAdding}
             className={cn(
-              "relative w-full h-10 sm:h-11 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] cursor-pointer",
+              "group/btn relative w-full h-10 sm:h-11 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] cursor-pointer",
               "overflow-hidden transition-all duration-300",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2",
               "disabled:pointer-events-none disabled:opacity-50",
               justAdded
                 ? "bg-success text-white border border-success"
-                : "bg-wine text-white border border-wine hover:bg-wine-dark hover:border-wine-dark"
+                : "bg-wine text-white border border-wine"
             )}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+            whileTap={{ scale: 0.96 }}
           >
+            {/* Liquid fill hover effect — rises from bottom like wine in a glass */}
+            {!justAdded && !isAdding && (
+              <span className="absolute inset-0 z-0">
+                <span className="absolute inset-x-0 bottom-0 h-0 bg-gradient-to-t from-gold/90 via-gold/70 to-gold/50 transition-all duration-500 ease-out group-hover/btn:h-full" />
+                <span className="absolute inset-x-0 bottom-0 h-0 transition-all duration-700 ease-out group-hover/btn:h-full overflow-hidden">
+                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-btn-shimmer" />
+                </span>
+              </span>
+            )}
             <AnimatePresence mode="wait">
               {isAdding ? (
                 <motion.span
@@ -369,7 +380,7 @@ export function ProductCard({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="relative z-10 flex items-center justify-center"
+                  className="relative z-10 flex items-center justify-center drop-shadow-sm transition-all duration-300 group-hover/btn:tracking-[0.18em]"
                 >
                   {t("product.add_to_cart_short")}
                 </motion.span>
