@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Cookie, Shield, BarChart3, Megaphone, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUiCopy } from "@/components/providers";
+import { useCartStore } from "@/stores/cartStore";
 
 const CONSENT_KEY = "vpl_cookie_consent";
 const CONSENT_COOKIE = "vpl_cookie_consent";
@@ -95,8 +96,10 @@ export function CookieConsent() {
   const [showDetails, setShowDetails] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const t = useUiCopy();
   const pathname = usePathname();
+  const isCartOpen = useCartStore((state) => state.isOpen);
   const needsPurchaseBarOffset = pathname?.startsWith("/wijnen/") ?? false;
 
   useEffect(() => {
@@ -117,6 +120,15 @@ export function CookieConsent() {
       clearTimeout(timer);
       window.removeEventListener("vpl:reopen-consent", handleReopen);
     };
+  }, []);
+
+  useEffect(() => {
+    const handleMobileMenu = (event: Event) => {
+      setIsMobileMenuOpen(Boolean((event as CustomEvent<boolean>).detail));
+    };
+
+    window.addEventListener("vpl:mobile-menu", handleMobileMenu);
+    return () => window.removeEventListener("vpl:mobile-menu", handleMobileMenu);
   }, []);
 
   const saveConsent = (categories: CookieCategories) => {
@@ -142,23 +154,23 @@ export function CookieConsent() {
 
   return (
     <AnimatePresence>
-      {visible && (
+      {visible && !isCartOpen && !isMobileMenuOpen && (
         <motion.div
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
           className={cn(
-            "fixed left-3 right-3 z-[9990] sm:bottom-6 sm:left-6 sm:right-auto sm:max-w-[420px]",
+            "fixed left-3 right-3 z-[9990] sm:bottom-5 sm:left-5 sm:right-auto sm:max-w-[360px]",
             needsPurchaseBarOffset ? "bottom-28" : "bottom-4"
           )}
           role="region"
           aria-label="Cookie-instellingen"
         >
-          <div className="bg-white rounded-2xl shadow-2xl border border-sand/60 overflow-hidden">
+          <div className="bg-white/96 rounded-2xl shadow-[0_18px_54px_-34px_rgba(26,31,61,0.72)] border border-sand/70 overflow-hidden backdrop-blur">
             {/* Header bar */}
-            <div className="bg-wine/[0.03] px-5 py-4 flex items-center gap-3">
-              <div className="w-9 h-9 bg-wine/10 rounded-xl flex items-center justify-center shrink-0">
+            <div className="bg-wine/[0.03] px-4 py-3 flex items-center gap-3">
+              <div className="w-8 h-8 bg-wine/10 rounded-xl flex items-center justify-center shrink-0">
                 <Cookie className="w-4.5 h-4.5 text-wine" strokeWidth={1.5} />
               </div>
               <div className="min-w-0">
@@ -176,7 +188,7 @@ export function CookieConsent() {
             </div>
 
             {/* Details toggle */}
-            <div className="px-5">
+            <div className="px-4">
               <button
                 onClick={() => setShowDetails(!showDetails)}
                 className="w-full flex items-center justify-between py-3 text-xs font-medium text-grey hover:text-charcoal transition-colors"
@@ -199,7 +211,7 @@ export function CookieConsent() {
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="px-5 pb-1 space-y-3">
+                  <div className="px-4 pb-1 space-y-3">
                     {/* Necessary */}
                     <div className="flex items-center justify-between gap-3">
                       <div className="flex items-center gap-2.5 min-w-0">
@@ -241,25 +253,25 @@ export function CookieConsent() {
             </AnimatePresence>
 
             {/* Buttons */}
-            <div className="p-4 pt-3 flex gap-2">
+            <div className="p-3 pt-2 flex gap-2">
               {showDetails ? (
                 <button
                   onClick={handleSaveChoices}
-                  className="flex-1 h-10 text-xs font-semibold text-charcoal bg-cream border border-sand rounded-xl hover:bg-sand/50 active:scale-[0.98] transition-all duration-150"
+                  className="flex-1 h-9 text-xs font-semibold text-charcoal bg-cream border border-sand rounded-xl hover:bg-sand/50 active:scale-[0.98] transition-all duration-150"
                 >
                   {t("cookie.save")}
                 </button>
               ) : (
                 <button
                   onClick={handleNecessaryOnly}
-                  className="flex-1 h-10 text-xs font-semibold text-charcoal bg-cream border border-sand rounded-xl hover:bg-sand/50 active:scale-[0.98] transition-all duration-150"
+                  className="flex-1 h-9 text-xs font-semibold text-charcoal bg-cream border border-sand rounded-xl hover:bg-sand/50 active:scale-[0.98] transition-all duration-150"
                 >
                   {t("cookie.necessary_only")}
                 </button>
               )}
               <button
                 onClick={handleAcceptAll}
-                className="flex-1 h-10 text-xs font-semibold text-white bg-wine rounded-xl hover:bg-wine-dark active:scale-[0.98] transition-all duration-150"
+                className="flex-1 h-9 text-xs font-semibold text-white bg-wine rounded-xl hover:bg-wine-dark active:scale-[0.98] transition-all duration-150"
               >
                 {t("cookie.accept_all")}
               </button>

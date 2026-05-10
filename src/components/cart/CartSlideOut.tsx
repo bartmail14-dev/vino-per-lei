@@ -92,7 +92,7 @@ export function CartSlideOut() {
             animate={isMobileCart ? { y: 0 } : { x: 0 }}
             exit={isMobileCart ? { y: "100%" } : { x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed inset-x-0 bottom-0 top-auto max-h-[92dvh] w-full rounded-t-3xl bg-white z-[101] flex flex-col shadow-2xl sm:top-0 sm:right-0 sm:left-auto sm:bottom-0 sm:max-h-none sm:max-w-md sm:rounded-none"
+            className="fixed inset-x-0 bottom-0 top-auto max-h-[92dvh] w-full rounded-t-3xl bg-white z-[101] flex flex-col shadow-[0_-24px_80px_-50px_rgba(26,31,61,0.8)] ring-1 ring-white/80 sm:top-0 sm:right-0 sm:left-auto sm:bottom-0 sm:max-h-none sm:max-w-md sm:rounded-none sm:shadow-[0_0_80px_-48px_rgba(26,31,61,0.9)]"
             role="dialog"
             aria-modal="true"
             aria-label={t("cart.title")}
@@ -102,7 +102,7 @@ export function CartSlideOut() {
             </div>
 
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-sand sm:px-6 sm:py-4">
+            <div className="flex items-center justify-between px-4 py-3 border-b border-sand/70 bg-white sm:px-6 sm:py-4">
               <h2 className="font-serif text-xl font-semibold">
                 {t("cart.title")}
                 {itemCount > 0 && (
@@ -141,7 +141,7 @@ export function CartSlideOut() {
                     {items.map((item) => (
                       <li
                         key={item.id}
-                        className="flex gap-3 pb-4 border-b border-sand last:border-0 sm:gap-4"
+                        className="flex gap-3 rounded-2xl border border-sand/55 bg-cream/35 p-3 shadow-[0_12px_34px_-30px_rgba(26,31,61,0.5)] sm:gap-4"
                       >
                         {/* Product Image */}
                         <div className="relative w-16 h-20 bg-warm-white rounded-lg overflow-hidden flex-shrink-0 sm:w-20 sm:h-24">
@@ -220,7 +220,7 @@ export function CartSlideOut() {
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-sand bg-warm-white/50 px-4 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] space-y-4 sm:px-6 sm:pb-4">
+                <div className="border-t border-sand/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(245,240,232,0.72))] px-4 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] space-y-4 sm:px-6 sm:pb-4">
                   {freeShippingThreshold > 0 && (
                     <div className="rounded-2xl border border-gold/15 bg-white px-3 py-3 shadow-sm">
                       <div className="mb-2 flex items-center justify-between gap-3 text-xs text-grey">

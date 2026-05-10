@@ -35,6 +35,19 @@ const uspIconMap: Record<string, React.ComponentType<{ className?: string }>> = 
   shield: ShieldIcon,
 };
 
+function formatHeroTitleLine(line: string | undefined, capitalizeFirstLetter: boolean): string {
+  const lower = (line ?? "").toLocaleLowerCase("nl-NL");
+  if (!capitalizeFirstLetter) return lower;
+  const firstLetterIndex = lower.search(/\p{L}/u);
+  if (firstLetterIndex === -1) return lower;
+
+  return (
+    lower.slice(0, firstLetterIndex) +
+    lower.charAt(firstLetterIndex).toLocaleUpperCase("nl-NL") +
+    lower.slice(firstLetterIndex + 1)
+  );
+}
+
 export default async function Home() {
   const [allProducts, heroRaw, rawUspItems, uiCopy] = await Promise.all([
     getProducts(),
@@ -48,6 +61,8 @@ export default async function Home() {
   const featured = allProducts.filter((p) => p.isFeatured);
   const featuredProducts = featured.length > 0 ? featured.slice(0, 4) : allProducts.slice(0, 4);
   const hero = heroRaw;
+  const heroTitleLine1 = formatHeroTitleLine(hero?.titleLine1, true);
+  const heroTitleLine2 = formatHeroTitleLine(hero?.titleLine2, heroTitleLine1.length === 0);
   const activeRegionSlugs = getActiveRegionSlugsFromProducts(allProducts);
   const regionLabels = getRegionLabelsFromProducts(allProducts);
 
@@ -113,9 +128,9 @@ export default async function Home() {
 
             {/* Headline — bigger, bolder, with gold glow */}
             <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-5 sm:mb-8 leading-[0.96] animate-fade-in-up animation-delay-400 text-shadow-hero max-w-4xl">
-              {hero?.titleLine1}
+              {heroTitleLine1}
               <br />
-              <span className="text-gold text-shadow-gold">{hero?.titleLine2}</span>
+              <span className="text-gold text-shadow-gold">{heroTitleLine2}</span>
             </h1>
 
             {/* Subtext */}
@@ -159,10 +174,10 @@ export default async function Home() {
                 return (
                   <div
                     key={usp.title}
-                    className="group relative overflow-hidden rounded-2xl border border-sand/50 bg-white px-5 py-5 shadow-[0_24px_60px_-36px_rgba(26,31,61,0.45)] transition-all duration-300 hover:-translate-y-1 hover:border-gold/35 hover:shadow-[0_28px_70px_-34px_rgba(26,31,61,0.55)]"
+                    className="group relative overflow-hidden rounded-2xl border border-white/70 bg-white/95 px-5 py-5 shadow-[0_24px_70px_-38px_rgba(26,31,61,0.72)] ring-1 ring-sand/55 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-gold/35 hover:shadow-[0_30px_78px_-34px_rgba(26,31,61,0.62)]"
                   >
-                    <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-gold/50 to-transparent" aria-hidden="true" />
-                    <div className="mb-4 w-11 h-11 rounded-full bg-champagne/60 ring-1 ring-gold/15 flex items-center justify-center flex-shrink-0 transition-colors group-hover:bg-gold/12">
+                    <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" aria-hidden="true" />
+                    <div className="mb-4 w-11 h-11 rounded-full bg-[linear-gradient(180deg,rgba(245,230,200,0.85),rgba(255,255,255,0.95))] ring-1 ring-gold/20 shadow-inner flex items-center justify-center flex-shrink-0 transition-colors group-hover:bg-gold/12">
                       <IconComp className="w-5 h-5 text-wine" />
                     </div>
                     <div>
@@ -180,15 +195,16 @@ export default async function Home() {
       {/* =============================================
           FEATURED PRODUCTS — The star section
           ============================================= */}
-      <Section background="default" spacing="xl">
+      <Section background="default" spacing="xl" className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-warm-white/70 to-transparent" aria-hidden="true" />
         <AnimatedSection variant="fadeUp">
-          <div className="flex items-start sm:items-end justify-between mb-8 sm:mb-14">
+          <div className="relative flex items-start sm:items-end justify-between mb-8 sm:mb-14">
             <div>
-              <p className="text-label text-wine/40 mb-2">{copy("home.featured.eyebrow")}</p>
-              <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-semibold leading-tight">
+              <p className="text-label text-wine/45 mb-3">{copy("home.featured.eyebrow")}</p>
+              <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[1.05]">
                 {copy("home.featured.title")}
               </h2>
-              <p className="text-grey text-sm sm:text-base mt-2 max-w-md">
+              <p className="text-grey text-sm sm:text-base mt-3 max-w-md leading-relaxed">
                 {copy("home.featured.subtitle")}
               </p>
             </div>
@@ -201,7 +217,7 @@ export default async function Home() {
             </Link>
           </div>
         </AnimatedSection>
-        <AnimatedStagger className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4" staggerDelay={0.12}>
+        <AnimatedStagger className="relative grid grid-cols-1 min-[430px]:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6" staggerDelay={0.12}>
           {featuredProducts.map((product) => (
             <StaggerItem key={product.id}>
               <ProductCard product={product} />

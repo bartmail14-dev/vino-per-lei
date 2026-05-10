@@ -458,7 +458,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
   return (
     <>
       {/* Breadcrumb */}
-      <div className="bg-warm-white border-b border-sand">
+      <div className="bg-white/80 border-b border-sand/70 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <nav className="flex items-center gap-2 text-sm">
             <Link href="/" className="text-grey hover:text-wine">
@@ -481,12 +481,14 @@ export function WijnenContent({ products }: { products: Product[] }) {
       </div>
 
       {/* Page Header */}
-      <Section background="warm" spacing="md">
-        <div className="text-center">
-          <h1 className="text-h1 mb-3">
+      <Section background="warm" spacing="sm" className="relative overflow-hidden">
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(245,240,232,0.9))]" aria-hidden="true" />
+        <div className="relative mx-auto max-w-4xl text-center">
+          <p className="text-label text-wine/45 mb-3">{t("collection.breadcrumb.wines")}</p>
+          <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.02] mb-4">
             {activeRegionName ? t("collection.heading.region", { region: activeRegionName }) : t("collection.heading.default")}
           </h1>
-          <p className="text-body-lg text-grey max-w-2xl mx-auto">
+          <p className="text-body-lg text-grey max-w-2xl mx-auto leading-relaxed">
             {activeRegionName ? (
               <>
                 {t("collection.summary.region", { count: filteredProducts.length, region: activeRegionName })}
@@ -501,7 +503,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
       </Section>
 
       {/* Main Content */}
-      <Section background="default" spacing="none" className="py-8 sm:py-16 lg:py-24">
+      <Section background="default" spacing="none" className="py-8 sm:py-12 lg:py-16">
         <div className="flex gap-8">
           {/* Filter Sidebar */}
           <FilterSidebar
@@ -519,14 +521,14 @@ export function WijnenContent({ products }: { products: Product[] }) {
           {/* Products */}
           <div className="flex-1 min-w-0">
             {/* Search bar */}
-            <div className="relative mb-6">
+            <div className="relative mb-6 rounded-2xl border border-sand/70 bg-white p-2 shadow-[0_20px_64px_-46px_rgba(26,31,61,0.65)]">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gold" strokeWidth={1.5} />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t("collection.search.placeholder_full")}
-                className="w-full pl-11 pr-11 py-3 border border-sand rounded-xl text-sm text-charcoal placeholder:text-grey/50 placeholder:italic focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold transition-all duration-200 bg-white shadow-sm"
+                className="w-full pl-11 pr-11 py-3 border border-transparent rounded-xl text-sm text-charcoal placeholder:text-grey/50 placeholder:italic focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/40 transition-all duration-200 bg-cream/65"
                 aria-label={t("collection.search.label")}
               />
               {searchQuery && (
@@ -541,7 +543,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
             </div>
 
             {/* Toolbar */}
-            <div className="sticky top-20 z-30 -mx-2 mb-6 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-sand/70 bg-white/90 p-2 shadow-[0_18px_44px_-32px_rgba(26,31,61,0.55)] backdrop-blur lg:static lg:top-auto lg:mx-0 lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
+            <div className="sticky top-20 z-30 -mx-2 mb-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-sand/70 bg-white/92 p-2 shadow-[0_18px_50px_-34px_rgba(26,31,61,0.62)] backdrop-blur lg:static lg:top-auto lg:mx-0 lg:border lg:bg-white/78 lg:p-3 lg:shadow-[0_18px_60px_-46px_rgba(26,31,61,0.6)]">
               {/* Mobile filter button */}
               <Button
                 variant="ghost"
@@ -558,7 +560,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
               </Button>
 
               {/* Results count */}
-              <p className="flex items-center gap-2 rounded-full bg-cream/70 px-3 py-2 text-sm text-grey">
+              <p className="flex items-center gap-2 rounded-full bg-cream/80 px-3 py-2 text-sm text-grey ring-1 ring-sand/60">
                 <span className="font-serif font-semibold text-gold text-base leading-none">{filteredProducts.length}</span>
                 <span className="text-grey/40">|</span>
                 <span>{t("collection.results.wines")}</span>
@@ -567,13 +569,13 @@ export function WijnenContent({ products }: { products: Product[] }) {
               {/* Right side controls */}
               <div className="flex items-center gap-3">
                 {/* View mode toggle */}
-                <div className="hidden sm:flex items-center border border-sand rounded-lg shadow-sm">
+                <div className="hidden sm:flex items-center border border-sand/80 rounded-lg shadow-sm bg-white overflow-hidden">
                   <button
                     onClick={() => setViewMode("grid")}
                     className={cn(
                       "p-2.5 transition-all duration-200 rounded-l-lg",
                       viewMode === "grid"
-                        ? "bg-gradient-to-br from-wine to-[#2d3454] text-white"
+                        ? "bg-wine text-white"
                         : "hover:text-gold text-grey hover:bg-sand/20"
                     )}
                     aria-label={t("collection.view.grid")}
@@ -586,7 +588,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                     className={cn(
                       "p-2.5 transition-all duration-200 rounded-r-lg",
                       viewMode === "list"
-                        ? "bg-gradient-to-br from-wine to-[#2d3454] text-white"
+                        ? "bg-wine text-white"
                         : "hover:text-gold text-grey hover:bg-sand/20"
                     )}
                     aria-label={t("collection.view.list")}
@@ -600,7 +602,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                   options={translatedSortOptions}
                   value={sortBy}
                   onChange={(e) => setSortBy(e.target.value)}
-                  className="h-12 w-full rounded-xl border-sand/80 bg-white min-[430px]:w-40 sm:w-48"
+                  className="h-12 w-full rounded-xl border-sand/80 bg-white min-[430px]:w-40 sm:w-48 shadow-sm"
                 />
               </div>
             </div>
@@ -619,7 +621,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                 className={cn(
                   "grid",
                   viewMode === "grid"
-                    ? "grid-cols-1 gap-5 min-[430px]:grid-cols-2 min-[430px]:gap-3 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4"
+                    ? "grid-cols-1 gap-6 min-[430px]:grid-cols-2 sm:gap-7 lg:grid-cols-3 xl:grid-cols-4"
                     : "grid-cols-1 gap-6"
                 )}
               >

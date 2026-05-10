@@ -102,13 +102,115 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
           product={product}
           selectedImageIndex={selectedImageIndex}
           onImageSelect={setSelectedImageIndex}
-        />
+        >
+          <div className="hidden sm:block mt-7">
+            <div className="relative overflow-hidden bg-white rounded-[1.35rem] border border-sand/70 p-5 shadow-[0_24px_70px_-48px_rgba(26,31,61,0.72)] ring-1 ring-white/70">
+              <div className="absolute inset-x-7 top-0 h-px bg-gradient-to-r from-transparent via-gold/55 to-transparent" aria-hidden="true" />
+              <div className="grid grid-cols-[1fr_auto] gap-5 items-center">
+                <div>
+                  <PriceDisplay
+                    currentPrice={product.price}
+                    originalPrice={product.originalPrice}
+                    size="lg"
+                    showSavings={!!isOnSale}
+                  />
+                  {(priceUnitText || product.purchaseUnit) && (
+                    <p className="text-sm text-grey mt-1">
+                      {priceUnitText ?? `per ${product.purchaseUnit?.toLowerCase()}`}
+                    </p>
+                  )}
+                  {isOnSale && (
+                    <div className="mt-2">
+                      <SavingsBadge amount={savings} percentage={savingsPercentage} />
+                    </div>
+                  )}
+                </div>
+                {product.inStock && (
+                  <span className="inline-flex items-center gap-1 rounded-full bg-success/10 px-3 py-1 text-xs font-semibold text-success">
+                    <CheckIcon className="w-3.5 h-3.5" />
+                    {t("product.stock.in_stock")}
+                  </span>
+                )}
+              </div>
+
+              <div className="mt-5 grid grid-cols-[auto_1fr_auto] gap-3 items-end">
+                {product.inStock && (
+                  <div>
+                    <p className="text-xs text-grey mb-2">{t("product.quantity.label")}</p>
+                    <QuantitySelector
+                      value={quantity}
+                      onChange={setQuantity}
+                      min={orderMinimum}
+                      max={orderMaximum}
+                      step={orderIncrement}
+                      disabled={!product.inStock}
+                    />
+                    {orderUnitText && (
+                      <p className="text-xs text-grey mt-1">{t("product.order.per_prefix")} {orderUnitText}</p>
+                    )}
+                  </div>
+                )}
+
+                {product.inStock ? (
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    fullWidth
+                    onClick={handleAddToCart}
+                    isLoading={isAdding}
+                    disabled={isAdding}
+                    className={cn("min-w-[11rem]", justAdded && "bg-success hover:bg-success border-success")}
+                  >
+                    {justAdded ? (
+                      <>
+                        <CheckIcon className="w-5 h-5 mr-2" />
+                        {t("product.added_exclamation")}
+                      </>
+                    ) : (
+                      t("product.in_cart")
+                    )}
+                  </Button>
+                ) : (
+                  <Button variant="secondary" size="lg" fullWidth onClick={() => setNotifyOpen(true)}>
+                    {t("product.notify_stock")}
+                  </Button>
+                )}
+
+                <button
+                  onClick={handleToggleWishlist}
+                  className={cn(
+                    "h-14 min-w-14 rounded-xl border px-4 flex items-center justify-center gap-2 font-medium transition-colors",
+                    isInWishlist
+                      ? "border-wine bg-wine/5 text-wine"
+                      : "border-sand/80 bg-cream/35 hover:border-wine hover:text-wine"
+                  )}
+                  aria-label={isInWishlist ? t("product.wishlist.in") : t("product.wishlist.label")}
+                >
+                  <HeartIcon className="w-5 h-5" filled={isInWishlist} />
+                  <span className="hidden xl:inline">{isInWishlist ? t("product.wishlist.in") : t("product.wishlist.label")}</span>
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 mt-5 pt-5 border-t border-sand/50">
+                <div className="flex items-center gap-2 rounded-xl bg-cream/55 px-3 py-2 text-sm">
+                  <ShieldIcon className="w-5 h-5 text-wine flex-shrink-0" />
+                  <span className="text-grey">{t("product.secure_payment")}</span>
+                </div>
+                <div className="flex items-center gap-2 rounded-xl bg-cream/55 px-3 py-2 text-sm">
+                  <ClockIcon className="w-5 h-5 text-wine flex-shrink-0" />
+                  <span className="text-grey">{t("product.delivery.desktop")}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </HeroSection>
       </section>
 
-      {/* Purchase Section - Hidden on mobile (sticky bar handles it), visible on desktop */}
-      <Section background="default" spacing="md" className="hidden sm:block">
+      {/* Purchase Section - superseded by the hero purchase panel on desktop and sticky bar on mobile */}
+      <Section background="default" spacing="md" className="hidden">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-2xl border border-sand/50 p-6 sm:p-8 shadow-sm">
+          <div className="relative overflow-hidden bg-white rounded-[1.35rem] border border-sand/70 p-6 sm:p-8 shadow-[0_28px_80px_-54px_rgba(26,31,61,0.72)] ring-1 ring-white/70">
+            <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-gold/55 to-transparent" aria-hidden="true" />
             <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 items-center">
               {/* Price */}
               <div>
@@ -179,10 +281,10 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
                 <button
                   onClick={handleToggleWishlist}
                   className={cn(
-                    "w-full h-12 rounded-lg border-2 flex items-center justify-center gap-2 font-medium transition-colors",
+                    "w-full h-12 rounded-xl border flex items-center justify-center gap-2 font-medium transition-colors",
                     isInWishlist
                       ? "border-wine bg-wine/5 text-wine"
-                      : "border-sand hover:border-wine hover:text-wine"
+                      : "border-sand/80 bg-cream/35 hover:border-wine hover:text-wine"
                   )}
                 >
                   <HeartIcon className="w-5 h-5" filled={isInWishlist} />
@@ -193,11 +295,11 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
 
             {/* Trust Signals */}
             <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-sand/50">
-              <div className="flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-2 rounded-xl bg-cream/55 px-3 py-2 text-sm">
                 <ShieldIcon className="w-5 h-5 text-wine flex-shrink-0" />
                 <span className="text-grey">{t("product.secure_payment")}</span>
               </div>
-              <div className="flex items-center gap-2 text-sm">
+              <div className="flex items-center gap-2 rounded-xl bg-cream/55 px-3 py-2 text-sm">
                 <ClockIcon className="w-5 h-5 text-wine flex-shrink-0" />
                 <span className="text-grey">{t("product.delivery.desktop")}</span>
               </div>

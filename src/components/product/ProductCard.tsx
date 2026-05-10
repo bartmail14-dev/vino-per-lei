@@ -96,13 +96,14 @@ export function ProductCard({
   return (
     <motion.article
       className={cn(
-        "group relative bg-white/95 rounded-xl sm:rounded-2xl",
-        "border border-sand/60 shadow-[0_16px_42px_-32px_rgba(26,31,61,0.45)]",
+        "group relative bg-white rounded-2xl sm:rounded-[1.35rem]",
+        "border border-sand/70 shadow-[0_18px_56px_-40px_rgba(26,31,61,0.68)]",
         "transition-all duration-500 ease-out",
-        "sm:hover:shadow-[0_24px_48px_-12px_rgba(26,31,61,0.12)]",
-        "sm:hover:-translate-y-2",
+        "sm:hover:shadow-[0_30px_70px_-28px_rgba(26,31,61,0.34)]",
+        "sm:hover:-translate-y-1.5 sm:hover:border-gold/35",
         "overflow-visible mt-14 min-[430px]:mt-18 sm:mt-32 flex flex-col",
-        "before:absolute before:inset-x-5 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-gold/45 before:to-transparent before:content-['']",
+        "before:absolute before:inset-x-6 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-gold/55 before:to-transparent before:content-['']",
+        "after:pointer-events-none after:absolute after:inset-0 after:rounded-2xl after:ring-1 after:ring-white/70 after:content-[''] sm:after:rounded-[1.35rem]",
         className
       )}
       onMouseEnter={() => setIsHovering(true)}
@@ -163,10 +164,10 @@ export function ProductCard({
         {/* Image Container */}
         <div className="relative h-52 min-[430px]:h-56 sm:h-68 mx-3 sm:mx-4 -mt-10 min-[430px]:-mt-14 sm:-mt-22">
           {/* Background with grain */}
-          <div className="absolute inset-0 bg-gradient-to-b from-champagne/70 via-cream to-white rounded-xl overflow-hidden ring-1 ring-gold/10">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(245,230,200,0.68)_0%,rgba(250,249,247,0.96)_58%,#fff_100%)] rounded-[1rem] overflow-hidden ring-1 ring-gold/10">
             <div className="absolute inset-0 bg-grain opacity-[0.03]" />
-            <div className="absolute inset-x-8 bottom-6 h-px bg-gradient-to-r from-transparent via-wine/18 to-transparent" />
-            <div className="absolute inset-x-10 bottom-5 h-3 rounded-full bg-wine/8 blur-md" />
+            <div className="absolute inset-x-8 bottom-7 h-px bg-gradient-to-r from-transparent via-wine/20 to-transparent" />
+            <div className="absolute inset-x-10 bottom-5 h-3 rounded-full bg-wine/10 blur-md" />
             <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/90 to-transparent" />
             {/* Shine sweep on hover */}
             <motion.div
@@ -265,7 +266,7 @@ export function ProductCard({
         {/* Content */}
         <div className="px-3 sm:px-5 pb-1 flex-1">
           {/* Region line — editorial small-caps */}
-          <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-grey/60 font-medium mb-1 sm:mb-1.5 truncate">
+          <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-grey/60 font-semibold mb-1 sm:mb-1.5 truncate">
             {product.region}
             {product.vintage && product.vintage !== t("product.details.vintage_code_non_vintage") && (
               <span className="text-gold/50 ml-1.5">
@@ -274,7 +275,7 @@ export function ProductCard({
             )}
           </p>
 
-          <h3 className="font-serif text-[15px] min-[430px]:text-[13px] sm:text-base font-semibold text-charcoal leading-snug line-clamp-2 min-h-[2.5em] group-hover:text-wine transition-colors duration-300 mb-1.5 sm:mb-2">
+          <h3 className="font-serif text-[16px] min-[430px]:text-[16px] sm:text-[17px] font-semibold text-charcoal leading-snug line-clamp-2 min-h-[2.5em] group-hover:text-wine transition-colors duration-300 mb-1.5 sm:mb-2">
             {product.title}
           </h3>
 
@@ -334,23 +335,18 @@ export function ProductCard({
             disabled={isAdding}
             className={cn(
               "group/btn relative w-full h-10 sm:h-11 rounded-xl text-[10px] sm:text-xs font-semibold uppercase tracking-[0.14em] cursor-pointer",
-              "overflow-hidden transition-all duration-300",
+              "overflow-hidden transition-all duration-300 shadow-[0_12px_28px_-20px_rgba(26,31,61,0.75)]",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2",
               "disabled:pointer-events-none disabled:opacity-50",
               justAdded
                 ? "bg-success text-white border border-success"
-                : "bg-wine text-white border border-wine"
+                : "bg-wine text-white border border-wine hover:bg-wine-dark hover:border-wine-dark hover:shadow-[0_16px_34px_-22px_rgba(26,31,61,0.85)]"
             )}
             whileTap={{ scale: 0.96 }}
           >
-            {/* Liquid fill hover effect — rises from bottom like wine in a glass */}
+            {/* Refined top-edge sheen */}
             {!justAdded && !isAdding && (
-              <span className="absolute inset-0 z-0">
-                <span className="absolute inset-x-0 bottom-0 h-0 bg-gradient-to-t from-gold/90 via-gold/70 to-gold/50 transition-all duration-500 ease-out group-hover/btn:h-full" />
-                <span className="absolute inset-x-0 bottom-0 h-0 transition-all duration-700 ease-out group-hover/btn:h-full overflow-hidden">
-                  <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent animate-btn-shimmer" />
-                </span>
-              </span>
+              <span className="absolute inset-x-4 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent opacity-80 transition-opacity duration-300 group-hover/btn:opacity-100" />
             )}
             <AnimatePresence mode="wait">
               {isAdding ? (
@@ -380,7 +376,7 @@ export function ProductCard({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="relative z-10 flex items-center justify-center drop-shadow-sm transition-all duration-300 group-hover/btn:tracking-[0.18em]"
+                  className="relative z-10 flex items-center justify-center drop-shadow-sm transition-all duration-300"
                 >
                   {t("product.add_to_cart_short")}
                 </motion.span>

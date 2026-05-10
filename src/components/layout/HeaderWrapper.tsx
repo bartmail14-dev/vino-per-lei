@@ -12,6 +12,7 @@ export async function HeaderWrapper() {
     <Header
       announcement={announcement?.enabled && announcement.message ? announcement : null}
       contactEmail={settings?.email}
+      companyName={settings?.companyName}
       mainMenu={mainMenu}
     />
   );

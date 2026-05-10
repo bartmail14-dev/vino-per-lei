@@ -6,11 +6,17 @@ function positiveInteger(value: number | undefined, fallback: number): number {
 }
 
 export function getOrderMinimum(product: Product): number {
-  return positiveInteger(product.orderMinimum, 1);
+  return positiveInteger(
+    product.orderMinimum ?? product.orderUnitSize ?? product.orderIncrement,
+    1
+  );
 }
 
 export function getOrderIncrement(product: Product): number {
-  return positiveInteger(product.orderIncrement, 1);
+  return positiveInteger(
+    product.orderIncrement ?? product.orderUnitSize ?? product.orderMinimum,
+    1
+  );
 }
 
 export function normalizeOrderQuantity(product: Product, quantity: number): number {

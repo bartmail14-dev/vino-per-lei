@@ -20,6 +20,12 @@ const calculateTotals = (items: CartItem[]) => {
   return { itemCount, subtotal, shipping, total };
 };
 
+const normalizeCartItems = (items: CartItem[]): CartItem[] =>
+  items.map((item) => ({
+    ...item,
+    quantity: clampOrderQuantity(item.product, item.quantity),
+  }));
+
 export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
@@ -122,7 +128,16 @@ export const useCartStore = create<CartState>()(
         total: state.total,
       }),
       onRehydrateStorage: () => (state) => {
-        state?.setHydrated();
+        if (!state) return;
+
+        const items = normalizeCartItems(state.items);
+        const totals = calculateTotals(items);
+        state.items = items;
+        state.itemCount = totals.itemCount;
+        state.subtotal = totals.subtotal;
+        state.shipping = totals.shipping;
+        state.total = totals.total;
+        state.setHydrated();
       },
     }
   )

@@ -80,7 +80,7 @@ export function StickyPurchaseBar({
               />
             </div>
 
-            <div className="bg-white/95 backdrop-blur-lg shadow-lg border-b border-sand/50">
+            <div className="bg-white/96 backdrop-blur-xl shadow-[0_18px_50px_-36px_rgba(26,31,61,0.8)] border-b border-sand/60">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
                 <div className="flex items-center justify-between gap-6">
                   {/* Product Info with thumbnail */}
@@ -208,7 +208,7 @@ export function StickyPurchaseBar({
 
       {/* Mobile Fixed Bottom Bar */}
       <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden">
-        <div className="bg-white/95 backdrop-blur-lg border-t border-sand shadow-[0_-4px_24px_rgba(0,0,0,0.08)]">
+        <div className="bg-white/96 backdrop-blur-xl border-t border-sand/70 shadow-[0_-18px_54px_-38px_rgba(26,31,61,0.75)]">
           <div className="px-4 py-3">
             {/* Row 1: Price and Stock */}
             <div className="flex items-center justify-between mb-2.5">

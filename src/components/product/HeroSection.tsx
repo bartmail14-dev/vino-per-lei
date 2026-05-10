@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,9 +15,10 @@ interface HeroSectionProps {
   product: Product;
   selectedImageIndex: number;
   onImageSelect: (index: number) => void;
+  children?: ReactNode;
 }
 
-export function HeroSection({ product, selectedImageIndex, onImageSelect }: HeroSectionProps) {
+export function HeroSection({ product, selectedImageIndex, onImageSelect, children }: HeroSectionProps) {
   const t = useUiCopy();
   const [isZoomed, setIsZoomed] = useState(false);
   const [zoomPosition, setZoomPosition] = useState({ x: 50, y: 50 });
@@ -46,7 +47,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
   return (
     <section className="relative overflow-hidden">
       {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-wine/5 via-champagne/20 to-cream" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.92)_0%,rgba(245,230,200,0.24)_42%,rgba(250,249,247,1)_100%)]" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 lg:py-16">
         {/* Breadcrumb */}
@@ -75,9 +76,9 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
             {/* Main Image Container */}
             <div
               className={cn(
-                "relative h-[300px] sm:h-[420px] lg:h-[580px] rounded-2xl overflow-hidden group",
-                "bg-gradient-to-b from-champagne/30 via-cream to-white",
-                "border border-sand/30",
+                "relative h-[300px] sm:h-[420px] lg:h-[580px] rounded-[1.35rem] overflow-hidden group",
+                "bg-[linear-gradient(180deg,rgba(245,230,200,0.48),rgba(255,255,255,0.96))]",
+                "border border-sand/60 shadow-[0_32px_90px_-58px_rgba(26,31,61,0.75)] ring-1 ring-white/70",
                 isZoomed ? "cursor-zoom-out" : "cursor-zoom-in"
               )}
               onClick={() => setIsZoomed(!isZoomed)}
@@ -226,7 +227,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:py-4"
+            className="lg:py-6"
           >
             {/* Collection Badge */}
             {product.collection && (
@@ -234,14 +235,14 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
-                className="inline-block bg-wine/8 text-wine px-3.5 py-1 rounded-full text-sm font-medium mb-4 border border-wine/10"
+                className="inline-block bg-white/82 text-wine px-3.5 py-1 rounded-full text-sm font-medium mb-4 border border-gold/20 shadow-sm"
               >
                 {product.collection}
               </motion.span>
             )}
 
             {/* Title */}
-            <h1 className="font-serif text-2xl sm:text-3xl lg:text-[2.75rem] lg:leading-[1.15] font-semibold text-charcoal mb-2">
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-[3.25rem] lg:leading-[1.05] font-semibold text-charcoal mb-3">
               {product.title}
             </h1>
 
@@ -313,13 +314,15 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
               </div>
             )}
 
+            {children}
+
             {/* Short Description */}
-            <p className="text-sm sm:text-base lg:text-lg text-grey leading-relaxed mb-6 max-w-lg line-clamp-3 sm:line-clamp-none">
+            <p className="text-sm sm:text-base lg:text-lg text-grey leading-relaxed mt-6 mb-6 max-w-lg line-clamp-3 sm:line-clamp-none">
               {product.description}
             </p>
 
             {/* Wine Type + Alcohol Indicator */}
-            <div className="flex items-center gap-4 mb-4 p-3 sm:p-4 rounded-lg bg-warm-white/80 border border-sand/30">
+            <div className="flex items-center gap-4 mb-4 p-3 sm:p-4 rounded-2xl bg-white/78 border border-sand/60 shadow-[0_16px_42px_-34px_rgba(26,31,61,0.55)]">
               <div className="flex items-center gap-2.5">
                 <div className={cn(
                   "w-5 h-5 rounded-full shadow-sm",
@@ -337,6 +340,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect }: Hero
               </div>
               {/* Alcohol and volume can be added when available in product data */}
             </div>
+
           </motion.div>
         </div>
       </div>
