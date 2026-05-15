@@ -12,7 +12,7 @@ const entries = [
   ['checkout-payment-age-title', 'checkout.payment.age_title', 'Leeftijdsverificatie', 'checkout', 'Titel leeftijdsverificatie sectie'],
   ['checkout-payment-age-confirm', 'checkout.payment.age_confirm', 'Ik bevestig dat ik 18 jaar of ouder ben', 'checkout', 'Checkbox leeftijdsbevestiging'],
   ['checkout-payment-method-title', 'checkout.payment.method_title', 'Betaalmethode kiezen', 'checkout', 'Titel betaalmethode sectie'],
-  ['checkout-payment-method-description', 'checkout.payment.method_description', 'Je wordt doorgestuurd naar de beveiligde Shopify checkout waar je kunt betalen met iDEAL, creditcard, PayPal en meer.', 'checkout', 'Uitleg betaalmethode'],
+  ['checkout-payment-method-description', 'checkout.payment.method_description', 'Je wordt doorgestuurd naar de beveiligde Shopify checkout. Daar zie je altijd de betaalmethoden die op dat moment in Shopify actief zijn.', 'checkout', 'Uitleg betaalmethode'],
   ['checkout-payment-submit', 'checkout.payment.submit', 'Afrekenen via Shopify', 'checkout', 'Submit knop betaling'],
   ['checkout-payment-submitting', 'checkout.payment.submitting', 'Doorsturen naar betaling...', 'checkout', 'Loading tekst betaling'],
   ['checkout-payment-terms-prefix', 'checkout.payment.terms_prefix', 'Door te bestellen ga je akkoord met onze', 'checkout', 'Prefix voor voorwaarden link'],
