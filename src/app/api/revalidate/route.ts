@@ -55,16 +55,33 @@ export async function POST(request: NextRequest) {
     if (handleParam) productHandles.add(handleParam);
     if (payload?.handle) productHandles.add(payload.handle);
 
-    // Revalidate all product-related pages
-    revalidatePath('/', 'page');           // Homepage (kaart, featured products)
-    revalidatePath('/wijnen', 'page');      // Wijnenpagina (filters, grid)
+    // Revalidate product and CMS-driven pages. Shopify is the content source
+    // for products, menus, FAQ, shipping copy, legal pages, and UI copy.
+    const cmsPaths = [
+      '/',
+      '/wijnen',
+      '/contact',
+      '/klantenservice',
+      '/klantenservice/faq',
+      '/klantenservice/verzending',
+      '/klantenservice/retourneren',
+      '/privacy',
+      '/voorwaarden',
+      '/cookies',
+      '/over-ons',
+      '/blog',
+    ];
+
+    for (const path of cmsPaths) {
+      revalidatePath(path, 'page');
+    }
     revalidatePath('/wijnen/[handle]', 'page'); // Alle productpagina's
-    revalidatePath('/', 'layout');          // Layout = header mega menu
+    revalidatePath('/', 'layout');              // Layout = header, footer, cart copy
     for (const handle of productHandles) {
       revalidatePath(`/wijnen/${handle}`, 'page');
     }
 
-    const paths = ['/', '/wijnen', '/wijnen/[handle]', 'layout'];
+    const paths = [...cmsPaths, '/wijnen/[handle]', 'layout'];
     for (const handle of productHandles) paths.push(`/wijnen/${handle}`);
 
     return NextResponse.json({
