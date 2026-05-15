@@ -157,7 +157,7 @@ export function ContactPageContent({
                 <ul className="space-y-3 text-sm text-grey">
                   {[
                     "Reactie binnen 1 werkdag",
-                    "Veilig betalen via iDEAL",
+                    "Veilig afrekenen via Shopify Checkout",
                     "Snelle levering: 1-2 werkdagen",
                   ].map((item) => (
                     <li key={item} className="flex items-center gap-2">

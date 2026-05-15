@@ -622,8 +622,13 @@ export async function getHomeStats(): Promise<HomeStatCMS[]> {
 
 export async function getShopConfig(): Promise<ShopConfig> {
   const settings = await getSiteSettings();
+  const freeShippingThreshold =
+    settings?.freeShippingThreshold && settings.freeShippingThreshold > 0
+      ? settings.freeShippingThreshold
+      : 100;
+
   return {
-    freeShippingThreshold: 0, // No free shipping — always €7,95 for NL-only delivery
+    freeShippingThreshold,
     shippingCost: settings?.shippingCost || 7.95,
     shippingCostTemperature: settings?.shippingCostTemperature || 12.95,
   };

@@ -287,32 +287,9 @@ export function CartSlideOut() {
                     </span>
                   </div>
 
-                  {/* Payment Methods & Security */}
+                  {/* Security */}
                   <div className="pt-3 border-t border-sand/40">
-                    <div className="flex items-center justify-center gap-3 flex-wrap">
-                      {/* iDEAL */}
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-sand/30 rounded text-[10px] font-medium text-charcoal/70">
-                        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" strokeWidth="1.5"/><circle cx="12" cy="12" r="3" fill="#CC0066"/><path d="M9 12h6" stroke="currentColor" strokeWidth="1"/></svg>
-                        iDEAL
-                      </span>
-                      {/* Visa */}
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-sand/30 rounded text-[10px] font-medium text-charcoal/70">
-                        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none"><rect x="2" y="5" width="20" height="14" rx="2" stroke="currentColor" strokeWidth="1.5"/><path d="M7 10l2 4 2-6 2 6 2-4" stroke="#1A1F71" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-                        Visa
-                      </span>
-                      {/* Mastercard */}
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-sand/30 rounded text-[10px] font-medium text-charcoal/70">
-                        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none"><circle cx="9.5" cy="12" r="4" fill="#EB001B" opacity="0.8"/><circle cx="14.5" cy="12" r="4" fill="#F79E1B" opacity="0.8"/></svg>
-                        MC
-                      </span>
-                      {/* PayPal */}
-                      <span className="inline-flex items-center gap-1 px-2 py-1 bg-sand/30 rounded text-[10px] font-medium text-charcoal/70">
-                        <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none"><path d="M7 20l1-6h3c4 0 6-2.5 6-5.5S15 3 11 3H6l-3 17h4z" stroke="#003087" strokeWidth="1.5"/><path d="M9 14l1-6h2c2.5 0 4 1 4 3s-1.5 3-4 3h-3z" fill="#003087" opacity="0.2"/></svg>
-                        PayPal
-                      </span>
-                    </div>
-                    {/* SSL Badge */}
-                    <div className="flex items-center justify-center gap-1.5 mt-2 text-[10px] text-grey/70">
+                    <div className="flex items-center justify-center gap-1.5 text-[10px] text-grey/70">
                       <svg viewBox="0 0 16 16" className="w-3.5 h-3.5" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.2"/><path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
                       {t("cart.ssl_badge")}
                     </div>

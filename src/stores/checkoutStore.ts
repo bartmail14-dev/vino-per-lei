@@ -34,8 +34,7 @@ const initialShipping: CheckoutShipping = {
 };
 
 const initialPayment: CheckoutPayment = {
-  method: "ideal",
-  idealBank: "",
+  method: "shopify",
   ageVerified: false,
 };
 

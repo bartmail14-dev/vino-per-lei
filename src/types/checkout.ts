@@ -24,11 +24,10 @@ export interface CheckoutShipping {
   cost: number;
 }
 
-export type PaymentMethod = "ideal" | "card" | "paypal" | "klarna";
+export type PaymentMethod = "shopify";
 
 export interface CheckoutPayment {
   method: PaymentMethod;
-  idealBank: string;
   ageVerified: boolean;
 }
 
@@ -86,16 +85,3 @@ export interface OrderResult {
   redirectUrl?: string;
 }
 
-// iDEAL banks
-export const IDEAL_BANKS = [
-  { value: "abn_amro", label: "ABN AMRO" },
-  { value: "asn_bank", label: "ASN Bank" },
-  { value: "bunq", label: "bunq" },
-  { value: "ing", label: "ING" },
-  { value: "knab", label: "Knab" },
-  { value: "rabobank", label: "Rabobank" },
-  { value: "revolut", label: "Revolut" },
-  { value: "sns_bank", label: "SNS Bank" },
-  { value: "triodos", label: "Triodos Bank" },
-  { value: "van_lanschot", label: "Van Lanschot" },
-] as const;

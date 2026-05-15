@@ -52,10 +52,7 @@ export const shippingSchema = z.object({
 
 // Payment validation
 export const paymentSchema = z.object({
-  method: z.enum(["ideal", "card", "paypal", "klarna"], {
-    message: "Selecteer een betaalmethode",
-  }),
-  idealBank: z.string().optional(),
+  method: z.literal("shopify"),
   ageVerified: z.literal(true, {
     message: "Je moet bevestigen dat je 18 jaar of ouder bent",
   }),

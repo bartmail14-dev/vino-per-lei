@@ -4,7 +4,7 @@ import { Lock } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Afrekenen | Vino per Lei",
-  description: "Rond je bestelling af bij Vino per Lei. Veilig betalen met iDEAL, creditcard of PayPal.",
+  description: "Rond je bestelling af bij Vino per Lei. Veilig afrekenen via Shopify.",
   robots: { index: false, follow: false },
 };
 
@@ -49,85 +49,13 @@ export default function CheckoutLayout({
                 Contact
               </Link>
             </div>
-            <div className="flex items-center gap-4">
-              {/* Payment method icons */}
-              <span className="text-xs">Betaalmethodes:</span>
-              <div className="flex items-center gap-2">
-                <IdealIcon className="h-6" />
-                <VisaIcon className="h-6" />
-                <MastercardIcon className="h-6" />
-                <PaypalIcon className="h-6" />
-              </div>
+            <div className="flex items-center gap-2">
+              <Lock className="w-4 h-4" strokeWidth={1.5} />
+              <span className="text-xs">Beveiligde Shopify checkout</span>
             </div>
           </div>
         </div>
       </footer>
     </div>
-  );
-}
-
-// Brand payment icons (custom, no Lucide equivalent)
-function IdealIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 48 32" fill="none">
-      <rect width="48" height="32" rx="4" fill="#CC0066" />
-      <text
-        x="24"
-        y="20"
-        textAnchor="middle"
-        fill="white"
-        fontSize="10"
-        fontWeight="bold"
-      >
-        iDEAL
-      </text>
-    </svg>
-  );
-}
-
-function VisaIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 48 32" fill="none">
-      <rect width="48" height="32" rx="4" fill="#1A1F71" />
-      <text
-        x="24"
-        y="20"
-        textAnchor="middle"
-        fill="white"
-        fontSize="10"
-        fontWeight="bold"
-        fontStyle="italic"
-      >
-        VISA
-      </text>
-    </svg>
-  );
-}
-
-function MastercardIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 48 32" fill="none">
-      <rect width="48" height="32" rx="4" fill="#F5F5F5" />
-      <circle cx="19" cy="16" r="8" fill="#EB001B" />
-      <circle cx="29" cy="16" r="8" fill="#F79E1B" />
-    </svg>
-  );
-}
-
-function PaypalIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 48 32" fill="none">
-      <rect width="48" height="32" rx="4" fill="#003087" />
-      <text
-        x="24"
-        y="20"
-        textAnchor="middle"
-        fill="white"
-        fontSize="8"
-        fontWeight="bold"
-      >
-        PayPal
-      </text>
-    </svg>
   );
 }
