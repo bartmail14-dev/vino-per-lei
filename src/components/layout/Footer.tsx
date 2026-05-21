@@ -43,10 +43,31 @@ function FacebookIcon({ className }: { className?: string }) {
 }
 
 function toRelativeUrl(url: string): string {
+  const pageAliases: Record<string, string> = {
+    contact: "contact",
+    contacten: "contact",
+    privacy: "privacy",
+    privacybeleid: "privacy",
+    voorwaarden: "voorwaarden",
+    "algemene-voorwaarden": "voorwaarden",
+  };
+
   try {
     const parsed = new URL(url);
-    return parsed.pathname + parsed.search + parsed.hash;
+    const pathname = parsed.pathname.replace(/^\/(?:en|nl)(?=\/)/, "");
+    if (pathname.startsWith("/pages/")) {
+      const pageHandle = pathname.replace(/^\/pages\//, "");
+      return `/${pageAliases[pageHandle] ?? pageHandle}${parsed.search}${parsed.hash}`;
+    }
+    return pathname + parsed.search + parsed.hash;
   } catch {
+    const [pathWithSearch = "", hash = ""] = (url || "/").split("#");
+    const [path = "", search = ""] = pathWithSearch.split("?");
+    const pathname = path.replace(/^\/(?:en|nl)(?=\/)/, "");
+    if (pathname.startsWith("/pages/")) {
+      const pageHandle = pathname.replace(/^\/pages\//, "");
+      return `/${pageAliases[pageHandle] ?? pageHandle}${search ? `?${search}` : ""}${hash ? `#${hash}` : ""}`;
+    }
     return url || "/";
   }
 }
@@ -144,7 +165,10 @@ export function Footer({ settings, sections = [] }: FooterProps) {
             <div className="h-px bg-gradient-to-r from-transparent via-wine/10 to-transparent mb-6" />
             <div className="text-sm text-wine/80">
               <p>{settings.email}</p>
-              <p className="text-wine/50 text-xs mt-1">Mailen kan altijd — we reageren binnen 1 werkdag</p>
+              <p className="text-wine/50 text-xs mt-1">{t("footer.email_response_note")}</p>
+              <p className="text-wine/55 text-xs mt-2 max-w-md">
+                {t("footer.pickup_note", { email: settings.email })}
+              </p>
             </div>
           </>
         )}
@@ -158,9 +182,17 @@ export function Footer({ settings, sections = [] }: FooterProps) {
               {settings?.kvk && <span>{t("footer.legal.kvk_prefix")} {settings.kvk}</span>}
               {settings?.btw && <span>{t("footer.legal.btw_prefix")} {settings.btw}</span>}
             </div>
-            <button onClick={reopenCookieConsent} className="self-start lg:self-auto hover:text-wine/80 transition-colors cursor-pointer">
-              {t("footer.cookie_settings")}
-            </button>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+              <Link href="/voorwaarden" className="hover:text-wine/80 transition-colors">
+                {t("footer.legal.terms")}
+              </Link>
+              <Link href="/privacy" className="hover:text-wine/80 transition-colors">
+                {t("footer.legal.privacy")}
+              </Link>
+              <button onClick={reopenCookieConsent} className="hover:text-wine/80 transition-colors cursor-pointer">
+                {t("footer.cookie_settings")}
+              </button>
+            </div>
           </div>
         </div>
       </div>

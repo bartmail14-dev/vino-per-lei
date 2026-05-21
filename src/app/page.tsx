@@ -66,12 +66,16 @@ export default async function Home() {
   const activeRegionSlugs = getActiveRegionSlugsFromProducts(allProducts);
   const regionLabels = getRegionLabelsFromProducts(allProducts);
 
-  // Dynamic stats from product data — auto-generates per wine type
+  const copy = (key: string, variables?: Record<string, string | number>) =>
+    formatUiCopy(uiCopy, key, variables);
+  const optionalCopy = (key: string) => uiCopy[key]?.trim() ?? "";
+
+  // Dynamic stats from Shopify product data; labels are Shopify UI-copy.
   const wineTypeLabels: Record<string, string> = {
-    red: "Rode wijnen",
-    white: "Witte wijnen",
-    rose: "Rosé wijnen",
-    sparkling: "Mousserende wijnen",
+    red: copy("home.stats.red_wines"),
+    white: copy("home.stats.white_wines"),
+    rose: copy("home.stats.rose_wines"),
+    sparkling: copy("home.stats.sparkling_wines"),
   };
   const wineTypeCounts = allProducts.reduce<Record<string, number>>((acc, p) => {
     acc[p.wineType] = (acc[p.wineType] || 0) + 1;
@@ -87,13 +91,10 @@ export default async function Home() {
       label: wineTypeLabels[type] || type,
     }));
   const dynamicStats: Array<{value: string; prefix: string; suffix: string; label: string}> = [
-    { value: String(allProducts.length), prefix: "", suffix: "", label: "Geselecteerde wijnen" },
-    { value: String(activeRegionSlugs.length), prefix: "", suffix: "", label: "Wijngebieden" },
+    { value: String(allProducts.length), prefix: "", suffix: "", label: copy("home.stats.selected_wines") },
+    { value: String(activeRegionSlugs.length), prefix: "", suffix: "", label: copy("home.stats.wine_regions") },
     ...wineTypeStats,
   ];
-  const copy = (key: string, variables?: Record<string, string | number>) =>
-    formatUiCopy(uiCopy, key, variables);
-  const optionalCopy = (key: string) => uiCopy[key]?.trim() ?? "";
 
   // JSON-LD: Organization schema
   const organizationJsonLd = {

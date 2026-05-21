@@ -41,7 +41,12 @@ const entries = [
   ["footer.social.facebook", "Facebook", "footer", "Naam van het Facebook-platform"],
   ["footer.legal.kvk_prefix", "KvK:", "footer", "Prefix voor KvK-nummer"],
   ["footer.legal.btw_prefix", "BTW:", "footer", "Prefix voor BTW-nummer"],
+  ["footer.legal.terms", "Algemene voorwaarden", "footer", "Footerlink naar algemene voorwaarden"],
+  ["footer.legal.privacy", "Privacybeleid", "footer", "Footerlink naar privacybeleid"],
   ["footer.cookie_settings", "Cookie-instellingen", "footer", "Knop om cookievoorkeuren te openen"],
+  ["footer.email_response_note", "Mailen kan altijd — we reageren binnen 1 werkdag", "footer", "Korte toelichting onder het e-mailadres in de footer"],
+
+  ["footer.pickup_note", "Afhalen in Veldhoven kan in overleg. Mail hiervoor naar {email}.", "footer", "Korte melding over afhalen in Veldhoven"],
 
   ["product.wishlist.login_required", "Log in om je verlanglijst te gebruiken", "product", "Loginmelding voor verlanglijst"],
   ["product.price.per_bottle", "per fles", "product", "Prijseenheid voor flessen"],
@@ -62,7 +67,6 @@ const entries = [
   ["product.order.per_unit", "Bestellen per {unit}", "product", "Orderregel onder productkaart"],
   ["product.order.per_prefix", "Per", "product", "Prefix voor besteleenheid"],
   ["product.quick_view.aria", "Snel bekijken: {title}", "product", "Aria-label voor quickview"],
-  ["product.viewer_count", "{count} mensen bekijken dit nu", "product", "Social proof in quickview"],
   ["product.total", "Totaal", "product", "Totaallabel in product UI"],
   ["product.secure_payment", "Veilig betalen", "product", "Trust signal"],
   ["product.delivery.desktop", "1-2 werkdagen", "product", "Desktop leveringsbelofte"],
@@ -132,7 +136,15 @@ const entries = [
   ["product.details.vintage", "Jaargang", "product", "PDP detaillabel jaargang"],
   ["product.details.non_vintage", "Non-Vintage", "product", "PDP waarde non-vintage"],
   ["product.details.vintage_code_non_vintage", "NV", "product", "Technische jaargangcode voor non-vintage"],
+  ["product.details.purchase_unit", "Verkoopeenheid", "product", "PDP detaillabel verkoopeenheid"],
   ["product.storage.keep", "Bewaren", "product", "PDP subtitel bewaren"],
+
+  ["home.stats.selected_wines", "Geselecteerde wijnen", "home", "Homepage statistieklabel aantal wijnen"],
+  ["home.stats.wine_regions", "Wijngebieden", "home", "Homepage statistieklabel aantal wijngebieden"],
+  ["home.stats.red_wines", "Rode wijnen", "home", "Homepage statistieklabel rode wijnen"],
+  ["home.stats.white_wines", "Witte wijnen", "home", "Homepage statistieklabel witte wijnen"],
+  ["home.stats.rose_wines", "Rosé wijnen", "home", "Homepage statistieklabel rose wijnen"],
+  ["home.stats.sparkling_wines", "Mousserende wijnen", "home", "Homepage statistieklabel mousserende wijnen"],
 
   ["collection.search.placeholder", "Zoek op naam, druif of regio...", "collection", "Zoekplaceholder op wijncollectie"],
   ["collection.search.placeholder_full", "Zoek op wijn, regio of druivenras...", "collection", "Zoekplaceholder op wijncollectie"],

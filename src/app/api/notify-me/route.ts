@@ -16,7 +16,7 @@ export async function POST(request: Request) {
     const { email, productTitle, productImageUrl, productHandle } = schema.parse(body);
 
     if (!isMailgunConfigured()) {
-      console.log(`[notify-me] ${email} wants notification for: ${productTitle}`);
+      console.warn("[notify-me] Mailgun is niet geconfigureerd; voorraadmelding is niet verstuurd.");
       return NextResponse.json({ success: true });
     }
 

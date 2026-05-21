@@ -1,16 +1,13 @@
 {
-  "generatedAt": "2026-05-06T10:34:57.210Z",
-  "scannedFiles": 115,
-  "totalStrings": 218,
-  "highRiskStrings": 9,
+  "generatedAt": "2026-05-21T12:40:02.617Z",
+  "scannedFiles": 108,
+  "totalStrings": 200,
+  "highRiskStrings": 0,
   "byRisk": {
-    "p2-ui-or-technical-copy": 158,
-    "p2-checkout-ui": 36,
-    "allowed-ui": 5,
-    "p1-homepage-content": 5,
-    "p2-account-ui": 10,
-    "p1-footer-content": 1,
-    "p1-product-ui-content": 3
+    "p2-ui-or-technical-copy": 165,
+    "p2-checkout-ui": 22,
+    "allowed-ui": 3,
+    "p2-account-ui": 10
   },
   "fileSources": [
     {
@@ -76,7 +73,7 @@
     {
       "file": "src/app/api/revalidate/route.ts",
       "sourceUsage": [],
-      "stringCount": 5,
+      "stringCount": 15,
       "highRiskCount": 0
     },
     {
@@ -190,7 +187,7 @@
     {
       "file": "src/app/checkout/layout.tsx",
       "sourceUsage": [],
-      "stringCount": 11,
+      "stringCount": 8,
       "highRiskCount": 0
     },
     {
@@ -210,7 +207,7 @@
       "sourceUsage": [
         "fallback"
       ],
-      "stringCount": 13,
+      "stringCount": 11,
       "highRiskCount": 0
     },
     {
@@ -331,8 +328,8 @@
         "getUSPItems",
         "getUiCopy"
       ],
-      "stringCount": 6,
-      "highRiskCount": 5
+      "stringCount": 0,
+      "highRiskCount": 0
     },
     {
       "file": "src/app/privacy/page.tsx",
@@ -414,63 +411,7 @@
       "sourceUsage": [
         "useUiCopy"
       ],
-      "stringCount": 5,
-      "highRiskCount": 0
-    },
-    {
-      "file": "src/components/checkout/AccordionSection.tsx",
-      "sourceUsage": [
-        "useUiCopy"
-      ],
-      "stringCount": 0,
-      "highRiskCount": 0
-    },
-    {
-      "file": "src/components/checkout/ContactSection.tsx",
-      "sourceUsage": [
-        "useUiCopy"
-      ],
-      "stringCount": 2,
-      "highRiskCount": 0
-    },
-    {
-      "file": "src/components/checkout/DeliverySection.tsx",
-      "sourceUsage": [
-        "useUiCopy"
-      ],
-      "stringCount": 5,
-      "highRiskCount": 0
-    },
-    {
-      "file": "src/components/checkout/DiscountCode.tsx",
-      "sourceUsage": [
-        "useUiCopy"
-      ],
-      "stringCount": 2,
-      "highRiskCount": 0
-    },
-    {
-      "file": "src/components/checkout/OrderSummary.tsx",
-      "sourceUsage": [
-        "useUiCopy"
-      ],
       "stringCount": 1,
-      "highRiskCount": 0
-    },
-    {
-      "file": "src/components/checkout/PaymentSection.tsx",
-      "sourceUsage": [
-        "useUiCopy"
-      ],
-      "stringCount": 0,
-      "highRiskCount": 0
-    },
-    {
-      "file": "src/components/checkout/ShippingSection.tsx",
-      "sourceUsage": [
-        "useUiCopy"
-      ],
-      "stringCount": 0,
       "highRiskCount": 0
     },
     {
@@ -506,8 +447,8 @@
       "sourceUsage": [
         "useUiCopy"
       ],
-      "stringCount": 1,
-      "highRiskCount": 1
+      "stringCount": 0,
+      "highRiskCount": 0
     },
     {
       "file": "src/components/layout/FooterWrapper.tsx",
@@ -606,8 +547,8 @@
       "sourceUsage": [
         "useUiCopy"
       ],
-      "stringCount": 3,
-      "highRiskCount": 3
+      "stringCount": 0,
+      "highRiskCount": 0
     },
     {
       "file": "src/components/providers/GoogleAnalytics.tsx",
@@ -630,7 +571,7 @@
       "sourceUsage": [
         "DEFAULT_"
       ],
-      "stringCount": 0,
+      "stringCount": 1,
       "highRiskCount": 0
     },
     {
@@ -1025,8 +966,8 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 67,
-        "column": 25,
+        "line": 62,
+        "column": 7,
         "type": "string",
         "text": "/wijnen",
         "risk": "p2-ui-or-technical-copy",
@@ -1034,8 +975,98 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
+        "line": 63,
+        "column": 7,
+        "type": "string",
+        "text": "/contact",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 64,
+        "column": 7,
+        "type": "string",
+        "text": "/klantenservice",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 65,
+        "column": 7,
+        "type": "string",
+        "text": "/klantenservice/faq",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 66,
+        "column": 7,
+        "type": "string",
+        "text": "/klantenservice/verzending",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
         "line": 67,
-        "column": 36,
+        "column": 7,
+        "type": "string",
+        "text": "/klantenservice/retourneren",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 68,
+        "column": 7,
+        "type": "string",
+        "text": "/privacy",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 69,
+        "column": 7,
+        "type": "string",
+        "text": "/voorwaarden",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 70,
+        "column": 7,
+        "type": "string",
+        "text": "/cookies",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 71,
+        "column": 7,
+        "type": "string",
+        "text": "/over-ons",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 72,
+        "column": 7,
+        "type": "string",
+        "text": "/blog",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 84,
+        "column": 33,
         "type": "string",
         "text": "/wijnen/[handle]",
         "risk": "p2-ui-or-technical-copy",
@@ -1043,7 +1074,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 78,
+        "line": 95,
         "column": 16,
         "type": "string",
         "text": "Revalidation failed",
@@ -1066,7 +1097,7 @@
         "line": 7,
         "column": 16,
         "type": "string",
-        "text": "Rond je bestelling af bij Vino per Lei. Veilig betalen met iDEAL, creditcard of PayPal.",
+        "text": "Rond je bestelling af bij Vino per Lei. Veilig afrekenen via Shopify.",
         "risk": "p2-checkout-ui",
         "context": "PropertyAssignment"
       },
@@ -1120,34 +1151,7 @@
         "line": 54,
         "column": 41,
         "type": "jsxText",
-        "text": "Betaalmethodes:",
-        "risk": "p2-checkout-ui",
-        "context": ""
-      },
-      {
-        "file": "src/app/checkout/layout.tsx",
-        "line": 82,
-        "column": 9,
-        "type": "jsxText",
-        "text": "iDEAL",
-        "risk": "p2-checkout-ui",
-        "context": ""
-      },
-      {
-        "file": "src/app/checkout/layout.tsx",
-        "line": 101,
-        "column": 9,
-        "type": "jsxText",
-        "text": "VISA",
-        "risk": "p2-checkout-ui",
-        "context": ""
-      },
-      {
-        "file": "src/app/checkout/layout.tsx",
-        "line": 129,
-        "column": 9,
-        "type": "jsxText",
-        "text": "PayPal",
+        "text": "Beveiligde Shopify checkout",
         "risk": "p2-checkout-ui",
         "context": ""
       }
@@ -1186,16 +1190,16 @@
     "src/app/checkout/success/page.tsx": [
       {
         "file": "src/app/checkout/success/page.tsx",
-        "line": 93,
+        "line": 33,
         "column": 11,
         "type": "jsxText",
-        "text": "Bedankt voor je bestelling!",
+        "text": "Bedankt voor je bestelling",
         "risk": "p2-checkout-ui",
         "context": ""
       },
       {
         "file": "src/app/checkout/success/page.tsx",
-        "line": 99,
+        "line": 38,
         "column": 13,
         "type": "jsxText",
         "text": "Bestelnummer:",
@@ -1204,7 +1208,7 @@
       },
       {
         "file": "src/app/checkout/success/page.tsx",
-        "line": 109,
+        "line": 47,
         "column": 13,
         "type": "jsxText",
         "text": "Wat gebeurt er nu?",
@@ -1213,7 +1217,7 @@
       },
       {
         "file": "src/app/checkout/success/page.tsx",
-        "line": 117,
+        "line": 55,
         "column": 46,
         "type": "jsxText",
         "text": "Bevestigingsmail",
@@ -1222,34 +1226,34 @@
       },
       {
         "file": "src/app/checkout/success/page.tsx",
-        "line": 119,
+        "line": 57,
         "column": 19,
         "type": "jsxText",
-        "text": "Je ontvangt een bevestiging op",
+        "text": "Shopify verstuurt de bevestiging naar het e-mailadres dat je tijdens het afrekenen hebt ingevuld.",
         "risk": "p2-checkout-ui",
         "context": ""
       },
       {
         "file": "src/app/checkout/success/page.tsx",
-        "line": 128,
+        "line": 66,
         "column": 46,
         "type": "jsxText",
-        "text": "Verzending",
+        "text": "Orderverwerking",
         "risk": "p2-checkout-ui",
         "context": ""
       },
       {
         "file": "src/app/checkout/success/page.tsx",
-        "line": 130,
+        "line": 68,
         "column": 19,
         "type": "jsxText",
-        "text": "Je bestelling wordt binnen 24 uur verzonden",
+        "text": "Carla verwerkt de bestelling handmatig vanuit Shopify.",
         "risk": "p2-checkout-ui",
         "context": ""
       },
       {
         "file": "src/app/checkout/success/page.tsx",
-        "line": 139,
+        "line": 77,
         "column": 46,
         "type": "jsxText",
         "text": "Levering",
@@ -1258,16 +1262,16 @@
       },
       {
         "file": "src/app/checkout/success/page.tsx",
-        "line": 141,
+        "line": 79,
         "column": 19,
         "type": "jsxText",
-        "text": "Verwachte bezorging:",
+        "text": "De actuele leveringsinformatie staat in je orderbevestiging.",
         "risk": "p2-checkout-ui",
         "context": ""
       },
       {
         "file": "src/app/checkout/success/page.tsx",
-        "line": 153,
+        "line": 89,
         "column": 15,
         "type": "jsxText",
         "text": "Verder winkelen",
@@ -1276,28 +1280,10 @@
       },
       {
         "file": "src/app/checkout/success/page.tsx",
-        "line": 158,
+        "line": 94,
         "column": 15,
         "type": "jsxText",
         "text": "Naar homepagina",
-        "risk": "p2-checkout-ui",
-        "context": ""
-      },
-      {
-        "file": "src/app/checkout/success/page.tsx",
-        "line": 174,
-        "column": 11,
-        "type": "jsxText",
-        "text": "🍷",
-        "risk": "p2-checkout-ui",
-        "context": ""
-      },
-      {
-        "file": "src/app/checkout/success/page.tsx",
-        "line": 176,
-        "column": 47,
-        "type": "jsxText",
-        "text": "Proost op je nieuwe wijnen!",
         "risk": "p2-checkout-ui",
         "context": ""
       }
@@ -1508,7 +1494,7 @@
         "line": 160,
         "column": 21,
         "type": "string",
-        "text": "Veilig betalen via iDEAL",
+        "text": "Veilig afrekenen via Shopify Checkout",
         "risk": "p2-ui-or-technical-copy",
         "context": "ArrayLiteralExpression"
       },
@@ -1800,62 +1786,6 @@
         "context": ""
       }
     ],
-    "src/app/page.tsx": [
-      {
-        "file": "src/app/page.tsx",
-        "line": 56,
-        "column": 10,
-        "type": "string",
-        "text": "Rode wijnen",
-        "risk": "p1-homepage-content",
-        "context": "PropertyAssignment"
-      },
-      {
-        "file": "src/app/page.tsx",
-        "line": 57,
-        "column": 12,
-        "type": "string",
-        "text": "Witte wijnen",
-        "risk": "p1-homepage-content",
-        "context": "PropertyAssignment"
-      },
-      {
-        "file": "src/app/page.tsx",
-        "line": 58,
-        "column": 11,
-        "type": "string",
-        "text": "Rosé wijnen",
-        "risk": "allowed-ui",
-        "context": "PropertyAssignment"
-      },
-      {
-        "file": "src/app/page.tsx",
-        "line": 59,
-        "column": 16,
-        "type": "string",
-        "text": "Mousserende wijnen",
-        "risk": "p1-homepage-content",
-        "context": "PropertyAssignment"
-      },
-      {
-        "file": "src/app/page.tsx",
-        "line": 75,
-        "column": 73,
-        "type": "string",
-        "text": "Geselecteerde wijnen",
-        "risk": "p1-homepage-content",
-        "context": "PropertyAssignment"
-      },
-      {
-        "file": "src/app/page.tsx",
-        "line": 76,
-        "column": 79,
-        "type": "string",
-        "text": "Wijngebieden",
-        "risk": "p1-homepage-content",
-        "context": "PropertyAssignment"
-      }
-    ],
     "src/app/robots.ts": [
       {
         "file": "src/app/robots.ts",
@@ -1986,140 +1916,6 @@
         "text": "Per",
         "risk": "p2-ui-or-technical-copy",
         "context": ""
-      },
-      {
-        "file": "src/components/cart/CartSlideOut.tsx",
-        "line": 296,
-        "column": 25,
-        "type": "jsxText",
-        "text": "iDEAL",
-        "risk": "p2-ui-or-technical-copy",
-        "context": ""
-      },
-      {
-        "file": "src/components/cart/CartSlideOut.tsx",
-        "line": 301,
-        "column": 25,
-        "type": "jsxText",
-        "text": "Visa",
-        "risk": "p2-ui-or-technical-copy",
-        "context": ""
-      },
-      {
-        "file": "src/components/cart/CartSlideOut.tsx",
-        "line": 306,
-        "column": 25,
-        "type": "jsxText",
-        "text": "MC",
-        "risk": "p2-ui-or-technical-copy",
-        "context": ""
-      },
-      {
-        "file": "src/components/cart/CartSlideOut.tsx",
-        "line": 311,
-        "column": 25,
-        "type": "jsxText",
-        "text": "PayPal",
-        "risk": "p2-ui-or-technical-copy",
-        "context": ""
-      }
-    ],
-    "src/components/checkout/ContactSection.tsx": [
-      {
-        "file": "src/components/checkout/ContactSection.tsx",
-        "line": 49,
-        "column": 9,
-        "type": "attr:placeholder",
-        "text": "jouw@email.nl",
-        "risk": "p2-checkout-ui",
-        "context": "placeholder"
-      },
-      {
-        "file": "src/components/checkout/ContactSection.tsx",
-        "line": 60,
-        "column": 9,
-        "type": "attr:placeholder",
-        "text": "+31 6 12345678",
-        "risk": "p2-checkout-ui",
-        "context": "placeholder"
-      }
-    ],
-    "src/components/checkout/DeliverySection.tsx": [
-      {
-        "file": "src/components/checkout/DeliverySection.tsx",
-        "line": 64,
-        "column": 9,
-        "type": "attr:placeholder",
-        "text": "Hoofdstraat",
-        "risk": "p2-checkout-ui",
-        "context": "placeholder"
-      },
-      {
-        "file": "src/components/checkout/DeliverySection.tsx",
-        "line": 84,
-        "column": 11,
-        "type": "attr:placeholder",
-        "text": "A, bis, etc.",
-        "risk": "p2-checkout-ui",
-        "context": "placeholder"
-      },
-      {
-        "file": "src/components/checkout/DeliverySection.tsx",
-        "line": 95,
-        "column": 11,
-        "type": "attr:placeholder",
-        "text": "1234 AB",
-        "risk": "p2-checkout-ui",
-        "context": "placeholder"
-      },
-      {
-        "file": "src/components/checkout/DeliverySection.tsx",
-        "line": 109,
-        "column": 11,
-        "type": "attr:placeholder",
-        "text": "Amsterdam",
-        "risk": "p2-checkout-ui",
-        "context": "placeholder"
-      },
-      {
-        "file": "src/components/checkout/DeliverySection.tsx",
-        "line": 118,
-        "column": 37,
-        "type": "jsxText",
-        "text": "🇳🇱",
-        "risk": "p2-checkout-ui",
-        "context": ""
-      }
-    ],
-    "src/components/checkout/DiscountCode.tsx": [
-      {
-        "file": "src/components/checkout/DiscountCode.tsx",
-        "line": 77,
-        "column": 65,
-        "type": "jsxText",
-        "text": "korting)",
-        "risk": "p2-checkout-ui",
-        "context": ""
-      },
-      {
-        "file": "src/components/checkout/DiscountCode.tsx",
-        "line": 83,
-        "column": 11,
-        "type": "attr:aria-label",
-        "text": "Verwijder kortingscode",
-        "risk": "allowed-ui",
-        "context": "aria-label"
-      }
-    ],
-    "src/components/checkout/OrderSummary.tsx": [
-      {
-        "file": "src/components/checkout/OrderSummary.tsx",
-        "line": 111,
-        "column": 25,
-        "type": "jsxText",
-        "text": "Korting (",
-        "risk": "p2-checkout-ui",
-        "context": ""
       }
     ],
     "src/components/cms/ShopifyPageContent.tsx": [
@@ -2161,17 +1957,6 @@
         "type": "jsxText",
         "text": "Scroll",
         "risk": "p2-ui-or-technical-copy",
-        "context": ""
-      }
-    ],
-    "src/components/layout/Footer.tsx": [
-      {
-        "file": "src/components/layout/Footer.tsx",
-        "line": 147,
-        "column": 56,
-        "type": "jsxText",
-        "text": "Mailen kan altijd — we reageren binnen 1 werkdag",
-        "risk": "p1-footer-content",
         "context": ""
       }
     ],
@@ -2341,35 +2126,6 @@
         "context": ""
       }
     ],
-    "src/components/product/WineDetailsAccordion.tsx": [
-      {
-        "file": "src/components/product/WineDetailsAccordion.tsx",
-        "line": 51,
-        "column": 22,
-        "type": "string",
-        "text": "Serveertemperatuur",
-        "risk": "p1-product-ui-content",
-        "context": "PropertyAssignment"
-      },
-      {
-        "file": "src/components/product/WineDetailsAccordion.tsx",
-        "line": 52,
-        "column": 22,
-        "type": "string",
-        "text": "Decanteertijd",
-        "risk": "p1-product-ui-content",
-        "context": "PropertyAssignment"
-      },
-      {
-        "file": "src/components/product/WineDetailsAccordion.tsx",
-        "line": 54,
-        "column": 22,
-        "type": "string",
-        "text": "Verkoopeenheid",
-        "risk": "p1-product-ui-content",
-        "context": "PropertyAssignment"
-      }
-    ],
     "src/components/providers/GoogleAnalytics.tsx": [
       {
         "file": "src/components/providers/GoogleAnalytics.tsx",
@@ -2388,6 +2144,17 @@
         "text": "afterInteractive",
         "risk": "p2-ui-or-technical-copy",
         "context": "strategy"
+      }
+    ],
+    "src/components/providers/ShopConfigProvider.tsx": [
+      {
+        "file": "src/components/providers/ShopConfigProvider.tsx",
+        "line": 16,
+        "column": 17,
+        "type": "string",
+        "text": "info@vinoperlei.nl",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
       }
     ],
     "src/components/ui/AgeGate.tsx": [
@@ -2418,14 +2185,14 @@
         "line": 29,
         "column": 7,
         "type": "string",
-        "text": "inline-flex items-center justify-center text-button uppercase rounded-md transition-all duration-200 ease-out focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-wine focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-50",
+        "text": "relative inline-flex items-center justify-center overflow-hidden text-button uppercase rounded-lg transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-white disabled:pointer-events-none disabled:opacity-50",
         "risk": "p2-ui-or-technical-copy",
         "context": "VariableDeclaration"
       },
       {
         "file": "src/components/ui/Button.tsx",
         "line": 86,
-        "column": 19,
+        "column": 45,
         "type": "jsxText",
         "text": "Even geduld...",
         "risk": "p2-ui-or-technical-copy",
@@ -2435,7 +2202,7 @@
     "src/components/ui/CookieConsent.tsx": [
       {
         "file": "src/components/ui/CookieConsent.tsx",
-        "line": 172,
+        "line": 184,
         "column": 21,
         "type": "jsxText",
         "text": "Meer info",
@@ -2762,7 +2529,7 @@
     "src/lib/shopify-cms.ts": [
       {
         "file": "src/lib/shopify-cms.ts",
-        "line": 392,
+        "line": 393,
         "column": 24,
         "type": "string",
         "text": "title handle contentHtml excerpt publishedAt image { url altText } tags authorV2 { name } seo { title description }",
@@ -2771,7 +2538,7 @@
       },
       {
         "file": "src/lib/shopify-cms.ts",
-        "line": 565,
+        "line": 566,
         "column": 39,
         "type": "string",
         "text": "/wijnen",

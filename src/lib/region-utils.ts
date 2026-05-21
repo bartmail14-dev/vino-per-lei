@@ -9,6 +9,8 @@ export interface RegionMapping {
 
 const REGION_SLUG_ALIASES: Record<string, string> = {
   piedmont: "piemonte",
+  lombardije: "lombardia",
+  lombardy: "lombardia",
   tuscany: "toscana",
   apulia: "puglia",
   sicily: "sicilia",
@@ -24,7 +26,7 @@ const REGION_SLUG_ALIASES: Record<string, string> = {
 
 const REGION_DISPLAY_NAMES: Record<string, string> = {
   piemonte: "Piemonte",
-  lombardia: "Lombardia",
+  lombardia: "Lombardije",
   "alto-adige": "Alto Adige",
   veneto: "Veneto",
   friuli: "Friuli",

@@ -152,6 +152,7 @@ export interface ShopConfig {
   freeShippingThreshold: number;
   shippingCost: number;
   shippingCostTemperature: number;
+  contactEmail: string;
 }
 
 export interface UiCopyItem {
@@ -587,10 +588,24 @@ function normalizeMenuUrl(item: MenuItem): string {
     }
   }
 
+  pathname = pathname.replace(/^\/(?:en|nl)(?=\/)/, "");
+
+  const pageAliases: Record<string, string> = {
+    contact: "contact",
+    contacten: "contact",
+    privacy: "privacy",
+    privacybeleid: "privacy",
+    voorwaarden: "voorwaarden",
+    "algemene-voorwaarden": "voorwaarden",
+  };
+
   if (pathname === "/collections/all" || pathname === "/collections") return `/wijnen${search}${hash}`;
   if (pathname.startsWith("/collections/")) return `/wijnen${search}${hash}`;
   if (pathname.startsWith("/products/")) return `/wijnen/${pathname.split("/").filter(Boolean).at(-1) ?? ""}${search}${hash}`;
-  if (pathname.startsWith("/pages/")) return `/${pathname.replace(/^\/pages\//, "")}${search}${hash}`;
+  if (pathname.startsWith("/pages/")) {
+    const pageHandle = pathname.replace(/^\/pages\//, "");
+    return `/${pageAliases[pageHandle] ?? pageHandle}${search}${hash}`;
+  }
   if (pathname === "/blogs/news") return `/blog${search}${hash}`;
   if (pathname.startsWith("/blogs/news/")) return `/blog/${pathname.split("/").filter(Boolean).at(-1) ?? ""}${search}${hash}`;
 
@@ -631,5 +646,6 @@ export async function getShopConfig(): Promise<ShopConfig> {
     freeShippingThreshold,
     shippingCost: settings?.shippingCost || 7.95,
     shippingCostTemperature: settings?.shippingCostTemperature || 12.95,
+    contactEmail: settings?.email || "info@vinoperlei.nl",
   };
 }

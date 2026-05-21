@@ -41,7 +41,7 @@ export function CartSlideOut() {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const isMobileCart = useIsMobileCart();
   const t = useUiCopy();
-  const { freeShippingThreshold, shippingCost } = useShopConfig();
+  const { freeShippingThreshold, shippingCost, contactEmail } = useShopConfig();
   const configuredShipping =
     items.length === 0
       ? 0
@@ -280,6 +280,10 @@ export function CartSlideOut() {
                   </button>
 
                   {/* Trust Signals */}
+                  <div className="rounded-xl border border-sand/55 bg-white/70 px-3 py-2.5 text-center text-[11px] leading-relaxed text-grey">
+                    {t("footer.pickup_note", { email: contactEmail })}
+                  </div>
+
                   <div className="flex items-center justify-center gap-4 pt-2 text-xs text-grey">
                     <span className="flex items-center gap-1">
                       <CheckIcon className="w-3 h-3" />

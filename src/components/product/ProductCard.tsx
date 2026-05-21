@@ -97,12 +97,12 @@ export function ProductCard({
     <motion.article
       className={cn(
         "group relative bg-white rounded-2xl sm:rounded-[1.35rem]",
-        "border border-sand/70 shadow-[0_18px_56px_-40px_rgba(26,31,61,0.68)]",
+        "border-x border-b border-t-0 border-sand/70 shadow-[0_18px_56px_-40px_rgba(26,31,61,0.68)] sm:border",
         "transition-all duration-500 ease-out",
         "sm:hover:shadow-[0_30px_70px_-28px_rgba(26,31,61,0.34)]",
         "sm:hover:-translate-y-1.5 sm:hover:border-gold/35",
         "overflow-visible mt-14 min-[430px]:mt-18 sm:mt-32 flex flex-col",
-        "before:absolute before:inset-x-6 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-gold/55 before:to-transparent before:content-['']",
+        "before:absolute before:inset-x-6 before:top-0 before:hidden before:h-px before:bg-gradient-to-r before:from-transparent before:via-gold/55 before:to-transparent before:content-[''] sm:before:block",
         "after:pointer-events-none after:absolute after:inset-0 after:rounded-2xl after:ring-1 after:ring-white/70 after:content-[''] sm:after:rounded-[1.35rem]",
         className
       )}
@@ -113,7 +113,7 @@ export function ProductCard({
       transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
     >
       {/* Gold accent line — top edge */}
-      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent" />
+      <div className="absolute top-0 left-6 right-6 hidden h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent sm:block" />
 
       {/* Wishlist Button */}
       <motion.button
@@ -162,12 +162,12 @@ export function ProductCard({
         aria-label={t("product.view_aria", { title: product.title })}
       >
         {/* Image Container */}
-        <div className="relative h-52 min-[430px]:h-56 sm:h-68 mx-3 sm:mx-4 -mt-10 min-[430px]:-mt-14 sm:-mt-22">
+        <div className="relative z-10 h-52 min-[430px]:h-56 sm:h-68 mx-3 sm:mx-4 -mt-10 min-[430px]:-mt-14 sm:-mt-22">
           {/* Background with grain */}
-          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(245,230,200,0.68)_0%,rgba(250,249,247,0.96)_58%,#fff_100%)] rounded-[1rem] overflow-hidden ring-1 ring-gold/10">
+          <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(245,230,200,0.68)_0%,rgba(250,249,247,0.96)_58%,#fff_100%)] rounded-[1rem] overflow-hidden sm:ring-1 sm:ring-gold/10">
             <div className="absolute inset-0 bg-grain opacity-[0.03]" />
-            <div className="absolute inset-x-8 bottom-7 h-px bg-gradient-to-r from-transparent via-wine/20 to-transparent" />
-            <div className="absolute inset-x-10 bottom-5 h-3 rounded-full bg-wine/10 blur-md" />
+            <div className="absolute inset-x-8 bottom-7 hidden h-px bg-gradient-to-r from-transparent via-wine/20 to-transparent sm:block" />
+            <div className="absolute inset-x-12 bottom-5 h-3 rounded-full bg-wine/10 blur-md sm:inset-x-10" />
             <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-white/90 to-transparent" />
             {/* Shine sweep on hover */}
             <motion.div
@@ -218,7 +218,7 @@ export function ProductCard({
           </div>
 
           {/* Product Image */}
-          <div className="absolute inset-0 -top-8 min-[430px]:-top-10 sm:-top-16 flex items-center justify-center">
+          <div className="absolute inset-0 z-20 -top-8 min-[430px]:-top-10 sm:-top-16 flex items-center justify-center">
             {product.images[0] ? (
               <div className="relative w-40 min-[430px]:w-44 sm:w-56 h-64 min-[430px]:h-72 sm:h-96">
                 {!imageLoaded && (

@@ -176,7 +176,7 @@ Voorkomt dat e-mails van @vinoperlei.nl als spam worden gemarkeerd.
 | Sender: orders@vinoperlei.nl | Geverifieerd in Shopify |
 | SPF + DKIM (Shopify) | Authenticated (groen) |
 | SPF + DKIM (M365) | Werkend |
-| Forwarding Carla → vinoperlei@outlook.com | Actief |
+| Forwarding Carla → vinoperlei@outlook.com | Uitgeschakeld op 20 mei 2026 |
 | Shared mailboxen (info@, facturatie@, orders@) | Aangemaakt |
 
 ---

@@ -1,68 +1,16 @@
 "use client";
 
-import { useEffect, useRef, Suspense } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
-import { useCheckoutStore } from "@/stores/checkoutStore";
 import { Button } from "@/components/ui";
-import { TrustSignals } from "@/components/checkout";
 import { CheckIcon } from "@/components/icons";
-import confetti from "canvas-confetti";
 
 function CheckoutSuccessContent() {
   const searchParams = useSearchParams();
   const rawOrderId = searchParams.get("order");
   const orderId = rawOrderId && /^[a-zA-Z0-9-]{1,50}$/.test(rawOrderId) ? rawOrderId : null;
-  const { contact, address, shipping, resetCheckout } = useCheckoutStore();
-  const hasTriggeredConfetti = useRef(false);
-
-  // Trigger confetti on mount
-  useEffect(() => {
-    if (!hasTriggeredConfetti.current) {
-      hasTriggeredConfetti.current = true;
-      // Fire confetti
-      const duration = 3 * 1000;
-      const animationEnd = Date.now() + duration;
-      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
-      function randomInRange(min: number, max: number) {
-        return Math.random() * (max - min) + min;
-      }
-
-      const interval: ReturnType<typeof setInterval> = setInterval(function () {
-        const timeLeft = animationEnd - Date.now();
-
-        if (timeLeft <= 0) {
-          return clearInterval(interval);
-        }
-
-        const particleCount = 50 * (timeLeft / duration);
-        // Using wine color for confetti
-        confetti({
-          ...defaults,
-          particleCount,
-          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
-          colors: ["#1a1f3d", "#c9a227", "#ffa38b"],
-        });
-        confetti({
-          ...defaults,
-          particleCount,
-          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
-          colors: ["#1a1f3d", "#c9a227", "#ffa38b"],
-        });
-      }, 250);
-
-      return () => clearInterval(interval);
-    }
-  }, []);
-
-  // Reset checkout on unmount
-  useEffect(() => {
-    return () => {
-      resetCheckout();
-    };
-  }, [resetCheckout]);
 
   return (
     <div className="min-h-screen bg-cream flex items-center justify-center py-12 px-4">
@@ -72,28 +20,19 @@ function CheckoutSuccessContent() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        {/* Success icon */}
         <motion.div
           className="w-20 h-20 bg-success/10 rounded-full flex items-center justify-center mx-auto mb-6"
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
         >
-          <motion.div
-            initial={{ pathLength: 0 }}
-            animate={{ pathLength: 1 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-          >
-            <CheckIcon className="w-10 h-10 text-success" />
-          </motion.div>
+          <CheckIcon className="w-10 h-10 text-success" />
         </motion.div>
 
-        {/* Title */}
         <h1 className="font-serif text-3xl md:text-4xl text-charcoal mb-4">
-          Bedankt voor je bestelling!
+          Bedankt voor je bestelling
         </h1>
 
-        {/* Order number */}
         {orderId && (
           <p className="text-grey mb-6">
             Bestelnummer:{" "}
@@ -103,7 +42,6 @@ function CheckoutSuccessContent() {
           </p>
         )}
 
-        {/* Confirmation message */}
         <div className="bg-white rounded-lg border border-sand p-6 mb-6 text-left">
           <h2 className="font-semibold text-charcoal mb-4">
             Wat gebeurt er nu?
@@ -116,7 +54,7 @@ function CheckoutSuccessContent() {
               <div>
                 <p className="text-charcoal">Bevestigingsmail</p>
                 <p className="text-sm text-grey">
-                  Je ontvangt een bevestiging op {contact.email || "je e-mail"}
+                  Shopify verstuurt de bevestiging naar het e-mailadres dat je tijdens het afrekenen hebt ingevuld.
                 </p>
               </div>
             </li>
@@ -125,9 +63,9 @@ function CheckoutSuccessContent() {
                 <span className="text-xs font-semibold text-wine">2</span>
               </div>
               <div>
-                <p className="text-charcoal">Verzending</p>
+                <p className="text-charcoal">Orderverwerking</p>
                 <p className="text-sm text-grey">
-                  Je bestelling wordt binnen 24 uur verzonden
+                  Carla verwerkt de bestelling handmatig vanuit Shopify.
                 </p>
               </div>
             </li>
@@ -138,16 +76,14 @@ function CheckoutSuccessContent() {
               <div>
                 <p className="text-charcoal">Levering</p>
                 <p className="text-sm text-grey">
-                  Verwachte bezorging: {shipping.estimatedDate || "1-2 werkdagen"}
-                  {address.city && ` in ${address.city}`}
+                  De actuele leveringsinformatie staat in je orderbevestiging.
                 </p>
               </div>
             </li>
           </ul>
         </div>
 
-        {/* CTA buttons */}
-        <div className="flex flex-col sm:flex-row gap-3 mb-8">
+        <div className="flex flex-col sm:flex-row gap-3">
           <Link href="/wijnen" className="flex-1">
             <Button variant="primary" fullWidth>
               Verder winkelen
@@ -159,27 +95,11 @@ function CheckoutSuccessContent() {
             </Button>
           </Link>
         </div>
-
-        {/* Trust signals */}
-        <div className="bg-white rounded-lg border border-sand p-6">
-          <TrustSignals variant="compact" />
-        </div>
-
-        {/* Wine glass decoration */}
-        <motion.div
-          className="mt-8 text-6xl"
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, repeatDelay: 3 }}
-        >
-          🍷
-        </motion.div>
-        <p className="text-sm text-grey mt-2">Proost op je nieuwe wijnen!</p>
       </motion.div>
     </div>
   );
 }
 
-// Loading fallback
 function LoadingFallback() {
   return (
     <div className="min-h-screen bg-cream flex items-center justify-center">
@@ -188,7 +108,6 @@ function LoadingFallback() {
   );
 }
 
-// Main export with Suspense boundary
 export default function CheckoutSuccessPage() {
   return (
     <Suspense fallback={<LoadingFallback />}>

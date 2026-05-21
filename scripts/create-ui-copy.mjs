@@ -2,21 +2,6 @@ const STORE = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
 const TOKEN = process.env.SHOPIFY_ADMIN_ACCESS_TOKEN;
 
 const entries = [
-  // Checkout contact
-  ['checkout-contact-email-label', 'checkout.contact.email_label', 'E-mailadres', 'checkout', 'Label voor e-mail veld in checkout contact'],
-  ['checkout-contact-phone-label', 'checkout.contact.phone_label', 'Telefoonnummer (optioneel)', 'checkout', 'Label voor telefoonnummer veld'],
-  ['checkout-contact-phone-hint', 'checkout.contact.phone_hint', 'Voor bezorgberichten', 'checkout', 'Hint tekst bij telefoonnummer'],
-  ['checkout-contact-newsletter-label', 'checkout.contact.newsletter_label', 'Ja, ik wil de nieuwsbrief ontvangen met exclusieve aanbiedingen', 'checkout', 'Nieuwsbrief checkbox label'],
-  ['checkout-contact-continue', 'checkout.contact.continue', 'Doorgaan naar bezorgadres', 'checkout', 'Knop tekst checkout contact stap'],
-  // Checkout payment
-  ['checkout-payment-age-title', 'checkout.payment.age_title', 'Leeftijdsverificatie', 'checkout', 'Titel leeftijdsverificatie sectie'],
-  ['checkout-payment-age-confirm', 'checkout.payment.age_confirm', 'Ik bevestig dat ik 18 jaar of ouder ben', 'checkout', 'Checkbox leeftijdsbevestiging'],
-  ['checkout-payment-method-title', 'checkout.payment.method_title', 'Betaalmethode kiezen', 'checkout', 'Titel betaalmethode sectie'],
-  ['checkout-payment-method-description', 'checkout.payment.method_description', 'Je wordt doorgestuurd naar de beveiligde Shopify checkout. Daar zie je altijd de betaalmethoden die op dat moment in Shopify actief zijn.', 'checkout', 'Uitleg betaalmethode'],
-  ['checkout-payment-submit', 'checkout.payment.submit', 'Afrekenen via Shopify', 'checkout', 'Submit knop betaling'],
-  ['checkout-payment-submitting', 'checkout.payment.submitting', 'Doorsturen naar betaling...', 'checkout', 'Loading tekst betaling'],
-  ['checkout-payment-terms-prefix', 'checkout.payment.terms_prefix', 'Door te bestellen ga je akkoord met onze', 'checkout', 'Prefix voor voorwaarden link'],
-  ['checkout-payment-terms-link', 'checkout.payment.terms_link', 'algemene voorwaarden', 'checkout', 'Link tekst voorwaarden'],
   // Auth
   ['auth-email-label', 'auth.email_label', 'E-mailadres', 'auth', 'Label voor e-mail veld in login/register'],
   ['auth-password-label', 'auth.password_label', 'Wachtwoord', 'auth', 'Label voor wachtwoord veld'],
@@ -89,8 +74,10 @@ async function createEntry([handle, key, value, group, description]) {
   const errors = json.data?.metaobjectCreate?.userErrors;
   if (errors?.length > 0) {
     console.log(`SKIP ${handle}: ${errors[0].message}`);
+    return "skip";
   } else {
     console.log(`OK ${handle}`);
+    return "ok";
   }
 }
 
@@ -99,8 +86,10 @@ async function createEntry([handle, key, value, group, description]) {
   let skip = 0;
   for (const entry of entries) {
     const result = await createEntry(entry);
+    if (result === "ok") ok += 1;
+    if (result === "skip") skip += 1;
     // Small delay to avoid rate limiting
     await new Promise(r => setTimeout(r, 100));
   }
-  console.log(`\nDone! Processed ${entries.length} entries.`);
+  console.log(`\nDone! Processed ${entries.length} entries. OK: ${ok}, skipped: ${skip}.`);
 })();

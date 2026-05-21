@@ -6,12 +6,14 @@ export interface ShopConfig {
   freeShippingThreshold: number;
   shippingCost: number;
   shippingCostTemperature: number;
+  contactEmail: string;
 }
 
 const DEFAULT_CONFIG: ShopConfig = {
   freeShippingThreshold: 0,
   shippingCost: 0,
   shippingCostTemperature: 0,
+  contactEmail: "info@vinoperlei.nl",
 };
 
 const ShopConfigContext = createContext<ShopConfig>(DEFAULT_CONFIG);

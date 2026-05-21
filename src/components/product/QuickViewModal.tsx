@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,7 +13,7 @@ import { useUiCopy } from "@/components/providers";
 import { cn, wineImagePresets } from "@/lib/utils";
 import { getOrderIncrement, getOrderMaximum, getOrderMinimum, getOrderUnitText, getPriceUnitText } from "@/lib/order-rules";
 import { useFocusTrap } from "@/hooks/useFocusTrap";
-import { CloseIcon, HeartIcon, EyeIcon, CartIcon, CheckIcon, ShieldIcon, LoadingSpinner } from "@/components/icons";
+import { CloseIcon, HeartIcon, CartIcon, CheckIcon, ShieldIcon, LoadingSpinner } from "@/components/icons";
 
 interface QuickViewModalProps {
   product: Product | null;
@@ -26,13 +26,6 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
   const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
-  const [viewerCount, setViewerCount] = useState(12);
-
-  // Set random viewer count client-side only to avoid hydration mismatch
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setViewerCount(Math.floor(Math.random() * 20) + 5);
-  }, []);
 
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: onClose });
 
@@ -170,12 +163,6 @@ export function QuickViewModal({ product, isOpen, onClose }: QuickViewModalProps
                     <Rating rating={product.rating} reviewCount={product.reviewCount} />
                   </div>
                 )}
-
-                {/* Social Proof */}
-                <div className="flex items-center gap-2 text-sm text-grey mb-4">
-                  <EyeIcon className="w-4 h-4" />
-                  <span>{t("product.viewer_count", { count: viewerCount })}</span>
-                </div>
 
                 {/* Price */}
                 <div className="mb-4">

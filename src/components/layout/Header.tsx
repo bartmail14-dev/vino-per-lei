@@ -35,10 +35,31 @@ interface HeaderProps {
 }
 
 function toRelativeUrl(url: string): string {
+  const pageAliases: Record<string, string> = {
+    contact: "contact",
+    contacten: "contact",
+    privacy: "privacy",
+    privacybeleid: "privacy",
+    voorwaarden: "voorwaarden",
+    "algemene-voorwaarden": "voorwaarden",
+  };
+
   try {
     const parsed = new URL(url);
-    return parsed.pathname + parsed.search + parsed.hash;
+    const pathname = parsed.pathname.replace(/^\/(?:en|nl)(?=\/)/, "");
+    if (pathname.startsWith("/pages/")) {
+      const pageHandle = pathname.replace(/^\/pages\//, "");
+      return `/${pageAliases[pageHandle] ?? pageHandle}${parsed.search}${parsed.hash}`;
+    }
+    return pathname + parsed.search + parsed.hash;
   } catch {
+    const [pathWithSearch = "", hash = ""] = (url || "/").split("#");
+    const [path = "", search = ""] = pathWithSearch.split("?");
+    const pathname = path.replace(/^\/(?:en|nl)(?=\/)/, "");
+    if (pathname.startsWith("/pages/")) {
+      const pageHandle = pathname.replace(/^\/pages\//, "");
+      return `/${pageAliases[pageHandle] ?? pageHandle}${search ? `?${search}` : ""}${hash ? `#${hash}` : ""}`;
+    }
     return url || "/";
   }
 }
