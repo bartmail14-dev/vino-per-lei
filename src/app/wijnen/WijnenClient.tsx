@@ -16,7 +16,7 @@ import {
   type ActiveFilters,
 } from "@/components/filters";
 import { cn } from "@/lib/utils";
-import { regionNameToSlug, slugToDisplayName, slugToRegionNames } from "@/lib/region-utils";
+import { canonicalRegionSlug, regionNameToSlug, slugToDisplayName, slugToRegionNames } from "@/lib/region-utils";
 import { FilterIcon, ChevronRightIcon } from "@/components/icons";
 import { LayoutGrid, List, Search, X } from "lucide-react";
 
@@ -246,8 +246,9 @@ function filterAndSortProducts(
     result = result.filter((p) => {
       if (!p.region) return false;
       return activeFilters.region!.some((slug) => {
-        const regionNames = slugToRegionNames(slug);
-        return regionNames.some((name) => p.region === name) || regionNameToSlug(p.region) === slug;
+        const canonicalSlug = canonicalRegionSlug(slug);
+        const regionNames = slugToRegionNames(canonicalSlug);
+        return regionNames.some((name) => p.region === name) || regionNameToSlug(p.region) === canonicalSlug;
       });
     });
   }
@@ -311,6 +312,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const regionParam = searchParams.get("region");
+  const canonicalRegionParam = regionParam ? canonicalRegionSlug(regionParam) : null;
   const typeParam = searchParams.get("type");
 
   const filterGroups = useMemo(() => buildFilterGroups(products, t), [products, t]);
@@ -322,14 +324,14 @@ export function WijnenContent({ products }: { products: Product[] }) {
   // Initialize filters from URL params
   const initialFilters: ActiveFilters = useMemo(() => {
     const filters: ActiveFilters = {};
-    if (regionParam) {
-      filters.region = [regionParam];
+    if (canonicalRegionParam) {
+      filters.region = [canonicalRegionParam];
     }
     if (typeParam) {
       filters.wineType = [typeParam];
     }
     return filters;
-  }, [regionParam, typeParam]);
+  }, [canonicalRegionParam, typeParam]);
 
   const [activeFilters, setActiveFilters] = useState<ActiveFilters>(initialFilters);
   const [sortBy, setSortBy] = useState("popular");
@@ -342,8 +344,8 @@ export function WijnenContent({ products }: { products: Product[] }) {
   // Sync filters with URL params on mount/change
   useEffect(() => {
     const updates: ActiveFilters = {};
-    if (regionParam && !activeFilters.region?.includes(regionParam)) {
-      updates.region = [regionParam];
+    if (canonicalRegionParam && !activeFilters.region?.includes(canonicalRegionParam)) {
+      updates.region = [canonicalRegionParam];
     }
     if (typeParam && !activeFilters.wineType?.includes(typeParam)) {
       updates.wineType = [typeParam];
@@ -351,7 +353,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
     if (Object.keys(updates).length > 0) {
       setActiveFilters((prev) => ({ ...prev, ...updates }));
     }
-  }, [regionParam, typeParam, activeFilters.region, activeFilters.wineType]);
+  }, [canonicalRegionParam, typeParam, activeFilters.region, activeFilters.wineType]);
 
   // Get active region name for header
   const activeRegionName = useMemo(() => {

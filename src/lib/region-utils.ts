@@ -7,64 +7,182 @@ export interface RegionMapping {
   famousWines: string[];
 }
 
-const REGION_SLUG_ALIASES: Record<string, string> = {
-  piedmont: "piemonte",
-  lombardije: "lombardia",
-  lombardy: "lombardia",
-  tuscany: "toscana",
-  apulia: "puglia",
-  sicily: "sicilia",
-  sardinia: "sardegna",
-  "friuli-venezia-giulia": "friuli",
-  "friuli-vg": "friuli",
-  "aosta-valley": "valle-daosta",
-  "valle-d-aosta": "valle-daosta",
-  "trentino-south-tyrol": "alto-adige",
-  "trentino-alto-adige": "alto-adige",
-  "trentino-alto-adige-sudtirol": "alto-adige",
-};
+interface RegionDefinition {
+  slug: string;
+  displayName: string;
+  aliases: string[];
+  famousWines?: string[];
+}
 
-const REGION_DISPLAY_NAMES: Record<string, string> = {
-  piemonte: "Piemonte",
-  lombardia: "Lombardije",
-  "alto-adige": "Alto Adige",
-  veneto: "Veneto",
-  friuli: "Friuli",
-  "emilia-romagna": "Emilia-Romagna",
-  liguria: "Liguria",
-  "valle-daosta": "Valle d'Aosta",
-  toscana: "Toscana",
-  umbria: "Umbrië",
-  marche: "Marche",
-  lazio: "Lazio",
-  abruzzo: "Abruzzo",
-  molise: "Molise",
-  campania: "Campania",
-  puglia: "Puglia",
-  basilicata: "Basilicata",
-  calabria: "Calabria",
-  sicilia: "Sicilië",
-  sardegna: "Sardinië",
-};
+const REGION_DEFINITIONS: RegionDefinition[] = [
+  {
+    slug: "abruzzo",
+    displayName: "Abruzzo",
+    aliases: ["Abruzzo"],
+  },
+  {
+    slug: "valle-daosta",
+    displayName: "Valle d'Aosta",
+    aliases: ["Valle d'Aosta", "Valle d Aosta", "Valle-daosta", "Valle-d-aosta", "Aosta Valley", "Vallee d Aoste"],
+  },
+  {
+    slug: "puglia",
+    displayName: "Puglia",
+    aliases: ["Puglia", "Apulia", "Apulie", "Primitivo di Manduria", "Manduria", "Salento"],
+  },
+  {
+    slug: "basilicata",
+    displayName: "Basilicata",
+    aliases: ["Basilicata"],
+  },
+  {
+    slug: "calabria",
+    displayName: "Calabria",
+    aliases: ["Calabria", "Calabrie"],
+  },
+  {
+    slug: "campania",
+    displayName: "Campania",
+    aliases: ["Campania", "Campanie"],
+  },
+  {
+    slug: "emilia-romagna",
+    displayName: "Emilia-Romagna",
+    aliases: ["Emilia-Romagna", "Emilia Romagna"],
+  },
+  {
+    slug: "friuli",
+    displayName: "Friuli",
+    aliases: ["Friuli", "Friuli Venezia Giulia", "Friuli-Venezia Giulia", "Friuli VG", "Friuli-VG"],
+  },
+  {
+    slug: "lazio",
+    displayName: "Lazio",
+    aliases: ["Lazio", "Latium"],
+  },
+  {
+    slug: "liguria",
+    displayName: "Liguria",
+    aliases: ["Liguria", "Ligurie"],
+  },
+  {
+    slug: "lombardia",
+    displayName: "Lombardije",
+    aliases: ["Lombardia", "Lombardije", "Lombardy", "Franciacorta", "Valtellina", "Lugana"],
+  },
+  {
+    slug: "marche",
+    displayName: "Marche",
+    aliases: ["Marche", "Le Marche"],
+  },
+  {
+    slug: "molise",
+    displayName: "Molise",
+    aliases: ["Molise"],
+  },
+  {
+    slug: "piemonte",
+    displayName: "Piemonte",
+    aliases: ["Piemonte", "Piedmont", "Piemont", "Gavi", "Barolo", "Barbaresco", "Asti", "Nizza", "Langhe", "Roero", "Monferrato"],
+  },
+  {
+    slug: "sardegna",
+    displayName: "Sardini\u00eb",
+    aliases: ["Sardegna", "Sardini\u00eb", "Sardinie", "Sardinia"],
+  },
+  {
+    slug: "sicilia",
+    displayName: "Sicili\u00eb",
+    aliases: ["Sicilia", "Sicili\u00eb", "Sicilie", "Sicily"],
+  },
+  {
+    slug: "alto-adige",
+    displayName: "Alto Adige",
+    aliases: [
+      "Alto Adige",
+      "Trentino-Alto Adige",
+      "Trentino Alto Adige",
+      "Trentino-Alto Adige/Sudtirol",
+      "Trentino Alto Adige Sudtirol",
+      "Trentino-South Tyrol",
+      "South Tyrol",
+      "Sudtirol",
+      "S\u00fcdtirol",
+      "Trentino",
+    ],
+  },
+  {
+    slug: "toscana",
+    displayName: "Toscana",
+    aliases: ["Toscana", "Tuscany", "Toscane", "Chianti", "Montalcino", "Montepulciano", "Bolgheri"],
+  },
+  {
+    slug: "umbria",
+    displayName: "Umbri\u00eb",
+    aliases: ["Umbria", "Umbri\u00eb", "Umbrie"],
+  },
+  {
+    slug: "veneto",
+    displayName: "Veneto",
+    aliases: ["Veneto", "Venetie", "Veneti\u00eb", "Valpolicella", "Amarone", "Prosecco", "Soave", "Bardolino"],
+  },
+];
 
-function slugifyRegion(value: string): string | undefined {
-  const slug = value
+function normalizeRegionKey(value: string): string | undefined {
+  const key = value
     .trim()
     .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
+    .replace(/&/g, " and ")
+    .replace(/['’`]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
-  return slug || undefined;
+
+  return key || undefined;
 }
 
-export function canonicalRegionSlug(slug: string): string {
-  return REGION_SLUG_ALIASES[slug] ?? slug;
+const REGION_DEFINITION_BY_SLUG = new Map(REGION_DEFINITIONS.map((definition) => [definition.slug, definition]));
+
+const REGION_SLUG_ALIASES = REGION_DEFINITIONS.reduce<Record<string, string>>((aliases, definition) => {
+  const values = [definition.slug, definition.displayName, ...definition.aliases];
+  for (const value of values) {
+    const key = normalizeRegionKey(value);
+    if (key) aliases[key] = definition.slug;
+  }
+  return aliases;
+}, {});
+
+const REGION_DISPLAY_NAMES = REGION_DEFINITIONS.reduce<Record<string, string>>((displayNames, definition) => {
+  displayNames[definition.slug] = definition.displayName;
+  return displayNames;
+}, {});
+
+export function canonicalRegionSlug(value: string): string {
+  const key = normalizeRegionKey(value);
+  if (!key) return value;
+  return REGION_SLUG_ALIASES[key] ?? key;
 }
 
 export function regionNameToSlug(name: string): string | undefined {
-  const slug = slugifyRegion(name);
-  return slug ? canonicalRegionSlug(slug) : undefined;
+  const slug = canonicalRegionSlug(name);
+  return slug || undefined;
+}
+
+export function mapLocationToRegionSlug(location: { id: string; name?: string }): string {
+  const idSlug = canonicalRegionSlug(location.id);
+  if (REGION_DEFINITION_BY_SLUG.has(idSlug)) return idSlug;
+
+  if (location.name) {
+    const nameSlug = canonicalRegionSlug(location.name);
+    if (REGION_DEFINITION_BY_SLUG.has(nameSlug)) return nameSlug;
+  }
+
+  return idSlug;
+}
+
+export function isKnownMapRegion(value: string): boolean {
+  return REGION_DEFINITION_BY_SLUG.has(canonicalRegionSlug(value));
 }
 
 export function slugToDisplayName(slug: string): string | undefined {
@@ -81,8 +199,10 @@ export function slugToDisplayName(slug: string): string | undefined {
 
 export function slugToRegionNames(slug: string): string[] {
   const canonicalSlug = canonicalRegionSlug(slug);
+  const definition = REGION_DEFINITION_BY_SLUG.get(canonicalSlug);
+  const aliases = definition ? [definition.slug, definition.displayName, ...definition.aliases] : [];
   const displayName = slugToDisplayName(canonicalSlug);
-  return Array.from(new Set([canonicalSlug, slug, displayName].filter(Boolean) as string[]));
+  return Array.from(new Set([canonicalSlug, slug, displayName, ...aliases].filter(Boolean) as string[]));
 }
 
 export function getActiveRegionSlugsFromProducts(products: Product[]): string[] {
@@ -118,16 +238,23 @@ export function buildRegionLinks(products: Product[]): { label: string; href: st
 
 export function getRegionByName(name: string): RegionMapping | undefined {
   const slug = regionNameToSlug(name);
-  return slug ? { displayName: name, slug, svgId: slug, famousWines: [] } : undefined;
+  const displayName = slug ? slugToDisplayName(slug) : undefined;
+  return slug && displayName ? { displayName, slug, svgId: slug, famousWines: [] } : undefined;
 }
 
 export function getRegionMappingBySlug(slug: string): RegionMapping | undefined {
-  const displayName = slugToDisplayName(slug);
-  return displayName ? { displayName, slug, svgId: slug, famousWines: [] } : undefined;
+  const canonicalSlug = canonicalRegionSlug(slug);
+  const displayName = slugToDisplayName(canonicalSlug);
+  return displayName ? { displayName, slug: canonicalSlug, svgId: canonicalSlug, famousWines: [] } : undefined;
 }
 
 export function getRegionBySvgId(svgId: string): RegionMapping | undefined {
   return getRegionMappingBySlug(svgId);
 }
 
-export const REGION_MAPPINGS: RegionMapping[] = [];
+export const REGION_MAPPINGS: RegionMapping[] = REGION_DEFINITIONS.map((definition) => ({
+  displayName: definition.displayName,
+  slug: definition.slug,
+  svgId: definition.slug,
+  famousWines: definition.famousWines ?? [],
+}));

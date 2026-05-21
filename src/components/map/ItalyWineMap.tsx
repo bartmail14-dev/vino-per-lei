@@ -5,7 +5,7 @@ import type { MouseEvent } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import ItalyMap from "@svg-maps/italy";
-import { canonicalRegionSlug, slugToDisplayName } from "@/lib/region-utils";
+import { canonicalRegionSlug, mapLocationToRegionSlug, slugToDisplayName } from "@/lib/region-utils";
 import { cn } from "@/lib/utils";
 
 interface MapLocation {
@@ -22,29 +22,6 @@ export interface WineRegionData {
   active: boolean;
 }
 
-const svgRegionSlugs: Record<string, string> = {
-  piedmont: "piemonte",
-  lombardy: "lombardia",
-  "trentino-south-tyrol": "alto-adige",
-  veneto: "veneto",
-  "friuli-venezia-giulia": "friuli",
-  "emilia-romagna": "emilia-romagna",
-  tuscany: "toscana",
-  liguria: "liguria",
-  "aosta-valley": "valle-daosta",
-  umbria: "umbria",
-  marche: "marche",
-  lazio: "lazio",
-  abruzzo: "abruzzo",
-  campania: "campania",
-  apulia: "puglia",
-  basilicata: "basilicata",
-  calabria: "calabria",
-  sicily: "sicilia",
-  sardinia: "sardegna",
-  molise: "molise",
-};
-
 export interface ItalyWineMapProps {
   className?: string;
   onRegionClick?: (region: WineRegionData) => void;
@@ -60,14 +37,14 @@ function toRegionData(
   activeRegionSlugs?: string[],
   regionLabels?: Record<string, string>
 ): WineRegionData {
-  const slug = canonicalRegionSlug(svgRegionSlugs[location.id] ?? location.id);
-  const activeSlugs = activeRegionSlugs?.map(canonicalRegionSlug);
+  const slug = mapLocationToRegionSlug(location);
+  const activeSlugs = activeRegionSlugs ? new Set(activeRegionSlugs.map(canonicalRegionSlug)) : undefined;
   return {
     id: location.id,
     displayName: regionLabels?.[slug] || slugToDisplayName(slug) || location.name,
     slug,
     famousWines: [],
-    active: activeSlugs ? activeSlugs.includes(slug) : false,
+    active: activeSlugs ? activeSlugs.has(slug) : false,
   };
 }
 
