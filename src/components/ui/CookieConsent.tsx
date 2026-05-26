@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Cookie, Shield, BarChart3, Megaphone, ChevronDown } from "lucide-react";
+import { Cookie, Shield, BarChart3, Megaphone, SlidersHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUiCopy } from "@/components/providers";
 import { useCartStore } from "@/stores/cartStore";
@@ -74,7 +74,7 @@ function Toggle({
       aria-checked={checked}
       disabled={disabled}
       onClick={() => onChange?.(!checked)}
-      className={`relative inline-flex h-6 w-11 shrink-0 rounded-full transition-colors duration-200 ${
+      className={`relative inline-flex h-7 w-12 shrink-0 rounded-full transition-colors duration-200 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 ${
         disabled
           ? "bg-wine/40 cursor-not-allowed"
           : checked
@@ -83,7 +83,7 @@ function Toggle({
       }`}
     >
       <span
-        className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-sm ring-0 transition-transform duration-200 translate-y-0.5 ${
+        className={`pointer-events-none inline-block h-6 w-6 rounded-full bg-white shadow-sm ring-0 transition-transform duration-200 translate-y-0.5 ${
           checked ? "translate-x-[22px]" : "translate-x-0.5"
         }`}
       />
@@ -161,44 +161,42 @@ export function CookieConsent() {
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", damping: 25, stiffness: 200 }}
           className={cn(
-            "fixed left-3 right-3 z-[9990] sm:bottom-5 sm:left-5 sm:right-auto sm:max-w-[360px]",
-            needsPurchaseBarOffset ? "bottom-28" : "bottom-4"
+            "cookie-consent fixed left-3 right-3 z-[9990] sm:bottom-5 sm:left-5 sm:right-auto sm:max-w-[390px]",
+            needsPurchaseBarOffset ? "bottom-[9.25rem]" : "bottom-3"
           )}
           role="region"
           aria-label="Cookie-instellingen"
         >
-          <div className="bg-white/96 rounded-2xl shadow-[0_18px_54px_-34px_rgba(26,31,61,0.72)] border border-sand/70 overflow-hidden backdrop-blur">
-            {/* Header bar */}
-            <div className="bg-wine/[0.03] px-4 py-3 flex items-center gap-3">
-              <div className="w-8 h-8 bg-wine/10 rounded-xl flex items-center justify-center shrink-0">
-                <Cookie className="w-4.5 h-4.5 text-wine" strokeWidth={1.5} />
+          <div className="overflow-hidden rounded-[1.35rem] border border-sand/80 bg-white/[0.98] p-3.5 shadow-[0_22px_70px_-42px_rgba(26,31,61,0.85)] ring-1 ring-white/80 backdrop-blur sm:p-4">
+            <div className="flex items-start gap-3">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-wine/10">
+                <Cookie className="h-4.5 w-4.5 text-wine" strokeWidth={1.5} />
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-semibold text-charcoal">{t("cookie.title")}</p>
-                <p className="text-xs text-grey leading-snug">
-                  {t("cookie.description")}{" "}
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-base font-semibold leading-tight text-charcoal sm:text-sm">{t("cookie.title")}</p>
+                  <button
+                    onClick={() => setShowDetails(!showDetails)}
+                    className="inline-flex min-h-[40px] shrink-0 items-center gap-1.5 rounded-full bg-cream/80 px-3 text-xs font-semibold text-grey hover:bg-sand/50 hover:text-charcoal focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 transition-colors"
+                    type="button"
+                    aria-expanded={showDetails}
+                  >
+                    <SlidersHorizontal className="h-3.5 w-3.5" strokeWidth={1.7} />
+                    <span className="max-w-[5.5rem] truncate">{t("cookie.settings_button")}</span>
+                  </button>
+                </div>
+                <p className="mt-1 text-sm leading-snug text-grey line-clamp-2 sm:text-xs sm:line-clamp-none">
+                  {t("cookie.description")}
+                </p>
+                {showDetails && (
                   <Link
                     href="/cookies"
-                    className="text-wine hover:text-wine-dark transition-colors"
+                    className="mt-2 inline-flex min-h-[40px] items-center rounded-full bg-cream/70 px-3 text-sm font-medium text-wine underline-offset-4 hover:bg-sand/50 hover:text-wine-dark focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 sm:text-xs transition-colors"
                   >
                     Meer info
                   </Link>
-                </p>
+                )}
               </div>
-            </div>
-
-            {/* Details toggle */}
-            <div className="px-4">
-              <button
-                onClick={() => setShowDetails(!showDetails)}
-                className="w-full flex items-center justify-between py-3 text-xs font-medium text-grey hover:text-charcoal transition-colors"
-                type="button"
-              >
-                <span>{t("cookie.settings_button")}</span>
-                <ChevronDown
-                  className={`w-3.5 h-3.5 transition-transform duration-200 ${showDetails ? "rotate-180" : ""}`}
-                />
-              </button>
             </div>
 
             {/* Granular choices */}
@@ -211,38 +209,38 @@ export function CookieConsent() {
                   transition={{ duration: 0.2 }}
                   className="overflow-hidden"
                 >
-                  <div className="px-4 pb-1 space-y-3">
+                  <div className="space-y-2 pt-3">
                     {/* Necessary */}
-                    <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center justify-between gap-4 rounded-2xl bg-cream/55 px-3 py-2.5">
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <Shield className="w-4 h-4 text-wine/60 shrink-0" strokeWidth={1.5} />
+                        <Shield className="h-5 w-5 shrink-0 text-wine/60" strokeWidth={1.5} />
                         <div className="min-w-0">
-                          <p className="text-xs font-medium text-charcoal">{t("cookie.necessary_title")}</p>
-                          <p className="text-[10px] text-grey leading-tight">{t("cookie.necessary_desc")}</p>
+                          <p className="text-sm font-medium text-charcoal">{t("cookie.necessary_title")}</p>
+                          <p className="text-xs leading-snug text-grey">{t("cookie.necessary_desc")}</p>
                         </div>
                       </div>
                       <Toggle checked disabled />
                     </div>
 
                     {/* Analytics */}
-                    <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center justify-between gap-4 rounded-2xl bg-cream/55 px-3 py-2.5">
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <BarChart3 className="w-4 h-4 text-wine/60 shrink-0" strokeWidth={1.5} />
+                        <BarChart3 className="h-5 w-5 shrink-0 text-wine/60" strokeWidth={1.5} />
                         <div className="min-w-0">
-                          <p className="text-xs font-medium text-charcoal">{t("cookie.analytics_title")}</p>
-                          <p className="text-[10px] text-grey leading-tight">{t("cookie.analytics_desc")}</p>
+                          <p className="text-sm font-medium text-charcoal">{t("cookie.analytics_title")}</p>
+                          <p className="text-xs leading-snug text-grey">{t("cookie.analytics_desc")}</p>
                         </div>
                       </div>
                       <Toggle checked={analytics} onChange={setAnalytics} />
                     </div>
 
                     {/* Marketing */}
-                    <div className="flex items-center justify-between gap-3">
+                    <div className="flex items-center justify-between gap-4 rounded-2xl bg-cream/55 px-3 py-2.5">
                       <div className="flex items-center gap-2.5 min-w-0">
-                        <Megaphone className="w-4 h-4 text-wine/60 shrink-0" strokeWidth={1.5} />
+                        <Megaphone className="h-5 w-5 shrink-0 text-wine/60" strokeWidth={1.5} />
                         <div className="min-w-0">
-                          <p className="text-xs font-medium text-charcoal">{t("cookie.marketing_title")}</p>
-                          <p className="text-[10px] text-grey leading-tight">{t("cookie.marketing_desc")}</p>
+                          <p className="text-sm font-medium text-charcoal">{t("cookie.marketing_title")}</p>
+                          <p className="text-xs leading-snug text-grey">{t("cookie.marketing_desc")}</p>
                         </div>
                       </div>
                       <Toggle checked={marketing} onChange={setMarketing} />
@@ -253,29 +251,30 @@ export function CookieConsent() {
             </AnimatePresence>
 
             {/* Buttons */}
-            <div className="p-3 pt-2 flex gap-2">
+            <div className="mt-3 grid grid-cols-2 gap-2.5">
               {showDetails ? (
                 <button
                   onClick={handleSaveChoices}
-                  className="flex-1 h-9 text-xs font-semibold text-charcoal bg-cream border border-sand rounded-xl hover:bg-sand/50 active:scale-[0.98] transition-all duration-150"
+                  className="min-h-[48px] rounded-2xl border border-sand bg-cream px-3 text-sm font-semibold leading-tight text-charcoal hover:bg-sand/50 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 active:scale-[0.98] transition-all duration-150"
                 >
                   {t("cookie.save")}
                 </button>
               ) : (
                 <button
                   onClick={handleNecessaryOnly}
-                  className="flex-1 h-9 text-xs font-semibold text-charcoal bg-cream border border-sand rounded-xl hover:bg-sand/50 active:scale-[0.98] transition-all duration-150"
+                  className="min-h-[48px] rounded-2xl border border-sand bg-cream px-3 text-sm font-semibold leading-tight text-charcoal hover:bg-sand/50 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 active:scale-[0.98] transition-all duration-150"
                 >
                   {t("cookie.necessary_only")}
                 </button>
               )}
               <button
                 onClick={handleAcceptAll}
-                className="flex-1 h-9 text-xs font-semibold text-white bg-wine rounded-xl hover:bg-wine-dark active:scale-[0.98] transition-all duration-150"
+                className="min-h-[48px] rounded-2xl bg-wine px-3 text-sm font-semibold leading-tight text-white hover:bg-wine-dark focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 active:scale-[0.98] transition-all duration-150"
               >
                 {t("cookie.accept_all")}
               </button>
             </div>
+
           </div>
         </motion.div>
       )}

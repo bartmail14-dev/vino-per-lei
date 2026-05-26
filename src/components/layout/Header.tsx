@@ -234,7 +234,7 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
               <MenuIcon className="w-6 h-6" />
             </button>
 
-            <Link href="/" className="flex-shrink-0 lg:absolute lg:left-1/2 lg:-translate-x-1/2 group">
+            <Link href="/" className="group flex min-h-[44px] min-w-[44px] flex-shrink-0 items-center justify-center lg:absolute lg:left-1/2 lg:-translate-x-1/2">
               <Logo variant="full" color="#1a1f3d" className="h-16 sm:h-20 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
             </Link>
 

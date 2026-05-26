@@ -165,7 +165,7 @@ export function CartSlideOut() {
                           <Link
                             href={`/wijnen/${item.product.handle}`}
                             onClick={closeCart}
-                            className="font-serif text-base font-semibold leading-snug text-charcoal hover:text-wine focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 break-words sm:line-clamp-1 sm:text-sm sm:font-medium"
+                            className="inline-flex min-h-[44px] items-center font-serif text-base font-semibold leading-snug text-charcoal hover:text-wine focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 break-words sm:min-h-0 sm:line-clamp-1 sm:inline sm:text-sm sm:font-medium"
                           >
                             {item.product.title}
                           </Link>
