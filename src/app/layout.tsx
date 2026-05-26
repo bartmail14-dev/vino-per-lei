@@ -25,7 +25,7 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const FALLBACK_DESCRIPTION = "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.";
+const FALLBACK_DESCRIPTION = "Italiaanse wijnen van Vino per Lei, rechtstreeks van zorgvuldig gekozen producenten.";
 const FALLBACK_KEYWORDS = ["Italiaanse wijn", "Barolo", "Amarone", "Chianti", "Prosecco", "wijnimport"];
 
 export async function generateMetadata(): Promise<Metadata> {

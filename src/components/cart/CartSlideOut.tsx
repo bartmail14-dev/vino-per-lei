@@ -92,7 +92,7 @@ export function CartSlideOut() {
             animate={isMobileCart ? { y: 0 } : { x: 0 }}
             exit={isMobileCart ? { y: "100%" } : { x: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 300 }}
-            className="fixed inset-x-0 bottom-0 top-auto max-h-[92dvh] w-full rounded-t-3xl bg-white z-[101] flex flex-col shadow-[0_-24px_80px_-50px_rgba(26,31,61,0.8)] ring-1 ring-white/80 sm:top-0 sm:right-0 sm:left-auto sm:bottom-0 sm:max-h-none sm:max-w-md sm:rounded-none sm:shadow-[0_0_80px_-48px_rgba(26,31,61,0.9)]"
+            className="fixed inset-x-0 bottom-0 top-auto h-[96dvh] max-h-[96dvh] w-full rounded-t-3xl bg-white z-[101] flex flex-col shadow-[0_-24px_80px_-50px_rgba(26,31,61,0.8)] ring-1 ring-white/80 sm:top-0 sm:right-0 sm:left-auto sm:bottom-0 sm:h-auto sm:max-h-none sm:max-w-md sm:rounded-none sm:shadow-[0_0_80px_-48px_rgba(26,31,61,0.9)]"
             role="dialog"
             aria-modal="true"
             aria-label={t("cart.title")}
@@ -103,7 +103,7 @@ export function CartSlideOut() {
 
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-sand/70 bg-white sm:px-6 sm:py-4">
-              <h2 className="font-serif text-xl font-semibold">
+              <h2 className="font-serif text-2xl font-semibold leading-tight sm:text-xl">
                 {t("cart.title")}
                 {itemCount > 0 && (
                   <span className="text-grey font-normal"> ({itemCount})</span>
@@ -111,7 +111,7 @@ export function CartSlideOut() {
               </h2>
               <button
                 onClick={closeCart}
-                className="p-2 -mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center hover:bg-sand/50 rounded-md transition-colors"
+                className="-mr-2 flex min-h-[48px] min-w-[48px] items-center justify-center rounded-md p-2 hover:bg-sand/50 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 transition-colors"
                 aria-label={t("common.close")}
               >
                 <CloseIcon className="w-5 h-5" />
@@ -136,22 +136,22 @@ export function CartSlideOut() {
             ) : (
               <>
                 {/* Cart Items */}
-                <div className="flex-1 overflow-y-auto px-4 py-4 sm:px-6">
-                  <ul className="space-y-4">
+                <div className="min-h-0 flex-1 overflow-y-auto px-3 py-3 sm:px-6 sm:py-4">
+                  <ul className="space-y-3 sm:space-y-4">
                     {items.map((item) => (
                       <li
                         key={item.id}
-                        className="flex gap-3 rounded-2xl border border-sand/55 bg-cream/35 p-3 shadow-[0_12px_34px_-30px_rgba(26,31,61,0.5)] sm:gap-4"
+                        className="flex gap-3 rounded-2xl border border-sand/55 bg-cream/35 p-3.5 shadow-[0_12px_34px_-30px_rgba(26,31,61,0.5)] sm:gap-4 sm:p-3"
                       >
                         {/* Product Image */}
-                        <div className="relative w-16 h-20 bg-warm-white rounded-lg overflow-hidden flex-shrink-0 sm:w-20 sm:h-24">
+                        <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-warm-white sm:h-24 sm:w-20">
                           {item.product.images[0] ? (
                             <Image
                               src={wineImagePresets.cart(item.product.images[0].url)}
                               alt={item.product.title}
                               fill
-                              sizes="(max-width: 640px) 64px, 80px"
-                              className="object-contain p-2"
+                              sizes="80px"
+                              className="object-contain p-1.5 sm:p-2"
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-grey">
@@ -165,18 +165,18 @@ export function CartSlideOut() {
                           <Link
                             href={`/wijnen/${item.product.handle}`}
                             onClick={closeCart}
-                            className="font-serif text-sm font-medium text-charcoal hover:text-wine line-clamp-2 sm:line-clamp-1"
+                            className="font-serif text-base font-semibold leading-snug text-charcoal hover:text-wine focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 break-words sm:line-clamp-1 sm:text-sm sm:font-medium"
                           >
                             {item.product.title}
                           </Link>
                           {item.product.vintage && (
-                            <p className="text-xs text-grey mt-0.5">
+                            <p className="mt-1 text-sm text-grey sm:mt-0.5 sm:text-xs">
                               {item.product.vintage === "NV"
                                 ? "Non-Vintage"
                                 : item.product.vintage}
                             </p>
                           )}
-                          <p className="text-sm font-semibold mt-2">
+                          <p className="mt-2 text-base font-semibold leading-snug sm:text-sm">
                             {formatPrice(item.product.price)}
                             {getPriceUnitText(item.product) && (
                               <span className="font-normal text-grey"> {getPriceUnitText(item.product)}</span>
@@ -190,27 +190,26 @@ export function CartSlideOut() {
                             )}
                           </p>
                           {getOrderUnitText(item.product) && (
-                            <p className="text-xs text-grey mt-1">
+                            <p className="mt-1 text-sm text-grey sm:text-xs">
                               Per {getOrderUnitText(item.product)}
                             </p>
                           )}
 
                           {/* Quantity & Remove */}
-                          <div className="flex items-center justify-between mt-3">
+                          <div className="mt-3 flex items-center justify-between gap-3">
                             <QuantitySelector
                               value={item.quantity}
                               onChange={(q) => updateQuantity(item.id, q)}
                               min={getOrderMinimum(item.product)}
                               max={getOrderMaximum(item.product)}
                               step={getOrderIncrement(item.product)}
-                              size="sm"
                             />
                             <button
                               onClick={() => removeItem(item.id)}
-                              className="p-1.5 text-grey hover:text-error transition-colors"
+                              className="flex min-h-[48px] min-w-[48px] items-center justify-center rounded-lg text-grey hover:bg-error/10 hover:text-error focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 transition-colors"
                               aria-label={`${t("cart.remove")} ${item.product.title}`}
                             >
-                              <TrashIcon className="w-4 h-4" />
+                              <TrashIcon className="h-5 w-5" />
                             </button>
                           </div>
                         </div>
@@ -220,10 +219,10 @@ export function CartSlideOut() {
                 </div>
 
                 {/* Footer */}
-                <div className="border-t border-sand/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(245,240,232,0.72))] px-4 py-4 pb-[calc(1rem+env(safe-area-inset-bottom))] space-y-4 sm:px-6 sm:pb-4">
+                <div className="flex-shrink-0 space-y-3 border-t border-sand/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(245,240,232,0.78))] px-4 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] sm:px-6 sm:py-4 sm:pb-4 sm:space-y-4">
                   {freeShippingThreshold > 0 && (
                     <div className="rounded-2xl border border-gold/15 bg-white px-3 py-3 shadow-sm">
-                      <div className="mb-2 flex items-center justify-between gap-3 text-xs text-grey">
+                      <div className="mb-2 flex items-center justify-between gap-3 text-sm text-grey sm:text-xs">
                         <span className="font-medium text-charcoal">{t("cart.shipping")}</span>
                         <span>{formatPrice(Math.min(subtotal, freeShippingThreshold))} / {formatPrice(freeShippingThreshold)}</span>
                       </div>
@@ -237,7 +236,7 @@ export function CartSlideOut() {
                   )}
 
                   {/* Totals */}
-                  <div className="space-y-2 text-sm">
+                  <div className="space-y-2 text-base sm:space-y-2 sm:text-sm" aria-live="polite">
                     <div className="flex justify-between">
                       <span className="text-grey">{t("cart.subtotal")}</span>
                       <span>{formatPrice(subtotal)}</span>
@@ -246,7 +245,7 @@ export function CartSlideOut() {
                       <span className="text-grey">{t("cart.shipping")}</span>
                       <span>{formatPrice(configuredShipping)}</span>
                     </div>
-                    <div className="flex justify-between pt-2 border-t border-sand text-base font-semibold">
+                    <div className="flex justify-between border-t border-sand pt-2 text-lg font-semibold sm:text-base">
                       <span>{t("cart.total")}</span>
                       <span>{formatPrice(configuredTotal)}</span>
                     </div>
@@ -257,7 +256,7 @@ export function CartSlideOut() {
                     variant="primary"
                     fullWidth
                     size="lg"
-                    className="cart-checkout-button"
+                    className="cart-checkout-button min-h-[58px] text-base"
                     disabled={isCheckingOut}
                     onClick={() => {
                       setIsCheckingOut(true);
@@ -274,17 +273,17 @@ export function CartSlideOut() {
                   {/* Continue Shopping */}
                   <button
                     onClick={closeCart}
-                    className="w-full text-center text-sm text-wine hover:underline"
+                    className="flex min-h-[48px] w-full items-center justify-center rounded-lg text-center text-base font-medium text-wine hover:bg-wine/5 focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-gold/60 sm:text-sm"
                   >
                     {t("cart.continue_shopping")}
                   </button>
 
                   {/* Trust Signals */}
-                  <div className="rounded-xl border border-sand/55 bg-white/70 px-3 py-2.5 text-center text-[11px] leading-relaxed text-grey">
+                  <div className="hidden rounded-xl border border-sand/55 bg-white/70 px-3 py-2.5 text-center text-[11px] leading-relaxed text-grey sm:block">
                     {t("footer.pickup_note", { email: contactEmail })}
                   </div>
 
-                  <div className="flex items-center justify-center gap-4 pt-2 text-xs text-grey">
+                  <div className="hidden items-center justify-center gap-4 pt-2 text-xs text-grey sm:flex">
                     <span className="flex items-center gap-1">
                       <CheckIcon className="w-3 h-3" />
                       {t("product.secure_payment")}
@@ -292,7 +291,7 @@ export function CartSlideOut() {
                   </div>
 
                   {/* Security */}
-                  <div className="pt-3 border-t border-sand/40">
+                  <div className="hidden pt-3 border-t border-sand/40 sm:block">
                     <div className="flex items-center justify-center gap-1.5 text-[10px] text-grey/70">
                       <svg viewBox="0 0 16 16" className="w-3.5 h-3.5" fill="none"><rect x="3" y="7" width="10" height="7" rx="1.5" stroke="currentColor" strokeWidth="1.2"/><path d="M5 7V5a3 3 0 016 0v2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/></svg>
                       {t("cart.ssl_badge")}

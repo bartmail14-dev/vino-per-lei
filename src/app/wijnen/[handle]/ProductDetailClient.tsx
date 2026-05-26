@@ -393,7 +393,7 @@ export function ProductDetailClient({ product, relatedProducts, activeRegionSlug
       )}
 
       {/* Bottom padding for mobile sticky bar */}
-      <div className="h-24 lg:h-0" />
+      <div className="h-44 lg:h-0" />
 
       {/* Notify Me Modal */}
       <NotifyMeModal

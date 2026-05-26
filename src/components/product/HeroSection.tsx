@@ -27,6 +27,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect, childr
   const savingsPercentage = isOnSale
     ? Math.round(((product.originalPrice! - product.price) / product.originalPrice!) * 100)
     : 0;
+  const curatedByText = t("product.curated_by").trim();
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!isZoomed) return;
@@ -76,7 +77,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect, childr
             {/* Main Image Container */}
             <div
               className={cn(
-                "relative h-[300px] sm:h-[420px] lg:h-[580px] rounded-[1.35rem] overflow-hidden group",
+                "product-hero-image-frame relative h-56 sm:h-[420px] lg:h-[580px] rounded-2xl sm:rounded-[1.35rem] overflow-hidden group",
                 "bg-[linear-gradient(180deg,rgba(245,230,200,0.48),rgba(255,255,255,0.96))]",
                 "border border-sand/60 shadow-[0_32px_90px_-58px_rgba(26,31,61,0.75)] ring-1 ring-white/70",
                 isZoomed ? "cursor-zoom-out" : "cursor-zoom-in"
@@ -154,7 +155,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect, childr
                         priority
                         className={cn(
                           "object-contain drop-shadow-2xl transition-transform duration-300",
-                          !isZoomed && "group-hover:scale-105 p-4 sm:p-8"
+                          !isZoomed && "scale-110 p-0 group-hover:scale-110 sm:scale-100 sm:p-8 sm:group-hover:scale-105"
                         )}
                         sizes="(max-width: 1024px) 100vw, 50vw"
                       />
@@ -246,11 +247,12 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect, childr
               {product.title}
             </h1>
 
-            {/* Curated by Carla badge */}
-            <div className="flex items-center gap-1.5 mb-3">
-              <svg viewBox="0 0 16 16" className="w-3.5 h-3.5 text-gold" fill="currentColor"><path d="M8 0l2 5h5l-4 3.5 1.5 5L8 10.5 3.5 13.5 5 8.5 1 5h5z"/></svg>
-              <span className="text-sm text-wine/70 italic">{t("product.curated_by")}</span>
-            </div>
+            {curatedByText && (
+              <div className="flex items-center gap-1.5 mb-3">
+                <svg viewBox="0 0 16 16" className="w-3.5 h-3.5 text-gold" fill="currentColor" aria-hidden="true"><path d="M8 0l2 5h5l-4 3.5 1.5 5L8 10.5 3.5 13.5 5 8.5 1 5h5z"/></svg>
+                <span className="text-sm text-wine/70 italic">{curatedByText}</span>
+              </div>
+            )}
 
             {/* Vintage & Region */}
             <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-grey text-sm sm:text-base mb-4 sm:mb-5">
@@ -317,7 +319,7 @@ export function HeroSection({ product, selectedImageIndex, onImageSelect, childr
             {children}
 
             {/* Short Description */}
-            <p className="text-sm sm:text-base lg:text-lg text-grey leading-relaxed mt-6 mb-6 max-w-lg line-clamp-3 sm:line-clamp-none">
+            <p className="text-sm sm:text-base lg:text-lg text-grey leading-relaxed mt-6 mb-6 max-w-lg">
               {product.description}
             </p>
 

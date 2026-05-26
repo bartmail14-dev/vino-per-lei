@@ -211,8 +211,8 @@ export function StickyPurchaseBar({
         <div className="bg-white/96 backdrop-blur-xl border-t border-sand/70 shadow-[0_-18px_54px_-38px_rgba(26,31,61,0.75)]">
           <div className="px-4 py-3">
             {/* Row 1: Price and Stock */}
-            <div className="flex items-center justify-between mb-2.5">
-              <div>
+            <div className="mb-2 flex items-start justify-between gap-3">
+              <div className="min-w-0">
                 <PriceDisplay
                   currentPrice={product.price}
                   originalPrice={product.originalPrice}
@@ -230,19 +230,19 @@ export function StickyPurchaseBar({
                 )}
               </div>
               {product.inStock ? (
-                <span className="flex items-center gap-1 text-xs text-success font-medium bg-success/10 px-2 py-0.5 rounded-full">
+                <span className="mt-1 flex shrink-0 items-center gap-1 rounded-full bg-success/10 px-2.5 py-1 text-xs font-semibold leading-none text-success">
                   <CheckCircleIcon className="w-3 h-3" />
                   {t("product.stock.in_stock")}
                 </span>
               ) : (
-                <span className="text-xs text-error font-medium bg-error/10 px-2 py-0.5 rounded-full">
+                <span className="mt-1 shrink-0 rounded-full bg-error/10 px-2.5 py-1 text-xs font-semibold leading-none text-error">
                   {t("product.stock.out_of_stock")}
                 </span>
               )}
             </div>
 
             {/* Row 2: Quantity and Add to Cart */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5">
               {/* Quantity Selector */}
               {product.inStock && (
                 <div className="flex-shrink-0">
@@ -252,7 +252,6 @@ export function StickyPurchaseBar({
                     min={orderMinimum}
                     max={orderMaximum}
                     step={orderIncrement}
-                    size="sm"
                   />
                 </div>
               )}
@@ -266,7 +265,7 @@ export function StickyPurchaseBar({
                   isLoading={isAdding}
                   disabled={isAdding}
                   className={cn(
-                    "flex-1 min-h-[48px] relative overflow-hidden",
+                    "relative min-h-[56px] flex-1 overflow-hidden text-base",
                     justAdded && "bg-success hover:bg-success"
                   )}
                 >
@@ -295,13 +294,13 @@ export function StickyPurchaseBar({
                   </AnimatePresence>
                 </Button>
               ) : (
-                <Button variant="secondary" size="lg" className="flex-1 min-h-[48px]">
+                <Button variant="secondary" size="lg" className="min-h-[56px] flex-1 text-base">
                   {t("product.notify_stock")}
                 </Button>
               )}
             </div>
             {orderUnitText && product.inStock && (
-              <p className="text-[11px] text-grey mt-2 text-center">
+              <p className="mt-1.5 text-center text-xs leading-snug text-grey">
                 {t("product.order.per_unit", { unit: orderUnitText })}
               </p>
             )}

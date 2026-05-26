@@ -69,6 +69,7 @@ export default async function Home() {
   const copy = (key: string, variables?: Record<string, string | number>) =>
     formatUiCopy(uiCopy, key, variables);
   const optionalCopy = (key: string) => uiCopy[key]?.trim() ?? "";
+  const featuredSubtitle = optionalCopy("home.featured.subtitle");
 
   // Dynamic stats from Shopify product data; labels are Shopify UI-copy.
   const wineTypeLabels: Record<string, string> = {
@@ -205,9 +206,11 @@ export default async function Home() {
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[1.05]">
                 {copy("home.featured.title")}
               </h2>
-              <p className="text-grey text-sm sm:text-base mt-3 max-w-md leading-relaxed">
-                {copy("home.featured.subtitle")}
-              </p>
+              {featuredSubtitle && (
+                <p className="text-grey text-sm sm:text-base mt-3 max-w-md leading-relaxed">
+                  {featuredSubtitle}
+                </p>
+              )}
             </div>
             <Link
               href="/wijnen"

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-05-21T12:40:02.617Z",
+  "generatedAt": "2026-05-26T08:26:32.752Z",
   "scannedFiles": 108,
   "totalStrings": 200,
   "highRiskStrings": 0,
@@ -1617,7 +1617,7 @@
         "line": 28,
         "column": 30,
         "type": "string",
-        "text": "Italiaanse wijnen uit Piemonte, Veneto en Toscane. Rechtstreeks van familiewijngaarden, persoonlijk geselecteerd door Carla Daniels.",
+        "text": "Italiaanse wijnen van Vino per Lei, rechtstreeks van zorgvuldig gekozen producenten.",
         "risk": "p2-ui-or-technical-copy",
         "context": "VariableDeclaration"
       },
