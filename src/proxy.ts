@@ -5,10 +5,17 @@ import type { NextRequest } from "next/server";
 // These routes require the `vpl_age_verified` cookie to be present.
 // If missing, the user is redirected to the homepage where the AgeGate component handles verification.
 const AGE_RESTRICTED_PATHS = ["/wijnen", "/checkout"];
+const PRIVATE_MANUAL_PATHS = ["/handleiding", "/beheer/"];
 
 function isAgeRestrictedPath(pathname: string): boolean {
   return AGE_RESTRICTED_PATHS.some(
     (p) => pathname === p || pathname.startsWith(`${p}/`)
+  );
+}
+
+function isPrivateManualPath(pathname: string): boolean {
+  return PRIVATE_MANUAL_PATHS.some(
+    (p) => pathname === p || pathname.startsWith(p)
   );
 }
 
@@ -142,6 +149,16 @@ function checkRateLimit(
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  if (pathname === "/handleiding" || pathname === "/handleiding/") {
+    return new NextResponse(null, {
+      status: 410,
+      headers: {
+        "X-Robots-Tag": "noindex, nofollow",
+        "Cache-Control": "no-store",
+      },
+    });
+  }
+
   // --- Age verification gate (server-side) ---
   // Redirect to homepage if age cookie is missing on restricted routes.
   // The client-side AgeGate component on "/" handles the actual verification UI.
@@ -171,7 +188,7 @@ export function proxy(request: NextRequest) {
 
   // --- X-Robots-Tag: noindex for API routes ---
   // Prevents search engines from indexing API endpoints
-  if (pathname.startsWith("/api/")) {
+  if (pathname.startsWith("/api/") || isPrivateManualPath(pathname)) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
   }
 

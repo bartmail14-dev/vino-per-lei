@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/checkout/", "/offerte/", "/account/"],
+      disallow: ["/checkout/", "/offerte/", "/account/", "/handleiding", "/beheer/"],
     },
     sitemap: "https://vinoperlei.nl/sitemap.xml",
   };

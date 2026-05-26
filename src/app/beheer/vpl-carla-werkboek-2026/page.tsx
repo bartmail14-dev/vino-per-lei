@@ -14,7 +14,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function HandleidingPage() {
+export default async function PrivateManualPage() {
   const page = await getPage("handleiding");
   if (!page?.body) notFound();
   return <ShopifyPageContent title={page.title} body={page.body} updatedAt={page.updatedAt} />;
