@@ -119,7 +119,7 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
 
   const itemCount = useCartStore((state) => state.itemCount);
   const toggleCart = useCartStore((state) => state.toggleCart);
-  const { openLoginModal, isAuthenticated } = useAuthStore();
+  const { openLoginModal, isAuthenticated, isHydrated, fetchCustomer } = useAuthStore();
 
   const visibleMenu = mainMenu.filter((item) => item.title && item.url);
   const catalogMenu = visibleMenu.find((item) => item.type === "CATALOG" || toRelativeUrl(item.url) === "/wijnen");
@@ -131,6 +131,11 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setAnnouncementState(!dismissed);
   }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+    void fetchCustomer();
+  }, [fetchCustomer, isHydrated]);
 
   useEffect(() => {
     const handleScroll = () => setHasScrolled(window.scrollY > 10);

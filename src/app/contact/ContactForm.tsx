@@ -3,12 +3,7 @@
 import { useState } from "react";
 import { z } from "zod";
 import { useUiCopy } from "@/components/providers";
-
-/** Read the CSRF token from the vpl_csrf cookie (set by middleware, SameSite=Lax). */
-function getCsrfToken(): string {
-  const match = document.cookie.match(/(?:^|;\s*)vpl_csrf=([^;]*)/);
-  return match ? match[1] : "";
-}
+import { getCsrfToken } from "@/lib/client-security";
 
 const contactSchema = z.object({
   naam: z.string().min(2, "Naam is te kort").max(100, "Naam is te lang"),

@@ -1,5 +1,6 @@
 import { revalidatePath } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
+import { readTextBody, safeSecretEquals } from '@/lib/server-security';
 
 // Shopify webhook secret — set in Vercel environment variables
 const WEBHOOK_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET;
@@ -13,32 +14,36 @@ const WEBHOOK_SECRET = process.env.SHOPIFY_WEBHOOK_SECRET;
  *   Events: Product creation, Product update, Product deletion
  *   Format: JSON
  *
- * Also supports manual revalidation via query param:
- *   POST /api/revalidate?secret=<SHOPIFY_WEBHOOK_SECRET>
+ * Manual revalidation uses the X-Revalidate-Secret header.
  */
 export async function POST(request: NextRequest) {
-  // Verify the request is authorized
-  const secret = request.nextUrl.searchParams.get('secret');
-  const handleParam = request.nextUrl.searchParams.get('handle');
-  const shopifyHmac = request.headers.get('x-shopify-hmac-sha256');
-  const body = await request.text();
-
-  // Accept either query param secret or Shopify HMAC header
-  if (!shopifyHmac && secret !== WEBHOOK_SECRET) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!WEBHOOK_SECRET) {
+    return NextResponse.json({ error: 'Webhook secret is not configured' }, { status: 500 });
   }
 
-  // If HMAC is present, verify it (Shopify webhook authentication)
-  if (shopifyHmac && WEBHOOK_SECRET) {
+  // Verify the request is authorized
+  const secret = request.headers.get('x-revalidate-secret') ?? request.nextUrl.searchParams.get('secret');
+  const handleParam = request.nextUrl.searchParams.get('handle');
+  const shopifyHmac = request.headers.get('x-shopify-hmac-sha256');
+  const bodyResult = await readTextBody(request, 128 * 1024);
+  if (!bodyResult.ok) return bodyResult.response;
+  const body = bodyResult.text;
+
+  // Accept either query param secret or Shopify HMAC header
+  if (shopifyHmac) {
     const crypto = await import('crypto');
     const expectedHmac = crypto
       .createHmac('sha256', WEBHOOK_SECRET)
       .update(body, 'utf8')
       .digest('base64');
 
-    if (shopifyHmac !== expectedHmac) {
+    const provided = Buffer.from(shopifyHmac);
+    const expected = Buffer.from(expectedHmac);
+    if (provided.length !== expected.length || !crypto.timingSafeEqual(provided, expected)) {
       return NextResponse.json({ error: 'Invalid HMAC' }, { status: 401 });
     }
+  } else if (!safeSecretEquals(secret, WEBHOOK_SECRET)) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {

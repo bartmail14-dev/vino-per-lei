@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2026-05-26T08:26:32.752Z",
-  "scannedFiles": 108,
-  "totalStrings": 200,
+  "generatedAt": "2026-06-03T14:21:27.030Z",
+  "scannedFiles": 110,
+  "totalStrings": 215,
   "highRiskStrings": 0,
   "byRisk": {
-    "p2-ui-or-technical-copy": 165,
+    "p2-ui-or-technical-copy": 180,
     "p2-checkout-ui": 22,
     "allowed-ui": 3,
     "p2-account-ui": 10
@@ -39,7 +39,13 @@
     {
       "file": "src/app/api/contact/route.ts",
       "sourceUsage": [],
-      "stringCount": 4,
+      "stringCount": 3,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/api/csp-report/route.ts",
+      "sourceUsage": [],
+      "stringCount": 2,
       "highRiskCount": 0
     },
     {
@@ -47,13 +53,13 @@
       "sourceUsage": [
         "getProducts"
       ],
-      "stringCount": 5,
+      "stringCount": 12,
       "highRiskCount": 0
     },
     {
       "file": "src/app/api/newsletter/route.ts",
       "sourceUsage": [],
-      "stringCount": 5,
+      "stringCount": 4,
       "highRiskCount": 0
     },
     {
@@ -67,13 +73,21 @@
       "sourceUsage": [
         "fallback"
       ],
-      "stringCount": 6,
+      "stringCount": 11,
       "highRiskCount": 0
     },
     {
       "file": "src/app/api/revalidate/route.ts",
       "sourceUsage": [],
-      "stringCount": 15,
+      "stringCount": 16,
+      "highRiskCount": 0
+    },
+    {
+      "file": "src/app/beheer/vpl-carla-werkboek-2026/page.tsx",
+      "sourceUsage": [
+        "getPage"
+      ],
+      "stringCount": 0,
       "highRiskCount": 0
     },
     {
@@ -301,7 +315,8 @@
         "getSiteSettings",
         "getShopConfig",
         "getUiCopy",
-        "FALLBACK"
+        "FALLBACK",
+        "fallback"
       ],
       "stringCount": 14,
       "highRiskCount": 0
@@ -342,7 +357,7 @@
     {
       "file": "src/app/robots.ts",
       "sourceUsage": [],
-      "stringCount": 3,
+      "stringCount": 5,
       "highRiskCount": 0
     },
     {
@@ -671,7 +686,7 @@
     "src/app/api/auth/login/route.ts": [
       {
         "file": "src/app/api/auth/login/route.ts",
-        "line": 28,
+        "line": 36,
         "column": 11,
         "type": "string",
         "text": "E-mailadres of wachtwoord is onjuist",
@@ -680,7 +695,7 @@
       },
       {
         "file": "src/app/api/auth/login/route.ts",
-        "line": 48,
+        "line": 56,
         "column": 16,
         "type": "string",
         "text": "Er ging iets mis. Probeer het later opnieuw.",
@@ -691,7 +706,7 @@
     "src/app/api/auth/recover/route.ts": [
       {
         "file": "src/app/api/auth/recover/route.ts",
-        "line": 25,
+        "line": 33,
         "column": 16,
         "type": "string",
         "text": "Als er een account bestaat met dit e-mailadres, ontvang je een e-mail met instructies.",
@@ -700,7 +715,7 @@
       },
       {
         "file": "src/app/api/auth/recover/route.ts",
-        "line": 32,
+        "line": 40,
         "column": 16,
         "type": "string",
         "text": "Als er een account bestaat met dit e-mailadres, ontvang je een e-mail met instructies.",
@@ -711,7 +726,7 @@
     "src/app/api/auth/register/route.ts": [
       {
         "file": "src/app/api/auth/register/route.ts",
-        "line": 33,
+        "line": 40,
         "column": 11,
         "type": "string",
         "text": "Er bestaat al een account met dit e-mailadres",
@@ -720,7 +735,7 @@
       },
       {
         "file": "src/app/api/auth/register/route.ts",
-        "line": 68,
+        "line": 75,
         "column": 16,
         "type": "string",
         "text": "Er ging iets mis. Probeer het later opnieuw.",
@@ -731,16 +746,7 @@
     "src/app/api/contact/route.ts": [
       {
         "file": "src/app/api/contact/route.ts",
-        "line": 26,
-        "column": 18,
-        "type": "string",
-        "text": "Ongeldige sessie. Herlaad de pagina en probeer opnieuw.",
-        "risk": "p2-ui-or-technical-copy",
-        "context": "PropertyAssignment"
-      },
-      {
-        "file": "src/app/api/contact/route.ts",
-        "line": 48,
+        "line": 44,
         "column": 18,
         "type": "string",
         "text": "E-mail service is nog niet geconfigureerd",
@@ -749,7 +755,7 @@
       },
       {
         "file": "src/app/api/contact/route.ts",
-        "line": 67,
+        "line": 63,
         "column": 18,
         "type": "string",
         "text": "Verzending mislukt. Probeer het later opnieuw.",
@@ -758,7 +764,7 @@
       },
       {
         "file": "src/app/api/contact/route.ts",
-        "line": 85,
+        "line": 81,
         "column": 16,
         "type": "string",
         "text": "Er ging iets mis",
@@ -766,10 +772,30 @@
         "context": "PropertyAssignment"
       }
     ],
+    "src/app/api/csp-report/route.ts": [
+      {
+        "file": "src/app/api/csp-report/route.ts",
+        "line": 6,
+        "column": 39,
+        "type": "string",
+        "text": "Payload too large",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/csp-report/route.ts",
+        "line": 13,
+        "column": 39,
+        "type": "string",
+        "text": "Invalid report",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      }
+    ],
     "src/app/api/email-preview/route.ts": [
       {
         "file": "src/app/api/email-preview/route.ts",
-        "line": 29,
+        "line": 30,
         "column": 39,
         "type": "string",
         "text": "Unauthorized",
@@ -778,7 +804,7 @@
       },
       {
         "file": "src/app/api/email-preview/route.ts",
-        "line": 75,
+        "line": 76,
         "column": 20,
         "type": "string",
         "text": "Carla",
@@ -787,7 +813,7 @@
       },
       {
         "file": "src/app/api/email-preview/route.ts",
-        "line": 84,
+        "line": 85,
         "column": 18,
         "type": "string",
         "text": "Unknown template",
@@ -796,7 +822,7 @@
       },
       {
         "file": "src/app/api/email-preview/route.ts",
-        "line": 94,
+        "line": 95,
         "column": 23,
         "type": "string",
         "text": "text/html; charset=utf-8",
@@ -805,27 +831,81 @@
       },
       {
         "file": "src/app/api/email-preview/route.ts",
-        "line": 95,
+        "line": 97,
         "column": 23,
         "type": "string",
         "text": "noindex, nofollow",
         "risk": "p2-ui-or-technical-copy",
         "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 99,
+        "column": 9,
+        "type": "string",
+        "text": "default-src 'none'",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 100,
+        "column": 9,
+        "type": "string",
+        "text": "img-src https: data:",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 101,
+        "column": 9,
+        "type": "string",
+        "text": "style-src 'unsafe-inline'",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 102,
+        "column": 9,
+        "type": "string",
+        "text": "script-src 'none'",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 103,
+        "column": 9,
+        "type": "string",
+        "text": "font-src 'none'",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 104,
+        "column": 9,
+        "type": "string",
+        "text": "base-uri 'none'",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/api/email-preview/route.ts",
+        "line": 105,
+        "column": 9,
+        "type": "string",
+        "text": "frame-ancestors 'none'",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
       }
     ],
     "src/app/api/newsletter/route.ts": [
       {
         "file": "src/app/api/newsletter/route.ts",
-        "line": 34,
-        "column": 18,
-        "type": "string",
-        "text": "Ongeldige sessie. Herlaad de pagina en probeer opnieuw.",
-        "risk": "p2-ui-or-technical-copy",
-        "context": "PropertyAssignment"
-      },
-      {
-        "file": "src/app/api/newsletter/route.ts",
-        "line": 54,
+        "line": 50,
         "column": 18,
         "type": "string",
         "text": "E-mail service is nog niet geconfigureerd",
@@ -834,7 +914,7 @@
       },
       {
         "file": "src/app/api/newsletter/route.ts",
-        "line": 66,
+        "line": 62,
         "column": 27,
         "type": "string",
         "text": "application/x-www-form-urlencoded",
@@ -843,7 +923,7 @@
       },
       {
         "file": "src/app/api/newsletter/route.ts",
-        "line": 80,
+        "line": 76,
         "column": 18,
         "type": "string",
         "text": "Aanmelding mislukt. Probeer het later opnieuw.",
@@ -852,7 +932,7 @@
       },
       {
         "file": "src/app/api/newsletter/route.ts",
-        "line": 98,
+        "line": 94,
         "column": 16,
         "type": "string",
         "text": "Er ging iets mis",
@@ -863,7 +943,7 @@
     "src/app/api/notify-me/route.ts": [
       {
         "file": "src/app/api/notify-me/route.ts",
-        "line": 30,
+        "line": 39,
         "column": 41,
         "type": "string",
         "text": "Failed to send",
@@ -872,7 +952,7 @@
       },
       {
         "file": "src/app/api/notify-me/route.ts",
-        "line": 45,
+        "line": 54,
         "column": 41,
         "type": "string",
         "text": "Invalid input",
@@ -881,7 +961,7 @@
       },
       {
         "file": "src/app/api/notify-me/route.ts",
-        "line": 47,
+        "line": 56,
         "column": 39,
         "type": "string",
         "text": "Server error",
@@ -892,7 +972,7 @@
     "src/app/api/remove-bg/route.ts": [
       {
         "file": "src/app/api/remove-bg/route.ts",
-        "line": 21,
+        "line": 22,
         "column": 16,
         "type": "string",
         "text": "Missing or invalid Shopify image URL",
@@ -901,7 +981,34 @@
       },
       {
         "file": "src/app/api/remove-bg/route.ts",
-        "line": 42,
+        "line": 35,
+        "column": 41,
+        "type": "string",
+        "text": "Invalid image response",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/remove-bg/route.ts",
+        "line": 39,
+        "column": 41,
+        "type": "string",
+        "text": "Image too large",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/remove-bg/route.ts",
+        "line": 43,
+        "column": 41,
+        "type": "string",
+        "text": "Image too large",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/remove-bg/route.ts",
+        "line": 54,
         "column": 25,
         "type": "string",
         "text": "image/png",
@@ -910,7 +1017,7 @@
       },
       {
         "file": "src/app/api/remove-bg/route.ts",
-        "line": 43,
+        "line": 55,
         "column": 26,
         "type": "string",
         "text": "public, max-age=31536000, immutable",
@@ -919,7 +1026,7 @@
       },
       {
         "file": "src/app/api/remove-bg/route.ts",
-        "line": 44,
+        "line": 56,
         "column": 30,
         "type": "string",
         "text": "public, max-age=31536000, immutable",
@@ -928,7 +1035,25 @@
       },
       {
         "file": "src/app/api/remove-bg/route.ts",
-        "line": 289,
+        "line": 314,
+        "column": 41,
+        "type": "string",
+        "text": "Image too large",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/remove-bg/route.ts",
+        "line": 318,
+        "column": 41,
+        "type": "string",
+        "text": "Image too large",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/remove-bg/route.ts",
+        "line": 323,
         "column": 26,
         "type": "string",
         "text": "public, max-age=300",
@@ -937,7 +1062,7 @@
       },
       {
         "file": "src/app/api/remove-bg/route.ts",
-        "line": 294,
+        "line": 328,
         "column": 16,
         "type": "string",
         "text": "Image processing failed",
@@ -948,16 +1073,16 @@
     "src/app/api/revalidate/route.ts": [
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 28,
+        "line": 21,
         "column": 39,
         "type": "string",
-        "text": "Unauthorized",
+        "text": "Webhook secret is not configured",
         "risk": "p2-ui-or-technical-copy",
         "context": "PropertyAssignment"
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 40,
+        "line": 43,
         "column": 41,
         "type": "string",
         "text": "Invalid HMAC",
@@ -966,7 +1091,16 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 62,
+        "line": 46,
+        "column": 39,
+        "type": "string",
+        "text": "Unauthorized",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/api/revalidate/route.ts",
+        "line": 67,
         "column": 7,
         "type": "string",
         "text": "/wijnen",
@@ -975,7 +1109,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 63,
+        "line": 68,
         "column": 7,
         "type": "string",
         "text": "/contact",
@@ -984,7 +1118,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 64,
+        "line": 69,
         "column": 7,
         "type": "string",
         "text": "/klantenservice",
@@ -993,7 +1127,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 65,
+        "line": 70,
         "column": 7,
         "type": "string",
         "text": "/klantenservice/faq",
@@ -1002,7 +1136,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 66,
+        "line": 71,
         "column": 7,
         "type": "string",
         "text": "/klantenservice/verzending",
@@ -1011,7 +1145,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 67,
+        "line": 72,
         "column": 7,
         "type": "string",
         "text": "/klantenservice/retourneren",
@@ -1020,7 +1154,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 68,
+        "line": 73,
         "column": 7,
         "type": "string",
         "text": "/privacy",
@@ -1029,7 +1163,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 69,
+        "line": 74,
         "column": 7,
         "type": "string",
         "text": "/voorwaarden",
@@ -1038,7 +1172,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 70,
+        "line": 75,
         "column": 7,
         "type": "string",
         "text": "/cookies",
@@ -1047,7 +1181,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 71,
+        "line": 76,
         "column": 7,
         "type": "string",
         "text": "/over-ons",
@@ -1056,7 +1190,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 72,
+        "line": 77,
         "column": 7,
         "type": "string",
         "text": "/blog",
@@ -1065,7 +1199,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 84,
+        "line": 89,
         "column": 33,
         "type": "string",
         "text": "/wijnen/[handle]",
@@ -1074,7 +1208,7 @@
       },
       {
         "file": "src/app/api/revalidate/route.ts",
-        "line": 95,
+        "line": 100,
         "column": 16,
         "type": "string",
         "text": "Revalidation failed",
@@ -1291,7 +1425,7 @@
     "src/app/contact/ContactForm.tsx": [
       {
         "file": "src/app/contact/ContactForm.tsx",
-        "line": 135,
+        "line": 130,
         "column": 15,
         "type": "attr:placeholder",
         "text": "Je naam",
@@ -1300,7 +1434,7 @@
       },
       {
         "file": "src/app/contact/ContactForm.tsx",
-        "line": 157,
+        "line": 152,
         "column": 15,
         "type": "attr:placeholder",
         "text": "je@email.nl",
@@ -1309,7 +1443,7 @@
       },
       {
         "file": "src/app/contact/ContactForm.tsx",
-        "line": 183,
+        "line": 178,
         "column": 37,
         "type": "jsxText",
         "text": "Vraag over een product",
@@ -1318,7 +1452,7 @@
       },
       {
         "file": "src/app/contact/ContactForm.tsx",
-        "line": 184,
+        "line": 179,
         "column": 40,
         "type": "jsxText",
         "text": "Verzending & Levering",
@@ -1327,7 +1461,7 @@
       },
       {
         "file": "src/app/contact/ContactForm.tsx",
-        "line": 185,
+        "line": 180,
         "column": 36,
         "type": "jsxText",
         "text": "Retourneren",
@@ -1336,7 +1470,7 @@
       },
       {
         "file": "src/app/contact/ContactForm.tsx",
-        "line": 211,
+        "line": 206,
         "column": 13,
         "type": "attr:placeholder",
         "text": "Hoe kunnen wij je helpen?",
@@ -1345,7 +1479,7 @@
       },
       {
         "file": "src/app/contact/ContactForm.tsx",
-        "line": 223,
+        "line": 218,
         "column": 27,
         "type": "string",
         "text": "Verzenden...",
@@ -1614,7 +1748,7 @@
     "src/app/layout.tsx": [
       {
         "file": "src/app/layout.tsx",
-        "line": 28,
+        "line": 26,
         "column": 30,
         "type": "string",
         "text": "Italiaanse wijnen van Vino per Lei, rechtstreeks van zorgvuldig gekozen producenten.",
@@ -1623,7 +1757,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 29,
+        "line": 27,
         "column": 28,
         "type": "string",
         "text": "Italiaanse wijn",
@@ -1632,7 +1766,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 29,
+        "line": 27,
         "column": 47,
         "type": "string",
         "text": "Barolo",
@@ -1641,7 +1775,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 29,
+        "line": 27,
         "column": 57,
         "type": "string",
         "text": "Amarone",
@@ -1650,7 +1784,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 29,
+        "line": 27,
         "column": 68,
         "type": "string",
         "text": "Chianti",
@@ -1659,7 +1793,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 29,
+        "line": 27,
         "column": 79,
         "type": "string",
         "text": "Prosecco",
@@ -1668,7 +1802,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 40,
+        "line": 38,
         "column": 12,
         "type": "string",
         "text": "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
@@ -1677,7 +1811,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 43,
+        "line": 41,
         "column": 23,
         "type": "string",
         "text": "Vino per Lei",
@@ -1686,7 +1820,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 45,
+        "line": 43,
         "column": 14,
         "type": "string",
         "text": "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
@@ -1695,7 +1829,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 49,
+        "line": 47,
         "column": 17,
         "type": "string",
         "text": "Vino per Lei",
@@ -1704,7 +1838,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 56,
+        "line": 54,
         "column": 16,
         "type": "string",
         "text": "Vino per Lei -- Italiaanse wijnen rechtstreeks van de producent",
@@ -1713,7 +1847,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 62,
+        "line": 60,
         "column": 14,
         "type": "string",
         "text": "Vino per Lei | Italiaanse wijn rechtstreeks van de producent",
@@ -1722,7 +1856,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 67,
+        "line": 65,
         "column": 35,
         "type": "string",
         "text": "image/svg+xml",
@@ -1731,7 +1865,7 @@
       },
       {
         "file": "src/app/layout.tsx",
-        "line": 68,
+        "line": 66,
         "column": 35,
         "type": "string",
         "text": "image/png",
@@ -1811,6 +1945,24 @@
         "column": 45,
         "type": "string",
         "text": "/account/",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/robots.ts",
+        "line": 8,
+        "column": 58,
+        "type": "string",
+        "text": "/handleiding",
+        "risk": "p2-ui-or-technical-copy",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/robots.ts",
+        "line": 8,
+        "column": 74,
+        "type": "string",
+        "text": "/beheer/",
         "risk": "p2-ui-or-technical-copy",
         "context": "ArrayLiteralExpression"
       }
@@ -1910,7 +2062,7 @@
     "src/components/cart/CartSlideOut.tsx": [
       {
         "file": "src/components/cart/CartSlideOut.tsx",
-        "line": 194,
+        "line": 197,
         "column": 31,
         "type": "jsxText",
         "text": "Per",
@@ -1992,7 +2144,7 @@
     "src/components/newsletter/NewsletterForm.tsx": [
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 150,
+        "line": 145,
         "column": 17,
         "type": "jsxText",
         "text": "Welkom!",
@@ -2001,7 +2153,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 154,
+        "line": 149,
         "column": 15,
         "type": "jsxText",
         "text": "Je ontvangt binnenkort je eerste wijnverhaal.",
@@ -2010,7 +2162,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 161,
+        "line": 156,
         "column": 13,
         "type": "attr:aria-label",
         "text": "Nieuwsbrief aanmelding",
@@ -2019,7 +2171,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 194,
+        "line": 189,
         "column": 34,
         "type": "string",
         "text": "blur(6px)",
@@ -2028,7 +2180,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 205,
+        "line": 200,
         "column": 17,
         "type": "attr:placeholder",
         "text": "je@email.nl",
@@ -2037,7 +2189,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 234,
+        "line": 229,
         "column": 33,
         "type": "string",
         "text": "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%)",
@@ -2046,7 +2198,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 242,
+        "line": 237,
         "column": 33,
         "type": "string",
         "text": "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.3) 50%, transparent 60%)",
@@ -2055,7 +2207,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 277,
+        "line": 272,
         "column": 19,
         "type": "jsxText",
         "text": "Ik ga akkoord met het ontvangen van de nieuwsbrief en het",
@@ -2064,7 +2216,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 285,
+        "line": 280,
         "column": 19,
         "type": "jsxText",
         "text": "Geef toestemming om je aan te melden.",
@@ -2073,7 +2225,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 302,
+        "line": 297,
         "column": 13,
         "type": "jsxText",
         "text": "Vul een geldig e-mailadres in.",
@@ -2082,7 +2234,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 312,
+        "line": 307,
         "column": 11,
         "type": "jsxText",
         "text": "Geen spam. Maximaal 2x per maand. Altijd opzegbaar.",
@@ -2091,7 +2243,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 327,
+        "line": 322,
         "column": 15,
         "type": "string",
         "text": "MV",
@@ -2100,7 +2252,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 327,
+        "line": 322,
         "column": 21,
         "type": "string",
         "text": "Pd",
@@ -2109,7 +2261,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 327,
+        "line": 322,
         "column": 27,
         "type": "string",
         "text": "SK",
@@ -2118,7 +2270,7 @@
       },
       {
         "file": "src/components/newsletter/NewsletterForm.tsx",
-        "line": 339,
+        "line": 334,
         "column": 11,
         "type": "jsxText",
         "text": "500+ wijnliefhebbers gingen je voor",
@@ -2160,7 +2312,7 @@
     "src/components/ui/AgeGate.tsx": [
       {
         "file": "src/components/ui/AgeGate.tsx",
-        "line": 54,
+        "line": 55,
         "column": 88,
         "type": "string",
         "text": "Lax",
@@ -2202,7 +2354,7 @@
     "src/components/ui/CookieConsent.tsx": [
       {
         "file": "src/components/ui/CookieConsent.tsx",
-        "line": 184,
+        "line": 196,
         "column": 21,
         "type": "jsxText",
         "text": "Meer info",
@@ -2224,7 +2376,7 @@
     "src/components/ui/NotifyMeModal.tsx": [
       {
         "file": "src/components/ui/NotifyMeModal.tsx",
-        "line": 90,
+        "line": 91,
         "column": 13,
         "type": "attr:aria-label",
         "text": "Melding bij voorraad",
@@ -2233,7 +2385,7 @@
       },
       {
         "file": "src/components/ui/NotifyMeModal.tsx",
-        "line": 98,
+        "line": 99,
         "column": 19,
         "type": "attr:aria-label",
         "text": "Sluiten",
@@ -2242,7 +2394,7 @@
       },
       {
         "file": "src/components/ui/NotifyMeModal.tsx",
-        "line": 129,
+        "line": 130,
         "column": 23,
         "type": "jsxText",
         "text": "Sluiten",
@@ -2251,7 +2403,7 @@
       },
       {
         "file": "src/components/ui/NotifyMeModal.tsx",
-        "line": 135,
+        "line": 136,
         "column": 23,
         "type": "jsxText",
         "text": "Laat je e-mailadres achter en we sturen je een bericht zodra de",
@@ -2260,7 +2412,7 @@
       },
       {
         "file": "src/components/ui/NotifyMeModal.tsx",
-        "line": 137,
+        "line": 138,
         "column": 23,
         "type": "jsxText",
         "text": "weer beschikbaar is.",
@@ -2269,7 +2421,7 @@
       },
       {
         "file": "src/components/ui/NotifyMeModal.tsx",
-        "line": 150,
+        "line": 151,
         "column": 27,
         "type": "attr:placeholder",
         "text": "je@email.nl",

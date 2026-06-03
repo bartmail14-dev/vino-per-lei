@@ -8,6 +8,7 @@ export const maxDuration = 30;
 const CANVAS_WIDTH = 800;
 const CANVAS_HEIGHT = 1200;
 const PADDING_PCT = 0.10; // 10% padding on each side
+const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 
 // Flood-fill tolerance: how "white" a pixel needs to be to count as background
 const BG_TOLERANCE = 35; // 0-255, higher = more aggressive removal
@@ -16,7 +17,7 @@ const EDGE_FEATHER = 2; // pixels of anti-alias softening at edges
 export async function GET(request: NextRequest) {
   const url = request.nextUrl.searchParams.get("url");
 
-  if (!url || !url.includes("cdn.shopify.com")) {
+  if (!isAllowedShopifyImageUrl(url)) {
     return NextResponse.json(
       { error: "Missing or invalid Shopify image URL" },
       { status: 400 }
@@ -25,11 +26,22 @@ export async function GET(request: NextRequest) {
 
   try {
     // Fetch the original image
-    const response = await fetch(url);
+    const response = await fetch(url, { signal: AbortSignal.timeout(10_000) });
     if (!response.ok) {
       throw new Error(`Failed to fetch image: ${response.status}`);
     }
+    const contentType = response.headers.get("content-type") ?? "";
+    if (!contentType.startsWith("image/")) {
+      return NextResponse.json({ error: "Invalid image response" }, { status: 400 });
+    }
+    const contentLength = Number(response.headers.get("content-length") ?? "0");
+    if (contentLength > MAX_IMAGE_BYTES) {
+      return NextResponse.json({ error: "Image too large" }, { status: 413 });
+    }
     const imageBuffer = Buffer.from(await response.arrayBuffer());
+    if (imageBuffer.byteLength > MAX_IMAGE_BYTES) {
+      return NextResponse.json({ error: "Image too large" }, { status: 413 });
+    }
 
     // Remove background using flood-fill from corners
     const processed = await removeBackground(imageBuffer);
@@ -47,6 +59,17 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error("Background removal failed:", error);
     return proxyOriginal(url);
+  }
+}
+
+function isAllowedShopifyImageUrl(value: string | null): value is string {
+  if (!value) return false;
+
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "https:" && parsed.hostname === "cdn.shopify.com";
+  } catch {
+    return false;
   }
 }
 
@@ -281,11 +304,22 @@ async function normalizeBottle(input: Buffer): Promise<Buffer> {
 /** Fallback: proxy original image without processing */
 async function proxyOriginal(url: string) {
   try {
-    const fallback = await fetch(url);
+    const fallback = await fetch(url, { signal: AbortSignal.timeout(10_000) });
+    const contentType = fallback.headers.get("Content-Type") || "image/jpeg";
+    if (!fallback.ok || !contentType.startsWith("image/")) {
+      throw new Error("Invalid fallback image");
+    }
+    const contentLength = Number(fallback.headers.get("content-length") ?? "0");
+    if (contentLength > MAX_IMAGE_BYTES) {
+      return NextResponse.json({ error: "Image too large" }, { status: 413 });
+    }
     const fallbackBuffer = Buffer.from(await fallback.arrayBuffer());
+    if (fallbackBuffer.byteLength > MAX_IMAGE_BYTES) {
+      return NextResponse.json({ error: "Image too large" }, { status: 413 });
+    }
     return new NextResponse(new Uint8Array(fallbackBuffer), {
       headers: {
-        "Content-Type": fallback.headers.get("Content-Type") || "image/jpeg",
+        "Content-Type": contentType,
         "Cache-Control": "public, max-age=300", // Short cache for fallback
       },
     });

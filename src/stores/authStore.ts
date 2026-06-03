@@ -2,6 +2,7 @@
 
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { getCsrfToken } from "@/lib/client-security";
 
 export interface User {
   id: string;
@@ -61,7 +62,7 @@ export const useAuthStore = create<AuthState>()(
           const res = await fetch("/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email, password }),
+            body: JSON.stringify({ email, password, _csrf: getCsrfToken() }),
           });
 
           const data = await res.json();
@@ -90,7 +91,7 @@ export const useAuthStore = create<AuthState>()(
           const res = await fetch("/api/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(data),
+            body: JSON.stringify({ ...data, _csrf: getCsrfToken() }),
           });
 
           const result = await res.json();
@@ -115,7 +116,10 @@ export const useAuthStore = create<AuthState>()(
 
       logout: async () => {
         try {
-          await fetch("/api/auth/logout", { method: "POST" });
+          await fetch("/api/auth/logout", {
+            method: "POST",
+            headers: { "X-CSRF-Token": getCsrfToken() },
+          });
         } catch {
           // Ignore — cookie will expire anyway
         }
@@ -155,7 +159,7 @@ export const useAuthStore = create<AuthState>()(
           const res = await fetch("/api/auth/recover", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email }),
+            body: JSON.stringify({ email, _csrf: getCsrfToken() }),
           });
 
           await res.json();
@@ -190,10 +194,7 @@ export const useAuthStore = create<AuthState>()(
     }),
     {
       name: "vpl-auth",
-      partialize: (state) => ({
-        user: state.user,
-        isAuthenticated: state.isAuthenticated,
-      }),
+      partialize: () => ({}),
       onRehydrateStorage: () => (state) => {
         state?.setHydrated();
       },

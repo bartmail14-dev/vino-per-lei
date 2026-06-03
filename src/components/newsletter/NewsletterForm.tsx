@@ -4,12 +4,7 @@ import { useState, useRef, useId } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUiCopy } from "@/components/providers";
-
-/** Read the CSRF token from the vpl_csrf cookie (set by middleware, SameSite=Lax). */
-function getCsrfToken(): string {
-  const match = document.cookie.match(/(?:^|;\s*)vpl_csrf=([^;]*)/);
-  return match ? match[1] : "";
-}
+import { getCsrfToken } from "@/lib/client-security";
 
 type Variant = "dark" | "light";
 

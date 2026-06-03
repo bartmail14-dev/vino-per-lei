@@ -1,9 +1,16 @@
 import { createStorefrontApiClient } from '@shopify/storefront-api-client';
 
+const storeDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
+const publicAccessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN;
+
+if (!storeDomain || !publicAccessToken) {
+  throw new Error("Missing NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN or NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN");
+}
+
 const client = createStorefrontApiClient({
-  storeDomain: 'vino-per-lei-2.myshopify.com',
+  storeDomain,
   apiVersion: '2026-01',
-  publicAccessToken: 'ded4b32a0bba7215c405301e3b57a764',
+  publicAccessToken,
 });
 
 const { data } = await client.request(`{

@@ -2,17 +2,26 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { isMailgunConfigured, sendMail } from "@/lib/mailgun";
 import { notifyMeConfirmationEmail } from "@/lib/email-templates";
+import { csrfErrorResponse, readJsonBody, stringField, verifyCsrfToken } from "@/lib/server-security";
 
 const schema = z.object({
   email: z.string().email(),
   productTitle: z.string().min(1).max(200),
   productImageUrl: z.string().url().optional(),
   productHandle: z.string().optional(),
+  _csrf: z.string().optional(),
 });
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const bodyResult = await readJsonBody(request, 8 * 1024);
+    if (!bodyResult.ok) return bodyResult.response;
+    const body = bodyResult.data;
+
+    if (!(await verifyCsrfToken(stringField(body, "_csrf")))) {
+      return NextResponse.json(csrfErrorResponse(), { status: 403 });
+    }
+
     const { email, productTitle, productImageUrl, productHandle } = schema.parse(body);
 
     if (!isMailgunConfigured()) {

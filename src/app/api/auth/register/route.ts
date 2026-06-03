@@ -4,17 +4,21 @@ import { z } from "zod/v4";
 import { customerRegister, customerLogin } from "@/lib/shopify-customer";
 import { isMailgunConfigured, sendMail } from "@/lib/mailgun";
 import { accountWelcomeEmail } from "@/lib/email-templates";
+import { csrfErrorResponse, readJsonBody, verifyCsrfToken } from "@/lib/server-security";
 
 const registerSchema = z.object({
   email: z.email("Ongeldig e-mailadres"),
   password: z.string().min(8, "Wachtwoord moet minimaal 8 tekens zijn"),
   firstName: z.string().min(1, "Voornaam is verplicht").max(100),
   lastName: z.string().min(1, "Achternaam is verplicht").max(100),
+  _csrf: z.string().optional(),
 });
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const bodyResult = await readJsonBody(request, 8 * 1024);
+    if (!bodyResult.ok) return bodyResult.response;
+    const body = bodyResult.data;
     const parsed = registerSchema.safeParse(body);
 
     if (!parsed.success) {
@@ -22,7 +26,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: firstError }, { status: 400 });
     }
 
-    const { email, password, firstName, lastName } = parsed.data;
+    const { email, password, firstName, lastName, _csrf } = parsed.data;
+    if (!(await verifyCsrfToken(_csrf))) {
+      return NextResponse.json(csrfErrorResponse(), { status: 403 });
+    }
 
     // Create customer in Shopify
     const createResult = await customerRegister({ email, password, firstName, lastName });
@@ -44,7 +51,7 @@ export async function POST(request: Request) {
       cookieStore.set("vpl_customer_token", loginResult.accessToken, {
         httpOnly: true,
         secure: true,
-        sameSite: "lax",
+        sameSite: "strict",
         path: "/",
         expires: expiresAt,
       });

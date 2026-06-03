@@ -280,6 +280,8 @@ const entries = [
   ["cart.subtotal", "Subtotaal", "cart", "Subtotaallabel"],
   ["cart.shipping", "Verzending", "cart", "Verzendlabel"],
   ["cart.total", "Totaal", "cart", "Totaallabel"],
+  ["cart.pickup_veldhoven_title", "Afhalen in Veldhoven?", "cart", "Titel melding afhalen in Veldhoven"],
+  ["cart.pickup_veldhoven_note", "Woon je in of nabij Veldhoven? Afhalen is vaak de beste optie. Mail voor het plaatsen van je bestelling naar {email}, dan stemmen we het samen af.", "cart", "Pre-checkout melding voor afhalen in Veldhoven"],
 
   ["cookie.title", "Cookie-instellingen", "cookie", "Titel cookiemelding"],
   ["cookie.accept", "Accepteren", "cookie", "Cookie accepteren"],

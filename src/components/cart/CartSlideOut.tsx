@@ -55,6 +55,9 @@ export function CartSlideOut() {
     freeShippingThreshold > 0
       ? Math.min(100, Math.max(0, (subtotal / freeShippingThreshold) * 100))
       : 0;
+  const pickupNote =
+    t("cart.pickup_veldhoven_note", { email: contactEmail }) ||
+    t("footer.pickup_note", { email: contactEmail });
 
   const focusTrapRef = useFocusTrap<HTMLDivElement>({ active: isOpen, onEscape: closeCart });
 
@@ -235,6 +238,13 @@ export function CartSlideOut() {
                     </div>
                   )}
 
+                  {pickupNote && (
+                    <div className="rounded-2xl border border-gold/25 bg-gold/[0.08] px-3 py-3 text-sm leading-relaxed text-charcoal shadow-sm">
+                      <p className="font-semibold">{t("cart.pickup_veldhoven_title")}</p>
+                      <p className="mt-1 text-grey">{pickupNote}</p>
+                    </div>
+                  )}
+
                   {/* Totals */}
                   <div className="space-y-2 text-base sm:space-y-2 sm:text-sm" aria-live="polite">
                     <div className="flex justify-between">
@@ -277,11 +287,6 @@ export function CartSlideOut() {
                   >
                     {t("cart.continue_shopping")}
                   </button>
-
-                  {/* Trust Signals */}
-                  <div className="hidden rounded-xl border border-sand/55 bg-white/70 px-3 py-2.5 text-center text-[11px] leading-relaxed text-grey sm:block">
-                    {t("footer.pickup_note", { email: contactEmail })}
-                  </div>
 
                   <div className="hidden items-center justify-center gap-4 pt-2 text-xs text-grey sm:flex">
                     <span className="flex items-center gap-1">

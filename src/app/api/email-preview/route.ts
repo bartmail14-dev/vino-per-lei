@@ -11,6 +11,7 @@ import {
 } from "@/lib/email-templates";
 import { getProducts } from "@/lib/shopify";
 import { formatPrice } from "@/lib/utils";
+import { safeSecretEquals } from "@/lib/server-security";
 
 /**
  * Email template preview route.
@@ -23,9 +24,9 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
   // Gate behind a secret key
-  const key = searchParams.get("key");
+  const key = request.headers.get("x-preview-secret") ?? searchParams.get("key");
   const secret = process.env.EMAIL_PREVIEW_SECRET;
-  if (!secret || key !== secret) {
+  if (!safeSecretEquals(key, secret)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -92,7 +93,17 @@ export async function GET(request: Request) {
   return new NextResponse(result.html, {
     headers: {
       "Content-Type": "text/html; charset=utf-8",
+      "Cache-Control": "no-store",
       "X-Robots-Tag": "noindex, nofollow",
+      "Content-Security-Policy": [
+        "default-src 'none'",
+        "img-src https: data:",
+        "style-src 'unsafe-inline'",
+        "script-src 'none'",
+        "font-src 'none'",
+        "base-uri 'none'",
+        "frame-ancestors 'none'",
+      ].join("; ") + ";",
     },
   });
 }

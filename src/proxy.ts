@@ -21,29 +21,29 @@ function isPrivateManualPath(pathname: string): boolean {
 
 // --- CSRF token generation ---
 const CSRF_COOKIE = "vpl_csrf";
+const CSRF_TTL_SECONDS = 60 * 60 * 24;
 
-function ensureCsrfToken(
+async function ensureCsrfToken(
   request: NextRequest,
   response: NextResponse
-): string {
+): Promise<string> {
   const existing = request.cookies.get(CSRF_COOKIE)?.value;
-  if (existing && existing.length >= 32) {
+  if (isSignedCsrfToken(existing)) {
     // Expose token via response header so client JS can read it
     response.headers.set("X-CSRF-Token", existing);
     return existing;
   }
 
-  // Generate a cryptographically random token
-  const token = crypto.randomUUID() + crypto.randomUUID().replace(/-/g, "");
+  const token = await createSignedCsrfToken();
   // Not httpOnly — client JS must read this token to include it in form submissions.
-  // Security relies on SameSite=Lax preventing cross-origin cookie attachment,
-  // combined with the double-submit pattern (cookie value must match body value).
+  // Security uses an HMAC-signed double-submit token: cookie and submitted value
+  // must match, and the signature/expiry must verify server-side.
   response.cookies.set(CSRF_COOKIE, token, {
     httpOnly: false,
     secure: true,
     sameSite: "lax",
     path: "/",
-    maxAge: 60 * 60 * 24, // 24 hours
+    maxAge: CSRF_TTL_SECONDS,
   });
   response.headers.set("X-CSRF-Token", token);
   return token;
@@ -63,8 +63,7 @@ const RATE_LIMIT_WINDOW_MS = 60_000;
 const RATE_LIMIT_MAX = 5;
 const RATE_LIMIT_COOKIE = "__rl";
 
-// HMAC-like signing using a simple hash to prevent cookie tampering.
-// Uses a server-side secret so clients cannot forge valid timestamps.
+// HMAC-SHA256 signing prevents clients from forging rate-limit timestamps.
 // If RATE_LIMIT_SECRET is not set, a random fallback is generated per instance.
 // This means cookies won't survive across deploys/instances, but it's safe.
 const RATE_LIMIT_SECRET = (() => {
@@ -77,26 +76,67 @@ const RATE_LIMIT_SECRET = (() => {
   return crypto.randomUUID();
 })();
 
-function simpleHash(data: string): string {
-  let hash = 0;
-  const str = data + RATE_LIMIT_SECRET;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash + char) | 0;
+const SECURITY_SECRET =
+  process.env.CSRF_SECRET ||
+  process.env.RATE_LIMIT_SECRET ||
+  process.env.SHOPIFY_WEBHOOK_SECRET ||
+  "vpl-development-csrf-fallback";
+
+function isSignedCsrfToken(value: string | undefined): value is string {
+  return Boolean(value && value.startsWith("v1.") && value.split(".").length === 4);
+}
+
+async function createSignedCsrfToken(): Promise<string> {
+  const nonce = crypto.randomUUID().replaceAll("-", "") + crypto.randomUUID().replaceAll("-", "");
+  const expires = Math.floor(Date.now() / 1000) + CSRF_TTL_SECONDS;
+  const payload = `v1.${nonce}.${expires}`;
+  return `${payload}.${await hmacWithSecret(payload, SECURITY_SECRET)}`;
+}
+
+function toBase64Url(bytes: ArrayBuffer): string {
+  let binary = "";
+  for (const byte of new Uint8Array(bytes)) {
+    binary += String.fromCharCode(byte);
   }
-  return Math.abs(hash).toString(36);
+  return btoa(binary).replaceAll("+", "-").replaceAll("/", "_").replaceAll("=", "");
 }
 
-function signPayload(payload: string): string {
-  return `${payload}.${simpleHash(payload)}`;
+async function hmac(payload: string): Promise<string> {
+  return hmacWithSecret(payload, RATE_LIMIT_SECRET);
 }
 
-function verifyAndParse(cookie: string): number[] | null {
+async function hmacWithSecret(payload: string, secret: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  return toBase64Url(await crypto.subtle.sign("HMAC", key, encoder.encode(payload)));
+}
+
+function constantTimeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let result = 0;
+  for (let i = 0; i < a.length; i++) {
+    result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return result === 0;
+}
+
+async function signPayload(payload: string): Promise<string> {
+  return `${payload}.${await hmac(payload)}`;
+}
+
+async function verifyAndParse(cookie: string): Promise<number[] | null> {
   const lastDot = cookie.lastIndexOf(".");
   if (lastDot === -1) return null;
   const payload = cookie.substring(0, lastDot);
   const sig = cookie.substring(lastDot + 1);
-  if (simpleHash(payload) !== sig) return null;
+  const expected = await hmac(payload);
+  if (!constantTimeEqual(expected, sig)) return null;
   try {
     const timestamps = JSON.parse(payload);
     if (!Array.isArray(timestamps)) return null;
@@ -106,17 +146,40 @@ function verifyAndParse(cookie: string): number[] | null {
   }
 }
 
-function checkRateLimit(
+function isMutatingApiRequest(request: NextRequest): boolean {
+  return (
+    request.nextUrl.pathname.startsWith("/api/") &&
+    request.nextUrl.pathname !== "/api/revalidate" &&
+    ["POST", "PUT", "PATCH", "DELETE"].includes(request.method)
+  );
+}
+
+function isSameOriginRequest(request: NextRequest): boolean {
+  const expectedOrigin = request.nextUrl.origin;
+  const origin = request.headers.get("origin");
+  if (origin) return origin === expectedOrigin;
+
+  const referer = request.headers.get("referer");
+  if (!referer) return false;
+
+  try {
+    return new URL(referer).origin === expectedOrigin;
+  } catch {
+    return false;
+  }
+}
+
+async function checkRateLimit(
   request: NextRequest,
   response: NextResponse
-): { limited: boolean; response: NextResponse } {
+): Promise<{ limited: boolean; response: NextResponse }> {
   const now = Date.now();
   const cookieValue = request.cookies.get(RATE_LIMIT_COOKIE)?.value;
 
   // Parse existing timestamps from signed cookie
   let timestamps: number[] = [];
   if (cookieValue) {
-    const parsed = verifyAndParse(cookieValue);
+    const parsed = await verifyAndParse(cookieValue);
     if (parsed) {
       // Keep only timestamps within the current window
       timestamps = parsed.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
@@ -129,12 +192,12 @@ function checkRateLimit(
       { error: "Te veel verzoeken. Probeer het over een minuut opnieuw." },
       { status: 429 }
     );
-    return { limited: true, response: errorResponse };
+    return { limited: true, response: applySecurityHeaders(request, errorResponse) };
   }
 
   // Add current timestamp and sign
   timestamps.push(now);
-  const signed = signPayload(JSON.stringify(timestamps));
+  const signed = await signPayload(JSON.stringify(timestamps));
   response.cookies.set(RATE_LIMIT_COOKIE, signed, {
     httpOnly: true,
     secure: true,
@@ -146,17 +209,62 @@ function checkRateLimit(
   return { limited: false, response };
 }
 
-export function proxy(request: NextRequest) {
+function applySecurityHeaders(request: NextRequest, response: NextResponse): NextResponse {
+  const pathname = request.nextUrl.pathname;
+
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
+  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  response.headers.set("X-DNS-Prefetch-Control", "on");
+  response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
+
+  if (pathname.startsWith("/api/") || isPrivateManualPath(pathname)) {
+    response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+
+  if (pathname.startsWith("/api/auth/") || pathname === "/account") {
+    response.headers.set("Cache-Control", "no-store");
+  }
+
+  response.headers.set(
+    "Content-Security-Policy",
+    [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline'",
+      "script-src-attr 'none'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: https://cdn.shopify.com https://images.unsplash.com https://vino-per-lei.vercel.app https://*.vinoperlei.nl",
+      "font-src 'self'",
+      "connect-src 'self' https://*.myshopify.com",
+      "media-src 'self'",
+      "manifest-src 'self'",
+      "worker-src 'self' blob:",
+      "frame-src 'none'",
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self' https://*.myshopify.com",
+      "object-src 'none'",
+      "upgrade-insecure-requests",
+      "report-uri /api/csp-report",
+    ].join("; ") + ";"
+  );
+
+  return response;
+}
+
+export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname === "/handleiding" || pathname === "/handleiding/") {
-    return new NextResponse(null, {
+    return applySecurityHeaders(request, new NextResponse(null, {
       status: 410,
       headers: {
         "X-Robots-Tag": "noindex, nofollow",
         "Cache-Control": "no-store",
       },
-    });
+    }));
   }
 
   // --- Age verification gate (server-side) ---
@@ -169,20 +277,25 @@ export function proxy(request: NextRequest) {
       url.pathname = "/";
       url.searchParams.set("age_required", "1");
       url.searchParams.set("return_to", pathname);
-      return NextResponse.redirect(url);
+      return applySecurityHeaders(request, NextResponse.redirect(url));
     }
   }
 
   const response = NextResponse.next();
 
   // --- CSRF token (generate per session, expose via header) ---
-  ensureCsrfToken(request, response);
+  await ensureCsrfToken(request, response);
+
+  if (isMutatingApiRequest(request) && !isSameOriginRequest(request)) {
+    return applySecurityHeaders(request, NextResponse.json({ error: "Forbidden" }, { status: 403 }));
+  }
 
   // --- Security headers ---
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
-  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=(), payment=()");
+  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
   response.headers.set("X-DNS-Prefetch-Control", "on");
   response.headers.set("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload");
 
@@ -190,6 +303,10 @@ export function proxy(request: NextRequest) {
   // Prevents search engines from indexing API endpoints
   if (pathname.startsWith("/api/") || isPrivateManualPath(pathname)) {
     response.headers.set("X-Robots-Tag", "noindex, nofollow");
+  }
+
+  if (pathname.startsWith("/api/auth/") || pathname === "/account") {
+    response.headers.set("Cache-Control", "no-store");
   }
 
   // --- CSP ---
@@ -203,11 +320,15 @@ export function proxy(request: NextRequest) {
     [
       "default-src 'self'",
       "script-src 'self' 'unsafe-inline'",
+      "script-src-attr 'none'",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https://cdn.shopify.com https://images.unsplash.com https://vino-per-lei.vercel.app https://*.vinoperlei.nl",
       "font-src 'self'",
       "connect-src 'self' https://*.myshopify.com",
       "media-src 'self'",
+      "manifest-src 'self'",
+      "worker-src 'self' blob:",
+      "frame-src 'none'",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self' https://*.myshopify.com",
@@ -221,11 +342,12 @@ export function proxy(request: NextRequest) {
   if (
     pathname.startsWith("/api/contact") ||
     pathname.startsWith("/api/newsletter") ||
+    pathname.startsWith("/api/notify-me") ||
     pathname.startsWith("/api/auth/login") ||
     pathname.startsWith("/api/auth/register") ||
     pathname.startsWith("/api/auth/recover")
   ) {
-    const { limited, response: rlResponse } = checkRateLimit(request, response);
+    const { limited, response: rlResponse } = await checkRateLimit(request, response);
     if (limited) return rlResponse;
     return rlResponse;
   }

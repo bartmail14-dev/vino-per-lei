@@ -19,8 +19,11 @@ except ImportError:
     sys.exit(1)
 
 # Config
-DOMAIN = "vino-per-lei-2.myshopify.com"
-TOKEN = "ded4b32a0bba7215c405301e3b57a764"
+DOMAIN = os.environ.get("NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN", "vino-per-lei-2.myshopify.com")
+TOKEN = os.environ.get("NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN")
+if not TOKEN:
+    print("Missing NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN")
+    sys.exit(1)
 OUTPUT_DIR = Path(__file__).parent.parent / "public" / "images" / "products"
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 

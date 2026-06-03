@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import { z } from "zod/v4";
 import { sendMail } from "@/lib/mailgun";
 import { newsletterWelcomeEmail } from "@/lib/email-templates";
+import { csrfErrorResponse, readJsonBody, stringField, verifyCsrfToken } from "@/lib/server-security";
 
 const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY ?? "";
 const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN ?? "";
@@ -23,17 +23,13 @@ const newsletterSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
+    const bodyResult = await readJsonBody(request, 4 * 1024);
+    if (!bodyResult.ok) return bodyResult.response;
+    const body = bodyResult.data;
 
     // --- CSRF validation ---
-    const cookieStore = await cookies();
-    const csrfCookie = cookieStore.get("vpl_csrf")?.value;
-    const csrfBody = body?._csrf;
-    if (!csrfCookie || !csrfBody || csrfCookie !== csrfBody) {
-      return NextResponse.json(
-        { error: "Ongeldige sessie. Herlaad de pagina en probeer opnieuw." },
-        { status: 403 }
-      );
+    if (!(await verifyCsrfToken(stringField(body, "_csrf")))) {
+      return NextResponse.json(csrfErrorResponse(), { status: 403 });
     }
 
     const parsed = newsletterSchema.safeParse(body);

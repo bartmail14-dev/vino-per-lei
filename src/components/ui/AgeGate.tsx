@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Cookies from "js-cookie";
 import { cn } from "@/lib/utils";
 import { useUiCopy } from "@/components/providers";
+import { safeInternalPath } from "@/lib/client-security";
 
 const COOKIE_NAME = "vpl_age_verified";
 const COOKIE_EXPIRY = 30; // days
@@ -58,8 +59,8 @@ export function AgeGate({ onVerified }: AgeGateProps) {
       setGateState(false);
       document.body.style.overflow = "";
       onVerified?.();
-      const returnTo = searchParams.get("return_to");
-      if (returnTo && returnTo.startsWith("/")) {
+      const returnTo = safeInternalPath(searchParams.get("return_to"));
+      if (returnTo) {
         router.push(returnTo);
       }
     }, 400);

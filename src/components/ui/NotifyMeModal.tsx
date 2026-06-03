@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useUiCopy } from "@/components/providers";
+import { getCsrfToken } from "@/lib/client-security";
 
 interface NotifyMeModalProps {
   isOpen: boolean;
@@ -55,7 +56,7 @@ export function NotifyMeModal({ isOpen, onClose, productTitle }: NotifyMeModalPr
       const res = await fetch("/api/notify-me", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, productTitle }),
+        body: JSON.stringify({ email, productTitle, _csrf: getCsrfToken() }),
       });
       if (!res.ok) throw new Error("Request failed");
       setStatus("success");

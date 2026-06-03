@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 3600; // 1 hour — static content
 
 export default function ShowcasePage() {
   notFound();
