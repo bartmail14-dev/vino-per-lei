@@ -19,8 +19,7 @@ import {
   OverlapTransition,
 } from "@/components/home/HomeAnimations";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300; // ISR: revalidate product data every 5 min (or on-demand via /api/revalidate)
 
 // Lazy load the map component (below-fold)
 const ItalyWineMap = nextDynamic(() => import("@/components/map").then(mod => mod.ItalyWineMap), {

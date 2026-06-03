@@ -7,8 +7,7 @@ import { getActiveRegionSlugsFromProducts } from "@/lib/region-utils";
 import { formatUiCopy, type UiCopyMap } from "@/lib/ui-copy";
 import { ProductDetailClient } from "./ProductDetailClient";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300; // ISR: revalidate product data every 5 min (or on-demand via /api/revalidate)
 export const dynamicParams = true; // Allow new products without rebuild
 
 interface PageProps {

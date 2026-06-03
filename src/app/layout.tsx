@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Suspense } from "react";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { HeaderWrapper, FooterWrapper } from "@/components/layout";
@@ -9,9 +10,6 @@ import { SmoothScrollProvider, ShopConfigProvider, UiCopyProvider, PostHogProvid
 import { CookieConsent } from "@/components/ui/CookieConsent";
 import { ExitIntentModal } from "@/components/ui/ExitIntentModal";
 import { getShopConfig, getUiCopy, getSiteSettings } from "@/lib/shopify-cms";
-
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
 
 const inter = Inter({
   variable: "--font-inter",
@@ -107,7 +105,9 @@ export default async function RootLayout({
             <SmoothScrollProvider>
               <PostHogProvider />
               <GoogleAnalytics />
-              <AgeGate />
+              <Suspense fallback={null}>
+                <AgeGate />
+              </Suspense>
               <HeaderWrapper />
               <main id="main-content" className="flex-1">{children}</main>
               <FooterWrapper />

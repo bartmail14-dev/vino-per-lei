@@ -5,8 +5,7 @@ import { getUiCopy } from "@/lib/shopify-cms";
 import { formatUiCopy, type UiCopyMap } from "@/lib/ui-copy";
 import { WijnenContent, WijnenLoading } from "./WijnenClient";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 300; // ISR: revalidate product data every 5 min (or on-demand via /api/revalidate)
 
 function getUniqueRegions(products: { region?: string }[]): string[] {
   const regions = new Set<string>();

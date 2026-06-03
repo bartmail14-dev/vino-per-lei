@@ -3,8 +3,7 @@ import { notFound } from "next/navigation";
 import { ShopifyPageContent } from "@/components/cms/ShopifyPageContent";
 import { getPage } from "@/lib/shopify-cms";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+export const revalidate = 3600; // 1 hour — static CMS content
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPage("privacybeleid");

@@ -19,7 +19,9 @@ import {
 } from "./BlogClientComponents";
 import { BlogBottomNewsletter } from "./BlogBottomNewsletter";
 
-export const revalidate = 60;
+// Uses searchParams + client-side useSearchParams (filter); inherently dynamic.
+// Note: /blog is permanently redirected to / in next.config — this page is not served.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const uiCopy = await getUiCopy();
