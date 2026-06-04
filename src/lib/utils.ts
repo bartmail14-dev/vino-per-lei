@@ -9,6 +9,18 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Serialize a JSON-LD object for safe embedding in a <script> tag.
+ *
+ * JSON.stringify does NOT escape `<`, so a value containing `</script>`
+ * (e.g. a product title or CMS field) could break out of the script block
+ * and inject markup. Escaping `<` to its unicode form keeps the payload
+ * valid JSON-LD while making script-tag breakout impossible.
+ */
+export function jsonLdScript(data: unknown): string {
+  return JSON.stringify(data).replace(/</g, "\\u003c");
+}
+
+/**
  * Format price in EUR
  */
 export function formatPrice(price: number, locale: string = "nl-NL"): string {

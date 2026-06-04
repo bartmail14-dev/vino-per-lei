@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getFAQItems, getUiCopy } from "@/lib/shopify-cms";
 import { formatUiCopy } from "@/lib/ui-copy";
+import { jsonLdScript } from "@/lib/utils";
 import { FAQContent } from "./FAQContent";
 
 export const revalidate = 3600; // 1 hour — static CMS content
@@ -91,11 +92,11 @@ export default async function FAQPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(faqJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd) }}
       />
       <FAQContent faqCategories={faqCategories} />
     </>

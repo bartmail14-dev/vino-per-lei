@@ -7,6 +7,7 @@ import nextDynamic from "next/dynamic";
 import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, StarIcon, ShieldIcon } from "@/components/icons";
 import { getHeroContent, getUSPItems, getUiCopy } from "@/lib/shopify-cms";
 import { getActiveRegionSlugsFromProducts, getRegionLabelsFromProducts, slugToDisplayName } from "@/lib/region-utils";
+import { jsonLdScript } from "@/lib/utils";
 import {
   AnimatedSection,
   AnimatedStagger,
@@ -111,7 +112,7 @@ export default async function Home() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(organizationJsonLd) }}
       />
       {/* =============================================
           HERO — Full-viewport parallax with layered gradients

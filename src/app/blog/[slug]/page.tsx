@@ -10,6 +10,7 @@ import {
 import type { BlogArticle } from "@/lib/shopify-cms";
 import { formatUiCopy, type UiCopyMap } from "@/lib/ui-copy";
 import { sanitizeHtml } from "@/lib/sanitize";
+import { jsonLdScript } from "@/lib/utils";
 import {
   BlogFadeIn,
   BlogStagger,
@@ -237,11 +238,11 @@ export default async function BlogArticlePage({ params }: Props) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogPostingJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(blogPostingJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd) }}
       />
     <div className="bg-background min-h-screen">
       <ReadingProgressEnhanced readingTimeMinutes={article.readingTimeMinutes} />

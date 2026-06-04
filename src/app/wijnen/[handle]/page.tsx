@@ -6,6 +6,7 @@ import { getUiCopy } from "@/lib/shopify-cms";
 import { getActiveRegionSlugsFromProducts } from "@/lib/region-utils";
 import { formatUiCopy, type UiCopyMap } from "@/lib/ui-copy";
 import { ProductDetailClient } from "./ProductDetailClient";
+import { jsonLdScript } from "@/lib/utils";
 
 export const revalidate = 300; // ISR: revalidate product data every 5 min (or on-demand via /api/revalidate)
 export const dynamicParams = true; // Allow new products without rebuild
@@ -196,11 +197,11 @@ export default async function ProductDetailPage({ params }: PageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbJsonLd) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }}
       />
       <ProductDetailClient product={product} relatedProducts={relatedProducts} activeRegionSlugs={getActiveRegionSlugsFromProducts(allProducts)} />
     </>
