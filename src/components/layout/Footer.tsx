@@ -124,17 +124,17 @@ export function Footer({ settings, sections = [] }: FooterProps) {
               <Logo variant="full" color="#1a1f3d" className="h-16 sm:h-20 w-auto transition-transform duration-500 group-hover:scale-[1.02]" />
             </Link>
             {socialLinks.length > 0 && (
-              <div className="flex gap-1 mt-3">
+              <div className="flex items-center gap-3 mt-4">
                 {socialLinks.map(({ href, Icon, label }) => (
                   <a
                     key={label}
                     href={href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 min-w-[44px] min-h-[44px] flex items-center justify-center text-wine/80 hover:text-wine/90 hover:bg-wine/5 rounded-lg transition-all duration-200"
+                    className="w-12 h-12 flex items-center justify-center rounded-full bg-wine text-cream shadow-md hover:bg-wine/90 hover:scale-110 hover:shadow-lg transition-all duration-200"
                     aria-label={t("footer.social.follow_on", { platform: label })}
                   >
-                    <Icon className="w-5 h-5" />
+                    <Icon className="w-6 h-6" />
                   </a>
                 ))}
               </div>
