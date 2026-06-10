@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
@@ -33,9 +33,7 @@ export function ProductCard({
   const [isAdding, setIsAdding] = useState(false);
   const [justAdded, setJustAdded] = useState(false);
   const [isHovering, setIsHovering] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [notifyOpen, setNotifyOpen] = useState(false);
-  const handleImageLoad = useCallback(() => setImageLoaded(true), []);
 
   const addItem = useCartStore((state) => state.addItem);
   const toggleWishlist = useWishlistStore((state) => state.toggleItem);
@@ -219,11 +217,6 @@ export function ProductCard({
           <div className="absolute inset-0 z-20 -top-8 min-[430px]:-top-10 sm:-top-16 flex items-center justify-center">
             {product.images[0] ? (
               <div className="relative w-40 min-[430px]:w-44 sm:w-56 h-64 min-[430px]:h-72 sm:h-96">
-                {!imageLoaded && (
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-10 h-28 sm:w-14 sm:h-44 rounded-lg bg-gradient-to-b from-sand/30 to-sand/10 animate-pulse" />
-                  </div>
-                )}
                 <motion.div
                   className="relative w-full h-full"
                   animate={{
@@ -239,11 +232,9 @@ export function ProductCard({
                     fill
                     sizes="(max-width: 430px) 176px, (max-width: 640px) 192px, 240px"
                     priority={priority}
-                    onLoad={handleImageLoad}
                     className={cn(
-                      "object-contain object-center drop-shadow-2xl transition-opacity duration-500",
-                      !product.inStock && "grayscale-[50%] opacity-70",
-                      !imageLoaded && "opacity-0"
+                      "object-contain object-center drop-shadow-2xl",
+                      !product.inStock && "grayscale-[50%] opacity-70"
                     )}
                   />
                 </motion.div>
