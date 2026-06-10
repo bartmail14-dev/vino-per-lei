@@ -1,9 +1,8 @@
 ﻿import type { Metadata } from "next";
-import { Suspense } from "react";
 import { getProducts } from "@/lib/shopify";
 import { getUiCopy } from "@/lib/shopify-cms";
 import { formatUiCopy, type UiCopyMap } from "@/lib/ui-copy";
-import { WijnenContent, WijnenLoading } from "./WijnenClient";
+import { WijnenContent } from "./WijnenClient";
 
 export const revalidate = 300; // ISR: revalidate product data every 5 min (or on-demand via /api/revalidate)
 
@@ -46,9 +45,5 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function WijnenPage() {
   const products = await getProducts();
 
-  return (
-    <Suspense fallback={<WijnenLoading />}>
-      <WijnenContent products={products} />
-    </Suspense>
-  );
+  return <WijnenContent products={products} />;
 }

@@ -108,9 +108,7 @@ export function ProductCard({
       )}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+      initial={false}
     >
       {/* Gold accent line — top edge */}
       <div className="absolute top-0 left-6 right-6 hidden h-px bg-gradient-to-r from-transparent via-gold/30 to-transparent sm:block" />

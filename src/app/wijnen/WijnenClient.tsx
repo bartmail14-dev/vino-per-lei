@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useCallback, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Section } from "@/components/layout";
@@ -307,13 +307,29 @@ function filterAndSortProducts(
   return result;
 }
 
+// useSearchParams forces a static-prerender bailout to the nearest Suspense
+// boundary. Keeping it in this leaf (with a null fallback) lets the full page
+// render in the static HTML — no layout shift while hydrating on mobile.
+function FilterParamsSync({
+  onChange,
+}: {
+  onChange: (region: string | null, type: string | null) => void;
+}) {
+  const searchParams = useSearchParams();
+  const regionParam = searchParams.get("region");
+  const region = regionParam ? canonicalRegionSlug(regionParam) : null;
+  const type = searchParams.get("type");
+
+  useEffect(() => {
+    onChange(region, type);
+  }, [region, type, onChange]);
+
+  return null;
+}
+
 export function WijnenContent({ products }: { products: Product[] }) {
   const t = useUiCopy();
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const regionParam = searchParams.get("region");
-  const canonicalRegionParam = regionParam ? canonicalRegionSlug(regionParam) : null;
-  const typeParam = searchParams.get("type");
 
   const filterGroups = useMemo(() => buildFilterGroups(products, t), [products, t]);
   const translatedSortOptions = useMemo(
@@ -321,39 +337,28 @@ export function WijnenContent({ products }: { products: Product[] }) {
     [t]
   );
 
-  // Initialize filters from URL params
-  const initialFilters: ActiveFilters = useMemo(() => {
-    const filters: ActiveFilters = {};
-    if (canonicalRegionParam) {
-      filters.region = [canonicalRegionParam];
-    }
-    if (typeParam) {
-      filters.wineType = [typeParam];
-    }
-    return filters;
-  }, [canonicalRegionParam, typeParam]);
-
-  const [activeFilters, setActiveFilters] = useState<ActiveFilters>(initialFilters);
+  const [activeFilters, setActiveFilters] = useState<ActiveFilters>({});
   const [sortBy, setSortBy] = useState("popular");
   const [searchQuery, setSearchQuery] = useState("");
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
-  const [mobileDraftFilters, setMobileDraftFilters] = useState<ActiveFilters>(() => cloneFilters(initialFilters));
+  const [mobileDraftFilters, setMobileDraftFilters] = useState<ActiveFilters>({});
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
-  // Sync filters with URL params on mount/change
-  useEffect(() => {
-    const updates: ActiveFilters = {};
-    if (canonicalRegionParam && !activeFilters.region?.includes(canonicalRegionParam)) {
-      updates.region = [canonicalRegionParam];
-    }
-    if (typeParam && !activeFilters.wineType?.includes(typeParam)) {
-      updates.wineType = [typeParam];
-    }
-    if (Object.keys(updates).length > 0) {
-      setActiveFilters((prev) => ({ ...prev, ...updates }));
-    }
-  }, [canonicalRegionParam, typeParam, activeFilters.region, activeFilters.wineType]);
+  // Sync filters with URL params (?region= / ?type=) after hydration
+  const handleParamsChange = useCallback((region: string | null, type: string | null) => {
+    setActiveFilters((prev) => {
+      const updates: ActiveFilters = {};
+      if (region && !prev.region?.includes(region)) {
+        updates.region = [region];
+      }
+      if (type && !prev.wineType?.includes(type)) {
+        updates.wineType = [type];
+      }
+      if (Object.keys(updates).length === 0) return prev;
+      return { ...prev, ...updates };
+    });
+  }, []);
 
   // Get active region name for header
   const activeRegionName = useMemo(() => {
@@ -459,6 +464,10 @@ export function WijnenContent({ products }: { products: Product[] }) {
 
   return (
     <>
+      <Suspense fallback={null}>
+        <FilterParamsSync onChange={handleParamsChange} />
+      </Suspense>
+
       {/* Breadcrumb */}
       <div className="bg-white/80 border-b border-sand/70 backdrop-blur">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
@@ -681,33 +690,6 @@ export function WijnenContent({ products }: { products: Product[] }) {
         isOpen={!!quickViewProduct}
         onClose={() => setQuickViewProduct(null)}
       />
-    </>
-  );
-}
-
-// Loading fallback for Suspense
-export function WijnenLoading() {
-  const t = useUiCopy();
-
-  return (
-    <>
-      <div className="bg-warm-white border-b border-sand">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <nav className="flex items-center gap-2 text-sm">
-            <span className="text-grey">{t("collection.breadcrumb.home")}</span>
-            <span className="text-grey">/</span>
-            <span className="text-charcoal font-medium">{t("collection.breadcrumb.wines")}</span>
-          </nav>
-        </div>
-      </div>
-      <Section background="warm" spacing="md">
-        <div className="text-center">
-          <h1 className="text-h1 mb-3">{t("collection.heading.default")}</h1>
-          <p className="text-body-lg text-grey max-w-2xl mx-auto">
-            {t("collection.loading")}
-          </p>
-        </div>
-      </Section>
     </>
   );
 }
