@@ -7,7 +7,7 @@ import nextDynamic from "next/dynamic";
 import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, StarIcon, ShieldIcon } from "@/components/icons";
 import { getHeroContent, getUSPItems, getUiCopy } from "@/lib/shopify-cms";
 import { getActiveRegionSlugsFromProducts, getRegionLabelsFromProducts, slugToDisplayName } from "@/lib/region-utils";
-import { jsonLdScript } from "@/lib/utils";
+import { cn, jsonLdScript } from "@/lib/utils";
 import {
   AnimatedSection,
   AnimatedStagger,
@@ -200,8 +200,8 @@ export default async function Home() {
       <Section background="default" spacing="xl" className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-warm-white/70 to-transparent" aria-hidden="true" />
         <AnimatedSection variant="fadeUp">
-          <div className="relative flex items-start sm:items-end justify-between mb-8 sm:mb-14">
-            <div>
+          <div className="relative flex items-start sm:items-end justify-between gap-4 mb-8 sm:mb-14">
+            <div className="min-w-0">
               <p className="text-label text-wine/45 mb-3">{copy("home.featured.eyebrow")}</p>
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[1.05]">
                 {copy("home.featured.title")}
@@ -214,7 +214,7 @@ export default async function Home() {
             </div>
             <Link
               href="/wijnen"
-              className="group flex items-center gap-2 text-wine font-medium text-sm hover:text-wine-dark transition-colors"
+              className="group flex shrink-0 items-center gap-2 whitespace-nowrap pt-1 text-wine font-medium text-sm hover:text-wine-dark transition-colors"
             >
               {copy("home.featured.view_all")}
               <ChevronRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -283,8 +283,13 @@ export default async function Home() {
       <Section background="warm" spacing="xl" className="pt-24 sm:pt-32">
         <AnimatedSection variant="fadeUp">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 text-center">
-            {dynamicStats.map((stat) => (
-              <div key={stat.label}>
+            {dynamicStats.map((stat, index) => (
+              <div
+                key={stat.label}
+                className={cn(
+                  dynamicStats.length % 2 === 1 && index === dynamicStats.length - 1 && "col-span-2 sm:col-span-1"
+                )}
+              >
                 <p className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-wine leading-none mb-1.5 tabular-nums">
                   <AnimatedCounter target={parseInt(stat.value) || 0} suffix={stat.suffix} prefix={stat.prefix} />
                 </p>

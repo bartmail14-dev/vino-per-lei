@@ -455,6 +455,7 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                       const itemKey = `${item.title} ${toRelativeUrl(item.url)}`.toLowerCase();
                       const Icon = itemKey.includes("contact") ? MailIcon : [WineBottleIcon, GrapeIcon, WineIcon, WineGlassesIcon][index % 4];
                       const label = getMenuItemLabel(item, t);
+                      const isFullWidth = mobileFeaturedLinks.length % 2 === 1 && index === mobileFeaturedLinks.length - 1;
 
                       return (
                         <motion.div
@@ -463,17 +464,20 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                           transition={{ ...mobileMenuItemMotion.transition, delay: 0.18 + index * 0.045 }}
                           whileHover={{ y: -3 }}
                           whileTap={{ scale: 0.985 }}
-                          className={cn(mobileFeaturedLinks.length % 2 === 1 && index === mobileFeaturedLinks.length - 1 && "col-span-2")}
+                          className={cn(isFullWidth && "col-span-2")}
                         >
                           <Link
                             href={toRelativeUrl(item.url)}
                             onClick={() => setIsMobileMenuOpen(false)}
                             className={cn(
                               "group block min-h-[88px] rounded-md border border-sand bg-white p-3 shadow-sm transition-all duration-300 hover:border-gold/60 hover:bg-warm-white hover:shadow-[0_16px_34px_-28px_rgba(26,31,61,0.5)]",
-                              mobileFeaturedLinks.length % 2 === 1 && index === mobileFeaturedLinks.length - 1 && "min-h-[76px]"
+                              isFullWidth && "flex min-h-[64px] items-center gap-3"
                             )}
                           >
-                            <span className="mb-3 flex h-9 w-9 items-center justify-center rounded-md bg-wine/10 text-wine transition-all duration-300 group-hover:bg-wine group-hover:text-white group-hover:shadow-sm">
+                            <span className={cn(
+                              "flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-wine/10 text-wine transition-all duration-300 group-hover:bg-wine group-hover:text-white group-hover:shadow-sm",
+                              !isFullWidth && "mb-3"
+                            )}>
                               <Icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                             </span>
                             <span className="line-clamp-2 text-[14px] font-semibold leading-snug text-charcoal">{label}</span>
