@@ -1,17 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// --- Age-restricted paths ---
-// These routes require the `vpl_age_verified` cookie to be present.
-// If missing, the user is redirected to the homepage where the AgeGate component handles verification.
-const AGE_RESTRICTED_PATHS = ["/wijnen", "/checkout"];
+// --- Private manual paths ---
 const PRIVATE_MANUAL_PATHS = ["/handleiding", "/beheer/"];
-
-function isAgeRestrictedPath(pathname: string): boolean {
-  return AGE_RESTRICTED_PATHS.some(
-    (p) => pathname === p || pathname.startsWith(`${p}/`)
-  );
-}
 
 function isPrivateManualPath(pathname: string): boolean {
   return PRIVATE_MANUAL_PATHS.some(
@@ -267,19 +258,14 @@ export async function proxy(request: NextRequest) {
     }));
   }
 
-  // --- Age verification gate (server-side) ---
-  // Redirect to homepage if age cookie is missing on restricted routes.
-  // The client-side AgeGate component on "/" handles the actual verification UI.
-  if (isAgeRestrictedPath(pathname)) {
-    const ageVerified = request.cookies.get("vpl_age_verified")?.value;
-    if (!ageVerified) {
-      const url = request.nextUrl.clone();
-      url.pathname = "/";
-      url.searchParams.set("age_required", "1");
-      url.searchParams.set("return_to", pathname);
-      return applySecurityHeaders(request, NextResponse.redirect(url));
-    }
-  }
+  // --- Age verification ---
+  // Handled entirely client-side by the global <AgeGate /> overlay (rendered in
+  // the root layout on every route). A server-side redirect used to live here,
+  // but it poisoned Next.js's router prefetch cache: /wijnen links were
+  // prefetched before the cookie was set, cached the redirect to the homepage,
+  // and then every click on a wine link (incl. the mobile menu) bounced back to
+  // "/" even after the visitor confirmed their age. The overlay already blocks
+  // the page until verified, so the redirect added no real protection.
 
   const response = NextResponse.next();
 
