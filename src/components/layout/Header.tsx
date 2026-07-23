@@ -19,11 +19,7 @@ import {
   CartIcon,
   ChevronDownIcon,
   ChevronRightIcon,
-  GrapeIcon,
   MailIcon,
-  WineBottleIcon,
-  WineGlassesIcon,
-  WineIcon,
 } from "@/components/icons";
 import type { AnnouncementBar, MenuItem } from "@/lib/shopify-cms";
 
@@ -73,32 +69,6 @@ function hasChildren(item: MenuItem): boolean {
   return Array.isArray(item.items) && item.items.length > 0;
 }
 
-function collectMenuLinks(items: MenuItem[], limit: number): MenuItem[] {
-  const links: MenuItem[] = [];
-
-  const visit = (item: MenuItem) => {
-    if (links.length >= limit) return;
-    if (item.title && item.url) links.push(item);
-    for (const child of item.items ?? []) {
-      if (links.length >= limit) return;
-      visit(child);
-    }
-  };
-
-  for (const item of items) {
-    if (links.length >= limit) break;
-    visit(item);
-  }
-
-  return links;
-}
-
-const mobileMenuItemMotion = {
-  initial: { opacity: 0, y: 10 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] as const },
-};
-
 export function Header({ announcement, contactEmail, companyName, mainMenu = [] }: HeaderProps) {
   const t = useUiCopy();
   const router = useRouter();
@@ -122,9 +92,6 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
   const { openLoginModal, isAuthenticated, isHydrated, fetchCustomer } = useAuthStore();
 
   const visibleMenu = mainMenu.filter((item) => item.title && item.url);
-  const catalogMenu = visibleMenu.find((item) => item.type === "CATALOG" || toRelativeUrl(item.url) === "/wijnen");
-  const mobileFeaturedLinks = collectMenuLinks(catalogMenu?.items?.length ? catalogMenu.items : visibleMenu, 4);
-  const showMobileNavigationList = !mobileFeaturedLinks.length || visibleMenu.some(hasChildren) || visibleMenu.length > mobileFeaturedLinks.length;
 
   useEffect(() => {
     const dismissed = localStorage.getItem("vpl_announcement_dismissed");
@@ -413,187 +380,167 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
               aria-modal="true"
               aria-label={t("header.menu.dialog_label")}
             >
+              <div
+                className="pointer-events-none absolute inset-x-0 top-0 h-[420px] bg-[radial-gradient(circle_at_15%_-5%,rgba(201,162,39,0.16),transparent_60%)]"
+                aria-hidden="true"
+              />
               <span
-                className="pointer-events-none absolute -right-4 top-20 select-none font-serif text-[6.5rem] italic leading-none text-white/[0.05]"
+                className="pointer-events-none absolute -right-6 top-[30%] select-none font-serif text-[11rem] italic leading-none text-white/[0.04]"
                 aria-hidden="true"
               >
                 {companyName ? companyName.split(" ")[0] : ""}
               </span>
               <div className="relative text-white">
-                <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent" />
                 <motion.div
-                  className="px-5 pb-5 pt-5"
+                  className="px-6 pt-5"
                   initial={{ opacity: 0, y: -8 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.12, duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  transition={{ delay: 0.1, duration: 0.32, ease: [0.25, 0.46, 0.45, 0.94] }}
                 >
-                  <div className="mb-5 flex items-center justify-between">
-                    <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex min-w-0 items-center gap-3">
-                      <Logo variant="icon" color="#ffffff" className="h-12 w-auto shrink-0 opacity-95" />
-                      {companyName && <span className="truncate font-serif text-[22px] leading-none text-white">{companyName}</span>}
+                  <div className="flex items-center justify-between">
+                    <Link
+                      href="/"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className="flex min-w-0 items-center gap-3 rounded-md outline-none focus-visible:ring-2 focus-visible:ring-gold/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                    >
+                      <Logo variant="icon" color="#ffffff" className="h-11 w-auto shrink-0 opacity-95" />
+                      {companyName && (
+                        <span className="truncate font-serif text-xl italic leading-none text-cream/90">{companyName}</span>
+                      )}
                     </Link>
                     <button
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/40 bg-white/5 text-white transition-colors hover:border-gold/70 hover:bg-white/10"
+                      className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/40 bg-white/5 text-white transition-all hover:rotate-90 hover:border-gold/70 hover:bg-white/10"
                       aria-label={t("header.menu.close")}
                     >
                       <CloseIcon className="h-5 w-5" />
                     </button>
                   </div>
 
-                  <form onSubmit={handleSearchSubmit} className="relative">
-                    <Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-white/70" strokeWidth={1.7} />
+                  <form onSubmit={handleSearchSubmit} className="relative mt-7">
+                    <Search className="pointer-events-none absolute left-0 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gold/80" strokeWidth={1.6} />
                     <input
                       type="search"
                       value={searchQuery}
                       onChange={(event) => setSearchQuery(event.target.value)}
                       placeholder={t("header.search.placeholder")}
-                      className="h-12 w-full rounded-md border border-white/15 bg-white/10 pl-11 pr-4 text-[15px] text-white outline-none transition-colors placeholder:text-white/60 focus:border-gold focus:bg-white/15"
+                      className="h-12 w-full border-b border-white/20 bg-transparent pl-8 pr-2 font-serif text-lg italic text-white outline-none transition-colors placeholder:text-white/45 focus:border-gold"
                     />
                   </form>
                 </motion.div>
               </div>
 
-              <nav className="px-4 pb-32 pt-4">
-                {mobileFeaturedLinks.length > 0 && (
-                  <div className="mb-5 grid grid-cols-2 gap-2">
-                    {mobileFeaturedLinks.map((item, index) => {
-                      const itemKey = `${item.title} ${toRelativeUrl(item.url)}`.toLowerCase();
-                      const Icon = itemKey.includes("contact") ? MailIcon : [WineBottleIcon, GrapeIcon, WineIcon, WineGlassesIcon][index % 4];
-                      const label = getMenuItemLabel(item, t);
-                      const isFullWidth = mobileFeaturedLinks.length % 2 === 1 && index === mobileFeaturedLinks.length - 1;
-
-                      return (
-                        <motion.div
-                          key={`featured-${item.title}-${item.url}`}
-                          {...mobileMenuItemMotion}
-                          transition={{ ...mobileMenuItemMotion.transition, delay: 0.18 + index * 0.045 }}
-                          whileHover={{ y: -3 }}
-                          whileTap={{ scale: 0.985 }}
-                          className={cn(isFullWidth && "col-span-2")}
-                        >
+              <nav className="relative px-6 pb-24 pt-8">
+                <ul>
+                  {visibleMenu.map((item, index) => {
+                    const label = getMenuItemLabel(item, t);
+                    const expanded = mobileSubmenu === item.title;
+                    const number = String(index + 1).padStart(2, "0");
+                    return (
+                      <motion.li
+                        key={`${item.title}-${item.url}`}
+                        initial={{ opacity: 0, y: 26 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.18 + index * 0.07, duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] }}
+                        className="border-b border-white/10"
+                      >
+                        {hasChildren(item) ? (
+                          <>
+                            <button
+                              onClick={() => setMobileSubmenu(expanded ? null : item.title)}
+                              className="group flex w-full items-center gap-4 py-5 text-left"
+                              aria-expanded={expanded}
+                            >
+                              <span className={cn("w-7 shrink-0 font-serif text-sm italic transition-colors", expanded ? "text-gold" : "text-gold/60 group-hover:text-gold")}>
+                                {number}
+                              </span>
+                              <span className={cn("min-w-0 truncate font-serif text-[2rem] font-medium leading-none tracking-tight transition-colors", expanded ? "text-gold" : "text-cream group-hover:text-gold")}>
+                                {label}
+                              </span>
+                              <motion.span
+                                animate={{ rotate: expanded ? 90 : 0 }}
+                                transition={{ duration: 0.2 }}
+                                className="ml-auto flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/30 text-gold"
+                              >
+                                <ChevronRightIcon className="h-4 w-4" />
+                              </motion.span>
+                            </button>
+                            <AnimatePresence>
+                              {expanded && (
+                                <motion.div
+                                  initial={{ height: 0, opacity: 0 }}
+                                  animate={{ height: "auto", opacity: 1 }}
+                                  exit={{ height: 0, opacity: 0 }}
+                                  transition={{ duration: 0.26, ease: "easeOut" }}
+                                  className="overflow-hidden"
+                                >
+                                  <ul className="mb-5 ml-3 space-y-1 border-l border-gold/25 pl-7">
+                                    {item.items.map((child) => (
+                                      <li key={`${child.title}-${child.url}`}>
+                                        <Link
+                                          href={toRelativeUrl(child.url)}
+                                          onClick={() => setIsMobileMenuOpen(false)}
+                                          className="group flex min-h-[44px] items-center gap-3 py-1.5 font-serif text-xl text-cream/85 transition-colors hover:text-gold"
+                                        >
+                                          <span className="h-px w-4 shrink-0 bg-gold/50 transition-all duration-300 group-hover:w-7" aria-hidden="true" />
+                                          <span className="min-w-0 truncate">{child.title}</span>
+                                        </Link>
+                                        {child.items?.length > 0 && (
+                                          <ul className="mb-2 space-y-1 pl-7">
+                                            {child.items.map((grandChild) => (
+                                              <li key={`${grandChild.title}-${grandChild.url}`}>
+                                                <Link
+                                                  href={toRelativeUrl(grandChild.url)}
+                                                  onClick={() => setIsMobileMenuOpen(false)}
+                                                  className="block py-1.5 text-[15px] leading-snug text-white/60 transition-colors hover:text-gold"
+                                                >
+                                                  {grandChild.title}
+                                                </Link>
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        )}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </>
+                        ) : (
                           <Link
                             href={toRelativeUrl(item.url)}
                             onClick={() => setIsMobileMenuOpen(false)}
-                            className={cn(
-                              "group block min-h-[88px] rounded-md border border-white/10 bg-white/[0.06] p-3 transition-all duration-300 hover:border-gold/50 hover:bg-white/10",
-                              isFullWidth && "flex min-h-[64px] items-center gap-3"
-                            )}
+                            className="group flex items-center gap-4 py-5"
                           >
-                            <span className={cn(
-                              "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/35 bg-gold/10 text-gold transition-all duration-300 group-hover:border-gold/60 group-hover:bg-gold/20",
-                              !isFullWidth && "mb-3"
-                            )}>
-                              <Icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                            <span className="w-7 shrink-0 font-serif text-sm italic text-gold/60 transition-colors group-hover:text-gold">
+                              {number}
                             </span>
-                            <span className="line-clamp-2 font-serif text-[15px] font-semibold leading-snug text-cream">{label}</span>
+                            <span className="min-w-0 truncate font-serif text-[2rem] font-medium leading-none tracking-tight text-cream transition-colors group-hover:text-gold">
+                              {label}
+                            </span>
+                            <ChevronRightIcon className="ml-auto h-5 w-5 shrink-0 -translate-x-2 text-gold opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100" />
                           </Link>
-                        </motion.div>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {showMobileNavigationList && (
-                  <div className="rounded-md border border-white/10 bg-white/[0.04]">
-                    <ul className="divide-y divide-white/10">
-                      {visibleMenu.map((item, index) => {
-                        const label = getMenuItemLabel(item, t);
-                        const expanded = mobileSubmenu === item.title;
-                        return (
-                          <motion.li
-                            key={`${item.title}-${item.url}`}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.06 + index * 0.035, duration: 0.24 }}
-                          >
-                            {hasChildren(item) ? (
-                              <>
-                                <button
-                                  onClick={() => setMobileSubmenu(expanded ? null : item.title)}
-                                  className={cn(
-                                    "flex min-h-[58px] w-full items-center justify-between gap-3 px-4 py-3 text-left font-serif text-lg font-semibold leading-tight transition-colors",
-                                    expanded ? "bg-white/[0.06] text-gold" : "text-cream hover:bg-white/[0.06] hover:text-gold"
-                                  )}
-                                  aria-expanded={expanded}
-                                >
-                                  <span>{label}</span>
-                                  <motion.span animate={{ rotate: expanded ? 90 : 0 }} transition={{ duration: 0.18 }} className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/30 bg-white/5 text-gold">
-                                    <ChevronRightIcon className="h-4 w-4" />
-                                  </motion.span>
-                                </button>
-                                <AnimatePresence>
-                                  {expanded && (
-                                    <motion.div
-                                      initial={{ height: 0, opacity: 0 }}
-                                      animate={{ height: "auto", opacity: 1 }}
-                                      exit={{ height: 0, opacity: 0 }}
-                                      transition={{ duration: 0.24, ease: "easeOut" }}
-                                      className="overflow-hidden bg-black/20"
-                                    >
-                                      <div className="space-y-2 px-4 pb-4 pt-3">
-                                        {item.items.map((child) => (
-                                          <div key={`${child.title}-${child.url}`} className="rounded-md border border-white/10 bg-white/[0.05]">
-                                            <Link
-                                              href={toRelativeUrl(child.url)}
-                                              onClick={() => setIsMobileMenuOpen(false)}
-                                              className="flex min-h-[48px] items-center justify-between gap-3 px-3 py-2.5 text-[15px] font-semibold leading-snug text-cream transition-colors hover:text-gold"
-                                            >
-                                              <span>{child.title}</span>
-                                              <ChevronRightIcon className="h-3.5 w-3.5 flex-none text-gold" />
-                                            </Link>
-                                            {child.items?.length > 0 && (
-                                              <ul className="border-t border-white/10 px-3 py-2">
-                                                {child.items.map((grandChild) => (
-                                                  <li key={`${grandChild.title}-${grandChild.url}`}>
-                                                    <Link
-                                                      href={toRelativeUrl(grandChild.url)}
-                                                      onClick={() => setIsMobileMenuOpen(false)}
-                                                      className="block rounded-sm px-2 py-2 text-[14px] leading-snug text-white/65 transition-colors hover:bg-white/[0.06] hover:text-gold"
-                                                    >
-                                                      {grandChild.title}
-                                                    </Link>
-                                                  </li>
-                                                ))}
-                                              </ul>
-                                            )}
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </motion.div>
-                                  )}
-                                </AnimatePresence>
-                              </>
-                            ) : (
-                              <Link
-                                href={toRelativeUrl(item.url)}
-                                onClick={() => setIsMobileMenuOpen(false)}
-                                className="flex min-h-[58px] items-center justify-between gap-3 px-4 py-3 font-serif text-lg font-semibold leading-tight text-cream transition-colors hover:bg-white/[0.06] hover:text-gold"
-                              >
-                                <span>{label}</span>
-                                <ChevronRightIcon className="h-4 w-4 text-gold" />
-                              </Link>
-                            )}
-                          </motion.li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                )}
+                        )}
+                      </motion.li>
+                    );
+                  })}
+                </ul>
 
                 <motion.div
-                  {...mobileMenuItemMotion}
-                  transition={{ ...mobileMenuItemMotion.transition, delay: 0.18 + mobileFeaturedLinks.length * 0.045 }}
-                  className="mt-4 rounded-md border border-white/10 bg-white/[0.05] p-3"
+                  initial={{ opacity: 0, y: 18 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.22 + visibleMenu.length * 0.07, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+                  className="mt-9 space-y-1"
                 >
                   {isAuthenticated ? (
                     <a
                       href="/account"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="group flex min-h-[50px] items-center gap-3 rounded-md px-2 text-[15px] font-semibold text-cream transition-colors hover:bg-white/[0.06]"
+                      className="group flex min-h-[52px] items-center gap-4 text-[15px] font-medium tracking-wide text-cream/90 transition-colors hover:text-gold"
                     >
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/35 bg-gold/10 transition-transform duration-300 group-hover:scale-105">
-                        <UserIcon className="h-4 w-4 text-gold transition-transform duration-300 group-hover:scale-110" />
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/35 bg-gold/10 text-gold transition-all duration-300 group-hover:border-gold/60 group-hover:bg-gold/20">
+                        <UserIcon className="h-4 w-4" />
                       </span>
                       {t("header.account.label")}
                     </a>
@@ -603,10 +550,10 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                         setIsMobileMenuOpen(false);
                         openLoginModal();
                       }}
-                      className="group flex min-h-[50px] w-full items-center gap-3 rounded-md px-2 text-left text-[15px] font-semibold text-cream transition-colors hover:bg-white/[0.06]"
+                      className="group flex min-h-[52px] w-full items-center gap-4 text-left text-[15px] font-medium tracking-wide text-cream/90 transition-colors hover:text-gold"
                     >
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/35 bg-gold/10 transition-transform duration-300 group-hover:scale-105">
-                        <UserIcon className="h-4 w-4 text-gold transition-transform duration-300 group-hover:scale-110" />
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/35 bg-gold/10 text-gold transition-all duration-300 group-hover:border-gold/60 group-hover:bg-gold/20">
+                        <UserIcon className="h-4 w-4" />
                       </span>
                       {t("header.auth.mobile_label")}
                     </button>
@@ -615,10 +562,10 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                   {contactEmail && (
                     <a
                       href={`mailto:${contactEmail}`}
-                      className="group mt-2 flex min-h-[50px] items-center gap-3 rounded-md border-t border-white/10 px-2 pt-2 text-[15px] font-semibold text-cream transition-colors hover:bg-white/[0.06] hover:text-gold"
+                      className="group flex min-h-[52px] items-center gap-4 text-[15px] font-medium tracking-wide text-cream/90 transition-colors hover:text-gold"
                     >
-                      <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/35 bg-gold/10 text-gold transition-transform duration-300 group-hover:scale-105">
-                        <MailIcon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-gold/35 bg-gold/10 text-gold transition-all duration-300 group-hover:border-gold/60 group-hover:bg-gold/20">
+                        <MailIcon className="h-4 w-4" />
                       </span>
                       <span className="min-w-0 truncate">{contactEmail}</span>
                     </a>
