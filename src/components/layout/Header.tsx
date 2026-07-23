@@ -202,7 +202,7 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
   };
 
   return (
-    <header className={cn("sticky top-0 z-50 bg-white transition-shadow duration-200", hasScrolled && "shadow-md")}>
+    <header className={cn("sticky top-0 z-50 bg-[#0d1120]/95 backdrop-blur transition-shadow duration-200", hasScrolled && "shadow-[0_10px_40px_-20px_rgba(0,0,0,0.8)]")}>
       <AnimatePresence>
         {showAnnouncement && (
           <motion.div
@@ -240,7 +240,7 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
             </button>
 
             <Link href="/" className="group flex min-h-[44px] min-w-[44px] flex-shrink-0 items-center justify-center lg:absolute lg:left-1/2 lg:-translate-x-1/2">
-              <Logo variant="full" color="#1a1f3d" className="h-16 sm:h-20 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
+              <Logo variant="full" color="#f0ebe0" className="h-16 sm:h-20 lg:h-28 w-auto transition-transform duration-300 group-hover:scale-[1.02]" />
             </Link>
 
             <nav className="hidden lg:flex items-center gap-8">
@@ -263,7 +263,7 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                         aria-expanded={expanded}
                         aria-haspopup="true"
                         className={cn(
-                          "flex items-center gap-1 py-2 text-nav uppercase text-charcoal hover:text-wine transition-colors",
+                          "flex items-center gap-1 py-2 text-nav uppercase text-[#f0ebe0] hover:text-gold transition-colors",
                           expanded && "text-wine"
                         )}
                       >
@@ -271,7 +271,7 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                         <ChevronDownIcon className={cn("w-3.5 h-3.5 transition-transform duration-200", expanded && "rotate-180")} />
                       </button>
                     ) : (
-                      <Link href={toRelativeUrl(item.url)} className="py-2 text-nav uppercase text-charcoal hover:text-wine transition-colors">
+                      <Link href={toRelativeUrl(item.url)} className="py-2 text-nav uppercase text-[#f0ebe0] hover:text-gold transition-colors">
                         {label}
                       </Link>
                     )}
@@ -363,7 +363,7 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
 
               {isAuthenticated ? (
                 <a href="/account" className="hidden lg:flex items-center gap-2 p-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0" aria-label={t("header.account.label")}>
-                  <UserIcon className="w-5 h-5 text-wine" />
+                  <UserIcon className="w-5 h-5 text-gold" />
                 </a>
               ) : (
                 <button onClick={() => openLoginModal()} className="hidden lg:flex items-center gap-2 p-3 min-w-[44px] min-h-[44px] hover:bg-sand/50 rounded-md transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0" aria-label={t("header.auth.label")}>
@@ -379,7 +379,7 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                 <CartIcon className="w-5 h-5" />
                 <span aria-live="polite" aria-atomic="true" className="absolute -top-0.5 -right-0.5">
                   {itemCount > 0 && (
-                    <span className="w-5 h-5 bg-wine text-white text-xs font-semibold rounded-full flex items-center justify-center">
+                    <span className="w-5 h-5 bg-gold text-wine-dark text-xs font-semibold rounded-full flex items-center justify-center">
                       {itemCount > 9 ? "9+" : itemCount}
                     </span>
                   )}

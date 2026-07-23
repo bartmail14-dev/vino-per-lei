@@ -482,10 +482,10 @@ export function WijnenContent({ products }: { products: Product[] }) {
                   {t("collection.breadcrumb.wines")}
                 </Link>
                 <ChevronRightIcon className="w-4 h-4 text-grey" />
-                <span className="text-charcoal font-medium">{activeRegionName}</span>
+                <span className="text-[#f0ebe0] font-medium">{activeRegionName}</span>
               </>
             ) : (
-              <span className="text-charcoal font-medium">{t("collection.breadcrumb.wines")}</span>
+              <span className="text-[#f0ebe0] font-medium">{t("collection.breadcrumb.wines")}</span>
             )}
           </nav>
         </div>
@@ -539,7 +539,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t("collection.search.placeholder_full")}
-                className="w-full pl-11 pr-11 py-3 border border-transparent rounded-xl text-sm text-charcoal placeholder:text-grey/50 placeholder:italic focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/40 transition-all duration-200 bg-cream/65"
+                className="w-full pl-11 pr-11 py-3 border border-transparent rounded-xl text-sm text-charcoal placeholder:text-grey/50 placeholder:italic focus:outline-none focus:ring-2 focus:ring-gold/30 focus:border-gold/40 transition-all duration-200 bg-[#f5f2ec]"
                 aria-label={t("collection.search.label")}
               />
               {searchQuery && (
@@ -652,7 +652,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                 <div className="w-16 h-16 bg-champagne border border-gold/30 rounded-2xl flex items-center justify-center mx-auto mb-4">
                   <FilterIcon className="w-8 h-8 text-gold" />
                 </div>
-                <h3 className="font-serif text-xl text-charcoal mb-2">{t("collection.empty.title")}</h3>
+                <h3 className="font-serif text-xl text-[#f0ebe0] mb-2">{t("collection.empty.title")}</h3>
                 <p className="text-grey/70 mb-6">
                   {t("collection.empty.description")}
                 </p>
