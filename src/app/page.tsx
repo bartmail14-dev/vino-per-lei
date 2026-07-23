@@ -213,7 +213,7 @@ export default async function Home() {
                       <IconComp className="h-5 w-5 text-wine" />
                     </div>
                     <div className="min-w-0">
-                      <p className="font-serif text-base font-semibold leading-tight text-[#f0ebe0]">{usp.title}</p>
+                      <p className="font-serif text-base font-semibold leading-tight text-charcoal">{usp.title}</p>
                       <p className="mt-1 text-sm leading-snug text-grey">{usp.subtitle}</p>
                     </div>
                   </div>
@@ -231,7 +231,7 @@ export default async function Home() {
         <Section background="default" spacing="lg">
           <AnimatedSection variant="fadeUp">
             <div className="mb-8 text-center sm:mb-10">
-              <p className="text-label text-gold/70 mb-3">
+              <p className="text-label text-wine/45 mb-3">
                 <span className="mr-2 font-serif text-base italic text-gold/80">01</span>
                 {copy("home.categories.eyebrow")}
               </p>
@@ -288,7 +288,7 @@ export default async function Home() {
         <AnimatedSection variant="fadeUp">
           <div className="relative flex items-start sm:items-end justify-between gap-4 mb-8 sm:mb-12">
             <div className="min-w-0">
-              <p className="text-label text-gold/70 mb-3">
+              <p className="text-label text-wine/45 mb-3">
                 <span className="mr-2 font-serif text-base italic text-gold/80">02</span>
                 {copy("home.featured.eyebrow")}
               </p>
@@ -303,7 +303,7 @@ export default async function Home() {
             </div>
             <Link
               href="/wijnen"
-              className="group flex shrink-0 items-center gap-2 whitespace-nowrap pt-1 text-gold font-medium text-sm hover:text-gold-light transition-colors"
+              className="group flex shrink-0 items-center gap-2 whitespace-nowrap pt-1 text-wine font-medium text-sm hover:text-wine-dark transition-colors"
             >
               {copy("home.featured.view_all")}
               <ChevronRightIcon className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -449,7 +449,7 @@ export default async function Home() {
                   index > 0 && "lg:border-l lg:border-gold/15"
                 )}
               >
-                <p className="font-serif text-4xl sm:text-5xl font-bold text-gold leading-none tabular-nums">
+                <p className="font-serif text-4xl sm:text-5xl font-bold text-wine leading-none tabular-nums">
                   <AnimatedCounter target={parseInt(stat.value) || 0} suffix={stat.suffix} prefix={stat.prefix} />
                 </p>
                 <div className="mx-auto mt-3 mb-2.5 h-px w-8 bg-gradient-to-r from-transparent via-gold/60 to-transparent" aria-hidden="true" />
@@ -465,14 +465,14 @@ export default async function Home() {
           ============================================= */}
       <Section background="cream" spacing="xl" className="relative overflow-hidden">
         <span
-          className="pointer-events-none absolute -left-6 top-1/2 -translate-y-1/2 select-none font-serif italic leading-none text-white/[0.04] text-[7rem] sm:text-[11rem]"
+          className="pointer-events-none absolute -left-6 top-1/2 -translate-y-1/2 select-none font-serif italic leading-none text-wine/[0.04] text-[7rem] sm:text-[11rem]"
           aria-hidden="true"
         >
           La selezione
         </span>
         <AnimatedSection variant="fadeUp">
           <div className="relative mx-auto max-w-3xl text-center">
-            <p className="text-label text-gold/70 mb-3">
+            <p className="text-label text-wine/45 mb-3">
               <span className="mr-2 font-serif text-base italic text-gold/80">04</span>
               {copy("home.story.eyebrow")}
             </p>
@@ -485,7 +485,7 @@ export default async function Home() {
             <div className="mt-8">
               <Link
                 href="/over-ons"
-                className="group inline-flex h-13 items-center justify-center rounded-full bg-gold px-10 text-xs font-bold uppercase tracking-wider text-wine-dark shadow-lg shadow-gold/20 transition-all duration-300 hover:bg-gold-light hover:shadow-xl sm:h-14 sm:text-sm"
+                className="group inline-flex h-13 items-center justify-center rounded-full bg-wine px-10 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-wine/20 transition-all duration-300 hover:bg-wine-dark hover:shadow-xl sm:h-14 sm:text-sm"
               >
                 {copy("home.story.cta")}
                 <ChevronRightIcon className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

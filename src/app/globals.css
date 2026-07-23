@@ -21,16 +21,15 @@
   /* Secondary Colors */
   --gold: #c9a227;
   --gold-light: #d4b84a;
-  --champagne: #1c2136;
+  --champagne: #f5e6c8;
 
-  /* Neutrals — dark luxury: page backgrounds flip to deep navy,
-     light cards keep dark text (charcoal) for contrast */
-  --cream: #10131f;
-  --warm-white: #151a2c;
-  --sand: #262c42;
+  /* Neutrals */
+  --cream: #faf9f7;
+  --warm-white: #f5f0e8;
+  --sand: #e8e0d5;
   --charcoal: #1a1a1a;
-  --grey: #9aa0b8;
-  --light-grey: #6d7390;
+  --grey: #6b6b6b;
+  --light-grey: #a3a3a3;
 
   /* Functional */
   --success: #22c55e;
@@ -39,14 +38,14 @@
   --info: #3b82f6;
 
   /* Dark Mode (Age Gate) */
-  --dark-bg: #0c0f1a;
-  --dark-surface: #161b2b;
+  --dark-bg: #1a1c1e;
+  --dark-surface: #25282a;
   --wine-red: #8B1A32;
   --coral: #ffa38b;
 
   /* Semantic */
   --background: var(--cream);
-  --foreground: #f0ebe0;
+  --foreground: var(--charcoal);
   --primary: var(--wine-burgundy);
   --primary-hover: var(--wine-dark);
   --secondary: var(--gold);
