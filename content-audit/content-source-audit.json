@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-23T14:49:58.795Z",
+  "generatedAt": "2026-07-23T14:53:00.211Z",
   "scannedFiles": 110,
   "totalStrings": 228,
   "highRiskStrings": 11,
@@ -1962,7 +1962,7 @@
         "line": 136,
         "column": 5,
         "type": "string",
-        "text": "right-0 top-0 z-30 w-[68%] rotate-[3deg]",
+        "text": "right-0 top-0 z-30 w-[76%] rotate-[3deg]",
         "risk": "p1-homepage-content",
         "context": "ArrayLiteralExpression"
       },
@@ -1971,7 +1971,7 @@
         "line": 137,
         "column": 5,
         "type": "string",
-        "text": "right-[24%] top-[10%] z-20 w-[58%] -rotate-[5deg]",
+        "text": "right-[26%] top-[9%] z-20 w-[64%] -rotate-[5deg]",
         "risk": "p1-homepage-content",
         "context": "ArrayLiteralExpression"
       },
@@ -1980,7 +1980,7 @@
         "line": 138,
         "column": 5,
         "type": "string",
-        "text": "right-[44%] top-[22%] z-10 w-[48%] rotate-[8deg]",
+        "text": "right-[48%] top-[20%] z-10 w-[54%] rotate-[8deg]",
         "risk": "p1-homepage-content",
         "context": "ArrayLiteralExpression"
       },

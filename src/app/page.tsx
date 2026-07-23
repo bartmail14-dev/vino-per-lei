@@ -133,9 +133,9 @@ export default async function Home() {
 
   // Fanned bottle layout inside category tiles: front bottle largest, others peek out behind it
   const bottleFan = [
-    "right-0 top-0 z-30 w-[68%] rotate-[3deg]",
-    "right-[24%] top-[10%] z-20 w-[58%] -rotate-[5deg]",
-    "right-[44%] top-[22%] z-10 w-[48%] rotate-[8deg]",
+    "right-0 top-0 z-30 w-[76%] rotate-[3deg]",
+    "right-[26%] top-[9%] z-20 w-[64%] -rotate-[5deg]",
+    "right-[48%] top-[20%] z-10 w-[54%] rotate-[8deg]",
   ];
 
   // JSON-LD: Organization schema
@@ -291,7 +291,7 @@ export default async function Home() {
                   {/* Bottles fan playfully out of the tile */}
                   {tile.images.length > 0 && (
                     <div
-                      className="pointer-events-none absolute -top-16 bottom-2 right-0 w-[52%] transition-transform duration-700 group-hover:-translate-y-2 sm:-top-24"
+                      className="pointer-events-none absolute -top-20 bottom-2 right-0 w-[58%] transition-transform duration-700 group-hover:-translate-y-2 sm:-right-8 sm:-top-28"
                       aria-hidden="true"
                     >
                       {tile.images.map((img, i) => (
