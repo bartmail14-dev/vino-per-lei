@@ -264,24 +264,16 @@ export default async function Home() {
           </AnimatedSection>
           <AnimatedStagger
             className={cn(
-              "grid grid-cols-1 gap-4 min-[430px]:grid-cols-2 sm:gap-5",
+              "grid grid-cols-1 gap-3 min-[430px]:grid-cols-2 sm:gap-5",
               categoryTiles.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"
             )}
             staggerDelay={0.1}
           >
             {categoryTiles.map((tile, tileIndex) => (
-              <StaggerItem
-                key={tile.type}
-                className={cn(
-                  "h-full flex",
-                  categoryTiles.length % 2 === 1 &&
-                    tileIndex === categoryTiles.length - 1 &&
-                    "min-[430px]:col-span-2 lg:col-span-1"
-                )}
-              >
+              <StaggerItem key={tile.type} className="h-full flex">
                 <Link
                   href={`/wijnen?type=${tile.type}`}
-                  className="group relative mt-16 flex min-h-[210px] flex-1 flex-col justify-end px-6 py-7 transition-transform duration-500 hover:-translate-y-1 sm:mt-24 sm:min-h-[270px] sm:py-9"
+                  className="group relative mt-10 flex min-h-[210px] flex-1 flex-col justify-end px-6 py-7 transition-transform duration-500 hover:-translate-y-1 sm:mt-24 sm:min-h-[270px] sm:py-9"
                 >
                   {/* Clipped panel layer: gradient, watermark, grain stay inside the rounded tile */}
                   <span
@@ -299,7 +291,7 @@ export default async function Home() {
                   {/* Bottles fan playfully out of the tile */}
                   {tile.images.length > 0 && (
                     <div
-                      className="pointer-events-none absolute -top-20 bottom-2 right-0 w-[58%] transition-transform duration-700 group-hover:-translate-y-2 sm:-right-8 sm:-top-28"
+                      className="pointer-events-none absolute -top-12 bottom-2 right-0 w-[58%] transition-transform duration-700 group-hover:-translate-y-2 sm:-right-8 sm:-top-28"
                       aria-hidden="true"
                     >
                       {tile.images.map((img, i) => (
