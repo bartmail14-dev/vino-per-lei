@@ -114,6 +114,7 @@ export default async function Home() {
       count: wineTypeCounts[type],
       label: wineTypeLabels[type],
       ...(wineTypeDecor[type] || { watermark: "", bg: "bg-dark-bg" }),
+      image: allProducts.find((p) => p.wineType === type && p.images[0])?.images[0],
     }));
 
   // JSON-LD: Organization schema
@@ -263,7 +264,18 @@ export default async function Home() {
                     {tile.watermark}
                   </span>
                   <span className="pointer-events-none absolute inset-0 bg-grain opacity-[0.06]" aria-hidden="true" />
-                  <div className="relative">
+                  {tile.image && (
+                    <div className="pointer-events-none absolute -right-3 bottom-0 top-4 w-[46%] sm:right-0" aria-hidden="true">
+                      <Image
+                        src={wineImagePresets.card(tile.image.url)}
+                        alt=""
+                        fill
+                        sizes="220px"
+                        className="object-contain object-bottom drop-shadow-[0_20px_30px_rgba(0,0,0,0.45)] transition-transform duration-700 group-hover:scale-[1.05] group-hover:-rotate-1"
+                      />
+                    </div>
+                  )}
+                  <div className="relative max-w-[60%]">
                     <p className="font-serif text-2xl font-semibold text-white sm:text-3xl">{tile.label}</p>
                     <p className="mt-1 text-sm text-white/70">
                       {copy("home.categories.count", { count: tile.count })}
