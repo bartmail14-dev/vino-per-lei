@@ -116,6 +116,7 @@ export default async function Home() {
       ...(wineTypeDecor[type] || { watermark: "", bg: "bg-dark-bg" }),
       images: (() => {
         // Dedupe on image url so two products sharing one photo never show twice
+        const max = type === "rose" ? 1 : 3;
         const seen = new Set<string>();
         const unique = [];
         for (const p of allProducts) {
@@ -124,7 +125,7 @@ export default async function Home() {
           if (seen.has(key)) continue;
           seen.add(key);
           unique.push(p.images[0]);
-          if (unique.length === 3) break;
+          if (unique.length === max) break;
         }
         return unique;
       })(),
@@ -132,9 +133,9 @@ export default async function Home() {
 
   // Fanned bottle layout inside category tiles: front bottle largest, others peek out behind it
   const bottleFan = [
-    "right-0 top-0 z-30 w-[72%] rotate-[3deg]",
-    "right-[36%] top-[10%] z-20 w-[60%] -rotate-[5deg]",
-    "right-[62%] top-[22%] z-10 w-[50%] rotate-[8deg]",
+    "right-0 top-0 z-30 w-[68%] rotate-[3deg]",
+    "right-[24%] top-[10%] z-20 w-[58%] -rotate-[5deg]",
+    "right-[44%] top-[22%] z-10 w-[48%] rotate-[8deg]",
   ];
 
   // JSON-LD: Organization schema
@@ -290,7 +291,7 @@ export default async function Home() {
                   {/* Bottles fan playfully out of the tile */}
                   {tile.images.length > 0 && (
                     <div
-                      className="pointer-events-none absolute -top-16 bottom-2 right-0 w-[74%] transition-transform duration-700 group-hover:-translate-y-2 sm:-top-24"
+                      className="pointer-events-none absolute -top-16 bottom-2 right-0 w-[52%] transition-transform duration-700 group-hover:-translate-y-2 sm:-top-24"
                       aria-hidden="true"
                     >
                       {tile.images.map((img, i) => (

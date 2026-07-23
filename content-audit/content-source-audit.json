@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-23T14:44:27.928Z",
+  "generatedAt": "2026-07-23T14:49:58.795Z",
   "scannedFiles": 110,
   "totalStrings": 228,
   "highRiskStrings": 11,
@@ -1959,19 +1959,10 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 135,
-        "column": 5,
-        "type": "string",
-        "text": "right-0 top-0 z-30 w-[72%] rotate-[3deg]",
-        "risk": "p1-homepage-content",
-        "context": "ArrayLiteralExpression"
-      },
-      {
-        "file": "src/app/page.tsx",
         "line": 136,
         "column": 5,
         "type": "string",
-        "text": "right-[36%] top-[10%] z-20 w-[60%] -rotate-[5deg]",
+        "text": "right-0 top-0 z-30 w-[68%] rotate-[3deg]",
         "risk": "p1-homepage-content",
         "context": "ArrayLiteralExpression"
       },
@@ -1980,13 +1971,22 @@
         "line": 137,
         "column": 5,
         "type": "string",
-        "text": "right-[62%] top-[22%] z-10 w-[50%] rotate-[8deg]",
+        "text": "right-[24%] top-[10%] z-20 w-[58%] -rotate-[5deg]",
         "risk": "p1-homepage-content",
         "context": "ArrayLiteralExpression"
       },
       {
         "file": "src/app/page.tsx",
-        "line": 374,
+        "line": 138,
+        "column": 5,
+        "type": "string",
+        "text": "right-[44%] top-[22%] z-10 w-[48%] rotate-[8deg]",
+        "risk": "p1-homepage-content",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 375,
         "column": 19,
         "type": "jsxText",
         "text": "N°1",
@@ -1995,7 +1995,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 392,
+        "line": 393,
         "column": 65,
         "type": "jsxText",
         "text": "N°1",
@@ -2004,7 +2004,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 408,
+        "line": 409,
         "column": 21,
         "type": "jsxText",
         "text": "&euro;",
@@ -2013,7 +2013,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 444,
+        "line": 445,
         "column": 11,
         "type": "jsxText",
         "text": "Italia",
@@ -2022,7 +2022,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 521,
+        "line": 522,
         "column": 11,
         "type": "jsxText",
         "text": "La selezione",
@@ -2031,7 +2031,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 556,
+        "line": 557,
         "column": 11,
         "type": "jsxText",
         "text": "Salute",
