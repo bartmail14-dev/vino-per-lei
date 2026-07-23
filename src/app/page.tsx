@@ -252,26 +252,33 @@ export default async function Home() {
               <StaggerItem key={tile.type} className="h-full flex">
                 <Link
                   href={`/wijnen?type=${tile.type}`}
-                  className={cn(
-                    "group relative flex min-h-[180px] flex-1 flex-col justify-end overflow-hidden rounded-[1.5rem] px-6 py-7 shadow-[0_24px_60px_-40px_rgba(26,31,61,0.7)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_32px_70px_-36px_rgba(26,31,61,0.65)] sm:min-h-[220px] sm:py-9",
-                    tile.bg
-                  )}
+                  className="group relative mt-8 flex min-h-[180px] flex-1 flex-col justify-end px-6 py-7 transition-transform duration-500 hover:-translate-y-1 sm:mt-10 sm:min-h-[220px] sm:py-9"
                 >
+                  {/* Clipped panel layer: gradient, watermark, grain stay inside the rounded tile */}
                   <span
-                    className="pointer-events-none absolute -right-2 -top-5 select-none font-serif italic text-[5rem] leading-none text-white/[0.08] transition-transform duration-700 group-hover:scale-105 sm:text-[6.5rem]"
+                    className={cn(
+                      "absolute inset-0 overflow-hidden rounded-[1.5rem] shadow-[0_24px_60px_-40px_rgba(26,31,61,0.7)] transition-shadow duration-500 group-hover:shadow-[0_32px_70px_-36px_rgba(26,31,61,0.65)]",
+                      tile.bg
+                    )}
                     aria-hidden="true"
                   >
-                    {tile.watermark}
+                    <span className="pointer-events-none absolute -right-2 -top-5 select-none font-serif italic text-[5rem] leading-none text-white/[0.08] transition-transform duration-700 group-hover:scale-105 sm:text-[6.5rem]">
+                      {tile.watermark}
+                    </span>
+                    <span className="pointer-events-none absolute inset-0 bg-grain opacity-[0.06]" />
                   </span>
-                  <span className="pointer-events-none absolute inset-0 bg-grain opacity-[0.06]" aria-hidden="true" />
+                  {/* Bottle pops playfully out of the tile */}
                   {tile.image && (
-                    <div className="pointer-events-none absolute -right-3 bottom-0 top-4 w-[46%] sm:right-0" aria-hidden="true">
+                    <div
+                      className="pointer-events-none absolute -top-8 bottom-3 right-1 w-[44%] rotate-[2.5deg] transition-transform duration-700 group-hover:-translate-y-2 group-hover:rotate-[4deg] sm:-top-10"
+                      aria-hidden="true"
+                    >
                       <Image
                         src={wineImagePresets.card(tile.image.url)}
                         alt=""
                         fill
                         sizes="220px"
-                        className="object-contain object-bottom drop-shadow-[0_20px_30px_rgba(0,0,0,0.45)] transition-transform duration-700 group-hover:scale-[1.05] group-hover:-rotate-1"
+                        className="object-contain object-bottom drop-shadow-[0_24px_32px_rgba(0,0,0,0.45)]"
                       />
                     </div>
                   )}
