@@ -1,12 +1,13 @@
 {
-  "generatedAt": "2026-06-03T14:21:27.030Z",
+  "generatedAt": "2026-07-23T12:55:47.808Z",
   "scannedFiles": 110,
-  "totalStrings": 215,
-  "highRiskStrings": 0,
+  "totalStrings": 219,
+  "highRiskStrings": 4,
   "byRisk": {
     "p2-ui-or-technical-copy": 180,
     "p2-checkout-ui": 22,
     "allowed-ui": 3,
+    "p1-homepage-content": 4,
     "p2-account-ui": 10
   },
   "fileSources": [
@@ -343,8 +344,8 @@
         "getUSPItems",
         "getUiCopy"
       ],
-      "stringCount": 0,
-      "highRiskCount": 0
+      "stringCount": 4,
+      "highRiskCount": 4
     },
     {
       "file": "src/app/privacy/page.tsx",
@@ -380,8 +381,7 @@
       "file": "src/app/wijnen/page.tsx",
       "sourceUsage": [
         "getProducts",
-        "getUiCopy",
-        "fallback"
+        "getUiCopy"
       ],
       "stringCount": 0,
       "highRiskCount": 0
@@ -1920,6 +1920,44 @@
         "context": ""
       }
     ],
+    "src/app/page.tsx": [
+      {
+        "file": "src/app/page.tsx",
+        "line": 251,
+        "column": 19,
+        "type": "jsxText",
+        "text": "N°1",
+        "risk": "p1-homepage-content",
+        "context": ""
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 269,
+        "column": 65,
+        "type": "jsxText",
+        "text": "N°1",
+        "risk": "p1-homepage-content",
+        "context": ""
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 285,
+        "column": 21,
+        "type": "jsxText",
+        "text": "&euro;",
+        "risk": "p1-homepage-content",
+        "context": ""
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 321,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Italia",
+        "risk": "p1-homepage-content",
+        "context": ""
+      }
+    ],
     "src/app/robots.ts": [
       {
         "file": "src/app/robots.ts",
@@ -2095,7 +2133,7 @@
     "src/components/home/HomeAnimations.tsx": [
       {
         "file": "src/components/home/HomeAnimations.tsx",
-        "line": 333,
+        "line": 342,
         "column": 92,
         "type": "jsxText",
         "text": "Scroll",
@@ -2104,7 +2142,7 @@
       },
       {
         "file": "src/components/home/HomeAnimations.tsx",
-        "line": 348,
+        "line": 357,
         "column": 90,
         "type": "jsxText",
         "text": "Scroll",

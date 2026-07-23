@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Section } from "@/components/layout";
 import { ProductCard } from "@/components/product";
 import { getProducts } from "@/lib/shopify";
@@ -7,7 +8,7 @@ import nextDynamic from "next/dynamic";
 import { TruckIcon, RefreshIcon, ChevronRightIcon, GrapeIcon, StarIcon, ShieldIcon } from "@/components/icons";
 import { getHeroContent, getUSPItems, getUiCopy } from "@/lib/shopify-cms";
 import { getActiveRegionSlugsFromProducts, getRegionLabelsFromProducts, slugToDisplayName } from "@/lib/region-utils";
-import { cn, jsonLdScript } from "@/lib/utils";
+import { cn, jsonLdScript, wineImagePresets } from "@/lib/utils";
 import {
   AnimatedSection,
   AnimatedStagger,
@@ -60,6 +61,7 @@ export default async function Home() {
   const uspItems = rawUspItems;
   const featured = allProducts.filter((p) => p.isFeatured);
   const featuredProducts = featured.length > 0 ? featured.slice(0, 4) : allProducts.slice(0, 4);
+  const [spotlight, ...restFeatured] = featuredProducts;
   const hero = heroRaw;
   const heroTitleLine1 = formatHeroTitleLine(hero?.titleLine1, true);
   const heroTitleLine2 = formatHeroTitleLine(hero?.titleLine2, heroTitleLine1.length === 0);
@@ -118,21 +120,21 @@ export default async function Home() {
           HERO — Full-viewport parallax with layered gradients
           ============================================= */}
       <HeroParallax>
-        <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
-          <div className="max-w-4xl text-left pt-10 sm:pt-16">
+        <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center">
+          <div className="relative w-full max-w-4xl text-left pt-10 sm:pt-16">
             {/* Eyebrow */}
             <div className="mb-5 sm:mb-7 animate-fade-in animation-delay-300">
               <p className="inline-flex items-center gap-3 text-label text-gold">
                 <span className="h-px w-8 bg-gold/70" aria-hidden="true" />
                 {hero?.subtitle}
+                <span className="hidden h-px w-8 bg-gold/70 sm:block" aria-hidden="true" />
               </p>
             </div>
 
-            {/* Headline — bigger, bolder, with gold glow */}
-            <h1 className="font-serif text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-white mb-5 sm:mb-8 leading-[0.96] animate-fade-in-up animation-delay-400 text-shadow-hero max-w-4xl">
-              {heroTitleLine1}
-              <br />
-              <span className="text-gold text-shadow-gold">{heroTitleLine2}</span>
+            {/* Headline — oversized editorial serif, second line indented italic gold */}
+            <h1 className="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-[7.5rem] text-white mb-5 sm:mb-8 leading-[0.92] animate-fade-in-up animation-delay-400 text-shadow-hero">
+              <span className="block">{heroTitleLine1}</span>
+              <span className="block italic text-gold text-shadow-gold pl-[6%] sm:pl-[10%]">{heroTitleLine2}</span>
             </h1>
 
             {/* Subtext */}
@@ -157,6 +159,18 @@ export default async function Home() {
                 <ChevronRightIcon className="w-4 h-4 ml-2 opacity-60 transition-all group-hover:opacity-100 group-hover:translate-x-1" />
               </Link>
             </div>
+          </div>
+
+          {/* Vertical editorial ornament — right edge, desktop only */}
+          <div
+            className="pointer-events-none absolute right-6 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-5 lg:flex"
+            aria-hidden="true"
+          >
+            <span className="h-24 w-px bg-gradient-to-b from-transparent via-gold/60 to-transparent" />
+            <span className="[writing-mode:vertical-rl] font-serif italic text-sm tracking-[0.35em] text-white/40">
+              {copy("site.name")}
+            </span>
+            <span className="h-24 w-px bg-gradient-to-b from-transparent via-gold/60 to-transparent" />
           </div>
         </div>
 
@@ -199,9 +213,12 @@ export default async function Home() {
       <Section background="default" spacing="xl" className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-warm-white/70 to-transparent" aria-hidden="true" />
         <AnimatedSection variant="fadeUp">
-          <div className="relative flex items-start sm:items-end justify-between gap-4 mb-8 sm:mb-14">
+          <div className="relative flex items-start sm:items-end justify-between gap-4 mb-8 sm:mb-12">
             <div className="min-w-0">
-              <p className="text-label text-wine/45 mb-3">{copy("home.featured.eyebrow")}</p>
+              <p className="text-label text-wine/45 mb-3">
+                <span className="mr-2 font-serif text-base italic text-gold/80">01</span>
+                {copy("home.featured.eyebrow")}
+              </p>
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[1.05]">
                 {copy("home.featured.title")}
               </h2>
@@ -220,14 +237,70 @@ export default async function Home() {
             </Link>
           </div>
         </AnimatedSection>
+        {spotlight && (
+          <AnimatedSection variant="fadeUp">
+            <Link
+              href={`/wijnen/${spotlight.handle}`}
+              className="group relative mb-8 grid overflow-hidden rounded-[1.75rem] border border-sand/70 bg-white shadow-[0_30px_80px_-48px_rgba(26,31,61,0.55)] transition-shadow duration-500 hover:shadow-[0_36px_90px_-40px_rgba(26,31,61,0.5)] sm:mb-10 sm:grid-cols-[5fr_7fr]"
+            >
+              <div className="relative flex items-center justify-center overflow-hidden bg-dark-bg px-8 py-12 sm:py-16">
+                <span
+                  className="pointer-events-none absolute -left-3 top-1/2 -translate-y-1/2 select-none font-serif italic text-[8rem] leading-none text-white/[0.05] sm:text-[10rem]"
+                  aria-hidden="true"
+                >
+                  N°1
+                </span>
+                <div className="absolute inset-y-8 right-0 hidden w-px bg-gradient-to-b from-transparent via-gold/40 to-transparent sm:block" aria-hidden="true" />
+                {spotlight.images[0] && (
+                  <div className="relative h-72 w-52 transition-transform duration-700 ease-out group-hover:scale-[1.04] sm:h-96 sm:w-60">
+                    <Image
+                      src={wineImagePresets.card(spotlight.images[0].url)}
+                      alt={spotlight.images[0].altText || spotlight.title}
+                      fill
+                      sizes="(max-width: 640px) 208px, 240px"
+                      priority
+                      className="object-contain drop-shadow-2xl"
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-col justify-center gap-4 px-6 py-8 sm:px-10 sm:py-12 lg:px-14">
+                <p className="inline-flex items-center gap-3 text-label text-gold">
+                  <span className="font-serif text-base italic">N°1</span>
+                  <span className="h-px w-10 bg-gold/50" aria-hidden="true" />
+                </p>
+                <h3 className="font-serif text-3xl font-semibold leading-[1.02] text-charcoal transition-colors duration-300 group-hover:text-wine sm:text-4xl lg:text-5xl">
+                  {spotlight.title}
+                </h3>
+                <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-grey/70">
+                  {spotlight.region}
+                  {spotlight.vintage && spotlight.vintage !== "NV" && <span className="text-gold/60"> &middot; {spotlight.vintage}</span>}
+                  {spotlight.grapeVarieties.length > 0 && <span> &middot; {spotlight.grapeVarieties.slice(0, 2).join(", ")}</span>}
+                </p>
+                {spotlight.description && (
+                  <p className="max-w-xl text-sm leading-relaxed text-grey line-clamp-3 sm:text-base first-letter:uppercase">{spotlight.description}</p>
+                )}
+                <div className="mt-2 flex flex-wrap items-center gap-x-6 gap-y-3">
+                  <span className="font-serif text-2xl font-semibold text-wine">
+                    &euro; {spotlight.price.toFixed(2).replace(".", ",")}
+                  </span>
+                  <span className="inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.14em] text-wine transition-colors group-hover:text-wine-dark">
+                    {copy("home.featured.spotlight_cta")}
+                    <ChevronRightIcon className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </AnimatedSection>
+        )}
         <AnimatedStagger
           className={cn(
             "relative grid grid-cols-1 min-[430px]:grid-cols-2 gap-5 sm:gap-6",
-            featuredProducts.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"
+            restFeatured.length >= 4 ? "lg:grid-cols-4" : restFeatured.length === 2 ? "lg:grid-cols-2" : "lg:grid-cols-3"
           )}
           staggerDelay={0.12}
         >
-          {featuredProducts.map((product) => (
+          {restFeatured.map((product) => (
             <StaggerItem key={product.id} className="h-full flex">
               <ProductCard product={product} className="flex-1" />
             </StaggerItem>
@@ -240,10 +313,17 @@ export default async function Home() {
       {/* =============================================
           WINE REGIONS MAP — Dark immersive section
           ============================================= */}
-      <Section background="dark" spacing="xl" className="overflow-hidden">
+      <Section background="dark" spacing="xl" className="relative overflow-hidden">
+        <span
+          className="pointer-events-none absolute -bottom-6 -right-4 select-none font-serif italic leading-none text-white/[0.04] text-[8rem] sm:text-[12rem] lg:text-[16rem]"
+          aria-hidden="true"
+        >
+          Italia
+        </span>
         <div className="grid lg:grid-cols-2 gap-10 sm:gap-16 items-center">
           <AnimatedSection variant="fadeLeft" className="order-2 lg:order-1">
             <p className="text-label text-gold/60 mb-3">
+              <span className="mr-2 font-serif text-base italic text-gold/80">02</span>
               {activeRegionSlugs.length === 1
                 ? copy("home.regions.count_singular")
                 : copy("home.regions.count_plural", { count: activeRegionSlugs.length })}
