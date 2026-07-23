@@ -167,24 +167,23 @@ export default async function Home() {
       {/* =============================================
           USP BAR — Elevated trust signals
           ============================================= */}
-      <Section background="default" spacing="none" className="relative -mt-14 sm:-mt-24 lg:-mt-28 z-10 !bg-transparent">
+      <Section background="warm" spacing="none" className="border-b border-sand/50">
         <AnimatedUSPBar>
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className={`grid grid-cols-1 sm:grid-cols-2 ${uspItems.length === 3 ? "lg:grid-cols-3" : "lg:grid-cols-4"} gap-3 sm:gap-4`}>
+          <div className="max-w-6xl mx-auto">
+            <div className={`grid grid-cols-1 divide-y divide-sand/50 sm:divide-y-0 sm:divide-x ${uspItems.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0"}`}>
               {uspItems.map((usp) => {
                 const IconComp = uspIconMap[usp.iconName] || TruckIcon;
                 return (
                   <div
                     key={usp.title}
-                    className="group relative overflow-hidden rounded-2xl border border-white/70 bg-white/95 px-5 py-5 shadow-[0_24px_70px_-38px_rgba(26,31,61,0.72)] ring-1 ring-sand/55 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-gold/35 hover:shadow-[0_30px_78px_-34px_rgba(26,31,61,0.62)]"
+                    className="flex items-center gap-4 px-4 py-5 sm:justify-center sm:px-6 sm:py-8"
                   >
-                    <div className="absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent via-gold/60 to-transparent" aria-hidden="true" />
-                    <div className="mb-4 w-11 h-11 rounded-full bg-[linear-gradient(180deg,rgba(245,230,200,0.85),rgba(255,255,255,0.95))] ring-1 ring-gold/20 shadow-inner flex items-center justify-center flex-shrink-0 transition-colors group-hover:bg-gold/12">
-                      <IconComp className="w-5 h-5 text-wine" />
+                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-gold/35 bg-champagne/40">
+                      <IconComp className="h-5 w-5 text-wine" />
                     </div>
-                    <div>
-                      <p className="font-serif font-semibold text-charcoal text-base leading-tight">{usp.title}</p>
-                      <p className="mt-1.5 text-sm text-grey leading-relaxed">{usp.subtitle}</p>
+                    <div className="min-w-0">
+                      <p className="font-serif text-base font-semibold leading-tight text-charcoal">{usp.title}</p>
+                      <p className="mt-1 text-sm leading-snug text-grey">{usp.subtitle}</p>
                     </div>
                   </div>
                 );
@@ -221,10 +220,16 @@ export default async function Home() {
             </Link>
           </div>
         </AnimatedSection>
-        <AnimatedStagger className="relative grid grid-cols-1 min-[430px]:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6" staggerDelay={0.12}>
+        <AnimatedStagger
+          className={cn(
+            "relative grid grid-cols-1 min-[430px]:grid-cols-2 gap-5 sm:gap-6",
+            featuredProducts.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"
+          )}
+          staggerDelay={0.12}
+        >
           {featuredProducts.map((product) => (
-            <StaggerItem key={product.id}>
-              <ProductCard product={product} />
+            <StaggerItem key={product.id} className="h-full flex">
+              <ProductCard product={product} className="flex-1" />
             </StaggerItem>
           ))}
         </AnimatedStagger>
@@ -265,7 +270,7 @@ export default async function Home() {
             </div>
           </AnimatedSection>
           <AnimatedSection variant="fadeRight" delay={0.2} className="flex justify-center order-1 lg:order-2">
-            <div className="scale-[0.6] sm:scale-75 lg:scale-100 origin-center -my-6 sm:-my-4 lg:my-0 opacity-80">
+            <div className="scale-[0.6] sm:scale-75 lg:scale-100 origin-center -my-6 sm:-my-4 lg:my-0 opacity-95">
               <ItalyWineMap size="lg" activeRegionSlugs={activeRegionSlugs} regionLabels={regionLabels} />
             </div>
           </AnimatedSection>
@@ -280,20 +285,22 @@ export default async function Home() {
       {/* =============================================
           STATS — Numbers bar
           ============================================= */}
-      <Section background="warm" spacing="xl" className="pt-24 sm:pt-32">
+      <Section background="warm" spacing="lg" className="pt-24 sm:pt-32">
         <AnimatedSection variant="fadeUp">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 text-center">
+          <div className="flex flex-wrap justify-center gap-y-10 sm:gap-y-12 text-center">
             {dynamicStats.map((stat, index) => (
               <div
                 key={stat.label}
                 className={cn(
-                  dynamicStats.length % 2 === 1 && index === dynamicStats.length - 1 && "col-span-2 sm:col-span-1"
+                  "w-1/2 min-[430px]:w-1/3 lg:w-1/5 px-3 sm:px-6",
+                  index > 0 && "lg:border-l lg:border-gold/15"
                 )}
               >
-                <p className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-wine leading-none mb-1.5 tabular-nums">
+                <p className="font-serif text-4xl sm:text-5xl font-bold text-wine leading-none tabular-nums">
                   <AnimatedCounter target={parseInt(stat.value) || 0} suffix={stat.suffix} prefix={stat.prefix} />
                 </p>
-                <p className="text-xs sm:text-sm text-grey font-medium">{stat.label}</p>
+                <div className="mx-auto mt-3 mb-2.5 h-px w-8 bg-gradient-to-r from-transparent via-gold/60 to-transparent" aria-hidden="true" />
+                <p className="text-[11px] sm:text-xs text-grey font-semibold uppercase tracking-[0.18em]">{stat.label}</p>
               </div>
             ))}
           </div>
