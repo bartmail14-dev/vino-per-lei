@@ -114,8 +114,18 @@ export default async function Home() {
       count: wineTypeCounts[type],
       label: wineTypeLabels[type],
       ...(wineTypeDecor[type] || { watermark: "", bg: "bg-dark-bg" }),
-      image: allProducts.find((p) => p.wineType === type && p.images[0])?.images[0],
+      images: allProducts
+        .filter((p) => p.wineType === type && p.images[0])
+        .slice(0, 3)
+        .map((p) => p.images[0]),
     }));
+
+  // Fanned bottle layout inside category tiles: front bottle largest, others peek out behind it
+  const bottleFan = [
+    "right-0 top-0 z-30 w-[58%] rotate-[3deg]",
+    "right-[30%] top-[12%] z-20 w-[48%] -rotate-[5deg]",
+    "right-[54%] top-[24%] z-10 w-[40%] rotate-[8deg]",
+  ];
 
   // JSON-LD: Organization schema
   const organizationJsonLd = {
@@ -252,7 +262,7 @@ export default async function Home() {
               <StaggerItem key={tile.type} className="h-full flex">
                 <Link
                   href={`/wijnen?type=${tile.type}`}
-                  className="group relative mt-8 flex min-h-[180px] flex-1 flex-col justify-end px-6 py-7 transition-transform duration-500 hover:-translate-y-1 sm:mt-10 sm:min-h-[220px] sm:py-9"
+                  className="group relative mt-14 flex min-h-[190px] flex-1 flex-col justify-end px-6 py-7 transition-transform duration-500 hover:-translate-y-1 sm:mt-20 sm:min-h-[240px] sm:py-9"
                 >
                   {/* Clipped panel layer: gradient, watermark, grain stay inside the rounded tile */}
                   <span
@@ -267,22 +277,33 @@ export default async function Home() {
                     </span>
                     <span className="pointer-events-none absolute inset-0 bg-grain opacity-[0.06]" />
                   </span>
-                  {/* Bottle pops playfully out of the tile */}
-                  {tile.image && (
+                  {/* Bottles fan playfully out of the tile */}
+                  {tile.images.length > 0 && (
                     <div
-                      className="pointer-events-none absolute -top-8 bottom-3 right-1 w-[44%] rotate-[2.5deg] transition-transform duration-700 group-hover:-translate-y-2 group-hover:rotate-[4deg] sm:-top-10"
+                      className="pointer-events-none absolute -top-14 bottom-2 right-0 w-[64%] transition-transform duration-700 group-hover:-translate-y-2 sm:-top-20"
                       aria-hidden="true"
                     >
-                      <Image
-                        src={wineImagePresets.card(tile.image.url)}
-                        alt=""
-                        fill
-                        sizes="220px"
-                        className="object-contain object-bottom drop-shadow-[0_24px_32px_rgba(0,0,0,0.45)]"
-                      />
+                      {tile.images.map((img, i) => (
+                        <div
+                          key={img.url}
+                          className={cn(
+                            "absolute bottom-0 transition-transform duration-700",
+                            bottleFan[i],
+                            i === 0 && "group-hover:rotate-[5deg]"
+                          )}
+                        >
+                          <Image
+                            src={wineImagePresets.card(img.url)}
+                            alt=""
+                            fill
+                            sizes="200px"
+                            className="object-contain object-bottom drop-shadow-[0_24px_32px_rgba(0,0,0,0.45)]"
+                          />
+                        </div>
+                      ))}
                     </div>
                   )}
-                  <div className="relative max-w-[60%]">
+                  <div className="relative max-w-[46%]">
                     <p className="font-serif text-2xl font-semibold text-white sm:text-3xl">{tile.label}</p>
                     <p className="mt-1 text-sm text-white/70">
                       {copy("home.categories.count", { count: tile.count })}

@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-07-23T13:15:59.747Z",
+  "generatedAt": "2026-07-23T14:39:11.947Z",
   "scannedFiles": 110,
-  "totalStrings": 225,
-  "highRiskStrings": 8,
+  "totalStrings": 228,
+  "highRiskStrings": 11,
   "byRisk": {
     "p2-ui-or-technical-copy": 180,
     "p2-checkout-ui": 22,
     "allowed-ui": 5,
-    "p1-homepage-content": 8,
+    "p1-homepage-content": 11,
     "p2-account-ui": 10
   },
   "fileSources": [
@@ -344,8 +344,8 @@
         "getUSPItems",
         "getUiCopy"
       ],
-      "stringCount": 10,
-      "highRiskCount": 8
+      "stringCount": 13,
+      "highRiskCount": 11
     },
     {
       "file": "src/app/privacy/page.tsx",
@@ -1959,7 +1959,34 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 324,
+        "line": 125,
+        "column": 5,
+        "type": "string",
+        "text": "right-0 top-0 z-30 w-[58%] rotate-[3deg]",
+        "risk": "p1-homepage-content",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 126,
+        "column": 5,
+        "type": "string",
+        "text": "right-[30%] top-[12%] z-20 w-[48%] -rotate-[5deg]",
+        "risk": "p1-homepage-content",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 127,
+        "column": 5,
+        "type": "string",
+        "text": "right-[54%] top-[24%] z-10 w-[40%] rotate-[8deg]",
+        "risk": "p1-homepage-content",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 364,
         "column": 19,
         "type": "jsxText",
         "text": "N°1",
@@ -1968,7 +1995,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 342,
+        "line": 382,
         "column": 65,
         "type": "jsxText",
         "text": "N°1",
@@ -1977,7 +2004,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 358,
+        "line": 398,
         "column": 21,
         "type": "jsxText",
         "text": "&euro;",
@@ -1986,7 +2013,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 394,
+        "line": 434,
         "column": 11,
         "type": "jsxText",
         "text": "Italia",
@@ -1995,7 +2022,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 471,
+        "line": 511,
         "column": 11,
         "type": "jsxText",
         "text": "La selezione",
@@ -2004,7 +2031,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 506,
+        "line": 546,
         "column": 11,
         "type": "jsxText",
         "text": "Salute",
