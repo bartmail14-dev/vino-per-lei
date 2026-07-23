@@ -532,7 +532,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
           {/* Products */}
           <div className="flex-1 min-w-0">
             {/* Search bar */}
-            <div className="relative mb-6 rounded-2xl border border-sand/70 bg-white p-2 shadow-[0_20px_64px_-46px_rgba(26,31,61,0.65)]">
+            <div className="relative mb-3 rounded-2xl border border-sand/70 bg-white p-2 shadow-[0_20px_64px_-46px_rgba(26,31,61,0.65)]">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gold" strokeWidth={1.5} />
               <input
                 type="text"
@@ -571,9 +571,8 @@ export function WijnenContent({ products }: { products: Product[] }) {
               </Button>
 
               {/* Results count */}
-              <p className="flex items-center gap-2 rounded-full bg-cream/80 px-3 py-2 text-sm text-grey ring-1 ring-sand/60">
-                <span className="font-serif font-semibold text-gold text-base leading-none">{filteredProducts.length}</span>
-                <span className="text-grey/40">|</span>
+              <p className="flex items-baseline gap-1.5 rounded-full bg-cream/80 px-3.5 py-2 text-sm text-grey ring-1 ring-sand/60">
+                <span className="font-serif font-semibold text-wine text-base leading-none">{filteredProducts.length}</span>
                 <span>{t("collection.results.wines")}</span>
               </p>
 
@@ -608,13 +607,15 @@ export function WijnenContent({ products }: { products: Product[] }) {
                   </button>
                 </div>
 
-                {/* Sort */}
-                <Select
-                  options={translatedSortOptions}
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="h-12 w-full rounded-xl border-sand/80 bg-white min-[430px]:w-40 sm:w-48 shadow-sm"
-                />
+                {/* Sort — width lives on the wrapper so the chevron stays inside the field */}
+                <div className="w-full min-[430px]:w-40 sm:w-48">
+                  <Select
+                    options={translatedSortOptions}
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="h-12 w-full rounded-xl border-sand/80 bg-white shadow-sm"
+                  />
+                </div>
               </div>
             </div>
 
@@ -632,7 +633,7 @@ export function WijnenContent({ products }: { products: Product[] }) {
                 className={cn(
                   "grid",
                   viewMode === "grid"
-                    ? "grid-cols-1 gap-6 min-[430px]:grid-cols-2 sm:gap-7 lg:grid-cols-3 xl:grid-cols-4"
+                    ? "grid-cols-1 gap-6 min-[430px]:grid-cols-2 sm:gap-7 lg:grid-cols-2 xl:grid-cols-3"
                     : "grid-cols-1 gap-6"
                 )}
               >

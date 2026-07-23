@@ -256,6 +256,9 @@ export function OverlapTransition({
 
   if (!quote?.trim()) return null;
 
+  // House style: no spaced dashes in customer-facing copy
+  const displayQuote = quote.replace(/\s+[–—-]\s+/g, ", ");
+
   return (
     <div className="relative z-10 -mt-14 sm:-mt-20 mb-0 pointer-events-none">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pointer-events-auto">
@@ -275,13 +278,19 @@ export function OverlapTransition({
           </div>
 
           <p className="relative font-serif text-lg sm:text-xl lg:text-2xl text-charcoal leading-relaxed italic max-w-2xl mx-auto mb-4">
-            {quote}
+            {displayQuote}
           </p>
-          {attribution?.trim() && (
+          {attribution?.trim() ? (
             <div className="flex items-center justify-center gap-3">
               <div className="h-px w-8 bg-gold/40" />
               <p className="text-sm font-medium text-wine/70 tracking-wide">{attribution}</p>
               <div className="h-px w-8 bg-gold/40" />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-3" aria-hidden="true">
+              <div className="h-px w-10 bg-gradient-to-r from-transparent to-gold/40" />
+              <div className="w-1.5 h-1.5 rounded-full bg-gold/50" />
+              <div className="h-px w-10 bg-gradient-to-l from-transparent to-gold/40" />
             </div>
           )}
         </motion.div>

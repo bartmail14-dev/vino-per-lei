@@ -1,12 +1,13 @@
 {
-  "generatedAt": "2026-06-03T14:21:27.030Z",
+  "generatedAt": "2026-07-23T14:53:00.211Z",
   "scannedFiles": 110,
-  "totalStrings": 215,
-  "highRiskStrings": 0,
+  "totalStrings": 228,
+  "highRiskStrings": 11,
   "byRisk": {
     "p2-ui-or-technical-copy": 180,
     "p2-checkout-ui": 22,
-    "allowed-ui": 3,
+    "allowed-ui": 5,
+    "p1-homepage-content": 11,
     "p2-account-ui": 10
   },
   "fileSources": [
@@ -343,8 +344,8 @@
         "getUSPItems",
         "getUiCopy"
       ],
-      "stringCount": 0,
-      "highRiskCount": 0
+      "stringCount": 13,
+      "highRiskCount": 11
     },
     {
       "file": "src/app/privacy/page.tsx",
@@ -380,8 +381,7 @@
       "file": "src/app/wijnen/page.tsx",
       "sourceUsage": [
         "getProducts",
-        "getUiCopy",
-        "fallback"
+        "getUiCopy"
       ],
       "stringCount": 0,
       "highRiskCount": 0
@@ -1920,6 +1920,125 @@
         "context": ""
       }
     ],
+    "src/app/page.tsx": [
+      {
+        "file": "src/app/page.tsx",
+        "line": 105,
+        "column": 23,
+        "type": "string",
+        "text": "Rosso",
+        "risk": "allowed-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 106,
+        "column": 25,
+        "type": "string",
+        "text": "Bianco",
+        "risk": "p1-homepage-content",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 107,
+        "column": 24,
+        "type": "string",
+        "text": "Rosato",
+        "risk": "allowed-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 108,
+        "column": 29,
+        "type": "string",
+        "text": "Spumante",
+        "risk": "p1-homepage-content",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 136,
+        "column": 5,
+        "type": "string",
+        "text": "right-0 top-0 z-30 w-[76%] rotate-[3deg]",
+        "risk": "p1-homepage-content",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 137,
+        "column": 5,
+        "type": "string",
+        "text": "right-[26%] top-[9%] z-20 w-[64%] -rotate-[5deg]",
+        "risk": "p1-homepage-content",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 138,
+        "column": 5,
+        "type": "string",
+        "text": "right-[48%] top-[20%] z-10 w-[54%] rotate-[8deg]",
+        "risk": "p1-homepage-content",
+        "context": "ArrayLiteralExpression"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 375,
+        "column": 19,
+        "type": "jsxText",
+        "text": "N°1",
+        "risk": "p1-homepage-content",
+        "context": ""
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 393,
+        "column": 65,
+        "type": "jsxText",
+        "text": "N°1",
+        "risk": "p1-homepage-content",
+        "context": ""
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 409,
+        "column": 21,
+        "type": "jsxText",
+        "text": "&euro;",
+        "risk": "p1-homepage-content",
+        "context": ""
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 445,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Italia",
+        "risk": "p1-homepage-content",
+        "context": ""
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 522,
+        "column": 11,
+        "type": "jsxText",
+        "text": "La selezione",
+        "risk": "p1-homepage-content",
+        "context": ""
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 557,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Salute",
+        "risk": "p1-homepage-content",
+        "context": ""
+      }
+    ],
     "src/app/robots.ts": [
       {
         "file": "src/app/robots.ts",
@@ -2095,7 +2214,7 @@
     "src/components/home/HomeAnimations.tsx": [
       {
         "file": "src/components/home/HomeAnimations.tsx",
-        "line": 333,
+        "line": 342,
         "column": 92,
         "type": "jsxText",
         "text": "Scroll",
@@ -2104,7 +2223,7 @@
       },
       {
         "file": "src/components/home/HomeAnimations.tsx",
-        "line": 348,
+        "line": 357,
         "column": 90,
         "type": "jsxText",
         "text": "Scroll",
