@@ -114,17 +114,27 @@ export default async function Home() {
       count: wineTypeCounts[type],
       label: wineTypeLabels[type],
       ...(wineTypeDecor[type] || { watermark: "", bg: "bg-dark-bg" }),
-      images: allProducts
-        .filter((p) => p.wineType === type && p.images[0])
-        .slice(0, 3)
-        .map((p) => p.images[0]),
+      images: (() => {
+        // Dedupe on image url so two products sharing one photo never show twice
+        const seen = new Set<string>();
+        const unique = [];
+        for (const p of allProducts) {
+          if (p.wineType !== type || !p.images[0]) continue;
+          const key = p.images[0].url.split("?")[0];
+          if (seen.has(key)) continue;
+          seen.add(key);
+          unique.push(p.images[0]);
+          if (unique.length === 3) break;
+        }
+        return unique;
+      })(),
     }));
 
   // Fanned bottle layout inside category tiles: front bottle largest, others peek out behind it
   const bottleFan = [
-    "right-0 top-0 z-30 w-[58%] rotate-[3deg]",
-    "right-[30%] top-[12%] z-20 w-[48%] -rotate-[5deg]",
-    "right-[54%] top-[24%] z-10 w-[40%] rotate-[8deg]",
+    "right-0 top-0 z-30 w-[72%] rotate-[3deg]",
+    "right-[36%] top-[10%] z-20 w-[60%] -rotate-[5deg]",
+    "right-[62%] top-[22%] z-10 w-[50%] rotate-[8deg]",
   ];
 
   // JSON-LD: Organization schema
@@ -262,7 +272,7 @@ export default async function Home() {
               <StaggerItem key={tile.type} className="h-full flex">
                 <Link
                   href={`/wijnen?type=${tile.type}`}
-                  className="group relative mt-14 flex min-h-[190px] flex-1 flex-col justify-end px-6 py-7 transition-transform duration-500 hover:-translate-y-1 sm:mt-20 sm:min-h-[240px] sm:py-9"
+                  className="group relative mt-16 flex min-h-[210px] flex-1 flex-col justify-end px-6 py-7 transition-transform duration-500 hover:-translate-y-1 sm:mt-24 sm:min-h-[270px] sm:py-9"
                 >
                   {/* Clipped panel layer: gradient, watermark, grain stay inside the rounded tile */}
                   <span
@@ -280,7 +290,7 @@ export default async function Home() {
                   {/* Bottles fan playfully out of the tile */}
                   {tile.images.length > 0 && (
                     <div
-                      className="pointer-events-none absolute -top-14 bottom-2 right-0 w-[64%] transition-transform duration-700 group-hover:-translate-y-2 sm:-top-20"
+                      className="pointer-events-none absolute -top-16 bottom-2 right-0 w-[74%] transition-transform duration-700 group-hover:-translate-y-2 sm:-top-24"
                       aria-hidden="true"
                     >
                       {tile.images.map((img, i) => (
