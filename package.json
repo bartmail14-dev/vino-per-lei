@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "npm run content:audit:guard",
+    "prebuild": "npm run content:audit:guard && npm run shopify:metafields:guard",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
@@ -12,6 +12,7 @@
     "content:audit:strict": "node scripts/audit-content-source.mjs --strict",
     "content:audit:guard": "node scripts/audit-content-source.mjs --guard",
     "content:audit:update-baseline": "node scripts/audit-content-source.mjs --write-baseline",
+    "shopify:metafields:guard": "node scripts/guard-metafields.mjs",
     "shopify:source-flow:test": "node scripts/validate-shopify-source-flow.mjs",
     "shopify:ui-copy:setup": "node scripts/setup-ui-copy.mjs",
     "email:test": "tsx scripts/send-email-previews.ts",
