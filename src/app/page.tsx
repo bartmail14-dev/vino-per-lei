@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Section } from "@/components/layout";
+import { NewsletterForm } from "@/components/newsletter/NewsletterForm";
 import { ProductCard } from "@/components/product";
 import { getProducts } from "@/lib/shopify";
 import { formatUiCopy } from "@/lib/ui-copy";
@@ -98,6 +99,22 @@ export default async function Home() {
     { value: String(activeRegionSlugs.length), prefix: "", suffix: "", label: copy("home.stats.wine_regions") },
     ...wineTypeStats,
   ];
+
+  // Category tiles — Italian type names are decorative watermarks, labels come from CMS
+  const wineTypeDecor: Record<string, { watermark: string; bg: string }> = {
+    red: { watermark: "Rosso", bg: "bg-[linear-gradient(135deg,#571b2c_0%,#7d2740_55%,#3f1420_100%)]" },
+    white: { watermark: "Bianco", bg: "bg-[linear-gradient(135deg,#8a6d1f_0%,#c9a227_55%,#6f5719_100%)]" },
+    rose: { watermark: "Rosato", bg: "bg-[linear-gradient(135deg,#a4494f_0%,#d9767c_55%,#7e3439_100%)]" },
+    sparkling: { watermark: "Spumante", bg: "bg-[linear-gradient(135deg,#8c7a45_0%,#cbb878_55%,#6b5c33_100%)]" },
+  };
+  const categoryTiles = Object.keys(wineTypeLabels)
+    .filter((type) => (wineTypeCounts[type] || 0) > 0)
+    .map((type) => ({
+      type,
+      count: wineTypeCounts[type],
+      label: wineTypeLabels[type],
+      ...(wineTypeDecor[type] || { watermark: "", bg: "bg-dark-bg" }),
+    }));
 
   // JSON-LD: Organization schema
   const organizationJsonLd = {
@@ -208,6 +225,62 @@ export default async function Home() {
       </Section>
 
       {/* =============================================
+          CATEGORY TILES — Shop by wine style
+          ============================================= */}
+      {categoryTiles.length > 1 && (
+        <Section background="default" spacing="lg">
+          <AnimatedSection variant="fadeUp">
+            <div className="mb-8 text-center sm:mb-10">
+              <p className="text-label text-wine/45 mb-3">
+                <span className="mr-2 font-serif text-base italic text-gold/80">01</span>
+                {copy("home.categories.eyebrow")}
+              </p>
+              <h2 className="font-serif text-3xl font-semibold leading-[1.05] sm:text-4xl lg:text-5xl">
+                {copy("home.categories.title")}
+              </h2>
+            </div>
+          </AnimatedSection>
+          <AnimatedStagger
+            className={cn(
+              "grid grid-cols-1 gap-4 min-[430px]:grid-cols-2 sm:gap-5",
+              categoryTiles.length >= 4 ? "lg:grid-cols-4" : "lg:grid-cols-3"
+            )}
+            staggerDelay={0.1}
+          >
+            {categoryTiles.map((tile) => (
+              <StaggerItem key={tile.type} className="h-full flex">
+                <Link
+                  href={`/wijnen?type=${tile.type}`}
+                  className={cn(
+                    "group relative flex min-h-[180px] flex-1 flex-col justify-end overflow-hidden rounded-[1.5rem] px-6 py-7 shadow-[0_24px_60px_-40px_rgba(26,31,61,0.7)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[0_32px_70px_-36px_rgba(26,31,61,0.65)] sm:min-h-[220px] sm:py-9",
+                    tile.bg
+                  )}
+                >
+                  <span
+                    className="pointer-events-none absolute -right-2 -top-5 select-none font-serif italic text-[5rem] leading-none text-white/[0.08] transition-transform duration-700 group-hover:scale-105 sm:text-[6.5rem]"
+                    aria-hidden="true"
+                  >
+                    {tile.watermark}
+                  </span>
+                  <span className="pointer-events-none absolute inset-0 bg-grain opacity-[0.06]" aria-hidden="true" />
+                  <div className="relative">
+                    <p className="font-serif text-2xl font-semibold text-white sm:text-3xl">{tile.label}</p>
+                    <p className="mt-1 text-sm text-white/70">
+                      {copy("home.categories.count", { count: tile.count })}
+                    </p>
+                    <span className="mt-4 inline-flex items-center gap-2 text-gold" aria-hidden="true">
+                      <span className="h-px w-7 bg-gold/60 transition-all duration-300 group-hover:w-10" />
+                      <ChevronRightIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
+                  </div>
+                </Link>
+              </StaggerItem>
+            ))}
+          </AnimatedStagger>
+        </Section>
+      )}
+
+      {/* =============================================
           FEATURED PRODUCTS — The star section
           ============================================= */}
       <Section background="default" spacing="xl" className="relative overflow-hidden">
@@ -216,7 +289,7 @@ export default async function Home() {
           <div className="relative flex items-start sm:items-end justify-between gap-4 mb-8 sm:mb-12">
             <div className="min-w-0">
               <p className="text-label text-wine/45 mb-3">
-                <span className="mr-2 font-serif text-base italic text-gold/80">01</span>
+                <span className="mr-2 font-serif text-base italic text-gold/80">02</span>
                 {copy("home.featured.eyebrow")}
               </p>
               <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-semibold leading-[1.05]">
@@ -323,7 +396,7 @@ export default async function Home() {
         <div className="grid lg:grid-cols-2 gap-10 sm:gap-16 items-center">
           <AnimatedSection variant="fadeLeft" className="order-2 lg:order-1">
             <p className="text-label text-gold/60 mb-3">
-              <span className="mr-2 font-serif text-base italic text-gold/80">02</span>
+              <span className="mr-2 font-serif text-base italic text-gold/80">03</span>
               {activeRegionSlugs.length === 1
                 ? copy("home.regions.count_singular")
                 : copy("home.regions.count_plural", { count: activeRegionSlugs.length })}
@@ -387,7 +460,63 @@ export default async function Home() {
         </AnimatedSection>
       </Section>
 
+      {/* =============================================
+          STORY — Personal curation as trust anchor
+          ============================================= */}
+      <Section background="cream" spacing="xl" className="relative overflow-hidden">
+        <span
+          className="pointer-events-none absolute -left-6 top-1/2 -translate-y-1/2 select-none font-serif italic leading-none text-wine/[0.04] text-[7rem] sm:text-[11rem]"
+          aria-hidden="true"
+        >
+          La selezione
+        </span>
+        <AnimatedSection variant="fadeUp">
+          <div className="relative mx-auto max-w-3xl text-center">
+            <p className="text-label text-wine/45 mb-3">
+              <span className="mr-2 font-serif text-base italic text-gold/80">04</span>
+              {copy("home.story.eyebrow")}
+            </p>
+            <h2 className="font-serif text-3xl font-semibold leading-[1.08] sm:text-4xl lg:text-5xl">
+              {copy("home.story.title")}
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-grey sm:text-base">
+              {copy("home.story.body")}
+            </p>
+            <div className="mt-8">
+              <Link
+                href="/over-ons"
+                className="group inline-flex h-13 items-center justify-center rounded-full bg-wine px-10 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-wine/20 transition-all duration-300 hover:bg-wine-dark hover:shadow-xl sm:h-14 sm:text-sm"
+              >
+                {copy("home.story.cta")}
+                <ChevronRightIcon className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </div>
+        </AnimatedSection>
+      </Section>
 
+      {/* =============================================
+          NEWSLETTER — Dark closing band
+          ============================================= */}
+      <Section background="dark" spacing="lg" className="relative overflow-hidden">
+        <span
+          className="pointer-events-none absolute -bottom-4 -right-2 select-none font-serif italic leading-none text-white/[0.04] text-[6rem] sm:text-[9rem]"
+          aria-hidden="true"
+        >
+          Salute
+        </span>
+        <AnimatedSection variant="fadeUp">
+          <div className="relative mx-auto max-w-2xl text-center">
+            <p className="text-label text-gold/70 mb-3">{copy("home.newsletter.eyebrow")}</p>
+            <h2 className="font-serif text-2xl font-semibold leading-tight text-white sm:text-3xl lg:text-4xl">
+              {copy("home.newsletter.title")}
+            </h2>
+            <div className="mt-8">
+              <NewsletterForm variant="dark" layout="inline" socialProof className="mx-auto max-w-lg" />
+            </div>
+          </div>
+        </AnimatedSection>
+      </Section>
     </>
   );
 }

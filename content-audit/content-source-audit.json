@@ -1,13 +1,13 @@
 {
-  "generatedAt": "2026-07-23T12:55:47.808Z",
+  "generatedAt": "2026-07-23T13:15:59.747Z",
   "scannedFiles": 110,
-  "totalStrings": 219,
-  "highRiskStrings": 4,
+  "totalStrings": 225,
+  "highRiskStrings": 8,
   "byRisk": {
     "p2-ui-or-technical-copy": 180,
     "p2-checkout-ui": 22,
-    "allowed-ui": 3,
-    "p1-homepage-content": 4,
+    "allowed-ui": 5,
+    "p1-homepage-content": 8,
     "p2-account-ui": 10
   },
   "fileSources": [
@@ -344,8 +344,8 @@
         "getUSPItems",
         "getUiCopy"
       ],
-      "stringCount": 4,
-      "highRiskCount": 4
+      "stringCount": 10,
+      "highRiskCount": 8
     },
     {
       "file": "src/app/privacy/page.tsx",
@@ -1923,7 +1923,43 @@
     "src/app/page.tsx": [
       {
         "file": "src/app/page.tsx",
-        "line": 251,
+        "line": 105,
+        "column": 23,
+        "type": "string",
+        "text": "Rosso",
+        "risk": "allowed-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 106,
+        "column": 25,
+        "type": "string",
+        "text": "Bianco",
+        "risk": "p1-homepage-content",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 107,
+        "column": 24,
+        "type": "string",
+        "text": "Rosato",
+        "risk": "allowed-ui",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 108,
+        "column": 29,
+        "type": "string",
+        "text": "Spumante",
+        "risk": "p1-homepage-content",
+        "context": "PropertyAssignment"
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 324,
         "column": 19,
         "type": "jsxText",
         "text": "N°1",
@@ -1932,7 +1968,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 269,
+        "line": 342,
         "column": 65,
         "type": "jsxText",
         "text": "N°1",
@@ -1941,7 +1977,7 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 285,
+        "line": 358,
         "column": 21,
         "type": "jsxText",
         "text": "&euro;",
@@ -1950,10 +1986,28 @@
       },
       {
         "file": "src/app/page.tsx",
-        "line": 321,
+        "line": 394,
         "column": 11,
         "type": "jsxText",
         "text": "Italia",
+        "risk": "p1-homepage-content",
+        "context": ""
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 471,
+        "column": 11,
+        "type": "jsxText",
+        "text": "La selezione",
+        "risk": "p1-homepage-content",
+        "context": ""
+      },
+      {
+        "file": "src/app/page.tsx",
+        "line": 506,
+        "column": 11,
+        "type": "jsxText",
+        "text": "Salute",
         "risk": "p1-homepage-content",
         "context": ""
       }
