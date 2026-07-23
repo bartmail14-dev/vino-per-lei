@@ -269,8 +269,16 @@ export default async function Home() {
             )}
             staggerDelay={0.1}
           >
-            {categoryTiles.map((tile) => (
-              <StaggerItem key={tile.type} className="h-full flex">
+            {categoryTiles.map((tile, tileIndex) => (
+              <StaggerItem
+                key={tile.type}
+                className={cn(
+                  "h-full flex",
+                  categoryTiles.length % 2 === 1 &&
+                    tileIndex === categoryTiles.length - 1 &&
+                    "min-[430px]:col-span-2 lg:col-span-1"
+                )}
+              >
                 <Link
                   href={`/wijnen?type=${tile.type}`}
                   className="group relative mt-16 flex min-h-[210px] flex-1 flex-col justify-end px-6 py-7 transition-transform duration-500 hover:-translate-y-1 sm:mt-24 sm:min-h-[270px] sm:py-9"
@@ -365,7 +373,7 @@ export default async function Home() {
           <AnimatedSection variant="fadeUp">
             <Link
               href={`/wijnen/${spotlight.handle}`}
-              className="group relative mb-8 grid overflow-hidden rounded-[1.75rem] border border-sand/70 bg-white shadow-[0_30px_80px_-48px_rgba(26,31,61,0.55)] transition-shadow duration-500 hover:shadow-[0_36px_90px_-40px_rgba(26,31,61,0.5)] sm:mb-10 sm:grid-cols-[5fr_7fr]"
+              className="group relative mb-8 grid overflow-hidden rounded-[1.75rem] border border-sand/70 bg-white shadow-[0_30px_80px_-48px_rgba(26,31,61,0.55)] transition-shadow duration-500 hover:shadow-[0_36px_90px_-40px_rgba(26,31,61,0.5)] sm:mb-10 md:grid-cols-[5fr_7fr]"
             >
               <div className="relative flex items-center justify-center overflow-hidden bg-dark-bg px-8 py-12 sm:py-16">
                 <span
