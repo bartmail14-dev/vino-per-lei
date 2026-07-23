@@ -223,20 +223,25 @@ export default async function Home() {
       <Section background="warm" spacing="none" className="border-b border-sand/50">
         <AnimatedUSPBar>
           <div className="max-w-6xl mx-auto">
-            <div className={`grid grid-cols-1 divide-y divide-sand/50 sm:divide-y-0 sm:divide-x ${uspItems.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0"}`}>
+            <div className={`grid grid-cols-1 divide-y divide-gold/15 sm:divide-y-0 sm:divide-x sm:divide-gold/20 ${uspItems.length === 3 ? "sm:grid-cols-3" : "sm:grid-cols-2 lg:grid-cols-4 lg:divide-y-0"}`}>
               {uspItems.map((usp) => {
                 const IconComp = uspIconMap[usp.iconName] || TruckIcon;
                 return (
                   <div
                     key={usp.title}
-                    className="flex items-center gap-4 px-4 py-5 sm:justify-center sm:px-6 sm:py-8"
+                    className="group flex items-center gap-4 px-4 py-5 sm:flex-col sm:gap-0 sm:px-6 sm:py-10 sm:text-center"
                   >
-                    <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-gold/35 bg-champagne/40">
-                      <IconComp className="h-5 w-5 text-wine" />
+                    <div className="relative flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full border border-gold/40 bg-champagne/50 shadow-[inset_0_1px_4px_rgba(201,162,39,0.12)] transition-colors duration-500 group-hover:border-gold/70 sm:h-14 sm:w-14">
+                      <span className="absolute inset-1 rounded-full border border-gold/20" aria-hidden="true" />
+                      <IconComp className="h-5 w-5 text-wine transition-transform duration-500 group-hover:-translate-y-0.5 sm:h-6 sm:w-6" />
                     </div>
-                    <div className="min-w-0">
-                      <p className="font-serif text-base font-semibold leading-tight text-charcoal">{usp.title}</p>
-                      <p className="mt-1 text-sm leading-snug text-grey">{usp.subtitle}</p>
+                    <span
+                      className="hidden h-px w-8 bg-gold/50 transition-all duration-500 group-hover:w-12 sm:mt-5 sm:block"
+                      aria-hidden="true"
+                    />
+                    <div className="min-w-0 sm:mt-4">
+                      <p className="font-serif text-base font-semibold leading-tight text-charcoal sm:text-lg">{usp.title}</p>
+                      <p className="mt-1 text-sm italic leading-snug text-grey">{usp.subtitle}</p>
                     </div>
                   </div>
                 );

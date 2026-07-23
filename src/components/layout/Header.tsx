@@ -408,13 +408,19 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
               exit={{ x: "-100%" }}
               transition={{ type: "spring", damping: 28, stiffness: 260 }}
               id="mobile-navigation"
-              className="fixed inset-y-0 left-0 z-50 w-full max-w-[430px] overflow-y-auto bg-cream shadow-2xl lg:hidden"
+              className="fixed inset-y-0 left-0 z-50 w-full max-w-[430px] overflow-y-auto bg-wine bg-[linear-gradient(165deg,#1a1f3d_0%,#252b4d_45%,#12152b_100%)] shadow-2xl lg:hidden"
               role="dialog"
               aria-modal="true"
               aria-label={t("header.menu.dialog_label")}
             >
-              <div className="relative overflow-hidden bg-wine text-white">
-                <div className="absolute inset-x-0 bottom-0 h-px bg-gold/70" />
+              <span
+                className="pointer-events-none absolute -right-4 top-20 select-none font-serif text-[6.5rem] italic leading-none text-white/[0.05]"
+                aria-hidden="true"
+              >
+                {companyName ? companyName.split(" ")[0] : ""}
+              </span>
+              <div className="relative text-white">
+                <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-gold/70 to-transparent" />
                 <motion.div
                   className="px-5 pb-5 pt-5"
                   initial={{ opacity: 0, y: -8 }}
@@ -428,7 +434,7 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                     </Link>
                     <button
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="flex h-11 w-11 items-center justify-center rounded-md border border-white/15 bg-white/10 text-white transition-colors hover:bg-white/20"
+                      className="flex h-11 w-11 items-center justify-center rounded-full border border-gold/40 bg-white/5 text-white transition-colors hover:border-gold/70 hover:bg-white/10"
                       aria-label={t("header.menu.close")}
                     >
                       <CloseIcon className="h-5 w-5" />
@@ -470,17 +476,17 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                             href={toRelativeUrl(item.url)}
                             onClick={() => setIsMobileMenuOpen(false)}
                             className={cn(
-                              "group block min-h-[88px] rounded-md border border-sand bg-white p-3 shadow-sm transition-all duration-300 hover:border-gold/60 hover:bg-warm-white hover:shadow-[0_16px_34px_-28px_rgba(26,31,61,0.5)]",
+                              "group block min-h-[88px] rounded-md border border-white/10 bg-white/[0.06] p-3 transition-all duration-300 hover:border-gold/50 hover:bg-white/10",
                               isFullWidth && "flex min-h-[64px] items-center gap-3"
                             )}
                           >
                             <span className={cn(
-                              "flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-wine/10 text-wine transition-all duration-300 group-hover:bg-wine group-hover:text-white group-hover:shadow-sm",
+                              "flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-gold/35 bg-gold/10 text-gold transition-all duration-300 group-hover:border-gold/60 group-hover:bg-gold/20",
                               !isFullWidth && "mb-3"
                             )}>
                               <Icon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                             </span>
-                            <span className="line-clamp-2 text-[14px] font-semibold leading-snug text-charcoal">{label}</span>
+                            <span className="line-clamp-2 font-serif text-[15px] font-semibold leading-snug text-cream">{label}</span>
                           </Link>
                         </motion.div>
                       );
@@ -489,8 +495,8 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                 )}
 
                 {showMobileNavigationList && (
-                  <div className="rounded-md border border-sand bg-white shadow-sm">
-                    <ul className="divide-y divide-sand/80">
+                  <div className="rounded-md border border-white/10 bg-white/[0.04]">
+                    <ul className="divide-y divide-white/10">
                       {visibleMenu.map((item, index) => {
                         const label = getMenuItemLabel(item, t);
                         const expanded = mobileSubmenu === item.title;
@@ -506,13 +512,13 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                                 <button
                                   onClick={() => setMobileSubmenu(expanded ? null : item.title)}
                                   className={cn(
-                                    "flex min-h-[58px] w-full items-center justify-between gap-3 px-4 py-3 text-left text-[17px] font-semibold leading-tight transition-colors",
-                                    expanded ? "bg-warm-white text-wine" : "text-charcoal hover:bg-warm-white hover:text-wine"
+                                    "flex min-h-[58px] w-full items-center justify-between gap-3 px-4 py-3 text-left font-serif text-lg font-semibold leading-tight transition-colors",
+                                    expanded ? "bg-white/[0.06] text-gold" : "text-cream hover:bg-white/[0.06] hover:text-gold"
                                   )}
                                   aria-expanded={expanded}
                                 >
                                   <span>{label}</span>
-                                  <motion.span animate={{ rotate: expanded ? 90 : 0 }} transition={{ duration: 0.18 }} className="flex h-8 w-8 items-center justify-center rounded-md bg-cream text-wine">
+                                  <motion.span animate={{ rotate: expanded ? 90 : 0 }} transition={{ duration: 0.18 }} className="flex h-8 w-8 items-center justify-center rounded-full border border-gold/30 bg-white/5 text-gold">
                                     <ChevronRightIcon className="h-4 w-4" />
                                   </motion.span>
                                 </button>
@@ -523,27 +529,27 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                                       animate={{ height: "auto", opacity: 1 }}
                                       exit={{ height: 0, opacity: 0 }}
                                       transition={{ duration: 0.24, ease: "easeOut" }}
-                                      className="overflow-hidden bg-cream/70"
+                                      className="overflow-hidden bg-black/20"
                                     >
                                       <div className="space-y-2 px-4 pb-4 pt-3">
                                         {item.items.map((child) => (
-                                          <div key={`${child.title}-${child.url}`} className="rounded-md border border-sand/75 bg-white">
+                                          <div key={`${child.title}-${child.url}`} className="rounded-md border border-white/10 bg-white/[0.05]">
                                             <Link
                                               href={toRelativeUrl(child.url)}
                                               onClick={() => setIsMobileMenuOpen(false)}
-                                              className="flex min-h-[48px] items-center justify-between gap-3 px-3 py-2.5 text-[15px] font-semibold leading-snug text-charcoal transition-colors hover:text-wine"
+                                              className="flex min-h-[48px] items-center justify-between gap-3 px-3 py-2.5 text-[15px] font-semibold leading-snug text-cream transition-colors hover:text-gold"
                                             >
                                               <span>{child.title}</span>
                                               <ChevronRightIcon className="h-3.5 w-3.5 flex-none text-gold" />
                                             </Link>
                                             {child.items?.length > 0 && (
-                                              <ul className="border-t border-sand/70 px-3 py-2">
+                                              <ul className="border-t border-white/10 px-3 py-2">
                                                 {child.items.map((grandChild) => (
                                                   <li key={`${grandChild.title}-${grandChild.url}`}>
                                                     <Link
                                                       href={toRelativeUrl(grandChild.url)}
                                                       onClick={() => setIsMobileMenuOpen(false)}
-                                                      className="block rounded-sm px-2 py-2 text-[14px] leading-snug text-grey transition-colors hover:bg-warm-white hover:text-wine"
+                                                      className="block rounded-sm px-2 py-2 text-[14px] leading-snug text-white/65 transition-colors hover:bg-white/[0.06] hover:text-gold"
                                                     >
                                                       {grandChild.title}
                                                     </Link>
@@ -562,7 +568,7 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                               <Link
                                 href={toRelativeUrl(item.url)}
                                 onClick={() => setIsMobileMenuOpen(false)}
-                                className="flex min-h-[58px] items-center justify-between gap-3 px-4 py-3 text-[17px] font-semibold leading-tight text-charcoal transition-colors hover:bg-warm-white hover:text-wine"
+                                className="flex min-h-[58px] items-center justify-between gap-3 px-4 py-3 font-serif text-lg font-semibold leading-tight text-cream transition-colors hover:bg-white/[0.06] hover:text-gold"
                               >
                                 <span>{label}</span>
                                 <ChevronRightIcon className="h-4 w-4 text-gold" />
@@ -578,16 +584,16 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                 <motion.div
                   {...mobileMenuItemMotion}
                   transition={{ ...mobileMenuItemMotion.transition, delay: 0.18 + mobileFeaturedLinks.length * 0.045 }}
-                  className="mt-4 rounded-md border border-sand bg-white p-3 shadow-sm"
+                  className="mt-4 rounded-md border border-white/10 bg-white/[0.05] p-3"
                 >
                   {isAuthenticated ? (
                     <a
                       href="/account"
                       onClick={() => setIsMobileMenuOpen(false)}
-                      className="group flex min-h-[50px] items-center gap-3 rounded-md px-2 text-[15px] font-semibold text-wine transition-colors hover:bg-warm-white"
+                      className="group flex min-h-[50px] items-center gap-3 rounded-md px-2 text-[15px] font-semibold text-cream transition-colors hover:bg-white/[0.06]"
                     >
-                      <span className="flex h-9 w-9 items-center justify-center rounded-md bg-wine/10 transition-transform duration-300 group-hover:scale-105">
-                        <UserIcon className="h-4 w-4 text-wine transition-transform duration-300 group-hover:scale-110" />
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/35 bg-gold/10 transition-transform duration-300 group-hover:scale-105">
+                        <UserIcon className="h-4 w-4 text-gold transition-transform duration-300 group-hover:scale-110" />
                       </span>
                       {t("header.account.label")}
                     </a>
@@ -597,10 +603,10 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                         setIsMobileMenuOpen(false);
                         openLoginModal();
                       }}
-                      className="group flex min-h-[50px] w-full items-center gap-3 rounded-md px-2 text-left text-[15px] font-semibold text-wine transition-colors hover:bg-warm-white"
+                      className="group flex min-h-[50px] w-full items-center gap-3 rounded-md px-2 text-left text-[15px] font-semibold text-cream transition-colors hover:bg-white/[0.06]"
                     >
-                      <span className="flex h-9 w-9 items-center justify-center rounded-md bg-wine/10 transition-transform duration-300 group-hover:scale-105">
-                        <UserIcon className="h-4 w-4 text-wine transition-transform duration-300 group-hover:scale-110" />
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/35 bg-gold/10 transition-transform duration-300 group-hover:scale-105">
+                        <UserIcon className="h-4 w-4 text-gold transition-transform duration-300 group-hover:scale-110" />
                       </span>
                       {t("header.auth.mobile_label")}
                     </button>
@@ -609,9 +615,9 @@ export function Header({ announcement, contactEmail, companyName, mainMenu = [] 
                   {contactEmail && (
                     <a
                       href={`mailto:${contactEmail}`}
-                      className="group mt-2 flex min-h-[50px] items-center gap-3 rounded-md border-t border-sand px-2 pt-2 text-[15px] font-semibold text-charcoal transition-colors hover:bg-warm-white hover:text-wine"
+                      className="group mt-2 flex min-h-[50px] items-center gap-3 rounded-md border-t border-white/10 px-2 pt-2 text-[15px] font-semibold text-cream transition-colors hover:bg-white/[0.06] hover:text-gold"
                     >
-                      <span className="flex h-9 w-9 items-center justify-center rounded-md bg-champagne/55 text-wine transition-transform duration-300 group-hover:scale-105">
+                      <span className="flex h-9 w-9 items-center justify-center rounded-full border border-gold/35 bg-gold/10 text-gold transition-transform duration-300 group-hover:scale-105">
                         <MailIcon className="h-4 w-4 transition-transform duration-300 group-hover:scale-110" />
                       </span>
                       <span className="min-w-0 truncate">{contactEmail}</span>
