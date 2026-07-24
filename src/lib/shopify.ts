@@ -135,10 +135,11 @@ function parseTextList(value: string | null | undefined): string[] | undefined {
 
 function normalizeWineType(raw: string): Product['wineType'] {
   const v = raw.toLowerCase().trim();
-  if (v === 'red' || v === 'rood') return 'red';
-  if (v === 'white' || v === 'wit') return 'white';
-  if (v === 'rose' || v === 'rosé') return 'rose';
-  if (v === 'sparkling' || v === 'mousserende' || v === 'bubbels') return 'sparkling';
+  // Sparkling must match before white/red: CMS values like "wit mousserend" map to sparkling
+  if (v.includes('mousserend') || v.includes('sparkling') || v.includes('bubbel') || v.includes('spumante') || v.includes('prosecco')) return 'sparkling';
+  if (v.includes('rosé') || v.includes('rosato') || v === 'rose') return 'rose';
+  if (v.includes('wit') || v.includes('white') || v.includes('bianco')) return 'white';
+  if (v.includes('rood') || v.includes('red') || v.includes('rosso')) return 'red';
   return 'red';
 }
 
