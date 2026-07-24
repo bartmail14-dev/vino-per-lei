@@ -131,11 +131,28 @@ export default async function Home() {
       })(),
     }));
 
-  // Fanned bottle layout inside category tiles: front bottle largest, others peek out behind it
+  // Fanned bottle layout inside category tiles: front bottle largest and poking past the
+  // right card edge, others tucked behind with rising baselines. Columns are 2:3 (photo
+  // canvas ratio) so bottle size follows column width; max-w caps keep the tallest bottle
+  // from touching the card above on wide single-column viewports.
   const bottleFan = [
-    "right-0 top-0 z-30 w-[76%] rotate-[3deg]",
-    "right-[26%] top-[9%] z-20 w-[64%] -rotate-[5deg]",
-    "right-[48%] top-[20%] z-10 w-[54%] rotate-[8deg]",
+    "right-[-19%] bottom-[2px] z-30 w-[77%] max-w-[178px] rotate-[3deg] sm:w-[96%] sm:max-w-[240px]",
+    "right-[9%] bottom-[10px] z-20 w-[67%] max-w-[154px] -rotate-[7deg] sm:w-[72%] sm:max-w-[205px]",
+    // Third bottle only fits next to the label on wide single-column and xl cards:
+    // hidden on the narrow 2- and 4-column ranges (430 up to xl)
+    "right-[35%] bottom-[16px] z-10 w-[57%] max-w-[132px] rotate-[5deg] min-[430px]:hidden xl:block xl:right-[28%] xl:w-[56%] xl:max-w-[165px]",
+  ];
+  // Single-bottle tiles (long labels like "Mousserende wijnen" need the room): the lone
+  // bottle leans further past the right card edge and stays clear of the label ink
+  const bottleFanSolo = [
+    "right-[-19%] bottom-[2px] z-30 w-[77%] max-w-[178px] rotate-[3deg] min-[430px]:right-[-36%] min-[430px]:w-[88%] min-[430px]:max-w-[220px]",
+  ];
+  // Desktop-only hover: fan spreads with a light staggered lift. The back bottle only
+  // lifts (no x-drift, minimal tilt) so it can never wander into the label text.
+  const bottleFanHover = [
+    "sm:group-hover:translate-x-2 sm:group-hover:-translate-y-1.5 sm:group-hover:rotate-[7deg]",
+    "sm:group-hover:-translate-x-1 sm:group-hover:-translate-y-2.5 sm:group-hover:-rotate-[10deg]",
+    "sm:group-hover:-translate-y-3.5 sm:group-hover:rotate-[6deg]",
   ];
 
   // JSON-LD: Organization schema
@@ -278,7 +295,7 @@ export default async function Home() {
               <StaggerItem key={tile.type} className="h-full flex">
                 <Link
                   href={`/wijnen?type=${tile.type}`}
-                  className="group relative mt-10 flex min-h-[210px] flex-1 flex-col justify-end px-6 py-7 transition-transform duration-500 hover:-translate-y-1 sm:mt-24 sm:min-h-[270px] sm:py-9"
+                  className="group relative mt-12 flex min-h-[210px] flex-1 flex-col justify-end px-6 py-7 transition-transform duration-500 hover:-translate-y-1 sm:mt-24 sm:min-h-[270px] sm:py-9"
                 >
                   {/* Clipped panel layer: gradient, watermark, grain stay inside the rounded tile */}
                   <span
@@ -293,19 +310,21 @@ export default async function Home() {
                     </span>
                     <span className="pointer-events-none absolute inset-0 bg-grain opacity-[0.06]" />
                   </span>
-                  {/* Bottles fan playfully out of the tile */}
+                  {/* Bottles fan playfully out of the tile; on hover (desktop only) the fan spreads */}
                   {tile.images.length > 0 && (
                     <div
-                      className="pointer-events-none absolute -top-12 bottom-2 right-0 w-[58%] transition-transform duration-700 group-hover:-translate-y-2 sm:-right-8 sm:-top-28"
+                      className="pointer-events-none absolute bottom-0 right-0 w-[64%] sm:-right-2 sm:w-[72%]"
                       aria-hidden="true"
                     >
                       {tile.images.map((img, i) => (
                         <div
                           key={img.url}
                           className={cn(
-                            "absolute bottom-0 transition-transform duration-700",
-                            bottleFan[i],
-                            i === 0 && "group-hover:rotate-[5deg]"
+                            "absolute aspect-[2/3] transition-transform duration-500 ease-out",
+                            (tile.images.length === 1 ? bottleFanSolo : bottleFan)[i],
+                            bottleFanHover[i],
+                            i === 1 && "delay-75",
+                            i === 2 && "delay-150"
                           )}
                         >
                           <Image
@@ -320,7 +339,7 @@ export default async function Home() {
                     </div>
                   )}
                   <div className="relative max-w-[46%]">
-                    <p className="font-serif text-2xl font-semibold text-white sm:text-3xl">{tile.label}</p>
+                    <p className="font-serif text-2xl font-semibold text-white min-[430px]:text-xl sm:text-3xl">{tile.label}</p>
                     <p className="mt-1 text-sm text-white/70">
                       {copy("home.categories.count", { count: tile.count })}
                     </p>

@@ -1,24 +1,27 @@
 {
-  "generatedAt": "2026-05-05T22:15:48.949Z",
-  "highRiskStrings": 9,
+  "generatedAt": "2026-07-24T08:38:10.620Z",
+  "highRiskStrings": 15,
   "byRisk": {
-    "p2-ui-or-technical-copy": 158,
-    "p2-checkout-ui": 36,
+    "p2-ui-or-technical-copy": 180,
+    "p2-checkout-ui": 22,
     "allowed-ui": 5,
-    "p1-homepage-content": 5,
-    "p2-account-ui": 10,
-    "p1-footer-content": 1,
-    "p1-product-ui-content": 3
+    "p1-homepage-content": 15,
+    "p2-account-ui": 10
   },
   "signatures": {
-    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fRode wijnen": 1,
-    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fWitte wijnen": 1,
-    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fMousserende wijnen": 1,
-    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fGeselecteerde wijnen": 1,
-    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fWijngebieden": 1,
-    "p1-footer-content\u001fsrc/components/layout/Footer.tsx\u001fjsxText\u001fMailen kan altijd — we reageren binnen 1 werkdag": 1,
-    "p1-product-ui-content\u001fsrc/components/product/WineDetailsAccordion.tsx\u001fstring\u001fServeertemperatuur": 1,
-    "p1-product-ui-content\u001fsrc/components/product/WineDetailsAccordion.tsx\u001fstring\u001fDecanteertijd": 1,
-    "p1-product-ui-content\u001fsrc/components/product/WineDetailsAccordion.tsx\u001fstring\u001fVerkoopeenheid": 1
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fBianco": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fSpumante": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fright-[-19%] bottom-[2px] z-30 w-[77%] max-w-[178px] rotate-[3deg] sm:w-[96%] sm:max-w-[240px]": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fright-[9%] bottom-[10px] z-20 w-[67%] max-w-[154px] -rotate-[7deg] sm:w-[72%] sm:max-w-[205px]": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fright-[35%] bottom-[16px] z-10 w-[57%] max-w-[132px] rotate-[5deg] min-[430px]:hidden xl:block xl:right-[28%] xl:w-[56%] xl:max-w-[165px]": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fright-[-19%] bottom-[2px] z-30 w-[77%] max-w-[178px] rotate-[3deg] min-[430px]:right-[-36%] min-[430px]:w-[88%] min-[430px]:max-w-[220px]": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fsm:group-hover:translate-x-2 sm:group-hover:-translate-y-1.5 sm:group-hover:rotate-[7deg]": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fsm:group-hover:-translate-x-1 sm:group-hover:-translate-y-2.5 sm:group-hover:-rotate-[10deg]": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fstring\u001fsm:group-hover:-translate-y-3.5 sm:group-hover:rotate-[6deg]": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fjsxText\u001fN°1": 2,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fjsxText\u001f&euro;": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fjsxText\u001fItalia": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fjsxText\u001fLa selezione": 1,
+    "p1-homepage-content\u001fsrc/app/page.tsx\u001fjsxText\u001fSalute": 1
   }
 }
